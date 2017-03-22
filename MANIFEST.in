@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include maia *.css
+recursive-include maia *.csv
+recursive-include maia *.html
+recursive-include maia *.ico
+recursive-include maia *.js
+recursive-include maia *.json
+recursive-include maia *.md
+recursive-include maia *.png
+recursive-include maia *.py
+recursive-include maia *.svg
+recursive-include maia *.txt
+recursive-exclude maia *.pyc

@@ -1,0 +1,24 @@
+# -*- coding: utf-8 -*-
+# Copyright (c) 2017, DOKOS and contributors
+# For license information, please see license.txt
+
+from __future__ import unicode_literals
+import frappe
+from frappe.model.document import Document
+from frappe.model.mapper import get_mapped_doc
+
+class PerineumRehabilitation(Document):
+	pass
+
+@frappe.whitelist()
+def make_consultation(source_name, target_doc=None):
+        target_doc = get_mapped_doc("Perineum Rehabilitation", source_name,
+                {"Perineum Rehabilitation": {
+                        "doctype": "Perineum Rehabilitation Consultation",
+                        "field_map": {
+                                "patient": "patient",
+                                "name": "perineum_rehabilitation_folder",
+                        }
+                }}, target_doc)
+
+        return target_doc

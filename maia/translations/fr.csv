@@ -1,0 +1,195 @@
+DocType: Patient,A+,Create Purchase Orders
+DocType: Patient,A-,Create Users
+DocType: Patient,A.M.P,Create a new Customer
+DocType: Patient,AB+,Current Activity Status
+DocType: Patient,AB-,Current Status
+DocType: Perineum Rehabilitation Consultation,Accounting,Item Wise Tax Detail
+apps/maia/maia/maia/doctype/patient/customer.js +41,Accounting Ledger,"Keep Track of Sales Campaigns. Keep track of Leads, Quotations, Sales Order etc from Campaigns to gauge Return on Investment."
+apps/maia/maia/maia/doctype/patient/customer.js +46,Accounts Receivable,Make Lead
+DocType: Addiction,Addiction,Spouse
+DocType: Addiction,Addictions,Spouse Addictions
+DocType: Patient,Additional Comments,"Standard tax template that can be applied to all Purchase Transactions. This template can contain list of tax heads and also other expense heads like ""Shipping"", ""Insurance"", ""Handling"" etc.\
+|#### Note\
+|The tax rate you define here will be the standard tax rate for all **Items**. If there are **Items** that have different rates, they must be added in the **Item Tax** table in the **Item** master.\
+|#### Description of Columns\
+|1. Calculation Type: 
+    - This can be on **Net Total** (that is the sum of basic amount).
+    - **On Previous Row Total / Amount** (for cumulative taxes or charges). If you select this option, the tax will be applied as a percentage of the previous row (in the tax table) amount or total.
+    - **Actual** (as mentioned).
+2. Account Head: The Account ledger under which this tax will be booked
+3. Cost Center: If the tax / charge is an income (like shipping) or expense it needs to be booked against a Cost Center.
+4. Description: Description of the tax (that will be printed in invoices / quotes).
+5. Rate: Tax rate.
+6. Amount: Tax amount.
+7. Total: Cumulative total to this point.
+8. Enter Row: If based on ""Previous Row Total"" you can select the row number which will be taken as a base for this calculation (default is the previous row).
+9. Consider Tax or Charge for: In this section you can specify if the tax / charge is only for valuation (not a part of total) or only for total (does not add value to the item) or for both.
+10. Add or Deduct: Whether you want to add or deduct the tax."
+DocType: Patient,Address HTML,TIF
+DocType: Patient,Address and Contact,Tea/Coffee Consumtion/24h
+DocType: Perineum Rehabilitation,After Delivery,Urinary Area
+DocType: Patient,Age,Vuval Apertognathia ?
+DocType: Patient,Allergies,title
+DocType: Perineum Rehabilitation,Alone,
+DocType: Perineum Rehabilitation,Anal Area,
+DocType: Perineum Rehabilitation,Anal Incontinence,
+DocType: Obstetrical Background,Anesthesia,
+DocType: Surgical Intervention,Anesthesia Type,
+DocType: Patient,Antecedent History,
+DocType: Perineum Rehabilitation,Anticipation Urination ?,
+DocType: Perineum Rehabilitation,Anus Testing,
+DocType: Perineum Rehabilitation,Aperthognathia,
+DocType: Perineum Rehabilitation,Associated to Urinary Incontinence,
+DocType: Perineum Rehabilitation,At Which Term (Amenorrhea Weeks),
+DocType: Patient,B+,B +
+DocType: Patient,B-,B-
+DocType: Perineum Rehabilitation,Bearing Down ?,
+DocType: Perineum Rehabilitation,Before Delivery,
+DocType: Obstetrical Background,Biofeedback,
+DocType: Patient,Birth Name,
+DocType: Perineum Rehabilitation,Bladder Position,
+DocType: Patient,Blood Group,Groupe sanguin
+DocType: Patient,Body Mass Index,
+DocType: Obstetrical Background,Both,
+DocType: Obstetrical Background,Bottle-feeding,
+DocType: Obstetrical Background,Boy,
+DocType: Obstetrical Background,Breast-feeding,
+DocType: Patient,Cervical Smear,
+DocType: Obstetrical Background,Child Health State,
+DocType: Perineum Rehabilitation,Circumpstances,
+DocType: Perineum Rehabilitation,Circumstances,
+DocType: Perineum Rehabilitation,Closing Perineum,
+DocType: Perineum Rehabilitation Consultation,Codification,
+DocType: Perineum Rehabilitation,Command Inversion ?,
+DocType: Perineum Rehabilitation Consultation,Commentaires,
+DocType: Rehabilitation Type,Comments,Commentaires
+DocType: Patient,Commuting Time in Mins,
+DocType: Obstetrical Background,Complications,
+DocType: Perineum Rehabilitation Consultation,Consultation Date,
+DocType: Perineum Rehabilitation,Consultation Purpose,
+DocType: Perineum Rehabilitation,Consultations,
+DocType: Patient,Contraception,
+DocType: Perineum Rehabilitation,Contraception Desired,
+DocType: Patient,Contraception End Date,
+DocType: Patient,Correspondents,
+DocType: Perineum Rehabilitation,Cough Test,
+DocType: Patient,Current Activity Status,
+DocType: Obstetrical Background,Date,Date
+DocType: Patient,Date of Birth,Date de naissance
+DocType: Obstetrical Background,Delivery Way,
+DocType: Patient,Diabetes,
+DocType: Perineum Rehabilitation,Diasthasis ?,
+DocType: Perineum Rehabilitation,Difficult Defecation ? Frequency ? Since When ? Type of Thrust ? Sensation of not Expelling Fully ?,
+DocType: Perineum Rehabilitation,Domed Perineum,
+DocType: Perineum Rehabilitation Consultation,Domicile,
+DocType: Perineum Rehabilitation,Dyschesia,
+DocType: Perineum Rehabilitation,Dysuria (Details),
+DocType: Obstetrical Background,Electrostimulation,
+DocType: Obstetrical Background,Episiotomy,
+DocType: Rehabilitation Type,Exercise Type,
+DocType: Patient,Family Background,Antécédents familiaux
+DocType: Patient,Family Situation,
+DocType: Patient,Father,Père
+DocType: Obstetrical Background,Feeding,
+DocType: Patient,First Menses (Year),
+DocType: Patient,First Name,Prénom
+apps/maia/maia/maia/doctype/patient/patient_dashboard.py +10,Folders,
+DocType: Rehabilitation Type,Frequency,Fréquence
+DocType: Patient,Full Name,Nom et Prénom
+DocType: Perineum Rehabilitation,Fundus Apertognathia,
+DocType: Obstetrical Background,Gender,Sexe
+DocType: Patient,Genital Herpes,
+DocType: Obstetrical Background,Girl,
+DocType: Patient,Gynecological Background,
+DocType: Perineum Rehabilitation,Haemorrhoid,
+DocType: Patient,Height,
+DocType: Patient,High Blood Pressure,
+DocType: Patient,Image,Image
+DocType: Obstetrical Background,Intact  Perineum,
+DocType: Perineum Rehabilitation,Lapping During Walking ?,
+DocType: Patient,Last Name,Nom de famille
+DocType: Patient,Long Term Disease Or Treatment,
+DocType: Perineum Rehabilitation,Loss of Water after Bath ?,
+DocType: Addiction,Maia,
+DocType: Obstetrical Background,Manual,Manuel
+DocType: Obstetrical Background,Maternity,
+DocType: Patient,Medical Background,
+DocType: Addiction,Midwife,
+DocType: Perineum Rehabilitation Consultation,Mode d'Encaissement,
+DocType: Patient,Mother,Mère
+DocType: Obstetrical Background,Mother Experience,
+DocType: Perineum Rehabilitation,No,Non
+DocType: Perineum Rehabilitation,Number of Urination/24h,
+DocType: Perineum Rehabilitation,Nycturia (Times),
+DocType: Patient,O+,O +
+DocType: Patient,O-,O-
+DocType: Obstetrical Background,Obstetrical Background,
+DocType: Patient,Obstetrical Backgrounds,
+DocType: Patient,Ophtalmology,
+DocType: Patient,Origin,
+DocType: Perineum Rehabilitation,Other,Autre
+DocType: Perineum Rehabilitation,Overactive Bladder,
+DocType: Patient,PAT/,
+DocType: Perineum Rehabilitation,PR/,
+DocType: Perineum Rehabilitation,Pain Rating,
+DocType: Patient,Patient,
+DocType: Patient,Patient Addictions,
+DocType: Perineum Rehabilitation,Pelvis Statics,
+DocType: Obstetrical Background,Perineum Rehabilitation,
+DocType: Perineum Rehabilitation Consultation,Perineum Rehabilitation Consultation,
+DocType: Patient,Phlebitis,
+DocType: Perineum Rehabilitation,Physical Examination,
+DocType: Perineum Rehabilitation,Pollakiuria,
+DocType: Perineum Rehabilitation,Postpartum Return of Menses,
+DocType: Perineum Rehabilitation Consultation,Prix,
+DocType: Patient,Profession,
+DocType: Rehabilitation Type,Program,Programme
+DocType: Patient,Psychatric Background,
+DocType: Patient,Regular Cycles,
+DocType: Rehabilitation Type,Rehabilitation Duration,
+DocType: Perineum Rehabilitation Consultation,Rehabilitation Type,
+DocType: Perineum Rehabilitation,Resumption of Sexual Activity ?,
+DocType: Perineum Rehabilitation,Resumption of Sporting Activities,
+DocType: Patient,Salutation,Titre
+DocType: Perineum Rehabilitation,Satisfaction,
+DocType: Perineum Rehabilitation,Scar,
+DocType: Patient,Series,Séries
+DocType: Patient,Spouse,
+DocType: Patient,Spouse Addictions,
+DocType: Perineum Rehabilitation,Stationary Perineum,
+DocType: Perineum Rehabilitation,Stress Incontinence,
+DocType: Patient,Surgical Background,
+DocType: Surgical Intervention,Surgical Intervention,
+DocType: Patient,Surgical Interventions,
+DocType: Obstetrical Background,Suture,
+DocType: Perineum Rehabilitation,Tea/Coffee Consumtion/24h,
+DocType: Patient,Telephone,
+DocType: Obstetrical Background,Term (Weeks),
+DocType: Perineum Rehabilitation,Testing,
+apps/maia/maia/maia/doctype/patient/patient_dashboard.py +6,This is based on consultations against this Patient. See timeline below for details,
+DocType: Perineum Rehabilitation Consultation,Tiers Payant,
+DocType: Perineum Rehabilitation,"Tonic/Relaxed
+Finger Spacing (cm)",
+DocType: Perineum Rehabilitation,Transit Since Delivery,
+DocType: Obstetrical Background,Undefined,
+DocType: Perineum Rehabilitation,Urethra Adherence ?,
+DocType: Perineum Rehabilitation,Urge ?,
+DocType: Perineum Rehabilitation,Urgency of Urination,
+DocType: Perineum Rehabilitation,Urgency of Urination or Stress Incontinence,
+DocType: Perineum Rehabilitation,Urinary Area,
+DocType: Patient,Urinary Infection,
+DocType: Perineum Rehabilitation,Urinary Stress Incontinence ?,
+DocType: Perineum Rehabilitation,Urination Stop Test,
+DocType: Perineum Rehabilitation,Vaginal Area,
+DocType: Perineum Rehabilitation,Vaginal Bands,
+DocType: Perineum Rehabilitation,Vaginal Gas ?,
+DocType: Perineum Rehabilitation,Vaginal Walls,
+DocType: Obstetrical Background,Vaginal and Perineal Tears,
+DocType: Patient,Valid Group Card,
+DocType: Perineum Rehabilitation,Vulval Air Bubble ?,
+DocType: Perineum Rehabilitation,Vulval Area,
+DocType: Perineum Rehabilitation,Vuval Apertognathia ?,
+DocType: Perineum Rehabilitation,Water Consumption/24h,
+DocType: Obstetrical Background,Weight,Poids
+DocType: Perineum Rehabilitation,Weight Gain (Kg),
+DocType: Patient,You can enter any date manually,Vous pouvez entrer une date manuellement
