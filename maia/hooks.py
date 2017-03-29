@@ -13,6 +13,15 @@ app_license = "MIT"
 
 
 fixtures = ["Custom Field", {"doctype": "Role", "filters": {"name": "Midwife"}}]
+
+error_report_email = "hello@dokos.io"
+
+app_include_js = "assets/js/maia.min.js"
+
+website_context = {
+    "favicon": "/assets/maia/favicon.png",
+    "splash_image": "/assets/maia/images/maia_squirrel.svg"
+    }
 # Includes in <head>
 # ------------------
 

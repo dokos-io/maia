@@ -1,0 +1,5 @@
+{
+	"js/maia.min.js": [
+		"public/js/conf.js"
+	]
+}

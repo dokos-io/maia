@@ -2,3 +2,4 @@
 // For license information, please see license.txt
 
 {% include "maia/public/js/controllers/consultations.js" %} 
+

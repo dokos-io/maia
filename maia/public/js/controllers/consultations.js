@@ -9,8 +9,8 @@ frappe.ui.form.on(this.frm.doctype, {
 	refresh_without_codification_price(frm);
     }
 
-
 });
+
 
 frappe.ui.form.on(this.frm.doctype, "third_party_payment", function(frm) {
     refresh_codification_price(frm);

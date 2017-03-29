@@ -43,13 +43,16 @@ def updating_billing_price(self):
 
 def create_item_from_codification(doc):
         disabled = 0
+
+        if frappe.db.get_value("Item Group", {"item_group_name": "Codifications"}) is None:
+                create_item_group()
         
         #insert item
         item =  frappe.get_doc({
                 "doctype": "Item",
                 "item_code": doc.codification_name,
                 "item_name":doc.codification,
-                "item_group": doc.codification_group,
+                "item_group": "Codifications",
                 "description":doc.codification_description,
                 "is_sales_item": 1,
                 "is_service_item": 1,
@@ -106,6 +109,13 @@ def create_price_list(price_list_name):
                 "selling": 1
         }).insert(ignore_permissions=True)
 
+def create_item_group():
+        frappe.get_doc({
+                "doctype": "Item Group",
+                "item_group_name": "Codifications",
+                "parent_item_group": "All Item Groups"
+        }).insert(ignore_permissions=True)
+        
 @frappe.whitelist()
 def change_codification(codification, doc):
         args = json.loads(doc)
