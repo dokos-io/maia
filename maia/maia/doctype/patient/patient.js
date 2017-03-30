@@ -10,11 +10,11 @@ maia.PatientController = frappe.ui.form.Controller.extend({
 	
 	if(this.frm.doc.__islocal){
 	    hide_field(['address_html']);
-	    erpnext.utils.clear_address_and_contact(cur_frm);
+	    frappe.geo.clear_address_and_contact(this.frm);
 	}
 	else {
 	    unhide_field(['address_html']);
-	    erpnext.utils.render_address_and_contact(cur_frm);
+	    frappe.geo.render_address_and_contact(this.frm);
 	    erpnext.utils.set_party_dashboard_indicators(this.frm);
 	}
 

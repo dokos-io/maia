@@ -9,7 +9,7 @@ from frappe import _, msgprint, throw
 from frappe.utils import cstr, has_gravatar
 import frappe.defaults
 from frappe.model.document import Document
-from erpnext.utilities.address_and_contact import load_address_and_contact
+from frappe.geo.address_and_contact import load_address_and_contact
 from erpnext.utilities.transaction_base import TransactionBase
 
 

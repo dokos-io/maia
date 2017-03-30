@@ -10,7 +10,7 @@ def get_data():
                         "color": "#ff4081",
 			"icon": "octicon octicon-calendar",
 			"type": "link",
-                        "link": "Calendar/Event",
+                        "link": "List/Event/Calendar",
 			"label": _("Calendar")
 		},
                 {
