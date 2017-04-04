@@ -5,7 +5,7 @@ from frappe import _
 def get_data():
 	return [
                 {
-                        "module_name": "Tools",
+                        "module_name": "Calendar",
                         "doctype": "Event",
                         "color": "#ff4081",
 			"icon": "octicon octicon-calendar",

@@ -5,23 +5,23 @@ frappe.provide("maia");
 
 maia.PatientController = frappe.ui.form.Controller.extend({
     refresh: function() {
-	var doc = this.frm.doc;
-	frappe.dynamic_link = {doc: this.frm.doc, fieldname: 'customer', doctype: 'Customer'}
+	var me = this;
+	frappe.dynamic_link = {doc: me.frm.doc, fieldname: 'name', doctype: 'Patient'};
 	
-	if(this.frm.doc.__islocal){
+	if(me.frm.doc.__islocal){
 	    hide_field(['address_html']);
-	    frappe.geo.clear_address_and_contact(this.frm);
+	    frappe.geo.clear_address_and_contact(me.frm);
 	}
 	else {
 	    unhide_field(['address_html']);
-	    frappe.geo.render_address_and_contact(this.frm);
-	    erpnext.utils.set_party_dashboard_indicators(this.frm);
+	    frappe.geo.render_address_and_contact(me.frm);
+	    erpnext.utils.set_party_dashboard_indicators(me.frm);
 	}
 
     }
 });
 
-$.extend(cur_frm.cscript, new maia.PatientController({frm: cur_frm}));
+$.extend(this.frm.cscript, new maia.PatientController({frm: this.frm}));
 
 
 frappe.ui.form.on("Patient", "patient_name", function(frm,cdt,cdn){

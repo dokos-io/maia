@@ -24,7 +24,7 @@ class Patient(Document):
 
         def load_dashboard_info(self):
                 billing_this_year = frappe.db.sql("""select sum(debit_in_account_currency) - sum(credit_in_account_currency), account_currency
-                from `tabGL Entry` where voucher_type='Sales Invoice' and party_type = 'Customer' and party=%s and fiscal_year = %s""", (self.customer, frappe.db.get_default("fiscal_year")))
+                from `tabGL Entry` where voucher_type='Sales Invoice' and party_type='Customer' and party=%s and fiscal_year = %s""", (self.customer, frappe.db.get_default("fiscal_year")))
 
                 total_unpaid = frappe.db.sql("""select sum(outstanding_amount) from `tabSales Invoice` where customer=%s and docstatus = 1""", self.customer)
 
@@ -47,7 +47,7 @@ class Patient(Document):
 
         def on_update(self):
                 self.autoname()
-                self.update_address()
+                #self.update_address()
 
                 #if(self.change_in_patient and self.customer):
                 updating_customer(self)
@@ -87,9 +87,9 @@ def create_customer_from_patient(doc):
                         "doctype": "Customer",
                         "customer_name": doc.patient_name,
                         "patient": doc.name,
-                        "customer_type": "Individual",
-                        "customer_group": "Individual",
-                        "territory": "All Territories"
+                        "customer_type": 'Individual',
+                        "customer_group": _('Individual'),
+                        "territory": _('All Territories')
                         }).insert(ignore_permissions=True)
 
                 frappe.db.set_value("Patient", doc.name, "Customer", customer.name)

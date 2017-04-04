@@ -5,6 +5,7 @@
 from __future__ import unicode_literals
 import frappe
 from frappe.utils import getdate
+from frappe import _
 import time
 from frappe.model.document import Document
 
@@ -33,8 +34,8 @@ def create_social_security_customer(doc):
                                 "doctype": "Customer",
                                 "customer_name": "CPAM",
                                 "customer_type": "Company",
-                                "customer_group": "Government",
-                                "territory": "All Territories"
+                                "customer_group": _("Government"),
+                                "territory": _("All Territories")
                 }).insert(ignore_permissions=True)
 
         
@@ -47,8 +48,7 @@ def get_customer_name(self):
 
 def update_invoice_details(self, customer, case):
                 invoice = frappe.new_doc('Sales Invoice')
-                today = time.strftime("%d/%m/%y %H:%M:%S")
-
+               
                 if customer == "CPAM":
                                 selling_price_list = "CPAM"
                 else:
@@ -88,7 +88,7 @@ def update_invoice_details(self, customer, case):
                                 
                 invoice.update({
                                 "customer": customer,
-                                "due_date": getdate(today),
+                                "due_date": self.consultation_date,
                                 "patient": self.patient,
                                 "selling_price_list": selling_price_list,
                                 "teletransmission": teletransmission,
@@ -122,6 +122,9 @@ def update_invoice_details(self, customer, case):
                                 pass
                 else:
                                 if self.without_codification != 0 and self.without_codification is not None:
+                                                if frappe.db.get_value("Codification", {"name": "HN"}) is None:
+                                                                hn_missing = _("Codification HN is missing. Please add it in your codifications list.")
+                                                                frappe.throw(hn_missing)
                                                 invoice.append("items", {
                                                                 "item_code": "HN",
                                                                 "qty": 1,

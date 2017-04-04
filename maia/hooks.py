@@ -22,6 +22,13 @@ website_context = {
     "favicon": "/assets/maia/favicon.png",
     "splash_image": "/assets/maia/images/maia_squirrel.svg"
     }
+
+# setup wizard
+setup_wizard_requires = "assets/maia/js/setup_wizard.js"
+setup_wizard_complete = "maia.setup.setup_wizard.setup_wizard.setup_complete"
+
+get_help_messages = "maia.utilities.activation.get_help_messages"
+
 # Includes in <head>
 # ------------------
 

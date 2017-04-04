@@ -4,6 +4,7 @@
 
 from __future__ import unicode_literals
 import frappe
+from frappe import _
 from frappe.model.document import Document
 
 class Codification(Document):
@@ -33,7 +34,7 @@ class Codification(Document):
 def updating_item(self):
         frappe.db.sql("""update `tabItem` set item_name=%s, item_group=%s, disabled=0,
                         description=%s, modified=NOW() where item_code=%s""",
-                      (self.codification, self.codification_group , self.codification_description, self.item))
+                      (self.codification, "Codifications" , self.codification_description, self.item))
 
 def updating_billing_price(self):
         frappe.db.sql("""update `tabItem Price` set item_name=%s, price_list_rate=%s, modified=NOW() where item_code=%s and price_list=%s""",(self.codification, self.billing_price, self.item, 'Sage Femme'))
@@ -61,7 +62,7 @@ def create_item_from_codification(doc):
                 "show_in_website": 0,
                 "is_pro_applicable": 0,
                 "disabled": disabled,
-                "stock_uom": "Unit"
+                "stock_uom": _('Unit')
         }).insert(ignore_permissions=True)
 
         #insert item price
@@ -106,6 +107,7 @@ def create_price_list(price_list_name):
         frappe.get_doc({
                 "doctype": "Price List",
                 "price_list_name": price_list_name,
+                "currency": "EUR",
                 "selling": 1
         }).insert(ignore_permissions=True)
 
