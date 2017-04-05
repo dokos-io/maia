@@ -7,21 +7,45 @@ frappe.provide ("maia.maia");
 
 maia.maia.GynecologicalConsultation = frappe.ui.form.Controller.extend({
     refresh: function() {
-	if(!cur_frm.doc.__islocal) {
-	    cur_frm.add_custom_button(__('Drug Prescription'), this.print_drug_prescription, __("Print"));
-	    cur_frm.add_custom_button(__('Lab Prescription'), this.print_lab_prescription, __("Print"));
-	    cur_frm.page.set_inner_btn_group_as_primary(__("Print"));
+	if(!this.frm.doc.__islocal) {
+	    this.frm.add_custom_button(__('Drug Prescription'), this.print_drug_prescription, __("Print"));
+	    this.frm.add_custom_button(__('Lab Prescription'), this.print_lab_prescription, __("Print"));
 	}
+    },
+
+    print_drug_prescription: function(frm) {
+    frappe.call({
+	method:"maia.maia.print.print_prescription",
+	args: {
+	    "doctype": "Gynecological Consultation",
+	    "doc": cur_frm.doc.name,
+	    "as_print": 1,
+	    "print_format": "Drug Prescription"
+	},
+	callback: function(r) {
+	    var new_window = window.open();
+	    new_window.document.write(r.message);
+	    frappe.msgprint(r.message);
+	}
+    })
+    },
+
+    print_lab_prescription: function(frm) {
+    frappe.call({
+	method:"maia.maia.print.print_prescription",
+	args: {
+	    "doctype": "Gynecological Consultation",
+	    "doc": cur_frm.doc.name,
+	    "as_print": 1,
+	    "print_format": "Lab Prescription"
+	},
+	callback: function(r) {
+	    var new_window = window.open();
+	    new_window.document.write(r.message);
+	    frappe.msgprint(r.message);
+	}
+    })
     }
-
-    /*print_drug_prescription: function() {
-
-    }
-
-    print_lab_prescription: function() {
-
-    }*/
-
 });
 
 $.extend(cur_frm.cscript, new maia.maia.GynecologicalConsultation({frm: cur_frm}));

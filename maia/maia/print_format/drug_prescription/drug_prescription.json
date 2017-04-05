@@ -1,0 +1,23 @@
+{
+ "align_labels_left": 0, 
+ "creation": "2017-04-03 16:46:43.616280", 
+ "css": "#secure_prescription {\n\twidth: 20px;\n\theight: 20px;\n\tbackground: #eee;\n\tcolor: #36414c;\n\tfont-weight: bold;\n\tborder: 1px solid #d1d8dd;\n}", 
+ "custom_format": 1, 
+ "disabled": 0, 
+ "doc_type": "Free Consultation", 
+ "docstatus": 0, 
+ "doctype": "Print Format", 
+ "font": "Default", 
+ "html": "{% include \"templates/includes/prescription_header.html\" %}\n\n<div>\n\t<div id=\"footer-html\" class=\"visible-pdf\">\n\t\t{% if not no_letterhead and footer %}\n\t\t<div class=\"letter-head-footer\">\n\t\t\t{{ footer }}\n\t\t</div>\n\t\t{% endif %}\n\t\t<p class=\"text-center small page-number visible-pdf\">\n\t\t\t{{ _(\"Page {0} of {1}\").format('<span class=\"page\"></span>', '<span class=\"topage\"></span>') }}\n\t\t</p>\n\t</div>\n\n\t<table>\n\t\t<tr>\n\t\t\t<th>{{ _(\"Drug\") }}</th>\n\t\t\t<th>{{ _(\"Posology\") }}</th>\n\t\t\t<th>{{ _(\"Pharmaceutical Form\") }}</th>\n\t\t\t<th>{{ _(\"Treatment Duration\") }}</th>\n\t\t\t<th>{{ _(\"Additional Notes\") }}</th>\n\t\t</tr>\n\t\t<tbody>\n\t\t\t<tr>\n\t\t\t\t{%- for row in doc.drug_prescription_table -%}\n\t\t\t\t<td style=\"width: 20%;\">{{ row.drug }}</td>\n\t\t\t\t<td style=\"width: 20%;\">{{ row.posology }}</td>\n\t\t\t\t<td style=\"width: 20%;\">{{ row.pharmaceutical_form }}</td>\n\t\t\t\t<td style=\"width: 15%;\">{{ row.treatment_duration }}</td>\n\t\t\t\t{% if row.additional_notes %}\n\t\t\t\t<td style=\"width: 25%;\">{{ row.additional_notes }}</td>\n\t\t\t\t{% else %}\n\t\t\t\t<td style=\"width: 25%;\"></td>\n\t\t\t\t{% endif %}\n\t\t\t</tr>\n\t\t\t{%- endfor -%}\n\t\t</tbody>\n\t</table>\n\n\t<div class=\"row text-center\">\n\t\t<div class=\"col-xs-1 col-xs-offset-11\">\n\t\t\t<div id=\"secure_prescription\">{{ doc.drug_prescription_table|length }}</div>\n\t\t</div>\n\t</div>\n</div>\n", 
+ "idx": 0, 
+ "line_breaks": 0, 
+ "modified": "2017-04-05 15:17:29.291092", 
+ "modified_by": "Administrator", 
+ "module": "Maia", 
+ "name": "Drug Prescription", 
+ "owner": "Administrator", 
+ "print_format_builder": 0, 
+ "print_format_type": "Server", 
+ "show_section_headings": 0, 
+ "standard": "Yes"
+}

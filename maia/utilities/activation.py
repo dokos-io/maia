@@ -34,6 +34,33 @@ def get_help_messages():
             route='List/Patient',
             domain=('Midwife'),
             target=5
+        ),
+        frappe._dict(
+            doctype='Letter Head',
+            title=_('Create A Letter Head'),
+            description=_('Create a Letter Head that will be printed on all your documents'),
+            action=_('New Letter Head'),
+            route='List/Letter Head',
+            domain=('Midwife'),
+            target=1
+        ),
+        frappe._dict(
+            doctype='Professional Information Card',
+            title=_('Professional Information Card'),
+            description=_('Complete your Professional Information Card'),
+            action=_('Professional Information Card'),
+            route='List/Professional Information Card',
+            domain=('Midwife'),
+            target=1
+        ),
+        frappe._dict(
+            doctype='Company',
+            title=_('Company Information'),
+            description=_('Complete your Company Information'),
+            action=_('Company Information'),
+            route='List/Company',
+            domain=('Midwife'),
+            target=1
         )
         ]
 
