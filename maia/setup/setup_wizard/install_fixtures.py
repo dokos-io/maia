@@ -1,3 +1,5 @@
+# coding=utf-8
+
 # Copyright (c) 2017, DOKOS and Contributors
 # License: GNU General Public License v3. See license.txt
 
@@ -256,98 +258,54 @@ def install(country=None):
                 {'doctype': "Placental Delivery", 'placental_delivery': _("Complete Manual Delivery")},
                 {'doctype': "Placental Delivery", 'placental_delivery': _("Uterine Examination")},
                 {'doctype': "Placental Delivery", 'placental_delivery': _("Incomplete Normal Delivery")},
-                {'doctype': "Placental Delivery", 'placental_delivery': _("Incomplete Directed Delivery")}
+                {'doctype': "Placental Delivery", 'placental_delivery': _("Incomplete Directed Delivery")},
 	]
 
          #Midwife Codifications
-	records += [{'doctype': 'Codification', 'codification': 'C', 'basic_price': 23, 'billing_price': 23, 'codification_name': 'C', 'codi\
-        fication_description': 'Consultation'},
-        {'doctype': 'Codification', 'codification': 'V', 'basic_price': 23, 'billing_price': 23, 'codification_name': 'V', 'codi\
-        fication_description': 'Visite'},
-        {'doctype': 'Codification', 'codification': 'SF', 'basic_price': 2.80, 'billing_price': 2.80, 'codification_name': 'SF', 'codi\
-        fication_description': 'Actes en SF'},
-        {'doctype': 'Codification', 'codification': 'HN', 'basic_price': 0, 'billing_price': 0, 'codification_name': 'HN', 'codi\
-        fication_description': 'Actes Hors Nomenclature'},
-        {'doctype': 'Codification', 'codification': 'SF 15', 'basic_price': 42, 'billing_price': 42, 'codification_name': 'SF 15', 'codi\
-        fication_description': 'PNP: Première séance entretien individuel | Sur prescription à domicile: Grossesse unique avec monitoring à partir de 24 sem'},
-        {'doctype': 'Codification', 'codification': 'SF 11,6', 'basic_price': 32.48, 'billing_price': 32.48, 'codification_name': 'SF 11,6', 'codi\
-        fication_description': 'PNP: 7 séances suivantes ≤ 3 femmes'},
-        {'doctype': 'Codification', 'codification': 'SF 12', 'basic_price': 33.60, 'billing_price': 33.60, 'codification_name': 'SF 12', 'codi\
-        fication_description': 'PNP: 7 séances suivantes individuelles'},
-        {'doctype': 'Codification', 'codification': 'SF 16,5', 'basic_price': 46.20, 'billing_price': 46.20, 'codification_name': 'SF 16,5', 'codi\
-        fication_description': 'Forfait journalier de SURVEILLANCE MERE-ENFANT à domicile de J1 à J7 (J0 étant le jour de l\'accouchement): Un enfant, les 2 premiers forfaits'},
-        {'doctype': 'Codification', 'codification': 'SF 23', 'basic_price': 64.40, 'billing_price': 64.40, 'codification_name': 'SF 23', 'codi\
-                    fication_description': 'Forfait journalier de SURVEILLANCE MERE-ENFANT à domicile de J1 à J7 (J0 étant le jour de l\'accouchement): Deux enfants et plus, les 2 premiers forfaits'},
-        {'doctype': 'Codification', 'codification': 'SF 17', 'basic_price': 47.60, 'billing_price': 47.60, 'codification_name': 'SF 17', 'codi\
-        fication_description': 'Forfait journalier de SURVEILLANCE MERE-ENFANT à domicile de J1 à J7 (J0 étant le jour de l\'accouchement): Deux enfants et plus, les forfaits suivants'},
-        {'doctype': 'Codification', 'codification': 'SF 7', 'basic_price': 19.60, 'billing_price': 19.60, 'codification_name': 'SF 7', 'codi\
-                    fication_description': 'Rééducation périnéo-sphinctérienne'},
-        {'doctype': 'Codification', 'codification': 'SF 9', 'basic_price': 25.20, 'billing_price': 25.20, 'codification_name': 'SF 9', 'codi\
-                    fication_description': 'Sur prescription à domicile: Surveillance grossesse sans monitoring'},
-        {'doctype': 'Codification', 'codification': 'JKLD001', 'basic_price': 38.40, 'billing_price': 38.40, 'codification_name': 'JKLD001', 'codi\
-                    fication_description': 'Pose d\'un dispositif intra-utérin'},
-        {'doctype': 'Codification', 'codification': 'QZLA004', 'basic_price': 17.99, 'billing_price': 17.99, 'codification_name': 'QZLA004', 'codi\
-        fication_description': 'Pose d\'implant pharmacologique sous-cutané'},
-        {'doctype': 'Codification', 'codification': 'QZGA002', 'basic_price': 41.80, 'billing_price': 41.80, 'codification_name': 'QZGA002', 'codi\
-         fication_description': 'Ablation ou changement d\'implant pharmacologique sous-cutané'},
-        {'doctype': 'Codification', 'codification': 'JKHD001', 'basic_price': 12.46, 'billing_price': 12.46, 'codification_name': 'JKHD001', 'codi\
-        fication_description': 'Prélèvement cervicovaginal'},
-        {'doctype': 'Codification', 'codification': 'SF 6', 'basic_price': 16.80, 'billing_price': 16.80, 'codification_name': 'SF 6', 'codi\
-        fication_description': 'PNP: 7 séances > 3 femmes (max = 6 )'},
-        {'doctype': 'Codification', 'codification': 'SF 22', 'basic_price': 61.60, 'billing_price': 61.60, 'codification_name': 'SF 22', 'codi\
-        fication_description': 'Sur prescription à domicile: Grossesse multiple avec monitoring à partir de 24 sem'},
-        {'doctype': 'Codification', 'codification': 'SF 19', 'basic_price': 53.20, 'billing_price': 53.20, 'codification_name': 'SF 19', 'codi\
-        fication_description': 'Sur prescription au cabinet: Grossesse multiple avec monitoring à partir de 24 sem'},
-        {'doctype': 'Codification', 'codification': 'SP', 'basic_price': 18.55, 'billing_price': 18.55, 'codification_name': 'SP', 'codi\
-        fication_description': 'Séances post-natales (2 séances du 8e jour qui suit l\'accouchement à la CS post-natale)'},
-        {'doctype': 'Codification', 'codification': 'SF 22,4', 'basic_price': 62.72, 'billing_price': 62.72, 'codification_name': 'SF 22,4', 'codi\
-        fication_description': 'Ablation DIU par un matériel intra-utérin de préhension par voie vaginale'},
-        {'doctype': 'Codification', 'codification': 'JKKD001', 'basic_price': 38.40, 'billing_price': 38.40, 'codification_name': 'JKKD001', 'codi\
-        fication_description': 'Changement d\'un dispositif intra-utérin'},
-        {'doctype': 'Codification', 'codification': 'JLLD001', 'basic_price': 0, 'billing_price': 0, 'codification_name': 'JLLD001', 'codi\
-        fication_description': 'Pose de dispositif intra-vaginal'},
-        {'doctype': 'Codification', 'codification': 'JLGD001', 'basic_price': 0, 'billing_price': 0, 'codification_name': 'JLGD001', 'codi\
-        fication_description': 'Ablation ou changement de dispositif intra-vaginal'},
-        {'doctype': 'Codification', 'codification': 'ZCQM007', 'basic_price': 37.80, 'billing_price': 37.80, 'codification_name': 'ZCQM007', 'codi\
-        fication_description': 'Échographie du petit bassin [pelvis] féminin pour surveillance de l\'ovulation'},
-        {'doctype': 'Codification', 'codification': 'ZCQM009', 'basic_price': 42.25, 'billing_price': 42.25, 'codification_name': 'ZCQM009', 'codi\
-         fication_description': 'Échographie-doppler du petit bassin [pelvis] féminin pour surveillance de l\'ovulation'},
-        {'doctype': 'Codification', 'codification': 'JNQM001', 'basic_price': 35.65, 'billing_price': 35.65, 'codification_name': 'JNQM001', 'codi\
-        fication_description': 'Échographie non morphologique de la grossesse avant 11 semaines d\'aménorrhée'},
-        {'doctype': 'Codification', 'codification': 'JQQM010', 'basic_price': 61.47, 'billing_price': 61.47, 'codification_name': 'JQQM010', 'codi\
-         fication_description': 'Échographie biométrique et morphologique d\'une grossesse uniembryonnaire au 1er trimestre'},
-        {'doctype': 'Codification', 'codification': 'JQQM015', 'basic_price': 71.57, 'billing_price': 71.57, 'codification_name': 'JQQM015', 'codi\
-        fication_description': 'Échographie biométrique et morphologique d\'une grossesse multiembryonnaire au 1er trimestre'},
-        {'doctype': 'Codification', 'codification': 'JQQM018', 'basic_price': 100.20, 'billing_price': 100.20, 'codification_name': 'JQQM018', 'codi\
-         fication_description': 'Échographie biométrique et morphologique d\'une grossesse unifœtale au 2ème trimestre'},
-        {'doctype': 'Codification', 'codification': 'JQQM016', 'basic_price': 100.20, 'billing_price': 100.20, 'codification_name': 'JQQM016', 'codi\
-        fication_description': 'Échographie biométrique et morphologique d\'une grossesse unifœtale au 3ème trimestre'},
-        {'doctype': 'Codification', 'codification': 'JQQM019', 'basic_price': 154.09, 'billing_price': 154.09, 'codification_name': 'JQQM019', 'codi\
-         fication_description': 'Échographie biométrique et morphologique d\'une grossesse multifœtale au 2ème trimestre'},
-        {'doctype': 'Codification', 'codification': 'JQQM017', 'basic_price': 154.09, 'billing_price': 154.09, 'codification_name': 'JQQM017', 'codi\
-        fication_description': 'Échographie biométrique et morphologique d\'une grossesse multifœtale au 3ème trimestre'},
-        {'doctype': 'Codification', 'codification': 'JQQM002', 'basic_price': 92.19, 'billing_price': 92.19, 'codification_name': 'JQQM002', 'codi\
-         fication_description': 'Échographie d\'une grossesse unifœtale à partir du 2ème trimestre avec échographie-doppler des artères utérines de la mère et des vaisseaux du fœtus, pour souffrance fœtale'},
-        {'doctype': 'Codification', 'codification': 'JQQM007', 'basic_price': 133.81, 'billing_price': 133.81, 'codification_name': 'JQQM007', 'codi\
-        fication_description': 'Échographie d\'une grossesse multifœtale à partir du 2ème trimestre avec échographie-doppler des artères utérines de la mère et des vaisseaux des fœtus, pour souffrance fœtale'},
-        {'doctype': 'Codification', 'codification': 'JQQM001', 'basic_price': 46.15, 'billing_price': 46.15, 'codification_name': 'JQQM001', 'codi\
-         fication_description': 'Échographie de surveillance de la croissance fœtale'},
-         {'doctype': 'Codification', 'codification': 'JQQM003', 'basic_price': 75.60, 'billing_price': 75.60, 'codification_name': 'JQQM003', 'codi\
-         fication_description': 'Échographie de surveillance de la croissance fœtale avec échographie-doppler des artères utérines de la mère et des vaisseaux du fœtus'},
-         {'doctype': 'Codification', 'codification': 'IF', 'basic_price': 4, 'billing_price': 4, 'codification_name': 'IF', 'codi\
-         fication_description': 'Indemnité forfaitaire de déplacement', 'lump_sum_travel_allowance': 1},
-         {'doctype': 'Codification', 'codification': 'IK', 'basic_price': 0.45, 'billing_price': 0.45, 'codification_name': 'IK_Plaine', 'codi\
-         fication_description': 'Indemnité kilométrique plaine', 'mileage_allowance_lowland': 1},
-         {'doctype': 'Codification', 'codification': 'IK', 'basic_price': 0.73, 'billing_price': 0.73, 'codification_name': 'IK_Montagne', 'codi\
-         fication_description': 'Indemnité kilométrique montagne', 'mileage_allowance_mountain': 1},
-         {'doctype': 'Codification', 'codification': 'IK', 'basic_price': 3.95, 'billing_price': 3.95, 'codification_name': 'IK_Pied_Ski', 'codi\
-         fication_description': 'Indemnité kilométrique à pied ou à ski', 'mileage_allowance_walking_skiing': 1},
-         {'doctype': 'Codification', 'codification': 'N', 'basic_price': 35, 'billing_price': 35, 'codification_name': 'N_20h_0h', 'codi\
-         fication_description': 'Indemnité de nuit de 20h à 0h et de 6h à 8h (appel à partir de 19h)', 'night_work_allowance_1': 1},
-         {'doctype': 'Codification', 'codification': 'N', 'basic_price': 40, 'billing_price': 40, 'codification_name': 'N_0h_6h', 'codi\
-         fication_description': 'Indemnité de nuit de 0h à 6h', 'night_work_allowance_2': 1},
-         {'doctype': 'Codification', 'codification': 'IDF', 'basic_price': 21, 'billing_price': 21, 'codification_name': 'IDF', 'codi\
-         fication_description': 'Indemnité dimanche et jours fériés, en cas d\'urgence dès samedi 12h', 'sundays_holidays_allowance': 1}
+	records += [{'doctype': 'Codification', 'codification': 'C', 'basic_price': 23, 'billing_price': 23, 'codification_name': 'C', 'codification_description': 'Consultation'},
+        {'doctype': 'Codification', 'codification': 'V', 'basic_price': 23, 'billing_price': 23, 'codification_name': 'V', 'codification_description': 'Visite'},
+        {'doctype': 'Codification', 'codification': 'SF', 'basic_price': 2.80, 'billing_price': 2.80, 'codification_name': 'SF', 'codification_description': 'Actes en SF'},
+        {'doctype': 'Codification', 'codification': 'HN', 'basic_price': 0, 'billing_price': 0, 'codification_name': 'HN', 'codification_description': 'Actes Hors Nomenclature'},
+        {'doctype': 'Codification', 'codification': 'SF 15', 'basic_price': 42, 'billing_price': 42, 'codification_name': 'SF 15', 'codification_description': 'PNP: Première séance entretien individuel | Sur prescription à domicile: Grossesse unique avec monitoring à partir de 24 sem'},
+        {'doctype': 'Codification', 'codification': 'SF 11,6', 'basic_price': 32.48, 'billing_price': 32.48, 'codification_name': 'SF 11,6', 'codification_description': 'PNP: 7 séances suivantes ≤ 3 femmes'},
+        {'doctype': 'Codification', 'codification': 'SF 12', 'basic_price': 33.60, 'billing_price': 33.60, 'codification_name': 'SF 12', 'codification_description': 'PNP: 7 séances suivantes individuelles'},
+        {'doctype': 'Codification', 'codification': 'SF 16,5', 'basic_price': 46.20, 'billing_price': 46.20, 'codification_name': 'SF 16,5', 'codification_description': 'Forfait journalier de SURVEILLANCE MERE-ENFANT à domicile de J1 à J7 (J0 étant le jour de l\'accouchement): Un enfant, les 2 premiers forfaits'},
+        {'doctype': 'Codification', 'codification': 'SF 23', 'basic_price': 64.40, 'billing_price': 64.40, 'codification_name': 'SF 23', 'codification_description': 'Forfait journalier de SURVEILLANCE MERE-ENFANT à domicile de J1 à J7 (J0 étant le jour de l\'accouchement): Deux enfants et plus, les 2 premiers forfaits'},
+        {'doctype': 'Codification', 'codification': 'SF 17', 'basic_price': 47.60, 'billing_price': 47.60, 'codification_name': 'SF 17', 'codification_description': 'Forfait journalier de SURVEILLANCE MERE-ENFANT à domicile de J1 à J7 (J0 étant le jour de l\'accouchement): Deux enfants et plus, les forfaits suivants'},
+        {'doctype': 'Codification', 'codification': 'SF 7', 'basic_price': 19.60, 'billing_price': 19.60, 'codification_name': 'SF 7', 'codification_description': 'Rééducation périnéo-sphinctérienne'},
+        {'doctype': 'Codification', 'codification': 'SF 9', 'basic_price': 25.20, 'billing_price': 25.20, 'codification_name': 'SF 9', 'codification_description': 'Sur prescription à domicile: Surveillance grossesse sans monitoring'},
+        {'doctype': 'Codification', 'codification': 'JKLD001', 'basic_price': 38.40, 'billing_price': 38.40, 'codification_name': 'JKLD001', 'codification_description': 'Pose d\'un dispositif intra-utérin'},
+        {'doctype': 'Codification', 'codification': 'QZLA004', 'basic_price': 17.99, 'billing_price': 17.99, 'codification_name': 'QZLA004', 'codification_description': 'Pose d\'implant pharmacologique sous-cutané'},
+        {'doctype': 'Codification', 'codification': 'QZGA002', 'basic_price': 41.80, 'billing_price': 41.80, 'codification_name': 'QZGA002', 'codification_description': 'Ablation ou changement d\'implant pharmacologique sous-cutané'},
+        {'doctype': 'Codification', 'codification': 'JKHD001', 'basic_price': 12.46, 'billing_price': 12.46, 'codification_name': 'JKHD001', 'codification_description': 'Prélèvement cervicovaginal'},
+        {'doctype': 'Codification', 'codification': 'SF 6', 'basic_price': 16.80, 'billing_price': 16.80, 'codification_name': 'SF 6', 'codification_description': 'PNP: 7 séances > 3 femmes (max = 6 )'},
+        {'doctype': 'Codification', 'codification': 'SF 22', 'basic_price': 61.60, 'billing_price': 61.60, 'codification_name': 'SF 22', 'codification_description': 'Sur prescription à domicile: Grossesse multiple avec monitoring à partir de 24 sem'},
+        {'doctype': 'Codification', 'codification': 'SF 19', 'basic_price': 53.20, 'billing_price': 53.20, 'codification_name': 'SF 19', 'codification_description': 'Sur prescription au cabinet: Grossesse multiple avec monitoring à partir de 24 sem'},
+        {'doctype': 'Codification', 'codification': 'SP', 'basic_price': 18.55, 'billing_price': 18.55, 'codification_name': 'SP', 'codification_description': 'Séances post-natales (2 séances du 8e jour qui suit l\'accouchement à la CS post-natale)'},
+        {'doctype': 'Codification', 'codification': 'SF 22,4', 'basic_price': 62.72, 'billing_price': 62.72, 'codification_name': 'SF 22,4', 'codification_description': 'Ablation DIU par un matériel intra-utérin de préhension par voie vaginale'},
+        {'doctype': 'Codification', 'codification': 'JKKD001', 'basic_price': 38.40, 'billing_price': 38.40, 'codification_name': 'JKKD001', 'codification_description': 'Changement d\'un dispositif intra-utérin'},
+        {'doctype': 'Codification', 'codification': 'JLLD001', 'basic_price': 0, 'billing_price': 0, 'codification_name': 'JLLD001', 'codification_description': 'Pose de dispositif intra-vaginal'},
+        {'doctype': 'Codification', 'codification': 'JLGD001', 'basic_price': 0, 'billing_price': 0, 'codification_name': 'JLGD001', 'codification_description': 'Ablation ou changement de dispositif intra-vaginal'},
+        {'doctype': 'Codification', 'codification': 'ZCQM007', 'basic_price': 37.80, 'billing_price': 37.80, 'codification_name': 'ZCQM007', 'codification_description': 'Échographie du petit bassin [pelvis] féminin pour surveillance de l\'ovulation'},
+        {'doctype': 'Codification', 'codification': 'ZCQM009', 'basic_price': 42.25, 'billing_price': 42.25, 'codification_name': 'ZCQM009', 'codification_description': 'Échographie-doppler du petit bassin [pelvis] féminin pour surveillance de l\'ovulation'},
+        {'doctype': 'Codification', 'codification': 'JNQM001', 'basic_price': 35.65, 'billing_price': 35.65, 'codification_name': 'JNQM001', 'codification_description': 'Échographie non morphologique de la grossesse avant 11 semaines d\'aménorrhée'},
+        {'doctype': 'Codification', 'codification': 'JQQM010', 'basic_price': 61.47, 'billing_price': 61.47, 'codification_name': 'JQQM010', 'codification_description': 'Échographie biométrique et morphologique d\'une grossesse uniembryonnaire au 1er trimestre'},
+        {'doctype': 'Codification', 'codification': 'JQQM015', 'basic_price': 71.57, 'billing_price': 71.57, 'codification_name': 'JQQM015', 'codification_description': 'Échographie biométrique et morphologique d\'une grossesse multiembryonnaire au 1er trimestre'},
+        {'doctype': 'Codification', 'codification': 'JQQM018', 'basic_price': 100.20, 'billing_price': 100.20, 'codification_name': 'JQQM018', 'codification_description': 'Échographie biométrique et morphologique d\'une grossesse unifœtale au 2ème trimestre'},
+        {'doctype': 'Codification', 'codification': 'JQQM016', 'basic_price': 100.20, 'billing_price': 100.20, 'codification_name': 'JQQM016', 'codification_description': 'Échographie biométrique et morphologique d\'une grossesse unifœtale au 3ème trimestre'},
+        {'doctype': 'Codification', 'codification': 'JQQM019', 'basic_price': 154.09, 'billing_price': 154.09, 'codification_name': 'JQQM019', 'codification_description': 'Échographie biométrique et morphologique d\'une grossesse multifœtale au 2ème trimestre'},
+        {'doctype': 'Codification', 'codification': 'JQQM017', 'basic_price': 154.09, 'billing_price': 154.09, 'codification_name': 'JQQM017', 'codification_description': 'Échographie biométrique et morphologique d\'une grossesse multifœtale au 3ème trimestre'},
+        {'doctype': 'Codification', 'codification': 'JQQM002', 'basic_price': 92.19, 'billing_price': 92.19, 'codification_name': 'JQQM002', 'codification_description': 'Échographie d\'une grossesse unifœtale à partir du 2ème trimestre avec échographie-doppler des artères utérines de la mère et des vaisseaux du fœtus, pour souffrance fœtale'},
+        {'doctype': 'Codification', 'codification': 'JQQM007', 'basic_price': 133.81, 'billing_price': 133.81, 'codification_name': 'JQQM007', 'codification_description': 'Échographie d\'une grossesse multifœtale à partir du 2ème trimestre avec échographie-doppler des artères utérines de la mère et des vaisseaux des fœtus, pour souffrance fœtale'},
+        {'doctype': 'Codification', 'codification': 'JQQM001', 'basic_price': 46.15, 'billing_price': 46.15, 'codification_name': 'JQQM001', 'codification_description': 'Échographie de surveillance de la croissance fœtale'},
+         {'doctype': 'Codification', 'codification': 'JQQM003', 'basic_price': 75.60, 'billing_price': 75.60, 'codification_name': 'JQQM003', 'codification_description': 'Échographie de surveillance de la croissance fœtale avec échographie-doppler des artères utérines de la mère et des vaisseaux du fœtus'},
+         {'doctype': 'Codification', 'codification': 'IF', 'basic_price': 4, 'billing_price': 4, 'codification_name': 'IF', 'codification_description': 'Indemnité forfaitaire de déplacement', 'lump_sum_travel_allowance': 1},
+         {'doctype': 'Codification', 'codification': 'IK', 'basic_price': 0.45, 'billing_price': 0.45, 'codification_name': 'IK_Plaine', 'codification_description': 'Indemnité kilométrique plaine', 'mileage_allowance_lowland': 1},
+         {'doctype': 'Codification', 'codification': 'IK', 'basic_price': 0.73, 'billing_price': 0.73, 'codification_name': 'IK_Montagne', 'codification_description': 'Indemnité kilométrique montagne', 'mileage_allowance_mountain': 1},
+         {'doctype': 'Codification', 'codification': 'IK', 'basic_price': 3.95, 'billing_price': 3.95, 'codification_name': 'IK_Pied_Ski', 'codification_description': 'Indemnité kilométrique à pied ou à ski', 'mileage_allowance_walking_skiing': 1},
+         {'doctype': 'Codification', 'codification': 'N', 'basic_price': 35, 'billing_price': 35, 'codification_name': 'N_20h_0h', 'codification_description': 'Indemnité de nuit de 20h à 0h et de 6h à 8h (appel à partir de 19h)', 'night_work_allowance_1': 1},
+         {'doctype': 'Codification', 'codification': 'N', 'basic_price': 40, 'billing_price': 40, 'codification_name': 'N_0h_6h', 'codification_description': 'Indemnité de nuit de 0h à 6h', 'night_work_allowance_2': 1},
+                    {'doctype': 'Codification', 'codification': 'IDF', 'basic_price': 21, 'billing_price': 21, 'codification_name': 'IDF', 'codification_description': 'Indemnité dimanche et jours fériés, en cas d\'urgence dès samedi 12h', 'sundays_holidays_allowance': 1},
         ]
 
 	from erpnext.setup.setup_wizard.industry_type import get_industry_types
