@@ -60,7 +60,7 @@ def setup_complete(args=None):
 	frappe.db.commit()
 	frappe.clear_cache()
 
-        #correct_hn_account()
+        correct_hn_account()
 
         hidden_list = ['Stock', 'Manufacturing', 'POS', 'Support', 'Maintenance', 'Student', 'Schools', 'Learn', 'Integrations', 'CRM', 'Selling', 'Buying', 'Human Resources', 'Projects']
         set_hidden_list(hidden_list)
@@ -398,7 +398,7 @@ def make_item_price(item, price_list_name, item_price):
 	}).insert()
 
 def correct_hn_account():
-        frappe.db.sql("""update `tabItem` set income_account=%s, modified=NOW() where item_code=%s""", ("7014-Honoraires hors convention, livre Recettes", "HN"))
+        frappe.set_value('Item', "HN", 'income_account', "7014-Honoraires hors convention, livre Recettes")
 
 
 def create_customers(args):
