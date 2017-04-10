@@ -51,7 +51,7 @@ def get_help_messages():
             action=_('Professional Information Card'),
             route='List/Professional Information Card',
             domain=('Midwife'),
-            target=1
+            target=2
         ),
         frappe._dict(
             doctype='Company',
@@ -60,7 +60,7 @@ def get_help_messages():
             action=_('Company Information'),
             route='List/Company',
             domain=('Midwife'),
-            target=1
+            target=2
         )
         ]
 

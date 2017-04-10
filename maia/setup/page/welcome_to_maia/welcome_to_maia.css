@@ -1,0 +1,13 @@
+#page-welcome-to-maia ul li {
+	margin: 7px 0px;
+}
+
+#page-welcome-to-maia .video-placeholder-image {
+	width: 100%;
+	cursor: pointer;
+}
+
+#page-welcome-to-maia .youtube-icon {
+	width: 10%;
+	cursor: pointer;
+}

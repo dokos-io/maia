@@ -1,3 +1,5 @@
+# coding=utf-8
+
 # Copyright (c) 2017, DOKOS and Contributors
 # License: GNU General Public License v3. See license.txt
 
@@ -9,7 +11,7 @@ import json
 from frappe.utils import cstr, flt, getdate
 from frappe import _
 from frappe.utils.file_manager import save_file
-from erpnext.setup.setup_wizard.default_website import website_maker
+from .default_website import website_maker
 import install_fixtures
 from erpnext.setup.setup_wizard.sample_data import make_sample_data
 from erpnext.accounts.doctype.account.account import RootNotEditable
@@ -18,6 +20,7 @@ from frappe.desk.doctype.desktop_icon.desktop_icon import set_hidden_list
 from maia.setup.setup_wizard.domainify import setup_domain
 
 def setup_complete(args=None):
+
 	if frappe.db.sql("select name from tabCompany"):
 		frappe.throw(_("Setup Already Complete!!"))
 
@@ -35,19 +38,12 @@ def setup_complete(args=None):
 	create_letter_head(args)
 	create_taxes(args)
 	create_items(args)
-	create_customers(args)
+       	create_customers(args)
 	create_suppliers(args)
 
-	if args.domain.lower() == 'education':
-		create_academic_year()
-		create_academic_term()
-		create_program(args)
-		create_course(args)
-		create_instructor(args)
-		create_room(args)
+        install_fixtures.codifications(args.get("country"))
 
-	if args.get('setup_website'):
-		website_maker(args)
+	#website_maker(args)
 
 	create_logo(args)
 
@@ -60,9 +56,9 @@ def setup_complete(args=None):
 	frappe.db.commit()
 	frappe.clear_cache()
 
-        correct_hn_account()
+        correct_midwife_accounts(args)
 
-        hidden_list = ['Stock', 'Manufacturing', 'POS', 'Support', 'Maintenance', 'Student', 'Schools', 'Learn', 'Integrations', 'CRM', 'Selling', 'Buying', 'Human Resources', 'Projects']
+        hidden_list = ['Stock', 'Manufacturing', 'Learn', 'Buying', 'Selling', 'Support', 'Integrations', 'Maintenance', 'Schools', 'HR', 'CRM']
         set_hidden_list(hidden_list)
 
 	if args.get("add_sample_data"):
@@ -96,7 +92,7 @@ def create_fiscal_year_and_company(args):
 			'default_currency':args.get('currency'),
 			'country': args.get('country'),
 			'create_chart_of_accounts_based_on': 'Standard Template',
-			'chart_of_accounts': args.get(('chart_of_accounts')),
+			'chart_of_accounts': args.get('chart_of_accounts'),
 			'domain': args.get('domain')
 		}).insert()
 
@@ -184,6 +180,7 @@ def set_defaults(args):
 	selling_settings.cust_master_name = "Customer Name"
 	selling_settings.so_required = "No"
 	selling_settings.dn_required = "No"
+	selling_settings.allow_multiple_items = 1
 	selling_settings.save()
 
 	buying_settings = frappe.get_doc("Buying Settings")
@@ -191,6 +188,7 @@ def set_defaults(args):
 	buying_settings.po_required = "No"
 	buying_settings.pr_required = "No"
 	buying_settings.maintain_same_rate = 1
+	buying_settings.allow_multiple_items = 1
 	buying_settings.save()
 
 	notification_control = frappe.get_doc("Notification Control")
@@ -397,10 +395,44 @@ def make_item_price(item, price_list_name, item_price):
 		"price_list_rate": item_price
 	}).insert()
 
-def correct_hn_account():
-        frappe.set_value('Item', "HN", 'income_account', "7014-Honoraires hors convention, livre Recettes")
 
+def correct_midwife_accounts(args):
+        hn_account = "7014-Honoraires hors convention, livre Recettes - " + args.get('company_abbr')
+        default_income_account = "7013-Honoraires conventionnels livre Recettes - " + args.get('company_abbr')
+        default_receivable_account = "410-Clients et Comptes rattachés - " + args.get('company_abbr')
+        default_payable_account = "4011-Fournisseurs - Achats de biens ou de prestations de services - " + args.get('company_abbr')
+        round_off_account = "658-Charges diverses de gestion courante - " + args.get('company_abbr')
+        exchange_gain_loss_account = "666-Pertes de change financières - " + args.get('company_abbr')
+        accumulated_depreciation_account = "2815-Installations techniques, matériel et outillage médical (même ventilation que celle du compte 218) - " + args.get('company_abbr')
+        depreciation_expense_account = "68112-Immobilisations corporelles - " +args.get('company_abbr')
 
+        if frappe.db.exists('Account', hn_account):
+                frappe.db.set_value('Item', "HN", 'income_account', hn_account)
+
+        if frappe.db.exists('Account', default_income_account):
+                frappe.db.set_value('Company', args.get('company_name'), 'default_income_account', default_income_account)
+
+        if frappe.db.exists('Account', default_receivable_account):
+                frappe.db.set_value('Company', args.get('company_name'), 'default_receivable_account', default_receivable_account)
+
+        if frappe.db.exists('Account', default_payable_account):
+                frappe.db.set_value('Company', args.get('company_name'), 'default_payable_account', default_payable_account)
+
+        if frappe.db.exists('Account', round_off_account):
+                frappe.db.set_value('Company', args.get('company_name'), 'round_off_account', round_off_account)
+                frappe.db.set_value('Company', args.get('company_name'), 'write_off_account', round_off_account)
+
+        if frappe.db.exists('Account', exchange_gain_loss_account):
+                frappe.db.set_value('Company', args.get('company_name'), 'exchange_gain_loss_account', exchange_gain_loss_account)
+
+        if frappe.db.exists('Account', accumulated_depreciation_account):
+                frappe.db.set_value('Company', args.get('company_name'), 'accumulated_depreciation_account', accumulated_depreciation_account)
+
+        if frappe.db.exists('Account', depreciation_expense_account):
+                frappe.db.set_value('Company', args.get('company_name'), 'depreciation_expense_account', depreciation_expense_account)
+
+        
+        
 def create_customers(args):
 	for i in xrange(1,6):
 		customer = args.get("customer_" + str(i))
@@ -459,8 +491,8 @@ def create_professional_contact_card(args):
 		"siret_number": args.get("company_siret")
 	})
         prof_card.insert(ignore_permissions = True)
-	
-        
+
+
 def create_letter_head(args):
 	if args.get("attach_letterhead"):
 		frappe.get_doc({
@@ -625,3 +657,5 @@ def create_room(args):
 				room.save()
 			except frappe.DuplicateEntryError:
 				pass
+
+

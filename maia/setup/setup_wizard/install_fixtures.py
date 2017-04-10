@@ -261,8 +261,37 @@ def install(country=None):
                 {'doctype': "Placental Delivery", 'placental_delivery': _("Incomplete Directed Delivery")},
 	]
 
-         #Midwife Codifications
-	records += [{'doctype': 'Codification', 'codification': 'C', 'basic_price': 23, 'billing_price': 23, 'codification_name': 'C', 'codification_description': 'Consultation'},
+
+	from erpnext.setup.setup_wizard.industry_type import get_industry_types
+	records += [{"doctype":"Industry Type", "industry": d} for d in get_industry_types()]
+	# records += [{"doctype":"Operation", "operation": d} for d in get_operations()]
+
+	records += [{'doctype': 'Lead Source', 'source_name': _(d)} for d in default_lead_sources]
+
+	from frappe.modules import scrub
+	for r in records:
+		doc = frappe.new_doc(r.get("doctype"))
+		doc.update(r)
+
+		# ignore mandatory for root
+		parent_link_field = ("parent_" + scrub(doc.doctype))
+		if doc.meta.get_field(parent_link_field) and not doc.get(parent_link_field):
+			doc.flags.ignore_mandatory = True
+
+		try:
+			doc.insert(ignore_permissions=True)
+		except frappe.DuplicateEntryError, e:
+			# pass DuplicateEntryError and continue
+			if e.args and e.args[0]==doc.doctype and e.args[1]==doc.name:
+				# make sure DuplicateEntryError is for the exact same doc and not a related doc
+				pass
+			else:
+				raise
+
+def codifications(country=None):
+        records = [
+                 #Midwife Codifications
+	{'doctype': 'Codification', 'codification': 'C', 'basic_price': 23, 'billing_price': 23, 'codification_name': 'C', 'codification_description': 'Consultation'},
         {'doctype': 'Codification', 'codification': 'V', 'basic_price': 23, 'billing_price': 23, 'codification_name': 'V', 'codification_description': 'Visite'},
         {'doctype': 'Codification', 'codification': 'SF', 'basic_price': 2.80, 'billing_price': 2.80, 'codification_name': 'SF', 'codification_description': 'Actes en SF'},
         {'doctype': 'Codification', 'codification': 'HN', 'basic_price': 0, 'billing_price': 0, 'codification_name': 'HN', 'codification_description': 'Actes Hors Nomenclature'},
@@ -308,13 +337,7 @@ def install(country=None):
                     {'doctype': 'Codification', 'codification': 'IDF', 'basic_price': 21, 'billing_price': 21, 'codification_name': 'IDF', 'codification_description': 'Indemnité dimanche et jours fériés, en cas d\'urgence dès samedi 12h', 'sundays_holidays_allowance': 1},
         ]
 
-	from erpnext.setup.setup_wizard.industry_type import get_industry_types
-	records += [{"doctype":"Industry Type", "industry": d} for d in get_industry_types()]
-	# records += [{"doctype":"Operation", "operation": d} for d in get_operations()]
-
-	records += [{'doctype': 'Lead Source', 'source_name': _(d)} for d in default_lead_sources]
-
-	from frappe.modules import scrub
+        from frappe.modules import scrub
 	for r in records:
 		doc = frappe.new_doc(r.get("doctype"))
 		doc.update(r)

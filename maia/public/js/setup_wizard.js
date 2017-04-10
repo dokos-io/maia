@@ -8,22 +8,17 @@ frappe.pages['setup-wizard'].on_page_load = function(wrapper) {
 };
 
 function load_maia_slides() {
-    $.extend(maia.wiz, {
-	    select_domain: {
-		domains: ["all"],
-		title: __('Select your Domain'),
-		fields: [{
-		    fieldname: 'domain',
-		    label: __('Domain'),
-		    fieldtype: 'Select',
-		    options: [{
-			"label": __("Midwife"),
-			"value": "Midwife"
-		    }
-			     ],
-		    reqd: 1
-		}, ],
-		help: __('Select the nature of your business.'),
+	$.extend(maia.wiz, {
+		select_domain: {
+			domains: ["all"],
+			title: __('Select your Activity'),
+			fields: [
+				{fieldname:'domain', label: __('Activity'), fieldtype:'Select',
+					options: [
+					    {"label": __("Midwife"), "value": "Midwife"}
+					], "default": "Midwife", reqd:1},
+			],
+			help: __('Select the nature of your activity.'),
 			onload: function(slide) {
 				slide.get_input("domain").on("change", function() {
 					frappe.wiz.domain = $(this).val();
@@ -34,32 +29,38 @@ function load_maia_slides() {
 		},
 		org: {
 			domains: ["all"],
-			title: __("The Organization"),
+			title: __("The Practice"),
 			icon: "fa fa-building",
 			fields: [
 				{fieldname:'company_name',
-					label: __('Practice Name'),
+					label: frappe.wiz.domain==='Education' ?
+					 	__('Institute Name') : __('Practice Name'),
 					fieldtype:'Data', reqd:1},
 				{fieldname:'company_abbr',
-					label: __('Practice Abbreviation'),
+					label: frappe.wiz.domain==='Education' ?
+					 	__('Institute Abbreviation') : __('Company Abbreviation'),
 				        fieldtype:'Data'},
-			        {fieldname:'company_siret',
+			        {fieldtype: "Section Break"},
+				{fieldname:'company_siret',
 					label: __('SIRET N°'),
-					fieldtype:'Data'},
-				{fieldname:'bank_account', label: __('Bank Name'), fieldtype:'Data', reqd:1},
-				{fieldname:'chart_of_accounts', label: __('Chart of Accounts'),
+				        fieldtype:'Data'},
+			        {fieldname:'rpps_number',
+					label: __('RPPS N°'),
+				        fieldtype:'Data',
+				        description: __('Your RPPS Number')},
+			        {fieldtype: "Section Break"},
+				{fieldname:'bank_account', label: __('The Name of your Bank'), fieldtype:'Data', reqd:1},
+			        {fieldtype: "Section Break"},
+			        {fieldname:'chart_of_accounts', label: __('Chart of Accounts'),
 					options: "", fieldtype: 'Select'},
-
-				// TODO remove this
-				{fieldtype: "Section Break"},
 				{fieldname:'fy_start_date', label:__('Financial Year Start Date'), fieldtype:'Date',
-					description: __('Your financial year begins on'), reqd:1},
+				reqd:1},
 				{fieldname:'fy_end_date', label:__('Financial Year End Date'), fieldtype:'Date',
-					description: __('Your financial year ends on'), reqd:1},
+				reqd:1},
 			],
 			help: (frappe.wiz.domain==='Education' ?
 				__('The name of the institute for which you are setting up this system.'):
-				__('The name of your company for which you are setting up this system.')),
+				__('The name of the practice for which you are setting up this system. Contact our team if you have any question.')),
 
 			onload: function(slide) {
 				maia.wiz.org.load_chart_of_accounts(slide);
@@ -95,7 +96,7 @@ function load_maia_slides() {
 						fy = ["01-01", "12-31"];
 						next_year = current_year;
 					}
-
+					
 					var year_start_date = current_year + "-" + fy[0];
 					if(year_start_date > get_today()) {
 						next_year = current_year
@@ -122,7 +123,7 @@ function load_maia_slides() {
 								if (r.message.length===1) {
 									var field = slide.get_field("chart_of_accounts");
 									field.set_value(r.message[0]);
-									field.df.hidden = 1;
+									field.df.hidden = 0;
 									field.refresh();
 								}
 							}
@@ -159,17 +160,17 @@ function load_maia_slides() {
 		branding: {
 			domains: ["all"],
 			icon: "fa fa-bookmark",
-			title: __("The Brand"),
-			help: __('Upload your letter head and logo. (you can edit them later).'),
+			title: __("Your Brand"),
+			help: __('Upload your letterhead and logo. (you can edit them later).'),
 			fields: [
 				{fieldtype:"Attach Image", fieldname:"attach_letterhead",
-					label: __("Attach Letterhead"),
+					label: __("Attach a Letterhead"),
 					description: __("Keep it web friendly 900px (w) by 100px (h)"),
 					is_private: 0
 				},
 				{fieldtype: "Column Break"},
 				{fieldtype:"Attach Image", fieldname:"attach_logo",
-					label:__("Attach Logo"),
+					label:__("Attach a Logo"),
 					description: __("100px by 100px"),
 					is_private: 0
 				},
@@ -197,7 +198,189 @@ function load_maia_slides() {
 					]);
 				}
 			},
-		    css_class: "single-column"
+			css_class: "single-column"
+		},
+
+		taxes: {
+			domains: ['manufacturing', 'services', 'retail', 'distribution'],
+			icon: "fa fa-money",
+			title: __("Add Taxes"),
+			help: __("List your tax heads (e.g. VAT, Customs etc; they should have unique names) and their standard rates. This will create a standard template, which you can edit and add more later."),
+			"fields": [],
+			before_load: function(slide) {
+				slide.fields = [];
+				for(var i=1; i<4; i++) {
+					slide.fields = slide.fields.concat([
+						{fieldtype:"Section Break"},
+						{fieldtype:"Data", fieldname:"tax_"+ i, label:__("Tax") + " " + i,
+							placeholder:__("e.g. VAT") + " " + i},
+						{fieldtype:"Column Break"},
+						{fieldtype:"Float", fieldname:"tax_rate_" + i, label:__("Rate (%)"), placeholder:__("e.g. 5")},
+					]);
+				}
+			},
+			css_class: "two-column"
+		},
+
+		customers: {
+			domains: ['manufacturing', 'services', 'retail', 'distribution'],
+			icon: "fa fa-group",
+			title: __("Your Customers"),
+			help: __("List a few of your customers. They could be organizations or individuals."),
+			fields: [],
+			before_load: function(slide) {
+				slide.fields = [];
+				for(var i=1; i<6; i++) {
+					slide.fields = slide.fields.concat([
+						{fieldtype:"Section Break"},
+						{fieldtype:"Data", fieldname:"customer_" + i, label:__("Customer") + " " + i,
+							placeholder:__("Customer Name")},
+						{fieldtype:"Column Break"},
+						{fieldtype:"Data", fieldname:"customer_contact_" + i,
+							label:__("Contact Name") + " " + i, placeholder:__("Contact Name")}
+					])
+				}
+				slide.fields[1].reqd = 1;
+			},
+			css_class: "two-column"
+		},
+
+		suppliers: {
+			domains: ['manufacturing', 'services', 'retail', 'distribution'],
+			icon: "fa fa-group",
+			title: __("Your Suppliers"),
+			help: __("List a few of your suppliers. They could be organizations or individuals."),
+			fields: [],
+			before_load: function(slide) {
+				slide.fields = [];
+				for(var i=1; i<6; i++) {
+					slide.fields = slide.fields.concat([
+						{fieldtype:"Section Break"},
+						{fieldtype:"Data", fieldname:"supplier_" + i, label:__("Supplier")+" " + i,
+							placeholder:__("Supplier Name")},
+						{fieldtype:"Column Break"},
+						{fieldtype:"Data", fieldname:"supplier_contact_" + i,
+							label:__("Contact Name") + " " + i, placeholder:__("Contact Name")},
+					])
+				}
+				slide.fields[1].reqd = 1;
+			},
+			css_class: "two-column"
+		},
+
+		items: {
+			domains: ['manufacturing', 'services', 'retail', 'distribution'],
+			icon: "fa fa-barcode",
+			title: __("Your Products or Services"),
+			help: __("List your products or services that you buy or sell. Make sure to check the Item Group, Unit of Measure and other properties when you start."),
+			fields: [],
+			before_load: function(slide) {
+				slide.fields = [];
+				for(var i=1; i<6; i++) {
+					slide.fields = slide.fields.concat([
+						{fieldtype:"Section Break", show_section_border: true},
+						{fieldtype:"Data", fieldname:"item_" + i, label:__("Item") + " " + i,
+							placeholder:__("A Product or Service")},
+						{fieldtype:"Select", label:__("Group"), fieldname:"item_group_" + i,
+							options:[__("Products"), __("Services"),
+								__("Raw Material"), __("Consumable"), __("Sub Assemblies")],
+							"default": __("Products")},
+						{fieldtype:"Select", fieldname:"item_uom_" + i, label:__("UOM"),
+							options:[__("Unit"), __("Nos"), __("Box"), __("Pair"), __("Kg"), __("Set"),
+								__("Hour"), __("Minute"), __("Litre"), __("Meter"), __("Gram")],
+							"default": __("Unit")},
+						{fieldtype: "Check", fieldname: "is_sales_item_" + i, label:__("We sell this Item"), default: 1},
+						{fieldtype: "Check", fieldname: "is_purchase_item_" + i, label:__("We buy this Item")},
+						{fieldtype:"Column Break"},
+						{fieldtype:"Currency", fieldname:"item_price_" + i, label:__("Rate")},
+						{fieldtype:"Attach Image", fieldname:"item_img_" + i, label:__("Attach Image"), is_private: 0},
+					])
+				}
+				slide.fields[1].reqd = 1;
+
+				// dummy data
+				slide.fields.push({fieldtype: "Section Break"});
+				slide.fields.push({fieldtype: "Check", fieldname: "add_sample_data",
+					label: __("Add a few sample records"), "default": 1});
+				slide.fields.push({fieldtype: "Check", fieldname: "setup_website",
+					label: __("Setup a simple website for my organization"), "default": 1});
+			},
+			css_class: "two-column"
+		},
+
+		program: {
+			domains: ["education"],
+			title: __("Program"),
+			help: __("Example: Masters in Computer Science"),
+			fields: [],
+			before_load: function(slide) {
+				slide.fields = [];
+				for(var i=1; i<6; i++) {
+					slide.fields = slide.fields.concat([
+						{fieldtype:"Section Break", show_section_border: true},
+						{fieldtype:"Data", fieldname:"program_" + i, label:__("Program") + " " + i, placeholder: __("Program Name")},
+					])
+				}
+				slide.fields[1].reqd = 1;
+			},
+			css_class: "single-column"
+		},
+
+		course: {
+			domains: ["education"],
+			title: __("Course"),
+			help: __("Example: Basic Mathematics"),
+			fields: [],
+			before_load: function(slide) {
+				slide.fields = [];
+				for(var i=1; i<6; i++) {
+					slide.fields = slide.fields.concat([
+						{fieldtype:"Section Break", show_section_border: true},
+						{fieldtype:"Data", fieldname:"course_" + i, label:__("Course") + " " + i,  placeholder: __("Course Name")},
+					])
+				}
+				slide.fields[1].reqd = 1;
+			},
+			css_class: "single-column"
+		},
+
+
+		instructor: {
+			domains: ["education"],
+			title: __("Instructor"),
+			help: __("People who teach at your organisation"),
+			fields: [],
+			before_load: function(slide) {
+				slide.fields = [];
+				for(var i=1; i<6; i++) {
+					slide.fields = slide.fields.concat([
+						{fieldtype:"Section Break", show_section_border: true},
+						{fieldtype:"Data", fieldname:"instructor_" + i, label:__("Instructor") + " " + i,  placeholder: __("Instructor Name")},
+					])
+				}
+				slide.fields[1].reqd = 1;
+			},
+			css_class: "single-column"
+		},
+
+		room: {
+			domains: ["education"],
+			title: __("Room"),
+			help: __("Classrooms/ Laboratories etc where lectures can be scheduled."),
+			fields: [],
+			before_load: function(slide) {
+				slide.fields = [];
+				for(var i=1; i<4; i++) {
+					slide.fields = slide.fields.concat([
+						{fieldtype:"Section Break", show_section_border: true},
+						{fieldtype:"Data", fieldname:"room_" + i, label:__("Room") + " " + i},
+						{fieldtype:"Column Break"},
+						{fieldtype:"Int", fieldname:"room_capacity_" + i, label:__("Room") + " " + i + " Capacity"},
+					])
+				}
+				slide.fields[1].reqd = 1;
+			},
+			css_class: "two-column"
 		},
 	});
 
@@ -236,7 +419,6 @@ frappe.wiz.on("before_load", function() {
 		frappe.wiz.add_slide(maia.wiz.users);
 	}
 
-	if(frappe.wizard && frappe.wizard.domain && frappe.wizard.domain !== 'Education') {
-		frappe.wiz.welcome_page = "#welcome-to-maia";
-	}
+	/*frappe.wiz.welcome_page = "#welcome-to-maia";*/
+	
 });
