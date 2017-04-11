@@ -4,4 +4,4 @@ Patient Record Management App for Midwifes
 
 #### License
 
-MIT
+GNU-GPLv3.0

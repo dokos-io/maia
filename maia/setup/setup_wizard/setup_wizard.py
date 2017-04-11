@@ -40,6 +40,7 @@ def setup_complete(args=None):
 	create_items(args)
        	create_customers(args)
 	create_suppliers(args)
+        create_midwife_tax_template(args)
 
         install_fixtures.codifications(args.get("country"))
 
@@ -93,7 +94,9 @@ def create_fiscal_year_and_company(args):
 			'country': args.get('country'),
 			'create_chart_of_accounts_based_on': 'Standard Template',
 			'chart_of_accounts': args.get('chart_of_accounts'),
-			'domain': args.get('domain')
+			'domain': args.get('domain'),
+                        'email': args.get('company_email'),
+                        'phone_no': args.get('company_phone')
 		}).insert()
 
 		#Enable shopping cart
@@ -336,6 +339,22 @@ def make_sales_and_purchase_tax_templates(account, template_name=None):
 	purchase_tax_template["doctype"] = "Purchase Taxes and Charges Template"
 	frappe.get_doc(purchase_tax_template).insert(ignore_permissions=True)
 
+def create_midwife_tax_template(args):
+        account_name = "44571-TVA collectée - " + args.get('company_abbr')
+        purchase_tax_template = frappe.get_doc({
+		"doctype": "Purchase Taxes and Charges Template",
+		"title": _("VAT 20% - Included"),
+		"company": args.get("company_name"),
+		"taxes": [{
+			"category": "Total",
+			"charge_type": "On Net Total",
+			"account_head": account_name,
+			"description": _("TVA 20%"),
+			"rate": 20,
+                        "included_in_print_rate": 1
+		}]
+	}).insert(ignore_permissions=True)
+        
 def create_items(args):
 	for i in xrange(1,6):
 		item = args.get("item_" + str(i))
@@ -487,8 +506,13 @@ def create_professional_contact_card(args):
 
 	prof_card = frappe.get_doc({
 		"doctype":"Professional Information Card",
+                "user": args.get("email"),
 		"full_name": args.get("full_name"),
-		"siret_number": args.get("company_siret")
+		"siret_number": args.get("company_siret"),
+                "rpps_number": args.get("rpps_number"),
+                "siret_number": args.get("company_siret"),
+                "phone": args.get("company_phone"),
+                "email": args.get("company_email")
 	})
         prof_card.insert(ignore_permissions = True)
 

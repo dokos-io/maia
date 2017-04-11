@@ -61,7 +61,17 @@ def get_help_messages():
             route='List/Company',
             domain=('Midwife'),
             target=2
+        ),
+        frappe._dict(
+            doctype='Email Domain',
+            title=_('Email Domain'),
+            description=_('Setup an Email Domain to be able to send/receive Emails'),
+            action=_('Email Setup'),
+            route='List/Email Domain',
+            domain=('Midwife'),
+            target=2
         )
+        
         ]
 
 

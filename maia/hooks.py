@@ -9,10 +9,10 @@ app_description = "Patient Record Management App for Midwifes"
 app_icon = "octicon octicon-squirrel"
 app_color = "#ff4081"
 app_email = "hello@dokos.io"
-app_license = "MIT"
+app_license = "GNU-GPLv3.0"
 
 
-fixtures = ["Custom Field", {"doctype": "Role", "filters": {"name": "Midwife"}}]
+fixtures = ["Custom Field", {"doctype": "Role", "filters": {"name": "Midwife"}}, {"doctype": "Print Format", "filters": {"name": "Facture Maia"}}]
 
 error_report_email = "hello@dokos.io"
 

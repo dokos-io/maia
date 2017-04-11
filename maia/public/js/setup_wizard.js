@@ -41,13 +41,15 @@ function load_maia_slides() {
 					 	__('Institute Abbreviation') : __('Company Abbreviation'),
 				        fieldtype:'Data'},
 			        {fieldtype: "Section Break"},
-				{fieldname:'company_siret',
+			        {fieldname: "company_email", label: __("Practice Email Address"), fieldtype:'Data'},
+			        {fieldname:'company_siret',
 					label: __('SIRET N°'),
 				        fieldtype:'Data'},
+			        {fieldtype: "Column Break"},
+			        {fieldname: "company_phone", label: __("Practice Phone Number"), fieldtype:'Data'},
 			        {fieldname:'rpps_number',
 					label: __('RPPS N°'),
-				        fieldtype:'Data',
-				        description: __('Your RPPS Number')},
+				        fieldtype:'Data'},
 			        {fieldtype: "Section Break"},
 				{fieldname:'bank_account', label: __('The Name of your Bank'), fieldtype:'Data', reqd:1},
 			        {fieldtype: "Section Break"},
@@ -415,9 +417,9 @@ frappe.wiz.on("before_load", function() {
 	frappe.wiz.add_slide(maia.wiz.org);
 	frappe.wiz.add_slide(maia.wiz.branding);
 
-	if (!(frappe.boot.limits && frappe.boot.limits.users===1)) {
+	/*if (!(frappe.boot.limits && frappe.boot.limits.users===1)) {
 		frappe.wiz.add_slide(maia.wiz.users);
-	}
+	}*/
 
 	/*frappe.wiz.welcome_page = "#welcome-to-maia";*/
 	

@@ -113,13 +113,12 @@ def install(country=None):
 		{'doctype': 'Customer Group', 'customer_group_name': _('Government'), 'is_group': 0, 'parent_customer_group': _('All Customer Groups')},
 
 		# supplier type
-		{'doctype': 'Supplier Type', 'supplier_type': _('Services')},
+		{'doctype': 'Supplier Type', 'supplier_type': _('Supplies and Pharmacy')},
 		{'doctype': 'Supplier Type', 'supplier_type': _('Local')},
-		{'doctype': 'Supplier Type', 'supplier_type': _('Raw Material')},
-		{'doctype': 'Supplier Type', 'supplier_type': _('Electrical')},
-		{'doctype': 'Supplier Type', 'supplier_type': _('Hardware')},
+		{'doctype': 'Supplier Type', 'supplier_type': _('Construction Works, Supplies, External Services')},
+		{'doctype': 'Supplier Type', 'supplier_type': _('Transport and Travel')},
+		{'doctype': 'Supplier Type', 'supplier_type': _('Miscellaneous')},
 		{'doctype': 'Supplier Type', 'supplier_type': _('Pharmaceutical')},
-		{'doctype': 'Supplier Type', 'supplier_type': _('Distributor')},
 
 		# Sales Person
 		{'doctype': 'Sales Person', 'sales_person_name': _('Sales Team'), 'is_group': 1, "parent_sales_person": ""},
@@ -332,9 +331,9 @@ def codifications(country=None):
          {'doctype': 'Codification', 'codification': 'IK', 'basic_price': 0.45, 'billing_price': 0.45, 'codification_name': 'IK_Plaine', 'codification_description': 'Indemnité kilométrique plaine', 'mileage_allowance_lowland': 1},
          {'doctype': 'Codification', 'codification': 'IK', 'basic_price': 0.73, 'billing_price': 0.73, 'codification_name': 'IK_Montagne', 'codification_description': 'Indemnité kilométrique montagne', 'mileage_allowance_mountain': 1},
          {'doctype': 'Codification', 'codification': 'IK', 'basic_price': 3.95, 'billing_price': 3.95, 'codification_name': 'IK_Pied_Ski', 'codification_description': 'Indemnité kilométrique à pied ou à ski', 'mileage_allowance_walking_skiing': 1},
-         {'doctype': 'Codification', 'codification': 'N', 'basic_price': 35, 'billing_price': 35, 'codification_name': 'N_20h_0h', 'codification_description': 'Indemnité de nuit de 20h à 0h et de 6h à 8h (appel à partir de 19h)', 'night_work_allowance_1': 1},
-         {'doctype': 'Codification', 'codification': 'N', 'basic_price': 40, 'billing_price': 40, 'codification_name': 'N_0h_6h', 'codification_description': 'Indemnité de nuit de 0h à 6h', 'night_work_allowance_2': 1},
-                    {'doctype': 'Codification', 'codification': 'IDF', 'basic_price': 21, 'billing_price': 21, 'codification_name': 'IDF', 'codification_description': 'Indemnité dimanche et jours fériés, en cas d\'urgence dès samedi 12h', 'sundays_holidays_allowance': 1},
+         {'doctype': 'Codification', 'codification': 'P', 'basic_price': 35, 'billing_price': 35, 'codification_name': 'P', 'codification_description': 'Indemnité de nuit de 20h à 0h et de 6h à 8h (appel à partir de 19h)', 'night_work_allowance_1': 1},
+         {'doctype': 'Codification', 'codification': 'S', 'basic_price': 40, 'billing_price': 40, 'codification_name': 'S', 'codification_description': 'Indemnité de nuit de 0h à 6h', 'night_work_allowance_2': 1},
+                    {'doctype': 'Codification', 'codification': 'F', 'basic_price': 21, 'billing_price': 21, 'codification_name': 'F', 'codification_description': 'Indemnité dimanche et jours fériés, en cas d\'urgence dès samedi 12h', 'sundays_holidays_allowance': 1},
         ]
 
         from frappe.modules import scrub

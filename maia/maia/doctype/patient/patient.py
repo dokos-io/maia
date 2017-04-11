@@ -41,15 +41,24 @@ class Patient(Document):
                         [cstr(self.get(f)).strip() for f in ["patient_first_name", "patient_last_name"]]))
                                                 
 
-        def update_address(self):
-                frappe.db.sql("""update `tabAddress` set patient_name=%s, customer=%s, modified=NOW()
-                        where patient=%s""", (self.patient_name, self.customer, self.name))
+        def update_address_links(self):
+              addresses = frappe.db.sql("""select parent from `tabDynamic Link` where parenttype = 'Address' and link_doctype = 'Patient' and link_name = %s""", (self.name))
+
+              #check if customer is linked to each parent
+              for address in addresses:
+                      try:
+                              customer_link = frappe.db.sql("""select * from `tabDynamic Link` where parent = %s and parenttype = 'Address' and link_doctype = 'Customer' and link_name = %s """, (address, self.customer))
+                              pass
+                              
+                      except:
+                              address_to_update = frappe.get_doc({"doctype":"Address", "name":address})
+                              address_to_update.append('links', { "link_doctype": "Customer", "link_name": self.customer }).insert(ignore_permissions=True)
+                      
 
         def on_update(self):
                 self.autoname()
-                #self.update_address()
+                self.update_address_links()
 
-                #if(self.change_in_patient and self.customer):
                 updating_customer(self)
                 frappe.db.set_value(self.doctype,self.name,"change_in_patient",0)
                 self.reload()
@@ -63,24 +72,12 @@ class Patient(Document):
 
                 updating_customer(self)
         
-
-        def delete_patient_address(self):
-                for rec in frappe.db.sql("select * from `tabAddress` where patient=%s", (self.name,), as_dict=1):
-                        frappe.db.sql("delete from `tabAddress` where patient_name=%s",(rec['name']))
-
         def on_trash(self):
                 self.delete_patient_address()
 
         def after_rename(self, olddn, newdn, merge=False):
                 frappe.db.set(self, 'patient_name', newdn)
-                set_field = ", name=%(newdn)s"
-                self.update_patient_address(newdn, set_field)
-
-        def update_patient_address(self, newdn, set_field):
-                frappe.db.sql("""update `tabAddress` set address_title=%(newdn)s
-                        {set_field} where patient_name=%(newdn)s"""\
-                        .format(set_field=set_field), ({"newdn": newdn}))
-                                                                                                                                                                                
+                set_field = ", name=%(newdn)s"                                                                                                                                                                                
 def create_customer_from_patient(doc):
                 
                 customer =  frappe.get_doc({
