@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<!-- Built on Frappe. https://frappe.io/ -->
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Gynecological Consultation</title>
+	<meta name="generator" content="frappe">
+    <link type="text/css" rel="stylesheet" href="https://dokos-io.github.io/maia/assets/css/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="https://dokos-io.github.io/maia/assets/css/hljs.css">
+    <link type="text/css" rel="stylesheet" href="https://dokos-io.github.io/maia/assets/css/font-awesome.css">
+    <link type="text/css" rel="stylesheet" href="https://dokos-io.github.io/maia/assets/css/octicons/octicons.css">
+    <link type="text/css" rel="stylesheet" href="https://dokos-io.github.io/maia/assets/css/docs.css">
+
+    
+	<link rel="shortcut icon"
+		href="maia/public/favicon.png"
+		type="image/x-icon">
+	<link rel="icon"
+		href="maia/public/favicon.png"
+		type="image/x-icon">
+    
+
+		</head>
+<body data-path="current/models/maia/gynecological_consultation">
+	<div class="main-section">
+		<div>
+					<nav class="navbar navbar-default navbar-main" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand ellipsis"
+					 href="https://dokos-io.github.io/maia//">
+					<span>Maia</span>
+				</a>
+				<div class="dropdown">
+					<button class="btn btn-default navbar-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						<i class="octicon octicon-three-bars"></i>
+					</button>
+					<ul class="dropdown-menu dropdown-menu-right">
+<li data-label='<i class="octicon octicon-search"></i>' >
+	<a href="/#"
+		
+		>
+	<i class="octicon octicon-search"></i></a></li><li data-label='User Guide' >
+	<a href="https://dokos-io.github.io/maia/user"
+		
+		>
+	User Guide</a></li><li data-label='Developer Docs' >
+	<a href="https://dokos-io.github.io/maia/current"
+		
+		>
+	Developer Docs</a></li>
+
+<li class="divider"></li>
+
+<!-- post login tools -->
+
+</ul>
+				</div>
+			</div>
+			<div class="hidden-xs">
+				
+				<ul class="nav navbar-nav navbar-left">
+</ul>
+<ul class="nav navbar-nav navbar-right"><li data-label='<i class="octicon octicon-search"></i>' >
+	<a href="/#"
+		
+		>
+	<i class="octicon octicon-search"></i></a></li><li data-label='User Guide' >
+	<a href="https://dokos-io.github.io/maia/user"
+		
+		>
+	User Guide</a></li><li data-label='Developer Docs' >
+	<a href="https://dokos-io.github.io/maia/current"
+		
+		>
+	Developer Docs</a></li>
+	
+	
+	<!-- post login tools -->
+
+</ul>
+				
+			</div>
+		</div>
+	</nav><div class="hero-and-content">
+                <div data-html-block="hero"></div>
+                <div class="container" data-html-block="content">
+                
+<div class="page-container" id="page-current/models/maia/gynecological_consultation" data-path="{{ pathname }}"
+	>
+	<div class="row ">
+		
+		<div class=" page-content col-sm-12 ">
+			<div class="page-content-wrapper">
+				<div class="row page-head">
+					<div class='col-sm-12'>
+						
+						<div class="page-breadcrumbs">
+							
+							
+<ul class="breadcrumb">
+	<li>
+		<span class="fa fa-angle-left"></span>
+		<a href="https://dokos-io.github.io/maia//current/models/maia">
+		Module maia</a>
+	</li>
+	
+</ul>
+
+							
+						</div>
+						
+					</div>
+					<div class="col-sm-8 col-xs-6">
+						<h1>Gynecological Consultation</h1>
+					</div>
+					<div class="col-sm-4 col-xs-6">
+						
+
+						
+					</div>
+				</div>
+			</div>
+			<div class="page_content">
+<!-- title: Gynecological Consultation -->
+
+
+
+
+
+<div class="dev-header">
+
+<a class="btn btn-default btn-sm" disabled style="margin-bottom: 10px;">
+	Version 0.0.2</a>
+
+
+	<a class="btn btn-default btn-sm" href="https://github.com/DOKOS-IO/maia/tree/develop/maia/maia/doctype/gynecological_consultation"
+		target="_blank" style="margin-left: 10px; margin-bottom: 10px;"><i class="octicon octicon-mark-github"></i> Source</a>
+
+</div>
+
+
+
+
+
+    <p><b>Table Name:</b> <code>tabGynecological Consultation</code></p>
+
+
+
+
+<h3>Fields</h3>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th style="width: 5%">Sr</th>
+            <th style="width: 25%">Fieldname</th>
+            <th style="width: 20%">Type</th>
+            <th style="width: 25%">Label</th>
+            <th style="width: 25%">Options</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr >
+            <td>1</td>
+            <td ><code>patient_name</code></td>
+            <td >
+                Data</td>
+            <td >
+                Patient Name
+                
+            </td>
+            <td>
+                <pre>patient.patient_name</pre>
+            </td>
+        </tr>
+        
+        <tr class="info">
+            <td>2</td>
+            <td ><code>section_break_2</code></td>
+            <td >
+                Section Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>3</td>
+            <td class="danger" title="Mandatory"><code>patient</code></td>
+            <td >
+                Link</td>
+            <td >
+                Patient
+                
+            </td>
+            <td>
+                
+                
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/patient">Patient</a>
+
+
+                
+            </td>
+        </tr>
+        
+        <tr >
+            <td>4</td>
+            <td class="danger" title="Mandatory"><code>gynecological_folder</code></td>
+            <td >
+                Link</td>
+            <td >
+                Gynecological Folder
+                
+            </td>
+            <td>
+                
+                
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/gynecology">Gynecology</a>
+
+
+                
+            </td>
+        </tr>
+        
+        <tr >
+            <td>5</td>
+            <td ><code>column_break_2</code></td>
+            <td class="info">
+                Column Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>6</td>
+            <td class="danger" title="Mandatory"><code>practitioner</code></td>
+            <td >
+                Link</td>
+            <td >
+                Practitioner
+                
+            </td>
+            <td>
+                
+                
+
+
+<a href="https://dokos-io.github.io/maia/current/models/core/user">User</a>
+
+
+                
+            </td>
+        </tr>
+        
+        <tr >
+            <td>7</td>
+            <td class="danger" title="Mandatory"><code>consultation_date</code></td>
+            <td >
+                Date</td>
+            <td >
+                Consultation Date
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr class="info">
+            <td>8</td>
+            <td ><code>section_break_4</code></td>
+            <td >
+                Section Break</td>
+            <td >
+                Consultation
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>9</td>
+            <td ><code>consultation_purpose</code></td>
+            <td >
+                Data</td>
+            <td >
+                Consultation Purpose
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr class="info">
+            <td>10</td>
+            <td ><code>section_break_10</code></td>
+            <td >
+                Section Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>11</td>
+            <td ><code>general_health</code></td>
+            <td >
+                Data</td>
+            <td >
+                General Health
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>12</td>
+            <td ><code>date_of_last_menses</code></td>
+            <td >
+                Date</td>
+            <td >
+                Date of Last Menses
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>13</td>
+            <td ><code>column_break_13</code></td>
+            <td class="info">
+                Column Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>14</td>
+            <td ><code>current_treatments</code></td>
+            <td >
+                Small Text</td>
+            <td >
+                Current Treatments
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr class="info">
+            <td>15</td>
+            <td ><code>section_break_15</code></td>
+            <td >
+                Section Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>16</td>
+            <td ><code>high_blood_pressure</code></td>
+            <td >
+                Data</td>
+            <td >
+                High Blood Pressure
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>17</td>
+            <td ><code>weight</code></td>
+            <td >
+                Float</td>
+            <td >
+                Weight
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>18</td>
+            <td ><code>column_break_18</code></td>
+            <td class="info">
+                Column Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>19</td>
+            <td ><code>lower_limbs</code></td>
+            <td >
+                Data</td>
+            <td >
+                Lower Limbs
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>20</td>
+            <td ><code>cardiopulmonary_auscultation</code></td>
+            <td >
+                Data</td>
+            <td >
+                Cardiopulmonary Auscultation
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr class="info">
+            <td>21</td>
+            <td ><code>section_break_21</code></td>
+            <td >
+                Section Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>22</td>
+            <td ><code>breasts</code></td>
+            <td >
+                Small Text</td>
+            <td >
+                Breasts
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr class="info">
+            <td>23</td>
+            <td ><code>section_break_23</code></td>
+            <td >
+                Section Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>24</td>
+            <td ><code>thyroid</code></td>
+            <td >
+                Small Text</td>
+            <td >
+                Thyroid
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>25</td>
+            <td ><code>column_break_25</code></td>
+            <td class="info">
+                Column Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>26</td>
+            <td ><code>abdomen</code></td>
+            <td >
+                Small Text</td>
+            <td >
+                Abdomen
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr class="info">
+            <td>27</td>
+            <td ><code>section_break_27</code></td>
+            <td >
+                Section Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>28</td>
+            <td ><code>vulva_speculum</code></td>
+            <td >
+                Small Text</td>
+            <td >
+                Vulva/Speculum
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>29</td>
+            <td ><code>column_break_30</code></td>
+            <td class="info">
+                Column Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>30</td>
+            <td ><code>vaginal_exam</code></td>
+            <td >
+                Small Text</td>
+            <td >
+                Vaginal Exam
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr class="info">
+            <td>31</td>
+            <td ><code>drug_prescription</code></td>
+            <td >
+                Section Break</td>
+            <td >
+                Drug Prescription
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>32</td>
+            <td ><code>drug_prescription_table</code></td>
+            <td >
+                Table</td>
+            <td >
+                Drug Prescription
+                
+            </td>
+            <td>
+                
+                
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/drug_prescription">Drug Prescription</a>
+
+
+                
+            </td>
+        </tr>
+        
+        <tr class="info">
+            <td>33</td>
+            <td ><code>lab_prescription</code></td>
+            <td >
+                Section Break</td>
+            <td >
+                Lab Prescription
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>34</td>
+            <td ><code>lab_prescription_table</code></td>
+            <td >
+                Table</td>
+            <td >
+                Lab Exam Prescription
+                
+            </td>
+            <td>
+                
+                
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/lab_exam_prescription">Lab Exam Prescription</a>
+
+
+                
+            </td>
+        </tr>
+        
+        <tr class="info">
+            <td>35</td>
+            <td ><code>section_break_8</code></td>
+            <td >
+                Section Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>36</td>
+            <td ><code>comments</code></td>
+            <td >
+                Small Text</td>
+            <td >
+                Comments
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr class="info">
+            <td>37</td>
+            <td ><code>billing_details</code></td>
+            <td >
+                Section Break</td>
+            <td >
+                Billing Details
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>38</td>
+            <td ><code>third_party_payment</code></td>
+            <td >
+                Check</td>
+            <td >
+                Third-Party Payment
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>39</td>
+            <td ><code>column_break_19</code></td>
+            <td class="info">
+                Column Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>40</td>
+            <td ><code>no_teletransmission</code></td>
+            <td >
+                Check</td>
+            <td >
+                No Teletransmission
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr class="info">
+            <td>41</td>
+            <td ><code>section_break_19</code></td>
+            <td >
+                Section Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>42</td>
+            <td ><code>sundays_holidays_allowance</code></td>
+            <td >
+                Check</td>
+            <td >
+                Sundays/Holidays Allowance
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>43</td>
+            <td ><code>sundays_holidays_allowance_codification</code></td>
+            <td >
+                Data</td>
+            <td class="text-muted" title="Hidden">
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>44</td>
+            <td ><code>sundays_holidays_allowance_value</code></td>
+            <td >
+                Float</td>
+            <td class="text-muted" title="Hidden">
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>45</td>
+            <td ><code>night_work_allowance</code></td>
+            <td >
+                Check</td>
+            <td >
+                Night Work Allowance 
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>46</td>
+            <td ><code>night_work_allowance_type</code></td>
+            <td >
+                Select</td>
+            <td >
+                Night Work Allowance Type
+                
+            </td>
+            <td>
+                <pre>20h-0h | 6h-8h
+0h-6h</pre>
+            </td>
+        </tr>
+        
+        <tr >
+            <td>47</td>
+            <td ><code>night_work_allowance_codification</code></td>
+            <td >
+                Data</td>
+            <td class="text-muted" title="Hidden">
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>48</td>
+            <td ><code>night_work_allowance_value</code></td>
+            <td >
+                Float</td>
+            <td class="text-muted" title="Hidden">
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>49</td>
+            <td class="danger" title="Mandatory"><code>codification</code></td>
+            <td >
+                Link</td>
+            <td >
+                Codification
+                
+            </td>
+            <td>
+                
+                
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/codification">Codification</a>
+
+
+                
+            </td>
+        </tr>
+        
+        <tr >
+            <td>50</td>
+            <td ><code>codification_value</code></td>
+            <td >
+                Float</td>
+            <td class="text-muted" title="Hidden">
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>51</td>
+            <td ><code>column_break_10</code></td>
+            <td class="info">
+                Column Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>52</td>
+            <td ><code>lump_sum_travel_allowance</code></td>
+            <td >
+                Check</td>
+            <td >
+                Lump Sum Travel Allowance
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>53</td>
+            <td ><code>lump_sum_travel_allowance_codification</code></td>
+            <td >
+                Data</td>
+            <td class="text-muted" title="Hidden">
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>54</td>
+            <td ><code>lump_sum_travel_allowance_value</code></td>
+            <td >
+                Float</td>
+            <td class="text-muted" title="Hidden">
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>55</td>
+            <td ><code>mileage_allowance</code></td>
+            <td >
+                Check</td>
+            <td >
+                Mileage Allowance
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>56</td>
+            <td ><code>mileage_allowance_type</code></td>
+            <td >
+                Select</td>
+            <td >
+                Mileage Allowance Type
+                
+            </td>
+            <td>
+                <pre>Lowland
+Mountain
+Walking/Skiing</pre>
+            </td>
+        </tr>
+        
+        <tr >
+            <td>57</td>
+            <td ><code>number_of_kilometers</code></td>
+            <td >
+                Float</td>
+            <td >
+                Number of Kilometers
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>58</td>
+            <td ><code>mileage_allowance_codification</code></td>
+            <td >
+                Data</td>
+            <td class="text-muted" title="Hidden">
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>59</td>
+            <td ><code>mileage_allowance_value</code></td>
+            <td >
+                Float</td>
+            <td class="text-muted" title="Hidden">
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>60</td>
+            <td ><code>without_codification</code></td>
+            <td >
+                Currency</td>
+            <td >
+                Without Codification (€)
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr class="info">
+            <td>61</td>
+            <td ><code>codification_price_section</code></td>
+            <td >
+                Section Break</td>
+            <td >
+                Codification & Price
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>62</td>
+            <td ><code>codification_display</code></td>
+            <td >
+                Read Only</td>
+            <td >
+                Codification
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>63</td>
+            <td ><code>without_codification_display</code></td>
+            <td >
+                Data</td>
+            <td >
+                Without Codification
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>64</td>
+            <td ><code>column_break_41</code></td>
+            <td class="info">
+                Column Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>65</td>
+            <td ><code>sundays_holidays_allowance_display</code></td>
+            <td >
+                Data</td>
+            <td >
+                Sundays/Holidays Allowance
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>66</td>
+            <td ><code>night_work_allowance_display</code></td>
+            <td >
+                Data</td>
+            <td >
+                Night Work Allowance
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>67</td>
+            <td ><code>lump_sum_travel_allowance_display</code></td>
+            <td >
+                Data</td>
+            <td >
+                Lump Sum Travel Allowance
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>68</td>
+            <td ><code>mileage_allowance_display</code></td>
+            <td >
+                Data</td>
+            <td >
+                Mileage Allowance
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr class="info">
+            <td>69</td>
+            <td ><code>section_break_33</code></td>
+            <td >
+                Section Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>70</td>
+            <td ><code>paid_immediately</code></td>
+            <td >
+                Check</td>
+            <td >
+                Paid Immediately
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>71</td>
+            <td ><code>mode_of_payment</code></td>
+            <td >
+                Link</td>
+            <td >
+                Mode of Payment
+                
+            </td>
+            <td>
+                
+                
+
+
+<a href="https://dokos-io.github.io/maia/current/models/accounts/mode_of_payment">Mode of Payment</a>
+
+
+                
+            </td>
+        </tr>
+        
+        <tr >
+            <td>72</td>
+            <td ><code>reference</code></td>
+            <td >
+                Data</td>
+            <td >
+                Reference
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>73</td>
+            <td ><code>column_break_37</code></td>
+            <td class="info">
+                Column Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>74</td>
+            <td ><code>patient_price</code></td>
+            <td >
+                Currency</td>
+            <td >
+                Patient Price
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>75</td>
+            <td ><code>total_price</code></td>
+            <td >
+                Currency</td>
+            <td >
+                Total Price
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr class="info">
+            <td>76</td>
+            <td ><code>section_break_57</code></td>
+            <td >
+                Section Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>77</td>
+            <td ><code>customer</code></td>
+            <td >
+                Link</td>
+            <td class="text-muted" title="Hidden">
+                Customer
+                
+            </td>
+            <td>
+                
+                
+
+
+<a href="https://dokos-io.github.io/maia/current/models/selling/customer">Customer</a>
+
+
+                
+            </td>
+        </tr>
+        
+        <tr >
+            <td>78</td>
+            <td ><code>invoice</code></td>
+            <td >
+                Link</td>
+            <td >
+                Patient Invoice
+                
+            </td>
+            <td>
+                
+                
+
+
+<a href="https://dokos-io.github.io/maia/current/models/accounts/sales_invoice">Sales Invoice</a>
+
+
+                
+            </td>
+        </tr>
+        
+        <tr >
+            <td>79</td>
+            <td ><code>column_break_60</code></td>
+            <td class="info">
+                Column Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>80</td>
+            <td ><code>social_security_invoice</code></td>
+            <td >
+                Link</td>
+            <td >
+                Social Security Invoice
+                
+            </td>
+            <td>
+                
+                
+
+
+<a href="https://dokos-io.github.io/maia/current/models/accounts/sales_invoice">Sales Invoice</a>
+
+
+                
+            </td>
+        </tr>
+        
+        <tr >
+            <td>81</td>
+            <td ><code>amended_from</code></td>
+            <td >
+                Link</td>
+            <td >
+                Amended From
+                
+            </td>
+            <td>
+                
+                
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/gynecological_consultation">Gynecological Consultation</a>
+
+
+                
+            </td>
+        </tr>
+        
+    </tbody>
+</table>
+
+
+    <hr>
+    <h3>Controller</h3>
+    <h4>maia.maia.doctype.gynecological_consultation.gynecological_consultation</h4>
+
+    
+
+
+
+	
+        
+	<h3 style="font-weight: normal;">Class <b>GynecologicalConsultation</b></h3>
+    
+    <p style="padding-left: 30px;"><i>Inherits from frappe.model.document.Document</i></h4>
+    
+    <div class="docs-attr-desc"><p></p>
+</div>
+    <div style="padding-left: 30px;">
+        
+        
+    
+    
+	<p class="docs-attr-name">
+        <a name="on_submit" href="#on_submit" class="text-muted small">
+            <i class="fa fa-link small" style="color: #ccc;"></i></a>
+		<b>on_submit</b>
+        <i class="text-muted">(self)</i>
+    </p>
+	<div class="docs-attr-desc"><p><span class="text-muted">No docs</span></p>
+</div>
+	<br>
+
+        
+    </div>
+    <hr>
+
+	
+
+
+    
+    
+        <h4>Linked In:</h4>
+        <ul>
+        
+			
+            <li>
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/gynecological_consultation">Gynecological Consultation</a>
+
+</li>
+			
+        
+        </ul>
+    
+
+
+<!-- autodoc -->
+<!-- jinja -->
+<!-- static -->
+</div>
+		</div>
+	</div>
+</div>
+
+				<!-- edit-link -->
+                </div>
+            </div>
+			<footer class="docs-footer">
+				<div class="container"><div class="built-with-frappe text-center">
+                    <img class="frappe-bird" src="https://dokos-io.github.io/maia/assets/img/frappe-bird-grey.svg">
+                    <h3>By DOKOS</h3>
+                </div>
+                <div class="text-center">
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="https://github.com/DOKOS-IO/maia">
+                            Source</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/DOKOS-IO/maia/issues">
+                            Issues</a>
+                        </li>
+                        <li>
+                            <a href="https://dokos-io.github.io/maia/license.html">
+                            License</a>
+                        </li>
+                        <li>
+                            <a href="https://discuss.erpnext.com">
+                            Forum</a>
+                        </li>
+                        <li>
+                            <a href="https://community.erpnext.com/apps">
+                            Frappe Apps</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+			</footer>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="https://dokos-io.github.io/maia/assets/js/jquery.min.js"></script>
+	<script type="text/javascript" src="https://dokos-io.github.io/maia/assets/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="https://dokos-io.github.io/maia/assets/js/highlight.pack.js"></script>
+	<script type="text/javascript" src="https://dokos-io.github.io/maia/assets/js/docs.js"></script>
+
+	<!-- js should be loaded in body! -->
+	<script>
+        window.docs_base_url = "https://dokos-io.github.io/maia";
+    </script>
+
+	
+	<!-- csrf_token --></body>
+</html>

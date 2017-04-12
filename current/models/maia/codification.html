@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<!-- Built on Frappe. https://frappe.io/ -->
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Codification</title>
+	<meta name="generator" content="frappe">
+    <link type="text/css" rel="stylesheet" href="https://dokos-io.github.io/maia/assets/css/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="https://dokos-io.github.io/maia/assets/css/hljs.css">
+    <link type="text/css" rel="stylesheet" href="https://dokos-io.github.io/maia/assets/css/font-awesome.css">
+    <link type="text/css" rel="stylesheet" href="https://dokos-io.github.io/maia/assets/css/octicons/octicons.css">
+    <link type="text/css" rel="stylesheet" href="https://dokos-io.github.io/maia/assets/css/docs.css">
+
+    
+	<link rel="shortcut icon"
+		href="maia/public/favicon.png"
+		type="image/x-icon">
+	<link rel="icon"
+		href="maia/public/favicon.png"
+		type="image/x-icon">
+    
+
+		</head>
+<body data-path="current/models/maia/codification">
+	<div class="main-section">
+		<div>
+					<nav class="navbar navbar-default navbar-main" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand ellipsis"
+					 href="https://dokos-io.github.io/maia//">
+					<span>Maia</span>
+				</a>
+				<div class="dropdown">
+					<button class="btn btn-default navbar-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						<i class="octicon octicon-three-bars"></i>
+					</button>
+					<ul class="dropdown-menu dropdown-menu-right">
+<li data-label='<i class="octicon octicon-search"></i>' >
+	<a href="/#"
+		
+		>
+	<i class="octicon octicon-search"></i></a></li><li data-label='User Guide' >
+	<a href="https://dokos-io.github.io/maia/user"
+		
+		>
+	User Guide</a></li><li data-label='Developer Docs' >
+	<a href="https://dokos-io.github.io/maia/current"
+		
+		>
+	Developer Docs</a></li>
+
+<li class="divider"></li>
+
+<!-- post login tools -->
+
+</ul>
+				</div>
+			</div>
+			<div class="hidden-xs">
+				
+				<ul class="nav navbar-nav navbar-left">
+</ul>
+<ul class="nav navbar-nav navbar-right"><li data-label='<i class="octicon octicon-search"></i>' >
+	<a href="/#"
+		
+		>
+	<i class="octicon octicon-search"></i></a></li><li data-label='User Guide' >
+	<a href="https://dokos-io.github.io/maia/user"
+		
+		>
+	User Guide</a></li><li data-label='Developer Docs' >
+	<a href="https://dokos-io.github.io/maia/current"
+		
+		>
+	Developer Docs</a></li>
+	
+	
+	<!-- post login tools -->
+
+</ul>
+				
+			</div>
+		</div>
+	</nav><div class="hero-and-content">
+                <div data-html-block="hero"></div>
+                <div class="container" data-html-block="content">
+                
+<div class="page-container" id="page-current/models/maia/codification" data-path="{{ pathname }}"
+	>
+	<div class="row ">
+		
+		<div class=" page-content col-sm-12 ">
+			<div class="page-content-wrapper">
+				<div class="row page-head">
+					<div class='col-sm-12'>
+						
+						<div class="page-breadcrumbs">
+							
+							
+<ul class="breadcrumb">
+	<li>
+		<span class="fa fa-angle-left"></span>
+		<a href="https://dokos-io.github.io/maia//current/models/maia">
+		Module maia</a>
+	</li>
+	
+</ul>
+
+							
+						</div>
+						
+					</div>
+					<div class="col-sm-8 col-xs-6">
+						<h1>Codification</h1>
+					</div>
+					<div class="col-sm-4 col-xs-6">
+						
+
+						
+					</div>
+				</div>
+			</div>
+			<div class="page_content">
+<!-- title: Codification -->
+
+
+
+
+
+<div class="dev-header">
+
+<a class="btn btn-default btn-sm" disabled style="margin-bottom: 10px;">
+	Version 0.0.2</a>
+
+
+	<a class="btn btn-default btn-sm" href="https://github.com/DOKOS-IO/maia/tree/develop/maia/maia/doctype/codification"
+		target="_blank" style="margin-left: 10px; margin-bottom: 10px;"><i class="octicon octicon-mark-github"></i> Source</a>
+
+</div>
+
+
+
+
+
+    <p><b>Table Name:</b> <code>tabCodification</code></p>
+
+
+
+
+<h3>Fields</h3>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th style="width: 5%">Sr</th>
+            <th style="width: 25%">Fieldname</th>
+            <th style="width: 20%">Type</th>
+            <th style="width: 25%">Label</th>
+            <th style="width: 25%">Options</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr >
+            <td>1</td>
+            <td class="danger" title="Mandatory"><code>codification</code></td>
+            <td >
+                Data</td>
+            <td >
+                Codification
+                <p class="text-muted small">
+                    Should be strictly identical to the codification given by the Social Security ('SF16', 'SF16,5', 'SF7', 'C', 'V', 'IF', 'IK', ...)</p>
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>2</td>
+            <td class="danger" title="Mandatory"><code>basic_price</code></td>
+            <td >
+                Currency</td>
+            <td >
+                Social Security Price
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>3</td>
+            <td class="danger" title="Mandatory"><code>billing_price</code></td>
+            <td >
+                Currency</td>
+            <td >
+                Midwife Price
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>4</td>
+            <td ><code>column_break_5</code></td>
+            <td class="info">
+                Column Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>5</td>
+            <td class="danger" title="Mandatory"><code>codification_name</code></td>
+            <td >
+                Data</td>
+            <td >
+                Codification Name
+                <p class="text-muted small">
+                    Can be identical to the codification, except for the specific allowances sharing the same codifications (IK, N, ...). In this case the name is used as a differenciator.</p>
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>6</td>
+            <td class="danger" title="Mandatory"><code>codification_description</code></td>
+            <td >
+                Small Text</td>
+            <td >
+                Codification Description
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr class="info">
+            <td>7</td>
+            <td ><code>specific_allowances</code></td>
+            <td >
+                Section Break</td>
+            <td >
+                Specific Allowances
+                <p class="text-muted small">
+                    Select one of the following options if this codification is linked with a specific allowance</p>
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>8</td>
+            <td ><code>sundays_holidays_allowance</code></td>
+            <td >
+                Check</td>
+            <td >
+                Sundays/Holidays Allowance
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>9</td>
+            <td ><code>night_work_allowance_1</code></td>
+            <td >
+                Check</td>
+            <td >
+                Night Work Allowance: 20h-6h | 6h-8h
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>10</td>
+            <td ><code>night_work_allowance_2</code></td>
+            <td >
+                Check</td>
+            <td >
+                Night Work Allowance: 0h-6h
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>11</td>
+            <td ><code>lump_sum_travel_allowance</code></td>
+            <td >
+                Check</td>
+            <td >
+                Lump Sum Travel Allowance
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>12</td>
+            <td ><code>column_break_13</code></td>
+            <td class="info">
+                Column Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>13</td>
+            <td ><code>mileage_allowance_lowland</code></td>
+            <td >
+                Check</td>
+            <td >
+                Mileage Allowance: Lowland
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>14</td>
+            <td ><code>mileage_allowance_mountain</code></td>
+            <td >
+                Check</td>
+            <td >
+                Mileage Allowance: Mountain
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>15</td>
+            <td ><code>mileage_allowance_walking_skiing</code></td>
+            <td >
+                Check</td>
+            <td >
+                Mileage Allowance: Walking/Skiing
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>16</td>
+            <td ><code>change_in_item</code></td>
+            <td >
+                Check</td>
+            <td class="text-muted" title="Hidden">
+                Change In Item
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>17</td>
+            <td ><code>item</code></td>
+            <td >
+                Link</td>
+            <td class="text-muted" title="Hidden">
+                Item
+                
+            </td>
+            <td>
+                
+                
+
+
+<a href="https://dokos-io.github.io/maia/current/models/stock/item">Item</a>
+
+
+                
+            </td>
+        </tr>
+        
+        <tr >
+            <td>18</td>
+            <td ><code>disabled</code></td>
+            <td >
+                Check</td>
+            <td class="text-muted" title="Hidden">
+                Disabled
+                
+            </td>
+            <td></td>
+        </tr>
+        
+    </tbody>
+</table>
+
+
+    <hr>
+    <h3>Controller</h3>
+    <h4>maia.maia.doctype.codification.codification</h4>
+
+    
+
+
+
+	
+        
+	<h3 style="font-weight: normal;">Class <b>Codification</b></h3>
+    
+    <p style="padding-left: 30px;"><i>Inherits from frappe.model.document.Document</i></h4>
+    
+    <div class="docs-attr-desc"><p></p>
+</div>
+    <div style="padding-left: 30px;">
+        
+        
+    
+    
+	<p class="docs-attr-name">
+        <a name="after_insert" href="#after_insert" class="text-muted small">
+            <i class="fa fa-link small" style="color: #ccc;"></i></a>
+		<b>after_insert</b>
+        <i class="text-muted">(self)</i>
+    </p>
+	<div class="docs-attr-desc"><p><span class="text-muted">No docs</span></p>
+</div>
+	<br>
+
+        
+        
+    
+    
+	<p class="docs-attr-name">
+        <a name="on_trash" href="#on_trash" class="text-muted small">
+            <i class="fa fa-link small" style="color: #ccc;"></i></a>
+		<b>on_trash</b>
+        <i class="text-muted">(self)</i>
+    </p>
+	<div class="docs-attr-desc"><p><span class="text-muted">No docs</span></p>
+</div>
+	<br>
+
+        
+        
+    
+    
+	<p class="docs-attr-name">
+        <a name="on_update" href="#on_update" class="text-muted small">
+            <i class="fa fa-link small" style="color: #ccc;"></i></a>
+		<b>on_update</b>
+        <i class="text-muted">(self)</i>
+    </p>
+	<div class="docs-attr-desc"><p><span class="text-muted">No docs</span></p>
+</div>
+	<br>
+
+        
+    </div>
+    <hr>
+
+	
+
+	
+        
+    
+    <p><span class="label label-info">Public API</span>
+        <br><code>/api/method/maia.maia.doctype.codification.codification.change_codification</code>
+    </p>
+	<p class="docs-attr-name">
+        <a name="maia.maia.doctype.codification.codification.change_codification" href="#maia.maia.doctype.codification.codification.change_codification" class="text-muted small">
+            <i class="fa fa-link small" style="color: #ccc;"></i></a>
+		maia.maia.doctype.codification.codification.<b>change_codification</b>
+        <i class="text-muted">(codification, doc)</i>
+    </p>
+	<div class="docs-attr-desc"><p><span class="text-muted">No docs</span></p>
+</div>
+	<br>
+
+	
+
+	
+        
+    
+    
+	<p class="docs-attr-name">
+        <a name="maia.maia.doctype.codification.codification.create_item_from_codification" href="#maia.maia.doctype.codification.codification.create_item_from_codification" class="text-muted small">
+            <i class="fa fa-link small" style="color: #ccc;"></i></a>
+		maia.maia.doctype.codification.codification.<b>create_item_from_codification</b>
+        <i class="text-muted">(doc)</i>
+    </p>
+	<div class="docs-attr-desc"><p><span class="text-muted">No docs</span></p>
+</div>
+	<br>
+
+	
+
+	
+        
+    
+    
+	<p class="docs-attr-name">
+        <a name="maia.maia.doctype.codification.codification.create_item_group" href="#maia.maia.doctype.codification.codification.create_item_group" class="text-muted small">
+            <i class="fa fa-link small" style="color: #ccc;"></i></a>
+		maia.maia.doctype.codification.codification.<b>create_item_group</b>
+        <i class="text-muted">()</i>
+    </p>
+	<div class="docs-attr-desc"><p><span class="text-muted">No docs</span></p>
+</div>
+	<br>
+
+	
+
+	
+        
+    
+    
+	<p class="docs-attr-name">
+        <a name="maia.maia.doctype.codification.codification.create_price_list" href="#maia.maia.doctype.codification.codification.create_price_list" class="text-muted small">
+            <i class="fa fa-link small" style="color: #ccc;"></i></a>
+		maia.maia.doctype.codification.codification.<b>create_price_list</b>
+        <i class="text-muted">(price_list_name)</i>
+    </p>
+	<div class="docs-attr-desc"><p><span class="text-muted">No docs</span></p>
+</div>
+	<br>
+
+	
+
+	
+        
+    
+    <p><span class="label label-info">Public API</span>
+        <br><code>/api/method/maia.maia.doctype.codification.codification.disable_enable_codification</code>
+    </p>
+	<p class="docs-attr-name">
+        <a name="maia.maia.doctype.codification.codification.disable_enable_codification" href="#maia.maia.doctype.codification.codification.disable_enable_codification" class="text-muted small">
+            <i class="fa fa-link small" style="color: #ccc;"></i></a>
+		maia.maia.doctype.codification.codification.<b>disable_enable_codification</b>
+        <i class="text-muted">(status, name)</i>
+    </p>
+	<div class="docs-attr-desc"><p><span class="text-muted">No docs</span></p>
+</div>
+	<br>
+
+	
+
+	
+        
+    
+    
+	<p class="docs-attr-name">
+        <a name="maia.maia.doctype.codification.codification.make_item_price" href="#maia.maia.doctype.codification.codification.make_item_price" class="text-muted small">
+            <i class="fa fa-link small" style="color: #ccc;"></i></a>
+		maia.maia.doctype.codification.codification.<b>make_item_price</b>
+        <i class="text-muted">(item, price_list_name, item_price)</i>
+    </p>
+	<div class="docs-attr-desc"><p><span class="text-muted">No docs</span></p>
+</div>
+	<br>
+
+	
+
+	
+        
+    
+    
+	<p class="docs-attr-name">
+        <a name="maia.maia.doctype.codification.codification.updating_billing_price" href="#maia.maia.doctype.codification.codification.updating_billing_price" class="text-muted small">
+            <i class="fa fa-link small" style="color: #ccc;"></i></a>
+		maia.maia.doctype.codification.codification.<b>updating_billing_price</b>
+        <i class="text-muted">(self)</i>
+    </p>
+	<div class="docs-attr-desc"><p><span class="text-muted">No docs</span></p>
+</div>
+	<br>
+
+	
+
+	
+        
+    
+    
+	<p class="docs-attr-name">
+        <a name="maia.maia.doctype.codification.codification.updating_item" href="#maia.maia.doctype.codification.codification.updating_item" class="text-muted small">
+            <i class="fa fa-link small" style="color: #ccc;"></i></a>
+		maia.maia.doctype.codification.codification.<b>updating_item</b>
+        <i class="text-muted">(self)</i>
+    </p>
+	<div class="docs-attr-desc"><p><span class="text-muted">No docs</span></p>
+</div>
+	<br>
+
+	
+
+
+    
+    
+        <h4>Linked In:</h4>
+        <ul>
+        
+			
+            <li>
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/birth_preparation_consultation">Birth Preparation Consultation</a>
+
+</li>
+			
+        
+			
+            <li>
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/early_postnatal_consultation">Early Postnatal Consultation</a>
+
+</li>
+			
+        
+			
+            <li>
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/free_consultation">Free Consultation</a>
+
+</li>
+			
+        
+			
+            <li>
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/gynecological_consultation">Gynecological Consultation</a>
+
+</li>
+			
+        
+			
+            <li>
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/perineum_rehabilitation_consultation">Perineum Rehabilitation Consultation</a>
+
+</li>
+			
+        
+			
+            <li>
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/postnatal_consultation">Postnatal Consultation</a>
+
+</li>
+			
+        
+			
+            <li>
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/pregnancy_consultation">Pregnancy Consultation</a>
+
+</li>
+			
+        
+			
+            <li>
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/prenatal_interview_consultation">Prenatal Interview Consultation</a>
+
+</li>
+			
+        
+        </ul>
+    
+
+
+<!-- autodoc -->
+<!-- jinja -->
+<!-- static -->
+</div>
+		</div>
+	</div>
+</div>
+
+				<!-- edit-link -->
+                </div>
+            </div>
+			<footer class="docs-footer">
+				<div class="container"><div class="built-with-frappe text-center">
+                    <img class="frappe-bird" src="https://dokos-io.github.io/maia/assets/img/frappe-bird-grey.svg">
+                    <h3>By DOKOS</h3>
+                </div>
+                <div class="text-center">
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="https://github.com/DOKOS-IO/maia">
+                            Source</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/DOKOS-IO/maia/issues">
+                            Issues</a>
+                        </li>
+                        <li>
+                            <a href="https://dokos-io.github.io/maia/license.html">
+                            License</a>
+                        </li>
+                        <li>
+                            <a href="https://discuss.erpnext.com">
+                            Forum</a>
+                        </li>
+                        <li>
+                            <a href="https://community.erpnext.com/apps">
+                            Frappe Apps</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+			</footer>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="https://dokos-io.github.io/maia/assets/js/jquery.min.js"></script>
+	<script type="text/javascript" src="https://dokos-io.github.io/maia/assets/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="https://dokos-io.github.io/maia/assets/js/highlight.pack.js"></script>
+	<script type="text/javascript" src="https://dokos-io.github.io/maia/assets/js/docs.js"></script>
+
+	<!-- js should be loaded in body! -->
+	<script>
+        window.docs_base_url = "https://dokos-io.github.io/maia";
+    </script>
+
+	
+	<!-- csrf_token --></body>
+</html>

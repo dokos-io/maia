@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<!-- Built on Frappe. https://frappe.io/ -->
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Pregnancy</title>
+	<meta name="generator" content="frappe">
+    <link type="text/css" rel="stylesheet" href="https://dokos-io.github.io/maia/assets/css/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="https://dokos-io.github.io/maia/assets/css/hljs.css">
+    <link type="text/css" rel="stylesheet" href="https://dokos-io.github.io/maia/assets/css/font-awesome.css">
+    <link type="text/css" rel="stylesheet" href="https://dokos-io.github.io/maia/assets/css/octicons/octicons.css">
+    <link type="text/css" rel="stylesheet" href="https://dokos-io.github.io/maia/assets/css/docs.css">
+
+    
+	<link rel="shortcut icon"
+		href="maia/public/favicon.png"
+		type="image/x-icon">
+	<link rel="icon"
+		href="maia/public/favicon.png"
+		type="image/x-icon">
+    
+
+		</head>
+<body data-path="current/models/maia/pregnancy">
+	<div class="main-section">
+		<div>
+					<nav class="navbar navbar-default navbar-main" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand ellipsis"
+					 href="https://dokos-io.github.io/maia//">
+					<span>Maia</span>
+				</a>
+				<div class="dropdown">
+					<button class="btn btn-default navbar-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						<i class="octicon octicon-three-bars"></i>
+					</button>
+					<ul class="dropdown-menu dropdown-menu-right">
+<li data-label='<i class="octicon octicon-search"></i>' >
+	<a href="/#"
+		
+		>
+	<i class="octicon octicon-search"></i></a></li><li data-label='User Guide' >
+	<a href="https://dokos-io.github.io/maia/user"
+		
+		>
+	User Guide</a></li><li data-label='Developer Docs' >
+	<a href="https://dokos-io.github.io/maia/current"
+		
+		>
+	Developer Docs</a></li>
+
+<li class="divider"></li>
+
+<!-- post login tools -->
+
+</ul>
+				</div>
+			</div>
+			<div class="hidden-xs">
+				
+				<ul class="nav navbar-nav navbar-left">
+</ul>
+<ul class="nav navbar-nav navbar-right"><li data-label='<i class="octicon octicon-search"></i>' >
+	<a href="/#"
+		
+		>
+	<i class="octicon octicon-search"></i></a></li><li data-label='User Guide' >
+	<a href="https://dokos-io.github.io/maia/user"
+		
+		>
+	User Guide</a></li><li data-label='Developer Docs' >
+	<a href="https://dokos-io.github.io/maia/current"
+		
+		>
+	Developer Docs</a></li>
+	
+	
+	<!-- post login tools -->
+
+</ul>
+				
+			</div>
+		</div>
+	</nav><div class="hero-and-content">
+                <div data-html-block="hero"></div>
+                <div class="container" data-html-block="content">
+                
+<div class="page-container" id="page-current/models/maia/pregnancy" data-path="{{ pathname }}"
+	>
+	<div class="row ">
+		
+		<div class=" page-content col-sm-12 ">
+			<div class="page-content-wrapper">
+				<div class="row page-head">
+					<div class='col-sm-12'>
+						
+						<div class="page-breadcrumbs">
+							
+							
+<ul class="breadcrumb">
+	<li>
+		<span class="fa fa-angle-left"></span>
+		<a href="https://dokos-io.github.io/maia//current/models/maia">
+		Module maia</a>
+	</li>
+	
+</ul>
+
+							
+						</div>
+						
+					</div>
+					<div class="col-sm-8 col-xs-6">
+						<h1>Pregnancy</h1>
+					</div>
+					<div class="col-sm-4 col-xs-6">
+						
+
+						
+					</div>
+				</div>
+			</div>
+			<div class="page_content">
+<!-- title: Pregnancy -->
+
+
+
+
+
+<div class="dev-header">
+
+<a class="btn btn-default btn-sm" disabled style="margin-bottom: 10px;">
+	Version 0.0.2</a>
+
+
+	<a class="btn btn-default btn-sm" href="https://github.com/DOKOS-IO/maia/tree/develop/maia/maia/doctype/pregnancy"
+		target="_blank" style="margin-left: 10px; margin-bottom: 10px;"><i class="octicon octicon-mark-github"></i> Source</a>
+
+</div>
+
+
+
+
+
+    <p><b>Table Name:</b> <code>tabPregnancy</code></p>
+
+
+
+
+<h3>Fields</h3>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th style="width: 5%">Sr</th>
+            <th style="width: 25%">Fieldname</th>
+            <th style="width: 20%">Type</th>
+            <th style="width: 25%">Label</th>
+            <th style="width: 25%">Options</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr >
+            <td>1</td>
+            <td ><code>naming_series</code></td>
+            <td >
+                Select</td>
+            <td class="text-muted" title="Hidden">
+                Series
+                
+            </td>
+            <td>
+                <pre>PREGNANCY/</pre>
+            </td>
+        </tr>
+        
+        <tr >
+            <td>2</td>
+            <td class="danger" title="Mandatory"><code>patient</code></td>
+            <td >
+                Link</td>
+            <td >
+                Patient
+                
+            </td>
+            <td>
+                
+                
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/patient">Patient</a>
+
+
+                
+            </td>
+        </tr>
+        
+        <tr >
+            <td>3</td>
+            <td ><code>column_break_3</code></td>
+            <td class="info">
+                Column Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>4</td>
+            <td ><code>patient_name</code></td>
+            <td >
+                Data</td>
+            <td >
+                Patient Name
+                
+            </td>
+            <td>
+                <pre>patient.patient_name</pre>
+            </td>
+        </tr>
+        
+        <tr class="info">
+            <td>5</td>
+            <td ><code>section_break_5</code></td>
+            <td >
+                Section Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>6</td>
+            <td ><code>memo</code></td>
+            <td >
+                Small Text</td>
+            <td >
+                Memo
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr class="info">
+            <td>7</td>
+            <td ><code>current_pregnancy</code></td>
+            <td >
+                Section Break</td>
+            <td >
+                Current Pregnancy
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>8</td>
+            <td ><code>expected_term</code></td>
+            <td >
+                Date</td>
+            <td >
+                Expected Term
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>9</td>
+            <td ><code>column_break_7</code></td>
+            <td class="info">
+                Column Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>10</td>
+            <td ><code>last_menstrual_period</code></td>
+            <td >
+                Data</td>
+            <td >
+                Last Menstrual Period (LMP)
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>11</td>
+            <td ><code>column_break_9</code></td>
+            <td class="info">
+                Column Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>12</td>
+            <td ><code>beginning_of_pregnancy</code></td>
+            <td >
+                Date</td>
+            <td >
+                Beginning of Pregnancy
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr class="info">
+            <td>13</td>
+            <td ><code>section_break_11</code></td>
+            <td >
+                Section Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>14</td>
+            <td ><code>gravidity</code></td>
+            <td >
+                Int</td>
+            <td >
+                Gravidity
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>15</td>
+            <td ><code>preferred_location_for_delivery</code></td>
+            <td >
+                Link</td>
+            <td >
+                Preferred Location for Delivery
+                
+            </td>
+            <td>
+                
+                
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/maternity">Maternity</a>
+
+
+                
+            </td>
+        </tr>
+        
+        <tr >
+            <td>16</td>
+            <td ><code>column_break_14</code></td>
+            <td class="info">
+                Column Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>17</td>
+            <td ><code>parity</code></td>
+            <td >
+                Int</td>
+            <td >
+                Parity
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>18</td>
+            <td ><code>column_break_15</code></td>
+            <td class="info">
+                Column Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>19</td>
+            <td ><code>number_of_foetus</code></td>
+            <td >
+                Int</td>
+            <td >
+                Number of Foetus
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr class="info">
+            <td>20</td>
+            <td ><code>section_break_16</code></td>
+            <td >
+                Section Break</td>
+            <td >
+                Correspondents
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>21</td>
+            <td ><code>correspondents</code></td>
+            <td >
+                Table</td>
+            <td >
+                Correspondents
+                
+            </td>
+            <td>
+                
+                
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/correspondents">Correspondents</a>
+
+
+                
+            </td>
+        </tr>
+        
+        <tr class="info">
+            <td>22</td>
+            <td ><code>section_break_37</code></td>
+            <td >
+                Section Break</td>
+            <td >
+                Exam Results
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>23</td>
+            <td ><code>labs_results</code></td>
+            <td >
+                Table</td>
+            <td >
+                Labs Results
+                
+            </td>
+            <td>
+                
+                
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/lab_exam_results">Lab Exam Results</a>
+
+
+                
+            </td>
+        </tr>
+        
+        <tr class="info">
+            <td>24</td>
+            <td ><code>echography</code></td>
+            <td >
+                Section Break</td>
+            <td >
+                Echography
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>25</td>
+            <td ><code>echography_results</code></td>
+            <td >
+                Table</td>
+            <td >
+                Echography
+                
+            </td>
+            <td>
+                
+                
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/echography_result">Echography Result</a>
+
+
+                
+            </td>
+        </tr>
+        
+        <tr class="info">
+            <td>26</td>
+            <td ><code>delivery</code></td>
+            <td >
+                Section Break</td>
+            <td >
+                Delivery
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>27</td>
+            <td ><code>date_time</code></td>
+            <td >
+                Datetime</td>
+            <td >
+                Date/Time
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>28</td>
+            <td ><code>delivery_way</code></td>
+            <td >
+                Link</td>
+            <td >
+                Delivery Way
+                
+            </td>
+            <td>
+                
+                
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/delivery_way">Delivery Way</a>
+
+
+                
+            </td>
+        </tr>
+        
+        <tr >
+            <td>29</td>
+            <td ><code>scar</code></td>
+            <td >
+                Data</td>
+            <td >
+                Scar
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>30</td>
+            <td ><code>column_break_30</code></td>
+            <td class="info">
+                Column Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>31</td>
+            <td ><code>delivery_term</code></td>
+            <td >
+                Data</td>
+            <td >
+                Term (Weeks)
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>32</td>
+            <td ><code>anesthesia</code></td>
+            <td >
+                Link</td>
+            <td >
+                Anesthesia
+                
+            </td>
+            <td>
+                
+                
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/anesthesia_type">Anesthesia Type</a>
+
+
+                
+            </td>
+        </tr>
+        
+        <tr >
+            <td>33</td>
+            <td ><code>anesthesia_complications</code></td>
+            <td >
+                Small Text</td>
+            <td >
+                Complications
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>34</td>
+            <td ><code>column_break_34</code></td>
+            <td class="info">
+                Column Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>35</td>
+            <td ><code>delivery_location</code></td>
+            <td >
+                Link</td>
+            <td >
+                Delivery Location
+                
+            </td>
+            <td>
+                
+                
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/maternity">Maternity</a>
+
+
+                
+            </td>
+        </tr>
+        
+        <tr >
+            <td>36</td>
+            <td ><code>placental_delivery</code></td>
+            <td >
+                Link</td>
+            <td >
+                Placental Delivery
+                
+            </td>
+            <td>
+                
+                
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/placental_delivery">Placental Delivery</a>
+
+
+                
+            </td>
+        </tr>
+        
+        <tr class="info">
+            <td>37</td>
+            <td ><code>postnatal_period</code></td>
+            <td >
+                Section Break</td>
+            <td >
+                Postnatal Period
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>38</td>
+            <td ><code>physiological_puerperium</code></td>
+            <td >
+                Check</td>
+            <td >
+                Physiological Puerperium
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>39</td>
+            <td ><code>puerperium_complications</code></td>
+            <td >
+                Data</td>
+            <td >
+                Complications
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>40</td>
+            <td ><code>current_medical_treatment</code></td>
+            <td >
+                Data</td>
+            <td >
+                Current Medical Treatment
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>41</td>
+            <td ><code>contraception</code></td>
+            <td >
+                Link</td>
+            <td >
+                Contraception
+                
+            </td>
+            <td>
+                
+                
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/contraception">Contraception</a>
+
+
+                
+            </td>
+        </tr>
+        
+        <tr >
+            <td>42</td>
+            <td ><code>column_break_41</code></td>
+            <td class="info">
+                Column Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>43</td>
+            <td ><code>vaccination</code></td>
+            <td >
+                Check</td>
+            <td >
+                Vaccination
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>44</td>
+            <td ><code>vaccination_details</code></td>
+            <td >
+                Data</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>45</td>
+            <td ><code>anti_d_immunoglobuline</code></td>
+            <td >
+                Check</td>
+            <td >
+                Anti-D immunoglobulin
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>46</td>
+            <td ><code>anti_d_immunoglobuline_details</code></td>
+            <td >
+                Data</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr class="info">
+            <td>47</td>
+            <td ><code>newborn</code></td>
+            <td >
+                Section Break</td>
+            <td >
+                Newborn
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>48</td>
+            <td ><code>full_name</code></td>
+            <td >
+                Data</td>
+            <td >
+                Full Name
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>49</td>
+            <td ><code>birth_weight</code></td>
+            <td >
+                Int</td>
+            <td >
+                Birth Weight (g)
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>50</td>
+            <td ><code>neonatal_heel_prick</code></td>
+            <td >
+                Select</td>
+            <td >
+                Neonatal Heel Prick
+                
+            </td>
+            <td>
+                <pre>
+Realized at the Maternity
+Realized at Home
+Not Realized</pre>
+            </td>
+        </tr>
+        
+        <tr >
+            <td>51</td>
+            <td ><code>release_date</code></td>
+            <td >
+                Date</td>
+            <td >
+                Release Date
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>52</td>
+            <td ><code>surveillance_points</code></td>
+            <td >
+                Small Text</td>
+            <td >
+                Surveillance Points
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>53</td>
+            <td ><code>column_break_53</code></td>
+            <td class="info">
+                Column Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>54</td>
+            <td ><code>gender</code></td>
+            <td >
+                Select</td>
+            <td >
+                Gender
+                
+            </td>
+            <td>
+                <pre>
+Female
+Male
+Undefined</pre>
+            </td>
+        </tr>
+        
+        <tr >
+            <td>55</td>
+            <td ><code>feeding_type</code></td>
+            <td >
+                Select</td>
+            <td >
+                Feeding Type
+                
+            </td>
+            <td>
+                <pre>
+Breastfeeding
+Bottle-feeding
+Both</pre>
+            </td>
+        </tr>
+        
+        <tr >
+            <td>56</td>
+            <td ><code>otoacoustic_emissions</code></td>
+            <td >
+                Data</td>
+            <td >
+                Otoacoustic Emissions
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>57</td>
+            <td ><code>release_weight</code></td>
+            <td >
+                Int</td>
+            <td >
+                Release Weight (g)
+                
+            </td>
+            <td></td>
+        </tr>
+        
+    </tbody>
+</table>
+
+
+    <hr>
+    <h3>Controller</h3>
+    <h4>maia.maia.doctype.pregnancy.pregnancy</h4>
+
+    
+
+
+
+	
+        
+	<h3 style="font-weight: normal;">Class <b>Pregnancy</b></h3>
+    
+    <p style="padding-left: 30px;"><i>Inherits from frappe.model.document.Document</i></h4>
+    
+    <div class="docs-attr-desc"><p></p>
+</div>
+    <div style="padding-left: 30px;">
+        
+    </div>
+    <hr>
+
+	
+
+
+    
+    
+        <h4>Linked In:</h4>
+        <ul>
+        
+			
+            <li>
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/birth_preparation_consultation">Birth Preparation Consultation</a>
+
+</li>
+			
+        
+			
+            <li>
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/early_postnatal_consultation">Early Postnatal Consultation</a>
+
+</li>
+			
+        
+			
+            <li>
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/free_consultation">Free Consultation</a>
+
+</li>
+			
+        
+			
+            <li>
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/perineum_rehabilitation_consultation">Perineum Rehabilitation Consultation</a>
+
+</li>
+			
+        
+			
+            <li>
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/postnatal_consultation">Postnatal Consultation</a>
+
+</li>
+			
+        
+			
+            <li>
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/pregnancy_consultation">Pregnancy Consultation</a>
+
+</li>
+			
+        
+        </ul>
+    
+
+
+<!-- autodoc -->
+<!-- jinja -->
+<!-- static -->
+</div>
+		</div>
+	</div>
+</div>
+
+				<!-- edit-link -->
+                </div>
+            </div>
+			<footer class="docs-footer">
+				<div class="container"><div class="built-with-frappe text-center">
+                    <img class="frappe-bird" src="https://dokos-io.github.io/maia/assets/img/frappe-bird-grey.svg">
+                    <h3>By DOKOS</h3>
+                </div>
+                <div class="text-center">
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="https://github.com/DOKOS-IO/maia">
+                            Source</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/DOKOS-IO/maia/issues">
+                            Issues</a>
+                        </li>
+                        <li>
+                            <a href="https://dokos-io.github.io/maia/license.html">
+                            License</a>
+                        </li>
+                        <li>
+                            <a href="https://discuss.erpnext.com">
+                            Forum</a>
+                        </li>
+                        <li>
+                            <a href="https://community.erpnext.com/apps">
+                            Frappe Apps</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+			</footer>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="https://dokos-io.github.io/maia/assets/js/jquery.min.js"></script>
+	<script type="text/javascript" src="https://dokos-io.github.io/maia/assets/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="https://dokos-io.github.io/maia/assets/js/highlight.pack.js"></script>
+	<script type="text/javascript" src="https://dokos-io.github.io/maia/assets/js/docs.js"></script>
+
+	<!-- js should be loaded in body! -->
+	<script>
+        window.docs_base_url = "https://dokos-io.github.io/maia";
+    </script>
+
+	
+	<!-- csrf_token --></body>
+</html>

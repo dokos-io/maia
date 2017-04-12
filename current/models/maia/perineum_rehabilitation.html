@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<!-- Built on Frappe. https://frappe.io/ -->
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Perineum Rehabilitation</title>
+	<meta name="generator" content="frappe">
+    <link type="text/css" rel="stylesheet" href="https://dokos-io.github.io/maia/assets/css/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="https://dokos-io.github.io/maia/assets/css/hljs.css">
+    <link type="text/css" rel="stylesheet" href="https://dokos-io.github.io/maia/assets/css/font-awesome.css">
+    <link type="text/css" rel="stylesheet" href="https://dokos-io.github.io/maia/assets/css/octicons/octicons.css">
+    <link type="text/css" rel="stylesheet" href="https://dokos-io.github.io/maia/assets/css/docs.css">
+
+    
+	<link rel="shortcut icon"
+		href="maia/public/favicon.png"
+		type="image/x-icon">
+	<link rel="icon"
+		href="maia/public/favicon.png"
+		type="image/x-icon">
+    
+
+		</head>
+<body data-path="current/models/maia/perineum_rehabilitation">
+	<div class="main-section">
+		<div>
+					<nav class="navbar navbar-default navbar-main" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand ellipsis"
+					 href="https://dokos-io.github.io/maia//">
+					<span>Maia</span>
+				</a>
+				<div class="dropdown">
+					<button class="btn btn-default navbar-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						<i class="octicon octicon-three-bars"></i>
+					</button>
+					<ul class="dropdown-menu dropdown-menu-right">
+<li data-label='<i class="octicon octicon-search"></i>' >
+	<a href="/#"
+		
+		>
+	<i class="octicon octicon-search"></i></a></li><li data-label='User Guide' >
+	<a href="https://dokos-io.github.io/maia/user"
+		
+		>
+	User Guide</a></li><li data-label='Developer Docs' >
+	<a href="https://dokos-io.github.io/maia/current"
+		
+		>
+	Developer Docs</a></li>
+
+<li class="divider"></li>
+
+<!-- post login tools -->
+
+</ul>
+				</div>
+			</div>
+			<div class="hidden-xs">
+				
+				<ul class="nav navbar-nav navbar-left">
+</ul>
+<ul class="nav navbar-nav navbar-right"><li data-label='<i class="octicon octicon-search"></i>' >
+	<a href="/#"
+		
+		>
+	<i class="octicon octicon-search"></i></a></li><li data-label='User Guide' >
+	<a href="https://dokos-io.github.io/maia/user"
+		
+		>
+	User Guide</a></li><li data-label='Developer Docs' >
+	<a href="https://dokos-io.github.io/maia/current"
+		
+		>
+	Developer Docs</a></li>
+	
+	
+	<!-- post login tools -->
+
+</ul>
+				
+			</div>
+		</div>
+	</nav><div class="hero-and-content">
+                <div data-html-block="hero"></div>
+                <div class="container" data-html-block="content">
+                
+<div class="page-container" id="page-current/models/maia/perineum_rehabilitation" data-path="{{ pathname }}"
+	>
+	<div class="row ">
+		
+		<div class=" page-content col-sm-12 ">
+			<div class="page-content-wrapper">
+				<div class="row page-head">
+					<div class='col-sm-12'>
+						
+						<div class="page-breadcrumbs">
+							
+							
+<ul class="breadcrumb">
+	<li>
+		<span class="fa fa-angle-left"></span>
+		<a href="https://dokos-io.github.io/maia//current/models/maia">
+		Module maia</a>
+	</li>
+	
+</ul>
+
+							
+						</div>
+						
+					</div>
+					<div class="col-sm-8 col-xs-6">
+						<h1>Perineum Rehabilitation</h1>
+					</div>
+					<div class="col-sm-4 col-xs-6">
+						
+
+						
+					</div>
+				</div>
+			</div>
+			<div class="page_content">
+<!-- title: Perineum Rehabilitation -->
+
+
+
+
+
+<div class="dev-header">
+
+<a class="btn btn-default btn-sm" disabled style="margin-bottom: 10px;">
+	Version 0.0.2</a>
+
+
+	<a class="btn btn-default btn-sm" href="https://github.com/DOKOS-IO/maia/tree/develop/maia/maia/doctype/perineum_rehabilitation"
+		target="_blank" style="margin-left: 10px; margin-bottom: 10px;"><i class="octicon octicon-mark-github"></i> Source</a>
+
+</div>
+
+
+
+
+
+    <p><b>Table Name:</b> <code>tabPerineum Rehabilitation</code></p>
+
+
+
+
+<h3>Fields</h3>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th style="width: 5%">Sr</th>
+            <th style="width: 25%">Fieldname</th>
+            <th style="width: 20%">Type</th>
+            <th style="width: 25%">Label</th>
+            <th style="width: 25%">Options</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr >
+            <td>1</td>
+            <td ><code>naming_series</code></td>
+            <td >
+                Select</td>
+            <td class="text-muted" title="Hidden">
+                Series
+                
+            </td>
+            <td>
+                <pre>PR/</pre>
+            </td>
+        </tr>
+        
+        <tr >
+            <td>2</td>
+            <td class="danger" title="Mandatory"><code>patient</code></td>
+            <td >
+                Link</td>
+            <td >
+                Patient
+                
+            </td>
+            <td>
+                
+                
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/patient">Patient</a>
+
+
+                
+            </td>
+        </tr>
+        
+        <tr >
+            <td>3</td>
+            <td ><code>column_break_3</code></td>
+            <td class="info">
+                Column Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>4</td>
+            <td ><code>patient_name</code></td>
+            <td >
+                Data</td>
+            <td >
+                Patient Name
+                
+            </td>
+            <td>
+                <pre>patient.patient_name</pre>
+            </td>
+        </tr>
+        
+        <tr class="info">
+            <td>5</td>
+            <td ><code>section_break_2</code></td>
+            <td >
+                Section Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>6</td>
+            <td ><code>consultation_purpose</code></td>
+            <td >
+                Data</td>
+            <td >
+                Consultation Purpose
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr class="info">
+            <td>7</td>
+            <td ><code>section_break_6</code></td>
+            <td >
+                Section Break</td>
+            <td >
+                Before Delivery
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>8</td>
+            <td ><code>before_delivery_bearing_down</code></td>
+            <td >
+                Check</td>
+            <td >
+                Bearing Down ?
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>9</td>
+            <td ><code>weight_gain</code></td>
+            <td >
+                Float</td>
+            <td >
+                Weight Gain (Kg)
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>10</td>
+            <td ><code>column_break_9</code></td>
+            <td class="info">
+                Column Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>11</td>
+            <td ><code>urinary_stress_incontinence</code></td>
+            <td >
+                Check</td>
+            <td >
+                Urinary Stress Incontinence ?
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>12</td>
+            <td ><code>which_term</code></td>
+            <td >
+                Int</td>
+            <td >
+                At Which Term (Amenorrhea Weeks)
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr class="info">
+            <td>13</td>
+            <td ><code>after_delivery</code></td>
+            <td >
+                Section Break</td>
+            <td >
+                After Delivery
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>14</td>
+            <td ><code>vulval_area</code></td>
+            <td >
+                Heading</td>
+            <td >
+                Vulval Area
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>15</td>
+            <td ><code>vulval_apertognathia</code></td>
+            <td >
+                Check</td>
+            <td >
+                Vuval Apertognathia ?
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>16</td>
+            <td ><code>vulval_air_bubble</code></td>
+            <td >
+                Check</td>
+            <td >
+                Vulval Air Bubble ?
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>17</td>
+            <td ><code>lapping_during_walking</code></td>
+            <td >
+                Check</td>
+            <td >
+                Lapping During Walking ?
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>18</td>
+            <td ><code>vaginal_gas</code></td>
+            <td >
+                Check</td>
+            <td >
+                Vaginal Gas ?
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>19</td>
+            <td ><code>loss_of_water_after_bath</code></td>
+            <td >
+                Check</td>
+            <td >
+                Loss of Water after Bath ?
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>20</td>
+            <td ><code>vulval_area_other</code></td>
+            <td >
+                Small Text</td>
+            <td >
+                Other
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>21</td>
+            <td ><code>column_break_19</code></td>
+            <td class="info">
+                Column Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>22</td>
+            <td ><code>vaginal_area</code></td>
+            <td >
+                Heading</td>
+            <td >
+                Vaginal Area
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>23</td>
+            <td ><code>after_delivery_bearing_down</code></td>
+            <td >
+                Check</td>
+            <td >
+                Bearing Down ?
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>24</td>
+            <td ><code>bearing_down_circumstances</code></td>
+            <td >
+                Data</td>
+            <td >
+                Circumstances
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>25</td>
+            <td ><code>resumption_of_sexual_activity</code></td>
+            <td >
+                Check</td>
+            <td >
+                Resumption of Sexual Activity ?
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>26</td>
+            <td ><code>pain_rating</code></td>
+            <td >
+                Data</td>
+            <td >
+                Pain Rating
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>27</td>
+            <td ><code>satisfaction</code></td>
+            <td >
+                Data</td>
+            <td >
+                Satisfaction
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>28</td>
+            <td ><code>contraception_desired</code></td>
+            <td >
+                Data</td>
+            <td >
+                Contraception Desired
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>29</td>
+            <td ><code>postpartum_return_of_menses</code></td>
+            <td >
+                Date</td>
+            <td >
+                Postpartum Return of Menses
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>30</td>
+            <td ><code>vaginal_area_other</code></td>
+            <td >
+                Small Text</td>
+            <td >
+                Other
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr class="info">
+            <td>31</td>
+            <td ><code>section_break_25</code></td>
+            <td >
+                Section Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>32</td>
+            <td ><code>urinary_area</code></td>
+            <td >
+                Heading</td>
+            <td >
+                Urinary Area
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>33</td>
+            <td ><code>water_consumption</code></td>
+            <td >
+                Int</td>
+            <td >
+                Water Consumption/24h
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>34</td>
+            <td ><code>tea_coffee_consumption</code></td>
+            <td >
+                Int</td>
+            <td >
+                Tea/Coffee Consumtion/24h
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>35</td>
+            <td ><code>number_of_urination</code></td>
+            <td >
+                Int</td>
+            <td >
+                Number of Urination/24h
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>36</td>
+            <td ><code>pollakiuria</code></td>
+            <td >
+                Check</td>
+            <td >
+                Pollakiuria
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>37</td>
+            <td ><code>nycturia</code></td>
+            <td >
+                Check</td>
+            <td >
+                Nycturia
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>38</td>
+            <td ><code>nycturia_times</code></td>
+            <td >
+                Int</td>
+            <td >
+                Number of Times
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>39</td>
+            <td ><code>stop_test</code></td>
+            <td >
+                Check</td>
+            <td >
+                Urination Stop Test
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>40</td>
+            <td ><code>anticipation_urination</code></td>
+            <td >
+                Check</td>
+            <td >
+                Anticipation Urination ?
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>41</td>
+            <td ><code>column_break_39</code></td>
+            <td class="info">
+                Column Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>42</td>
+            <td ><code>urgency_of_urination</code></td>
+            <td >
+                Select</td>
+            <td >
+                Urgency of Urination or Stress Incontinence
+                
+            </td>
+            <td>
+                <pre>
+Urgency of Urination
+Stress Incontinence</pre>
+            </td>
+        </tr>
+        
+        <tr >
+            <td>43</td>
+            <td ><code>stress_incontinence_circumpstances</code></td>
+            <td >
+                Data</td>
+            <td >
+                Circumpstances
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>44</td>
+            <td ><code>overactive_bladder</code></td>
+            <td >
+                Select</td>
+            <td >
+                Overactive Bladder
+                
+            </td>
+            <td>
+                <pre>
+No
+Associated to Urinary Incontinence
+Alone</pre>
+            </td>
+        </tr>
+        
+        <tr >
+            <td>45</td>
+            <td ><code>dysuria</code></td>
+            <td >
+                Small Text</td>
+            <td >
+                Dysuria (Details)
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>46</td>
+            <td ><code>urinary_area_other</code></td>
+            <td >
+                Small Text</td>
+            <td >
+                Other
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr class="info">
+            <td>47</td>
+            <td ><code>section_break_43</code></td>
+            <td >
+                Section Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>48</td>
+            <td ><code>anal_area</code></td>
+            <td >
+                Heading</td>
+            <td >
+                Anal Area
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>49</td>
+            <td ><code>transit_since_delivery</code></td>
+            <td >
+                Data</td>
+            <td >
+                Transit Since Delivery
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>50</td>
+            <td ><code>anal_incontinence</code></td>
+            <td >
+                Data</td>
+            <td >
+                Anal Incontinence
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>51</td>
+            <td ><code>urge</code></td>
+            <td >
+                Data</td>
+            <td >
+                Urge ?
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>52</td>
+            <td ><code>dyschesia</code></td>
+            <td >
+                Data</td>
+            <td >
+                Dyschesia
+                <p class="text-muted small">
+                    Difficult Defecation ? Frequency ? Since When ? Type of Thrust ? Sensation of not Expelling Fully ?</p>
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>53</td>
+            <td ><code>haemorrhoid</code></td>
+            <td >
+                Data</td>
+            <td >
+                Haemorrhoid
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>54</td>
+            <td ><code>column_break_53</code></td>
+            <td class="info">
+                Column Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>55</td>
+            <td ><code>read_only_52</code></td>
+            <td >
+                Read Only</td>
+            <td class="text-muted" title="Hidden">
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>56</td>
+            <td ><code>anal_area_other</code></td>
+            <td >
+                Small Text</td>
+            <td >
+                Other
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr class="info">
+            <td>57</td>
+            <td ><code>section_break_50</code></td>
+            <td >
+                Section Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>58</td>
+            <td ><code>pelvis_statis</code></td>
+            <td >
+                Data</td>
+            <td >
+                Pelvis Statics
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>59</td>
+            <td ><code>column_break_59</code></td>
+            <td class="info">
+                Column Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>60</td>
+            <td ><code>resumption_of_sport</code></td>
+            <td >
+                Data</td>
+            <td >
+                Resumption of Sporting Activities
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr class="info">
+            <td>61</td>
+            <td ><code>section_break_53</code></td>
+            <td >
+                Section Break</td>
+            <td >
+                Physical Examination
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>62</td>
+            <td ><code>vulva_heading</code></td>
+            <td >
+                Heading</td>
+            <td >
+                Vulva
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>63</td>
+            <td ><code>diasthasis</code></td>
+            <td >
+                Check</td>
+            <td >
+                Diasthasis ?
+                
+            </td>
+            <td>
+                <pre>
+</pre>
+            </td>
+        </tr>
+        
+        <tr >
+            <td>64</td>
+            <td ><code>physical_aperthognathia</code></td>
+            <td >
+                Select</td>
+            <td >
+                Aperthognathia
+                
+            </td>
+            <td>
+                <pre>
+Open
+Semi-Open
+Semi-Closed
+Closed</pre>
+            </td>
+        </tr>
+        
+        <tr >
+            <td>65</td>
+            <td ><code>scar</code></td>
+            <td >
+                Data</td>
+            <td >
+                Scar
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>66</td>
+            <td ><code>vaginal_bands</code></td>
+            <td >
+                Data</td>
+            <td >
+                Vaginal Bands
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>67</td>
+            <td ><code>bladder_position</code></td>
+            <td >
+                Data</td>
+            <td >
+                Bladder Position
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>68</td>
+            <td ><code>urethra_adherence</code></td>
+            <td >
+                Check</td>
+            <td >
+                Urethra Adherence ?
+                
+            </td>
+            <td>
+                <pre>
+</pre>
+            </td>
+        </tr>
+        
+        <tr >
+            <td>69</td>
+            <td ><code>column_break_69</code></td>
+            <td class="info">
+                Column Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>70</td>
+            <td ><code>testing_heading</code></td>
+            <td >
+                Heading</td>
+            <td >
+                Testing
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>71</td>
+            <td ><code>fundus_apertognathia</code></td>
+            <td >
+                Data</td>
+            <td >
+                Fundus Apertognathia
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>72</td>
+            <td ><code>testing</code></td>
+            <td >
+                Select</td>
+            <td >
+                Testing
+                
+            </td>
+            <td>
+                <pre>
+0
+1
+2
+3
+4
+5</pre>
+            </td>
+        </tr>
+        
+        <tr >
+            <td>73</td>
+            <td ><code>contraction_duration</code></td>
+            <td >
+                Data</td>
+            <td >
+                Contraction Duration
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>74</td>
+            <td ><code>cough_test</code></td>
+            <td >
+                Select</td>
+            <td >
+                Cough Test
+                
+            </td>
+            <td>
+                <pre>
+Domed Perineum
+Closing Perineum
+Stationary Perineum</pre>
+            </td>
+        </tr>
+        
+        <tr >
+            <td>75</td>
+            <td ><code>command_inversion</code></td>
+            <td >
+                Check</td>
+            <td >
+                Command Inversion ?
+                
+            </td>
+            <td>
+                <pre>
+</pre>
+            </td>
+        </tr>
+        
+        <tr >
+            <td>76</td>
+            <td ><code>column_break_75</code></td>
+            <td class="info">
+                Column Break</td>
+            <td >
+                
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>77</td>
+            <td ><code>tonus_heading</code></td>
+            <td >
+                Heading</td>
+            <td >
+                Tonus
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>78</td>
+            <td ><code>vaginal_walls</code></td>
+            <td >
+                Data</td>
+            <td >
+                Vaginal Walls
+                <p class="text-muted small">
+                    Tonic/Relaxed
+Finger Spacing (cm)</p>
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>79</td>
+            <td ><code>anterior_contraction</code></td>
+            <td >
+                Data</td>
+            <td >
+                Anterior Contraction
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>80</td>
+            <td ><code>posterior_contraction</code></td>
+            <td >
+                Data</td>
+            <td >
+                Posterior Contraction
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>81</td>
+            <td ><code>left_contraction</code></td>
+            <td >
+                Data</td>
+            <td >
+                Left Contraction
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>82</td>
+            <td ><code>right_contraction</code></td>
+            <td >
+                Data</td>
+            <td >
+                Right Contraction
+                
+            </td>
+            <td></td>
+        </tr>
+        
+    </tbody>
+</table>
+
+
+    <hr>
+    <h3>Controller</h3>
+    <h4>maia.maia.doctype.perineum_rehabilitation.perineum_rehabilitation</h4>
+
+    
+
+
+
+	
+        
+	<h3 style="font-weight: normal;">Class <b>PerineumRehabilitation</b></h3>
+    
+    <p style="padding-left: 30px;"><i>Inherits from frappe.model.document.Document</i></h4>
+    
+    <div class="docs-attr-desc"><p></p>
+</div>
+    <div style="padding-left: 30px;">
+        
+    </div>
+    <hr>
+
+	
+
+
+    
+    
+        <h4>Linked In:</h4>
+        <ul>
+        
+			
+            <li>
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/free_consultation">Free Consultation</a>
+
+</li>
+			
+        
+			
+            <li>
+
+
+<a href="https://dokos-io.github.io/maia/current/models/maia/perineum_rehabilitation_consultation">Perineum Rehabilitation Consultation</a>
+
+</li>
+			
+        
+        </ul>
+    
+
+
+<!-- autodoc -->
+<!-- jinja -->
+<!-- static -->
+</div>
+		</div>
+	</div>
+</div>
+
+				<!-- edit-link -->
+                </div>
+            </div>
+			<footer class="docs-footer">
+				<div class="container"><div class="built-with-frappe text-center">
+                    <img class="frappe-bird" src="https://dokos-io.github.io/maia/assets/img/frappe-bird-grey.svg">
+                    <h3>By DOKOS</h3>
+                </div>
+                <div class="text-center">
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="https://github.com/DOKOS-IO/maia">
+                            Source</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/DOKOS-IO/maia/issues">
+                            Issues</a>
+                        </li>
+                        <li>
+                            <a href="https://dokos-io.github.io/maia/license.html">
+                            License</a>
+                        </li>
+                        <li>
+                            <a href="https://discuss.erpnext.com">
+                            Forum</a>
+                        </li>
+                        <li>
+                            <a href="https://community.erpnext.com/apps">
+                            Frappe Apps</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+			</footer>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="https://dokos-io.github.io/maia/assets/js/jquery.min.js"></script>
+	<script type="text/javascript" src="https://dokos-io.github.io/maia/assets/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="https://dokos-io.github.io/maia/assets/js/highlight.pack.js"></script>
+	<script type="text/javascript" src="https://dokos-io.github.io/maia/assets/js/docs.js"></script>
+
+	<!-- js should be loaded in body! -->
+	<script>
+        window.docs_base_url = "https://dokos-io.github.io/maia";
+    </script>
+
+	
+	<!-- csrf_token --></body>
+</html>
