@@ -2,10 +2,13 @@
 Configuration for docs
 """
 
-# source_link = "https://github.com/[org_name]/maia"
-# docs_base_url = "https://[org_name].github.io/maia"
-# headline = "App that does everything"
-# sub_heading = "Yes, you got that right the first time, everything"
+from frappe import _
+
+source_link = "https://github.com/DOKOS-IO/maia"
+docs_base_url = "https://dokos-io.github.io/maia"
+headline = _("Discover Maia")
+sub_heading = _("The Midwife's activity management application")
 
 def get_context(context):
 	context.brand_html = "Maia"
+        context.favicon = 'maia/public/favicon.png'
