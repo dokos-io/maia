@@ -11,4 +11,4 @@ sub_heading = _("The Midwife's activity management application")
 
 def get_context(context):
 	context.brand_html = "Maia"
-        context.favicon = 'maia/public/favicon.png'
+        context.favicon = 'https://DOKOS-IO.github.io/maia/public/favicon.png'
