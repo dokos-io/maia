@@ -18,6 +18,12 @@ def get_data():
                 },
                 {
                     "type": "doctype",
+                    "name": "Free Prescription",
+                    "label": _("Free Prescriptions"),
+                    "description": _("Free Prescriptions"),
+                },
+                {
+                    "type": "doctype",
                     "name": "Sales Invoice",
                     "label": _("Invoices"),
                     "description": _("Invoices"),

@@ -585,11 +585,7 @@ DocType: Drug Prescription,Pharmaceutical Form,Forme Pharmaceutique
 DocType: Perineum Rehabilitation,Physical Examination,Examen Clinique
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +348,PhysioMat Belt,Ceinture PhysioMat
 DocType: Pregnancy,Physiological Puerperium,Suite de Couches Physiologiques
-DocType: Prenatal Interview,"Picture ? Birth Project ?
-Epidural ? Breastfeeding ? Anxiety ? Picture of the C-section ?
-Pregnancy and Couple ?","Représentation ? Projet de Naissance ?
-Péridurale ? Allaitement ? Anxiété ? Représentation de la Césarienne ?
-Grossesse et Couple ?"
+DocType: Prenatal Interview,"Picture ? Birth Project ? Epidural ? Breastfeeding ? Anxiety ? Picture of the C-section ? Pregnancy and Couple ?","Représentation ? Projet de Naissance ? Péridurale ? Allaitement ? Anxiété ? Représentation de la Césarienne ? Grossesse et Couple ?"
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +69,Piecework,Travail à la pièce
 DocType: Echography Result,Placenta,Placenta
 DocType: Placental Delivery,Placental Delivery,Délivrance

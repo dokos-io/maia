@@ -28,11 +28,11 @@ var get_postdelivery_date = function(frm) {
 	    cache: false,
 	    callback: function (data) {
 		if (data.message) {
-		    today = frappe.datetime.str_to_obj(frappe.datetime.get_today()).getDate();
-		    delivery_date = frappe.datetime.str_to_obj(data.message.date_time).getDate();
-		    calculated_day = today - delivery_date;
-		    console.log(today, delivery_date, calculated_day);
-		    frappe.model.set_value(frm.doctype, frm.docname, "day", "J + " + calculated_day)
+		    consultation_date = frm.doc.consultation_date;
+		    delivery_date = data.message.date_time;
+		    calculated_day = frappe.datetime.get_diff(consultation_date, delivery_date) + 1;
+		 
+		    frappe.model.set_value(frm.doctype, frm.docname, "day", __("D + ") + calculated_day)
 		}
 	    }
 	})

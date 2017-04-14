@@ -138,6 +138,19 @@ def create_bank_account(args):
 				# bank account same as a CoA entry
 				pass
 
+def set_mode_of_payment_account(self):
+        list_of_payment_modes = frappe.get_all('Mode of Payment', filters={'type': 'Bank'}, 'name')
+        default_bank_account = "5121-Comptes en monnaie nationale - " + args.get('company_abbr')
+        for value in list_of_payment_modes:
+        
+                if value.name and not frappe.db.get_value('Mode of Payment Account', {'company': self.name}):
+                        mode_of_payment = frappe.get_doc('Mode of Payment', value.name)
+                        mode_of_payment.append('accounts', {
+                                'company': self.name,
+                                'default_account': default_bank_account
+                        })
+                        mode_of_payment.save(ignore_permissions=True)
+        
 def create_price_lists(args):
 	for pl_type, pl_name in (("Selling", _("Standard Selling")), ("Buying", _("Standard Buying"))):
 		frappe.get_doc({
