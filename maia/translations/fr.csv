@@ -1,4 +1,6 @@
-apps/maia/maia/maia/doctype/patient/patient.js +50, Years Old, Ans
+apps/maia/maia/maia/doctype/pregnancy_consultation/pregnancy_consultation.js +555,Days,Jours
+apps/maia/maia/maia/doctype/pregnancy_consultation/pregnancy_consultation.js +555,Weeks Amenorrhea +,SA +
+apps/maia/maia/maia/doctype/patient/patient.js +50,Years Old,Ans
 DocType: Birth Preparation Consultation,0h-6h,0h-6h
 DocType: Birth Preparation Consultation,20h-0h | 6h-8h,20h-0h | 6h-8h
 apps/maia/maia/public/js/setup_wizard.js +285,A Product or Service,Un Produit ou Service
@@ -157,7 +159,7 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +168,Colour,Couleur
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +268,Combined Indices Method,Méthode des Indices Combinés
 DocType: Perineum Rehabilitation,Command Inversion ?,Inversion des Commandes?
 DocType: Birth Preparation Consultation,Comments,Commentaires
-apps/maia/maia/setup/setup_wizard/setup_wizard.py +464,Commercial,Commercial
+apps/maia/maia/setup/setup_wizard/setup_wizard.py +477,Commercial,Commercial
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +68,Commission,Commission
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +157,Communication,Communication
 apps/maia/maia/setup/page/welcome_to_maia/welcome_to_maia.html +26,Community Forum,Forum de la Communauté
@@ -216,6 +218,7 @@ DocType: Gynecological Consultation,Current Treatments,Traitements En Cours
 DocType: Birth Preparation Consultation,Customer,Client
 apps/maia/maia/public/js/setup_wizard.js +239,Customer Name,Nom du Client
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +81,Customer Service,Service Client
+apps/maia/maia/maia/doctype/early_postnatal_consultation/early_postnatal_consultation.js +471,D +,J +
 DocType: Cervical Smear,Date,Date
 apps/maia/maia/templates/includes/prescription_header.html +25,Date :,Date :
 DocType: Patient,Date of Birth,Date de Naissance
@@ -302,7 +305,7 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +372,Ferritin,Ferritine
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +374,Fibrinogen,Fibrinogène
 apps/maia/maia/public/js/setup_wizard.js +60,Financial Year End Date,Date de Fin de l'Exercice Financier
 apps/maia/maia/public/js/setup_wizard.js +58,Financial Year Start Date,Date de Début de l'Exercice Financier
-apps/maia/maia/setup/setup_wizard/setup_wizard.py +369,Finished Goods,Produits Finis
+apps/maia/maia/setup/setup_wizard/setup_wizard.py +382,Finished Goods,Produits Finis
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +368,First Determination of ABO- and Rh-groups,Première Déterminationd de Groupe Sanguin Rhésus Phénotypé
 DocType: Gynecology,First Menses (Year),Age des Premières Règles (Ans)
 DocType: Patient,First Name,Prénom
@@ -314,6 +317,8 @@ apps/maia/maia/maia/doctype/patient/patient_dashboard.py +10,Folders,Dossiers
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +46,Food,Alimentation
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +273,Forceps,Forceps
 DocType: Free Consultation,Free Consultation,Consultation Libre
+DocType: Free Prescription,Free Prescription,Ordonnance Libre
+apps/maia/maia/config/maia.py +22,Free Prescriptions,Ordonnances Libres
 DocType: Perineum Rehabilitation Consultation,Frequency,Fréquence
 DocType: Patient,Full Name,Nom et Prénom
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +64,Full-time,Temps Plein
@@ -383,7 +388,7 @@ apps/maia/maia/public/js/setup_wizard.js +360,Instructor Name,Nom de l’Instruc
 DocType: Obstetrical Background,Intact  Perineum,Périnée Intact
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +70,Intern,Interne
 DocType: Prenatal Interview Consultation,Invoice,Facture
-apps/maia/maia/config/maia.py +22,Invoices,Factures
+apps/maia/maia/config/maia.py +28,Invoices,Factures
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +221,Iodine,Iode
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +396,Ionograms,Ionogramme Sanguin
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +342,Ispagul Spagulax,Ispagul Spagulax
@@ -393,7 +398,7 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +258,Jasminelle,Jasminelle
 DocType: Early Postnatal Consultation,Jaundice Details:,Détails Ictère
 DocType: Early Postnatal Consultation,Jaundice Risk,Risque d'Ictère
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +191,Job Description,Description de l'Emploi
-DocType: Prenatal Interview,"Job, Commuting, Work Conditions, Employer & Pregnancy, Well Being at Work, ... ","Transports, Conditions de Travail, Employeur & Grossesse, Bien-Être au Travail,…"
+DocType: Prenatal Interview,"Job, Commuting, Work Conditions, Employer & Pregnancy, Well Being at Work, ...","Transports, Conditions de Travail, Employeur & Grossesse, Bien-Être au Travail,…"
 Custom Field - label: Event-kanban_column,Kanban Column,Colonne Kanban
 apps/maia/maia/public/js/setup_wizard.js +170,Keep it web friendly 900px (w) by 100px (h),"Merci de conserver le format de l'image web convivial , ex.. 900px par 100px"
 apps/maia/maia/public/js/setup_wizard.js +291,Kg,Kg
@@ -405,8 +410,8 @@ DocType: Lab Exam Prescription,Lab Exam,Examen de Laboratoire
 DocType: Gynecological Consultation,Lab Exam Prescription,Ordonnance d’Examen de Laboratoire
 DocType: Lab Exam Results,Lab Exam Results,Résultats d’Examen de Laboratoire
 DocType: Lab Exam Type,Lab Exam Type,Type d’Examen de Laboratoire
-apps/maia/maia/config/maia.py +136,Lab Exam Types,Types d’Examens de Laboratoire
-DocType: Gynecological Consultation,Lab Prescription,Ordonnance de Laboratoire
+apps/maia/maia/config/maia.py +142,Lab Exam Types,Types d’Examens de Laboratoire
+DocType: Free Prescription,Lab Prescription,Ordonnance de Laboratoire
 DocType: Pregnancy,Labs Results,Résultats de Laboratoire
 DocType: Perineum Rehabilitation,Lapping During Walking ?,Clappotis durant la marche?
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +164,Large,Grand
@@ -427,7 +432,7 @@ apps/maia/maia/public/js/setup_wizard.js +277,"List your products or services th
 apps/maia/maia/public/js/setup_wizard.js +210,"List your tax heads (e.g. VAT, Customs etc; they should have unique names) and their standard rates. This will create a standard template, which you can edit and add more later.","Inscrivez vos titres d'impôts (par exemple, TVA, douanes, etc., ils doivent avoir des noms uniques) et leurs taux standards. Cela va créer un modèle standard, que vous pouvez modifier et compléter plus tard."
 apps/maia/maia/public/js/setup_wizard.js +292,Litre,Litre
 DocType: Prenatal Interview,Living Conditions,Conditions de Vie
-apps/maia/maia/setup/setup_wizard/setup_wizard.py +483,Local,Locale
+apps/maia/maia/setup/setup_wizard/setup_wizard.py +496,Local,Locale
 DocType: Correspondents,Location,Lieu
 DocType: Early Postnatal Consultation,Lochia,Lochies
 DocType: Patient,"Long Term Disease,  Hospitalisation Or Treatment","Maladie, Hospitalisation Ou Traitement de Long Terme"
@@ -443,7 +448,7 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +339,Maalox,Maalox
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +350,MagneB6,MagnéB6
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +352,Magnesium 300+,Magnésium 300+
 DocType: Addiction,Maia,Maia
-apps/maia/maia/setup/setup_wizard/setup_wizard.py +210,Maia Setup Complete!,Paramétrage de Maia Terminé !
+apps/maia/maia/setup/setup_wizard/setup_wizard.py +223,Maia Setup Complete!,Paramétrage de Maia Terminé !
 DocType: Pregnancy,Male,Masculin
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +83,Management,Gestion
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +90,Manager,Directeur
@@ -497,7 +502,7 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +288,Nexplanon Installatio
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +289,Nexplanon Removal Kit,Un Kit de Retrait du Dispositif sous Cutané
 apps/maia/maia/setup/page/welcome_to_maia/welcome_to_maia.html +21,Next Steps,Prochaines étapes
 DocType: Birth Preparation Consultation,Night Work Allowance,Indemnité de Nuit
-DocType: Birth Preparation Consultation,Night Work Allowance ,Indemnité de Nuit
+DocType: Birth Preparation Consultation,Night Work Allowance,Indemnité de Nuit
 DocType: Birth Preparation Consultation,Night Work Allowance Type,Type d’Indemnité de Nuit
 DocType: Codification,Night Work Allowance: 0h-6h,Indemnité de Nuit : 0h-6h
 DocType: Codification,Night Work Allowance: 20h-6h | 6h-8h,Indemnité de Nuit : 20h-6h | 6h-8h
@@ -544,7 +549,7 @@ DocType: Pregnancy,Otoacoustic Emissions,Emissions Oto-Acoustiques
 DocType: Perineum Rehabilitation,Overactive Bladder,Impériosité
 DocType: Patient,PACS,PACS
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +404,PAL,PAL
-apps/maia/maia/setup/setup_wizard/install_fixtures.py +408,PAPP-A and Free Beta-HCG ,PAPP-A et Béta-HCG libre (entre 11SA et 13SA+6j)
+apps/maia/maia/setup/setup_wizard/install_fixtures.py +408,PAPP-A and Free Beta-HCG,PAPP-A et Béta-HCG libre (entre 11SA et 13SA+6j)
 DocType: Patient,PAT-,PAT-
 DocType: Prenatal Interview,PI/,PI/
 DocType: Perineum Rehabilitation,PR/,PR/
@@ -585,13 +590,14 @@ DocType: Drug Prescription,Pharmaceutical Form,Forme Pharmaceutique
 DocType: Perineum Rehabilitation,Physical Examination,Examen Clinique
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +348,PhysioMat Belt,Ceinture PhysioMat
 DocType: Pregnancy,Physiological Puerperium,Suite de Couches Physiologiques
-DocType: Prenatal Interview,"Picture ? Birth Project ? Epidural ? Breastfeeding ? Anxiety ? Picture of the C-section ? Pregnancy and Couple ?","Représentation ? Projet de Naissance ? Péridurale ? Allaitement ? Anxiété ? Représentation de la Césarienne ? Grossesse et Couple ?"
+DocType: Prenatal Interview,Picture ? Birth Project ? Epidural ? Breastfeeding ? Anxiety ? Picture of the C-section ? Pregnancy and Couple ?,Représentation ? Projet de Naissance ? Péridurale ? Allaitement ? Anxiété ? Représentation de la Césarienne ? Grossesse et Couple ?
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +69,Piecework,Travail à la pièce
 DocType: Echography Result,Placenta,Placenta
 DocType: Placental Delivery,Placental Delivery,Délivrance
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +153,Planning,Planification
 apps/maia/maia/maia/doctype/codification/codification.py +31,Please Disable the Codification,Veuillez Désactiver la Codification
 apps/maia/maia/maia/doctype/early_postnatal_consultation/early_postnatal_consultation.js +476,Please Select a Pregnancy Folder,Veuillez Sélectionner un Dossier de Grossesse
+apps/maia/maia/maia/doctype/pregnancy_consultation/pregnancy_consultation.js +560,Please Set an Expected Term or Beginning of Pregnancy Date in the Pregnancy Folder,Veuillez Définir un Terme Prévu ou une Date de Début de Grossesse dans le Dossier de Grossesse
 apps/maia/maia/public/js/setup_wizard.js +76,Please enter valid Financial Year Start and End Dates,Veuillez entrer des Dates de Début et de Fin d’Exercice valides
 apps/maia/maia/maia/doctype/patient/patient.js +36,Please select a valid Date,Veuillez sélectionner une Date valide
 DocType: Perineum Rehabilitation,Pollakiuria,Pollakiurie
@@ -623,7 +629,7 @@ DocType: Birth Preparation Consultation,Preparation Type,Type de Préparation
 DocType: Early Postnatal Consultation,Prescription,Prescription
 DocType: Prenatal Interview,Previous Pregnancies Experience ?,Expériences des Précédentes Grossesses?
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +330,Primperan 10mg,Primpéran 10mg
-apps/maia/maia/maia/doctype/gynecological_consultation/gynecological_consultation.js +447,Print,Imprimer
+apps/maia/maia/maia/doctype/free_prescription/free_prescription.js +11,Print,Imprimer
 apps/maia/maia/maia/print.py +17,Print Error: Please contact the technical support.,Erreur d’Impression : Veuillez contacter le support technique.
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +58,Privilege Leave,Congé Privilège
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +66,Probation,Essai
@@ -674,7 +680,7 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +85,Research & Development
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +103,Researcher,chercheur
 DocType: Early Postnatal Consultation,Respiratory Rate,Fréquence Respiratoire
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +192,Responsibilities,Responsabilités
-apps/maia/maia/setup/setup_wizard/setup_wizard.py +549,Rest Of The World,Reste du monde
+apps/maia/maia/setup/setup_wizard/setup_wizard.py +562,Rest Of The World,Reste du monde
 DocType: Cervical Smear,Result,Résultat
 DocType: Postnatal Consultation,Resumption of Menses,Retour de Couche
 DocType: Perineum Rehabilitation,Resumption of Sexual Activity ?,Reprise des Rapports Sexuels ?
@@ -703,7 +709,7 @@ DocType: Gynecology,Series,Séries
 apps/maia/maia/public/js/setup_wizard.js +287,Services,Services
 DocType: Birth Preparation Consultation,Session Type,Type de Session
 apps/maia/maia/public/js/setup_wizard.js +291,Set,Rajouter
-apps/maia/maia/config/maia.py +112,Setup,Configuration
+apps/maia/maia/config/maia.py +118,Setup,Configuration
 apps/maia/maia/setup/setup_wizard/setup_wizard.py +25,Setup Already Complete!!,Configuration déjà terminée !
 apps/maia/maia/public/js/setup_wizard.js +308,Setup a simple website for my organization,Installation d’un site web simple pour mon cabinet
 apps/maia/maia/utilities/activation.py +68,Setup an Email Domain to be able to send/receive Emails,Configurez un Domaine d'Email pour recevoir/envoyer des Emails
@@ -728,15 +734,15 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +293,Speculum Size S,Specu
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +263,Spermicides,Spermicides
 DocType: Patient,Spouse,Conjoint
 DocType: Patient,Spouse Addictions,Addictions du Conjoint
-apps/maia/maia/setup/setup_wizard/setup_wizard.py +524,Standard,Standard
-apps/maia/maia/setup/setup_wizard/setup_wizard.py +142,Standard Buying,Achat standard
+apps/maia/maia/setup/setup_wizard/setup_wizard.py +537,Standard,Standard
+apps/maia/maia/setup/setup_wizard/setup_wizard.py +155,Standard Buying,Achat standard
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +265,Standard Day Method,Méthode des Jours Fixes
-apps/maia/maia/setup/setup_wizard/setup_wizard.py +142,Standard Selling,Vente standard
+apps/maia/maia/setup/setup_wizard/setup_wizard.py +155,Standard Selling,Vente standard
 DocType: Perineum Rehabilitation,Stationary Perineum,Périnée Immobile
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +189,Stock Options,Options du Stock
 DocType: Early Postnatal Consultation,Stools/Urine,Selles/Urines
 DocType: Early Postnatal Consultation,Stools/Urine Issue:,Anomalies Selles/Urines
-apps/maia/maia/setup/setup_wizard/setup_wizard.py +175,Stores,Magasins
+apps/maia/maia/setup/setup_wizard/setup_wizard.py +188,Stores,Magasins
 DocType: Perineum Rehabilitation,Stress Incontinence,Incontinence Urinaire d'Effort
 DocType: Prenatal Interview,"Stress, Anxiety, Sleeping Troubles, Psychological Support, Depressive Antecedent, Landmark Event in Childhood, Treatment, Disease, ...","Stress, Anxiété, Troubles du Sommeil, Soutien Psychologique, Antécédent de Dépression, Evénements marquant dans l'Enfance, Traitement, Maladies..."
 apps/maia/maia/public/js/setup_wizard.js +288,Sub Assemblies,Sous-Assemblages
@@ -757,7 +763,7 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +373,"TP, TCA","TP, TCA"
 DocType: Screening Test,TPHA-VRDL,TPHA-VRDL
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +390,TPHA-VRDL Serology,Sérologie TPHA-VRDL
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +375,TSH,TSH
-apps/maia/maia/setup/setup_wizard/setup_wizard.py +352,TVA 20%,TVA 20%
+apps/maia/maia/setup/setup_wizard/setup_wizard.py +365,TVA 20%,TVA 20%
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +362,Tardyferon B9,Tardyféron B9
 apps/maia/maia/public/js/setup_wizard.js +217,Tax,Taxes
 DocType: Perineum Rehabilitation,Tea/Coffee Consumtion/24h,Consommation Thé-Café/24h
@@ -780,10 +786,8 @@ DocType: Gynecological Consultation,Thyroid,Thyroïde
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +355,Titanorein,Titanoréine
 apps/maia/maia/setup/page/welcome_to_maia/welcome_to_maia.html +6,"To get the best out of Maia, we recommend that you take some time and watch these help videos.","Pour tirer le meilleur part de Maia, nous vous recommendons de prendre quelques minutes pour regarder ces vidéos d’aide."
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +205,Tobacco,Tabac
-DocType: Perineum Rehabilitation,"Tonic/Relaxed
-Finger Spacing (cm)","Tonique/Relaxé
-Espacement des Doigts (cm)"
-apps/maia/maia/setup/setup_wizard/install_fixtures.py +413,Tonsils Removal ,Ablation des Amygdales 
+DocType: Perineum Rehabilitation,"Tonic/Relaxed, Finger Spacing (cm)","Tonique/Relaxé, Espacement des Doigts (cm)"
+apps/maia/maia/setup/setup_wizard/install_fixtures.py +413,Tonsils Removal,Ablation des Amygdales
 DocType: Perineum Rehabilitation,Tonus,Tonus
 DocType: Lipid Profile,Total Cholesterol,Cholestérol Total
 DocType: Birth Preparation Consultation,Total Price,Prix Total
@@ -816,7 +820,7 @@ DocType: Pregnancy Consultation,Uterine Contractions,Contractions Utérines
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +283,Uterine Examination,Examen Utérin
 DocType: Pregnancy Consultation,Uterine Height,Hauteur Utérine
 DocType: Early Postnatal Consultation,Uterus,Utérus
-apps/maia/maia/setup/setup_wizard/setup_wizard.py +346,VAT 20% - Included,TVA 20% - Incluse
+apps/maia/maia/setup/setup_wizard/setup_wizard.py +359,VAT 20% - Included,TVA 20% - Incluse
 DocType: Gynecology,Vaccination,Vaccination
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +272,Vacuum,Vide
 DocType: Perineum Rehabilitation,Vaginal Area,Zone Vaginale
