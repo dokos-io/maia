@@ -139,7 +139,7 @@ def create_bank_account(args):
 				pass
 
 def set_mode_of_payment_account(self):
-        list_of_payment_modes = frappe.get_all('Mode of Payment', filters={'type': 'Bank'}, 'name')
+        list_of_payment_modes = frappe.get_all('Mode of Payment', filters={'type': 'Bank'}, fields=['name'])
         default_bank_account = "5121-Comptes en monnaie nationale - " + args.get('company_abbr')
         for value in list_of_payment_modes:
         
