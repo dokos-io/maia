@@ -14,7 +14,7 @@ maia.PatientController = frappe.ui.form.Controller.extend({
 	else {
 	    unhide_field(['address_html']);
 	    frappe.geo.render_address_and_contact(this.frm);
-	    erpnext.utils.set_party_dashboard_indicators(this.frm);
+	    erpnext.utils.set_party_dashboard_indicators(cur_frm);
 	}
 
     }

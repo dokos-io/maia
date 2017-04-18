@@ -11,7 +11,7 @@ import frappe.defaults
 from frappe.model.document import Document
 from frappe.geo.address_and_contact import load_address_and_contact
 from erpnext.utilities.transaction_base import TransactionBase
-
+from erpnext.accounts.party import validate_party_accounts, get_timeline_data
 
 class Patient(Document):
         def get_feed(self):
@@ -23,7 +23,7 @@ class Patient(Document):
                 self.load_dashboard_info()
 
         def load_dashboard_info(self):
-                billing_this_year = frappe.db.sql("""select sum(debit_in_account_currency) - sum(credit_in_account_currency), account_currency
+                billing_this_year = frappe.db.sql("""select sum(debit_in_account_currency), account_currency
                 from `tabGL Entry` where voucher_type='Sales Invoice' and party_type='Customer' and party=%s and fiscal_year = %s""", (self.customer, frappe.db.get_default("fiscal_year")))
 
                 total_unpaid = frappe.db.sql("""select sum(outstanding_amount) from `tabSales Invoice` where customer=%s and docstatus = 1""", self.customer)

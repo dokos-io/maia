@@ -88,6 +88,7 @@ def update_invoice_details(self, customer, case):
                                 
                 invoice.update({
                                 "customer": customer,
+                                "posting_date": self.consultation_date,
                                 "due_date": self.consultation_date,
                                 "patient": self.patient,
                                 "selling_price_list": selling_price_list,

@@ -83,7 +83,7 @@
    "ignore_xss_filter": 0, 
    "in_filter": 0, 
    "in_global_search": 0, 
-   "in_list_view": 0, 
+   "in_list_view": 1, 
    "in_standard_filter": 0, 
    "label": "Patient", 
    "length": 0, 
@@ -1809,7 +1809,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-03-30 17:36:39.983490", 
+ "modified": "2017-04-18 08:44:55.471785", 
  "modified_by": "Administrator", 
  "module": "Maia", 
  "name": "Birth Preparation Consultation", 
@@ -1843,7 +1843,7 @@
  "show_name_in_global_search": 0, 
  "sort_field": "modified", 
  "sort_order": "DESC", 
- "title_field": "patient", 
+ "title_field": "patient_name", 
  "track_changes": 1, 
  "track_seen": 0
 }
