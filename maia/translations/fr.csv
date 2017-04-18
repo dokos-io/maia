@@ -87,8 +87,6 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +401,Bile Salts,Sels Billi
 DocType: Birth Preparation Consultation,Billing Details,Détails de la Facturation
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +267,Billings Method,Méthode Billings
 DocType: Obstetrical Background,Biofeedback,Biofeedback
-DocType: Perineum Rehabilitation Consultation,Biofeedback - End of Treatment,Biofeedback - Fin de Traitement
-DocType: Perineum Rehabilitation Consultation,Biofeedback - Hypotonia of Pelvic Floor,Biofeedback - Hypotonie du Plancher Pelvien
 DocType: Echography Result,Biometrics,Biométries
 DocType: Patient,Birth Name,Nom de Naissance
 apps/maia/maia/maia/doctype/prenatal_interview/prenatal_interview_dashboard.py +12,Birth Preparation,Préparation à la Naissance
@@ -109,8 +107,8 @@ DocType: Obstetrical Background,Bottle-feeding,Biberon
 apps/maia/maia/public/js/setup_wizard.js +291,Box,Boîte
 DocType: Obstetrical Background,Boy,Garçon
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +304,Breast-Pump Rent for Breastfeeding,Location d'un Tire-Lait Electrique à simple pompe durant toute la Durée de l'Allaitement
-DocType: Obstetrical Background,Breast-feeding,Allaitement
-DocType: Early Postnatal Consultation,Breastfeeding,Allaitement
+DocType: Obstetrical Background,Breast-feeding,Allaitement Maternel
+DocType: Early Postnatal Consultation,Breastfeeding,Allaitement Maternel
 DocType: Early Postnatal Consultation,Breasts,Seins
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +97,Business Development Manager,Directeur Commercial
 DocType: Perineum Rehabilitation Consultation,C.M.P.,C.M.P.
@@ -879,3 +877,5 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +363,Zyma D,Zyma D
 apps/maia/maia/public/js/setup_wizard.js +220,e.g. 5,e.g. 5
 apps/maia/maia/public/js/setup_wizard.js +218,e.g. VAT,e.g. TVA
 apps/maia/maia/public/js/setup_wizard.js +198,user@example.com,utilisateur@exemple.com
+DocType: Electrostimulation Program,Electrostimulation Program,Programme
+DocType: Electrostimulation Frequency,Electrostimulation Frequency,Fréquence

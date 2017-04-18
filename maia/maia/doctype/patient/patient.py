@@ -42,17 +42,18 @@ class Patient(Document):
                                                 
 
         def update_address_links(self):
-              addresses = frappe.db.sql("""select parent from `tabDynamic Link` where parenttype = 'Address' and link_doctype = 'Patient' and link_name = %s""", (self.name))
+              address_names = frappe.get_all('Dynamic Link', filters={
+                      "parenttype":"Address",
+                      "link_doctype":"Patient",
+                      "link_name":self.name
+              }, fields=["parent as name"])
 
               #check if customer is linked to each parent
-              for address in addresses:
-                      try:
-                              customer_link = frappe.db.sql("""select * from `tabDynamic Link` where parent = %s and parenttype = 'Address' and link_doctype = 'Customer' and link_name = %s """, (address, self.customer))
-                              pass
-                              
-                      except:
-                              address_to_update = frappe.get_doc({"doctype":"Address", "name":address})
-                              address_to_update.append('links', { "link_doctype": "Customer", "link_name": self.customer }).insert(ignore_permissions=True)
+              for address_name in address_names:
+                      address = frappe.get_doc('Address', address_name.get('name'))
+                      if not address.has_link('Customer', self.customer):
+                              address.append('links', dict(link_doctype='Customer', link_name=self.customer))
+                              address.save()
                       
 
         def on_update(self):
@@ -69,6 +70,7 @@ class Patient(Document):
 
         def validate(self):
                 self.autoname()
+                self.update_address_links()
 
                 updating_customer(self)
         

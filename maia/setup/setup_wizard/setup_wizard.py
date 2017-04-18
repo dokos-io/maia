@@ -28,6 +28,7 @@ def setup_complete(args=None):
 
 	create_price_lists(args)
 	create_fiscal_year_and_company(args)
+        set_mode_of_payment_account(args)
 	create_sales_tax(args)
 	create_users(args)
 	set_defaults(args)
@@ -138,15 +139,16 @@ def create_bank_account(args):
 				# bank account same as a CoA entry
 				pass
 
-def set_mode_of_payment_account(self):
+def set_mode_of_payment_account(args):
         list_of_payment_modes = frappe.get_all('Mode of Payment', filters={'type': 'Bank'}, fields=['name'])
         default_bank_account = "5121-Comptes en monnaie nationale - " + args.get('company_abbr')
+        company_name = args.get('company_name').strip()
         for value in list_of_payment_modes:
         
-                if value.name and not frappe.db.get_value('Mode of Payment Account', {'company': self.name}):
+                if value.name and not frappe.db.get_value('Mode of Payment Account', {'company': company_name}):
                         mode_of_payment = frappe.get_doc('Mode of Payment', value.name)
                         mode_of_payment.append('accounts', {
-                                'company': self.name,
+                                'company': company_name,
                                 'default_account': default_bank_account
                         })
                         mode_of_payment.save(ignore_permissions=True)
