@@ -3370,7 +3370,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-04-18 08:45:24.442219", 
+ "modified": "2017-04-18 16:20:21.029441", 
  "modified_by": "Administrator", 
  "module": "Maia", 
  "name": "Early Postnatal Consultation", 
@@ -3398,13 +3398,13 @@
    "write": 1
   }
  ], 
- "quick_entry": 1, 
+ "quick_entry": 0, 
  "read_only": 0, 
  "read_only_onload": 0, 
  "show_name_in_global_search": 0, 
  "sort_field": "modified", 
  "sort_order": "DESC", 
  "title_field": "patient_name", 
- "track_changes": 0, 
+ "track_changes": 1, 
  "track_seen": 0
 }

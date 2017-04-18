@@ -1429,7 +1429,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-03-30 17:36:39.508419", 
+ "modified": "2017-04-18 16:20:48.303044", 
  "modified_by": "Administrator", 
  "module": "Maia", 
  "name": "Prenatal Interview Consultation", 
@@ -1457,7 +1457,7 @@
    "write": 1
   }
  ], 
- "quick_entry": 1, 
+ "quick_entry": 0, 
  "read_only": 0, 
  "read_only_onload": 0, 
  "show_name_in_global_search": 0, 

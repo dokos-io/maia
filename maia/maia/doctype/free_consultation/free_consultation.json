@@ -1692,7 +1692,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-04-18 08:56:39.066903", 
+ "modified": "2017-04-18 16:18:12.053955", 
  "modified_by": "Administrator", 
  "module": "Maia", 
  "name": "Free Consultation", 
@@ -1720,10 +1720,10 @@
    "write": 1
   }
  ], 
- "quick_entry": 1, 
+ "quick_entry": 0, 
  "read_only": 0, 
  "read_only_onload": 0, 
- "show_name_in_global_search": 0, 
+ "show_name_in_global_search": 1, 
  "sort_field": "modified", 
  "sort_order": "DESC", 
  "title_field": "patient_name", 
