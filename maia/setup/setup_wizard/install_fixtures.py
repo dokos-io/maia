@@ -136,19 +136,17 @@ def install(country=None):
 		{'uom_name': _('Hour'), 'doctype': 'UOM', 'name': _('Hour')},
 		{'uom_name': _('Minute'), 'doctype': 'UOM', 'name': _('Minute')},
 
-		# Mode of Payment
-		{'doctype': 'Mode of Payment',
-			'mode_of_payment': 'Check' if country=="United States" else _('Cheque'),
-			'type': 'Bank'},
-		{'doctype': 'Mode of Payment', 'mode_of_payment': _('Cash'),
-			'type': 'Cash'},
-		{'doctype': 'Mode of Payment', 'mode_of_payment': _('Credit Card'),
-			'type': 'Bank'},
-		{'doctype': 'Mode of Payment', 'mode_of_payment': _('Wire Transfer'),
-			'type': 'Bank'},
-		{'doctype': 'Mode of Payment', 'mode_of_payment': _('Bank Draft'),
-			'type': 'Bank'},
-
+                # Mode of Payment
+                {'doctype': 'Mode of Payment',
+                 'mode_of_payment': 'Check' if country=="United States" else _('Cheque'),
+                 'type': 'Bank'},
+                {'doctype': 'Mode of Payment', 'mode_of_payment': _('Cash'),
+                 'type': 'Cash'},
+                {'doctype': 'Mode of Payment', 'mode_of_payment': _('Credit Card'),
+                 'type': 'Bank'},
+                {'doctype': 'Mode of Payment', 'mode_of_payment': _('Wire Transfer'),
+                 'type': 'Bank'},
+                
 		# Activity Type
 		{'doctype': 'Activity Type', 'activity_type': _('Planning')},
 		{'doctype': 'Activity Type', 'activity_type': _('Research')},

@@ -7,7 +7,7 @@ def get_level():
     if frappe.db.get_single_value('System Settings', 'setup_complete'):
         activation_level = 1
 
-    if frappe.db.count('Patient') > 5:
+    if frappe.db.count('Patient') > 4:
         activation_level += 1
 
     # recent login
@@ -59,15 +59,6 @@ def get_help_messages():
             description=_('Complete your Company Information'),
             action=_('Company Information'),
             route='List/Company',
-            domain=('Midwife'),
-            target=2
-        ),
-        frappe._dict(
-            doctype='Email Domain',
-            title=_('Email Domain'),
-            description=_('Setup an Email Domain to be able to send/receive Emails'),
-            action=_('Email Setup'),
-            route='List/Email Domain',
             domain=('Midwife'),
             target=2
         )
