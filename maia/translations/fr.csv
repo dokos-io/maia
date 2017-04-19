@@ -499,8 +499,6 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +241,Nexplanon,Nexplanon
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +288,Nexplanon Installation Kit,Un Kit de Pose du Dispositif sous Cutané
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +289,Nexplanon Removal Kit,Un Kit de Retrait du Dispositif sous Cutané
 apps/maia/maia/setup/page/welcome_to_maia/welcome_to_maia.html +21,Next Steps,Prochaines étapes
-DocType: Birth Preparation Consultation,Night Work Allowance,Indemnité de Nuit
-DocType: Birth Preparation Consultation,Night Work Allowance,Indemnité de Nuit
 DocType: Birth Preparation Consultation,Night Work Allowance Type,Type d’Indemnité de Nuit
 DocType: Codification,Night Work Allowance: 0h-6h,Indemnité de Nuit : 0h-6h
 DocType: Codification,Night Work Allowance: 20h-6h | 6h-8h,Indemnité de Nuit : 20h-6h | 6h-8h
@@ -779,6 +777,7 @@ apps/maia/maia/public/js/setup_wizard.js +64,The name of the institute for which
 apps/maia/maia/public/js/setup_wizard.js +65,The name of the practice for which you are setting up this system. Contact our team if you have any question.,Le nom du cabinet pour lequel vous configurez ce système. Contactez-nous si vous avez la moindre question.
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +421,Third Quarter Ultrasound,Echographie du Troisième Trimestre (entre 32 et 34 SA)
 DocType: Birth Preparation Consultation,Third-Party Payment,Tiers-Payant
+DocType: Birth Preparation Consultation,Night Work Allowance,Indemnité de Nuit
 apps/maia/maia/maia/doctype/patient/patient_dashboard.py +6,This is based on interactions with this Patient. See timeline below for details,Ce graphique est basé sur les interactions avec cette Patiente. Voir les dossiers ci-dessous pour plus de détails.
 DocType: Gynecological Consultation,Thyroid,Thyroïde
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +355,Titanorein,Titanoréine
@@ -803,7 +802,7 @@ DocType: Obstetrical Background,Undefined,Indéfini
 apps/maia/maia/public/js/setup_wizard.js +291,Unit,Unité
 apps/maia/maia/public/js/setup_wizard.js +166,Upload your letterhead and logo. (you can edit them later).,Chargez votre en-tête et votre logo. (Vous pourrez aussi les éditer plus tard).
 DocType: Perineum Rehabilitation,Urethra Adherence ?,Adherence de l'urètre
-DocType: Perineum Rehabilitation,Urge ?,Hyperactivité vésicale?
+DocType: Perineum Rehabilitation,Urge ?,Envie Impérieuse?
 DocType: Perineum Rehabilitation,Urgency of Urination,Urgenterie
 DocType: Perineum Rehabilitation,Urgency of Urination or Stress Incontinence,Urgenterie ou Incontinence Urinaire d'Effort
 DocType: Perineum Rehabilitation,Urinary Area,Zone Urinaire
@@ -858,8 +857,8 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +173,White,Blanc
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +147,Wire Transfer,Virement
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +411,Wisdom Tooth Removal,Ablation des Dents de Sagesse
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +249,Withdrawal Method,Méthode du Retrait
-DocType: Birth Preparation Consultation,Without Codification,Sans Codification
-DocType: Birth Preparation Consultation,Without Codification (€),Sans Codification (€)
+DocType: Birth Preparation Consultation,Without Codification,Hors Nomenclature
+DocType: Birth Preparation Consultation,Without Codification (€),Hors Nomenclature (€)
 DocType: Prenatal Interview,Work,Travail
 DocType: Professional Information Card,Work Address,Adresse Professionnelle
 DocType: Professional Information Card,Work Email,Email Professionnel

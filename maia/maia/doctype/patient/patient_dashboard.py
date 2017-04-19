@@ -12,7 +12,7 @@ def get_data():
 			},
 			{
 				'label': _('Consultations'),
-				'items': ['Pregnancy Consultation', 'Birth Preparation Consultation', 'Early Postnatal Consultation', 'Postnatal Consultation', 'Perineum Rehabilitation Consultation', 'Gynecological Consultation', 'Free Consultation']
+				'items': ['Pregnancy Consultation', 'Birth Preparation Consultation', 'Early Postnatal Consultation', 'Postnatal Consultation', 'Perineum Rehabilitation Consultation', 'Gynecological Consultation', 'Prenatal Interview Consultation', 'Free Consultation']
 			},
                         {
 				'label': _('Payments'),

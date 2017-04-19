@@ -99,24 +99,24 @@ var get_term_date = function(frm) {
 
 		    if (expected_term != null) {
 			
-			am_weeks = Math.floor((280 - frappe.datetime.get_diff(expected_term, consultation_date))/7)
-			add_days = Math.floor(((280 - frappe.datetime.get_diff(expected_term, consultation_date))/7 - am_weeks) * 7)
+			am_weeks = Math.floor((275 - frappe.datetime.get_diff(expected_term, consultation_date))/7) + 2
+			add_days = Math.floor(((275 - frappe.datetime.get_diff(expected_term, consultation_date))/7 - (am_weeks - 2)) * 7)
 			console.log("expected_term", expected_term, consultation_date)
 		    }
 		    else if (beginning_of_pregnancy != null) {
-			am_weeks = Math.floor(frappe.datetime.get_diff(consultation_date, beginning_of_pregnancy)/7)
+			am_weeks = Math.floor(frappe.datetime.get_diff(consultation_date, beginning_of_pregnancy)/7) + 2
 			add_days = Math.floor((frappe.datetime.get_diff(consultation_date, beginning_of_pregnancy)/7 - Math.floor(frappe.datetime.get_diff(consultation_date, beginning_of_pregnancy)/7))*7)
 			console.log("beginning_pregancy", beginning_of_pregnancy, consultation_date)
 		    }
 		    else if (last_menstrual_period != null) {
-			am_weeks = Math.floor(frappe.datetime.get_diff(consultation_date, last_menstrual_period)/7) + 2
+			am_weeks = Math.floor(frappe.datetime.get_diff(consultation_date, last_menstrual_period)/7)
 			add_days = Math.floor((frappe.datetime.get_diff(consultation_date, last_menstrual_period)/7 - Math.floor(frappe.datetime.get_diff(consultation_date, last_menstrual_period)/7))*7)
 		        console.log("last_menstrual", last_menstrual_period, consultation_date)
 
 		    }
 		   
 		    
-		    frappe.model.set_value(frm.doctype, frm.docname, "term", am_weeks + __(" Weeks Amenorrhea + ") + add_days + __(" Days"))
+		    frappe.model.set_value(frm.doctype, frm.docname, "term", am_weeks + " " + __("Weeks Amenorrhea +") + " " + add_days + " " + __("Days"))
 		}
 	    }
 	})
