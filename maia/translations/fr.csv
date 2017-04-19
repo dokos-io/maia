@@ -651,6 +651,7 @@ DocType: Echography Result,Q1,Q1
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +84,Quality Management,Gestion de la qualité
 DocType: Professional Information Card,RPPS N°,N° RPPS
 apps/maia/maia/templates/includes/prescription_header.html +20,RPPS N°:,N° RPPS :
+apps/maia/maia/templates/includes/prescription_header.html +12,Prescription, Ordonnance
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +226,Rachianesthesia,Rachianesthésie
 apps/maia/maia/public/js/setup_wizard.js +297,Rate,Taux
 apps/maia/maia/public/js/setup_wizard.js +220,Rate (%),Taux (%)
