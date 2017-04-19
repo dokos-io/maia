@@ -28,7 +28,6 @@ def setup_complete(args=None):
 
 	create_price_lists(args)
 	create_fiscal_year_and_company(args)
-        set_mode_of_payment_account(args)
 	create_sales_tax(args)
 	create_users(args)
 	set_defaults(args)
@@ -58,6 +57,9 @@ def setup_complete(args=None):
 	frappe.db.commit()
 	frappe.clear_cache()
 
+        set_mode_of_payment_account(args)
+        frappe.db.commit()
+        
         correct_midwife_accounts(args)
 
         hidden_list = ['Stock', 'Manufacturing', 'Learn', 'Buying', 'Selling', 'Support', 'Integrations', 'Maintenance', 'Schools', 'HR', 'CRM']
@@ -143,15 +145,13 @@ def set_mode_of_payment_account(args):
         list_of_payment_modes = frappe.get_all('Mode of Payment', filters={'type': 'Bank'}, fields=['name'])
         default_bank_account = "5121-Comptes en monnaie nationale - " + args.get('company_abbr')
         company_name = args.get('company_name').strip()
-        for value in list_of_payment_modes:
-        
-                if value.name and not frappe.db.get_value('Mode of Payment Account', {'company': company_name}):
-                        mode_of_payment = frappe.get_doc('Mode of Payment', value.name)
-                        mode_of_payment.append('accounts', {
-                                'company': company_name,
-                                'default_account': default_bank_account
-                        })
-                        mode_of_payment.save(ignore_permissions=True)
+        for list_of_payment_mode in list_of_payment_modes:
+                mode_of_payment = frappe.get_doc('Mode of Payment', list_of_payment_mode.name)
+                mode_of_payment.append('accounts', {
+                        'company': company_name,
+                        'default_account': default_bank_account
+                })
+                mode_of_payment.save(ignore_permissions=True)
         
 def create_price_lists(args):
 	for pl_type, pl_name in (("Selling", _("Standard Selling")), ("Buying", _("Standard Buying"))):
