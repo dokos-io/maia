@@ -36,7 +36,6 @@ maia.PregnancyConsultationController = frappe.ui.form.Controller.extend({
 	callback: function(r) {
 	    var new_window = window.open();
 	    new_window.document.write(r.message);
-	    frappe.msgprint(r.message);
 	}
     })
     },
@@ -53,7 +52,6 @@ maia.PregnancyConsultationController = frappe.ui.form.Controller.extend({
 	callback: function(r) {
 	    var new_window = window.open();
 	    new_window.document.write(r.message);
-	    frappe.msgprint(r.message);
 	}
     })
     },
@@ -70,10 +68,14 @@ maia.PregnancyConsultationController = frappe.ui.form.Controller.extend({
 	callback: function(r) {
 	    var new_window = window.open();
 	    new_window.document.write(r.message);
-	    frappe.msgprint(r.message);
 	}
     })
+    },
+
+    set_default_print_format: function() {
+	this.frm.meta.default_print_format = "";
     }
+    
 
 
 });
