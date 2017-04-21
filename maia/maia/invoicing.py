@@ -14,11 +14,11 @@ def create_and_submit_invoice(self):
                 if frappe.db.get_value("Customer", {"customer_name": "CPAM"}) is None:
                                 create_social_security_customer(self)
 
-                if self.third_party_payment == 1 and self.without_codification == 0 and self.without_codification is None :                        
+                if self.third_party_payment == 1 and self.without_codification == 0 or self.without_codification is None :                        
                                 customer = frappe.db.get_value("Customer", {"customer_name": "CPAM"})
                                 update_invoice_details(self, customer, "third_party_only")
                         
-                elif self.third_party_payment == 1 and self.without_codification != 0 and self.without_codification is not None :
+                elif self.third_party_payment == 1 and self.without_codification != 0 or self.without_codification is not None :
                                 customer = frappe.db.get_value("Customer", {"customer_name": "CPAM"})
                                 update_invoice_details(self, customer, "third_party_and_patient")
                                 
