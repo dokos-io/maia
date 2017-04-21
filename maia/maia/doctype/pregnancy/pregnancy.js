@@ -7,11 +7,3 @@ frappe.ui.form.on('Pregnancy', {
 
 	}
 });
-
-maia.PregnancyController = frappe.ui.form.Controller.extend({
-    set_default_print_format: function() {
-	this.frm.meta.default_print_format = "Pregnancy Folder";
-    }
-});
-
-$.extend(this.frm.cscript, new maia.PregnancyController({frm: this.frm}));

@@ -61,12 +61,7 @@ maia.FreePrescriptionController = frappe.ui.form.Controller.extend({
 	    new_window.document.write(r.message);
 	}
     })
-    },
-
-    set_default_print_format: function() {
-	this.frm.meta.default_print_format = "Drug Prescription";
     }
-
 
 });
 
