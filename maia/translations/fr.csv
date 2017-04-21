@@ -879,3 +879,4 @@ apps/maia/maia/public/js/setup_wizard.js +218,e.g. VAT,e.g. TVA
 apps/maia/maia/public/js/setup_wizard.js +198,user@example.com,utilisateur@exemple.com
 DocType: Electrostimulation Program,Electrostimulation Program,Programme
 DocType: Electrostimulation Frequency,Electrostimulation Frequency,Fréquence
+apps/maia/maia/print_format/patient_folder/patient_folder.json +10,Title and Birth Name,Titre et Nom de Naissance

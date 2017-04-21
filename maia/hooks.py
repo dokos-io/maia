@@ -30,7 +30,7 @@ setup_wizard_complete = "maia.setup.setup_wizard.setup_wizard.setup_complete"
 get_help_messages = "maia.utilities.activation.get_help_messages"
 
 # welcome message title
-login_mail_title = "Nous sommes heureux de te compter parmi nous"
+login_mail_title = "Nous sommes heureux de vous compter parmi nous !"
 
 # Includes in <head>
 # ------------------
