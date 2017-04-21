@@ -25,7 +25,6 @@ maia.maia.GynecologicalConsultation = frappe.ui.form.Controller.extend({
 	callback: function(r) {
 	    var new_window = window.open();
 	    new_window.document.write(r.message);
-	    frappe.msgprint(r.message);
 	}
     })
     },
@@ -42,7 +41,6 @@ maia.maia.GynecologicalConsultation = frappe.ui.form.Controller.extend({
 	callback: function(r) {
 	    var new_window = window.open();
 	    new_window.document.write(r.message);
-	    frappe.msgprint(r.message);
 	}
     })
     }

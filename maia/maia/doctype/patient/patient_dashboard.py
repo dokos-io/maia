@@ -17,6 +17,10 @@ def get_data():
                         {
 				'label': _('Payments'),
 				'items': ['Payment Entry']
+			},
+                        {
+				'label': _('Free Prescriptions'),
+				'items': ['Free Prescription']
 			}
 		]
 	}

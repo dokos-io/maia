@@ -1,0 +1,24 @@
+{%- macro add_header(page_num, max_pages, doc, letter_head, no_letterhead, footer, print_settings=None) -%}
+{% if letter_head and not no_letterhead %}
+<div class="letter-head">{{ letter_head }}</div>
+{% endif %} {%- endmacro -%}
+
+<div id="header-html" class="hidden-pdf">
+  {{ add_header(0,1,doc,letter_head, no_letterhead) }}
+</div>
+
+
+<div class="print-heading" style="margin-top:50px">
+  <div>
+    <h2 class="text-left">{{ _(doc.doctype) }}</h2>
+  </div>
+  <div class="row" style="margin-top:20px">
+    <div class="col-xs-12">
+      <div class="col-xs-6 text-left">
+	<blockquote style="font-size: 11pt;">{{ _("Date :") }} {{ frappe.format_value(frappe.utils.now(), {'fieldtype': 'Date'}) }}<br>
+	  {{ _("Patient :") }} {{ doc.patient_name }} <br> {% if doc.patient_age != none %}
+	  {{ _("Age :") }} {{ doc.patient_age }}</blockquote> {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
