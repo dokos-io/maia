@@ -21,7 +21,7 @@
 		<blockquote style="font-size: 11pt;">{{ practitioner.full_name }}<br>
 		  {{ _("RPPS N°:") }} {{ practitioner.rpps_number }}</blockquote>
 		{%- endfor -%}
-		{% set patient = frappe.get_doc("Patient", doc.patient) %}
+		{% set patient = frappe.get_doc("Patient Record", doc.patient) %}
 		<blockquote style="font-size: 11pt;">{{ _("Date :") }} {{ doc.get_formatted("consultation_date") }}<br>
 		  {{ _("Patient :") }} {{ doc.patient_name }} {% if patient.patient_age != none %}
 		  {{ _("Age :") }} {{ patient.patient_age }}</blockquote> {% endif %}

@@ -10,7 +10,7 @@ maia.GynecologyController = frappe.ui.form.Controller.extend({
     refresh: function(frm) {
 	get_first_menses_and_regular_cycles(this.frm);
     },
-    
+
 });
 
 $.extend(this.frm.cscript, new maia.GynecologyController({frm: this.frm}));
@@ -21,7 +21,7 @@ var get_first_menses_and_regular_cycles = function(frm) {
 	frappe.call({
 	    "method": "frappe.client.get",
 	    args: {
-		doctype: "Patient",
+		doctype: "Patient Record",
 		name: frm.doc.patient
 	    },
 	    cache: false,
@@ -44,10 +44,9 @@ var get_first_menses_and_regular_cycles = function(frm) {
 			frappe.model.set_value(frm.doctype, frm.docname, "first_menses", "");
 			frappe.model.set_value(frm.doctype, frm.docname, "regular_cycles", "");
 		    }
-			
+
 		}
 	    }
-	})	
+	})
     }
 };
-

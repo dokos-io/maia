@@ -14,12 +14,12 @@ def get_data():
 			"label": _("Calendar")
 		},
                 {
-			"module_name": "Patient",
-                        "_doctype": "Patient",
+			"module_name": "Patient Record",
+                        "_doctype": "Patient Record",
 			"color": "#ff4081",
 			"icon": "fa fa-stethoscope",
 			"type": "link",
-                        "link": "List/Patient",
+                        "link": "List/Patient Record",
 			"label": _("Patients")
 		},
                 {
@@ -28,6 +28,6 @@ def get_data():
 			"icon": "octicon octicon-squirrel",
 			"type": "module",
 			"label": _("Maia")
-		}                
-                
+		}
+
 	]
