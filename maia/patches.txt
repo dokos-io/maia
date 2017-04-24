@@ -1,0 +1,3 @@
+execute:import unidecode # new requirement
+
+maia.patches.v0_4.rename_patient_doctype
