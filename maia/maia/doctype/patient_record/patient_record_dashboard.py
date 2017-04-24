@@ -4,7 +4,7 @@ def get_data():
 	return {
 		'heatmap': True,
 		'heatmap_message': _('This is based on interactions with this Patient. See timeline below for details'),
-		'fieldname': 'patient',
+		'fieldname': 'patient_record',
 		'transactions': [
 			{
 				'label': _('Folders'),

@@ -79,7 +79,7 @@
    "bold": 0, 
    "collapsible": 0, 
    "columns": 0, 
-   "fieldname": "patient", 
+   "fieldname": "patient_record", 
    "fieldtype": "Link", 
    "hidden": 0, 
    "ignore_user_permissions": 0, 
@@ -1477,7 +1477,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-04-24 14:05:25.761311", 
+ "modified": "2017-04-24 17:34:22.353786", 
  "modified_by": "Administrator", 
  "module": "Maia", 
  "name": "Prenatal Interview Consultation", 
@@ -1511,7 +1511,7 @@
  "show_name_in_global_search": 0, 
  "sort_field": "modified", 
  "sort_order": "DESC", 
- "title_field": "patient", 
+ "title_field": "patient_name", 
  "track_changes": 1, 
  "track_seen": 0
 }

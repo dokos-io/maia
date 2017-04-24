@@ -13,13 +13,13 @@ from frappe.geo.address_and_contact import load_address_and_contact
 from erpnext.utilities.transaction_base import TransactionBase
 from erpnext.accounts.party import validate_party_accounts, get_timeline_data
 
-class Patient(Document):
+class PatientRecord(Document):
         def get_feed(self):
                 return self.name
 
         def onload(self):
                 """Load address in `__onload`"""
-                load_address_and_contact(self, "patient")
+                load_address_and_contact(self, "patient_record")
                 self.load_dashboard_info()
 
         def load_dashboard_info(self):
