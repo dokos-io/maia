@@ -7,7 +7,7 @@ def get_level():
     if frappe.db.get_single_value('System Settings', 'setup_complete'):
         activation_level = 1
 
-    if frappe.db.count('Patient') > 4:
+    if frappe.db.count('Patient Record') > 4:
         activation_level += 1
 
     # recent login
@@ -27,7 +27,7 @@ def get_help_messages():
 
     message_settings = [
         frappe._dict(
-            doctype='Patient',
+            doctype='Patient Record',
             title=_('Create Patients'),
             description=_('Add your first five patients to the system'),
             action=_('Add Patient'),

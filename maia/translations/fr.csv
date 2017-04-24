@@ -450,7 +450,7 @@ apps/maia/maia/setup/setup_wizard/setup_wizard.py +223,Maia Setup Complete!,Para
 DocType: Pregnancy,Male,Masculin
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +83,Management,Gestion
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +90,Manager,Directeur
-DocType: Patient Record Allergies,Manifestation,Manifestation
+DocType: Patient Allergies,Manifestation,Manifestation
 DocType: Obstetrical Background,Manual,Manuel
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +75,Marketing,Marketing
 DocType: Patient Record,Married,Marié
@@ -563,11 +563,11 @@ DocType: Birth Preparation Consultation,Patient,Patiente
 DocType: Patient Record,Patient Record,Dossier Patient
 apps/maia/maia/templates/includes/prescription_header.html +26,Patient :,Patiente :
 DocType: Patient Record,Patient Addictions,Addictions de la Patiente
-DocType: Patient Record Allergies,Patient Allergies,Allergies de la Patiente
+DocType: Patient Allergies,Patient Allergies,Allergies de la Patiente
 DocType: Birth Preparation Consultation,Patient Invoice,Facture de la Patiente
 DocType: Birth Preparation Consultation,Patient Name,Nom de la Patiente
 DocType: Birth Preparation Consultation,Patient Price,Prix Patiente
-DocType: Patient Record Surgical Interventions,Patient Surgical Interventions,Interventions Chirurgicales de la Patiente
+DocType: Patient Surgical Interventions,Patient Surgical Interventions,Interventions Chirurgicales de la Patiente
 Custom Field - label: Sales Invoice-patient_name,Patient_Name,Nom de la Patiente
 apps/maia/maia/config/maia.py +10,Patients,Patientes
 apps/maia/maia/maia/doctype/patient_record/patient_record_dashboard.py +18,Payments,Paiements
@@ -750,7 +750,7 @@ apps/maia/maia/public/js/setup_wizard.js +262,Supplier Name,Nom du Fournisseur
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +116,Supplies and Pharmacy,Fournitures et Pharmacie
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +353,Support Stocking - Class II,Bas de Contention - Classe II
 DocType: Patient Record,Surgical Background,Antécédents Chirurgicaux
-DocType: Patient Record Surgical Interventions,Surgical Intervention,Intervention Chirurgicale
+DocType: Patient Surgical Interventions,Surgical Intervention,Intervention Chirurgicale
 DocType: Patient Record,Surgical Interventions,Interventions Chirurgicales
 DocType: Pregnancy,Surveillance Points,Points de Surveillance
 DocType: Obstetrical Background,Suture,Suture
