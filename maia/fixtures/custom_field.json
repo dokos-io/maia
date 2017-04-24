@@ -208,7 +208,7 @@
   "modified": "2017-04-15 17:37:29.990135",
   "name": "Sales Invoice-patient_name",
   "no_copy": 0,
-  "options": "Patient.patient_name",
+  "options": "patient_record.patient_name",
   "permlevel": 0,
   "precision": "",
   "print_hide": 0,
