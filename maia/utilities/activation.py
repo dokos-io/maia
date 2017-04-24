@@ -31,7 +31,7 @@ def get_help_messages():
             title=_('Create Patients'),
             description=_('Add your first five patients to the system'),
             action=_('Add Patient'),
-            route='List/Patient',
+            route='List/Patient Record',
             domain=('Midwife'),
             target=5
         ),
@@ -62,7 +62,7 @@ def get_help_messages():
             domain=('Midwife'),
             target=2
         )
-        
+
         ]
 
 

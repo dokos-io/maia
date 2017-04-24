@@ -16,7 +16,7 @@ from erpnext.accounts.party import validate_party_accounts, get_timeline_data
 class Patient(Document):
         def get_feed(self):
                 return self.name
-                         
+
         def onload(self):
                 """Load address in `__onload`"""
                 load_address_and_contact(self, "patient")
@@ -39,12 +39,12 @@ class Patient(Document):
                 # concat first and last name
                 self.patient_name = " ".join(filter(None,
                         [cstr(self.get(f)).strip() for f in ["patient_first_name", "patient_last_name"]]))
-                                                
+
 
         def update_address_links(self):
               address_names = frappe.get_all('Dynamic Link', filters={
                       "parenttype":"Address",
-                      "link_doctype":"Patient",
+                      "link_doctype":"Patient Record",
                       "link_name":self.name
               }, fields=["parent as name"])
 
@@ -54,7 +54,7 @@ class Patient(Document):
                       if not address.has_link('Customer', self.customer):
                               address.append('links', dict(link_doctype='Customer', link_name=self.customer))
                               address.save()
-                      
+
 
         def on_update(self):
                 self.autoname()
@@ -73,15 +73,15 @@ class Patient(Document):
                 self.update_address_links()
 
                 updating_customer(self)
-        
+
         def on_trash(self):
                 self.delete_patient_address()
 
         def after_rename(self, olddn, newdn, merge=False):
                 frappe.db.set(self, 'patient_name', newdn)
-                set_field = ", name=%(newdn)s"                                                                                                                                                                                
+                set_field = ", name=%(newdn)s"
 def create_customer_from_patient(doc):
-                
+
                 customer =  frappe.get_doc({
                         "doctype": "Customer",
                         "customer_name": doc.patient_name,
@@ -91,7 +91,7 @@ def create_customer_from_patient(doc):
                         "territory": _('All Territories')
                         }).insert(ignore_permissions=True)
 
-                frappe.db.set_value("Patient", doc.name, "Customer", customer.name)
+                frappe.db.set_value("Patient Record", doc.name, "Customer", customer.name)
 
                 doc.reload()
 
