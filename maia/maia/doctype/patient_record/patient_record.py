@@ -16,7 +16,7 @@ from erpnext.accounts.party import validate_party_accounts, get_timeline_data
 class PatientRecord(Document):
         def get_feed(self):
                 return self.name
-
+        
         def onload(self):
                 """Load address in `__onload`"""
                 load_address_and_contact(self, "patient_record")
