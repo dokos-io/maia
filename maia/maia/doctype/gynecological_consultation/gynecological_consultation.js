@@ -6,6 +6,17 @@ frappe.provide ("maia.maia");
 {% include "maia/public/js/controllers/consultations.js" %}
 
 maia.maia.GynecologicalConsultation = frappe.ui.form.Controller.extend({
+     onload: function(frm) {
+	this.frm.fields_dict['gynecological_folder'].get_query = function(doc) {
+	    return {
+		filters: {
+		    "patient_record": doc.patient_record
+		}
+	    }
+	}
+
+     },
+
     refresh: function() {
 	if(!this.frm.doc.__islocal) {
 	    this.frm.add_custom_button(__('Drug Prescription'), this.print_drug_prescription, __("Print"));
