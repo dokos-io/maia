@@ -4,6 +4,7 @@
 frappe.provide("maia");
 
 maia.PatientRecordController = frappe.ui.form.Controller.extend({
+    
     refresh: function() {
 	frappe.dynamic_link = {doc: this.frm.doc, fieldname: 'name', doctype: 'Patient Record'};
 
@@ -21,12 +22,6 @@ maia.PatientRecordController = frappe.ui.form.Controller.extend({
 });
 
 $.extend(cur_frm.cscript, new maia.PatientRecordController({frm: cur_frm}));
-
-
-frappe.ui.form.on("Patient Record", "patient_name", function(frm,cdt,cdn){
-    frm.doc.change_in_patient = 1;
-});
-
 
 frappe.ui.form.on("Patient Record", "patient_date_of_birth", function(frm) {
 
