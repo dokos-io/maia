@@ -7,6 +7,13 @@ frappe.provide ('maia');
 maia.EarlyPostnatalConsultationController = frappe.ui.form.Controller.extend({
     onload: function(frm) {
 	get_postdelivery_date(this.frm);
+	this.frm.fields_dict['pregnancy_folder'].get_query = function(doc) {
+	    return {
+		filters: {
+		    "patient_record": doc.patient_record
+		}
+	    }
+	}
     },
 
     refresh: function(frm) {

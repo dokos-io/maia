@@ -6,7 +6,7 @@ from __future__ import unicode_literals
 import frappe
 from frappe.model.naming import make_autoname
 from frappe import _, msgprint, throw
-from frappe.utils import cstr, has_gravatar
+from frappe.utils import cstr, cint, has_gravatar
 import frappe.defaults
 from frappe.model.document import Document
 from frappe.geo.address_and_contact import load_address_and_contact
@@ -15,8 +15,8 @@ from erpnext.accounts.party import validate_party_accounts, get_timeline_data
 
 class PatientRecord(Document):
         def get_feed(self):
-                return self.name
-
+                return self.patient_name
+        
         def onload(self):
                 """Load address in `__onload`"""
                 load_address_and_contact(self, "patient_record")
@@ -36,9 +36,18 @@ class PatientRecord(Document):
                 self.set_onload('dashboard_info', info)
 
         def autoname(self):
-                # concat first and last name
-                self.patient_name = " ".join(filter(None,
-                        [cstr(self.get(f)).strip() for f in ["patient_first_name", "patient_last_name"]]))
+                self.name = self.get_patient_name()
+                
+
+        def get_patient_name(self):
+                if frappe.db.get_value("Patient Record", self.patient_name):
+                        count = frappe.db.sql("""select ifnull(MAX(CAST(SUBSTRING_INDEX(name, ' ', -1) AS UNSIGNED)), 0) from `tabPatient Record` where name like %s""", "%{0} - %".format(self.patient_name), as_list=1)[0][0]
+                        count = cint(count) + 1
+
+                        return "{0} - {1}".format(self.patient_name, cstr(count))
+
+                return self.patient_name
+
 
 
         def update_address_links(self):
@@ -55,31 +64,28 @@ class PatientRecord(Document):
                               address.append('links', dict(link_doctype='Customer', link_name=self.customer))
                               address.save()
 
+        def validate(self):
+                self.patient_name = " ".join(filter(None,
+                        [cstr(self.get(f)).strip() for f in ["patient_first_name", "patient_last_name"]]))
+
+                self.update_address_links()
+
+                updating_customer(self)
 
         def on_update(self):
-                self.autoname()
                 self.update_address_links()
 
                 updating_customer(self)
                 frappe.db.set_value(self.doctype,self.name,"change_in_patient",0)
                 self.reload()
 
-
         def after_insert(self):
                 create_customer_from_patient(self)
-
-        def validate(self):
-                self.autoname()
-                self.update_address_links()
-
-                updating_customer(self)
 
         def on_trash(self):
                 self.delete_patient_address()
 
-        def after_rename(self, olddn, newdn, merge=False):
-                frappe.db.set(self, 'patient_name', newdn)
-                set_field = ", name=%(newdn)s"
+                
 def create_customer_from_patient(doc):
 
                 customer =  frappe.get_doc({

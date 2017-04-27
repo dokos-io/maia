@@ -1,12 +1,29 @@
 // Copyright (c) 2017, DOKOS and contributors
 // For license information, please see license.txt
-    
+frappe.provide("maia");
+
 frappe.ui.form.on(this.frm.doctype, {
 
     onload: function(frm) {
 	get_patient_value(frm);
 	refresh_codification_price(frm);
 	refresh_without_codification_price(frm);
+
+	frappe.call({
+	    "method": "maia.client.get_practitioner",
+	    args: {
+		doctype: "Professional Information Card",
+		filters: {user: user},
+		fieldname: "name"
+	    },
+	    cache: false,
+	    callback: function (data) {
+		console.log(data);
+		if (!data.exe && data.message) {
+		     frappe.model.set_value(frm.doctype, frm.docname, "practitioner", data.message.name)
+		}
+	    }
+	});
     }
 
 });
