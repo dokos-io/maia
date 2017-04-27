@@ -12,6 +12,12 @@ def get_data():
             "items": [
                 {
                     "type": "doctype",
+                    "name": "Midwife Appointment",
+                    "label": _("Appointment"),
+                    "description": _("Appointment"),
+                },
+                {
+                    "type": "doctype",
                     "name": "Patient Record",
                     "label": _("Patient Record"),
                     "description": _("Patient Record"),
