@@ -32,6 +32,10 @@ get_help_messages = "maia.utilities.activation.get_help_messages"
 # welcome message title
 login_mail_title = "Nous sommes heureux de vous compter parmi nous !"
 
+#calendar
+calendars = ["Midwife Appointment"]
+
+
 # Includes in <head>
 # ------------------
 

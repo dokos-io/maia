@@ -18,11 +18,6 @@ def update_status(appointmentId, status):
        
 @frappe.whitelist()
 def get_events(start, end, filters=None):
-        """Returns events for Gantt / Calendar view rendering.
-        :param start: Start date-time.
-        :param end: End date-time.
-        :param filters: Filters (JSON).
-        """
         from frappe.desk.calendar import get_event_conditions
         conditions = get_event_conditions("Midwife Appointment", filters)
         data = frappe.db.sql("""select name, patient_record, appointment_type, start_dt, end_dt from `tabMidwife Appointment` where (start_dt between %(start)s and %(end)s) and docstatus < 2 {conditions}""".format(conditions=conditions), {
