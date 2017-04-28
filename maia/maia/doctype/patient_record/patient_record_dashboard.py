@@ -21,6 +21,10 @@ def get_data():
                         {
 				'label': _('Free Prescriptions'),
 				'items': ['Free Prescription']
-			}
+			},
+                        {
+                                'label': _('Midwife Appointment'),
+				'items': ['Midwife Appointment']
+                        }
 		]
 	}
