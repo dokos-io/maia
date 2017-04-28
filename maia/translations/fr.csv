@@ -146,6 +146,7 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +229,Classic,Classique
 apps/maia/maia/public/js/setup_wizard.js +371,Classrooms/ Laboratories etc where lectures can be scheduled.,Les Salles de Classe / Laboratoires etc. où des conférences peuvent être programmées.
 DocType: Postnatal Consultation,Clinical Exam,Examen Clinique
 DocType: Perineum Rehabilitation,Closed,Fermé
+DocType: Midwife Appointment, Midwife Appointment, Rendez-Vous
 DocType: Perineum Rehabilitation,Closing Perineum,Périnée fermé
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +206,Cocaine,Cocaïne
 DocType: Birth Preparation Consultation,Codification,Codification
@@ -507,7 +508,7 @@ DocType: Codification,Night Work Allowance: 0h-6h,Indemnité de Nuit : 0h-6h
 DocType: Codification,Night Work Allowance: 20h-6h | 6h-8h,Indemnité de Nuit : 20h-6h | 6h-8h
 DocType: Perineum Rehabilitation,No,Non
 DocType: Birth Preparation Consultation,No Teletransmission,Pas de Télétransmission
-apps/maia/maia/maia/scheduler.py +61,No Work Schedule or average time specified for {0} {1},Aucun Emploi du Temps ou Temps de Travail Moyen spécifié pour {0]{1}
+apps/maia/maia/maia/scheduler.py +61,No Work Schedule or average time specified for {0} {1},Aucun Emploi du Temps ou Temps de Travail Moyen spécifié pour {0} {1}
 apps/maia/maia/maia/doctype/birth_preparation_consultation/birth_preparation_consultation.js +141,No codification is assigned to this specific allowance type. Please select one codification for this allowance type.,Aucune codification assignée à ce type d’indemnité spécifique. Veuillez sélectionner une codification pour ce type d’indemnité spécifique.
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +112,Non Profit,À but non lucratif
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +269,Normal,Normal

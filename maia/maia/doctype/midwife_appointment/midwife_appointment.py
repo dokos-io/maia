@@ -6,12 +6,16 @@ from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
 from maia.maia.scheduler import check_availability
-
+import datetime
+from frappe.utils import getdate
 
 class MidwifeAppointment(Document):
-	pass
+        pass
 
-
+@frappe.whitelist()
+def update_status(appointmentId, status):
+        frappe.db.set_value("Midwife Appointment",appointmentId,"status",status)
+       
 @frappe.whitelist()
 def get_events(start, end, filters=None):
         """Returns events for Gantt / Calendar view rendering.
@@ -28,9 +32,9 @@ def get_events(start, end, filters=None):
         return data
 
 @frappe.whitelist()
-def check_availability_by_midwife(practitioner, date, time=None, end_dt=None):
-        if not (practitioner or date):
-                frappe.throw(_("Please select Physician and Date"))
+def check_availability_by_midwife(practitioner, date, duration):
+        if not (practitioner or date or duration):
+                frappe.throw(_("Please select a Midwife, a Date and an Appointment Type"))
         payload = {}
-        payload[practitioner] = check_availability("Midwife Appointment", "practicioner", False, "Professional Information Card", practitioner, date, time, end_dt)
+        payload[practitioner] = check_availability("Midwife Appointment", "practitioner", "Professional Information Card", practitioner, date, duration)
         return payload
