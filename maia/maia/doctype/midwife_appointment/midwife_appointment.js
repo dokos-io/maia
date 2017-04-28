@@ -48,7 +48,7 @@ var duration = function(frm) {
 	    },
 	    callback: function (data) {
 		frappe.model.set_value(frm.doctype,frm.docname, 'duration', data.message.duration);
-		frappe.model.set_value(frm.doctype,frm.docname, 'end_dt', new Date(moment(frm.doc.date + ' ' + frm.doc.start_time).add(data.message.duration, 'm')));
+		frappe.model.set_value(frm.doctype,frm.docname, 'end_dt', moment(frm.doc.date + ' ' + frm.doc.start_time).add(data.message.duration, 'm'));
 	    }
     });
 }
@@ -73,7 +73,6 @@ var check_availability_by_midwife = function(frm){
 	    method: "maia.maia.doctype.midwife_appointment.midwife_appointment.check_availability_by_midwife",
 	    args: {practitioner: frm.doc.practitioner, date: frm.doc.date, duration: frm.doc.duration},
 	    callback: function(r){
-		console.log(r.message);
 		show_availability(frm, r.message)
 	    }
 	});
@@ -120,12 +119,9 @@ var show_availability = function(frm, result){
 		var row = $(repl('<div class="col-xs-12 list-customers-table border-left border-right border-bottom" style="padding-top:12px; text-align:center;" ><div class="col-xs-3"> %(start)s </div><div class="col-xs-2">-</div><div class="col-xs-3"> %(end)s </div><div class="col-xs-4"><a data-start="%(start)s" data-end="%(end)s" data-practitioner="%(practitioner)s"  href="#"><button class="btn btn-default btn-xs">'+__("Book")+'</button></a></div></div>', {start: start_time.toLocaleTimeString('fr-FR'), end: end_time.toLocaleTimeString('fr-FR'), practitioner: i})).appendTo(html_field);
 	    }
 	    row.find("a").click(function() {
-		frm.doc.start_time = $(this).attr("data-start"); 
-		frm.doc.start_dt = $(this).attr("data-start");
-		frm.doc.end_dt = $(this).attr("data-end");
-		refresh_field("start_dt");
-		refresh_field("start_time");
-		refresh_field("end_dt");
+		frm.doc.start_time = $(this).attr("data-start");
+		frappe.model.set_value(frm.doctype,frm.docname, 'start_dt', frm.doc.date + ' ' + frm.doc.start_time);
+		frappe.model.set_value(frm.doctype,frm.docname, 'end_dt', moment(frm.doc.date + ' ' + frm.doc.start_time).add(frm.doc.duration, 'm'));
 		d.hide()
 		return false;
 	    });
