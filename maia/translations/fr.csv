@@ -1,4 +1,4 @@
-apps/maia/maia/maia/doctype/patient_record/patient_record.js +70, Years Old, Ans
+apps/maia/maia/maia/doctype/patient_record/patient_record.js +70, Years Old,Ans
 DocType: Birth Preparation Consultation,0h-6h,0h-6h
 DocType: Birth Preparation Consultation,20h-0h | 6h-8h,20h-0h | 6h-8h
 apps/maia/maia/public/js/setup_wizard.js +285,A Product or Service,Un Produit ou Service
@@ -102,6 +102,7 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +369,Blood Platelets,Plaqu
 DocType: Early Postnatal Consultation,Blood Pressure,Pression Artérielle
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +169,Blue,Bleu
 DocType: Patient,Body Mass Index,Indice de Masse Corporelle
+apps/maia/maia/maia/doctype/midwife_appointment/midwife_appointment.js +120,Book,Réserver
 DocType: Early Postnatal Consultation,Both,Mixte
 DocType: Early Postnatal Consultation,Bottle Feeding,Biberon
 DocType: Obstetrical Background,Bottle-feeding,Biberon
@@ -134,7 +135,7 @@ DocType: Gynecology,Cervical Smears,Frottis Cervico-vaginal
 DocType: Codification,Change In Item,Modification De l’Article
 DocType: Patient,Change in Patient,Modification du Patient
 apps/maia/maia/public/js/setup_wizard.js +56,Chart of Accounts,Plan Comptable
-apps/maia/maia/maia/doctype/midwife_appointment/midwife_appointment.js +24,Check Availability,Disponibilités
+apps/maia/maia/maia/doctype/midwife_appointment/midwife_appointment.js +23,Check Availability,Disponibilités
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +141,Cheque,Chèque
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +393,Chickenpox Serology,Sérologie  Varicelle
 DocType: Obstetrical Background,Child Health State,Etat de Santé de l'Enfant
@@ -146,7 +147,6 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +229,Classic,Classique
 apps/maia/maia/public/js/setup_wizard.js +371,Classrooms/ Laboratories etc where lectures can be scheduled.,Les Salles de Classe / Laboratoires etc. où des conférences peuvent être programmées.
 DocType: Postnatal Consultation,Clinical Exam,Examen Clinique
 DocType: Perineum Rehabilitation,Closed,Fermé
-DocType: Midwife Appointment, Midwife Appointment, Rendez-Vous
 DocType: Perineum Rehabilitation,Closing Perineum,Périnée fermé
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +206,Cocaine,Cocaïne
 DocType: Birth Preparation Consultation,Codification,Codification
@@ -471,6 +471,7 @@ DocType: Pregnancy Consultation,Metrorrhagia,Métrorragie
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +345,Microlax,Microlax
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +238,Microval,Microval
 DocType: Addiction,Midwife,Sage-Femme
+apps/maia/maia/maia/doctype/midwife_appointment/midwife_appointment.js +87,Midwife Availability,Disponibilité de la Sage-Femme
 DocType: Codification,Midwife Price,Prix Sage-Femme
 DocType: Patient,Migraine,Migraine
 DocType: Birth Preparation Consultation,Mileage Allowance,Indemnité Kilométrique
@@ -507,9 +508,10 @@ DocType: Birth Preparation Consultation,Night Work Allowance Type,Type d’Indem
 DocType: Codification,Night Work Allowance: 0h-6h,Indemnité de Nuit : 0h-6h
 DocType: Codification,Night Work Allowance: 20h-6h | 6h-8h,Indemnité de Nuit : 20h-6h | 6h-8h
 DocType: Perineum Rehabilitation,No,Non
+apps/maia/maia/maia/doctype/midwife_appointment/midwife_appointment.js +99,No Availability,Aucune Disponibilité
 DocType: Birth Preparation Consultation,No Teletransmission,Pas de Télétransmission
-apps/maia/maia/maia/scheduler.py +61,No Work Schedule or average time specified for {0} {1},Aucun Emploi du Temps ou Temps de Travail Moyen spécifié pour {0} {1}
 apps/maia/maia/maia/doctype/birth_preparation_consultation/birth_preparation_consultation.js +141,No codification is assigned to this specific allowance type. Please select one codification for this allowance type.,Aucune codification assignée à ce type d’indemnité spécifique. Veuillez sélectionner une codification pour ce type d’indemnité spécifique.
+apps/maia/maia/maia/scheduler.py +63,No slots left for schedule {0} {1},Aucun créneau disponible pour {0} {1}
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +112,Non Profit,À but non lucratif
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +269,Normal,Normal
 DocType: Early Postnatal Consultation,Normal Neurological and Morphological Exam,Examen Neurologique et Morphologique Normal
@@ -601,7 +603,7 @@ apps/maia/maia/maia/doctype/codification/codification.py +31,Please Disable the 
 apps/maia/maia/maia/doctype/early_postnatal_consultation/early_postnatal_consultation.js +500,Please Select a Pregnancy Folder,Veuillez Sélectionner un Dossier de Grossesse
 apps/maia/maia/maia/doctype/pregnancy_consultation/pregnancy_consultation.js +588,Please Set an Expected Term or Beginning of Pregnancy Date in the Pregnancy Folder,Veuillez Définir un Terme Prévu ou une Date de Début de Grossesse dans le Dossier de Grossesse
 apps/maia/maia/public/js/setup_wizard.js +76,Please enter valid Financial Year Start and End Dates,Veuillez entrer des Dates de Début et de Fin d’Exercice valides
-apps/maia/maia/maia/doctype/midwife_appointment/midwife_appointment.py +33,Please select Physician and Date,Veuillez sélection un(e) praticien(ne) et une date
+apps/maia/maia/maia/doctype/midwife_appointment/midwife_appointment.js +81,"Please select a Midwife, a Date and an Appointment Type","Veuillez sélectionner une Sage-Femme, une Date et un Type de Rendez-Vous"
 apps/maia/maia/maia/doctype/patient_record/patient_record.js +31,Please select a valid Date,Veuillez sélectionner une Date valide
 DocType: Perineum Rehabilitation,Pollakiuria,Pollakiurie
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +217,Pollen,Pollen
@@ -697,7 +699,7 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +124,Sales Team,Équipe de
 DocType: Patient,Salutation,Titre
 DocType: Perineum Rehabilitation,Satisfaction,Satisfaction
 DocType: Perineum Rehabilitation,Scar,Cicatrice
-apps/maia/maia/maia/scheduler.py +51,Schedules for {0} on  {1} :  {2} ,Emplois du Temps pour {0} le {1} : {2}
+apps/maia/maia/maia/scheduler.py +36,Schedules for {0} on  {1} :  {2} ,Emplois du Temps pour {0} le {1} : {2}
 DocType: Screening Test,Screening Test,Test de Dépistage
 DocType: Gynecology,Screening Tests,Tests de Dépistage
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +367,Second Determination of ABO- and Rh-groups,Deuxième Déterminationd de Groupe Sanguin Rhésus Phénotypé
@@ -789,8 +791,9 @@ DocType: Gynecological Consultation,Thyroid,Thyroïde
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +353,Titanorein,Titanoréine
 apps/maia/maia/setup/page/welcome_to_maia/welcome_to_maia.html +6,"To get the best out of Maia, we recommend that you take some time and watch these help videos.","Pour tirer le meilleur part de Maia, nous vous recommendons de prendre quelques minutes pour regarder ces vidéos d’aide."
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +203,Tobacco,Tabac
-DocType: Perineum Rehabilitation,"Tonic/Relaxed, Finger Spacing (cm)","Tonique/Relaxé, Espacement des Doigts (cm)"
-apps/maia/maia/setup/setup_wizard/install_fixtures.py +411,Tonsils Removal ,Ablation des Amygdales 
+DocType: Perineum Rehabilitation,"Tonic/Relaxed
+Finger Spacing (cm)","Tonique/Relaxé, Espacement des Doigts (cm)"
+apps/maia/maia/setup/setup_wizard/install_fixtures.py +411,Tonsils Removal ,Ablation des Amygdales
 DocType: Perineum Rehabilitation,Tonus,Tonus
 DocType: Lipid Profile,Total Cholesterol,Cholestérol Total
 DocType: Birth Preparation Consultation,Total Price,Prix Total
@@ -875,6 +878,7 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +299,Xylocain 2%,Xylocaïn
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +254,Yaz,Yaz
 apps/maia/maia/maia/doctype/patient_record/patient_record.js +45,Years Old,Ans
 DocType: Patient,You can enter any date manually,Vous pouvez entrer une date manuellement
+apps/maia/maia/maia/scheduler.py +18,You cannot schedule for past dates,Vous ne pouvez créer des rendez-vous dans le passé
 apps/maia/maia/maia/doctype/birth_preparation_consultation/birth_preparation_consultation.js +430,You have no codification setup for this allowance type. Please create a codification for this specific allowance type in the codification list.,Vous n’avez défini aucune codification pour ce type d’indemnité spécifique. Veuillez créer une codification pour ce type d’indemnité spécifique dans la liste de codifications.
 apps/maia/maia/public/js/setup_wizard.js +165,Your Brand,Votre Marque
 apps/maia/maia/public/js/setup_wizard.js +230,Your Customers,Vos Clients
@@ -884,6 +888,5 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +361,Zyma D,Zyma D
 apps/maia/maia/public/js/setup_wizard.js +220,e.g. 5,e.g. 5
 apps/maia/maia/public/js/setup_wizard.js +218,e.g. VAT,e.g. TVA
 apps/maia/maia/public/js/setup_wizard.js +198,user@example.com,utilisateur@exemple.com
-apps/maia/maia/maia/scheduler.py +38,{0} not available on {1} {2},{0} n’a pas de disponibilité le {1} {2}
-apps/maia/maia/maia/scheduler.py +68,{0} {1} already scheduled for given period,{0} {1} déjà pris(e) pour la période demandée
-apps/maia/maia/maia/scheduler.py +66,{0} {1} available for given period,{0} {1} disponible pour la période demandée
+apps/maia/maia/maia/scheduler.py +27,{0} not available on {1} {2},{0} n’a pas de disponibilité le {1} {2}
+Doctype: Midwife Appointment,Midwife Appointment,Rendez-Vous
