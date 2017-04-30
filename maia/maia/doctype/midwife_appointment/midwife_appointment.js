@@ -122,6 +122,7 @@ var show_availability = function(frm, result){
 		frm.doc.start_time = $(this).attr("data-start");
 		frappe.model.set_value(frm.doctype,frm.docname, 'start_dt', frm.doc.date + ' ' + frm.doc.start_time);
 		frappe.model.set_value(frm.doctype,frm.docname, 'end_dt', moment(frm.doc.date + ' ' + frm.doc.start_time).add(frm.doc.duration, 'm'));
+		refresh_field("start_time");
 		d.hide()
 		return false;
 	    });
