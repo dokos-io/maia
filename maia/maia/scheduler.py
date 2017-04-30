@@ -42,7 +42,7 @@ def get_availability_from_schedule(doctype, df, dn, schedules, date):
     data = []
     for line in schedules:
         duration = get_time(line["duration"])
-        scheduled_items = frappe.db.sql("""select start_dt from `tab{0}` where status in ('Draft', 'Submitted') and {1}='{2}' and start_dt between '{3}' and '{4}' order by start_dt""".format(doctype, df, dn, line["start"], line["end"]))
+        scheduled_items = frappe.db.sql("""select start_dt from `tab{0}` where (docstatus == 0 or docstatus == 1) and {1}='{2}' and start_dt between '{3}' and '{4}' order by start_dt""".format(doctype, df, dn, line["start"], line["end"]))
         
         #A session in progress - return slot > current time
         if(line["start"] < now_datetime()):

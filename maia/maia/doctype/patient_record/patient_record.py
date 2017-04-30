@@ -36,6 +36,9 @@ class PatientRecord(Document):
                 self.set_onload('dashboard_info', info)
 
         def autoname(self):
+                self.patient_name = " ".join(filter(None,
+                        [cstr(self.get(f)).strip() for f in ["patient_first_name", "patient_last_name"]]))
+
                 self.name = self.get_patient_name()
                 
 
