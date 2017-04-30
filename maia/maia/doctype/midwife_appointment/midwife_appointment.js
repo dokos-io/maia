@@ -40,6 +40,7 @@ frappe.ui.form.on('Midwife Appointment', {
 
 
 var duration = function(frm) {
+    if (appointment_type != null) {
     frappe.call({
 	    "method": "frappe.client.get",
 	    args: {
@@ -51,6 +52,7 @@ var duration = function(frm) {
 		frappe.model.set_value(frm.doctype,frm.docname, 'end_dt', moment(frm.doc.date + ' ' + frm.doc.start_time).add(data.message.duration, 'm'));
 	    }
     });
+    }
 }
 
 var btn_update_status = function(frm, status){
