@@ -6,8 +6,6 @@ frappe.provide('maia');
 maia.PerineumRehabilitationConsultationController = frappe.ui.form.Controller.extend({
 
     onload: function(frm) {
-	get_term_date(this.frm);
-
 	this.frm.fields_dict['pregnancy_folder'].get_query = function(doc) {
 	    return {
 		filters: {
