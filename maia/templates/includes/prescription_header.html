@@ -15,7 +15,7 @@
   </div>
   <div class="row" style="margin-top:20px">
     <div class="col-xs-12">
-      <div class="col-xs-6 text-left">
+      <div class="col-xs-12 text-left">
 	        {% set practitioners = frappe.get_list("Professional Information Card", filters = {"user": doc.practitioner}, fields = ["full_name", "rpps_number"]) %}
 		{%- for practitioner in practitioners -%}
 		<blockquote style="font-size: 11pt;">{{ practitioner.full_name }}<br>
