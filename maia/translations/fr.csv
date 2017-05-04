@@ -890,3 +890,6 @@ apps/maia/maia/public/js/setup_wizard.js +218,e.g. VAT,e.g. TVA
 apps/maia/maia/public/js/setup_wizard.js +198,user@example.com,utilisateur@exemple.com
 apps/maia/maia/maia/scheduler.py +27,{0} not available on {1} {2},{0} n’a pas de disponibilité le {1} {2}
 Doctype: Midwife Appointment,Midwife Appointment,Rendez-Vous
+Doctype: Midwife Appointment,Send a Reminder the Day Before,Envoyer un Rappel par E-mail la Veille
+Doctype: Midwife Appointment,Duration (mins),Durée (mins)
+Doctype: Midwife Appointment Type,Midwife Appointment Type,Type de Rendez-Vous
