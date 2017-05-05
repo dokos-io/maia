@@ -19,22 +19,22 @@ frappe.ui.form.on('Midwife Appointment', {
 	});
     },
     refresh: function(frm) {
-	
+	if(frm.doc.__islocal) {
 	frm.add_custom_button(__('Check Availability'), function() {
 	    check_availability_by_midwife(frm);
 	});
-
+	}
     },
     appointment_type: function(frm){
 	    duration_and_color(frm);
     },
     date: function(frm){
-	frappe.model.set_value(frm.doctype,frm.docname, 'start_dt', moment(frm.doc.date + ' ' + frm.doc.start_time));
-	frappe.model.set_value(frm.doctype,frm.docname, 'end_dt', moment(frm.doc.date + ' ' + frm.doc.start_time).add(frm.doc.duration, 'm'));
+	frappe.model.set_value(frm.doctype,frm.docname, 'start_dt', moment.utc(frm.doc.date + ' ' + frm.doc.start_time));
+	frappe.model.set_value(frm.doctype,frm.docname, 'end_dt', moment.utc(frm.doc.date + ' ' + frm.doc.start_time).add(frm.doc.duration, 'm'));
     },
     start_time: function(frm){
-	frappe.model.set_value(frm.doctype,frm.docname, 'start_dt', moment(frm.doc.date + ' ' + frm.doc.start_time));
-	frappe.model.set_value(frm.doctype,frm.docname, 'end_dt', moment(frm.doc.date + ' ' + frm.doc.start_time).add(frm.doc.duration, 'm'));
+	frappe.model.set_value(frm.doctype,frm.docname, 'start_dt', moment.utc(frm.doc.date + ' ' + frm.doc.start_time));
+	frappe.model.set_value(frm.doctype,frm.docname, 'end_dt', moment.utc(frm.doc.date + ' ' + frm.doc.start_time).add(frm.doc.duration, 'm'));
     },
     patient_record: function(frm) {
 	frappe.call({
@@ -69,7 +69,7 @@ var duration_and_color = function(frm) {
 	    },
 	    callback: function (data) {
 		frappe.model.set_value(frm.doctype,frm.docname, 'duration', data.message.duration);
-		frappe.model.set_value(frm.doctype,frm.docname, 'end_dt', moment(frm.doc.date + ' ' + frm.doc.start_time).add(data.message.duration, 'm'));
+		frappe.model.set_value(frm.doctype,frm.docname, 'end_dt', moment.utc(frm.doc.date + ' ' + frm.doc.start_time).add(data.message.duration, 'm'));
 		frappe.model.set_value(frm.doctype,frm.docname, 'color', data.message.color);
 	    }
     });
@@ -143,9 +143,9 @@ var show_availability = function(frm, result){
 	    }
 	    row.find("a").click(function() {
 		frm.doc.start_time = $(this).attr("data-start");
-		frappe.model.set_value(frm.doctype,frm.docname, 'start_dt', frm.doc.date + ' ' + frm.doc.start_time);
-		frappe.model.set_value(frm.doctype,frm.docname, 'end_dt', moment(frm.doc.date + ' ' + frm.doc.start_time).add(frm.doc.duration, 'm'));
 		refresh_field("start_time");
+		frappe.model.set_value(frm.doctype,frm.docname, 'start_dt', moment.utc(frm.doc.date + ' ' + frm.doc.start_time));
+		frappe.model.set_value(frm.doctype,frm.docname, 'end_dt', moment.utc(frm.doc.date + ' ' + frm.doc.start_time).add(frm.doc.duration, 'm'));
 		d.hide()
 		return false;
 	    });

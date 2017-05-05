@@ -63,11 +63,11 @@ def find_available_slot(date, duration, line, scheduled_items, time=None):
             current_schedule.append(scheduled_item)
 
             dur = get_time(scheduled_item[1])
-            item_end = scheduled_item[0] + datetime.timedelta(hours = dur.hour, minutes=dur.minute)
-
-            new_item = datetime.datetime.now()
+            item_end = scheduled_item[0] + datetime.timedelta(hours = dur.hour, minutes=dur.minute) 
+            frappe.logger().debug(item_end)
+            new_item = scheduled_item[0]
             while (new_item <= item_end):
-                new_item = scheduled_item[0] + datetime.timedelta(hours = duration.hour, minutes=duration.minute)
+                new_item = new_item + datetime.timedelta(hours = duration.hour, minutes=duration.minute)
                 new_entry = (new_item, scheduled_item[1])
                 current_schedule.append(new_entry)
 
