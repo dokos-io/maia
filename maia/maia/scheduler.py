@@ -42,7 +42,8 @@ def get_availability_from_schedule(doctype, df, dn, schedules, date):
     data = []
     for line in schedules:
         duration = get_time(line["duration"])
-        scheduled_items = frappe.db.sql("""select start_dt from `tab{0}` where (docstatus=0 or docstatus=1) and {1}='{2}' and start_dt between '{3}' and '{4}' order by start_dt""".format(doctype, df, dn, line["start"], line["end"]))
+        scheduled_items = frappe.db.sql("""select start_dt, duration from `tab{0}` where (docstatus=0 or docstatus=1) and {1}='{2}' and start_dt between '{3}' and '{4}' order by start_dt""".format(doctype, df, dn, line["start"], line["end"]))
+
         
         #A session in progress - return slot > current time
         if(line["start"] < now_datetime()):
@@ -56,7 +57,22 @@ def get_availability_from_schedule(doctype, df, dn, schedules, date):
 def find_available_slot(date, duration, line, scheduled_items, time=None):
     slots = get_all_slots(line["start"], line["end"], line["duration"], time)
     available_slots = []
+    current_schedule = []
     if scheduled_items:
+        for scheduled_item in scheduled_items:
+            current_schedule.append(scheduled_item)
+
+            dur = get_time(scheduled_item[1])
+            item_end = scheduled_item[0] + datetime.timedelta(hours = dur.hour, minutes=dur.minute) 
+            frappe.logger().debug(item_end)
+            new_item = scheduled_item[0]
+            while (new_item <= item_end):
+                new_item = new_item + datetime.timedelta(hours = duration.hour, minutes=duration.minute)
+                new_entry = (new_item, scheduled_item[1])
+                current_schedule.append(new_entry)
+
+        scheduled_items = tuple(current_schedule)
+        frappe.logger().debug(scheduled_items)    
         scheduled_map = set(map(lambda x : x[0], scheduled_items))
         slots_free = [x for x in slots if x not in scheduled_map]
         if not slots_free:

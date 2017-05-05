@@ -4,7 +4,8 @@ frappe.views.calendar["Midwife Appointment"] = {
 	"end": "end_dt",
 	"id": "name",
 	"title": "patient_record",
-	"allDay": "allDay"
+	"allDay": "allDay",
+	"color": "color"
     },
     gantt: false,
     get_events_method: "maia.maia.doctype.midwife_appointment.midwife_appointment.get_events",

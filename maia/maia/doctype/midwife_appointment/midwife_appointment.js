@@ -12,35 +12,55 @@ frappe.ui.form.on('Midwife Appointment', {
 	    },
 	    cache: false,
 	    callback: function (data) {
-		if (!data.exe && data.message) {
+		if (!data.exe && data.message && data.message.name!=null) {
 		    frappe.model.set_value(frm.doctype, frm.docname, "practitioner", data.message.name)
 		}
 	    }
 	});
     },
     refresh: function(frm) {
-	
+	if(frm.doc.__islocal) {
 	frm.add_custom_button(__('Check Availability'), function() {
 	    check_availability_by_midwife(frm);
 	});
-	
+	}
     },
     appointment_type: function(frm){
-	    duration(frm);
+	    duration_and_color(frm);
     },
     date: function(frm){
-	frappe.model.set_value(frm.doctype,frm.docname, 'start_dt', frm.doc.date + ' ' + frm.doc.start_time);
-	frappe.model.set_value(frm.doctype,frm.docname, 'end_dt', moment(frm.doc.date + ' ' + frm.doc.start_time).add(frm.doc.duration, 'm'));
+	frappe.model.set_value(frm.doctype,frm.docname, 'start_dt', moment.utc(frm.doc.date + ' ' + frm.doc.start_time));
+	frappe.model.set_value(frm.doctype,frm.docname, 'end_dt', moment.utc(frm.doc.date + ' ' + frm.doc.start_time).add(frm.doc.duration, 'm'));
     },
     start_time: function(frm){
-	frappe.model.set_value(frm.doctype,frm.docname, 'start_dt', frm.doc.date + ' ' + frm.doc.start_time);
-	frappe.model.set_value(frm.doctype,frm.docname, 'end_dt', moment(frm.doc.date + ' ' + frm.doc.start_time).add(frm.doc.duration, 'm'));
+	frappe.model.set_value(frm.doctype,frm.docname, 'start_dt', moment.utc(frm.doc.date + ' ' + frm.doc.start_time));
+	frappe.model.set_value(frm.doctype,frm.docname, 'end_dt', moment.utc(frm.doc.date + ' ' + frm.doc.start_time).add(frm.doc.duration, 'm'));
+    },
+    patient_record: function(frm) {
+	frappe.call({
+	    "method": "frappe.client.get",
+	    args: {
+		doctype: "Patient Record",
+		name: frm.doc.patient_record,
+		fieldname: "email_id"
+	    },
+	    cache: false,
+	    callback: function (data) {
+		if  (data.message.email_id==null) {
+		    frappe.model.set_value(frm.doctype, frm.docname, "email", __("Enter an Email Address"));
+		    frm.set_df_property("email", "read_only", 0);
+		} else if (!data.exe && data.message) {
+		    frappe.model.set_value(frm.doctype, frm.docname, "email", data.message.email_id);
+		    frm.set_df_property("email", "read_only", 1);
+		}
+	    }
+	});
     }
 });
 
 
-var duration = function(frm) {
-    if (appointment_type != null) {
+var duration_and_color = function(frm) {
+    if (frm.doc.appointment_type != null) {
     frappe.call({
 	    "method": "frappe.client.get",
 	    args: {
@@ -49,7 +69,8 @@ var duration = function(frm) {
 	    },
 	    callback: function (data) {
 		frappe.model.set_value(frm.doctype,frm.docname, 'duration', data.message.duration);
-		frappe.model.set_value(frm.doctype,frm.docname, 'end_dt', moment(frm.doc.date + ' ' + frm.doc.start_time).add(data.message.duration, 'm'));
+		frappe.model.set_value(frm.doctype,frm.docname, 'end_dt', moment.utc(frm.doc.date + ' ' + frm.doc.start_time).add(data.message.duration, 'm'));
+		frappe.model.set_value(frm.doctype,frm.docname, 'color', data.message.color);
 	    }
     });
     }
@@ -122,9 +143,9 @@ var show_availability = function(frm, result){
 	    }
 	    row.find("a").click(function() {
 		frm.doc.start_time = $(this).attr("data-start");
-		frappe.model.set_value(frm.doctype,frm.docname, 'start_dt', frm.doc.date + ' ' + frm.doc.start_time);
-		frappe.model.set_value(frm.doctype,frm.docname, 'end_dt', moment(frm.doc.date + ' ' + frm.doc.start_time).add(frm.doc.duration, 'm'));
 		refresh_field("start_time");
+		frappe.model.set_value(frm.doctype,frm.docname, 'start_dt', moment.utc(frm.doc.date + ' ' + frm.doc.start_time));
+		frappe.model.set_value(frm.doctype,frm.docname, 'end_dt', moment.utc(frm.doc.date + ' ' + frm.doc.start_time).add(frm.doc.duration, 'm'));
 		d.hide()
 		return false;
 	    });

@@ -15,7 +15,7 @@
   </div>
   <div class="row" style="margin-top:20px">
     <div class="col-xs-12">
-      <div class="col-xs-6 text-left">
+      <div class="col-xs-12 text-left">
 	        {% set practitioners = frappe.get_list("Professional Information Card", filters = {"user": doc.practitioner}, fields = ["full_name", "rpps_number"]) %}
 		{%- for practitioner in practitioners -%}
 		<blockquote style="font-size: 11pt;">{{ practitioner.full_name }}<br>
@@ -23,7 +23,7 @@
 		{%- endfor -%}
 		{% set patient = frappe.get_doc("Patient Record", doc.patient_record) %}
 		<blockquote style="font-size: 11pt;">{{ _("Date :") }} {{ doc.get_formatted("consultation_date") }}<br>
-		  {{ _("Patient :") }} {{ doc.patient_name }} {% if patient.patient_age != none %}
+		  {{ _("Patient :") }} {{ doc.patient_name }} {% if patient.patient_age != none %}<br>
 		  {{ _("Age :") }} {{ patient.patient_age }}</blockquote> {% endif %}
       </div>
     </div>
