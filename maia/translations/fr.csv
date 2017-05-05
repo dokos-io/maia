@@ -828,7 +828,7 @@ DocType: Pregnancy Consultation,Uterine Height,Hauteur Utérine
 DocType: Early Postnatal Consultation,Uterus,Utérus
 apps/maia/maia/setup/setup_wizard/setup_wizard.py +361,VAT 20% - Included,TVA 20% - Incluse
 DocType: Gynecology,Vaccination,Vaccination
-apps/maia/maia/setup/setup_wizard/install_fixtures.py +270,Vacuum,Vide
+apps/maia/maia/setup/setup_wizard/install_fixtures.py +270,Vacuum,Ventouse
 DocType: Perineum Rehabilitation,Vaginal Area,Zone Vaginale
 DocType: Perineum Rehabilitation,Vaginal Bands,Brides Vaginales
 DocType: Gynecological Consultation,Vaginal Exam,Examen Vaginal
