@@ -22,7 +22,9 @@ maia.PregnancyConsultationController = frappe.ui.form.Controller.extend({
 	}
 
     },
-
+    consultation_date: function(frm) {
+	get_term_date(this.frm);
+    },
     refresh: function(frm) {
 	if(!this.frm.doc.__islocal) {
 	    this.frm.add_custom_button(__('Drug Prescription'), this.print_drug_prescription, __("Print"));
