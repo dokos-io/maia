@@ -4,22 +4,22 @@
 
 Depuis l'onglet Maia
 
-![Onglet Maia](assets/img/first_steps/new_patient_folder/maia_desktop.png) 
+![Onglet Maia](/assets/img/first_steps/new_patient_folder/maia_desktop.png) 
 
 Allez dans "Dossier Patient"
 
-![Nouvelle Patiente](assets/img/first_steps/new_patient_folder/new_patient.png)
+![Nouvelle Patiente](/assets/img/first_steps/new_patient_folder/new_patient.png)
 
 Puis, cliquez sur "Nouveau"
 Entrez le Prénom et le Nom de Famille de votre patiente, puis "enregistrez"
-![Enregistrer une Nouvelle Patiente](assets/img/first_steps/new_patient_folder/save.png)
+![Enregistrer une Nouvelle Patiente](/assets/img/first_steps/new_patient_folder/save.png)
 
 Vous pouvez également y accéder depuis l'icône "Patientes" disponible sur le bureau
-![Bureau](assets/img/first_steps/new_patient_folder/desktop.png)
+![Bureau](/assets/img/first_steps/new_patient_folder/desktop.png)
 
 Il ne vous reste plus qu'à compléter votre anamnèse!
 <br>
-![Astuce](assets/img/lightbulb.svg)
+![Astuce](/assets/img/lightbulb.svg)
 L’anamnèse a pour objectif d’être étoffée tout au long de la vie de la patiente. Vous pourrez la compléter au fil des années. 
 
 Si lors de votre consultation, vous avez uniquement le temps de compléter votre recueil de données, n’oubliez pas de coder une consultation! 
@@ -30,29 +30,29 @@ Il en est de même pour tous les dossiers (grossesse, rééducation, gynécologi
 ### Gérer les adresses
 
 Commencez par enregistrer vos premières informations , puis sectionnez "Adresse et Contact"
-![Nouvelle Adresse](assets/img/first_steps/new_patient_folder/new_address.png)
+![Nouvelle Adresse](/assets/img/first_steps/new_patient_folder/new_address.png)
 
 
 Sélectionnez "Nouvelle Adresse"
-![Nouvelle Adresse](assets/img/first_steps/new_patient_folder/new_address_1.png)
+![Nouvelle Adresse](/assets/img/first_steps/new_patient_folder/new_address_1.png)
 
 
 Vous pouvez remplir les différents champs comme Adresse Ligne 1 - Ville - Code Postal , Email, Téléphone.
 
 Ne pas oubliez de cocher "Adresse de Facturation Principale" pour l'adresse principale. C'est l'adresse qui apparaîtra sur la facture.
 
-![Nouvelle Adresse](assets/img/first_steps/new_patient_folder/new_address_2.png)
+![Nouvelle Adresse](/assets/img/first_steps/new_patient_folder/new_address_2.png)
 Vous pouvez ensuite enregistrer.
 
 Les champs "Titre de l’adresse", "Adresse de Livraison Principale", "Référence" n’ont pas besoin d’être rempli.
 <br>
-![Attention](assets/img/attention.svg)
+![Attention](/assets/img/attention.svg)
 Après l’enregistrement, la redirection n’est pas automatique! 
 Après enregistrement, cliquez simplement sur la flèche retour (arrière) de votre navigateur pour revenir à votre dossier patient.
 
 <br>
 
-![Attention](assets/img/attention.svg)
+![Attention](/assets/img/attention.svg)
 L'Email et le Numéro de Mobile apparaissant au dessus des adresses seront utilisés pour les relances par mail/sms avant la consultation. 
 Vous pouvez tout à fait les renseigner également avec une adresse.
 <br>
@@ -60,7 +60,7 @@ Vous pouvez tout à fait les renseigner également avec une adresse.
 ### Gérer les informations de relance automatique
 
 Dans l’onglet "Adresse et Contact" l'Email et le Numéro de Mobile apparaissant au dessus des adresses seront utilisés pour les relances par mail/sms avant la consultation. 
-![Nouvelle Adresse](assets/img/first_steps/new_patient_folder/email_reminder.png)
+![Nouvelle Adresse](/assets/img/first_steps/new_patient_folder/email_reminder.png)
 
 
 Remplissez le champs "Email" afin de permettre une relance automatique par email 24h avant le rendez-vous. 
@@ -76,10 +76,10 @@ La démarche complète est détaillée dans la section "MODIFIER UNE LISTE"
 ### Compléter des Tableaux
 
 Pour complétez un tableau, cliquez sur "Ajouter une nouvelle ligne" , puis cliquez sur la petite flèche à droite pour voir l'ensemble des éléments à compléter.
-![Nouvelle Ligne de Tableau](assets/img/first_steps/new_patient_folder/new_table_row.png)
+![Nouvelle Ligne de Tableau](/assets/img/first_steps/new_patient_folder/new_table_row.png)
 
 
 Vous pouvez ensuite complétez les différents éléments :
-![Nouvelle Ligne de Tableau](assets/img/first_steps/new_patient_folder/new_table_row_1.png)
+![Nouvelle Ligne de Tableau](/assets/img/first_steps/new_patient_folder/new_table_row_1.png)
 
 Pour revenir au dossier principal, un simple clic sur la zone grisée suffit.
