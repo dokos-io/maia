@@ -19,7 +19,7 @@ Vous pouvez également y accéder depuis l'icône "Patientes" disponible sur le 
 
 Il ne vous reste plus qu'à compléter votre anamnèse!
 <br>
-![Astuce](/maia/assets/img/lightbulb.svg)
+![Astuce](/maia/assets/img/lightbulb.png)
 L’anamnèse a pour objectif d’être étoffée tout au long de la vie de la patiente. Vous pourrez la compléter au fil des années. 
 
 Si lors de votre consultation, vous avez uniquement le temps de compléter votre recueil de données, n’oubliez pas de coder une consultation! 
@@ -46,13 +46,13 @@ Vous pouvez ensuite enregistrer.
 
 Les champs "Titre de l’adresse", "Adresse de Livraison Principale", "Référence" n’ont pas besoin d’être rempli.
 <br>
-![Attention](/maia/assets/img/attention.svg)
+![Attention](/maia/assets/img/attention.png)
 Après l’enregistrement, la redirection n’est pas automatique! 
 Après enregistrement, cliquez simplement sur la flèche retour (arrière) de votre navigateur pour revenir à votre dossier patient.
 
 <br>
 
-![Attention](/maia/assets/img/attention.svg)
+![Attention](/maia/assets/img/attention.png)
 L'Email et le Numéro de Mobile apparaissant au dessus des adresses seront utilisés pour les relances par mail/sms avant la consultation. 
 Vous pouvez tout à fait les renseigner également avec une adresse.
 <br>
@@ -60,7 +60,7 @@ Vous pouvez tout à fait les renseigner également avec une adresse.
 ### Gérer les informations de relance automatique
 
 Dans l’onglet "Adresse et Contact" l'Email et le Numéro de Mobile apparaissant au dessus des adresses seront utilisés pour les relances par mail/sms avant la consultation. 
-![Nouvelle Adresse](/maia/assets/img/first_steps/new_patient_folder/email_reminder.png)
+![Rappel Email](/maia/assets/img/first_steps/new_patient_folder/email_reminder.png)
 
 
 Remplissez le champs "Email" afin de permettre une relance automatique par email 24h avant le rendez-vous. 
@@ -80,6 +80,6 @@ Pour complétez un tableau, cliquez sur "Ajouter une nouvelle ligne" , puis cliq
 
 
 Vous pouvez ensuite complétez les différents éléments :
-![Nouvelle Ligne de Tableau](/maia/assets/img/first_steps/new_patient_folder/new_table_row_1.png)
+![Nouvelle Ligne de Tableau](/maia/assets/img/first_steps/new_patient_folder/new_item_row_1.png)
 
 Pour revenir au dossier principal, un simple clic sur la zone grisée suffit.
