@@ -30,7 +30,7 @@ Il en est de même pour tous les dossiers (grossesse, rééducation, gynécologi
 ### Gérer les adresses
 
 Commencez par enregistrer vos premières informations , puis sectionnez "Adresse et Contact"
-![Nouvelle Adresse](/assets/img/first_steps/new_patient_folder/new_address.png)
+![Nouvelle Adresse](/maia/assets/img/first_steps/new_patient_folder/new_address.png)
 
 
 Sélectionnez "Nouvelle Adresse"
