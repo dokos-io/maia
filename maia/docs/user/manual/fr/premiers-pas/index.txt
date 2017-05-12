@@ -1,2 +1,2 @@
-Nouveau Patient
-Nouveau Dossier Grossesse
+nouveau-patient
+nouveau-dossier-grossesse
