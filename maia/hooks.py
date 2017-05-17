@@ -35,6 +35,13 @@ login_mail_title = "Nous sommes heureux de vous compter parmi nous !"
 #calendar
 calendars = ["Midwife Appointment"]
 
+# default footer
+default_mail_footer = """<div style="text-align: center;">
+	<a href="https://maia-by-dokos.fr" target="_blank" style="color: #8d99a6;">
+		Envoyé par MAIA
+	</a>
+</div>"""
+
 
 # Includes in <head>
 # ------------------
