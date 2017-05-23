@@ -893,3 +893,12 @@ apps/maia/maia/public/js/setup_wizard.js +218,e.g. VAT,e.g. TVA
 apps/maia/maia/public/js/setup_wizard.js +198,user@example.com,utilisateur@exemple.com
 apps/maia/maia/maia/scheduler.py +27,{0} not available on {1} {2},{0} n’a pas de disponibilité le {1} {2}
 Doctype: Patient Record,Patient Record,Dossier Patient(e)
+Doctype: Midwife Appointment Type,Midwife Appointment Type,Type de Rendez-Vous
+Doctype: Midwife Appointment,Duration (mins),Durée (mins)
+apps/maia/maia/maia/scheduler.py +36,Schedules for {0} on  {1} :  {2},Planning de {0} le {1} :
+apps/maia/maia/maia/scheduler.py +79,No slots left for schedule {0} {1},Aucun créneau disponible pour {0} {1}
+apps/maia/maia/maia/scheduler.py +18,You cannot schedule for past dates,Vous ne pouvez pas planifier dans le passé
+Doctype: Midwife Appointment,Send a Reminder the Day Before,Envoyer un Rappel la Veille
+Doctype: Prenatal Interview,Interview,Entretien
+Doctype: Prenatal Interview,Background,Antécédents
+Doctype: Prenatal Interview,Pregnancy and Delivery,Grossesse et Accouchement
