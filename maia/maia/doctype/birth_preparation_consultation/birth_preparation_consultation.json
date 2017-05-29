@@ -1870,7 +1870,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-05-05 14:44:44.247087", 
+ "modified": "2017-05-29 16:45:29.745689", 
  "modified_by": "Administrator", 
  "module": "Maia", 
  "name": "Birth Preparation Consultation", 
@@ -1880,7 +1880,7 @@
   {
    "amend": 0, 
    "apply_user_permissions": 0, 
-   "cancel": 0, 
+   "cancel": 1, 
    "create": 1, 
    "delete": 0, 
    "email": 1, 
