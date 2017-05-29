@@ -78,7 +78,8 @@ DocType: Postnatal Consultation,BMI,I.M.C
 apps/maia/maia/setup/setup_wizard/setup_wizard.py +139,Bank account cannot be named as {0},Compte Bancaire ne peut pas être nommé {0}
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +264,Basal Body Temperature Method,Méthode des Températures
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +39,Basic,de Base
-DocType: Perineum Rehabilitation,Bearing Down ?,Pesanteur Pelvienne
+DocType: Perineum Rehabilitation,Bearing Down ?,Pesanteur Pelvienne ?
+DocType: Perineum Rehabilitation,Bearing Down,Pesanteur Pelvienne
 DocType: Perineum Rehabilitation,Before Delivery,Ante-Partum
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +274,Before Labour C-Section,Césarienne avant le Travail
 DocType: Pregnancy,Beginning of Pregnancy,Début de Grossesse
@@ -530,6 +531,7 @@ DocType: Early Postnatal Consultation,Number of Meals per Day,Nombre de Repas pa
 DocType: Perineum Rehabilitation,Number of Times,Nombre de Fois
 DocType: Perineum Rehabilitation,Number of Urination/24h,Nombre de Miction/24h
 DocType: Perineum Rehabilitation,Nycturia,Nycturie
+DocType: Perineum Rehabilitation,Nycturia (Number of Times),Nycturie (Nombre de Fois)
 DocType: Birth Preparation Consultation,N° of Patients,Nombre de Patient(e)s
 DocType: Patient,O+,O+
 DocType: Patient,O-,O-
@@ -821,7 +823,9 @@ DocType: Perineum Rehabilitation,Urinary Area,Zone Urinaire
 DocType: Early Postnatal Consultation,Urinary Functional Signs,Signe Fonctionnel Urinaire
 DocType: Patient,Urinary Infection,Infection Urinaire
 DocType: Gynecology,Urinary Leakage,Fuite Urinaire
-DocType: Perineum Rehabilitation,Urinary Stress Incontinence ?,Incontinence Urinaire d'Effort
+DocType: Perineum Rehabilitation,Urinary Stress Incontinence ?,Incontinence Urinaire d'Effort ?
+DocType: Perineum Rehabilitation,Urinary Stress Incontinence,Incontinence Urinaire d'Effort
+DocType: Perineum Rehabilitation,Amenorrhea Weeks,Semaines d'Aménorrhée
 DocType: Perineum Rehabilitation,Urination Stop Test,Test stop-miction
 DocType: Professional Information Card,User,Utilisateur
 apps/maia/maia/public/js/conf.js +25,User Forum,Forum de l&#39;utilisateur
@@ -902,3 +906,7 @@ Doctype: Midwife Appointment,Send a Reminder the Day Before,Envoyer un Rappel la
 Doctype: Prenatal Interview,Interview,Entretien
 Doctype: Prenatal Interview,Background,Antécédents
 Doctype: Prenatal Interview,Pregnancy and Delivery,Grossesse et Accouchement
+Doctype: Early Postnatal Consultation,Current Medication,Prise Médicamenteuse
+Doctype: Early Postnatal Consultation,Prescription Written,Ordonnance Réalisée
+Doctype: Early Postnatal Consultation,Functional Signs of Hypertension,Signes Fonctionnels d'Hypertension
+Doctype: Pregnancy,Pregnancy Complication,Complications de la Grossesse
