@@ -85,9 +85,6 @@ class PatientRecord(Document):
         def after_insert(self):
                 create_customer_from_patient(self)
 
-        def on_trash(self):
-                self.delete_patient_address()
-
                 
 def create_customer_from_patient(doc):
 
