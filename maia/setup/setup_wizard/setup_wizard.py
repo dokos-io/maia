@@ -62,7 +62,16 @@ def setup_complete(args=None):
         
         correct_midwife_accounts(args)
 
-        hidden_list = ['Stock', 'Manufacturing', 'Learn', 'Buying', 'Selling', 'Support', 'Integrations', 'Maintenance', 'Schools', 'HR', 'CRM', 'Employee', 'Issue', 'Lead', 'POS', 'Student', 'Student Group', 'Course Schedule', 'Student Attendance', 'Course', 'Program', 'Student Applicant', 'Fees', 'Instructor', 'Room']
+        initial_list = ['Stock', 'Manufacturing', 'Learn', 'Buying', 'Selling', 'Support', 'Integrations', 'Maintenance', 'Schools', 'HR', 'CRM', 'Employee', 'Issue', 'Lead', 'POS', 'Student', 'Student Group', 'Course Schedule', 'Student Attendance', 'Course', 'Program', 'Student Applicant', 'Fees', 'Instructor', 'Room']
+        hidden_list = []
+
+        for i in initial_list:
+                try:
+                        frappe.get_doc('Desktop Icon', {'standard': 1, 'module_name': i})
+                        hidden_list.append(i)
+                except Exception:
+                        pass
+        
         set_hidden_list(hidden_list)
 
 	if args.get("add_sample_data"):
@@ -120,14 +129,15 @@ def enable_shopping_cart(args):
 
 def create_bank_account(args):
 	if args.get("bank_account"):
+                default_bank_account = "5121-Comptes en monnaie nationale - " + args.get('company_abbr')
 		company_name = args.get('company_name').strip()
 		bank_account_group =  frappe.db.get_value("Account",
-			{"account_type": "Bank", "is_group": 1, "root_type": "Asset",
+			{"name": default_bank_account, "account_type": "Bank", "is_group": 1, "root_type": "Asset",
 				"company": company_name})
 		if bank_account_group:
 			bank_account = frappe.get_doc({
 				"doctype": "Account",
-				'account_name': args.get("bank_account"),
+				'account_name': "512100 - " + args.get("bank_account"),
 				'parent_account': bank_account_group,
 				'is_group':0,
 				'company': company_name,
@@ -143,7 +153,10 @@ def create_bank_account(args):
 
 def set_mode_of_payment_account(args):
         list_of_payment_modes = frappe.get_all('Mode of Payment', filters={'type': 'Bank'}, fields=['name'])
-        default_bank_account = "5121-Comptes en monnaie nationale - " + args.get('company_abbr')
+        if args.get("bank_account"):
+                default_bank_account = "512100 - " + args.get("bank_account") + " - " + args.get('company_abbr')
+        else:
+                default_bank_account = "5121-Comptes en monnaie nationale - " + args.get('company_abbr')
         company_name = args.get('company_name').strip()
         for list_of_payment_mode in list_of_payment_modes:
                 mode_of_payment = frappe.get_doc('Mode of Payment', list_of_payment_mode.name)
