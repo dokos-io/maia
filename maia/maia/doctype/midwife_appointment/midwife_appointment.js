@@ -37,6 +37,7 @@ frappe.ui.form.on('Midwife Appointment', {
 	frappe.model.set_value(frm.doctype,frm.docname, 'end_dt', moment.utc(frm.doc.date + ' ' + frm.doc.start_time).add(frm.doc.duration, 'm'));
     },
     patient_record: function(frm) {
+	if (frm.doc.patient_record) {
 	frappe.call({
 	    "method": "frappe.client.get",
 	    args: {
@@ -55,12 +56,13 @@ frappe.ui.form.on('Midwife Appointment', {
 		}
 	    }
 	});
+	}
     }
 });
 
 
 var duration_and_color = function(frm) {
-    if (frm.doc.appointment_type != null) {
+    if (frm.doc.appointment_type) {
     frappe.call({
 	    "method": "frappe.client.get",
 	    args: {

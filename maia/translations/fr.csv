@@ -321,7 +321,7 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +46,Food,Alimentation
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +271,Forceps,Forceps
 DocType: Free Consultation,Free Consultation,Consultation Libre
 DocType: Free Prescription,Free Prescription,Ordonnance Libre
-apps/maia/maia/maia/doctype/patient_record/patient_record_dashboard.py +22,Free Prescriptions,Ordonnances Libres
+apps/maia/maia/maia/doctype/patient_record/patient_record_dashboard.py +22,Free Prescriptions and Appointments,Ordonnances Libres et Rendez-Vous
 DocType: Perineum Rehabilitation Consultation,Frequency,Fréquence
 DocType: Patient,Full Name,Nom et Prénom
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +64,Full-time,Temps Plein
@@ -583,7 +583,7 @@ apps/maia/maia/config/maia.py +22,Patient Record,Dossier Patient(e)
 DocType: Patient Surgical Interventions,Patient Surgical Interventions,Interventions Chirurgicales de la Patiente
 Custom Field - label: Sales Invoice-patient_name,Patient_Name,Nom de la Patiente
 apps/maia/maia/config/maia.py +10,Patients,Patientes
-apps/maia/maia/maia/doctype/patient_record/patient_record_dashboard.py +18,Payments,Paiements
+apps/maia/maia/maia/doctype/patient_record/patient_record_dashboard.py +18,Payments and Invoices,Paiements et Factures
 DocType: Gynecology,Pelvic Pain,Douleur Pelvienne
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +420,Pelvic Ultrasound,Echographie Pelvienne
 DocType: Perineum Rehabilitation,Pelvis Statics,Statique de Bassin
@@ -910,3 +910,4 @@ Doctype: Early Postnatal Consultation,Current Medication,Prise Médicamenteuse
 Doctype: Early Postnatal Consultation,Prescription Written,Ordonnance Réalisée
 Doctype: Early Postnatal Consultation,Functional Signs of Hypertension,Signes Fonctionnels d'Hypertension
 Doctype: Pregnancy,Pregnancy Complication,Complications de la Grossesse
+Doctype: Patient Record,Social Security Number,Numéro de Sécurité Sociale
