@@ -321,6 +321,7 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +46,Food,Alimentation
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +271,Forceps,Forceps
 DocType: Free Consultation,Free Consultation,Consultation Libre
 DocType: Free Prescription,Free Prescription,Ordonnance Libre
+DocType: Free Prescription,Free Prescriptions,Ordonnances Libres
 apps/maia/maia/maia/doctype/patient_record/patient_record_dashboard.py +22,Free Prescriptions and Appointments,Ordonnances Libres et Rendez-Vous
 DocType: Perineum Rehabilitation Consultation,Frequency,Fréquence
 DocType: Patient,Full Name,Nom et Prénom
