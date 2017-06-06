@@ -91,7 +91,7 @@ def create_customer_from_patient(doc):
                 customer =  frappe.get_doc({
                         "doctype": "Customer",
                         "customer_name": doc.patient_name,
-                        "patient": doc.name,
+                        "patient_record": doc.name,
                         "customer_type": 'Individual',
                         "customer_group": _('Individual'),
                         "territory": _('All Territories')
@@ -102,4 +102,4 @@ def create_customer_from_patient(doc):
                 doc.reload()
 
 def updating_customer(self):
-        frappe.db.sql("""update `tabCustomer` set customer_name=%s, modified=NOW() where patient=%s""",(self.patient_name, self.name))
+        frappe.db.sql("""update `tabCustomer` set customer_name=%s, modified=NOW() where patient_record=%s""",(self.patient_name, self.name))
