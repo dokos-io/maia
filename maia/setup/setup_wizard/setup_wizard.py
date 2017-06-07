@@ -362,10 +362,6 @@ def make_sales_and_purchase_tax_templates(account, template_name=None):
 	# Sales
 	frappe.get_doc(copy.deepcopy(sales_tax_template)).insert(ignore_permissions=True)
 
-	# Purchase
-	purchase_tax_template = copy.deepcopy(sales_tax_template)
-	purchase_tax_template["doctype"] = "Purchase Taxes and Charges Template"
-	frappe.get_doc(purchase_tax_template).insert(ignore_permissions=True)
 
 def create_midwife_tax_template(args):
         account_name = "44566-TVA sur autres biens et services - " + args.get('company_abbr')
@@ -377,8 +373,36 @@ def create_midwife_tax_template(args):
 			"category": "Total",
 			"charge_type": "On Net Total",
 			"account_head": account_name,
-			"description": _("TVA 20%"),
+			"description": _("VAT 20%"),
 			"rate": 20,
+                        "included_in_print_rate": 1
+		}]
+	}).insert(ignore_permissions=True)
+
+        purchase_tax_template = frappe.get_doc({
+		"doctype": "Purchase Taxes and Charges Template",
+		"title": _("VAT 10% - Included"),
+		"company": args.get("company_name"),
+		"taxes": [{
+			"category": "Total",
+			"charge_type": "On Net Total",
+			"account_head": account_name,
+			"description": _("VAT 10%"),
+			"rate": 10,
+                        "included_in_print_rate": 1
+		}]
+	}).insert(ignore_permissions=True)
+
+        purchase_tax_template = frappe.get_doc({
+		"doctype": "Purchase Taxes and Charges Template",
+		"title": _("VAT 5.5% - Included"),
+		"company": args.get("company_name"),
+		"taxes": [{
+			"category": "Total",
+			"charge_type": "On Net Total",
+			"account_head": account_name,
+			"description": _("VAT 5.5%"),
+			"rate": 5.5,
                         "included_in_print_rate": 1
 		}]
 	}).insert(ignore_permissions=True)
