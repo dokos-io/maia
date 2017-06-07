@@ -834,7 +834,12 @@ DocType: Pregnancy Consultation,Uterine Contractions,Contractions Utérines
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +281,Uterine Examination,Examen Utérin
 DocType: Pregnancy Consultation,Uterine Height,Hauteur Utérine
 DocType: Early Postnatal Consultation,Uterus,Utérus
-apps/maia/maia/setup/setup_wizard/setup_wizard.py +361,VAT 20% - Included,TVA 20% - Incluse
+apps/maia/maia/setup/setup_wizard/setup_wizard.py +370,VAT 20% - Included,TVA 20% - Incluse
+apps/maia/maia/setup/setup_wizard/setup_wizard.py +384,VAT 10% - Included,TVA 10% - Incluse
+apps/maia/maia/setup/setup_wizard/setup_wizard.py +398,VAT 5.5% - Included,"TVA 5,5% - Incluse"
+apps/maia/maia/setup/setup_wizard/setup_wizard.py +376,VAT 20%,TVA 20%
+apps/maia/maia/setup/setup_wizard/setup_wizard.py +390,VAT 10%,TVA 10%
+apps/maia/maia/setup/setup_wizard/setup_wizard.py +404,VAT 5.5%,"TVA 5,5%"
 DocType: Gynecology,Vaccination,Vaccination
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +270,Vacuum,Ventouse
 DocType: Perineum Rehabilitation,Vaginal Area,Zone Vaginale
