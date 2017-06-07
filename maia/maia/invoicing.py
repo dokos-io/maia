@@ -40,7 +40,7 @@ def create_social_security_customer(doc):
 
         
 def get_customer_name(self):
-        customer_name = frappe.db.get_value("Customer", {"patient": self.patient_record})
+        customer_name = frappe.db.get_value("Customer", {"patient_record": self.patient_record})
         frappe.db.set_value(self.doctype, self.name, "customer", customer_name)
 
         self.reload()
@@ -91,7 +91,7 @@ def update_invoice_details(self, customer, case):
                                 "set_posting_time": 1,
                                 "posting_date": self.consultation_date,
                                 "due_date": self.consultation_date,
-                                "patient": self.patient_record,
+                                "patient_record": self.patient_record,
                                 "selling_price_list": selling_price_list,
                                 "teletransmission": teletransmission,
                                 "consultation_reference": consultation_reference,

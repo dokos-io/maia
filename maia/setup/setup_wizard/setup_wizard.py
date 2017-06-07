@@ -62,7 +62,16 @@ def setup_complete(args=None):
         
         correct_midwife_accounts(args)
 
-        hidden_list = ['Stock', 'Manufacturing', 'Learn', 'Buying', 'Selling', 'Support', 'Integrations', 'Maintenance', 'Schools', 'HR', 'CRM']
+        initial_list = ['Stock', 'Manufacturing', 'Learn', 'Buying', 'Selling', 'Support', 'Integrations', 'Maintenance', 'Schools', 'HR', 'CRM', 'Employee', 'Issue', 'Lead', 'POS', 'Student', 'Student Group', 'Course Schedule', 'Student Attendance', 'Course', 'Program', 'Student Applicant', 'Fees', 'Instructor', 'Room']
+        hidden_list = []
+
+        for i in initial_list:
+                try:
+                        frappe.get_doc('Desktop Icon', {'standard': 1, 'module_name': i})
+                        hidden_list.append(i)
+                except Exception:
+                        pass
+        
         set_hidden_list(hidden_list)
 
 	if args.get("add_sample_data"):
@@ -120,14 +129,15 @@ def enable_shopping_cart(args):
 
 def create_bank_account(args):
 	if args.get("bank_account"):
+                default_bank_account = "5121-Comptes en monnaie nationale - " + args.get('company_abbr')
 		company_name = args.get('company_name').strip()
 		bank_account_group =  frappe.db.get_value("Account",
-			{"account_type": "Bank", "is_group": 1, "root_type": "Asset",
+			{"name": default_bank_account, "account_type": "Bank", "is_group": 1, "root_type": "Asset",
 				"company": company_name})
 		if bank_account_group:
 			bank_account = frappe.get_doc({
 				"doctype": "Account",
-				'account_name': args.get("bank_account"),
+				'account_name': "512100 - " + args.get("bank_account"),
 				'parent_account': bank_account_group,
 				'is_group':0,
 				'company': company_name,
@@ -143,7 +153,10 @@ def create_bank_account(args):
 
 def set_mode_of_payment_account(args):
         list_of_payment_modes = frappe.get_all('Mode of Payment', filters={'type': 'Bank'}, fields=['name'])
-        default_bank_account = "5121-Comptes en monnaie nationale - " + args.get('company_abbr')
+        if args.get("bank_account"):
+                default_bank_account = "512100 - " + args.get("bank_account") + " - " + args.get('company_abbr')
+        else:
+                default_bank_account = "5121-Comptes en monnaie nationale - " + args.get('company_abbr')
         company_name = args.get('company_name').strip()
         for list_of_payment_mode in list_of_payment_modes:
                 mode_of_payment = frappe.get_doc('Mode of Payment', list_of_payment_mode.name)
@@ -349,13 +362,9 @@ def make_sales_and_purchase_tax_templates(account, template_name=None):
 	# Sales
 	frappe.get_doc(copy.deepcopy(sales_tax_template)).insert(ignore_permissions=True)
 
-	# Purchase
-	purchase_tax_template = copy.deepcopy(sales_tax_template)
-	purchase_tax_template["doctype"] = "Purchase Taxes and Charges Template"
-	frappe.get_doc(purchase_tax_template).insert(ignore_permissions=True)
 
 def create_midwife_tax_template(args):
-        account_name = "44571-TVA collectée - " + args.get('company_abbr')
+        account_name = "44566-TVA sur autres biens et services - " + args.get('company_abbr')
         purchase_tax_template = frappe.get_doc({
 		"doctype": "Purchase Taxes and Charges Template",
 		"title": _("VAT 20% - Included"),
@@ -364,8 +373,36 @@ def create_midwife_tax_template(args):
 			"category": "Total",
 			"charge_type": "On Net Total",
 			"account_head": account_name,
-			"description": _("TVA 20%"),
+			"description": _("VAT 20%"),
 			"rate": 20,
+                        "included_in_print_rate": 1
+		}]
+	}).insert(ignore_permissions=True)
+
+        purchase_tax_template = frappe.get_doc({
+		"doctype": "Purchase Taxes and Charges Template",
+		"title": _("VAT 10% - Included"),
+		"company": args.get("company_name"),
+		"taxes": [{
+			"category": "Total",
+			"charge_type": "On Net Total",
+			"account_head": account_name,
+			"description": _("VAT 10%"),
+			"rate": 10,
+                        "included_in_print_rate": 1
+		}]
+	}).insert(ignore_permissions=True)
+
+        purchase_tax_template = frappe.get_doc({
+		"doctype": "Purchase Taxes and Charges Template",
+		"title": _("VAT 5.5% - Included"),
+		"company": args.get("company_name"),
+		"taxes": [{
+			"category": "Total",
+			"charge_type": "On Net Total",
+			"account_head": account_name,
+			"description": _("VAT 5.5%"),
+			"rate": 5.5,
                         "included_in_print_rate": 1
 		}]
 	}).insert(ignore_permissions=True)

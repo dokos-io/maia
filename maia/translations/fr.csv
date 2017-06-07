@@ -78,7 +78,8 @@ DocType: Postnatal Consultation,BMI,I.M.C
 apps/maia/maia/setup/setup_wizard/setup_wizard.py +139,Bank account cannot be named as {0},Compte Bancaire ne peut pas être nommé {0}
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +264,Basal Body Temperature Method,Méthode des Températures
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +39,Basic,de Base
-DocType: Perineum Rehabilitation,Bearing Down ?,Pesanteur Pelvienne
+DocType: Perineum Rehabilitation,Bearing Down ?,Pesanteur Pelvienne ?
+DocType: Perineum Rehabilitation,Bearing Down,Pesanteur Pelvienne
 DocType: Perineum Rehabilitation,Before Delivery,Ante-Partum
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +274,Before Labour C-Section,Césarienne avant le Travail
 DocType: Pregnancy,Beginning of Pregnancy,Début de Grossesse
@@ -320,7 +321,8 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +46,Food,Alimentation
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +271,Forceps,Forceps
 DocType: Free Consultation,Free Consultation,Consultation Libre
 DocType: Free Prescription,Free Prescription,Ordonnance Libre
-apps/maia/maia/maia/doctype/patient_record/patient_record_dashboard.py +22,Free Prescriptions,Ordonnances Libres
+DocType: Free Prescription,Free Prescriptions,Ordonnances Libres
+apps/maia/maia/maia/doctype/patient_record/patient_record_dashboard.py +22,Free Prescriptions and Appointments,Ordonnances Libres et Rendez-Vous
 DocType: Perineum Rehabilitation Consultation,Frequency,Fréquence
 DocType: Patient,Full Name,Nom et Prénom
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +64,Full-time,Temps Plein
@@ -530,6 +532,7 @@ DocType: Early Postnatal Consultation,Number of Meals per Day,Nombre de Repas pa
 DocType: Perineum Rehabilitation,Number of Times,Nombre de Fois
 DocType: Perineum Rehabilitation,Number of Urination/24h,Nombre de Miction/24h
 DocType: Perineum Rehabilitation,Nycturia,Nycturie
+DocType: Perineum Rehabilitation,Nycturia (Number of Times),Nycturie (Nombre de Fois)
 DocType: Birth Preparation Consultation,N° of Patients,Nombre de Patient(e)s
 DocType: Patient,O+,O+
 DocType: Patient,O-,O-
@@ -581,7 +584,7 @@ apps/maia/maia/config/maia.py +22,Patient Record,Dossier Patient(e)
 DocType: Patient Surgical Interventions,Patient Surgical Interventions,Interventions Chirurgicales de la Patiente
 Custom Field - label: Sales Invoice-patient_name,Patient_Name,Nom de la Patiente
 apps/maia/maia/config/maia.py +10,Patients,Patientes
-apps/maia/maia/maia/doctype/patient_record/patient_record_dashboard.py +18,Payments,Paiements
+apps/maia/maia/maia/doctype/patient_record/patient_record_dashboard.py +18,Payments and Invoices,Paiements et Factures
 DocType: Gynecology,Pelvic Pain,Douleur Pelvienne
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +420,Pelvic Ultrasound,Echographie Pelvienne
 DocType: Perineum Rehabilitation,Pelvis Statics,Statique de Bassin
@@ -790,12 +793,12 @@ apps/maia/maia/public/js/setup_wizard.js +64,The name of the institute for which
 apps/maia/maia/public/js/setup_wizard.js +65,The name of the practice for which you are setting up this system. Contact our team if you have any question.,Le nom du cabinet pour lequel vous configurez ce système. Contactez-nous si vous avez la moindre question.
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +419,Third Quarter Ultrasound,Echographie du Troisième Trimestre (entre 32 et 34 SA)
 DocType: Birth Preparation Consultation,Third-Party Payment,Tiers-Payant
-apps/maia/maia/maia/doctype/patient_record/patient_record_dashboard.py +6,This is based on interactions with this Patient. See timeline below for details,Ce graphique est basé sur les interactions avec cette Patiente. Voir les dossiers ci-dessous pour plus de détails.
+apps/maia/maia/maia/doctype/patient_record/patient_record_dashboard.py +6,This is based on interactions with this Patient. See timeline below for details,Ce graphique est basé sur les consultations de cette Patiente. Voir les dossiers ci-dessous pour plus de détails.
 DocType: Gynecological Consultation,Thyroid,Thyroïde
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +353,Titanorein,Titanoréine
 apps/maia/maia/setup/page/welcome_to_maia/welcome_to_maia.html +6,"To get the best out of Maia, we recommend that you take some time and watch these help videos.","Pour tirer le meilleur part de Maia, nous vous recommendons de prendre quelques minutes pour regarder ces vidéos d’aide."
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +203,Tobacco,Tabac
-DocType: Perineum Rehabilitation,"Tonic/Relaxed, Finger Spacing (cm)","Tonique/Relaxé, Espacement des Doigts (cm)"
+DocType: Perineum Rehabilitation,"Tonic/Relaxed, Finger Spacing (cm)","Tonique/Relaché, Espacement des Doigts (cm)"
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +411,Tonsils Removal ,Ablation des Amygdales
 DocType: Perineum Rehabilitation,Tonus,Tonus
 DocType: Lipid Profile,Total Cholesterol,Cholestérol Total
@@ -821,7 +824,9 @@ DocType: Perineum Rehabilitation,Urinary Area,Zone Urinaire
 DocType: Early Postnatal Consultation,Urinary Functional Signs,Signe Fonctionnel Urinaire
 DocType: Patient,Urinary Infection,Infection Urinaire
 DocType: Gynecology,Urinary Leakage,Fuite Urinaire
-DocType: Perineum Rehabilitation,Urinary Stress Incontinence ?,Incontinence Urinaire d'Effort
+DocType: Perineum Rehabilitation,Urinary Stress Incontinence ?,Incontinence Urinaire d'Effort ?
+DocType: Perineum Rehabilitation,Urinary Stress Incontinence,Incontinence Urinaire d'Effort
+DocType: Perineum Rehabilitation,Amenorrhea Weeks,Semaines d'Aménorrhée
 DocType: Perineum Rehabilitation,Urination Stop Test,Test stop-miction
 DocType: Professional Information Card,User,Utilisateur
 apps/maia/maia/public/js/conf.js +25,User Forum,Forum de l&#39;utilisateur
@@ -829,7 +834,12 @@ DocType: Pregnancy Consultation,Uterine Contractions,Contractions Utérines
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +281,Uterine Examination,Examen Utérin
 DocType: Pregnancy Consultation,Uterine Height,Hauteur Utérine
 DocType: Early Postnatal Consultation,Uterus,Utérus
-apps/maia/maia/setup/setup_wizard/setup_wizard.py +361,VAT 20% - Included,TVA 20% - Incluse
+apps/maia/maia/setup/setup_wizard/setup_wizard.py +370,VAT 20% - Included,TVA 20% - Incluse
+apps/maia/maia/setup/setup_wizard/setup_wizard.py +384,VAT 10% - Included,TVA 10% - Incluse
+apps/maia/maia/setup/setup_wizard/setup_wizard.py +398,VAT 5.5% - Included,"TVA 5,5% - Incluse"
+apps/maia/maia/setup/setup_wizard/setup_wizard.py +376,VAT 20%,TVA 20%
+apps/maia/maia/setup/setup_wizard/setup_wizard.py +390,VAT 10%,TVA 10%
+apps/maia/maia/setup/setup_wizard/setup_wizard.py +404,VAT 5.5%,"TVA 5,5%"
 DocType: Gynecology,Vaccination,Vaccination
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +270,Vacuum,Ventouse
 DocType: Perineum Rehabilitation,Vaginal Area,Zone Vaginale
@@ -893,3 +903,17 @@ apps/maia/maia/public/js/setup_wizard.js +218,e.g. VAT,e.g. TVA
 apps/maia/maia/public/js/setup_wizard.js +198,user@example.com,utilisateur@exemple.com
 apps/maia/maia/maia/scheduler.py +27,{0} not available on {1} {2},{0} n’a pas de disponibilité le {1} {2}
 Doctype: Patient Record,Patient Record,Dossier Patient(e)
+Doctype: Midwife Appointment Type,Midwife Appointment Type,Type de Rendez-Vous
+Doctype: Midwife Appointment,Duration (mins),Durée (mins)
+apps/maia/maia/maia/scheduler.py +36,Schedules for {0} on  {1} :  {2},Planning de {0} le {1} :
+apps/maia/maia/maia/scheduler.py +79,No slots left for schedule {0} {1},Aucun créneau disponible pour {0} {1}
+apps/maia/maia/maia/scheduler.py +18,You cannot schedule for past dates,Vous ne pouvez pas planifier dans le passé
+Doctype: Midwife Appointment,Send a Reminder the Day Before,Envoyer un Rappel la Veille
+Doctype: Prenatal Interview,Interview,Entretien
+Doctype: Prenatal Interview,Background,Antécédents
+Doctype: Prenatal Interview,Pregnancy and Delivery,Grossesse et Accouchement
+Doctype: Early Postnatal Consultation,Current Medication,Prise Médicamenteuse
+Doctype: Early Postnatal Consultation,Prescription Written,Ordonnance Réalisée
+Doctype: Early Postnatal Consultation,Functional Signs of Hypertension,Signes Fonctionnels d'Hypertension
+Doctype: Pregnancy,Pregnancy Complication,Complications de la Grossesse
+Doctype: Patient Record,Social Security Number,Numéro de Sécurité Sociale

@@ -1749,7 +1749,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-05-05 14:45:19.977798", 
+ "modified": "2017-06-07 11:03:33.488613", 
  "modified_by": "Administrator", 
  "module": "Maia", 
  "name": "Free Consultation", 
@@ -1759,7 +1759,7 @@
   {
    "amend": 0, 
    "apply_user_permissions": 0, 
-   "cancel": 0, 
+   "cancel": 1, 
    "create": 1, 
    "delete": 0, 
    "email": 1, 
@@ -1783,6 +1783,7 @@
  "show_name_in_global_search": 1, 
  "sort_field": "modified", 
  "sort_order": "DESC", 
+ "timeline_field": "patient_record", 
  "title_field": "patient_name", 
  "track_changes": 1, 
  "track_seen": 0

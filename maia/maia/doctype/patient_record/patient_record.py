@@ -6,7 +6,7 @@ from __future__ import unicode_literals
 import frappe
 from frappe.model.naming import make_autoname
 from frappe import _, msgprint, throw
-from frappe.utils import cstr, cint, has_gravatar
+from frappe.utils import cstr, cint, has_gravatar, add_years, get_timestamp
 import frappe.defaults
 from frappe.model.document import Document
 from frappe.geo.address_and_contact import load_address_and_contact
@@ -85,16 +85,13 @@ class PatientRecord(Document):
         def after_insert(self):
                 create_customer_from_patient(self)
 
-        def on_trash(self):
-                self.delete_patient_address()
-
                 
 def create_customer_from_patient(doc):
 
                 customer =  frappe.get_doc({
                         "doctype": "Customer",
                         "customer_name": doc.patient_name,
-                        "patient": doc.name,
+                        "patient_record": doc.name,
                         "customer_type": 'Individual',
                         "customer_group": _('Individual'),
                         "territory": _('All Territories')
@@ -105,4 +102,23 @@ def create_customer_from_patient(doc):
                 doc.reload()
 
 def updating_customer(self):
-        frappe.db.sql("""update `tabCustomer` set customer_name=%s, modified=NOW() where patient=%s""",(self.patient_name, self.name))
+        frappe.db.sql("""update `tabCustomer` set customer_name=%s, modified=NOW() where patient_record=%s""",(self.patient_name, self.name))
+
+def get_timeline_data(doctype, name):
+        '''returns timeline data for the past one year'''
+        from frappe.desk.form.load import get_communication_data
+        doctype = "Customer"
+
+        out = {}
+        data = get_communication_data(doctype, name,
+                fields = 'date(creation), count(name)',
+                after = add_years(None, -1).strftime('%Y-%m-%d'),
+                group_by='group by date(creation)', as_dict=False)
+
+        timeline_items = dict(data)
+
+        for date, count in timeline_items.iteritems():
+                timestamp = get_timestamp(date)
+                out.update({ timestamp: count })
+
+        return out

@@ -33,7 +33,7 @@ def check_availability(doctype, df, dt, dn, date, duration):
                 msg = ""
                 for sch in day_sch:
                     msg += " <br>{0}-{1}".format(sch.start_time, sch.end_time)
-                    availability.append({"msg": _("Schedules for {0} on  {1} :  {2} ").format(dn, date, msg)})
+                    availability.append({"msg": _("Schedules for {0} on  {1} :  {2}").format(dn, date, msg)})
             if schedules:
                 availability.extend(get_availability_from_schedule(doctype, df, dn, schedules, date))            
     return availability
