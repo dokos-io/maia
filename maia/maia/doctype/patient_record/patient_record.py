@@ -107,6 +107,7 @@ def updating_customer(self):
 def get_timeline_data(doctype, name):
         '''returns timeline data for the past one year'''
         from frappe.desk.form.load import get_communication_data
+        doctype = "Customer"
 
         out = {}
         data = get_communication_data(doctype, name,
