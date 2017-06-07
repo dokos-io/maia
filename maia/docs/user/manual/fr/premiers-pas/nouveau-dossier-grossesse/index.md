@@ -60,3 +60,20 @@ Faites attention qu'aucun filtre ne soit activé par inadvertance! Cela pourrait
 ![Filtre activé](/maia/assets/img/first_steps/new_pregnancy_folder/activation_filter.png)
 
 ![Filtre desactivé](/maia/assets/img/first_steps/new_pregnancy_folder/no_filter.png)
+
+
+###Compléter votre Dossier Grossesse
+
+Le dossier de grossesse est un récapitulatif qui à pour objectif d'être compléter au fur et à mesure de votre suivi.
+
+<br>
+Le champs "Mémo" est un champs libre qui vous permet d'ajouter les informations importantes à ne pas oublier durant votre suivi. 
+
+![Memo](/maia/assets/img/first_steps/new_pregnancy_folder/complete_pregnancy_folder.png)
+
+<br>
+![Attention](/maia/assets/img/attention.png)
+Bien remplir le Terme Prévu, la Date des Dernières Règles ou le Début de Grossesse pour que le calcul du Terme puisse se faire automatiquement durant vos prochaines consultations. 
+
+<br>
+Il vous suffit ensuite de remplir vos tableaux au fur et à mesure de votre suivi de grossesse et de vos résultats! 
