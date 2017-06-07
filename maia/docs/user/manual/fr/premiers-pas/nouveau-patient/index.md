@@ -4,7 +4,7 @@
 
 Depuis l'onglet Maia
 
-![Onglet Maia](/maia/assets/img/first_steps/new_patient_folder/maia_desktop.png) 
+![Onglet Maia](/maia/assets/img/first_steps/new_patient_folder/maia_desktop.png)
 
 Allez dans "Dossier Patient"
 
@@ -23,9 +23,9 @@ Il ne vous reste plus qu'à compléter votre anamnèse!
 <br>
 ![Astuce](/maia/assets/img/lightbulb.png)
 
-L’anamnèse a pour objectif d’être étoffée tout au long de la vie de la patiente. Vous pourrez la compléter au fil des années. 
+L’anamnèse a pour objectif d’être étoffée tout au long de la vie de la patiente. Vous pourrez la compléter au fil des années.
 
-Si lors de votre consultation, vous avez uniquement le temps de compléter votre recueil de données, n’oubliez pas de codifier une consultation! 
+Si lors de votre consultation, vous avez uniquement le temps de compléter votre recueil de données, n’oubliez pas de codifier une consultation!
 
 Il en est de même pour tous les dossiers (grossesse, rééducation, gynécologie…).
 <br>
@@ -55,25 +55,25 @@ Les champs "Titre de l’adresse", "Adresse de Livraison Principale", "Référen
 <br>
 ![Attention](/maia/assets/img/attention.png)
 
-Après l’enregistrement, la redirection n’est pas automatique! 
+Après l’enregistrement, la redirection n’est pas automatique!
 Après enregistrement, cliquez simplement sur la flèche retour (arrière) de votre navigateur pour revenir à votre dossier patient.
 
 <br>
 
 ![Attention](/maia/assets/img/attention.png)
 
-L'Email et le Numéro de Mobile apparaissant au dessus des adresses seront utilisés pour les relances par mail/sms avant la consultation. 
+L'Email et le Numéro de Mobile apparaissant au dessus des adresses seront utilisés pour les relances par mail/sms avant la consultation.
 Vous pouvez tout à fait les renseigner également avec une adresse.
 <br>
 
 ### Gérer les informations de relance automatique
 
-Dans l’onglet "Adresse et Contact" l'Email et le Numéro de Mobile apparaissant au dessus des adresses seront utilisés pour les relances par mail/sms avant la consultation. 
+Dans l’onglet "Adresse et Contact" l'Email et le Numéro de Mobile apparaissant au dessus des adresses seront utilisés pour les relances par mail/sms avant la consultation.
 
 ![Rappel Email](/maia/assets/img/first_steps/new_patient_folder/email_reminder.png)
 
 
-Remplissez le champs "Email" afin de permettre une relance automatique par email 24h avant le rendez-vous. 
+Remplissez le champs "Email" afin de permettre une relance automatique par email 24h avant le rendez-vous.
 La relance par SMS arrive bientôt!!!  
 <br>
 
@@ -96,3 +96,4 @@ Vous pouvez ensuite complétez les différents éléments :
 
 Pour revenir au dossier principal, un simple clic sur la zone grisée suffit.
 
+{next}
