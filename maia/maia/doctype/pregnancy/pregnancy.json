@@ -1802,7 +1802,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-05-29 15:48:29.176816", 
+ "modified": "2017-06-07 10:42:04.584043", 
  "modified_by": "Administrator", 
  "module": "Maia", 
  "name": "Pregnancy", 
@@ -1836,6 +1836,7 @@
  "show_name_in_global_search": 0, 
  "sort_field": "modified", 
  "sort_order": "DESC", 
+ "timeline_field": "patient_record", 
  "title_field": "patient_name", 
  "track_changes": 0, 
  "track_seen": 0
