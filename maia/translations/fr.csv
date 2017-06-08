@@ -917,3 +917,6 @@ Doctype: Early Postnatal Consultation,Prescription Written,Ordonnance Réalisée
 Doctype: Early Postnatal Consultation,Functional Signs of Hypertension,Signes Fonctionnels d'Hypertension
 Doctype: Pregnancy,Pregnancy Complication,Complications de la Grossesse
 Doctype: Patient Record,Social Security Number,Numéro de Sécurité Sociale
+DocType: Midwife Appointment Type,red,rouge
+DocType: Midwife Appointment Type,green,vert
+DocType: Midwife Appointment Type,blue,bleu
