@@ -1,3 +1,3 @@
 frappe.listview_settings['Midwife Appointment'] = {
-    filters: [["docstatus","!=", "2"], ["date",">=",get_today()]]
+    filters: [["docstatus","!=", "2"], ["date",">=",frappe.datetime.get_today()]]
 };
