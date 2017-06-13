@@ -920,3 +920,8 @@ Doctype: Patient Record,Social Security Number,Numéro de Sécurité Sociale
 DocType: Midwife Appointment Type,red,rouge
 DocType: Midwife Appointment Type,green,vert
 DocType: Midwife Appointment Type,blue,bleu
+DocType: Cash Deposit,Cash Deposit,Dépôt d'Espèces
+DocType: Cash Deposit,Deposit Amount,Montant Déposé (EUR)
+DocType: Cash Deposit,Cash Deposit Account,Compte Bancaire de Dépôt
+DocType: Cash Deposit,Cash Account,Compte de Caisse
+DocType: Cash Deposit,Internal Transfer Account,Compte de Passage (Par Défaut les Comptes "58")

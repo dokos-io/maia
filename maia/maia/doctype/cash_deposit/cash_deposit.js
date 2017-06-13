@@ -2,7 +2,7 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Cash Deposit', {
-    setup: function(frm) {
+    onload: function(frm) {
 	frappe.call({
 	    method: "frappe.client.get",
 	    args: {
