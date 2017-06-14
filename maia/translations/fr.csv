@@ -332,7 +332,7 @@ DocType: Gynecology,GYNECOLOGY/,GYNECO/
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +401,Gamma-GT,Gamma-GT
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +336,Gaviscon 10ml,Gaviscon 10ml
 DocType: Obstetrical Background,Gender,Sexe
-apps/maia/maia/setup/setup_wizard/install_fixtures.py +222,General,Général
+apps/maia/maia/setup/setup_wizard/install_fixtures.py +222,General,Générale
 DocType: Pregnancy Consultation,General Exam,Examen Général
 DocType: Early Postnatal Consultation,General Health,Etat Général
 DocType: Patient,Genital Herpes,Herpès Génital
