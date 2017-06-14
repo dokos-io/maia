@@ -78,7 +78,7 @@ DocType: Postnatal Consultation,BMI,I.M.C
 apps/maia/maia/setup/setup_wizard/setup_wizard.py +139,Bank account cannot be named as {0},Compte Bancaire ne peut pas être nommé {0}
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +264,Basal Body Temperature Method,Méthode des Températures
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +39,Basic,de Base
-DocType: Perineum Rehabilitation,Bearing Down ?,Pesanteur Pelvienne ?
+DocType: Perineum Rehabilitation,Bearing Down ?,Pesanteur Pelvienne
 DocType: Perineum Rehabilitation,Bearing Down,Pesanteur Pelvienne
 DocType: Perineum Rehabilitation,Before Delivery,Ante-Partum
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +274,Before Labour C-Section,Césarienne avant le Travail
@@ -160,7 +160,7 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +34,Codifications,Codifica
 DocType: Patient,Cohabitation,Concubinage
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +166,Colour,Couleur
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +266,Combined Indices Method,Méthode des Indices Combinés
-DocType: Perineum Rehabilitation,Command Inversion ?,Inversion des Commandes?
+DocType: Perineum Rehabilitation,Command Inversion ?,Inversion des Commandes
 DocType: Birth Preparation Consultation,Comments,Commentaires
 apps/maia/maia/setup/setup_wizard/setup_wizard.py +479,Commercial,Commercial
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +68,Commission,Commission
@@ -240,7 +240,7 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +188,Department,Départeme
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +102,Designer,Designer
 DocType: Early Postnatal Consultation,Details,Détails
 DocType: Patient,"Diabetes, Cholesterol, Cholestasis","Diabète, Cholestérol, Cholestase"
-DocType: Perineum Rehabilitation,Diasthasis ?,Diasthasis?
+DocType: Perineum Rehabilitation,Diasthasis ?,Diasthasis
 DocType: Perineum Rehabilitation,Difficult Defecation ? Frequency ? Since When ? Type of Thrust ? Sensation of not Expelling Fully ?,Constipation? Fréquence? Depuis quand? Type de Poussée? Sensation de ne pas Expulser Complètement?
 DocType: Early Postnatal Consultation,Digestive Functional Signs,Signes Fonctionnels Digestifs
 DocType: Pregnancy Consultation,Dipstick,Bandelette Urinaire
@@ -332,7 +332,7 @@ DocType: Gynecology,GYNECOLOGY/,GYNECO/
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +401,Gamma-GT,Gamma-GT
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +336,Gaviscon 10ml,Gaviscon 10ml
 DocType: Obstetrical Background,Gender,Sexe
-apps/maia/maia/setup/setup_wizard/install_fixtures.py +222,General,Général
+apps/maia/maia/setup/setup_wizard/install_fixtures.py +222,General,Générale
 DocType: Pregnancy Consultation,General Exam,Examen Général
 DocType: Early Postnatal Consultation,General Health,Etat Général
 DocType: Patient,Genital Herpes,Herpès Génital
@@ -417,7 +417,7 @@ DocType: Lab Exam Type,Lab Exam Type,Type d’Examen de Laboratoire
 apps/maia/maia/config/maia.py +148,Lab Exam Types,Types d’Examens de Laboratoire
 DocType: Free Prescription,Lab Prescription,Ordonnance de Laboratoire
 DocType: Pregnancy,Labs Results,Résultats de Laboratoire
-DocType: Perineum Rehabilitation,Lapping During Walking ?,Clappotis durant la marche?
+DocType: Perineum Rehabilitation,Lapping During Walking ?,Clapotis durant la marche
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +162,Large,Grand
 DocType: Patient,Last Cervical Smear,Dernier FCV
 DocType: Pregnancy,Last Menstrual Period (LMP),Date des Dernières Règles (DDR)
@@ -440,7 +440,7 @@ apps/maia/maia/setup/setup_wizard/setup_wizard.py +498,Local,Locale
 DocType: Correspondents,Location,Lieu
 DocType: Early Postnatal Consultation,Lochia,Lochies
 DocType: Patient,"Long Term Disease,  Hospitalisation Or Treatment","Maladie, Hospitalisation Ou Traitement de Long Terme"
-DocType: Perineum Rehabilitation,Loss of Water after Bath ?,Pertes d'Eau après le Bain?
+DocType: Perineum Rehabilitation,Loss of Water after Bath ?,Pertes d'Eau après le Bain
 DocType: Pregnancy Consultation,Losses,Pertes
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +314,Lovavulo-Ge,Lovavulo-Gé
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +249,Lovavulo-Gé,Lovavulo-Gé
@@ -695,7 +695,7 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +190,Responsibilities,Resp
 apps/maia/maia/setup/setup_wizard/setup_wizard.py +564,Rest Of The World,Reste du monde
 DocType: Cervical Smear,Result,Résultat
 DocType: Postnatal Consultation,Resumption of Menses,Retour de Couche
-DocType: Perineum Rehabilitation,Resumption of Sexual Activity ?,Reprise des Rapports Sexuels ?
+DocType: Perineum Rehabilitation,Resumption of Sexual Activity ?,Reprise des Rapports Sexuels
 DocType: Perineum Rehabilitation,Resumption of Sporting Activities,Reprise des Activités Sportives
 DocType: Perineum Rehabilitation,Right Contraction,Contraction Droite
 apps/maia/maia/public/js/setup_wizard.js +370,Room,Chambre
@@ -799,7 +799,7 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +353,Titanorein,Titanoréi
 apps/maia/maia/setup/page/welcome_to_maia/welcome_to_maia.html +6,"To get the best out of Maia, we recommend that you take some time and watch these help videos.","Pour tirer le meilleur part de Maia, nous vous recommendons de prendre quelques minutes pour regarder ces vidéos d’aide."
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +203,Tobacco,Tabac
 DocType: Perineum Rehabilitation,"Tonic/Relaxed, Finger Spacing (cm)","Tonique/Relaché, Espacement des Doigts (cm)"
-apps/maia/maia/setup/setup_wizard/install_fixtures.py +411,Tonsils Removal ,Ablation des Amygdales
+apps/maia/maia/setup/setup_wizard/install_fixtures.py +411,Tonsils Removal,Ablation des Amygdales
 DocType: Perineum Rehabilitation,Tonus,Tonus
 DocType: Lipid Profile,Total Cholesterol,Cholestérol Total
 DocType: Birth Preparation Consultation,Total Price,Prix Total
@@ -817,14 +817,14 @@ DocType: Obstetrical Background,Undefined,Indéfini
 apps/maia/maia/public/js/setup_wizard.js +291,Unit,Unité
 apps/maia/maia/public/js/setup_wizard.js +166,Upload your letterhead and logo. (you can edit them later).,Chargez votre en-tête et votre logo. (Vous pourrez aussi les éditer plus tard).
 DocType: Perineum Rehabilitation,Urethra Adherence ?,Adherence de l'urètre
-DocType: Perineum Rehabilitation,Urge ?,Envie Impérieuse?
+DocType: Perineum Rehabilitation,Urge ?,Envie Impérieuse
 DocType: Perineum Rehabilitation,Urgency of Urination,Urgenterie
 DocType: Perineum Rehabilitation,Urgency of Urination or Stress Incontinence,Urgenterie ou Incontinence Urinaire d'Effort
 DocType: Perineum Rehabilitation,Urinary Area,Zone Urinaire
 DocType: Early Postnatal Consultation,Urinary Functional Signs,Signe Fonctionnel Urinaire
 DocType: Patient,Urinary Infection,Infection Urinaire
 DocType: Gynecology,Urinary Leakage,Fuite Urinaire
-DocType: Perineum Rehabilitation,Urinary Stress Incontinence ?,Incontinence Urinaire d'Effort ?
+DocType: Perineum Rehabilitation,Urinary Stress Incontinence ?,Incontinence Urinaire d'Effort
 DocType: Perineum Rehabilitation,Urinary Stress Incontinence,Incontinence Urinaire d'Effort
 DocType: Perineum Rehabilitation,Amenorrhea Weeks,Semaines d'Aménorrhée
 DocType: Perineum Rehabilitation,Urination Stop Test,Test stop-miction
@@ -847,7 +847,7 @@ DocType: Perineum Rehabilitation,Vaginal Bands,Brides Vaginales
 DocType: Gynecological Consultation,Vaginal Exam,Examen Vaginal
 DocType: Postnatal Consultation,Vaginal Exam/Testing,Examen Vaginal/Testing
 DocType: Pregnancy Consultation,Vaginal Examination,Examen Vaginal
-DocType: Perineum Rehabilitation,Vaginal Gas ?,Gaz Vaginaux?
+DocType: Perineum Rehabilitation,Vaginal Gas ?,Gaz Vaginaux
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +384,Vaginal Swab +/- Antibiogram,Prélèvement vaginal +/- Antibiogramme
 DocType: Perineum Rehabilitation,Vaginal Walls,Parois Vaginales
 DocType: Obstetrical Background,Vaginal and Perineal Tears,Déchirure vaginale
@@ -862,9 +862,9 @@ DocType: Early Postnatal Consultation,Vomiting,Vomissements
 DocType: Early Postnatal Consultation,Vomiting Details:,Détails Vomissement
 DocType: Perineum Rehabilitation,Vulva,Vulve
 DocType: Gynecological Consultation,Vulva/Speculum,Vulve/Spéculum
-DocType: Perineum Rehabilitation,Vulval Air Bubble ?,Bulle d'Air dans le vagin?
+DocType: Perineum Rehabilitation,Vulval Air Bubble ?,Bulle d'Air dans le vagin
 DocType: Perineum Rehabilitation,Vulval Area,Zone Vulvaire
-DocType: Perineum Rehabilitation,Vuval Apertognathia ?,Béance Vulvaire?
+DocType: Perineum Rehabilitation,Vuval Apertognathia ?,Béance Vulvaire
 DocType: Birth Preparation Consultation,Walking/Skiing,À Pied/Ski
 DocType: Perineum Rehabilitation,Water Consumption/24h,Consommation d’Eau/24h
 apps/maia/maia/public/js/setup_wizard.js +295,We buy this Item,Nous achetons cet article
@@ -920,3 +920,8 @@ Doctype: Patient Record,Social Security Number,Numéro de Sécurité Sociale
 DocType: Midwife Appointment Type,red,rouge
 DocType: Midwife Appointment Type,green,vert
 DocType: Midwife Appointment Type,blue,bleu
+DocType: Cash Deposit,Cash Deposit,Dépôt d'Espèces
+DocType: Cash Deposit,Deposit Amount,Montant Déposé (EUR)
+DocType: Cash Deposit,Cash Deposit Account,Compte Bancaire de Dépôt
+DocType: Cash Deposit,Cash Account,Compte de Caisse
+DocType: Cash Deposit,Internal Transfer Account,Compte de Passage (Par Défaut les Comptes "58")
