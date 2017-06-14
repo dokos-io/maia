@@ -8,7 +8,7 @@ def get_domain(domain):
 	'''Written as a function to prevent data mutation effects'''
 	data = {
 		'Midwife': {
-			'desktop_icons': ['Maia', 'Patient Record', 'Calendar', 'Project', 'Task', 'ToDo', 'Sales Invoice'],
+			'desktop_icons': ['Maia', 'Patient Record', 'Calendar', 'ToDo', 'Sales Invoice', 'Accounts', 'Projects', 'Tools'],
 			'remove_roles': ['Manufacturing User', 'Manufacturing Manager', 'Academics User'],
 			'properties': [
 				{'doctype': 'Item', 'fieldname': 'is_stock_item', 'property': 'default', 'value': 0},
