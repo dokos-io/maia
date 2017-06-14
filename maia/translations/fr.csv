@@ -799,7 +799,7 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +353,Titanorein,Titanoréi
 apps/maia/maia/setup/page/welcome_to_maia/welcome_to_maia.html +6,"To get the best out of Maia, we recommend that you take some time and watch these help videos.","Pour tirer le meilleur part de Maia, nous vous recommendons de prendre quelques minutes pour regarder ces vidéos d’aide."
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +203,Tobacco,Tabac
 DocType: Perineum Rehabilitation,"Tonic/Relaxed, Finger Spacing (cm)","Tonique/Relaché, Espacement des Doigts (cm)"
-apps/maia/maia/setup/setup_wizard/install_fixtures.py +411,Tonsils Removal ,Ablation des Amygdales
+apps/maia/maia/setup/setup_wizard/install_fixtures.py +411,Tonsils Removal,Ablation des Amygdales
 DocType: Perineum Rehabilitation,Tonus,Tonus
 DocType: Lipid Profile,Total Cholesterol,Cholestérol Total
 DocType: Birth Preparation Consultation,Total Price,Prix Total
