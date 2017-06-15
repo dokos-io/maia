@@ -62,7 +62,7 @@ def setup_complete(args=None):
         
         correct_midwife_accounts(args)
 
-        initial_list = ['Stock', 'Manufacturing', 'Learn', 'Buying', 'Selling', 'Support', 'Integrations', 'Maintenance', 'Schools', 'HR', 'CRM', 'Employee', 'Issue', 'Lead', 'POS', 'Student', 'Student Group', 'Course Schedule', 'Student Attendance', 'Course', 'Program', 'Student Applicant', 'Fees', 'Instructor', 'Room', 'Contacts']
+        initial_list = ['Stock', 'Manufacturing', 'Learn', 'Buying', 'Selling', 'Support', 'Integrations', 'Maintenance', 'Schools', 'HR', 'CRM', 'Employee', 'Issue', 'Lead', 'POS', 'Student', 'Student Group', 'Course Schedule', 'Student Attendance', 'Course', 'Program', 'Student Applicant', 'Fees', 'Instructor', 'Room']
         hidden_list = []
 
         for i in initial_list:
@@ -73,6 +73,7 @@ def setup_complete(args=None):
                         pass
         
         set_hidden_list(hidden_list)
+
 
 	if args.get("add_sample_data"):
 		try:
