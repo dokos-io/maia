@@ -59,32 +59,6 @@ def update_invoice_details(self, customer, case):
                 else:
                                 teletransmission = 1
 
-                consultation_reference = ""
-
-                try:
-                                if self.pregnancy_folder is not None:
-                                                consultation_reference += self.pregnancy_folder + "  "
-                except AttributeError:
-                                pass
-                                
-                try:                
-                                if self.prenatal_interview_folder is not None:
-                                                consultation_reference += self.prenatal_interview_folder + "  "
-                except AttributeError:
-                                pass
-
-                try:          
-                                if self.perineum_rehabilitation_folder is not None:
-                                                consultation_reference += self.perineum_rehabilitation_folder + "  "
-                except AttributeError:
-                                pass
-
-                try:
-                                if self.gynecological_folder is not None:
-                                                consultation_reference += self.gynecological_folder + "  "
-                except AttributeError:
-                                pass
-
                                 
                 invoice.update({
                                 "customer": customer,
@@ -94,7 +68,7 @@ def update_invoice_details(self, customer, case):
                                 "patient_record": self.patient_record,
                                 "selling_price_list": selling_price_list,
                                 "teletransmission": teletransmission,
-                                "consultation_reference": consultation_reference,
+                                "consultation_reference": self.name,
                                 "items": []
                 })
 
@@ -105,7 +79,7 @@ def update_invoice_details(self, customer, case):
 
                                 data = [self.codification, self.lump_sum_travel_allowance_codification, self.sundays_holidays_allowance_codification, self.night_work_allowance_codification]
                                 for d in data:
-                                                if d != "" and d != 0 and d is not None: 
+                                                if d != "" and d != 0 and d is not None and d != "HN": 
                                                                 invoice.append("items", {
                                                                                 "item_code": d,
                                                                                 "qty": 1,
@@ -131,6 +105,7 @@ def update_invoice_details(self, customer, case):
                                                                 "item_code": "HN",
                                                                 "qty": 1,
                                                                 "rate": self.without_codification,
+                                                                "description": self.without_codification_description
                                                 })
 
 
@@ -163,3 +138,12 @@ def update_invoice_details(self, customer, case):
                                 
                 self.reload()
 
+
+def cancel_consultation_and_invoice(self):
+                if self.invoice != "":
+                                invoice = frappe.get_doc("Sales Invoice", self.invoice)
+                                invoice.cancel()
+
+                if self.social_security_invoice:
+                                ss_invoice = frappe.get_doc("Sales Invoice", self.social_security_invoice)
+                                ss_invoice.cancel()

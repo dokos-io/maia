@@ -23,7 +23,21 @@ frappe.ui.form.on(this.frm.doctype, {
 		     frappe.model.set_value(frm.doctype, frm.docname, "practitioner", data.message.name)
 		}
 	    }
-	});
+	}),
+
+	frappe.call({
+	    "method": "frappe.client.get",
+	    args: {
+		doctype: "Codification",
+		name: "HN"
+	    },
+	    cache: false,
+	    callback: function (data) {
+		if (data.message) {
+		    frappe.model.set_value(frm.doctype, frm.docname, "without_codification_description", data.message.codification_description)
+		}
+	    }
+	})
     }
 
 });
