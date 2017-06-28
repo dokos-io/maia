@@ -935,13 +935,22 @@ DocType: Professional Information Card,Mileage Allowance Excluded,Indemnités Ki
 DocType: Professional Information Card,Create a Substitute,Créer un(e) Remplaçant(e)
 DocType: Professional Information Card,Substitute User, Utilisateur du/de la Remplaçant(e)
 DocType: Professional Information Card,"If you don't have any remaining user available in Maia, please call us or send us an email. We will activate an additional user for free for the duration of the replacement.","Si vous n'avez plus d'utilisateurs disponibles dans votre forfait Maia, veuillez nous appeler ou nous envoyer un email. Nous activerons un utilisateur supplémentaire gratuitement pendant la durée du remplacement."
-apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report +44,Replacement : {0}-{1},Remplacement: {0}-{1}
-apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report +66,Mileage Allowances,Indemnités Kilométriques
-apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report +67,Mileage Allowances : {0}-{1},Indemnités Kilométriques : {0}-{1}
-apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report +103,Third Party Payments,Tiers Payant
-apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report +138,Total Received,Total Réellement Perçu
-apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report +139,Total Replacement,Total Remplacement
-apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report +0,Midwife Replacement Report,Rapport de Remplacement
-apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report +26,Please make sure all replacement related fields are completed in this Professional Information Card,Veuillez compléter tous les champs liés au remplacement dans cette Fiche d'Information Professionnelle
+apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report.py +44,Replacement : {0}-{1},Remplacement: {0}-{1}
+apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report.py +66,Mileage Allowances,Indemnités Kilométriques
+apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report.py +67,Mileage Allowances : {0}-{1},Indemnités Kilométriques : {0}-{1}
+apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report.py +103,Third Party Payments,Tiers Payant
+apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report.py +138,Total Received,Total Réellement Perçu
+apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report.py +139,Total Replacement,Total Remplacement
+apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report.py +0,Midwife Replacement Report,Rapport de Remplacement
+apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report.py +26,Please make sure all replacement related fields are completed in this Professional Information Card,Veuillez compléter tous les champs liés au remplacement dans cette Fiche d'Information Professionnelle
 DocType: Professional Information Card,Are you certain you want to create a new substitute user ?,Êtes-vous sûr(e) de vouloir créer un nouvel utilisateur pour le/la remplaçant(e) ?
 DocType: Professional Information Card,Create a New Substitute User ?,Créer un utilisateur pour le/la remplaçant(e) ?
+apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report.py,Accumulated Values,Valeurs Accumulées
+apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report.py,Périodicité,Périodicité
+apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report.py,Start Year,Année de Début
+apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report.py,End Year,Année de Fin
+apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report.py,Practicioner,Praticien
+apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report.py,Monthly,Mensuelle
+apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report.py,Quarterly,Trimestrielle
+apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report.py,Half-Yearly,Semi-Annuelle
+apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report.py,Yearly,Annuelle
