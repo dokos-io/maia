@@ -48,11 +48,6 @@ frappe.query_reports["Midwife Replacement Report"] = {
 	    ],
 	    "default": "Monthly",
 	    "reqd": 1
-	},
-	{
-	    "fieldname": "accumulated_values",
-	    "label": __("Accumulated Values"),
-	    "fieldtype": "Check"
 	}
 
     ],

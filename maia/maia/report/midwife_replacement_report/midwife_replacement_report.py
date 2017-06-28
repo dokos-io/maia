@@ -20,16 +20,16 @@ def execute(filters=None):
                 if practicioner.substitute_first_name and practicioner.substitute_last_name and practicioner.substitute_start_date and practicioner.substitute_end_date:
                         substitute_name = practicioner.substitute_first_name + " " + practicioner.substitute_last_name
 
-                        substitute_period_list = get_substitute_period_list(filters.from_fiscal_year, filters.to_fiscal_year, filters.periodicity, practicioner.substitute_start_date, practicioner.substitute_end_date, filters.accumulated_values, filters.company)
+                        substitute_period_list = get_substitute_period_list(filters.from_fiscal_year, filters.to_fiscal_year, filters.periodicity, practicioner.substitute_start_date, practicioner.substitute_end_date, False, filters.company)
 
                 else:
                         frappe.throw(_("Please make sure all replacement related fields are completed in this Professional Information Card"))
                 
         period_list = get_period_list(filters.from_fiscal_year, filters.to_fiscal_year,
-                                      filters.periodicity, filters.accumulated_values, filters.company)
+                                      filters.periodicity, False, filters.company)
         
         income = get_account_type_based_data(filters.company, "Income Account", period_list,
-                          accumulated_values=filters.accumulated_values)
+                                             accumulated_values=False)
 
         income.update({
                 "account_name": _("Income"),
@@ -41,7 +41,7 @@ def execute(filters=None):
 
         if filters.practicioner:
                 replacement_income = get_account_type_based_data(filters.company, "Income Account", substitute_period_list,
-                          accumulated_values=filters.accumulated_values)
+                                                                 accumulated_values=False)
 
                 replacement_income.update({
                         "account_name": "'"+_("Replacement : {0}-{1}").format(formatdate(practicioner.substitute_start_date), formatdate(practicioner.substitute_end_date)) + "'",
@@ -76,7 +76,7 @@ def execute(filters=None):
                 })
                 
         receivable = get_account_type_based_data(filters.company, "Receivable", period_list,
-                          accumulated_values=filters.accumulated_values)
+                                                 accumulated_values=False)
 
         receivable.update({
                 "account_name": _("Receivables"),
@@ -88,7 +88,7 @@ def execute(filters=None):
 
         if filters.practicioner:
                 replacement_receivable = get_account_type_based_data(filters.company, "Receivable", substitute_period_list,
-                          accumulated_values=filters.accumulated_values)
+                                                                     accumulated_values=False)
 
                 replacement_receivable.update({
                         "account_name": "'"+_("Replacement : {0}-{1}").format(formatdate(practicioner.substitute_start_date), formatdate(practicioner.substitute_end_date)) + "'",
@@ -99,7 +99,7 @@ def execute(filters=None):
                 })      
         
         third_party_payment = get_outstanding_social_security_data(filters.company, period_list,
-                          accumulated_values=filters.accumulated_values)
+                                                                   accumulated_values=False)
 
         third_party_payment.update({
                 "account_name": _("Third Party Payments"),
@@ -111,7 +111,7 @@ def execute(filters=None):
 
         if filters.practicioner:
                 replacement_third_party_payment = get_outstanding_social_security_data(filters.company, substitute_period_list,
-                          accumulated_values=filters.accumulated_values)
+                                                                                       accumulated_values=False)
 
                 replacement_third_party_payment.update({
                         "account_name": "'"+_("Replacement : {0}-{1}").format(formatdate(practicioner.substitute_start_date), formatdate(practicioner.substitute_end_date)) + "'",
