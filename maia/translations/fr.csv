@@ -943,3 +943,5 @@ apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report
 apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report +139,Total Replacement,Total Remplacement
 apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report +0,Midwife Replacement Report,Rapport de Remplacement
 apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report +26,Please make sure all replacement related fields are completed in this Professional Information Card,Veuillez compléter tous les champs liés au remplacement dans cette Fiche d'Information Professionnelle
+DocType: Professional Information Card,Are you certain you want to create a new substitute user ?,Êtes-vous sûr(e) de vouloir créer un nouvel utilisateur pour le/la remplaçant(e) ?
+DocType: Professional Information Card,Create a New Substitute User ?,Créer un utilisateur pour le/la remplaçant(e) ?
