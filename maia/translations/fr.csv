@@ -925,3 +925,21 @@ DocType: Cash Deposit,Deposit Amount,Montant Déposé (EUR)
 DocType: Cash Deposit,Cash Deposit Account,Compte Bancaire de Dépôt
 DocType: Cash Deposit,Cash Account,Compte de Caisse
 DocType: Cash Deposit,Internal Transfer Account,Compte de Passage (Par Défaut les Comptes "58")
+DocType: Professional Information Card,Replacement,Remplacement
+DocType: Professional Information Card,Substitute First Name,Prénom du/de la Remplaçant(e)
+DocType: Professional Information Card,Substitute Last Name,Nom du/de la Remplaçant(e)
+DocType: Professional Information Card,Substitute Email,Email du/de la Remplaçant(e)
+DocType: Professional Information Card,Fee Percentage,Pourcentage de Rétrocession
+DocType: Professional Information Card,Maximum Fee (€),Rétrocession Maximale (€)
+DocType: Professional Information Card,Mileage Allowance Excluded,Indemnités Kilométriques Excluses de la Rétrocession
+DocType: Professional Information Card,Create a Substitute,Créer un(e) Remplaçant(e)
+DocType: Professional Information Card,Substitute User, Utilisateur du/de la Remplaçant(e)
+DocType: Professional Information Card,"If you don't have any remaining user available in Maia, please call us or send us an email. We will activate an additional user for free for the duration of the replacement.","Si vous n'avez plus d'utilisateurs disponibles dans votre forfait Maia, veuillez nous appeler ou nous envoyer un email. Nous activerons un utilisateur supplémentaire gratuitement pendant la durée du remplacement."
+apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report +44,Replacement : {0}-{1},Remplacement: {0}-{1}
+apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report +66,Mileage Allowances,Indemnités Kilométriques
+apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report +67,Mileage Allowances : {0}-{1},Indemnités Kilométriques : {0}-{1}
+apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report +103,Third Party Payments,Tiers Payant
+apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report +138,Total Received,Total Réellement Perçu
+apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report +139,Total Replacement,Total Remplacement
+apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report +0,Midwife Replacement Report,Rapport de Remplacement
+apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report +26,Please make sure all replacement related fields are completed in this Professional Information Card,Veuillez compléter tous les champs liés au remplacement dans cette Fiche d'Information Professionnelle
