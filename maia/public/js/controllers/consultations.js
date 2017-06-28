@@ -105,10 +105,10 @@ frappe.ui.form.on(this.frm.doctype, "sundays_holidays_allowance", function(frm) 
 		cache: false,
 		callback: function (data) {
 		    if (data.message == undefined) {
-			msgprint(no_data_msg)
+			frappe.msgprint(no_data_msg)
 			sundays_holidays_allowance_not_selected(frm);
 		    } else if (data.message.length > 1) {
-			msgprint(multiple_codes_msg)
+			frappe.msgprint(multiple_codes_msg)
 		    } else if (data.message) {
 			
 			sundays_holidays_price = data.message[0].basic_price;
@@ -148,10 +148,10 @@ frappe.ui.form.on(this.frm.doctype, "lump_sum_travel_allowance", function(frm) {
 		cache: false,
 		callback: function (data) {
 		    if (data.message == undefined) {
-			msgprint(__("No codification is assigned to this specific allowance type. Please select one codification for this allowance type."))
+			frappe.msgprint(__("No codification is assigned to this specific allowance type. Please select one codification for this allowance type."))
 			lump_sum_allowance_not_selected(frm);
 		    } else if (data.message.length > 1) {
-			msgprint(multiple_codes_msg)
+			frappe.msgprint(multiple_codes_msg)
 		    } else if (data.message) {
 			
 			lump_sum_travel_allowance = data.message[0].basic_price;
@@ -214,10 +214,10 @@ var night_work_calculation = function(frm) {
 		cache: false,
 		callback: function (data) {
 		    if (data.message == undefined) {
-			msgprint(__("No codification is assigned to this specific allowance type. Please select one codification for this allowance type."))
+			frappe.msgprint(__("No codification is assigned to this specific allowance type. Please select one codification for this allowance type."))
 			night_work_allowance_not_selected(frm);
 		    } else if (data.message.length > 1) {
-			msgprint(multiple_codes_msg)
+			frappe.msgprint(multiple_codes_msg)
 		    } else if (data.message) { 
 			
 			night_work_allowance_price = data.message[0].basic_price;
@@ -244,10 +244,10 @@ var night_work_calculation = function(frm) {
 		cache: false,
 		callback: function (data) {
 		    if (data.message == undefined) {
-			msgprint(no_data_msg)
+			frappe.msgprint(no_data_msg)
 			night_work_allowance_not_selected(frm);
 		    } else if (data.message.length > 1) {
-			msgprint(multiple_codes_msg)
+			frappe.msgprint(multiple_codes_msg)
 		    } else if (data.message) {
 
 			night_work_allowance_price = data.message[0].basic_price;
@@ -305,10 +305,10 @@ var mileage_allowance_calculation = function(frm) {
 		cache: false,
 		callback: function (data) {
 		    if (data.message == undefined) {
-			msgprint(no_data_msg)
+			frappe.msgprint(no_data_msg)
 			mileage_allowance_not_selected(frm);
 		    } else if (data.message.length > 1) {
-			msgprint(multiple_codes_msg)
+			frappe.msgprint(multiple_codes_msg)
 		    } else if (data.message) {
 			
 			mileage_allowance_price = data.message[0].basic_price * frm.doc.number_of_kilometers;
@@ -335,10 +335,10 @@ var mileage_allowance_calculation = function(frm) {
 		cache: false,
 		callback: function (data) {
 		    if (data.message == undefined) {
-			msgprint(no_data_msg)
+			frappe.msgprint(no_data_msg)
 			mileage_allowance_not_selected(frm);
 		    } else if (data.message.length > 1) {
-			msgprint(mutiple_codes_msg)
+			frappe.msgprint(mutiple_codes_msg)
 		    } else if (data.message) {
 			
 			mileage_allowance_price = data.message[0].basic_price * frm.doc.number_of_kilometers;
@@ -365,10 +365,10 @@ var mileage_allowance_calculation = function(frm) {
 		cache: false,
 		callback: function (data) {
 		    if (data.message == undefined) {
-			msgprint(no_data_msg)
+			frappe.msgprint(no_data_msg)
 			mileage_allowance_not_selected(frm);
 		    } else if (data.message.length > 1) {
-			msgprint(multiple_codes_msg)
+			frappe.msgprint(multiple_codes_msg)
 		    } else if (data.message) {
 
 			mileage_allowance_price = data.message[0].basic_price * frm.doc.number_of_kilometers;

@@ -73,12 +73,12 @@ function load_maia_slides() {
 			validate: function() {
 				// validate fiscal year start and end dates
 				if (this.values.fy_start_date=='Invalid date' || this.values.fy_end_date=='Invalid date') {
-					msgprint(__("Please enter valid Financial Year Start and End Dates"));
+					frappe.msgprint(__("Please enter valid Financial Year Start and End Dates"));
 					return false;
 				}
 
 				if ((this.values.company_name || "").toLowerCase() == "company") {
-					msgprint(__("Company Name cannot be Company"));
+					frappe.msgprint(__("Company Name cannot be Company"));
 					return false;
 				}
 
@@ -143,7 +143,7 @@ function load_maia_slides() {
 
 				slide.get_input("company_abbr").on("change", function() {
 					if(slide.get_input("company_abbr").val().length > 5) {
-						msgprint("Company Abbreviation cannot have more than 5 characters");
+						frappe.msgprint("Company Abbreviation cannot have more than 5 characters");
 						slide.get_field("company_abbr").set_input("");
 					}
 				});

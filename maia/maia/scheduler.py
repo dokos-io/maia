@@ -6,7 +6,7 @@
 from __future__ import unicode_literals
 import frappe
 from frappe.utils import getdate, get_time, now_datetime, nowtime, cint
-from frappe import msgprint, _
+from frappe import _
 import datetime
 from datetime import timedelta
 import calendar

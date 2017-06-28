@@ -5,7 +5,7 @@
 from __future__ import unicode_literals
 import frappe
 from frappe.model.naming import make_autoname
-from frappe import _, msgprint, throw
+from frappe import _, throw
 from frappe.utils import cstr, cint, has_gravatar, add_years, get_timestamp
 import frappe.defaults
 from frappe.model.document import Document

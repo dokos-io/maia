@@ -28,7 +28,7 @@ frappe.ui.form.on("Patient Record", "patient_date_of_birth", function(frm) {
 	today = new Date();
 	birthDate = new Date(frm.doc.patient_date_of_birth);
 	if(today < birthDate){
-	    msgprint(__('Please select a valid Date'));
+	    frappe.msgprint(__('Please select a valid Date'));
 	    frappe.model.set_value(frm.doctype,frm.docname, "patient_date_of_birth", null)
 	}else{
 	    age_yr = today.getFullYear() - birthDate.getFullYear();
@@ -53,7 +53,7 @@ frappe.ui.form.on("Patient Record", "spouse_date_of_birth", function(frm) {
 	today = new Date();
 	birthDate = new Date(frm.doc.spouse_date_of_birth);
 	if(today < birthDate){
-	    msgprint(__('Please select a valid Date'));
+	    frappe.msgprint(__('Please select a valid Date'));
 	    frappe.model.set_value(frm.doctype,frm.docname, "spouse_date_of_birth", null)
 	}else{
 	    age_yr = today.getFullYear() - birthDate.getFullYear();

@@ -102,7 +102,7 @@ var check_availability_by_midwife = function(frm){
 	    }
 	});
     }else{
-	msgprint(__("Please select a Midwife, a Date and an Appointment Type"));
+	frappe.msgprint(__("Please select a Midwife, a Date and an Appointment Type"));
     }
 }
 
