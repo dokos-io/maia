@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<!-- Built on Frappe. https://frappe.io/ -->
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Reconciliation Bancaire</title>
+	<meta name="generator" content="frappe">
+    <link type="text/css" rel="stylesheet" href="https://dokos-io.github.io/maia/assets/css/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="https://dokos-io.github.io/maia/assets/css/hljs.css">
+    <link type="text/css" rel="stylesheet" href="https://dokos-io.github.io/maia/assets/css/font-awesome.css">
+    <link type="text/css" rel="stylesheet" href="https://dokos-io.github.io/maia/assets/css/octicons/octicons.css">
+    <link type="text/css" rel="stylesheet" href="https://dokos-io.github.io/maia/assets/css/docs.css">
+
+    
+	<link rel="shortcut icon"
+		href="https://maia-by-dokos.fr/assets/maia/favicon.png"
+		type="image/x-icon">
+	<link rel="icon"
+		href="https://maia-by-dokos.fr/assets/maia/favicon.png"
+		type="image/x-icon">
+    
+
+		</head>
+<body data-path="user/manual/fr/factures-et-paiements/reconciliation-bancaire">
+	<div class="main-section">
+		<div>
+					<nav class="navbar navbar-default navbar-main" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand ellipsis"
+					 href="https://dokos-io.github.io/maia//">
+					<span>Maia</span>
+				</a>
+				<div class="dropdown">
+					<button class="btn btn-default navbar-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						<i class="octicon octicon-three-bars"></i>
+					</button>
+					<ul class="dropdown-menu dropdown-menu-right">
+<li data-label='<i class="octicon octicon-search"></i>' >
+	<a href="/#"
+		
+		>
+	<i class="octicon octicon-search"></i></a></li><li data-label='Documentation' >
+	<a href="https://dokos-io.github.io/maia/user"
+		
+		>
+	Documentation</a></li><li data-label='Forum' >
+	<a href="https://forum.maia-by-dokos.fr"
+		
+		>
+	Forum</a></li>
+
+<li class="divider"></li>
+
+<!-- post login tools -->
+
+</ul>
+				</div>
+			</div>
+			<div class="hidden-xs">
+				
+				<ul class="nav navbar-nav navbar-left">
+</ul>
+<ul class="nav navbar-nav navbar-right"><li data-label='<i class="octicon octicon-search"></i>' >
+	<a href="/#"
+		
+		>
+	<i class="octicon octicon-search"></i></a></li><li data-label='Documentation' >
+	<a href="https://dokos-io.github.io/maia/user"
+		
+		>
+	Documentation</a></li><li data-label='Forum' >
+	<a href="https://forum.maia-by-dokos.fr"
+		
+		>
+	Forum</a></li>
+	
+	
+	<!-- post login tools -->
+
+</ul>
+				
+			</div>
+		</div>
+	</nav><div class="hero-and-content">
+                <div data-html-block="hero"></div>
+                <div class="container" data-html-block="content">
+                
+<div class="page-container" id="page-user/manual/fr/factures-et-paiements/reconciliation-bancaire" data-path="{{ pathname }}"
+	>
+	<div class="row ">
+		
+		<div class=" page-content col-sm-12 ">
+			<div class="page-content-wrapper">
+				<div class="row page-head">
+					<div class='col-sm-12 hidden-xs'>
+						
+						<div class="page-breadcrumbs">
+							
+							
+<ul class="breadcrumb">
+	<li>
+		<span class="fa fa-angle-left"></span>
+		<a href="https://dokos-io.github.io/maia//user/manual/fr/factures-et-paiements">
+		Factures Et Paiements</a>
+	</li>
+	
+</ul>
+
+							
+						</div>
+						
+					</div>
+					<div class="col-sm-8 col-xs-6">
+						<h1>Reconciliation Bancaire</h1>
+					</div>
+					<div class="col-sm-4 col-xs-6">
+						
+
+						
+					</div>
+				</div>
+			</div>
+			<div class="page_content">
+<h2>Réconcilier un Paiement avec son Compte Bancaire</h2>
+
+<p>L'écriture de paiement a permis d'enregistrer la réception du paiement. Dans le cas des chèques, vous allez ensuite les déposer sur votre compte.</p>
+
+<p>Il va donc falloir mettre à jour la date de compensation pour que Maia puisse mettre à jour le solde de votre compte bancaire.</p>
+
+<p>Pour voir quelles écritures de paiement doivent être réconciliées, vous disposez de deux rapports:</p>
+
+<ol>
+<li>Le relevé de Réconciliation Bancaire</li>
+<li>Le Bilan des Compensations Bancaires</li>
+</ol>
+
+<p>Vous les trouverez toujours dans l'onglet COMPTES, puis BANQUE ET PAIEMENTS</p>
+
+<p><img src="https://dokos-io.github.io/maia/assets/img/first_steps/new_payment/paiement8.png" alt="Réconciliation bancaire" /></p>
+
+<p><strong>Le "Relevé de Réconciliation Bancaire" :</strong></p>
+
+<p>Il permet de voir le solde de votre compte et les paiements à venir.</p>
+
+<p><img src="https://dokos-io.github.io/maia/assets/img/first_steps/new_payment/paiement7.png" alt="Relevé de réconciliation" />
+<em>Dans l'exemple ci-dessus, votre solde théorique est de 202,80 €, mais il vous reste 50,20 € à déposer à la banque.</em>
+<br></p>
+
+<p><strong>Le "Bilan des Compensations Bancaires" :</strong></p>
+
+<p>Il permet de voir rapidement quelles sont les écritures qui n'ont pas encore de date de compensation (= date à laquelle le paiement est véritablement enregistré sur votre compte bancaire).</p>
+
+<p><img src="https://dokos-io.github.io/maia/assets/img/first_steps/new_payment/paiement9.png" alt="Bilan des compensations bancaires" /></p>
+
+<p><strong>Il ne vous reste plus qu'à mettre à jour la Date de Transaction!</strong></p>
+
+<p>Lorsque le paiement est effectivement arrivé sur votre compte bancaire, vous pouvez "Mettre à jour les Dates de Transaction Bancaire".</p>
+
+<p><img src="https://dokos-io.github.io/maia/assets/img/first_steps/new_payment/paiement10.png" alt="Dates de compensation" /></p>
+
+<p>Choisissez le "Compte Bancaire" a réconcilier.</p>
+
+<p>Généralement, ce sera le compte en monnaie nationale (Euro), les autres comptes étant pour la Caisse (Espèces) ou pour des devises étrangères.</p>
+
+<p>Choisissez la période à laquelle votre chèque a été émis et cliquez sur "Obtenir les Écritures de Paiement".</p>
+
+<p><img src="https://dokos-io.github.io/maia/assets/img/first_steps/new_payment/paiement11.png" alt="Obtenir les écritures de paiement" />
+<em>Dans cet exemple, votre chèque de la CPAM apparaît.</em>
+<br></p>
+
+<p>Mettez la "Date de Compensation" et cliquez sur "Mettre à Jour la Date de Compensation"</p>
+
+<p><img src="https://dokos-io.github.io/maia/assets/img/first_steps/new_payment/paiement12.png" alt="Obtenir les écritures de paiement" />
+<br></p>
+
+<p>Les espèces sont quand à elles enregistrées sur un compte spécifique de "Caisse". Il faut donc indiquer à Maia que vous les avez déposé sur votre compte bancaire.</p>
+
+<p>Allez dans COMPTES &gt; DÉPÔT D'ESPÈCES et entrez le montant déposé à la banque.
+Si vous n'avez pas modifié les comptes comptables, ceux-ci seront choisis automatiquement par le système.
+Vous pouvez les modifier si besoin.</p>
+
+<p><img src="https://dokos-io.github.io/maia/assets/img/first_steps/new_payment/depotespeces.png" alt="Dépôt d'espèces" /></p>
+
+<p><strong>Vous pouvez soumettre et c'est bon ! Vous pouvez retourner voir votre "Relevé de Réconciliation Bancaire". Votre solde théorique est désormais égal à votre solde bancaire réel 😊</strong></p>
+
+<hr />
+
+<h3>Mettre à jour votre solde bancaire avant la première opération</h3>
+
+<p>Lorsque vous utilisez Maia pour la première fois, votre solde bancaire n'est probablement pas égal à 0. Il va donc falloir le mettre à jour dans Maia pour que vos relevés soient justes.</p>
+
+<p><strong>Vous allez donc passer votre première écriture de journal.</strong></p>
+
+<p><img src="https://dokos-io.github.io/maia/assets/img/first_steps/new_payment/soldebancaire.png" alt="Solde Bancaire" /></p>
+
+<p>Sélectionnez "Écriture Bancaire" comme "Type d'Écriture" et la "Date de Comptabilisation" correspondant à la date à laquelle vous souhaitez réconcilier le solde de votre compte bancaire.</p>
+
+<p><img src="https://dokos-io.github.io/maia/assets/img/first_steps/new_payment/soldebancaire1.png" alt="Solde Bancaire" /></p>
+
+<p><img src="https://dokos-io.github.io/maia/assets/img/first_steps/new_payment/soldebancaire2.png" alt="Solde Bancaire" /></p>
+
+<p>Sélectionnez le compte "110-Report à nouveau" et le compte bancaire que vous souhaitez réconcilier. Généralement, ce sera le compte "5121-Comptes en monnaie nationale".</p>
+
+<p><img src="https://dokos-io.github.io/maia/assets/img/lightbulb.png" alt="Astuce" />
+<em>Si vous avez plusieurs comptes bancaires il est possible de les ajouter dans votre plan de compte.</em>
+<br></p>
+
+<p>Ajoutez une référence à cette opération et une date de référence. Celle-ci est indicative mais obligatoire!</p>
+
+<p><img src="https://dokos-io.github.io/maia/assets/img/first_steps/new_payment/soldebancaire3.png" alt="Référence Bancaire" /></p>
+
+<p>Dans la section "Informations Complémentaires", n'oubliez pas de sélectionner "Oui" à l'option "Écriture d'Ouverture".</p>
+
+<p><img src="https://dokos-io.github.io/maia/assets/img/first_steps/new_payment/soldebancaire4.png" alt="Référence Bancaire" /></p>
+
+<p>Vous pouvez soumettre et vérifier que votre solde bancaire est correct dans le "Relevé de Réconciliation Bancaire" que nous avons vu dans la section "Paiements".</p>
+
+<p><img src="https://dokos-io.github.io/maia/assets/img/lightbulb.png" alt="Astuce" />
+<em>Généralement, il reste toujours un certain nombre de paiements en attente qui ne figurent pas au solde de votre compte bancaire à la date d'ouverture.
+Dans ce cas, nous vous conseillons de créer des dossiers patient(e)s et de faire des fiches de CONSULTATION pour créer les factures correspondantes dans Maia avant d'enregistrer le paiement. Sinon, votre solde risque d'être faussé.</em>
+<br></p>
+
+</div>
+		</div>
+	</div>
+</div>
+
+				
+<div class="page-container">
+	<div class="page-content">
+	<div class="edit-container text-center">
+		<i class="fa fa-smile"></i>
+		<a class="text-muted edit" href="https://github.com/DOKOS-IO/maia/blob/develop/maia/docs/user/manual/fr/factures-et-paiements/reconciliation-bancaire/index.md">
+			Improve this page
+		</a>
+	</div>
+	</div>
+</div>
+                </div>
+            </div>
+			<footer class="docs-footer">
+				<div class="container"><div class="built-with-frappe text-center">
+                    <img class="frappe-bird" src="https://dokos-io.github.io/maia/assets/img/frappe-bird-grey.svg">
+                    <h3>By DOKOS</h3>
+                </div>
+                <div class="text-center">
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="https://github.com/DOKOS-IO/maia">
+                            Source</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/DOKOS-IO/maia/issues">
+                            Issues</a>
+                        </li>
+                        <li>
+                            <a href="https://dokos-io.github.io/maia/license.html">
+                            License</a>
+                        </li>
+                        <li>
+                            <a href="https://forum.maia-by-dokos.fr">
+                            Forum</a>
+                        </li>
+                        <li>
+                            <a href="https://community.erpnext.com/apps">
+                            Frappe Apps</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+			</footer>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="https://dokos-io.github.io/maia/assets/js/jquery.min.js"></script>
+	<script type="text/javascript" src="https://dokos-io.github.io/maia/assets/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="https://dokos-io.github.io/maia/assets/js/highlight.pack.js"></script>
+	<script type="text/javascript" src="https://dokos-io.github.io/maia/assets/js/docs.js"></script>
+
+	<!-- js should be loaded in body! -->
+	<script>
+        window.docs_base_url = "https://dokos-io.github.io/maia";
+    </script>
+
+	
+	<!-- csrf_token --></body>
+</html>
