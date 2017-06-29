@@ -7,7 +7,7 @@ frappe.ui.form.on('Midwife Appointment', {
 	    "method": "maia.client.get_practitioner",
 	    args: {
 		doctype: "Professional Information Card",
-		filters: {user: user},
+		filters: {user: frappe.session.user},
 		fieldname: "name"
 	    },
 	    cache: false,
