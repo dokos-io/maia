@@ -10,11 +10,11 @@ maia.PatientRecordController = frappe.ui.form.Controller.extend({
 
 	if(this.frm.doc.__islocal){
 	    hide_field(['address_html']);
-	    frappe.geo.clear_address_and_contact(this.frm);
+	    frappe.contacts.clear_address_and_contact(this.frm);
 	}
 	else {
 	    unhide_field(['address_html']);
-	    frappe.geo.render_address_and_contact(this.frm);
+	    frappe.contacts.render_address_and_contact(this.frm);
 	    erpnext.utils.set_party_dashboard_indicators(cur_frm);
 	}
 
@@ -28,7 +28,7 @@ frappe.ui.form.on("Patient Record", "patient_date_of_birth", function(frm) {
 	today = new Date();
 	birthDate = new Date(frm.doc.patient_date_of_birth);
 	if(today < birthDate){
-	    msgprint(__('Please select a valid Date'));
+	    frappe.msgprint(__('Please select a valid Date'));
 	    frappe.model.set_value(frm.doctype,frm.docname, "patient_date_of_birth", null)
 	}else{
 	    age_yr = today.getFullYear() - birthDate.getFullYear();
@@ -53,7 +53,7 @@ frappe.ui.form.on("Patient Record", "spouse_date_of_birth", function(frm) {
 	today = new Date();
 	birthDate = new Date(frm.doc.spouse_date_of_birth);
 	if(today < birthDate){
-	    msgprint(__('Please select a valid Date'));
+	    frappe.msgprint(__('Please select a valid Date'));
 	    frappe.model.set_value(frm.doctype,frm.docname, "spouse_date_of_birth", null)
 	}else{
 	    age_yr = today.getFullYear() - birthDate.getFullYear();

@@ -5,11 +5,11 @@
 from __future__ import unicode_literals
 import frappe
 from frappe.model.naming import make_autoname
-from frappe import _, msgprint, throw
+from frappe import _, throw
 from frappe.utils import cstr, cint, has_gravatar, add_years, get_timestamp
 import frappe.defaults
 from frappe.model.document import Document
-from frappe.geo.address_and_contact import load_address_and_contact
+from frappe.contacts.address_and_contact import load_address_and_contact
 from erpnext.utilities.transaction_base import TransactionBase
 from erpnext.accounts.party import validate_party_accounts, get_timeline_data
 

@@ -1,0 +1,29 @@
+{
+ "add_total_row": 0, 
+ "apply_user_permissions": 1, 
+ "creation": "2017-06-22 18:22:31.981118", 
+ "disabled": 0, 
+ "docstatus": 0, 
+ "doctype": "Report", 
+ "idx": 0, 
+ "is_standard": "Yes", 
+ "modified": "2017-06-22 18:22:31.981118", 
+ "modified_by": "Administrator", 
+ "module": "Maia", 
+ "name": "Midwife Replacement Report", 
+ "owner": "Administrator", 
+ "ref_doctype": "GL Entry", 
+ "report_name": "Midwife Replacement Report", 
+ "report_type": "Script Report", 
+ "roles": [
+  {
+   "role": "Auditor"
+  }, 
+  {
+   "role": "Accounts User"
+  }, 
+  {
+   "role": "Accounts Manager"
+  }
+ ]
+}

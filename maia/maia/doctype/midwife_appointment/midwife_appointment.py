@@ -11,7 +11,7 @@ import time
 from dateutil.relativedelta import relativedelta
 from frappe import _
 from frappe.utils import getdate, get_datetime, get_datetime_str, formatdate
-from frappe.geo.address_and_contact import load_address_and_contact
+from frappe.contacts.address_and_contact import load_address_and_contact
 
 class MidwifeAppointment(Document):       
         def on_submit(self):

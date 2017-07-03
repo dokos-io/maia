@@ -7,7 +7,7 @@ frappe.ui.form.on('Midwife Appointment', {
 	    "method": "maia.client.get_practitioner",
 	    args: {
 		doctype: "Professional Information Card",
-		filters: {user: user},
+		filters: {user: frappe.session.user},
 		fieldname: "name"
 	    },
 	    cache: false,
@@ -102,7 +102,7 @@ var check_availability_by_midwife = function(frm){
 	    }
 	});
     }else{
-	msgprint(__("Please select a Midwife, a Date and an Appointment Type"));
+	frappe.msgprint(__("Please select a Midwife, a Date and an Appointment Type"));
     }
 }
 
