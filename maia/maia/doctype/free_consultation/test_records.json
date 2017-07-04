@@ -1,0 +1,19 @@
+[
+    {
+	"doctype": "Patient Record",
+	"patient_first_name": "_Test",
+	"patient_last_name": "Patient1"
+    },
+    {
+	"doctype": "Professional Information Card",
+	"full_name": "_Test Practicioner"
+    },
+    {
+	"doctype": "Codification",
+	"codification": "_Test Cod",
+	"basic_price": "50",
+	"billing_price": "60",
+	"codification_name": "_Test Cod",
+	"codification_description": "Test Codification"
+    }    
+]
