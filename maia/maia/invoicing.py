@@ -8,6 +8,7 @@ from frappe.utils import getdate
 from frappe import _
 import time
 from frappe.model.document import Document
+from erpnext.accounts.doctype.payment_request.payment_request import make_payment_request, make_payment_entry
 
 def create_and_submit_invoice(self):
 
@@ -108,27 +109,12 @@ def update_invoice_details(self, customer, case):
                                                                 "description": self.without_codification_description
                                                 })
 
-
-                if case == "third_party_and_patient" and customer == "CPAM":
-                                pass
-                else:
-                                if self.paid_immediately == 1:
-                                                for i in invoice.get("payments"):
-                                                                invoice.remove(i)
-                                
-                                                invoice.update({
-                                                                "is_pos": 1
-                                                })
-                                                invoice.append("payments", {
-                                                                "mode_of_payment": self.mode_of_payment,
-                                                                "amount": self.patient_price
-                                                })
-
                 invoice.set_missing_values()
                 
                 invoice.insert()
 
                 invoice.submit()
+
 
                 if customer == "CPAM":
                                 frappe.db.set_value(self.doctype, self.name, "social_security_invoice", invoice.name)
@@ -137,6 +123,24 @@ def update_invoice_details(self, customer, case):
                                 frappe.db.set_value(self.doctype, self.name, "invoice", invoice.name)
                                 
                 self.reload()
+
+
+                if case == "third_party_and_patient" and customer == "CPAM":
+                                pass
+                else:
+                                if self.paid_immediately == 1:
+                                                
+                                                payment_request = make_payment_request(dt="Sales Invoice", dn=invoice.name, submit_doc=True, mute_email=True)
+
+                                                payment_entry = frappe.get_doc(make_payment_entry(payment_request.name))
+
+                                                payment_entry.mode_of_payment = self.mode_of_payment
+                                                payment_entry.reference_no = self.reference
+                                                payment_entry.reference_date = self.consultation_date
+                                                payment_entry.posting_date = frappe.flags.current_date
+
+                                                payment_entry.submit()
+
 
 
 def cancel_consultation_and_invoice(self):
