@@ -6,12 +6,9 @@ from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
 from maia.maia.scheduler import check_availability
-import datetime
-import time
 from dateutil.relativedelta import relativedelta
 from frappe import _
 from frappe.utils import getdate, get_datetime, get_datetime_str, formatdate, now_datetime
-from frappe.contacts.address_and_contact import load_address_and_contact
 from frappe.email.doctype.standard_reply.standard_reply import get_standard_reply
 
 class MidwifeAppointment(Document):       
