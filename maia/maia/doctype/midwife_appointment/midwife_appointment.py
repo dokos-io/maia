@@ -24,7 +24,7 @@ class MidwifeAppointment(Document):
                 patient_email = self.email
                 sending_date = get_datetime(self.date) + relativedelta(days=-1)
 
-                if self.standard_reply != None:
+                if self.standard_reply:
                         args = {
                                 "patient_record": self.patient_record,
                                 "patient_first_name": frappe.db.get_value("Patient Record",self.patient_record,"patient_first_name"),
