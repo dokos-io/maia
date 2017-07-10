@@ -958,4 +958,7 @@ apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report
 DocType: Personal debit,Personal Debit, Prélèvement Personnel
 DocType: Personal debit,Personal Debit Account, Compte de l'Exploitant
 DocType: Personal debit,Bank Account {0} must be a Bank Account,Le compte {0} doit être un compte bancaire
-DocType: Personal debit,Currency of the Bank Account must be {0},La devise du compte bancaire doit être {0} 
+DocType: Personal debit,Currency of the Bank Account must be {0},La devise du compte bancaire doit être {0}
+DocType: Fee Retrocession,Fee Retrocession,Rétrocession d'Honoraires
+DocType: Fee Retrocession,Fee Retrocession Amount,Montant de la Rétrocession d'Honoraires
+DocType: Fee Retrocession,Fee Account,Compte de Rétrocession d'Honoraires
