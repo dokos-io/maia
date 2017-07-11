@@ -184,7 +184,7 @@ def set_defaults(args):
 
 	global_defaults = frappe.get_doc("Global Defaults", "Global Defaults")
 	global_defaults.update({
-		'current_fiscal_year': args.curr_fiscal_year,
+		'current_fiscal_year': args.get('curr_fiscal_year'),
 		'default_currency': args.get('currency'),
 		'default_company':args.get('company_name').strip(),
 		"country": args.get("country"),
@@ -232,6 +232,10 @@ def set_defaults(args):
 	hr_settings = frappe.get_doc("HR Settings")
 	hr_settings.emp_created_by = "Naming Series"
 	hr_settings.save()
+
+        #domain_settings = frappe.get_doc("Domain Settings")
+        #domain_settings.append('active_domains', dict(domain=_(args.get('domain'))))
+        #domain_settings.save()
 
 def create_feed_and_todo():
 	"""update Activity feed and create todo for creation of item, customer, vendor"""
@@ -412,7 +416,7 @@ def create_items(args):
 	for i in xrange(1,6):
 		item = args.get("item_" + str(i))
 		if item:
-			item_group = args.get("item_group_" + str(i))
+			item_group = _(args.get("item_group_" + str(i)))
 			is_sales_item = args.get("is_sales_item_" + str(i))
 			is_purchase_item = args.get("is_purchase_item_" + str(i))
 			is_stock_item = item_group!=_("Services")
@@ -434,7 +438,7 @@ def create_items(args):
 					"is_purchase_item": is_purchase_item,
 					"is_stock_item": is_stock_item and 1 or 0,
 					"item_group": item_group,
-					"stock_uom": args.get("item_uom_" + str(i)),
+					"stock_uom": _(args.get("item_uom_" + str(i))),
 					"default_warehouse": default_warehouse
 				}).insert()
 
