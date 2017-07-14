@@ -1,0 +1,20 @@
+{% extends "templates/web.html" %}
+
+{% block head_include %}
+<link type="text/css" rel="stylesheet" href="/assets/frappe/js/lib/fullcalendar/fullcalendar.min.css">
+<link type="text/css" rel="stylesheet" href="/assets/maia/css/fullcalendar.css">
+{% endblock %}
+
+{% block title %} {{ _("Appointments") }} {% endblock %}
+
+{% block header %}<h2>{{ _("Appointments") }}</h2>{% endblock %}
+
+{% block script %}
+<script>{% include "templates/includes/appointment.js" %}</script>
+<script type="text/javascript" src="/assets/frappe/js/lib/fullcalendar/fullcalendar.min.js"></script>
+<script type="text/javascript" src="/assets/frappe/js/lib/fullcalendar/locale-all.js"></script>
+{% endblock %}
+
+{% block page_content %}
+    <div id="calendar"><div>
+{% endblock %}
