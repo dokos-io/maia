@@ -21,6 +21,8 @@ apps/maia/maia/public/js/setup_wizard.js +209,Add Taxes,Ajouter des Taxes
 apps/maia/maia/public/js/setup_wizard.js +187,Add Users,Ajouter des Utilisateurs
 apps/maia/maia/public/js/setup_wizard.js +306,Add a few sample records,Ajouter quelque exemple d'entrées
 apps/maia/maia/public/js/setup_wizard.js +188,"Add users to your organization, other than yourself","Ajouter des utilisateurs à votre organisation, autre que vous-même"
+apps/maia/maia/public/js/setup_wizard.js +209,Your Professional Data,Vos Informations Professionnelles
+apps/maia/maia/public/js/setup_wizard.js +209,Financial Year,Exercice Fiscal
 apps/maia/maia/utilities/activation.py +32,Add your first five patients to the system,Ajouter vos cinq premières patientes dans le système
 DocType: Addiction,Addiction,Addiction
 DocType: Addiction,Addictions,Addictions
@@ -623,6 +625,8 @@ DocType: Perineum Rehabilitation,Postpartum Return of Menses,Retour de Couche
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +289,Povidone Iodine Skin Solution,Flacon de Povidone Iodée Cutanée
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +290,Povidone Iodine Vaginal Solution,Flacon de Povidone Iodée Vaginale
 apps/maia/maia/public/js/setup_wizard.js +44,Practice Email Address,Adresse Email du Cabinet
+apps/maia/maia/public/js/setup_wizard.js +44,Practice Abbreviation,Abréviation
+apps/maia/maia/public/js/setup_wizard.js +44,Your Practice,Votre Cabinet
 apps/maia/maia/public/js/setup_wizard.js +37,Practice Name,Nom du Cabinet
 apps/maia/maia/public/js/setup_wizard.js +49,Practice Phone Number,Numéro de Téléphone du Cabinet
 DocType: Birth Preparation Consultation,Practitioner,Praticien(ne)
@@ -955,3 +959,10 @@ apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report
 apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report.py,Half-Yearly,Semi-Annuelle
 apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report.py,Yearly,Annuelle
 apps/maia/maia/maia/report/midwife_replacement_report/midwife_replacement_report.py,Practicioner,Praticien(ne)
+DocType: Personal debit,Personal Debit, Prélèvement Personnel
+DocType: Personal debit,Personal Debit Account, Compte de l'Exploitant
+DocType: Personal debit,Bank Account {0} must be a Bank Account,Le compte {0} doit être un compte bancaire
+DocType: Personal debit,Currency of the Bank Account must be {0},La devise du compte bancaire doit être {0}
+DocType: Fee Retrocession,Fee Retrocession,Rétrocession d'Honoraires
+DocType: Fee Retrocession,Fee Retrocession Amount,Montant de la Rétrocession d'Honoraires
+DocType: Fee Retrocession,Fee Account,Compte de Rétrocession d'Honoraires
