@@ -1,17 +1,50 @@
 // Copyright (c) 2017,DOKOS and Contributors
 // License: GNU General Public License v3. See license.txt
 
-frappe.provide("frappe.views.calendar");
-frappe.provide("frappe.views.calendars");
-
-// Appointments
-frappe.provide("maia.appointment");
+frappe.provide('maia.appointment');
 var appointment = maia.appointment;
 
 var config = {};
 
-$(document).ready(function() {
+var source =  function(start, end, timezone, callback) {
+
+    var appointment_type = $('#appointment_type option:selected').text();
+    var practitioner_name = $('#practitioner option:selected').text();
+
+	    return frappe.call({
+		method: "maia.appointment.appointment.check_availabilities",
+		type: "GET",
+		args: {
+		    "practitioner": practitioner_name,
+		    "start": moment(start).format("YYYY-MM-DD"),
+		    "end": moment(end).format("YYYY-MM-DD"),
+		    "appointment_type": appointment_type 
+		},
+		callback: function(r) {
+		   
+		    var events = r.message;
+		    events.forEach(function(item) {
+			prepare_events(item);
+			callback(item);
+		    });
+		}
+	    })
+};
+
+
+function loadEvents() {
     
+    $('#calendar').fullCalendar('removeEvent', source);
+    $('#calendar').fullCalendar('addEvent', source);
+    $('#calendar').fullCalendar('refetchEvents');
+
+}
+
+$('#appointment_type').on('change', loadEvents);
+$('#practitioner').on('change', loadEvents);
+
+$(document).ready(function() {
+
     $('#calendar').fullCalendar({
 	weekends: false,
 	header: {
@@ -27,25 +60,7 @@ $(document).ready(function() {
 	allDaySlot: false,
 	minTime: "08:00:00",
 	maxTime: "24:00:00",
-	events: function(start, end, timezone, callback) {
-	    return frappe.call({
-		method: "maia.appointment.appointment.check_availabilities",
-		type: "GET",
-		args: {
-		    "practitioner": "Charles-Henri Decultot",
-		    "date": "2017-07-14",
-		    "duration": "40"
-		},
-		callback: function(r) {
-		    console.log(r.message)
-		    var events = r.message;
-		    events.forEach(function(item) {
-			prepare_events(item);
-			callback(item);
-		    });
-		}
-	    })
-	},
+	events: source,
 	eventClick: function(event) {
 	    alert("Hello");
 	},

@@ -6,24 +6,46 @@ import frappe
 from frappe.utils import getdate, get_time, now_datetime, nowtime, cint
 from frappe import _
 import datetime
-from datetime import timedelta
+from datetime import timedelta, date
 import calendar
 
 from maia.maia.scheduler import check_availability
 
+def daterange(start_date, end_date):
+            #if start_date =< nowtime:
+            #            start_date = nowtime + timedelta(1)
+            for n in range(int ((end_date - start_date).days)):
+                        yield start_date + timedelta(n)
+                                    
 @frappe.whitelist()
-def check_availabilities(practitioner, date, duration):
-            if not (practitioner or date or duration):
-                frappe.throw(_("Please select a Midwife, a Date and an Appointment Type"))
-            payload = {}
-            payload = check_availability("Midwife Appointment", "practitioner", "Professional Information Card", practitioner, date, duration)
-            return payload
+def check_availabilities(practitioner, start, end, appointment_type):
+
+            duration = frappe.get_value("Midwife Appointment Type", appointment_type, "duration")
+
+            start = datetime.datetime.strptime(start, '%Y-%m-%d')
+            end = datetime.datetime.strptime(end, '%Y-%m-%d')
+
+            payload = []
+            for dt in daterange(start, end):
+                        date = dt.strftime("%Y-%m-%d")
+
+                        calendar_availability = check_availability("Midwife Appointment", "practitioner", "Professional Information Card", practitioner, date, duration)
+                        if bool(calendar_availability) == True:
+                                    payload += calendar_availability
+
+            avail = []
+            for items in payload:
+                        avail += items 
+
+            final_avail = []
+            final_avail.append(avail)
+            return final_avail
 
 def check_availability(doctype, df, dt, dn, date, duration):
     date = getdate(date)
     day = calendar.day_name[date.weekday()]
     if date < getdate():
-        frappe.throw(_("You cannot schedule for past dates"))
+        pass
 
     resource = frappe.get_doc(dt, dn)
     availability = []
@@ -32,16 +54,12 @@ def check_availability(doctype, df, dt, dn, date, duration):
     if hasattr(resource, "consulting_schedule") and resource.consulting_schedule:
         day_sch = filter(lambda x : x.day == day, resource.consulting_schedule)
         if not day_sch:
-            availability.append({"msg": _("{0} not available on {1} {2}").format(dn, day, date)})
             return availability
+
         for line in day_sch:
             if(datetime.datetime.combine(date, get_time(line.end_time)) > now_datetime()):
                 schedules.append({"start": datetime.datetime.combine(date, get_time(line.start_time)), "end": datetime.datetime.combine(date, get_time(line.end_time)), "duration": datetime.timedelta(minutes = cint(duration))})
-            if not schedules:
-                msg = ""
-                for sch in day_sch:
-                    msg += " <br>{0}-{1}".format(sch.start_time, sch.end_time)
-                    availability.append({"msg": _("Schedules for {0} on  {1} :  {2}").format(dn, date, msg)})
+            
             if schedules:
                 availability.extend(get_availability_from_schedule(doctype, df, dn, schedules, date))            
     return availability
@@ -72,7 +90,6 @@ def find_available_slot(date, duration, line, scheduled_items, time=None):
 
             dur = get_time(scheduled_item[1])
             item_end = scheduled_item[0] + datetime.timedelta(hours = dur.hour, minutes=dur.minute) 
-            frappe.logger().debug(item_end)
             new_item = scheduled_item[0]
             while (new_item <= item_end):
                 new_item = new_item + datetime.timedelta(hours = duration.hour, minutes=duration.minute)
@@ -80,7 +97,6 @@ def find_available_slot(date, duration, line, scheduled_items, time=None):
                 current_schedule.append(new_entry)
 
         scheduled_items = tuple(current_schedule)
-        frappe.logger().debug(scheduled_items)    
         scheduled_map = set(map(lambda x : x[0], scheduled_items))
         slots_free = [x for x in slots if x not in scheduled_map]
         if not slots_free:

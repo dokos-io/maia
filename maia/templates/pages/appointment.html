@@ -7,7 +7,33 @@
 
 {% block title %} {{ _("Appointments") }} {% endblock %}
 
-{% block header %}<h2>{{ _("Appointments") }}</h2>{% endblock %}
+{% block header %}<h2>{{ _("Appointments") }}</h2>
+
+<div class="row">
+  <div class="col-sm-6 col-xs-6 h6 text-uppercase">
+    <div>{{ _("Appointment type") }}</div>
+    <div class="list-filter-item">
+      <select id="appointment_type" class="form-control select-doctype">
+	{% for type in appointment_type %}
+	<option value="{{ type.name }}">{{ type.name }}</option>
+	{% endfor %}
+      </select>
+      </div>
+    </div>
+
+
+<div class="col-sm-6 col-xs-6 h6 text-uppercase">
+  <div>{{ _("Midwife") }}</div>
+   <div class="list-filter-item">
+     <select id="practitioner" class="form-control select-doctype">
+       {% for p in practitioner %}
+       <option value="{{ p.name }}">{{ p.name  }}</option>
+       {% endfor  %}
+      </select>
+      </div>
+    </div>
+
+{% endblock %}
 
 {% block script %}
 <script>{% include "templates/includes/appointment.js" %}</script>
@@ -16,5 +42,5 @@
 {% endblock %}
 
 {% block page_content %}
-    <div id="calendar"><div>
+    <div id="calendar"></div>
 {% endblock %}
