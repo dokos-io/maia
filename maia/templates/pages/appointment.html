@@ -7,28 +7,34 @@
 
 {% block title %} {{ _("Appointments") }} {% endblock %}
 
-{% block header %}<h2>{{ _("Appointments") }}</h2>
+{% block header %}<h1 class="main-heading">{{ _("Select your Appointment") }}</h1>
 
-<div class="row">
-  <div class="col-sm-6 col-xs-6 h6 text-uppercase">
-    <div>{{ _("Appointment type") }}</div>
-    <div class="list-filter-item">
-      <select id="appointment_type" class="form-control select-doctype">
-	{% for type in appointment_type %}
-	<option value="{{ type.name }}">{{ type.name }}</option>
-	{% endfor %}
-      </select>
-      </div>
-    </div>
-
-
-<div class="col-sm-6 col-xs-6 h6 text-uppercase">
-  <div>{{ _("Midwife") }}</div>
+<div class="row" id="calendar-selection">
+{% if practitioner|length > 1 %}
+<div class="col-sm-6 col-xs-12 h6 text-uppercase">
+  <div class="text-muted">{{ _("Midwife") }}</div>
    <div class="list-filter-item">
      <select id="practitioner" class="form-control select-doctype">
        {% for p in practitioner %}
        <option value="{{ p.name }}">{{ p.name  }}</option>
        {% endfor  %}
+      </select>
+      </div>
+</div>
+{% else %}
+<div class="col-sm-6 col-xs-12 h6 text-uppercase">
+  <div class="text-muted">{{ _("Midwife") }}</div>
+  <div class="single-practitioner" id="practitioner">{{ practitioner[0].name }}</div>
+</div>
+{% endif %}
+
+  <div class="col-sm-6 col-xs-12 h6 text-uppercase">
+    <div class="text-muted">{{ _("Appointment Type") }}</div>
+    <div class="list-filter-item">
+      <select id="appointment_type" class="form-control select-doctype">
+	{% for type in appointment_type %}
+	<option value="{{ type.name }}">{{ type.name }}</option>
+	{% endfor %}
       </select>
       </div>
     </div>

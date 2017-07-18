@@ -9,26 +9,31 @@ var config = {};
 var source =  function(start, end, timezone, callback) {
 
     var appointment_type = $('#appointment_type option:selected').text();
-    var practitioner_name = $('#practitioner option:selected').text();
 
-	    return frappe.call({
-		method: "maia.appointment.appointment.check_availabilities",
-		type: "GET",
-		args: {
-		    "practitioner": practitioner_name,
-		    "start": moment(start).format("YYYY-MM-DD"),
-		    "end": moment(end).format("YYYY-MM-DD"),
-		    "appointment_type": appointment_type 
-		},
-		callback: function(r) {
+    if(!$('#practitioner').is("select")) {
+	var practitioner_name = $('#practitioner').text();
+    } else {
+	var practitioner_name = $('#practitioner option:selected').text();
+    }
+    return frappe.call({
+	method: "maia.templates.pages.appointment.check_availabilities",
+	type: "GET",
+	args: {
+	    "practitioner": practitioner_name,
+	    "start": moment(start).format("YYYY-MM-DD"),
+	    "end": moment(end).format("YYYY-MM-DD"),
+	    "appointment_type": appointment_type 
+	},
+	callback: function(r) {
 		   
-		    var events = r.message;
-		    events.forEach(function(item) {
-			prepare_events(item);
-			callback(item);
-		    });
-		}
-	    })
+	    var events = r.message;
+	    console.log(events)
+	    events.forEach(function(item) {
+		prepare_events(item);
+		callback(item);
+	    });
+	}
+    })
 };
 
 
@@ -62,7 +67,7 @@ $(document).ready(function() {
 	maxTime: "24:00:00",
 	events: source,
 	eventClick: function(event) {
-	    alert("Hello");
+	    showBookingPage(event);
 	},
     })
 
@@ -89,35 +94,34 @@ var prepare_events = function(events) {
 
 	if(!field_map.allDay)
 	    d.allDay = 0;
-
-	// convert to user tz
-	/*d.start = frappe.datetime.convert_to_user_tz(d.start);
-	d.end = frappe.datetime.convert_to_user_tz(d.end);
-
-	me.fix_end_date_for_event_render(d);*/
-
-	var color_map = {
-	    "danger": "red",
-	    "success": "green",
-	    "warning": "orange"
-	};
-	
-	let color;
-	if(me.get_css_class) {
-	    color = color_map[me.get_css_class(d)];
-	    // if invalid, fallback to blue color
-	    if(!Object.values(color_map).includes(color)) {
-		color = "blue";
-	    }
-	} else {
-	    // color field can be set in {doctype}_calendar.js
-	    // see event_calendar.js
-	    color = d.color;
-	}
-
-	if(!color) color = "blue";
-	d.className = "fc-bg-" + color;
 	
 	return d;
     });
+}
+
+var showBookingPage = function(eventData) {
+     var appointment_type = $('#appointment_type option:selected').text();
+
+    if(!$('#practitioner').is("select")) {
+	var practitioner_name = $('#practitioner').text();
+    } else {
+	var practitioner_name = $('#practitioner option:selected').text();
+    }
+    
+    console.log(eventData);
+    frappe.call({
+	method: "maia.templates.pages.appointment.submit_appointment",
+	type: "POST",
+	args: {
+	    patient_record: "Augustine Dupond",
+	    practitioner: practitioner_name,
+	    appointment_type: appointment_type,
+	    start: moment(eventData.start).format('YYYY-MM-DD H:mm:SS'),
+	    end: moment(eventData.end).format('YYYY-MM-DD H:mm:SS')
+	},
+	callback: function(r) {
+	    loadEvents()	
+	}
+    })
+    
 }

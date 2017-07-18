@@ -966,3 +966,4 @@ DocType: Personal debit,Currency of the Bank Account must be {0},La devise du co
 DocType: Fee Retrocession,Fee Retrocession,Rétrocession d'Honoraires
 DocType: Fee Retrocession,Fee Retrocession Amount,Montant de la Rétrocession d'Honoraires
 DocType: Fee Retrocession,Fee Account,Compte de Rétrocession d'Honoraires
+apps/maia/maia/maia/templates/pages/appointment.html,Select your Appointment,Choisissez votre Rendez-Vous
