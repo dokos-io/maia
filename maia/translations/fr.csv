@@ -710,7 +710,7 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +124,Sales Team,Équipe de
 DocType: Patient,Salutation,Titre
 DocType: Perineum Rehabilitation,Satisfaction,Satisfaction
 DocType: Perineum Rehabilitation,Scar,Cicatrice
-apps/maia/maia/maia/scheduler.py +36,Schedules for {0} on  {1} :  {2} ,Emplois du Temps pour {0} le {1} : {2}
+apps/maia/maia/maia/scheduler.py +36,Schedules for {0} on  {1} : {2}-{3},Emploi du Temps de {0} le {1} : {2}-{3}
 DocType: Screening Test,Screening Test,Test de Dépistage
 DocType: Gynecology,Screening Tests,Tests de Dépistage
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +367,Second Determination of ABO- and Rh-groups,Deuxième Déterminationd de Groupe Sanguin Rhésus Phénotypé
@@ -909,7 +909,6 @@ apps/maia/maia/maia/scheduler.py +27,{0} not available on {1} {2},{0} n’a pas 
 Doctype: Patient Record,Patient Record,Dossier Patient(e)
 Doctype: Midwife Appointment Type,Midwife Appointment Type,Type de Rendez-Vous
 Doctype: Midwife Appointment,Duration (mins),Durée (mins)
-apps/maia/maia/maia/scheduler.py +36,Schedules for {0} on  {1} :  {2},Planning de {0} le {1} :
 apps/maia/maia/maia/scheduler.py +79,No slots left for schedule {0} {1},Aucun créneau disponible pour {0} {1}
 apps/maia/maia/maia/scheduler.py +18,You cannot schedule for past dates,Vous ne pouvez pas planifier dans le passé
 Doctype: Midwife Appointment,Send a Reminder the Day Before,Envoyer un Rappel la Veille
@@ -967,3 +966,6 @@ DocType: Fee Retrocession,Fee Retrocession,Rétrocession d'Honoraires
 DocType: Fee Retrocession,Fee Retrocession Amount,Montant de la Rétrocession d'Honoraires
 DocType: Fee Retrocession,Fee Account,Compte de Rétrocession d'Honoraires
 apps/maia/maia/maia/templates/pages/appointment.html,Select your Appointment,Choisissez votre Rendez-Vous
+DocType: Midwife Appointment Type,The duration is used to calculate all available spots for appointments,La durée est utilisée pour calculer les créneaux disponibles
+DocType: Midwife Appointment Type,The color will be displayed in your calendar to quickly differentiate the types of appointments,La couleur est utilisée pour différencier les types de rendez-vous dans votre calendrier
+DocType: Midwife Appointment Type,The description will be available on the website to help your patient during the reservation,La description est affichée sur votre site web pour aider les patientes à choisir leur rendez-vous (fonctionalité bientôt disponible)
