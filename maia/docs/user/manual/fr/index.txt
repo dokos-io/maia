@@ -2,3 +2,7 @@ introduction
 premiers-pas
 factures-et-paiements
 achats
+comptabilite
+remplacements
+outils
+rendez_vous
