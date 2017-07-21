@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Introduction</title>
+	<title>Emails De Relance Personnalises</title>
 	<meta name="generator" content="frappe">
     <link type="text/css" rel="stylesheet" href="https://dokos-io.github.io/maia/assets/css/bootstrap.css">
     <link type="text/css" rel="stylesheet" href="https://dokos-io.github.io/maia/assets/css/hljs.css">
@@ -22,7 +22,7 @@
     
 
 		</head>
-<body data-path="user/manual/fr/introduction">
+<body data-path="user/manual/fr/rendez_vous/emails_de_relance_personnalises">
 	<div class="main-section">
 		<div>
 					<nav class="navbar navbar-default navbar-main" role="navigation">
@@ -87,7 +87,7 @@
                 <div data-html-block="hero"></div>
                 <div class="container" data-html-block="content">
                 
-<div class="page-container" id="page-user/manual/fr/introduction" data-path="{{ pathname }}"
+<div class="page-container" id="page-user/manual/fr/rendez_vous/emails_de_relance_personnalises" data-path="{{ pathname }}"
 	>
 	<div class="row ">
 		
@@ -102,12 +102,12 @@
 <ul class="breadcrumb" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
 	
 		<li>
-			<a href="https://dokos-io.github.io/maia//user/manual/fr" itemprop="url">
-			<span itemprop="title">Manuel Utilisateur (Français)</span>
+			<a href="https://dokos-io.github.io/maia//user/manual/fr/rendez_vous" itemprop="url">
+			<span itemprop="title">Rendez Vous</span>
 			</a>
 		</li>
 	
-	<li class="active"><span itemprop="title">Introduction</span></li>
+	<li class="active"><span itemprop="title">Emails De Relance Personnalises</span></li>
 </ul>
 
 							
@@ -115,7 +115,7 @@
 						
 					</div>
 					<div class="col-sm-8 col-xs-6">
-						<h1>Introduction</h1>
+						<h1>Emails De Relance Personnalises</h1>
 					</div>
 					<div class="col-sm-4 col-xs-6">
 						
@@ -125,10 +125,45 @@
 				</div>
 			</div>
 			<div class="page_content">
-<p>Maia est le premier logiciel open-source pour les sages-femmes.
-Il a été créé et est amélioré par une communauté de sages-femmes passionnées par leur métier et qui souhaite aussi avoir un logiciel complet, beau et pratique pour gérer leur patientèle et leur comptabilité.</p>
+<h3>Emails de Relance Personnalisés</h3>
 
-<p>Maia est une adaptation d'ERPNext, un logiciel open-source de gestion d'entreprise utilisé par des milliers d'entreprises à travers le monde.</p>
+<p>Maia dispose d'une fonctionnalité permettant de créer vos propres modèles d'emails et de choisir celui qui convient le mieux pour chaque patiente.</p>
+
+<h4>Comment ça marche ?</h4>
+
+<p>Allez dans le module "Configuration &gt; Email &gt; Réponse Standard" et créez une nouvelle réponse avec un sujet et un corps de texte.</p>
+
+<p>(Attention, il faut ajouter le module "Configuration" aux icônes du bureau et bien penser à "Recharger" pour qu'il soit accessible)</p>
+
+<p><img src="https://dokos-io.github.io/maia/assets/img/appointments/standard_reply1.png" alt="Email Personnalisé" /></p>
+
+<p>Maia vous permet aussi de créer vos propres modèles dynamiques.</p>
+
+<p>Par exemple, ce modèle :</p>
+
+<p><img src="https://dokos-io.github.io/maia/assets/img/appointments/standard_reply.png" alt="Email Personnalisé" /></p>
+
+<p>Générera ce mail pour la patiente :</p>
+
+<p><img src="https://dokos-io.github.io/maia/assets/img/appointments/standard_reply2.png" alt="Email Personnalisé" /></p>
+
+<p>Il suffit juste de remplacer les mots qui peuvent changer en fonction de la patiente et du rendez-vous et les encadrer avec {{ }}.</p>
+
+<p>Vous pouvez utiliser les variables suivantes:</p>
+
+<p>Nom du dossier patient :  patient<em>record
+Nom complet de la patiente : patient</em>name
+Prénom de la patiente : patient<em>first</em>name
+Nom de la patiente : patient<em>last</em>name
+Nom de la Sage-Femme : practitioner
+Type de Rendez-Vous : appointment<em>type
+Date du rendez-vous: date
+Heure de début du rendez-vous : start</em>time
+Durée du rendez-vous : duration</p>
+
+<p>Il ne vous reste plus qu'à sélectionner "Envoyer un Rappel la Veille" dans votre fiche de rendez-vous et de choisir la réponse standard que vous voulez utiliser pour votre patiente.</p>
+
+<p>Si vous laissez la case "Réponse Standard" vide, le mail envoyé utilisera le modèle présenté ci-dessus par défaut.</p>
 
 </div>
 		</div>
@@ -140,7 +175,7 @@ Il a été créé et est amélioré par une communauté de sages-femmes passionn
 	<div class="page-content">
 	<div class="edit-container text-center">
 		<i class="fa fa-smile"></i>
-		<a class="text-muted edit" href="https://github.com/DOKOS-IO/maia/blob/develop/maia/docs/user/manual/fr/introduction/index.md">
+		<a class="text-muted edit" href="https://github.com/DOKOS-IO/maia/blob/develop/maia/docs/user/manual/fr/rendez_vous/emails_de_relance_personnalises/index.md">
 			Improve this page
 		</a>
 	</div>
