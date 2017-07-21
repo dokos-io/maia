@@ -4,7 +4,24 @@
 frappe.provide('maia.appointment');
 var appointment = maia.appointment;
 
-var config = {};
+var load_description =  function() {
+    var appointment_type = $('#appointment_type option:selected').text();
+
+    frappe.call({
+	method: "frappe.client.get",
+	type: "GET",
+	args: {
+	    doctype: "Midwife Appointment Type",
+	    name: appointment_type
+	},
+	callback: function(r) {
+	    description = r.message.description;
+	    $("#description").text(description);
+	}
+    })
+
+    
+}
 
 var source =  function(start, end, timezone, callback) {
 
@@ -27,7 +44,6 @@ var source =  function(start, end, timezone, callback) {
 	callback: function(r) {
 		   
 	    var events = r.message;
-	    console.log(events)
 	    events.forEach(function(item) {
 		prepare_events(item);
 		callback(item);
@@ -38,7 +54,7 @@ var source =  function(start, end, timezone, callback) {
 
 
 function loadEvents() {
-    
+    load_description()
     $('#calendar').fullCalendar('removeEvent', source);
     $('#calendar').fullCalendar('addEvent', source);
     $('#calendar').fullCalendar('refetchEvents');
@@ -49,7 +65,8 @@ $('#appointment_type').on('change', loadEvents);
 $('#practitioner').on('change', loadEvents);
 
 $(document).ready(function() {
-
+    load_description()
+    
     $('#calendar').fullCalendar({
 	weekends: false,
 	header: {
@@ -108,7 +125,6 @@ var showBookingPage = function(eventData) {
 	var practitioner_name = $('#practitioner option:selected').text();
     }
     
-    console.log(eventData);
     frappe.call({
 	method: "maia.templates.pages.appointment.submit_appointment",
 	type: "POST",

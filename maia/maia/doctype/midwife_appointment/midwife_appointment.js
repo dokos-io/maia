@@ -19,6 +19,10 @@ frappe.ui.form.on('Midwife Appointment', {
 	});
 
 	frappe.model.set_value(frm.doctype,frm.docname, 'start_time', moment.utc(frm.doc.start_dt).format("HH:mm:ss"));
+
+	frm.add_custom_button(__('Personal Event'), function() {
+	    set_personal_event(frm);
+	});
     },
     refresh: function(frm) {
 	if(frm.doc.__islocal) {
@@ -92,6 +96,25 @@ var btn_update_status = function(frm, status){
 	    }
 	}
     });
+}
+
+var set_personal_event = function(frm) {
+    frm.set_df_property('subject', 'hidden', 0);
+    frm.set_df_property('subject', 'reqd', 1)
+    frm.set_df_property('patient_record', 'reqd', 0);
+    /*frm.set_df_property('patient_record', 'hidden', 1);*/
+    frappe.model.set_value(frm.doctype,frm.docname, 'appointment_type', '');
+    frm.set_df_property('appointment_type', 'reqd', 0);
+    /*frm.set_df_property('appointment_type', 'hidden', 1);*/
+    frappe.model.set_value(frm.doctype,frm.docname, 'reminder', 0);
+    frm.set_df_property('reminder', 'hidden', 1);
+    frm.set_df_property('date', 'hidden', 1);
+    frm.set_df_property('start_time', 'hidden', 1);
+    frm.set_df_property('start_dt', 'hidden', 0);
+    frm.set_df_property('end_dt', 'hidden', 0);
+    frm.set_df_property('duration', 'fieldtype', "Data");
+    frm.set_df_property('color', 'hidden', 0);
+    frm.set_df_property('all_day', 'hidden', 0)
 }
 
 var check_availability_by_midwife = function(frm){
