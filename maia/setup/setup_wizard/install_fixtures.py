@@ -493,7 +493,8 @@ def codifications(country=None):
          {'doctype': 'Codification', 'codification': 'IK', 'basic_price': 3.95, 'billing_price': 3.95, 'codification_name': 'IK_Pied_Ski', 'codification_description': 'Indemnité kilométrique à pied ou à ski', 'mileage_allowance_walking_skiing': 1},
          {'doctype': 'Codification', 'codification': 'P', 'basic_price': 35, 'billing_price': 35, 'codification_name': 'P', 'codification_description': 'Indemnité de nuit de 20h à 0h et de 6h à 8h (appel à partir de 19h)', 'night_work_allowance_1': 1},
          {'doctype': 'Codification', 'codification': 'S', 'basic_price': 40, 'billing_price': 40, 'codification_name': 'S', 'codification_description': 'Indemnité de nuit de 0h à 6h', 'night_work_allowance_2': 1},
-                    {'doctype': 'Codification', 'codification': 'F', 'basic_price': 21, 'billing_price': 21, 'codification_name': 'F', 'codification_description': 'Indemnité dimanche et jours fériés, en cas d\'urgence dès samedi 12h', 'sundays_holidays_allowance': 1},
+        {'doctype': 'Codification', 'codification': 'F', 'basic_price': 21, 'billing_price': 21, 'codification_name': 'F', 'codification_description': 'Indemnité dimanche et jours fériés, en cas d\'urgence dès samedi 12h', 'sundays_holidays_allowance': 1},
+        {'doctype': 'Codification', 'codification': 'C + JKHD001', 'basic_price': 35.46, 'billing_price': 35.46, 'codification_name': 'C + JKHD001', 'codification_description': 'Consultation + Prélèvement Cervicovaginal'},
         ]
 
         from frappe.modules import scrub

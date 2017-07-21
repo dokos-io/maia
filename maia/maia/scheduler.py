@@ -30,10 +30,8 @@ def check_availability(doctype, df, dt, dn, date, duration):
             if(datetime.datetime.combine(date, get_time(line.end_time)) > now_datetime()):
                 schedules.append({"start": datetime.datetime.combine(date, get_time(line.start_time)), "end": datetime.datetime.combine(date, get_time(line.end_time)), "duration": datetime.timedelta(minutes = cint(duration))})
             if not schedules:
-                msg = ""
                 for sch in day_sch:
-                    msg += " <br>{0}-{1}".format(sch.start_time, sch.end_time)
-                    availability.append({"msg": _("Schedules for {0} on  {1} :  {2}").format(dn, date, msg)})
+                    availability.append({"msg": _("Schedules for {0} on  {1} : {2}-{3}").format(dn, date, sch.start_time, sch.end_time)})
             if schedules:
                 availability.extend(get_availability_from_schedule(doctype, df, dn, schedules, date))            
     return availability
@@ -44,69 +42,53 @@ def get_availability_from_schedule(doctype, df, dn, schedules, date):
         duration = get_time(line["duration"])
         scheduled_items = frappe.db.sql("""select start_dt, duration from `tab{0}` where (docstatus=0 or docstatus=1) and {1}='{2}' and start_dt between '{3}' and '{4}' order by start_dt""".format(doctype, df, dn, line["start"], line["end"]))
 
+        available_slot = find_available_slot(date, duration, line, scheduled_items)
+        data.append(available_slot)
         
-        #A session in progress - return slot > current time
-        if(line["start"] < now_datetime()):
-            time = now_datetime()
-            data.append(find_available_slot(date, duration, line, scheduled_items, time))
-            continue
-        
-        data.append(find_available_slot(date, duration, line, scheduled_items))
     return data
 
-def find_available_slot(date, duration, line, scheduled_items, time=None):
-    slots = get_all_slots(line["start"], line["end"], line["duration"], time)
+def find_available_slot(date, duration, line, scheduled_items):
+    
     available_slots = []
     current_schedule = []
     if scheduled_items:
         for scheduled_item in scheduled_items:
-            current_schedule.append(scheduled_item)
 
-            dur = get_time(scheduled_item[1])
-            item_end = scheduled_item[0] + datetime.timedelta(hours = dur.hour, minutes=dur.minute) 
-            frappe.logger().debug(item_end)
-            new_item = scheduled_item[0]
-            while (new_item <= item_end):
-                new_item = new_item + datetime.timedelta(hours = duration.hour, minutes=duration.minute)
-                new_entry = (new_item, scheduled_item[1])
-                current_schedule.append(new_entry)
+            dur = datetime.timedelta(minutes = cint(scheduled_item[1]))
+            item_end = scheduled_item[0] + dur 
+            new_entry = (scheduled_item[0], item_end)
+            current_schedule.append(new_entry)
 
-        scheduled_items = tuple(current_schedule)
-        frappe.logger().debug(scheduled_items)    
-        scheduled_map = set(map(lambda x : x[0], scheduled_items))
-        slots_free = [x for x in slots if x not in scheduled_map]
-        if not slots_free:
-            return {"msg": _("No slots left for schedule {0} {1}").format(line["start"], line["end"])}
-
-        for slot_free in slots_free:
-            end = slot_free + datetime.timedelta(hours = duration.hour, minutes=duration.minute)
-            available_slots.append(get_dict(slot_free, end, slots))
+        scheduled_items = current_schedule
+        slots = get_all_slots(line["start"], line["end"], line["duration"], scheduled_items)
+        
+        for slot in slots:
+                    available_slots.append(get_dict(slot[0], slot[1]))
 
         return available_slots
 
     else:
+        slots = get_all_slots(line["start"], line["end"], line["duration"])
+
         for slot in slots:
-            end = slot + datetime.timedelta(hours = duration.hour, minutes=duration.minute)
-            available_slots.append(get_dict(slot, end, slots))
+                    available_slots.append(get_dict(slot[0], slot[1]))
 
         return available_slots
 
-def get_all_slots(start, end, time_delta, time=None):
+def get_all_slots(day_start, day_end, time_delta, scheduled_items=None):
     interval = int(time_delta.total_seconds() / 60)
-    slots = []
-    if time:
-        start = roundTime(time)
-    while start < end:
-        slots.append(start)
-        start += timedelta(minutes=interval)
-    return slots
+
+    if scheduled_items:
+                slots = sorted([(day_start, day_start)] + scheduled_items + [(day_end, day_end)])
+    else:
+                slots = sorted([(day_start, day_start)] + [(day_end, day_end)])
+
+    free_slots = []
+    for start, end in ((slots[i][1], slots[i+1][0]) for i in range(len(slots)-1)):
+            while start + timedelta(minutes=interval) <= end:
+                        free_slots.append([start, start + timedelta(minutes=interval)])
+                        start += timedelta(minutes=interval)
+    return free_slots
 
 def get_dict(start, end, slots=None):
     return {"start": start, "end": end}
-
-def roundTime(dt, dateDelta=datetime.timedelta(minutes=5)):
-    roundTo = dateDelta.total_seconds()
-    seconds = (dt - dt.min).seconds            
-    rounding = (seconds+roundTo/2) // roundTo * roundTo
-
-    return dt + datetime.timedelta(0,rounding-seconds,-dt.microsecond)

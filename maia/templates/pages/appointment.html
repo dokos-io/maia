@@ -1,0 +1,52 @@
+{% extends "templates/web.html" %}
+
+{% block head_include %}
+<link type="text/css" rel="stylesheet" href="/assets/frappe/js/lib/fullcalendar/fullcalendar.min.css">
+<link type="text/css" rel="stylesheet" href="/assets/maia/css/fullcalendar.css">
+{% endblock %}
+
+{% block title %} {{ _("Appointments") }} {% endblock %}
+
+{% block header %}<h1 class="main-heading">{{ _("Select your Appointment") }}</h1>
+
+<div class="row" id="calendar-selection">
+{% if practitioner|length > 1 %}
+<div class="col-sm-6 col-xs-12 h6 text-uppercase">
+  <div class="text-muted">{{ _("Midwife") }}</div>
+   <div class="list-filter-item">
+     <select id="practitioner" class="form-control select-doctype">
+       {% for p in practitioner %}
+       <option value="{{ p.name }}">{{ p.name  }}</option>
+       {% endfor  %}
+      </select>
+      </div>
+</div>
+{% else %}
+<div class="col-sm-6 col-xs-12 h6 text-uppercase">
+  <div class="text-muted">{{ _("Midwife") }}</div>
+  <div class="single-practitioner" id="practitioner">{{ practitioner[0].name }}</div>
+</div>
+{% endif %}
+
+  <div class="col-sm-6 col-xs-12 h6 text-uppercase">
+    <div class="text-muted">{{ _("Appointment Type") }}</div>
+    <div class="list-filter-item">
+      <select id="appointment_type" class="form-control select-doctype">
+	{% for type in appointment_type %}
+	<option value="{{ type.name }}">{{ type.name }}</option>
+	{% endfor %}
+      </select>
+      </div>
+    </div>
+
+{% endblock %}
+
+{% block script %}
+<script>{% include "templates/includes/appointment.js" %}</script>
+<script type="text/javascript" src="/assets/frappe/js/lib/fullcalendar/fullcalendar.min.js"></script>
+<script type="text/javascript" src="/assets/frappe/js/lib/fullcalendar/locale-all.js"></script>
+{% endblock %}
+
+{% block page_content %}
+    <div id="calendar"></div>
+{% endblock %}

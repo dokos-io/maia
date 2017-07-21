@@ -1,0 +1,309 @@
+#calendar {
+    position: relative;
+    font-family: $fontFamily;
+    font-size: 13px;
+    border-radius: 4px;
+    background-color: white;
+    box-shadow: 0 3px 40px 0 rgba(0, 0, 0, 0.15);
+    margin: 20px auto 20px auto;
+    z-index: 10;
+    opacity: 1;
+    color: $textColor;
+    border-top: 1px solid $borderColor;
+    min-height: 200px;
+    padding-top: 20px;
+    padding-bottom: 0px;
+}
+
+#calendar-selection {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.single-practitioner {
+    padding-top: 8px;
+}
+
+.fc-view-container {
+    background-color: #FBFBFB;
+    color: #333;
+}
+
+.fc-row.fc-widget-header {
+    border-bottom: 1px solid #ececec;
+}
+.fc-row.fc-widget-header .fc-day-header {
+    font-size: 12px;
+    font-weight: 600;
+    color: #acacac;
+}
+
+.fc-axis {
+    color: #acacac;
+    font-size: 0.9em;
+}
+
+.fc-state-default {
+    text-shadow: none;
+    box-shadow: none;
+    background-image: none;
+    background-color: white;
+    border-color: white;
+}
+
+.fc-button {
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 1.1em;
+    border: 0px;
+    outline: none;
+}
+.fc-button:hover, .fc-button:visited, .fc-button:active, .fc-button:focus {
+							     outline: none;
+							     border: 0px;
+							     background-color: transparent;
+							 }
+
+.fc-content-skeleton {
+    border-top: 1px solid #DDD;
+}
+
+.fc .fc-toolbar {
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-bottom: 0;
+    border-bottom: 1px solid #ececec;
+    min-height: 48px;
+}
+.fc .fc-toolbar > * > button {
+    padding: 15px 17px;
+    height: auto;
+    outline: 0;
+    margin-left: 0;
+    transition: opacity 0.2s ease;
+    opacity: 0.3;
+}
+.fc .fc-toolbar > * > button:hover {
+    opacity: 1;
+}
+.fc .fc-toolbar > * > button.fc-state-disabled {
+    transition: opacity 0s;
+    opacity: 0;
+}
+.fc .fc-toolbar > * > button.fc-prev-button {
+    padding-right: 8px;
+}
+.fc .fc-toolbar > * > button.fc-next-button {
+    padding-left: 8px;
+}
+.fc .fc-toolbar > * > button .fc-icon {
+    font-size: 1.1em;
+}
+.fc .fc-toolbar > .fc-right > button.fc-today-button {
+    padding: 15px 5px;
+}
+.fc .fc-toolbar > .fc-right h2 {
+    font-size: 13px;
+    padding: 15px 0px 15px 20px;
+    color: #333;
+    font-weight: 600;
+}
+
+.fc-unthemed td.fc-today {
+    background: white;
+}
+
+.fc-body > tr > .fc-widget-content,
+.fc-head > tr > .fc-widget-header {
+    border: 0 !important;
+}
+
+.fc th {
+    border-color: white;
+    padding: 5px;
+}
+
+.fc-unthemed .fc-divider,
+.fc-unthemed .fc-popover .fc-header {
+    background-color: transparent;
+}
+
+.empty-calendar .fc-event {
+    opacity: 0;
+}
+
+.fc-event {
+    transition: color .2s ease, border-color .2s ease, opacity .6s ease, box-shadow .2s ease;
+    border: none;
+    border-left: 2px solid #939393;
+    padding: 3px;
+    background-color: white;
+    border-radius: 3px;
+    color: #333;
+    margin: 1px 0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07);
+    cursor: pointer;
+    margin-bottom: 2px;
+    opacity: 1;
+}
+.fc-event:hover, .fc-event-clicked {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+    border-left: 3px solid #2e5bec;
+    color: #2e5bec;
+    font-weight: 600;
+    padding-left: 2px;
+}
+.fc-event .fc-content {
+    transform: translateX(0);
+    transition: transform .2s ease;
+}
+.fc-event:hover .fc-content {
+    transform: translateX(2px);
+}
+.fc-event .fc-bg {
+    opacity: 0;
+}
+
+.fc-day-grid-event {
+    padding: 13px 15px;
+    margin: 1px 0 3px;
+}
+.fc-day-grid-event:hover, .fc-day-grid-event-clicked {
+    padding-left: 14px;
+}
+.fc-day-grid-event .fc-time {
+    font-size: 12px;
+    font-weight: 500;
+}
+.fc-day-grid-event .fc-title {
+    padding: 0 5px 5px;
+    font-size: 12px;
+    font-weight: 500;
+}
+.fc-day-grid-event:hover .fc-time, .fc-day-grid-event-clicked .fc-time, .fc-day-grid-event:hover .fc-title, .fc-day-grid-event-clicked .fc-title {
+    font-weight: 600;
+}
+
+.fc-time-grid .fc-slats .fc-minor td {
+    border-top-style: none;
+}
+.fc-time-grid .fc-slats td {
+    border-top-color: #FBFBFB;
+}
+.fc-time-grid .fc-slats td.fc-axis {
+    border-top-color: #ececec;
+}
+
+.fc-time-grid-event.fc-short .fc-content {
+    font-size: 0.7em;
+    line-height: 0.2em;
+}
+.fc-time-grid-event.fc-short .fc-time:after {
+    content: '';
+}
+.fc-time-grid-event .fc-time {
+    font-size: 1.1em;
+    padding: 5px;
+}
+.fc-time-grid-event .fc-title {
+    padding: 0 5px 5px;
+    font-weight: bold;
+}
+
+.fc-unthemed th, .fc-unthemed td, .fc-unthemed thead, .fc-unthemed tbody, .fc-unthemed .fc-divider, .fc-unthemed .fc-row, .fc-unthemed .fc-popover {
+    border-color: #ececec;
+}
+
+.fc-agendaMonthly-view .fc-event {
+    color: white;
+}
+
+.fc-now-indicator {
+    border-color: rgba(255, 0, 0, 0.5);
+}
+
+.fc-unthemed .fc-basic-view .fc-scroller {
+    padding: 5px 15px;
+}
+.fc-unthemed .fc-basic-view .fc-content-skeleton {
+    border-top: 0px;
+}
+
+.fc-unthemed .fc-list-view .fc-scroller {
+    padding: 0px 15px;
+}
+
+.fc-list-view {
+    border-width: 0px;
+}
+
+.fc-list-table {
+    width: 80%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.fc-unthemed .fc-list-heading td {
+    background: transparent;
+    border-color: transparent;
+    font-size: 1.3em;
+    line-height: 1em;
+    padding: 20px 19px 15px 19px;
+    font-weight: 500;
+    color: #2e5bec;
+}
+.fc-unthemed .fc-list-heading td .fc-list-heading-alt {
+    color: #acacac;
+}
+
+.is-small .fc-unthemed .fc-list-heading td {
+    font-size: 1.1em;
+}
+
+.fc-list-item {
+    display: block;
+    transition: color .2s ease, border-color .2s ease, opacity .6s ease, box-shadow .2s ease;
+    border: none;
+    border-left: 2px solid #939393;
+    padding: 3px;
+    background-color: #fff;
+    border-radius: 3px;
+    color: #333;
+    margin: 1px 0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07);
+    cursor: pointer;
+    margin-bottom: 3px;
+    font-weight: 500;
+    font-size: 12px;
+}
+.fc-list-item:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+    border-left: 3px solid #2e5bec;
+    color: #2e5bec;
+    font-weight: 600;
+    padding-left: 2px;
+}
+.fc-list-item td {
+    background: transparent;
+    border-color: transparent;
+    transform: translateX(0);
+    transition: transform .2s ease;
+}
+.fc-list-item:hover td {
+    background: transparent;
+    transform: translateX(2px);
+}
+.fc-list-item .fc-list-item-marker {
+    display: none;
+}
+.fc-list-item .fc-list-item-time {
+    padding-right: 0px;
+    min-width: 110px;
+}
+.fc-list-item .fc-list-item-title a {
+    font-weight: 600;
+}
+
+.fc-unthemed .fc-list-empty {
+    background-color: transparent;
+}
