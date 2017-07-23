@@ -8,10 +8,11 @@ from frappe.model.document import Document
 from maia.maia.scheduler import check_availability
 from dateutil.relativedelta import relativedelta
 from frappe import _
+import datetime
 from frappe.utils import getdate, get_datetime, get_datetime_str, formatdate, now_datetime
 from frappe.email.doctype.standard_reply.standard_reply import get_standard_reply
 
-class MidwifeAppointment(Document):       
+class MidwifeAppointment(Document):
         def on_submit(self):
                 if self.reminder == 1:
                         frappe.db.set_value("Patient Record",self.patient_record,"email_id",self.email)

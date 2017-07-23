@@ -17,6 +17,8 @@ frappe.ui.form.on('Midwife Appointment', {
 		}
 	    }
 	});
+
+	frappe.model.set_value(frm.doctype,frm.docname, 'start_time', moment.utc(frm.doc.start_dt).format("HH:mm:ss"));
     },
     refresh: function(frm) {
 	if(frm.doc.__islocal) {
