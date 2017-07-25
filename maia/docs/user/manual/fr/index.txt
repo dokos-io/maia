@@ -6,3 +6,4 @@ comptabilite
 remplacements
 outils
 rendez_vous
+personnalisation
