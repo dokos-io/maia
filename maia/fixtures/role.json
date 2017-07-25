@@ -6,6 +6,7 @@
   "doctype": "Role", 
   "modified": "2017-03-21 17:37:04.543560", 
   "name": "Midwife", 
+  "restrict_to_domain": null, 
   "role_name": "Midwife"
  }
 ]
