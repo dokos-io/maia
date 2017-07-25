@@ -686,7 +686,8 @@ DocType: Perineum Rehabilitation Consultation,Rehabilitation Duration (mins),Dur
 DocType: Perineum Rehabilitation Consultation,Rehabilitation Type,Type de Rééducation
 DocType: Prenatal Interview,"Relationship with the Family in Law, Living Place, Autonomy, Relationship with Siblings in Law","Relation avec la Belle-famille, Contact, Lieu de Résidence, Autonomie"
 DocType: Prenatal Interview,"Relationship with the Family, Living Place, Autonomy, Relationship with Siblings","Relation avec la Famille, Contact, Lieu de Résidence, Autonomie"
-DocType: Prenatal Interview,"Relationship, Dedication to the Pregnancy, Domestic Violence, ...","Relation, Investissement dans la Grossesse, Violence Domestique"
+DocType: Prenatal Interview,"Relationship, Dedication to the Pregnancy, ...","Relation, Investissement dans la Grossesse, ..."
+DocType: Prenatal Interview,Violences,Violences
 DocType: Pregnancy,Release Date,Date de Sortie
 DocType: Pregnancy,Release Weight (g),Poids de Sortie
 DocType: Lipid Profile,Remarks,Remarques
