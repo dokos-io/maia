@@ -969,3 +969,4 @@ apps/maia/maia/maia/templates/pages/appointment.html,Select your Appointment,Cho
 DocType: Midwife Appointment Type,The duration is used to calculate all available spots for appointments,La durée est utilisée pour calculer les créneaux disponibles
 DocType: Midwife Appointment Type,The color will be displayed in your calendar to quickly differentiate the types of appointments,La couleur est utilisée pour différencier les types de rendez-vous dans votre calendrier
 DocType: Midwife Appointment Type,The description will be available on the website to help your patient during the reservation,La description est affichée sur votre site web pour aider les patientes à choisir leur rendez-vous (fonctionalité bientôt disponible)
+Doctype: Patient Record,Title and Birth Name,Titre et Nom de Naissance

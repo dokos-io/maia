@@ -67,7 +67,7 @@ frappe.ui.form.on("Patient Record", "spouse_date_of_birth", function(frm) {
 
 	    age_str = null
 	    if(age_yr > 0)
-		age_str = age_yr+__(' Years Old')
+		age_str = age_yr+ " " + __('Years Old')
 
 	    frappe.model.set_value(frm.doctype,frm.docname, "spouse_age", age_str)
     }
