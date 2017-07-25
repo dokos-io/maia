@@ -1,0 +1,23 @@
+{
+ "align_labels_left": 0, 
+ "creation": "2017-07-25 10:28:30.962350", 
+ "css": ".col-xs-4, .col-xs-6, .col-xs-8, .col-xs-12 {\n  padding-top: 15px;\n}\n\ntable, tr, td, th, tbody, thead, tfoot, .col-xs-4, .col-xs-6, .col-xs-8, .col-xs-12 {\n    page-break-inside: avoid !important;\n}\n", 
+ "custom_format": 1, 
+ "disabled": 0, 
+ "doc_type": "Gynecological Consultation", 
+ "docstatus": 0, 
+ "doctype": "Print Format", 
+ "font": "Default", 
+ "html": "{% include \"templates/includes/folder_header.html\" %}\n\n<div>\n\t<div id=\"footer-html\" class=\"visible-pdf\">\n\t\t{% if not no_letterhead and footer %}\n\t\t<div class=\"letter-head-footer\">\n\t\t\t{{ footer }}\n\t\t</div>\n\t\t{% endif %}\n\t\t<p class=\"text-center small page-number visible-pdf\">\n\t\t\t{{ _(\"Page {0} of {1}\").format('<span class=\"page\"></span>', '<span class=\"topage\"></span>') }}\n\t\t</p>\n\t</div>\n\t{% if doc.consultation_purpose %}\n\t<div><h4>{{ _(\"Consultation\") }}</h4></div>\n\t<div class=\"row data-field\">\n\t<div class=\"col-xs-4\">\n\t\t<label>{{ _(\"Consultation Purpose\") }}</label>\n\t\t{{ doc.consultation_purpose }}</div>\n\t</div>\n\t<br>\n\t{% endif %}\n\n {% if doc.general_health or doc.date_of_last_menses or doc.current_treatments %}\n\t<div class=\"row data-field\">\n\t\t{% if doc.general_health %}\n\t\t<div class=\"col-xs-4\">\n\t\t\t<label>{{ _(\"General Health\") }}</label>\n\t\t\t{{ doc.general_health }}</div>\n\t\t{% endif %}\n\t\t{% if doc.date_of_last_menses %}\n\t\t<div class=\"col-xs-4\">\n\t\t\t<label>{{ _(\"Date of Last Menses\") }}</label>\n\t\t\t{{ doc.date_of_last_menses }}</div>\n\t\t{% endif %}\n\t\t{% if doc.current_treatments %}\n\t\t<div class=\"col-xs-4\">\n\t\t\t<label>{{ _(\"Current Treatments\") }}</label>\n\t\t\t{{ doc.current_treatments }}</div>\n\t\t{% endif %}\n\t</div>\n\t<br>\n\t{% endif %}\n\t{% if doc.high_blood_pressure or doc.lower_limbs or doc.weight or doc.cardiopulmonary_auscultation %}\n \t<div class=\"row data-field\">\n \t\t{% if doc.high_blood_pressure %}\n \t\t<div class=\"col-xs-4\">\n \t\t\t<label>{{ _(\"High Blood Pressure\") }}</label>\n \t\t\t{{ doc.high_blood_pressure }}</div>\n \t\t{% endif %}\n \t\t{% if doc.lower_limbs %}\n \t\t<div class=\"col-xs-4\">\n \t\t\t<label>{{ _(\"Lower Limbs\") }}</label>\n \t\t\t{{ doc.lower_limbs }}</div>\n \t\t{% endif %}\n\t\t{% if doc.weight %}\n\t\t<div class=\"col-xs-4\">\n\t\t\t<label>{{ _(\"Weight\") }}</label>\n\t\t\t{{ doc.weight }}</div>\n\t\t{% endif %}\n\t\t{% if doc.cardiopulmonary_auscultation %}\n\t\t<div class=\"col-xs-4\">\n\t\t\t<label>{{ _(\"Cardiopulmonary Auscultation\") }}</label>\n\t\t\t{{ doc.cardiopulmonary_auscultation }}</div>\n\t\t{% endif %}\n\t</div>\n \t<br>\n \t{% endif %}\n\t{% if doc.breasts %}\n \t<div class=\"row data-field\">\n \t\t<div class=\"col-xs-12\">\n \t\t\t<label>{{ _(\"Breasts\") }}</label>\n \t\t\t{{ doc.breasts }}</div>\n\t</div>\n \t<br>\n \t{% endif %}\n\t{% if doc.thyroid or doc.abdomen %}\n\t<div class=\"row data-field\">\n\t\t{% if doc.thyroid %}\n\t\t<div class=\"col-xs-6\">\n\t\t\t<label>{{ _(\"Thyroid\") }}</label>\n\t\t\t{{ doc.thyroid }}</div>\n\t\t{% endif %}\n\t\t{% if doc.abdomen %}\n\t\t<div class=\"col-xs-6\">\n\t\t\t<label>{{ _(\"Abdomen\") }}</label>\n\t\t\t{{ doc.abdomen }}</div>\n\t\t{% endif %}\n\t</div>\n\t<br>\n\t{% endif %}\n\t{% if doc.vulva_speculum or doc.vaginal_exam %}\n\t<div class=\"row data-field\">\n\t\t{% if doc.vulva_speculum %}\n\t\t<div class=\"col-xs-6\">\n\t\t\t<label>{{ _(\"Vulva/Speculum\") }}</label>\n\t\t\t{{ doc.vulva_speculum }}</div>\n\t\t{% endif %}\n\t\t{% if doc.vaginal_exam %}\n\t\t<div class=\"col-xs-6\">\n\t\t\t<label>{{ _(\"Vaginal Exam\") }}</label>\n\t\t\t{{ doc.vaginal_exam }}</div>\n\t\t{% endif %}\n\t</div>\n\t<br>\n\t{% endif %}\n\t{% if doc.comments %}\n\t<div><h4>{{ _(\"Comments\") }}</h4></div>\n\t<div class=\"row data-field\">\n\t\t<div class=\"col-xs-12\">\n\t\t\t{{ doc.comments }}</div>\n\t</div>\n\t<br>\n\t{% endif %}\n</div>\n", 
+ "idx": 0, 
+ "line_breaks": 0, 
+ "modified": "2017-07-25 11:17:16.380607", 
+ "modified_by": "Administrator", 
+ "module": "Maia", 
+ "name": "Gynecological Consultation", 
+ "owner": "Administrator", 
+ "print_format_builder": 0, 
+ "print_format_type": "Server", 
+ "show_section_headings": 0, 
+ "standard": "Yes"
+}
