@@ -113,23 +113,23 @@ default_mail_footer = """<div style="text-align: center;">
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
+scheduler_events = {
 # 	"all": [
 # 		"maia.tasks.all"
 # 	],
 # 	"daily": [
 # 		"maia.tasks.daily"
 # 	],
-# 	"hourly": [
-# 		"maia.tasks.hourly"
-# 	],
+    "hourly": [
+ 	"maia.maia.doctype.midwife_appointment.midwife_appointment.flush"
+    ]
 # 	"weekly": [
 # 		"maia.tasks.weekly"
 # 	]
 # 	"monthly": [
 # 		"maia.tasks.monthly"
 # 	]
-# }
+ }
 
 # Testing
 # -------

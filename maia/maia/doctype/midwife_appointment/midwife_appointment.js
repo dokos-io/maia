@@ -18,18 +18,19 @@ frappe.ui.form.on('Midwife Appointment', {
 	    }
 	});
 
-	frm.add_custom_button(__('Personal Event'), function() {
-	    set_personal_event(frm);
-	});
-
 	frm.set_df_property('appointment_type', 'reqd', 1);
 	frm.set_df_property('patient_record', 'reqd', 1);
     },
     onload_post_render: function(frm){
-	frappe.model.set_value(frm.doctype,frm.docname, 'start_time', moment(start_dt).format('HH:mm:ss'));
+	frappe.model.set_value(frm.doctype,frm.docname, 'date', moment(frm.doc.start_dt).format(moment.defaultDateFormat));
+	frappe.model.set_value(frm.doctype,frm.docname, 'start_time', moment(frm.doc.start_dt).format('H:mm:ss'));
     },
     refresh: function(frm) {
 	if(frm.doc.__islocal) {
+	frm.add_custom_button(__('Personal Event'), function() {
+	    set_personal_event(frm);
+	});
+	    
 	frm.add_custom_button(__('Check Availability'), function() {
 	    check_availability_by_midwife(frm);
 	});
@@ -38,14 +39,6 @@ frappe.ui.form.on('Midwife Appointment', {
     appointment_type: function(frm){
 	    duration_and_color(frm);
     },
-    /*date: function(frm){
-	frappe.model.set_value(frm.doctype,frm.docname, 'start_dt', moment.utc(frm.doc.date + ' ' + frm.doc.start_time));
-	frappe.model.set_value(frm.doctype,frm.docname, 'end_dt', moment.utc(frm.doc.date + ' ' + frm.doc.start_time).add(frm.doc.duration, 'm'));
-    },
-    start_time: function(frm){
-	frappe.model.set_value(frm.doctype,frm.docname, 'start_dt', moment.utc(frm.doc.date + ' ' + frm.doc.start_time));
-	frappe.model.set_value(frm.doctype,frm.docname, 'end_dt', moment.utc(frm.doc.date + ' ' + frm.doc.start_time).add(frm.doc.duration, 'm'));
-	},*/
     all_day: function(frm){
 	if (frm.doc.all_day == 1) {
 	    frm.set_df_property('start_time', 'hidden', 1);
@@ -55,8 +48,29 @@ frappe.ui.form.on('Midwife Appointment', {
 	    frm.set_df_property('duration', 'hidden', 0);
 	}
     },
+    sms_reminder: function(frm) {
+	if (frm.doc.patient_record && frm.doc.sms_reminder==1) {
+	frappe.call({
+	    "method": "frappe.client.get",
+	    args: {
+		doctype: "Patient Record",
+		name: frm.doc.patient_record,
+		fieldname: "mobile_no"
+	    },
+	    cache: false,
+	    callback: function (data) {
+		if (!data.exe && data.message) {
+		    frappe.model.set_value(frm.doctype, frm.docname, "mobile_no", data.message.mobile_no);
+		}
+	    }
+	});
+	}
+	else if (frm.doc.sms_reminder==0) {
+	    frappe.model.set_value(frm.doctype, frm.docname, "mobile_no", "");
+	}
+    },
     patient_record: function(frm) {
-	if (frm.doc.patient_record) {
+	if (frm.doc.patient_record && frm.doc.reminder==1) {
 	frappe.call({
 	    "method": "frappe.client.get",
 	    args: {
@@ -76,7 +90,18 @@ frappe.ui.form.on('Midwife Appointment', {
 	    }
 	});
 	}
-	frappe.model.set_value(frm.doctype,frm.docname, 'subject', patient_name);
+	else if (frm.doc.reminder==0) {
+	    frappe.model.set_value(frm.doctype, frm.docname, "email", "");
+	}
+	frappe.model.set_value(frm.doctype,frm.docname, 'subject', frm.doc.patient_name);
+    },
+    mobile_no: function(frm) {
+	if (frm.doc.sms_reminder==1) {
+	var reg = /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/
+	    if (!frm.doc.mobile_no.match(reg)) {
+		frappe.msgprint(__("The mobile n° format is incorrect"));
+	    }
+	}
     }
 });
 
@@ -91,7 +116,6 @@ var duration_and_color = function(frm) {
 	    },
 	    callback: function (data) {
 		frappe.model.set_value(frm.doctype,frm.docname, 'duration', data.message.duration);
-		frappe.model.set_value(frm.doctype,frm.docname, 'end_dt', moment(frm.doc.start_dt).add(data.message.duration, 'm'));
 		frappe.model.set_value(frm.doctype,frm.docname, 'color', data.message.color);
 	    }
     });
@@ -125,6 +149,10 @@ var set_personal_event = function(frm) {
 	frm.add_custom_button(__('Patient Appointment'), function() {
 	    set_personal_event(frm);
 	});
+
+	frm.add_custom_button(__('Check Availability'), function() {
+	    check_availability_by_midwife(frm);
+	}); 
     } else {
 	var perso = 1;
 	var pub = 0;
@@ -154,8 +182,12 @@ var set_properties = function(frm, perso, pub) {
     frm.set_df_property('appointment_type', 'hidden', pub);
     frappe.model.set_value(frm.doctype,frm.docname, 'reminder', perso);
     frm.set_df_property('reminder', 'hidden', pub);
+    frappe.model.set_value(frm.doctype,frm.docname, 'sms_reminder', 0);
+    frm.set_df_property('sms_reminder', 'hidden', pub);
+    frm.set_df_property('reminder_the_day_before', 'hidden', pub);
     frappe.model.set_value(frm.doctype,frm.docname, 'duration', '');
     frm.set_df_property('duration', 'read_only', perso);
+    frm.set_df_property('duration', 'reqd', pub);
     frm.set_df_property('color', 'hidden', perso);
     frm.set_df_property('all_day', 'hidden', perso)
 }
@@ -170,7 +202,7 @@ var check_availability_by_midwife = function(frm){
 	    }
 	});
     }else{
-	frappe.msgprint(__("Please select a Midwife, a Date and an Appointment Type"));
+	frappe.msgprint(__("Please select a Midwife, a Date, an Appointment Type or a Duration"));
     }
 }
 
@@ -215,7 +247,6 @@ var show_availability = function(frm, result){
 		frm.doc.start_time = $(this).attr("data-start");
 		refresh_field("start_time");
 		frappe.model.set_value(frm.doctype,frm.docname, 'start_dt', moment.utc(frm.doc.date + ' ' + frm.doc.start_time));
-		frappe.model.set_value(frm.doctype,frm.docname, 'end_dt', moment.utc(frm.doc.date + ' ' + frm.doc.start_time).add(frm.doc.duration, 'm'));
 		d.hide()
 		return false;
 	    });
