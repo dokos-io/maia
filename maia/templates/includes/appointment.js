@@ -80,7 +80,7 @@ $(document).ready(function() {
 	selectHelper: true,
 	forceEventDuration: true,
 	allDaySlot: false,
-	minTime: "08:00:00",
+	minTime: "06:00:00",
 	maxTime: "24:00:00",
 	events: source,
 	eventClick: function(event) {

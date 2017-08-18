@@ -9,9 +9,11 @@ from maia.maia.scheduler import check_availability
 from dateutil.relativedelta import relativedelta
 from frappe import _
 import datetime
-from frappe.utils import getdate, get_time, get_datetime, get_datetime_str, formatdate, now_datetime, add_days, nowdate
+from frappe.utils import getdate, get_time, get_datetime, get_datetime_str, formatdate, now_datetime, add_days, nowdate, cstr, date_diff, add_months, cint
 from frappe.email.doctype.standard_reply.standard_reply import get_standard_reply
 from mailin import Mailin
+
+weekdays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
 
 class MidwifeAppointment(Document):
         def on_submit(self):
@@ -84,7 +86,7 @@ class MidwifeAppointment(Document):
                 sr.sender_name = "SageFemme"
                 sr.sender = self.practitioner
                 sr.send_on = send_after_day
-                sr.message = _("""Rappel: Vous avez rendez-vous avec {0} le {1} à {2}. En cas d'empêchement, merci de contacter votre sage-femme au plus vite.""".format(self.practitioner, appointment_date, start_time))
+                sr.message = _("""Rappel: Vous avez rendez-vous avec {0} le {1} à {2}. En cas d'impossibilité, veuillez contacter votre sage-femme au plus vite. Merci""".format(self.practitioner, appointment_date, start_time))
                 sr.send_to = valid_number
                 sr.flags.ignore_permissions = True
                 sr.save()
@@ -103,11 +105,115 @@ def update_status(appointmentId, status):
 def get_events(start, end, filters=None):
         from frappe.desk.calendar import get_event_conditions
         conditions = get_event_conditions("Midwife Appointment", filters)
-        data = frappe.db.sql("""select name, subject, patient_record, appointment_type, color, start_dt, end_dt from `tabMidwife Appointment` where (start_dt between %(start)s and %(end)s) and docstatus < 2 {conditions}""".format(conditions=conditions), {
+        events = frappe.db.sql("""select name, subject, patient_record, appointment_type, color, start_dt, end_dt, repeat_this_event, repeat_on,repeat_till,
+        monday, tuesday, wednesday, thursday, friday, saturday, sunday from `tabMidwife Appointment` where ((
+        (date(start_dt) between date(%(start)s) and date(%(end)s))
+        or (date(end_dt) between date(%(start)s) and date(%(end)s))
+        or (date(start_dt) <= date(%(start)s) and date(end_dt) >= date(%(end)s))
+        ) or (
+        date(start_dt) <= date(%(start)s) and repeat_this_event=1 and
+        ifnull(repeat_till, "3000-01-01") > date(%(start)s)
+        ))and docstatus < 2 {conditions}""".format(conditions=conditions), {
                 "start": start,
                 "end": end
         }, as_dict=True, update={"allDay": 0})
-        return data
+
+        # process recurring events
+        start = start.split(" ")[0]
+        end = end.split(" ")[0]
+        add_events = []
+        remove_events = []
+
+        def add_event(e, date):
+                new_event = e.copy()
+
+                enddate = add_days(date,int(date_diff(e.end_dt.split(" ")[0], e.start_dt.split(" ")[0]))) \
+                          if (e.start_dt and e.end_dt) else date
+                new_event.start_dt = date + " " + e.start_dt.split(" ")[1]
+                if e.end_dt:
+                        new_event.end_dt = enddate + " " + e.end_dt.split(" ")[1]
+                add_events.append(new_event)
+
+        for e in events:
+                if e.repeat_this_event:
+                        e.start_dt = get_datetime_str(e.start_dt)
+                        if e.end_dt:
+                                e.end_dt = get_datetime_str(e.end_dt)
+
+                        event_start, time_str = get_datetime_str(e.start_dt).split(" ")
+                        if cstr(e.repeat_till) == "":
+                                repeat = "3000-01-01"
+                        else:
+                                repeat = e.repeat_till
+                        if e.repeat_on=="Every Year":
+                                start_year = cint(start.split("-")[0])
+                                end_year = cint(end.split("-")[0])
+                                event_start = "-".join(event_start.split("-")[1:])
+
+                                # repeat for all years in period
+                                for year in range(start_year, end_year+1):
+                                        date = str(year) + "-" + event_start
+                                        if getdate(date) >= getdate(start) and getdate(date) <= getdate(end) and getdate(date) <= getdate(repeat):
+                                                add_event(e, date)
+
+                                remove_events.append(e)
+
+                        if e.repeat_on=="Every Month":
+                                date = start.split("-")[0] + "-" + start.split("-")[1] + "-" + event_start.split("-")[2]
+
+                                # last day of month issue, start from prev month!
+                                try:
+                                        getdate(date)
+                                except ValueError:
+                                        date = date.split("-")
+                                        date = date[0] + "-" + str(cint(date[1]) - 1) + "-" + date[2]
+
+                                start_from = date
+                                for i in xrange(int(date_diff(end, start) / 30) + 3):
+                                        if getdate(date) >= getdate(start) and getdate(date) <= getdate(end) \
+                                           and getdate(date) <= getdate(repeat) and getdate(date) >= getdate(event_start):
+                                                add_event(e, date)
+                                        date = add_months(start_from, i+1)
+
+                                remove_events.append(e)
+
+                        if e.repeat_on=="Every Week":
+                                weekday = getdate(event_start).weekday()
+                                # monday is 0
+                                start_weekday = getdate(start).weekday()
+
+                                # start from nearest weeday after last monday
+                                date = add_days(start, weekday - start_weekday)
+
+                                for cnt in xrange(int(date_diff(end, start) / 7) + 3):
+                                        if getdate(date) >= getdate(start) and getdate(date) <= getdate(end) \
+                                           and getdate(date) <= getdate(repeat) and getdate(date) >= getdate(event_start):
+                                                add_event(e, date)
+
+                                        date = add_days(date, 7)
+
+                                remove_events.append(e)
+
+                        if e.repeat_on=="Every Day":
+                                for cnt in xrange(date_diff(end, start) + 1):
+                                        date = add_days(start, cnt)
+                                        if getdate(date) >= getdate(event_start) and getdate(date) <= getdate(end) \
+                                           and getdate(date) <= getdate(repeat) and e[weekdays[getdate(date).weekday()]]:
+                                                add_event(e, date)
+                                remove_events.append(e)
+
+
+        for e in remove_events:
+                events.remove(e)
+
+        events = events + add_events
+
+        for e in events:
+                # remove weekday properties (to reduce message size)
+                for w in weekdays:
+                        del e[w]
+
+        return events
 
 @frappe.whitelist()
 def check_availability_by_midwife(practitioner, date, duration):
@@ -131,21 +237,22 @@ def validate_receiver_no(validated_no):
 
 def flush(from_test=False):
         """flush email queue, every time: called from scheduler"""
-        # additional check
-        cache = frappe.cache()
-        
-        auto_commit = not from_test
+        if frappe.conf.get("sms_activated")==1:
+                # additional check
+                cache = frappe.cache()
+                
+                auto_commit = not from_test
 
-        make_cache_queue()
+                make_cache_queue()
 
-        for i in range(cache.llen('cache_sms_queue')):
-                sms = cache.lpop('cache_sms_queue')
+                for i in range(cache.llen('cache_sms_queue')):
+                        sms = cache.lpop('cache_sms_queue')
 
-                if sms:
-                        send_sms_reminder(sms)
+                        if sms:
+                                send_sms_reminder(sms)
 
 def make_cache_queue():
-        '''cache values in queue before sendign'''
+        '''cache values in queue before sending'''
         cache = frappe.cache()
 
         sms = frappe.db.sql('''select
@@ -174,7 +281,8 @@ def send_sms_reminder(name):
         args["from"] = sms.sender_name
         args["to"] = sms.send_to
         args["type"] = "transactional"
-        args["tag"] = sms.sender
+        args["tag"] = frappe.conf.get("customer")
+        args["practitioner"] = sms.sender
 
         status = send_request( args)
 
@@ -184,16 +292,16 @@ def send_sms_reminder(name):
                 reminder.delete()
 
 def send_request(params):
-        
-        m = Mailin("https://api.sendinblue.com/v2.0","jrD175KhgNQcE8U9")
+
+        sendinblue_key = frappe.conf.get("sendinblue_key")
+        m = Mailin("https://api.sendinblue.com/v2.0", sendinblue_key)
         data = params
-        frappe.logger().debug(data)
         result = m.send_sms(data)
         return result
 
 def create_sms_log(args):
         sl = frappe.new_doc('SMS Log')
-        sl.sender_name = args['from']
+        sl.sender_name = args['practitioner']
         sl.sent_on = nowdate()
         sl.message = args['text']
         sl.no_of_requested_sms = 1

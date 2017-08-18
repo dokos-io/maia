@@ -76,16 +76,20 @@ frappe.ui.form.on('Midwife Appointment', {
 	    args: {
 		doctype: "Patient Record",
 		name: frm.doc.patient_record,
-		fieldname: "email_id"
+		fields: ["email_id", "mobile_no"]
 	    },
 	    cache: false,
 	    callback: function (data) {
 		if  (data.message.email_id==null) {
 		    frappe.model.set_value(frm.doctype, frm.docname, "email", __("Enter an Email Address"));
 		    frm.set_df_property("email", "read_only", 0);
-		} else if (!data.exe && data.message) {
+		} else if (!data.exe && data.message.email_id) {
 		    frappe.model.set_value(frm.doctype, frm.docname, "email", data.message.email_id);
 		    frm.set_df_property("email", "read_only", 1);
+		}
+
+		if (!data.exe && data.message.mobile_no && frm.doc.sms_reminder==1) {
+		    frappe.model.set_value(frm.doctype, frm.docname, "mobile_no", data.message.mobile_no);
 		}
 	    }
 	});
@@ -102,6 +106,14 @@ frappe.ui.form.on('Midwife Appointment', {
 		frappe.msgprint(__("The mobile n° format is incorrect"));
 	    }
 	}
+    },
+    repeat_on: function(frm) {
+	if(frm.doc.repeat_on==="Every Day") {
+	    $.each(["monday", "tuesday", "wednesday", "thursday", "friday",
+		    "saturday", "sunday"], function(i,v) {
+			frm.set_value(v, 1);
+		    });
+	}
     }
 });
 
@@ -117,6 +129,7 @@ var duration_and_color = function(frm) {
 	    callback: function (data) {
 		frappe.model.set_value(frm.doctype,frm.docname, 'duration', data.message.duration);
 		frappe.model.set_value(frm.doctype,frm.docname, 'color', data.message.color);
+		frappe.model.set_value(frm.doctype,frm.docname, 'sms_reminder', data.message.send_sms_reminder);
 	    }
     });
     }
@@ -180,6 +193,7 @@ var set_properties = function(frm, perso, pub) {
     frappe.model.set_value(frm.doctype,frm.docname, 'appointment_type', '');
     frm.set_df_property('appointment_type', 'reqd', perso);
     frm.set_df_property('appointment_type', 'hidden', pub);
+    frm.set_df_property('repeat_this_event', 'hidden', perso);    
     frappe.model.set_value(frm.doctype,frm.docname, 'reminder', perso);
     frm.set_df_property('reminder', 'hidden', pub);
     frappe.model.set_value(frm.doctype,frm.docname, 'sms_reminder', 0);
