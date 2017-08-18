@@ -610,7 +610,7 @@ apps/maia/maia/maia/doctype/codification/codification.py +31,Please Disable the 
 apps/maia/maia/maia/doctype/early_postnatal_consultation/early_postnatal_consultation.js +500,Please Select a Pregnancy Folder,Veuillez Sélectionner un Dossier de Grossesse
 apps/maia/maia/maia/doctype/pregnancy_consultation/pregnancy_consultation.js +590,Please Set an Expected Term or Beginning of Pregnancy Date in the Pregnancy Folder,Veuillez Définir un Terme Prévu ou une Date de Début de Grossesse dans le Dossier de Grossesse
 apps/maia/maia/public/js/setup_wizard.js +76,Please enter valid Financial Year Start and End Dates,Veuillez entrer des Dates de Début et de Fin d’Exercice valides
-apps/maia/maia/maia/doctype/midwife_appointment/midwife_appointment.js +103,"Please select a Midwife, a Date and an Appointment Type","Veuillez sélectionner une Sage-Femme, une Date et un Type de Rendez-Vous"
+apps/maia/maia/maia/doctype/midwife_appointment/midwife_appointment.js +103,"Please select a Midwife, a Date, an Appointment Type or a Duration","Veuillez sélectionner une Sage-Femme, une Date, un Type de Rendez-Vous ou une Durée"
 apps/maia/maia/maia/doctype/patient_record/patient_record.js +31,Please select a valid Date,Veuillez sélectionner une Date valide
 DocType: Perineum Rehabilitation,Pollakiuria,Pollakiurie
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +217,Pollen,Pollen
