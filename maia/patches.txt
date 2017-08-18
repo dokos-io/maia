@@ -3,4 +3,4 @@ execute:import unidecode # new requirement
 maia.patches.v0_4.rename_patient_doctype
 maia.patches.v1_0.rename_patient_in_custom_fields
 maia.patches.v1_0.drop_patient_column
-maia.patches.v1_3.update_subject_field
+#maia.patches.v1_3.update_subject_field
