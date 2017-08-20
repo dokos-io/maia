@@ -148,6 +148,13 @@ def get_data():
                     "label": _("Lab Exam Types"),
                     "description": _("Lab Exam Types"),
                 },
+                {
+                    "type": "doctype",
+                    "name": "Midwife Appointment Type",
+                    "label": _("Midwife Appointment Type"),
+                    "description": _("Midwife Appointment Type"),
+                },
+
                 ]
             },
 

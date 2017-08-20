@@ -1,2 +1,3 @@
 frappe
 erpnext
+Sendinblue==2.0.5.1

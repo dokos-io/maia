@@ -105,7 +105,6 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +369,Blood Platelets,Plaqu
 DocType: Early Postnatal Consultation,Blood Pressure,Pression Artérielle
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +169,Blue,Bleu
 DocType: Patient,Body Mass Index,Indice de Masse Corporelle
-apps/maia/maia/maia/doctype/midwife_appointment/midwife_appointment.py +31,"Bonjour {0}, <br><br>Votre rendez-vous est toujours prévu le {1}, à {2}. <br><br>Si vous avez un empêchement, veuillez me l'indiquer au plus vite par retour de mail.<br><br>Merci beaucoup.<br><br>{3}","Bonjour {0}, <br><br>Votre rendez-vous est toujours prévu le {1}, à {2}. <br><br>Si vous avez un empêchement, veuillez me l'indiquer au plus vite par retour de mail.<br><br>Merci beaucoup.<br><br>{3}"
 apps/maia/maia/maia/doctype/midwife_appointment/midwife_appointment.js +142,Book,Réserver
 DocType: Early Postnatal Consultation,Both,Mixte
 DocType: Early Postnatal Consultation,Bottle Feeding,Biberon
@@ -500,7 +499,6 @@ DocType: Birth Preparation Consultation,Mountain,Montagne
 DocType: Patient,Mr,M.
 DocType: Gynecology,Mycosis,Mycose
 DocType: Patient,"Myocardial Infarction, Cardiopathy","Infarctus du Myocarde, Cardiopathies"
-apps/maia/maia/maia/doctype/midwife_appointment/midwife_appointment.py +30,"N'oubliez pas votre rendez-vous avec {0}, prévu le {1} à {2}","N'oubliez pas votre rendez-vous avec {0}, prévu le {1} à {2}"
 DocType: Correspondents,Name,Nom
 DocType: Pregnancy,Neonatal Heel Prick,Test de Dépistage des Maladies Métaboliques
 apps/maia/maia/utilities/activation.py +42,New Letter Head,Nouvel En-Tête
@@ -612,7 +610,7 @@ apps/maia/maia/maia/doctype/codification/codification.py +31,Please Disable the 
 apps/maia/maia/maia/doctype/early_postnatal_consultation/early_postnatal_consultation.js +500,Please Select a Pregnancy Folder,Veuillez Sélectionner un Dossier de Grossesse
 apps/maia/maia/maia/doctype/pregnancy_consultation/pregnancy_consultation.js +590,Please Set an Expected Term or Beginning of Pregnancy Date in the Pregnancy Folder,Veuillez Définir un Terme Prévu ou une Date de Début de Grossesse dans le Dossier de Grossesse
 apps/maia/maia/public/js/setup_wizard.js +76,Please enter valid Financial Year Start and End Dates,Veuillez entrer des Dates de Début et de Fin d’Exercice valides
-apps/maia/maia/maia/doctype/midwife_appointment/midwife_appointment.js +103,"Please select a Midwife, a Date and an Appointment Type","Veuillez sélectionner une Sage-Femme, une Date et un Type de Rendez-Vous"
+apps/maia/maia/maia/doctype/midwife_appointment/midwife_appointment.js +103,"Please select a Midwife, a Date, an Appointment Type or a Duration","Veuillez sélectionner une Sage-Femme, une Date, un Type de Rendez-Vous ou une Durée"
 apps/maia/maia/maia/doctype/patient_record/patient_record.js +31,Please select a valid Date,Veuillez sélectionner une Date valide
 DocType: Perineum Rehabilitation,Pollakiuria,Pollakiurie
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +217,Pollen,Pollen
@@ -921,9 +919,6 @@ Doctype: Early Postnatal Consultation,Prescription Written,Ordonnance Réalisée
 Doctype: Early Postnatal Consultation,Functional Signs of Hypertension,Signes Fonctionnels d'Hypertension
 Doctype: Pregnancy,Pregnancy Complications,Complications de la Grossesse
 Doctype: Patient Record,Social Security Number,Numéro de Sécurité Sociale
-DocType: Midwife Appointment Type,red,rouge
-DocType: Midwife Appointment Type,green,vert
-DocType: Midwife Appointment Type,blue,bleu
 DocType: Cash Deposit,Cash Deposit,Dépôt d'Espèces
 DocType: Cash Deposit,Deposit Amount,Montant Déposé (EUR)
 DocType: Cash Deposit,Cash Deposit Account,Compte Bancaire de Dépôt
@@ -971,3 +966,13 @@ DocType: Midwife Appointment Type,The duration is used to calculate all availabl
 DocType: Midwife Appointment Type,The color will be displayed in your calendar to quickly differentiate the types of appointments,La couleur est utilisée pour différencier les types de rendez-vous dans votre calendrier
 DocType: Midwife Appointment Type,The description will be available on the website to help your patient during the reservation,La description est affichée sur votre site web pour aider les patientes à choisir leur rendez-vous (fonctionalité bientôt disponible)
 Doctype: Patient Record,Title and Birth Name,Titre et Nom de Naissance
+DocType: Midwife Appointment,Reminder the Day Before,Rappel la Veille
+DocType: Midwife Appointment,Send an Email,Envoyer un Email
+DocType: Midwife Appointment,Send an SMS,Envoyer un SMS
+DocType: Midwife Appointment,Custom Reply,Réponse Personnalisée
+DocType: Midwife Appointment,Mobile N°,N° Mobile
+DocType: Midwife Appointment,00336XXXXXXXX or +33 6XXXXXXXX or +33 6.XX.XX.XX.XX,00336XXXXXXXX ou +33 6XXXXXXXX ou +33 6.XX.XX.XX.XX
+DocType: Midwife Appointment,Personal Event,Évènement Personnel
+DocType: Midwife Appointment,Patient Appointment,Rendez-Vous Patient
+DocType: Midwife Appointment Type,Send SMS Reminder,Envoyer un Rappel par SMS
+DocType: Midwife Appointment Type,This option will be applied by default but you can override it in each appointment,Cette option est appliquée par défaut mais vous pouvez la modifier pour chaque rendez-vous

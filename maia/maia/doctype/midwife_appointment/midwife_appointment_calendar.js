@@ -3,7 +3,7 @@ frappe.views.calendar["Midwife Appointment"] = {
 	"start": "start_dt",
 	"end": "end_dt",
 	"id": "name",
-	"title": "patient_record",
+	"title": "subject",
 	"allDay": "allDay",
 	"color": "color"
     },
