@@ -88,6 +88,7 @@ class MidwifeAppointment(Document):
                 sr.send_on = send_after_day
                 sr.message = _("""Rappel: Vous avez rendez-vous avec {0} le {1} à {2}. En cas d'impossibilité, veuillez contacter votre sage-femme au plus vite. Merci""".format(self.practitioner, appointment_date, start_time))
                 sr.send_to = valid_number
+                sr.midwife_appointment = self.name
                 sr.flags.ignore_permissions = True
                 sr.save()
                 
@@ -96,6 +97,11 @@ class MidwifeAppointment(Document):
                 if frappe.db.exists("Email Queue", queue_name):
                         frappe.delete_doc("Email Queue", queue_name)
                 frappe.db.set_value("Midwife Appointment", self.name, "queue_id", "")
+
+                sms_reminder = frappe.get_all("SMS Reminder", filters={"midwife_appointment": self.name})
+
+                for sms in sms_reminder:
+                        frappe.delete_doc("SMS Reminder", sms.name)
 
 @frappe.whitelist()
 def update_status(appointmentId, status):
