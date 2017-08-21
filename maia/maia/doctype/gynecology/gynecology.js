@@ -17,33 +17,24 @@ $.extend(this.frm.cscript, new maia.GynecologyController({frm: this.frm}));
 
 
 var get_first_menses_and_regular_cycles = function(frm) {
-    if (frm.doc.patient) {
+    if (frm.doc.patient_record) {
 	frappe.call({
 	    "method": "frappe.client.get",
 	    args: {
 		doctype: "Patient Record",
-		name: frm.doc.patient
+		name: frm.doc.patient_record
 	    },
 	    cache: false,
 	    callback: function (data) {
 		if (data.message) {
 		    first_menses = data.message.first_menses;
 		    regular_cycles = data.message.regular_cycles;
+		    contraception = data.message.contraception;
 
-
-		    if (first_menses != null && regular_cycles != null) {
-			frappe.model.set_value(frm.doctype, frm.docname, "first_menses", first_menses);
-			frappe.model.set_value(frm.doctype, frm.docname, "regular_cycles", regular_cycles);
-		    } else if (first_menses != null && regular_cycles == null) {
-			frappe.model.set_value(frm.doctype, frm.docname, "first_menses", first_menses);
-			frappe.model.set_value(frm.doctype, frm.docname, "regular_cycles", "");
-		    } else if (first_menses == null && regular_cyles != null) {
-			frappe.model.set_value(frm.doctype, frm.docname, "first_menses", "");
-			frappe.model.set_value(frm.doctype, frm.docname, "regular_cycles", regular_cycles);
-		    } else {
-			frappe.model.set_value(frm.doctype, frm.docname, "first_menses", "");
-			frappe.model.set_value(frm.doctype, frm.docname, "regular_cycles", "");
-		    }
+		 
+		    frappe.model.set_value(frm.doctype, frm.docname, "first_menses", first_menses); 
+		    frappe.model.set_value(frm.doctype, frm.docname, "regular_cycles", regular_cycles);
+		    frappe.model.set_value(frm.doctype, frm.docname, "contraception", contraception);
 
 		}
 	    }
