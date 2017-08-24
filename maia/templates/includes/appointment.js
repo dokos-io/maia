@@ -53,12 +53,10 @@ var source =  function(start, end, timezone, callback) {
 };
 
 
-function loadEvents() {
+function loadEvents(source) {
     load_description()
-    $('#calendar').fullCalendar('removeEvent', source);
-    $('#calendar').fullCalendar('addEvent', source);
-    $('#calendar').fullCalendar('refetchEvents');
-
+    $('#calendar').fullCalendar('removeEvents');
+    $('#calendar').fullCalendar('refetchEvents'); 
 }
 
 $('#appointment_type').on('change', loadEvents);
@@ -116,7 +114,7 @@ $(document).ready(function() {
 	navigateCaption: true,
 	navigateArrows: true, // Boolean, 'closeToModal', 'closeScreenEdge'
 	history: false,
-	restoreDefaultContent: false,
+	restoreDefaultContent: true,
 	autoOpen: 0, // Boolean, Number
 	bodyOverflow: false,
 	fullscreen: false,
@@ -174,14 +172,14 @@ var showBookingPage = function(eventData) {
     $("#modal").iziModal("open");
     $('#modal').iziModal('setSubtitle', moment(eventData.start).locale('fr').format('LLLL'));
 
-    $("#modal").on('click', '.submit', function(e) {
-	submitBookingForm(e, eventData);
+    $("#modal").off('click').on('click', '.submit', function() {
+	submitBookingForm(eventData);
 	$("#modal").iziModal("close");
     });
 }
     
 
-var submitBookingForm = function(e, eventData) {
+var submitBookingForm = function(eventData) {
     var appointment_type = $('#appointment_type option:selected').text();
 
     if(!$('#practitioner').is("select")) {
@@ -191,13 +189,13 @@ var submitBookingForm = function(e, eventData) {
     }
 
     var message = $('input[id="message"]').val();
-    
+
     frappe.call({
 	method: "maia.templates.pages.appointment.submit_appointment",
 	type: "POST",
+	cache: false,
 	args: {
-	    patient_record: "Augustine Dupond",
-	    subject: "Augustine Dupond"+"-En Ligne",
+	    email: frappe.session.user,
 	    practitioner: practitioner_name,
 	    appointment_type: appointment_type,
 	    start: moment(eventData.start).format('YYYY-MM-DD H:mm:SS'),
@@ -205,7 +203,9 @@ var submitBookingForm = function(e, eventData) {
 	    notes: message
 	},
 	callback: function(r) {
-	    loadEvents()	
+	    if (r.message == "OK"){
+		loadEvents(eventData);
+	    }
 	}
     })
 };
