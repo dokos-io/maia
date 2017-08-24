@@ -3,7 +3,7 @@
 
 from __future__ import unicode_literals
 import frappe
-from frappe.utils import getdate, get_time, now_datetime, nowtime, cint, get_datetime
+from frappe.utils import getdate, get_time, now_datetime, nowtime, cint, get_datetime, add_days
 from frappe import _
 import datetime
 from datetime import timedelta, date
@@ -28,14 +28,18 @@ def check_availabilities(practitioner, start, end, appointment_type):
 
             start = datetime.datetime.strptime(start, '%Y-%m-%d')
             end = datetime.datetime.strptime(end, '%Y-%m-%d')
+            days_limit = frappe.get_value("Professional Information Card", practitioner, "number_of_days_limit") 
+            frappe.logger().debug(days_limit)
+            limit = datetime.datetime.combine(add_days(getdate(), int(days_limit)), datetime.datetime.time(datetime.datetime.now()))
 
             payload = []
-            for dt in daterange(start, end):
-                        date = dt.strftime("%Y-%m-%d")
+            if start < limit:
+                        for dt in daterange(start, end):
+                                    date = dt.strftime("%Y-%m-%d")
 
-                        calendar_availability = check_availability("Midwife Appointment", "practitioner", "Professional Information Card", practitioner, date, duration)
-                        if bool(calendar_availability) == True:
-                                    payload += calendar_availability
+                                    calendar_availability = check_availability("Midwife Appointment", "practitioner", "Professional Information Card", practitioner, date, duration)
+                                    if bool(calendar_availability) == True:
+                                                payload += calendar_availability
 
             avail = []
             for items in payload:
@@ -46,7 +50,7 @@ def check_availabilities(practitioner, start, end, appointment_type):
             return final_avail
 
 @frappe.whitelist()
-def submit_appointment(patient_record, practitioner, appointment_type, start, end):
+def submit_appointment(patient_record, practitioner, appointment_type, start, end, subject, notes):
 
             start_date = datetime.datetime.strptime(start, '%Y-%m-%d %H:%M:%S').date()
             start_time = datetime.datetime.strptime(start, '%Y-%m-%d %H:%M:%S').time()
@@ -62,7 +66,9 @@ def submit_appointment(patient_record, practitioner, appointment_type, start, en
                         "start_dt": start,
                         "end_dt": end,
                         "duration": app_type.duration,
-                        "color": app_type.color
+                        "color": app_type.color,
+                        "subject": subject,
+                        "notes": notes
             }).insert()
 
             appointment.submit()

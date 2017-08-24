@@ -3,6 +3,8 @@
 {% block head_include %}
 <link type="text/css" rel="stylesheet" href="/assets/frappe/js/lib/fullcalendar/fullcalendar.min.css">
 <link type="text/css" rel="stylesheet" href="/assets/maia/css/fullcalendar.css">
+<link type="text/css" rel="stylesheet" href="/assets/maia/js/lib/izimodal/iziModal.min.css">
+<style>{% include "templates/includes/appointment.css" %}</style>
 {% endblock %}
 
 {% block title %} {{ _("Appointments") }} {% endblock %}
@@ -50,8 +52,19 @@
 <script>{% include "templates/includes/appointment.js" %}</script>
 <script type="text/javascript" src="/assets/frappe/js/lib/fullcalendar/fullcalendar.min.js"></script>
 <script type="text/javascript" src="/assets/frappe/js/lib/fullcalendar/locale-all.js"></script>
+<script type="text/javascript" src="/assets/maia/js/lib/izimodal/iziModal.min.js"></script>
 {% endblock %}
 
 {% block page_content %}
-    <div id="calendar"></div>
+<div id="calendar">
+<div id="modal" data-iziModal-group="" class="iziModal">
+  <section>
+    <input id="message" type="text" placeholder="Un Message ?">
+    <footer>
+      <button data-iziModal-close>Annuler</button>
+      <button class="submit">Valider</button>
+    </footer>
+  </section>
+</div>
+</div>
 {% endblock %}

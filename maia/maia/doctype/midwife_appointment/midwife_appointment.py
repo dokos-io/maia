@@ -110,8 +110,9 @@ def update_status(appointmentId, status):
 @frappe.whitelist()
 def get_events(start, end, filters=None):
         from frappe.desk.calendar import get_event_conditions
-        conditions = get_event_conditions("Midwife Appointment", filters)
-        events = frappe.db.sql("""select name, subject, patient_record, appointment_type, color, start_dt, end_dt, repeat_this_event, repeat_on,repeat_till,
+        add_filters = get_event_conditions("Midwife Appointment", filters)
+        
+        events = frappe.db.sql("""select name, subject, patient_record, appointment_type, color, start_dt, end_dt, duration, repeat_this_event, repeat_on,repeat_till,
         monday, tuesday, wednesday, thursday, friday, saturday, sunday from `tabMidwife Appointment` where ((
         (date(start_dt) between date(%(start)s) and date(%(end)s))
         or (date(end_dt) between date(%(start)s) and date(%(end)s))
@@ -119,7 +120,7 @@ def get_events(start, end, filters=None):
         ) or (
         date(start_dt) <= date(%(start)s) and repeat_this_event=1 and
         ifnull(repeat_till, "3000-01-01") > date(%(start)s)
-        ))and docstatus < 2 {conditions}""".format(conditions=conditions), {
+        ))and docstatus < 2 {add_filters}""".format(add_filters=add_filters), {
                 "start": start,
                 "end": end
         }, as_dict=True, update={"allDay": 0})
