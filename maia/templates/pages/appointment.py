@@ -1,9 +1,10 @@
+# -*- coding: utf-8 -*-
 # Copyright (c) 2017, DOKOS and Contributors
 # License: GNU General Public License v3. See license.txt
 
 from __future__ import unicode_literals
 import frappe
-from frappe.utils import getdate, get_time, now_datetime, nowtime, cint, get_datetime, add_days
+from frappe.utils import getdate, get_time, now_datetime, nowtime, cint, get_datetime, add_days, formatdate, get_datetime_str
 from frappe import _
 import datetime
 from datetime import timedelta, date
@@ -29,7 +30,6 @@ def check_availabilities(practitioner, start, end, appointment_type):
             start = datetime.datetime.strptime(start, '%Y-%m-%d')
             end = datetime.datetime.strptime(end, '%Y-%m-%d')
             days_limit = frappe.get_value("Professional Information Card", practitioner, "number_of_days_limit") 
-            frappe.logger().debug(days_limit)
             limit = datetime.datetime.combine(add_days(getdate(), int(days_limit)), datetime.datetime.time(datetime.datetime.now()))
 
             payload = []
@@ -50,11 +50,16 @@ def check_availabilities(practitioner, start, end, appointment_type):
             return final_avail
 
 @frappe.whitelist()
-def submit_appointment(patient_record, practitioner, appointment_type, start, end, subject, notes):
+def submit_appointment(email, practitioner, appointment_type, start, end, notes):
 
             start_date = datetime.datetime.strptime(start, '%Y-%m-%d %H:%M:%S').date()
             start_time = datetime.datetime.strptime(start, '%Y-%m-%d %H:%M:%S').time()
             app_type = frappe.get_doc("Midwife Appointment Type", appointment_type)
+
+
+            patient_records = frappe.get_all("Patient Record", filters={'website_user': email},fields=['name'])
+            patient_record = patient_records[0].name
+            subject = "{0}-En Ligne".format(patient_record)
             
             appointment = frappe.get_doc({
                         "doctype": "Midwife Appointment",
@@ -68,10 +73,17 @@ def submit_appointment(patient_record, practitioner, appointment_type, start, en
                         "duration": app_type.duration,
                         "color": app_type.color,
                         "subject": subject,
-                        "notes": notes
+                        "notes": notes,
+                        "reminder": 1
             }).insert()
 
             appointment.submit()
+
+            send_confirmation(patient_record, practitioner, appointment_type, start)
+
+            frappe.clear_cache()
+
+            return "OK"
 
 
 def check_availability(doctype, df, dt, dn, date, duration):
@@ -96,3 +108,17 @@ def check_availability(doctype, df, dt, dn, date, duration):
             if schedules:
                 availability.extend(get_availability_from_schedule(doctype, df, dn, schedules, date))            
     return availability
+
+def send_confirmation(patient_record, practitioner, appointment_type, start):
+            patient = frappe.get_doc("Patient Record", patient_record)
+            date = formatdate(get_datetime_str(start), "dd/MM/yyyy")
+            time = get_datetime(start).strftime("%H:%M")
+
+            subject = _("""Confirmation de votre rendez-vous avec {0}""".format(practitioner))
+            message = _("""Bonjour {0}, <br><br>Votre rendez-vous est confirmé le {1}, à {2}. <br><br>Si vous avez un empêchement, veuillez me l'indiquer au plus vite par retour de mail.<br><br>Merci beaucoup.<br><br>{3}""".format(patient.patient_first_name, date, time, practitioner))
+
+            if patient.email_id == None:
+                        frappe.sendmail(patient.website_user, subject=subject, content=message)
+            else:
+                        frappe.sendmail(patient.email_id, subject=subject, content=message)
+

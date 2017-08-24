@@ -129,3 +129,29 @@ def get_timeline_data(doctype, name):
                 out.update({ timestamp: count })
 
         return out
+
+@frappe.whitelist()
+def invite_user(contact):
+        contact = frappe.get_doc("Patient Record", contact)
+
+        if not contact.email_id:
+                frappe.throw(_("Please set Email Address"))
+
+        if contact.has_permission("write"):
+                user = frappe.get_doc({
+                        "doctype": "User",
+                        "first_name": contact.patient_first_name,
+                        "last_name": contact.patient_last_name,
+                        "email": contact.email_id,
+                        "user_type": "Website User",
+                        "send_welcome_email": 1
+                }).insert(ignore_permissions = True)
+
+        user.append("roles", {
+                "doctype": "Has Role",
+                "role": "Customer"
+        })
+
+        user.save()
+
+        return user.name
