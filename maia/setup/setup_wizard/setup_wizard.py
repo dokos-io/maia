@@ -74,6 +74,8 @@ def setup_complete(args=None):
         
         set_hidden_list(hidden_list)
 
+        web_portal_settings()
+
 
 	if args.get("add_sample_data"):
 		try:
@@ -740,3 +742,31 @@ def create_room(args):
 				pass
 
 
+def web_portal_settings():
+        frappe.reload_doctype("Portal Settings")
+
+        items = frappe.get_all("Portal Menu Item",fields=['name', 'title', 'route', 'enabled'])
+
+        for item in items:
+                if item.route == "/appointment":
+                        pass
+                else:
+                        frappe.db.set_value("Portal Menu Item", item.name, "enabled", 0)
+                        
+        appointment = frappe.get_all("Portal Menu Item",filters={'route': '/appointment'})
+
+        if appointment == []:
+                a = frappe.get_doc({
+                        "doctype": "Portal Menu Item",
+                        "title": "Prise de Rendez-Vous",
+                        "enabled": 1,
+                        "route": "/appointment",
+                        "reference_doctype": "Midwife Appointment",
+                        "role": "Customer",
+                        "parent": "Portal Settings",
+                        "parenttype": "Portal Settings",
+                        "parentfield": "menu"
+                })
+                a.insert()
+
+        frappe.db.commit()
