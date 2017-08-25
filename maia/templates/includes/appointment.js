@@ -11,8 +11,8 @@ var load_description =  function() {
 	method: "frappe.client.get",
 	type: "GET",
 	args: {
-	    doctype: "Midwife Appointment Type",
-	    name: appointment_type
+	    "doctype": "Midwife Appointment Type",
+	    "name": appointment_type,
 	},
 	callback: function(r) {
 	    description = r.message.description;
@@ -140,6 +140,27 @@ $(document).ready(function() {
 	onClosed: function(){}
     });
 
+    $("#confirmation").iziModal({
+	title: 'Rendez-Vous Confirmé',
+	headerColor: '#ff79a6',
+	overlayColor: 'rgba(0, 0, 0, 0.6)',
+	overlayClose: true,
+	closeOnEscape: true,
+	bodyOverflow: false,
+	focusInput: true,
+	autoOpen: false,
+	fullscreen: false,
+	openFullscreen: false,
+	bottom: 0,
+	timeout: 5000, 
+	timeoutProgressbar: true,
+	timeoutProgressbarColor: '#ff4081',
+	transitionInModal: 'transitionIn',
+	transitionOutModal: 'transitionOut',
+	transitionInOverlay: 'fadeIn',
+	transitionOutOverlay: 'fadeOut',
+    });
+
 });
 
 
@@ -205,6 +226,7 @@ var submitBookingForm = function(eventData) {
 	callback: function(r) {
 	    if (r.message == "OK"){
 		loadEvents(eventData);
+		$("#confirmation").iziModal("open");
 	    }
 	}
     })

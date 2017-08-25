@@ -73,6 +73,11 @@
     z-index: auto;
 }
 
+#confirmation .confirmation-content{
+    padding: 10px 15px 12px;
+}
+
+
 @-webkit-keyframes wobble {
     from {
 	-webkit-transform: none;

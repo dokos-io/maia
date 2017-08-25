@@ -12,7 +12,7 @@ import calendar
 from maia.maia.scheduler import get_availability_from_schedule
 
 def get_context(context):
-            context.appointment_type = frappe.get_list("Midwife Appointment Type", fields=['name'])
+            context.appointment_type = frappe.get_list("Midwife Appointment Type", filters={"allow_online_booking": 1}, fields=['name'])
             context.practitioner = frappe.get_list("Professional Information Card", fields=['name'])
                     
 
@@ -56,10 +56,18 @@ def submit_appointment(email, practitioner, appointment_type, start, end, notes)
             start_time = datetime.datetime.strptime(start, '%Y-%m-%d %H:%M:%S').time()
             app_type = frappe.get_doc("Midwife Appointment Type", appointment_type)
 
+            sms_confirmation = app_type.send_sms_reminder
 
-            patient_records = frappe.get_all("Patient Record", filters={'website_user': email},fields=['name'])
+            patient_records = frappe.get_all("Patient Record", filters={'website_user': email},fields=['name', 'mobile_no'])
             patient_record = patient_records[0].name
             subject = "{0}-En Ligne".format(patient_record)
+
+            frappe.logger().debug(patient_records[0].mobile_no)
+
+            if sms_confirmation == 1 and patient_records[0].mobile_no:
+                        sms_confirmation = 1
+            else:
+                        sms_confirmation = 0
             
             appointment = frappe.get_doc({
                         "doctype": "Midwife Appointment",
@@ -74,7 +82,10 @@ def submit_appointment(email, practitioner, appointment_type, start, end, notes)
                         "color": app_type.color,
                         "subject": subject,
                         "notes": notes,
-                        "reminder": 1
+                        "reminder": 1,
+                        "email": email,
+                        "sms_reminder": sms_confirmation,
+                        "mobile_no": patient_records[0].mobile_no
             }).insert()
 
             appointment.submit()
@@ -115,7 +126,7 @@ def send_confirmation(patient_record, practitioner, appointment_type, start):
             time = get_datetime(start).strftime("%H:%M")
 
             subject = _("""Confirmation de votre rendez-vous avec {0}""".format(practitioner))
-            message = _("""Bonjour {0}, <br><br>Votre rendez-vous est confirmé le {1}, à {2}. <br><br>Si vous avez un empêchement, veuillez me l'indiquer au plus vite par retour de mail.<br><br>Merci beaucoup.<br><br>{3}""".format(patient.patient_first_name, date, time, practitioner))
+            message = _("""<div>Bonjour {0},<br><br>Votre rendez-vous est confirmé le {1}, à {2}.<br><br>Si vous avez un empêchement, veuillez me l'indiquer au plus vite par retour de mail.<br><br>Merci beaucoup.<br><br>{3}</div>""".format(patient.patient_first_name, date, time, practitioner))
 
             if patient.email_id == None:
                         frappe.sendmail(patient.website_user, subject=subject, content=message)

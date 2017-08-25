@@ -964,7 +964,7 @@ DocType: Fee Retrocession,Fee Account,Compte de Rétrocession d'Honoraires
 apps/maia/maia/maia/templates/pages/appointment.html,Select your Appointment,Choisissez votre Rendez-Vous
 DocType: Midwife Appointment Type,The duration is used to calculate all available spots for appointments,La durée est utilisée pour calculer les créneaux disponibles
 DocType: Midwife Appointment Type,The color will be displayed in your calendar to quickly differentiate the types of appointments,La couleur est utilisée pour différencier les types de rendez-vous dans votre calendrier
-DocType: Midwife Appointment Type,The description will be available on the website to help your patient during the reservation,La description est affichée sur votre site web pour aider les patientes à choisir leur rendez-vous (fonctionalité bientôt disponible)
+DocType: Midwife Appointment Type,The description will be available on the website to help your patient during the reservation,La description est affichée sur votre site web pour aider les patientes à choisir leur rendez-vous
 Doctype: Patient Record,Title and Birth Name,Titre et Nom de Naissance
 DocType: Midwife Appointment,Reminder the Day Before,Rappel la Veille
 DocType: Midwife Appointment,Send an Email,Envoyer un Email
@@ -975,7 +975,7 @@ DocType: Midwife Appointment,00336XXXXXXXX or +33 6XXXXXXXX or +33 6.XX.XX.XX.XX
 DocType: Midwife Appointment,Personal Event,Évènement Personnel
 DocType: Midwife Appointment,Patient Appointment,Rendez-Vous Patient
 DocType: Midwife Appointment Type,Send SMS Reminder,Envoyer un Rappel par SMS
-DocType: Midwife Appointment Type,This option will be applied by default but you can override it in each appointment,Cette option est appliquée par défaut mais vous pouvez la modifier pour chaque rendez-vous
+DocType: Midwife Appointment Type,This option will be applied by default but you can override it in each appointment,"Cette option est appliquée par défaut mais vous pouvez la modifier pour chaque rendez-vous. Attention pour les réservations en ligne, l'envoi d'un SMS sera automatique si la patiente a un numéro de mobile valide"
 Doctype: Midwife Appointment,The mobile n° format is incorrect,Le format du N° Mobile est incorrect
 Doctype: SMS Reminder,SMS Reminder,Rappel SMS
 Doctype: SMS Reminder,Send On,Envoyer Le
@@ -983,3 +983,8 @@ Doctype: Sales Invoice,Receipt,Quittance
 Doctype: Address,Personal,Personnelle
 Doctype: Address,Professional,Professionnelle
 Doctype: Address,Other,Autre
+Doctype: Midwife Appointment Type,Allow Online Booking,Autoriser les Réservations en Ligne
+Doctype: Midwife Appointment Type,Checking this option will allow your patient to book related appointment on your booking platform,"En cochant cette case, vous donnez accès aux réservations de ce type de rendez-vous sur votre site web"
+Doctype: Patient Record,Invite as Website User,Inviter sur votre Site Web
+Doctype: Professional Information Card,Number of Days Limit Online,Nbre de Jours Accessibles à la Réservation
+Doctype: Professional Information Card,This option will define how many days in advance a patient can make an appointment on the online platform,Cette option défini le nombre maximum de jours accessibles à la réservation sur votre plateforme
