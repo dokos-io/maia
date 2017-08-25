@@ -268,7 +268,7 @@ DocType: Echography Prescription,Echography Prescription,Ordonnance d'Échograph
 DocType: Echography Result,Echography Result,Résultats d’Échographie
 DocType: Echography Prescription,Echography Type,Type d'Échographie
 DocType: Early Postnatal Consultation,Edema,Oedème
-DocType: Early Postnatal Consultation,Education/Advices,Education/Conseils
+DocType: Early Postnatal Consultation,"Education/Advices","Education/Conseils"
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +344,Eductyl,Eductyl
 DocType: Early Postnatal Consultation,Effective Feeding Criterion,Critères de Tétées Efficaces
 DocType: Obstetrical Background,Electrostimulation,Electrostimulation
@@ -298,7 +298,7 @@ DocType: Patient,Family Situation,Situation Familiale
 DocType: Prenatal Interview,Family in Law,Belle-Famille
 DocType: Lipid Profile,Fasting Blood Glucose,Glycémie à Jeun
 DocType: Patient,Father,Père
-DocType: Early Postnatal Consultation,Feeding,Allaitement
+DocType: Early Postnatal Consultation,"Feeding","Allaitement"
 DocType: Early Postnatal Consultation,Feeding Type,Type d’Allaitement
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +258,FemCap 22mm Diameter,FemCap Diamètre 22mm
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +259,FemCap 26mm Diameter,FemCap Diamètre 26mm
@@ -565,7 +565,7 @@ DocType: Prenatal Interview,PI/,PI/
 DocType: Perineum Rehabilitation,PR/,PR/
 DocType: Pregnancy,PREGNANCY/,OBST/
 DocType: Birth Preparation Consultation,Paid Immediately,Paiement Immédiat
-DocType: Pregnancy Consultation,Pain,Douleur
+DocType: Pregnancy Consultation,"Pain","Douleur"
 DocType: Early Postnatal Consultation,Pain Rating,Évaluation de la Douleur
 DocType: Early Postnatal Consultation,Pain Rating Details:,Détails d’Évaluation de la Douleur :
 apps/maia/maia/public/js/setup_wizard.js +291,Pair,Paire
@@ -915,7 +915,7 @@ Doctype: Prenatal Interview,Interview,Entretien
 Doctype: Prenatal Interview,Background,Antécédents
 Doctype: Prenatal Interview,Pregnancy and Delivery,Grossesse et Accouchement
 Doctype: Early Postnatal Consultation,Current Medication,Prise Médicamenteuse
-Doctype: Early Postnatal Consultation,Prescription Written,Ordonnance Réalisée
+Doctype: Early Postnatal Consultation,"Prescription Written","Ordonnance Réalisée"
 Doctype: Early Postnatal Consultation,Functional Signs of Hypertension,Signes Fonctionnels d'Hypertension
 Doctype: Pregnancy,Pregnancy Complications,Complications de la Grossesse
 Doctype: Patient Record,Social Security Number,Numéro de Sécurité Sociale
@@ -923,7 +923,7 @@ DocType: Cash Deposit,Cash Deposit,Dépôt d'Espèces
 DocType: Cash Deposit,Deposit Amount,Montant Déposé (EUR)
 DocType: Cash Deposit,Cash Deposit Account,Compte Bancaire de Dépôt
 DocType: Cash Deposit,Cash Account,Compte de Caisse
-DocType: Cash Deposit,Internal Transfer Account,Compte de Passage (Par Défaut les Comptes "58")
+DocType: Cash Deposit,Internal Transfer Account,"Compte de Passage (Par Défaut les Comptes """58""")"
 DocType: Professional Information Card,Replacement,Remplacement
 DocType: Professional Information Card,Substitute First Name,Prénom du/de la Remplaçant(e)
 DocType: Professional Information Card,Substitute Last Name,Nom du/de la Remplaçant(e)
@@ -992,3 +992,8 @@ Doctype: Patient Record,Create a New Website User ?,Créer un nouvel utilisateur
 Doctype: Patient Record,Are you certain you want to create a website user for this patient ?,Voulez-vous donner accès à votre site web à ce(tte) patient(e) ?
 Doctype: Midwife Appointment,The mobile n° format is incorrect,Le Format du N° Mobile est Incorrect
 apps/maia/maia/templates/pages/home.html,Make an Appointment,Prendre Rendez-Vous
+Doctype: Gynecology,Breast Cancer Screening,Dépistage du Cancer du Sein
+Doctype: Gynecology,Eisinger Score,Score d'Eisinger
+Doctype: Mammography,Mammography Date,Date de la Mammographie
+Doctype: Gynecology,"Oncogenetic Consultation if &gt; 3","Consultation Oncogénétique si > 3"
+Doctype: Gynecology,Mammography : Every 2 Years after 50 Years Old,Mammographie : Tous les 2 Ans après 50 Ans
