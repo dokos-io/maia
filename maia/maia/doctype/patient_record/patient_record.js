@@ -47,6 +47,12 @@ frappe.ui.form.on("Patient Record", {
 		}
 	    });
 	};
+    },
+    mobile_no: function(frm) {
+	    var reg = /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/
+		if (!frm.doc.mobile_no.match(reg)) {
+		    frappe.msgprint(__("The mobile n° format is incorrect"));
+		}
     }
 });
 

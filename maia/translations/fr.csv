@@ -988,3 +988,6 @@ Doctype: Midwife Appointment Type,Checking this option will allow your patient t
 Doctype: Patient Record,Invite as Website User,Inviter sur votre Site Web
 Doctype: Professional Information Card,Number of Days Limit Online,Nbre de Jours Accessibles à la Réservation
 Doctype: Professional Information Card,This option will define how many days in advance a patient can make an appointment on the online platform,Cette option défini le nombre maximum de jours accessibles à la réservation sur votre plateforme
+Doctype: Patient Record,Create a New Website User ?,Créer un nouvel utilisateur sur le Site Web ?
+Doctype: Patient Record,Are you certain you want to create a website user for this patient ?,Voulez-vous donner accès à votre site web à ce(tte) patient(e) ?
+Doctype: Midwife Appointment,The mobile n° format is incorrect,Le Format du N° Mobile est Incorrect
