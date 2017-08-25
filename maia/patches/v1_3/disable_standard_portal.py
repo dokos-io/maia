@@ -17,7 +17,7 @@ def execute():
     if appointment == []:
         a = frappe.get_doc({
             "doctype": "Portal Menu Item",
-            "title": "Prise de Rendez-Vous",
+            "title": "Prendre Rendez-Vous",
             "enabled": 1,
             "route": "/appointment",
             "reference_doctype": "Midwife Appointment",

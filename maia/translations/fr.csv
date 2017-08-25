@@ -971,7 +971,7 @@ DocType: Midwife Appointment,Send an Email,Envoyer un Email
 DocType: Midwife Appointment,Send an SMS,Envoyer un SMS
 DocType: Midwife Appointment,Custom Reply,Réponse Personnalisée
 DocType: Midwife Appointment,Mobile N°,N° Mobile
-DocType: Midwife Appointment,00336XXXXXXXX or +33 6XXXXXXXX or +33 6.XX.XX.XX.XX,00336XXXXXXXX ou +33 6XXXXXXXX ou +33 6.XX.XX.XX.XX
+DocType: Midwife Appointment,"00336XXXXXXXX or +33 6XXXXXXXX or +33 6.XX.XX.XX.XX","00336XXXXXXXX ou +33 6XXXXXXXX ou +33 6.XX.XX.XX.XX"
 DocType: Midwife Appointment,Personal Event,Évènement Personnel
 DocType: Midwife Appointment,Patient Appointment,Rendez-Vous Patient
 DocType: Midwife Appointment Type,Send SMS Reminder,Envoyer un Rappel par SMS
@@ -991,3 +991,4 @@ Doctype: Professional Information Card,This option will define how many days in 
 Doctype: Patient Record,Create a New Website User ?,Créer un nouvel utilisateur sur le Site Web ?
 Doctype: Patient Record,Are you certain you want to create a website user for this patient ?,Voulez-vous donner accès à votre site web à ce(tte) patient(e) ?
 Doctype: Midwife Appointment,The mobile n° format is incorrect,Le Format du N° Mobile est Incorrect
+apps/maia/maia/templates/pages/home.html,Make an Appointment,Prendre Rendez-Vous

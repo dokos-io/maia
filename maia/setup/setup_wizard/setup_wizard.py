@@ -11,7 +11,6 @@ import json
 from frappe.utils import cstr, flt, getdate
 from frappe import _
 from frappe.utils.file_manager import save_file
-from .default_website import website_maker
 import install_fixtures
 from erpnext.setup.setup_wizard.sample_data import make_sample_data
 from erpnext.accounts.doctype.account.account import RootNotEditable
@@ -44,8 +43,6 @@ def setup_complete(args=None):
 
         install_fixtures.codifications(args.get("country"))
 
-	#website_maker(args)
-
 	create_logo(args)
 
 	frappe.local.message_log = []
@@ -74,19 +71,9 @@ def setup_complete(args=None):
         
         set_hidden_list(hidden_list)
 
+        make_web_page(args)
         web_portal_settings()
 
-
-	if args.get("add_sample_data"):
-		try:
-			make_sample_data(args)
-			frappe.clear_cache()
-		except:
-			# clear message
-			if frappe.message_log:
-				frappe.message_log.pop()
-
-			pass
 
 def create_fiscal_year_and_company(args):
 	if (args.get('fy_start_date')):
@@ -758,7 +745,7 @@ def web_portal_settings():
         if appointment == []:
                 a = frappe.get_doc({
                         "doctype": "Portal Menu Item",
-                        "title": "Prise de Rendez-Vous",
+                        "title": "Prendre Rendez-Vous",
                         "enabled": 1,
                         "route": "/appointment",
                         "reference_doctype": "Midwife Appointment",
@@ -770,3 +757,11 @@ def web_portal_settings():
                 a.insert()
 
         frappe.db.commit()
+        
+def make_web_page(args):
+        # home page
+        homepage = frappe.get_doc('Homepage', 'Homepage')
+        homepage.company = args.get('company_name').strip()
+        homepage.tag_line = args.get('company_name').strip()
+        homepage.description = "Connectez-vous pour prendre rendez-vous"
+        homepage.save()
