@@ -9,7 +9,7 @@ Allez dans le module "Configuration > Email > Réponse Standard" et créez une n
 
 (Attention, il faut ajouter le module "Configuration" aux icônes du bureau et bien penser à "Recharger" pour qu'il soit accessible)
 
-![Email Personnalisé]({{ docs_base_url }}/assets/img/appointments/standard_reply1.png)
+![Email Personnalisé](/docs/assets/img/appointments/standard_reply1.png)
 
 
 Maia vous permet aussi de créer vos propres modèles dynamiques.
@@ -17,11 +17,11 @@ Maia vous permet aussi de créer vos propres modèles dynamiques.
 
 Par exemple, ce modèle :
 
-![Email Personnalisé]({{ docs_base_url }}/assets/img/appointments/standard_reply.png)
+![Email Personnalisé](/docs/assets/img/appointments/standard_reply.png)
 
 Générera ce mail pour la patiente :
 
-![Email Personnalisé]({{ docs_base_url }}/assets/img/appointments/standard_reply2.png)
+![Email Personnalisé](/docs/assets/img/appointments/standard_reply2.png)
 
 
 Il suffit juste de remplacer les mots qui peuvent changer en fonction de la patiente et du rendez-vous et les encadrer avec {{ "{{ }}" }}.
@@ -42,3 +42,5 @@ Vous pouvez utiliser les variables suivantes:
 Il ne vous reste plus qu'à sélectionner "Envoyer un Rappel la Veille" dans votre fiche de rendez-vous et de choisir la réponse standard que vous voulez utiliser pour votre patiente.
 
 Si vous laissez la case "Réponse Standard" vide, le mail envoyé utilisera le modèle présenté ci-dessus par défaut.
+
+{next}

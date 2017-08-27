@@ -11,6 +11,7 @@ frappe.ui.form.on('Professional Information Card', {
     },
 
     substitute_user_creation: function(frm) {
+	frm.save();
 	var d = new frappe.ui.Dialog({
 	    'title': __('Create a New Substitute User ?'),
 	    fields: [
@@ -27,6 +28,7 @@ frappe.ui.form.on('Professional Information Card', {
 		    },
 	    callback: function(r) {
 		frm.set_value("substitute_user", r.message);
+		frm.save();
 		d.hide();
 	    }
 		});

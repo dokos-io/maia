@@ -5,7 +5,7 @@
 
 from __future__ import unicode_literals
 import frappe
-from frappe.utils import getdate, get_time, now_datetime, nowtime, cint
+from frappe.utils import getdate, get_time, now_datetime, nowtime, cint, get_datetime
 from frappe import _
 import datetime
 from datetime import timedelta
@@ -37,12 +37,18 @@ def check_availability(doctype, df, dt, dn, date, duration):
     return availability
 
 def get_availability_from_schedule(doctype, df, dn, schedules, date):
+    from maia.maia.doctype.midwife_appointment.midwife_appointment import get_events
     data = []
     for line in schedules:
         duration = get_time(line["duration"])
-        scheduled_items = frappe.db.sql("""select start_dt, duration from `tab{0}` where (docstatus=0 or docstatus=1) and {1}='{2}' and start_dt between '{3}' and '{4}' order by start_dt""".format(doctype, df, dn, line["start"], line["end"]))
+        events = get_events(line["start"].strftime("%Y-%m-%d %H:%M:%S"), line["end"].strftime("%Y-%m-%d %H:%M:%S"))
 
-        available_slot = find_available_slot(date, duration, line, scheduled_items)
+        event_list = []
+        for event in events:
+            if get_datetime(event.start_dt) >= line["start"] and get_datetime(event.start_dt) <= line["end"]:
+                event_list.append(event)
+        
+        available_slot = find_available_slot(date, duration, line, event_list)
         data.append(available_slot)
         
     return data
@@ -54,9 +60,7 @@ def find_available_slot(date, duration, line, scheduled_items):
     if scheduled_items:
         for scheduled_item in scheduled_items:
 
-            dur = datetime.timedelta(minutes = cint(scheduled_item[1]))
-            item_end = scheduled_item[0] + dur 
-            new_entry = (scheduled_item[0], item_end)
+            new_entry = (get_datetime(scheduled_item.start_dt), get_datetime(scheduled_item.end_dt))
             current_schedule.append(new_entry)
 
         scheduled_items = current_schedule

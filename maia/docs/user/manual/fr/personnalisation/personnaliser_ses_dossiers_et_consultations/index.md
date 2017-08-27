@@ -8,21 +8,21 @@ Maia dispose de dossiers complétés au fil du temps par les sages-femmes de l'�
 
 Imaginons que vous vouliez rajouter une information importante en haut du dossier d'entretien prénatal:
 
-![Personnalisation de Dossiers]({{ docs_base_url }}/assets/img/customization/customization.png)
+![Personnalisation de Dossiers](/docs/assets/img/customization/customization.png)
 
 
 Pour ajouter ce champ, allez dans un dossier d'entretien prénatal et sélectionnez "Menu > Personnaliser"
 
-![Personnalisation de Dossiers]({{ docs_base_url }}/assets/img/customization/customization.gif)
+![Personnalisation de Dossiers](/docs/assets/img/customization/customization.gif)
 
 
 Vous arrivez dans une nouvelle page qui peut paraître assez complexe au premier abord
 
-![Personnalisation de Dossiers]({{ docs_base_url }}/assets/img/customization/customization1.gif)
+![Personnalisation de Dossiers](/docs/assets/img/customization/customization1.gif)
 
 
 Il s'agit en fait de votre dossier sous forme de tableau avec plein d'options.
-![Personnalisation de Dossiers]({{ docs_base_url }}/assets/img/customization/customization1.png)
+![Personnalisation de Dossiers](/docs/assets/img/customization/customization1.png)
 
 Chaque ligne représente un champ avec son étiquette (le libellé affiché sur votre dossier), son type (la forme du champ et le type de données que vous souhaitez ajouter), son nom (généré automatiquement à partir de l'étiquette) et des options.
 
@@ -34,22 +34,29 @@ Dans notre exemple, nous voulons mettre un champ "Information Importante" sous l
 Il va juste falloir trouver le champ "Dossier Patient": il s'agit de "Patient Record".
 
 Celui-ci se trouve tout en haut, au sein de la première section:
-![Personnalisation de Dossiers]({{ docs_base_url }}/assets/img/customization/customization2.png)
+![Personnalisation de Dossiers](/docs/assets/img/customization/customization2.png)
 
 Le tableau traduit exactement ce que vous pouvez voir sur votre dossier:
-![Personnalisation de Dossiers]({{ docs_base_url }}/assets/img/customization/customization3.png)
+![Personnalisation de Dossiers](/docs/assets/img/customization/customization3.png)
 
 Le champ "Series" n'apparaît pas car il est uniquement utilisé par le système pour donner un nom au document.
 Vous verrez qu'il y a souvent des champs cachés dans les documents.
 
 On peut désormais ajouter notre champ entre "Patient Record" et le "Saut de Colonne". Il apparaîtra donc sous le dossier patient et à gauche du saut de colonne:
-![Personnalisation de Dossiers]({{ docs_base_url }}/assets/img/customization/customization2.gif)
+![Personnalisation de Dossiers](/docs/assets/img/customization/customization2.gif)
 
 Cliquez en dehors du pop-up pour revenir sur la page de personnalisation et cliquez sur "Mettre à Jour".
 
 Vous pouvez revenir sur votre dossier d'entretien prénatal pour voir le résultat.
 Attention, pensez bien à "Recharger" pour que la mémoire de votre navigateur se mette à jour.
 
-![Personnalisation de Dossiers]({{ docs_base_url }}/assets/img/customization/customization3.gif)
+![Personnalisation de Dossiers](/docs/assets/img/customization/customization3.gif)
+
+
+![Attention](/docs/assets/img/attention.png)
+**Lorsque vous ajoutez un nouveau champ comportant des accents, il faut d'abord entrer l'étiquette sans accent, cliquer sur "Mettre à Jour", puis modifier votre étiquette comme vous le souhaitez. Sinon le nom de votre champ comportera des accents et votre personnalisation ne fonctionnera pas correctement.**
+
+Exemple:
+![Supprimer les accents dans le nom](/docs/assets/img/customization/personnalisation_accents.gif)
 
 {next}

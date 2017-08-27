@@ -8,11 +8,11 @@ Pour déterminer le montant à rétrocéder, vous pouvez utiliser le rapport de 
 
 Une fois que vous avez calculé (ou laissé Maia calculer pour vous 😉) le montant à rétrocéder, vous pouvez enregistrer ce montant dans le module "Comptes", dans la partie "Outils":
 
-![Rétrocession d'Honoraires]({{ docs_base_url }}/assets/img/accounting/retrocessions.png)
+![Rétrocession d'Honoraires](/docs/assets/img/accounting/retrocessions.png)
 
 Créez un nouveau document, entrez la date et le montant de la rétrocession versée à votre remplaçante :
 
-![Rétrocession d'Honoraires]({{ docs_base_url }}/assets/img/accounting/retrocession1.png)
+![Rétrocession d'Honoraires](/docs/assets/img/accounting/retrocession1.png)
 
 Si vous avez plusieurs comptes bancaires, vous pouvez éventuellement corriger le compte bancaire dans la colonne de droite.
 

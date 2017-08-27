@@ -9,13 +9,13 @@ Cependant, le type de champ "Données" est trop petit, vous souhaitez avoir plus
 Tous les champs dans Maia ont un type bien particulier.
 Celui-ci défini la forme et le contenu du champ:  
 
-![Personnalisation de Dossiers]({{ docs_base_url }}/assets/img/customization/customization4.png)
+![Personnalisation de Dossiers](/docs/assets/img/customization/customization4.png)
 
 Par exemple, le type "Vérifier" va donner un champ à cocher:
-![Personnalisation de Dossiers]({{ docs_base_url }}/assets/img/customization/customization5.png)
+![Personnalisation de Dossiers](/docs/assets/img/customization/customization5.png)
 
 Par exemple également, le champ de type "Date", donnera un outil de sélection de dates:
-![Personnalisation de Dossiers]({{ docs_base_url }}/assets/img/customization/customization6.png)
+![Personnalisation de Dossiers](/docs/assets/img/customization/customization6.png)
 
 
 N'hésitez pas à nous contacter si vous souhaitez en savoir plus sur les types de champs
@@ -24,7 +24,7 @@ N'hésitez pas à nous contacter si vous souhaitez en savoir plus sur les types 
 #### Changer un type de champ
 
 Dans notre exemple, nous souhaitons changer le format du champ "Information Importante" de "Données" à "Petit Texte":
-![Personnalisation de Dossiers]({{ docs_base_url }}/assets/img/customization/customization4.gif)
+![Personnalisation de Dossiers](/docs/assets/img/customization/customization4.gif)
 
 Encore une fois, n'oubliez de "Recharger" pour voir le changement.
 
@@ -32,7 +32,7 @@ Encore une fois, n'oubliez de "Recharger" pour voir le changement.
 ### Changer un champ de place
 
 Pour changer un champ de place, vous pouvez simplement utiliser le glisser-déposer.
-![Personnalisation de Dossiers]({{ docs_base_url }}/assets/img/customization/customization6.gif)
+![Personnalisation de Dossiers](/docs/assets/img/customization/customization6.gif)
 
 Dans cet exemple, nous déplaçons notre champ "Information Importante" tout en bas du Dossier et ajoutons un saut de page juste au dessus pour bien le démarquer des champs précédents.  
 
@@ -47,11 +47,11 @@ Les plus importantes sont:
 
 - Rendre un champ obligatoire: cocher "Obligatoire"
 - Faire apparaître un champ dans la liste des documents: cocher "En Vue en Liste"
-![Personnalisation de Dossiers]({{ docs_base_url }}/assets/img/customization/customization7.png)
+![Personnalisation de Dossiers](/docs/assets/img/customization/customization7.png)
 - Masquer un champ: cocher "Masqué"
 
 Pour changer un paramètre:
-![Personnalisation de Dossiers]({{ docs_base_url }}/assets/img/customization/customization5.gif)
+![Personnalisation de Dossiers](/docs/assets/img/customization/customization5.gif)
 
 
 #### Important

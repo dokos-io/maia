@@ -23,6 +23,39 @@ maia.PatientRecordController = frappe.ui.form.Controller.extend({
 
 $.extend(cur_frm.cscript, new maia.PatientRecordController({frm: cur_frm}));
 
+frappe.ui.form.on("Patient Record", {
+    invite_as_user: function(frm) {
+	frm.save();
+	var d = new frappe.ui.Dialog({
+	    'title': __('Create a New Website User ?'),
+	    fields: [
+		{ fieldtype:"HTML", options:__("Are you certain you want to create a website user for this patient ?") },
+		{ fieldname: 'ok_button', fieldtype: 'Button', label: __("Yes") },
+	    ]
+	});
+	d.show();
+	d.fields_dict.ok_button.input.onclick = function () {
+	    return frappe.call({
+		method: "maia.maia.doctype.patient_record.patient_record.invite_user",
+		args: {
+		    patient: frm.doc.name
+		},
+		callback: function(r) {
+		    frm.set_value("website_user", r.message);
+		    frm.save();
+		    d.hide();
+		}
+	    });
+	};
+    },
+    mobile_no: function(frm) {
+	    var reg = /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/
+		if (!frm.doc.mobile_no.match(reg)) {
+		    frappe.msgprint(__("The mobile n° format is incorrect"));
+		}
+    }
+});
+
 frappe.ui.form.on("Patient Record", "patient_date_of_birth", function(frm) {
 
 	today = new Date();

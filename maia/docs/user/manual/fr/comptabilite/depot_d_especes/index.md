@@ -4,11 +4,11 @@ Lorsque votre patiente vous règle en espèces, vous devez indiquer à Maia lors
 
 Dans le module "Comptes", vous trouverez un outil appelé "Dépôt d'Espèces".
 
-![Dépôt d'Espèces]({{ docs_base_url }}/assets/img/accounting/maia-cashdeposit.png)
+![Dépôt d'Espèces](/docs/assets/img/accounting/maia-cashdeposit.png)
 
 Créez un nouveau document, entrez la date et le montant déposé sur votre compte:
 
-![Dépôt d'Espèces]({{ docs_base_url }}/assets/img/accounting/maia-cashdeposit1.png)
+![Dépôt d'Espèces](/docs/assets/img/accounting/maia-cashdeposit1.png)
 
 Si vous avez plusieurs comptes bancaires, vous pouvez éventuellement corriger le compte bancaire de dépôt.
 

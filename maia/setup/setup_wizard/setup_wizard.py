@@ -11,7 +11,6 @@ import json
 from frappe.utils import cstr, flt, getdate
 from frappe import _
 from frappe.utils.file_manager import save_file
-from .default_website import website_maker
 import install_fixtures
 from erpnext.setup.setup_wizard.sample_data import make_sample_data
 from erpnext.accounts.doctype.account.account import RootNotEditable
@@ -44,8 +43,6 @@ def setup_complete(args=None):
 
         install_fixtures.codifications(args.get("country"))
 
-	#website_maker(args)
-
 	create_logo(args)
 
 	frappe.local.message_log = []
@@ -74,17 +71,10 @@ def setup_complete(args=None):
         
         set_hidden_list(hidden_list)
 
+        make_web_page(args)
+        web_portal_settings()
+        disable_signup()
 
-	if args.get("add_sample_data"):
-		try:
-			make_sample_data(args)
-			frappe.clear_cache()
-		except:
-			# clear message
-			if frappe.message_log:
-				frappe.message_log.pop()
-
-			pass
 
 def create_fiscal_year_and_company(args):
 	if (args.get('fy_start_date')):
@@ -740,3 +730,43 @@ def create_room(args):
 				pass
 
 
+def web_portal_settings():
+        frappe.reload_doctype("Portal Settings")
+
+        items = frappe.get_all("Portal Menu Item",fields=['name', 'title', 'route', 'enabled'])
+
+        for item in items:
+                if item.route == "/appointment":
+                        pass
+                else:
+                        frappe.db.set_value("Portal Menu Item", item.name, "enabled", 0)
+                        
+        appointment = frappe.get_all("Portal Menu Item",filters={'route': '/appointment'})
+
+        if appointment == []:
+                a = frappe.get_doc({
+                        "doctype": "Portal Menu Item",
+                        "title": "Prendre Rendez-Vous",
+                        "enabled": 1,
+                        "route": "/appointment",
+                        "reference_doctype": "Midwife Appointment",
+                        "role": "Customer",
+                        "parent": "Portal Settings",
+                        "parenttype": "Portal Settings",
+                        "parentfield": "menu"
+                })
+                a.insert()
+
+        frappe.db.commit()
+        
+def make_web_page(args):
+        # home page
+        homepage = frappe.get_doc('Homepage', 'Homepage')
+        homepage.company = args.get('company_name').strip()
+        homepage.tag_line = args.get('company_name').strip()
+        homepage.description = "Connectez-vous pour prendre rendez-vous"
+        homepage.save()
+
+def disable_signup():
+        frappe.db.set_value("Website Settings", "Website Settings", "disable_signup", 1)
+        frappe.db.commit()
