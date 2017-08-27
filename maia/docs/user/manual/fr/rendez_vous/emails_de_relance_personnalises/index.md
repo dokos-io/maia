@@ -42,3 +42,5 @@ Vous pouvez utiliser les variables suivantes:
 Il ne vous reste plus qu'à sélectionner "Envoyer un Rappel la Veille" dans votre fiche de rendez-vous et de choisir la réponse standard que vous voulez utiliser pour votre patiente.
 
 Si vous laissez la case "Réponse Standard" vide, le mail envoyé utilisera le modèle présenté ci-dessus par défaut.
+
+{next}

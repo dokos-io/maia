@@ -52,4 +52,11 @@ Attention, pensez bien à "Recharger" pour que la mémoire de votre navigateur s
 
 ![Personnalisation de Dossiers]({{ docs_base_url }}/assets/img/customization/customization3.gif)
 
+
+![Attention]({{ docs_base_url }}/assets/img/attention.png)
+**Lorsque vous ajoutez un nouveau champ comportant des accents, il faut d'abord entrer l'étiquette sans accent, cliquer sur "Mettre à Jour", puis modifier votre étiquette comme vous le souhaitez. Sinon le nom de votre champ comportera des accents et votre personnalisation ne fonctionnera pas correctement.**
+
+Exemple:
+![Supprimer les accents dans le nom]({{ docs_base_url }}/assets/img/customization/personnalisation_accents.gif)
+
 {next}

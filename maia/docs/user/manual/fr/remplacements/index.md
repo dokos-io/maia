@@ -1,7 +1,7 @@
 ### Rapport de remplacement
 
 Lorsque vous faites prenez un(e) remplaçant(e), il est parfois compliqué de calculer les rétrocessions d'honoraires.
-Le rapport de remplacement disponible dans Maia fait le calcul tout seul pou vous !
+Le rapport de remplacement disponible dans Maia fait le calcul tout seul pour vous !
 
 
 #### Comment ça marche ?
@@ -31,5 +31,5 @@ Le Tiers Payant: Correspond au montant de Tiers Payant non encore réglé par la
 
 Le rapport déduit également les indemnités kilométriques et plafonne les rétrocessions d'honoraires si cela fait partie du contrat.
 
-Vous pouvez utiliser ce rapport même sans remplaçant(e) pour visualiser votre actvité.
+Vous pouvez utiliser ce rapport même sans remplaçant(e) pour visualiser votre activité.
 Dans ce cas ne sélectionnez pas de sage-femme, uniquement la société.
