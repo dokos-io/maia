@@ -13,7 +13,7 @@ $(document).bind('toolbar_setup', function() {
 	$('.navbar-home').html('<img class="erpnext-icon" src="'+
 			frappe.urllib.get_base_url()+'/assets/maia/images/maia_squirrel.svg" />');
 	
-	$('[data-link="docs"]').attr("href", "https://dokos-io.github.io/maia/")
+	$('[data-link="docs"]').attr("href", "https://maia-by-dokos.fr/docs")
 	$('[data-link="issues"]').attr("href", "https://github.com/DOKOS-IO/maia/issues")
 
         var $help_menu = $('.dropdown-help ul .documentation-links');
