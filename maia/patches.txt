@@ -6,3 +6,4 @@ maia.patches.v1_0.drop_patient_column
 maia.patches.v1_3.update_subject_field
 maia.patches.v1_3.disable_standard_portal
 maia.patches.v1_3.create_homepage
+maia.patches.v1_3.disable_signup
