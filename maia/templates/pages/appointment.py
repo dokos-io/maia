@@ -12,7 +12,7 @@ import calendar
 from maia.maia.scheduler import get_availability_from_schedule
 
 def get_context(context):
-            context.appointment_type = frappe.get_list("Midwife Appointment Type", filters={"allow_online_booking": 1}, fields=['name'])
+            context.appointment_type = frappe.get_all("Midwife Appointment Type", filters={"allow_online_booking": 1}, fields=['name'])
             context.practitioner = frappe.get_list("Professional Information Card", fields=['name'])
                     
 
