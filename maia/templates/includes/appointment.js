@@ -16,7 +16,7 @@ var load_description =  function() {
 	},
 	callback: function(r) {
 	    description = r.message.description;
-	    $("#description").text(description);
+	    $("#description").html(description);
 	}
     })
 

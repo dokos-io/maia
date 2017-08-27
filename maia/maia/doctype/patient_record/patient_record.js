@@ -38,7 +38,7 @@ frappe.ui.form.on("Patient Record", {
 	    return frappe.call({
 		method: "maia.maia.doctype.patient_record.patient_record.invite_user",
 		args: {
-		    contact: frm.doc.name
+		    patient: frm.doc.name
 		},
 		callback: function(r) {
 		    frm.set_value("website_user", r.message);

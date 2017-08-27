@@ -73,6 +73,7 @@ def setup_complete(args=None):
 
         make_web_page(args)
         web_portal_settings()
+        disable_signup()
 
 
 def create_fiscal_year_and_company(args):
@@ -765,3 +766,7 @@ def make_web_page(args):
         homepage.tag_line = args.get('company_name').strip()
         homepage.description = "Connectez-vous pour prendre rendez-vous"
         homepage.save()
+
+def disable_signup():
+        frappe.db.set_value("Website Settings", "Website Settings", "disable_signup", 1)
+        frappe.db.commit()
