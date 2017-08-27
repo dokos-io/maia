@@ -48,6 +48,6 @@ Si vous avez des questions concernant les rôles disponibles dans Maia, n'hésit
 
 ![Accès à la plateforme](/docs/assets/img/appointments/appointment_access3.gif)
 
-Si vous ne souhaitez plus qu'une patiente accède à votre plateforme, cliquez simplement sur "Activé" en haut de sa fiche utilisateur.
+Si vous ne souhaitez plus qu'une patiente accède à votre plateforme, décochez simplement la case "Activé" en haut de sa fiche utilisateur.
 
 {next}
