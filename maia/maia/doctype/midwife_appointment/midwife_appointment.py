@@ -95,13 +95,13 @@ class MidwifeAppointment(Document):
         def on_cancel(self):
                 queue_name = frappe.db.get_value("Midwife Appointment", self.name, "queue_id")
                 if frappe.db.exists("Email Queue", queue_name):
-                        frappe.delete_doc("Email Queue", queue_name)
+                        frappe.delete_doc("Email Queue", queue_name, ignore_permissions=True)
                 frappe.db.set_value("Midwife Appointment", self.name, "queue_id", "")
 
                 sms_reminder = frappe.get_all("SMS Reminder", filters={"midwife_appointment": self.name})
 
                 for sms in sms_reminder:
-                        frappe.delete_doc("SMS Reminder", sms.name)
+                        frappe.delete_doc("SMS Reminder", sms.name, ignore_permissions=True)
 
 @frappe.whitelist()
 def update_status(appointmentId, status):
