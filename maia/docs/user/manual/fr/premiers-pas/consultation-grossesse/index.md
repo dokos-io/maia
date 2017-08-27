@@ -12,6 +12,6 @@ En cliquant sur le "+", vous créez directement une nouvelle consultation.
 Sélectionnez ou écrivez le nom de votre patiente dans "Dossier Patiente".
 <br>
 
-![Compléter Nom du dossier]({{ docs_base_url }}/assets/img/first_steps/pregnancy_consultation/name_pregnancy_consultation.png)
+![Compléter Nom du dossier](/docs/assets/img/first_steps/pregnancy_consultation/name_pregnancy_consultation.png)
 
 {next}

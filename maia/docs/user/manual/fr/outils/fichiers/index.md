@@ -9,10 +9,10 @@ Vous pouvez enregistrer les images en **Public** ou **Privé**.
 
 *Par exemple, des résultats d'examens seront privés, alors qu'une photo de profil sera publique.*
 
-![Astuce]({{ docs_base_url }}/assets/img/lightbulb.png)
+![Astuce](/docs/assets/img/lightbulb.png)
 *Depuis la section outil, vous pouvez également accéder à tous vos fichiers, publics et privés et créer une arborescence si vous le souhaitez.*
 <br>
 
-![Gestion des fichiers]({{ docs_base_url }}/assets/img/tools/files.png)
+![Gestion des fichiers](/docs/assets/img/tools/files.png)
 
 {next}
