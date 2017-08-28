@@ -86,7 +86,7 @@ class MidwifeAppointment(Document):
                 sr.sender_name = "SageFemme"
                 sr.sender = self.practitioner
                 sr.send_on = send_after_day
-                sr.message = _("""Rappel: Vous avez rendez-vous avec {0} le {1} à {2}. En cas d'impossibilité, veuillez contacter votre sage-femme au plus vite. Merci""".format(self.practitioner, appointment_date, start_time))
+                sr.message = _("""Rappel: Vous avez rendez-vous avec {0} le {1} à {2}. En cas d'impossibilité, veuillez contacter votre sage-femme. Merci""".format(self.practitioner, appointment_date, start_time))
                 sr.send_to = valid_number
                 sr.midwife_appointment = self.name
                 sr.flags.ignore_permissions = True
