@@ -193,7 +193,7 @@ var showBookingPage = function(eventData) {
     $("#modal").iziModal("open");
     $('#modal').iziModal('setSubtitle', moment(eventData.start).locale('fr').format('LLLL'));
 
-    $("#modal").off('click').on('click', '.submit', function() {
+    $("#modal").off('click', ".submit").on('click', '.submit', function() {
 	submitBookingForm(eventData);
 	$("#modal").iziModal("close");
     });
@@ -210,7 +210,6 @@ var submitBookingForm = function(eventData) {
     }
 
     var message = $('input[id="message"]').val();
-
     frappe.call({
 	method: "maia.templates.pages.appointment.submit_appointment",
 	type: "POST",
