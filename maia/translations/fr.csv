@@ -661,7 +661,7 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +153,Proposal Writing,Réd
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +383,Proteinuria over 24h,Protéinurie des 24h
 DocType: Patient,Psychatric Background,Antécédents Psychiatriques
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +207,Psychoactive Drugs,Drogues Psychoactives
-DocType: Early Postnatal Consultation,Psychological State/Mother-Child Bond,Etat Psycologique/Lien Mère-Enfant
+DocType: Early Postnatal Consultation,Psychological State/Mother-Child Bond,État Psychologique/Lien Mère-Enfant
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +226,Pudendal Nerve,Nerf Honteux
 DocType: Early Postnatal Consultation,Pulsations,Pulsations
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +77,Purchase,Achat
