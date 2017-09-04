@@ -70,10 +70,13 @@ def find_available_slot(date, duration, line, scheduled_items):
             if get_datetime(scheduled_item.start_dt) < line["start"]:
                 new_entry = (get_datetime(line["start"]),
                              get_datetime(scheduled_item.end_dt))
-            else:
+            elif get_datetime(scheduled_item.start_dt) < line["end"]:
                 new_entry = (get_datetime(scheduled_item.start_dt),
                          get_datetime(scheduled_item.end_dt))
-            current_schedule.append(new_entry)
+            try:
+                current_schedule.append(new_entry)
+            except:
+                pass
 
         scheduled_items = sorted(current_schedule, key = lambda x: x[0])
         final_schedule = list(reduced(scheduled_items))
