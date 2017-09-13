@@ -146,7 +146,7 @@ def install(country=None):
                  'type': 'Bank'},
                 {'doctype': 'Mode of Payment', 'mode_of_payment': _('Wire Transfer'),
                  'type': 'Bank'},
-                
+
 		# Activity Type
 		{'doctype': 'Activity Type', 'activity_type': _('Planning')},
 		{'doctype': 'Activity Type', 'activity_type': _('Research')},
@@ -211,7 +211,7 @@ def install(country=None):
                 {'doctype': "Addiction", 'addictions': _("Doping Substances")},
                 {'doctype': "Addiction", 'addictions': _("Hallucinogenic Mushrooms")},
                 {'doctype': "Addiction", 'addictions': _("Poppers/Glues and other Solvents")},
-                
+
                 # Allergies
                 {'doctype': "Allergy", 'allergies': _("Latex")},
                 {'doctype': "Allergy", 'allergies': _("Pollen")},
@@ -403,7 +403,7 @@ def install(country=None):
                 {'doctype': "Lab Exam Type", 'exam_type': _("CRP")},
                 {'doctype': "Lab Exam Type", 'exam_type': _("HDL Cholesterol")},
                 {'doctype': "Lab Exam Type", 'exam_type': _("LDL Cholesterol")},
-                {'doctype': "Lab Exam Type", 'exam_type': _("PAPP-A and Free Beta-HCG ")},
+                {'doctype': "Lab Exam Type", 'exam_type': _("PAPP-A and Free Beta-HCG")},
 
                 # Surgical Interventions
                 {'doctype': "Surgical Intervention", 'surgical_intervention': _("Wisdom Tooth Removal")},

@@ -16,7 +16,7 @@ from erpnext.accounts.party import validate_party_accounts, get_timeline_data
 class PatientRecord(Document):
         def get_feed(self):
                 return self.patient_name
-        
+
         def onload(self):
                 """Load address in `__onload`"""
                 load_address_and_contact(self, "patient_record")
@@ -40,7 +40,7 @@ class PatientRecord(Document):
                         [cstr(self.get(f)).strip() for f in ["patient_first_name", "patient_last_name"]]))
 
                 self.name = self.get_patient_name()
-                
+
 
         def get_patient_name(self):
                 if frappe.db.get_value("Patient Record", self.patient_name):
@@ -86,16 +86,15 @@ class PatientRecord(Document):
                 create_customer_from_patient(self)
 
         def on_trash(self):
+            if frappe.db.exists("Customer", self.customer):
                 doc = frappe.get_doc('Customer', self.customer)
-                try:
-                        doc.delete()
-                except:
-                        pass
+                doc.delete()
+
 
         def after_rename(self, olddn, newdn, merge=False):
                 frappe.rename_doc('Customer', self.customer, newdn, force=True, merge=True if frappe.db.exists('Customer', newdn) else False)
-                
-                        
+
+
 def create_customer_from_patient(doc):
 
                 customer =  frappe.get_doc({

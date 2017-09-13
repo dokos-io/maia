@@ -5,7 +5,7 @@
 
 from __future__ import unicode_literals
 import frappe
-from frappe.utils import getdate, get_time, now_datetime, nowtime, cint, get_datetime
+from frappe.utils import getdate, get_time, now_datetime, nowtime, cint, get_datetime, formatdate, get_datetime_str
 from frappe import _
 import datetime
 from datetime import timedelta
@@ -26,7 +26,7 @@ def check_availability(doctype, df, dt, dn, date, duration):
         day_sch = filter(lambda x: x.day == day, resource.consulting_schedule)
         if not day_sch:
             availability.append(
-                {"msg": _("{0} not available on {1} {2}").format(dn, day, date)})
+                {"msg": _("{0} not available on {1} {2}").format(dn, _(day), formatdate(get_datetime_str(date), "dd/MM/yyyy"))})
             return availability
         for line in day_sch:
             if(datetime.datetime.combine(date, get_time(line.end_time)) > now_datetime()):
@@ -35,7 +35,7 @@ def check_availability(doctype, df, dt, dn, date, duration):
             if not schedules:
                 for sch in day_sch:
                     availability.append({"msg": _(
-                        "Schedules for {0} on  {1} : {2}-{3}").format(dn, date, sch.start_time, sch.end_time)})
+                        "Schedules for {0} on  {1} : {2}-{3}").format(dn, formatdate(get_datetime_str(date), "dd/MM/yyyy"), sch.start_time, sch.end_time)})
             if schedules:
                 availability.extend(get_availability_from_schedule(doctype, df, dn, schedules, date))
     return availability

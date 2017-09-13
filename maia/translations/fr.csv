@@ -537,7 +537,7 @@ DocType: Birth Preparation Consultation,N° of Patients,Nombre de Patient(e)s
 DocType: Patient,O+,O+
 DocType: Patient,O-,O-
 DocType: Obstetrical Background,Obstetrical Background,Antécédent Obstétrical
-DocType: Patient,Obstetrical Backgrounds,Antécédents Obstétricaux
+DocType: Patient Record,Obstetrical Backgrounds,Antécédents Obstétricaux
 DocType: Pregnancy Consultation,Obstetrical Exam,Examen Obstétrical
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +262,Ogino Method,Méthode Ogino
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +359,Oligomax Fer,Oligomax Fer
@@ -559,7 +559,7 @@ DocType: Pregnancy,Otoacoustic Emissions,Emissions Oto-Acoustiques
 DocType: Perineum Rehabilitation,Overactive Bladder,Impériosité
 DocType: Patient,PACS,PACS
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +402,PAL,PAL
-apps/maia/maia/setup/setup_wizard/install_fixtures.py +406,PAPP-A and Free Beta-HCG ,PAPP-A et Béta-HCG libre (entre 11SA et 13SA+6j)
+apps/maia/maia/setup/setup_wizard/install_fixtures.py +406,PAPP-A and Free Beta-HCG,PAPP-A et Béta-HCG libre (entre 11SA et 13SA+6j)
 DocType: Patient,PAT-,PAT-
 DocType: Prenatal Interview,PI/,PI/
 DocType: Perineum Rehabilitation,PR/,PR/
@@ -997,3 +997,6 @@ Doctype: Gynecology,Eisinger Score,Score d'Eisinger
 Doctype: Mammography,Mammography Date,Date de la Mammographie
 Doctype: Gynecology,"Oncogenetic Consultation if &gt; 3","Consultation Oncogénétique si > 3"
 Doctype: Gynecology,Mammography : Every 2 Years after 50 Years Old,Mammographie : Tous les 2 Ans après 50 Ans
+Doctype: Patient Record,Register only past pregnancies. All current pregnancies should be registered in a dedicated Pregnancy Folder.,Veuillez n'enregistrer que les anciennes grossesses. Les grossesses que vous suivez doivent être enregistrées dans des Dossiers de Grossesse correspondants.
+Doctype: Patient Record,Pregnancies Recap,Récapitulatif des Grossesses
+Doctype: Patient Record,No Pregnancy Registered,Aucune Grossesse Enregistrée

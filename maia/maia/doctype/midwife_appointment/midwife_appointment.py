@@ -55,14 +55,14 @@ class MidwifeAppointment(Document):
                                 "duration": self.duration
                         }
                         reply = get_standard_reply(self.standard_reply, args)
-                        
+
                         subject = reply["subject"]
                         message = reply["message"]
                 else:
                         patient_first_name = frappe.db.get_value("Patient Record",self.patient_record,"patient_first_name")
                         appointment_date = formatdate(getdate(self.date), "dd/MM/yyyy")
                         start_time = get_datetime(self.start_dt).strftime("%H:%M")
-                
+
                         subject = _("""N'oubliez pas votre rendez-vous avec {0}, prévu le {1} à {2}""".format(self.practitioner, appointment_date, start_time))
                         message = _("""Bonjour {0}, <br><br>Votre rendez-vous est toujours prévu le {1}, à {2}. <br><br>Si vous avez un empêchement, veuillez me l'indiquer au plus vite par retour de mail.<br><br>Merci beaucoup.<br><br>{3}""".format(patient_first_name, appointment_date, start_time, self.practitioner))
 
@@ -91,7 +91,7 @@ class MidwifeAppointment(Document):
                 sr.midwife_appointment = self.name
                 sr.flags.ignore_permissions = True
                 sr.save()
-                
+
         def on_cancel(self):
                 queue_name = frappe.db.get_value("Midwife Appointment", self.name, "queue_id")
                 if frappe.db.exists("Email Queue", queue_name):
@@ -106,12 +106,12 @@ class MidwifeAppointment(Document):
 @frappe.whitelist()
 def update_status(appointmentId, status):
         frappe.db.set_value("Midwife Appointment",appointmentId,"status",status)
-       
+
 @frappe.whitelist()
 def get_events(start, end, filters=None):
         from frappe.desk.calendar import get_event_conditions
         add_filters = get_event_conditions("Midwife Appointment", filters)
-        
+
         events = frappe.db.sql("""select name, subject, patient_record, appointment_type, color, start_dt, end_dt, duration, repeat_this_event, repeat_on,repeat_till,
         monday, tuesday, wednesday, thursday, friday, saturday, sunday from `tabMidwife Appointment` where ((
         (date(start_dt) between date(%(start)s) and date(%(end)s))
@@ -228,10 +228,12 @@ def check_availability_by_midwife(practitioner, date, duration):
                 frappe.throw(_("Please select a Midwife, a Date and an Appointment Type"))
         payload = {}
         payload[practitioner] = check_availability("Midwife Appointment", "practitioner", "Professional Information Card", practitioner, date, duration)
+        if payload[practitioner] == [[]] :
+            payload[practitioner] = []
         return payload
 
 def validate_receiver_no(validated_no):
-                
+
         for x in [' ', '-', '(', ')', '.']:
                 validated_no = validated_no.replace(x, '')
         for y in ['+']:
@@ -247,7 +249,7 @@ def flush(from_test=False):
         if frappe.conf.get("sms_activated")==1:
                 # additional check
                 cache = frappe.cache()
-                
+
                 auto_commit = not from_test
 
                 make_cache_queue()
@@ -274,7 +276,7 @@ def make_cache_queue():
         for e in sms:
                 cache.rpush('cache_sms_queue', e[0])
 
-                
+
 def send_sms_reminder(name):
         sms = frappe.db.sql('''select
         name, sender_name, sender, send_on, message, send_to
