@@ -103,6 +103,8 @@ class MidwifeAppointment(Document):
                 for sms in sms_reminder:
                         frappe.delete_doc("SMS Reminder", sms.name, ignore_permissions=True)
 
+                self.reload()
+
 @frappe.whitelist()
 def update_status(appointmentId, status):
         frappe.db.set_value("Midwife Appointment",appointmentId,"status",status)
