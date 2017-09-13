@@ -2,7 +2,7 @@
  "allow_copy": 0, 
  "allow_guest_to_view": 0, 
  "allow_import": 0, 
- "allow_rename": 0, 
+ "allow_rename": 1, 
  "autoname": "field:exam_type", 
  "beta": 0, 
  "creation": "2017-03-16 15:40:05.529044", 
@@ -14,6 +14,7 @@
  "engine": "InnoDB", 
  "fields": [
   {
+   "allow_bulk_edit": 0, 
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
@@ -53,7 +54,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-04-05 08:58:03.985458", 
+ "modified": "2017-09-13 20:04:55.730884", 
  "modified_by": "Administrator", 
  "module": "Maia", 
  "name": "Lab Exam Type", 
