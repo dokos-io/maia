@@ -134,3 +134,7 @@ frappe.ui.form.on("Patient Record", "weight", function(frm) {
   frappe.model.set_value(frm.doctype, frm.docname, "body_mass_index", bmi)
 
 });
+
+frappe.ui.form.on("Patient Record", "pregnancies_report", function(frm) {
+  return frappe.set_route('pregnancies', frm.doc.name);
+});

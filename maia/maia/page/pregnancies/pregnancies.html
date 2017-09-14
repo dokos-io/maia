@@ -2,7 +2,7 @@
   <div class="frappe-list">
     <div class="list-filters">
       <div class="list-filter-item">
-        <select class="form-control select-patient-record">
+        <select id="patient-list" class="form-control select-patient-record">
 					{% for (var i=0; i < patient_record.length; i++) { %}
 						<option value="{{ patient_record[i] }}">{{ patient_record[i] }}</option>
 					{% } %}

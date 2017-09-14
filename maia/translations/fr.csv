@@ -1000,3 +1000,7 @@ Doctype: Gynecology,Mammography : Every 2 Years after 50 Years Old,Mammographie 
 Doctype: Patient Record,Register only past pregnancies. All current pregnancies should be registered in a dedicated Pregnancy Folder.,Veuillez n'enregistrer que les anciennes grossesses. Les grossesses que vous suivez doivent être enregistrées dans des Dossiers de Grossesse correspondants.
 Doctype: Patient Record,Pregnancies Recap,Récapitulatif des Grossesses
 Doctype: Patient Record,No Pregnancy Registered,Aucune Grossesse Enregistrée
+apps/maia/maia/pages/past_pregnancies_result.html,pregnancies,grossesses
+apps/maia/maia/pages/past_pregnancies_result.html,Pregnancies,Grossesses
+apps/maia/maia/pages/past_pregnancies_result.html,Delivery Date :,Date de l'Accouchement :
+apps/maia/maia/pages/pregnancies.js,Back to Patient Record,Retour au Dossier Patiente
