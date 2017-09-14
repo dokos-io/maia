@@ -60,15 +60,24 @@ def submit_appointment(email, practitioner, appointment_type, start, end, notes)
             sms_confirmation = app_type.send_sms_reminder
 
             patient_records = frappe.get_all("Patient Record", filters={'website_user': email},fields=['name', 'mobile_no'])
-            patient_record = patient_records[0].name
-            subject = "{0}-En Ligne".format(patient_record)
+            if not patient_records:
+                user = frappe.get_doc("User", email)
+                patient_record = ""
+                if user.last_name:
+                    subject = "{0} {1}-En Ligne".format(user.first_name, user.last_name)
+                else:
+                    subject = "{0}-En Ligne".format(user.first_name)
+                sms_confirmation = 0
+                mobile_no = ""
 
-            frappe.logger().debug(patient_records[0].mobile_no)
-
-            if sms_confirmation == 1 and patient_records[0].mobile_no:
-                        sms_confirmation = 1
             else:
-                        sms_confirmation = 0
+                patient_record = patient_records[0].name
+                subject = "{0}-En Ligne".format(patient_record)
+                mobile_no = patient_records[0].mobile_no
+                if sms_confirmation == 1 and mobile_no:
+                    sms_confirmation = 1
+                else:
+                    sms_confirmation = 0
 
             appointment = frappe.get_doc({
                         "doctype": "Midwife Appointment",
@@ -86,13 +95,18 @@ def submit_appointment(email, practitioner, appointment_type, start, end, notes)
                         "reminder": 1,
                         "email": email,
                         "sms_reminder": sms_confirmation,
-                        "mobile_no": patient_records[0].mobile_no
+                        "mobile_no": mobile_no
             }).insert()
-
+            appointment.flags.ignore_mandatory = True
             appointment.submit()
 
-            send_confirmation(patient_record, practitioner, appointment_type, start)
-            send_notification(patient_record, practitioner, appointment_type, start, notes)
+            if patient_record:
+                send_patient_confirmation(patient_record, practitioner, appointment_type, start)
+                send_notification_for_patient(patient_record, practitioner, appointment_type, start, notes)
+
+            else:
+                send_user_confirmation(user, practitioner, appointment_type, start)
+                send_notification_for_user(user, practitioner, appointment_type, start, notes)
 
             frappe.clear_cache()
 
@@ -122,7 +136,7 @@ def check_availability(doctype, df, dt, dn, date, duration):
                 availability.extend(get_availability_from_schedule(doctype, df, dn, schedules, date))
     return availability
 
-def send_confirmation(patient_record, practitioner, appointment_type, start):
+def send_patient_confirmation(patient_record, practitioner, appointment_type, start):
             patient = frappe.get_doc("Patient Record", patient_record)
             date = formatdate(get_datetime_str(start), "dd/MM/yyyy")
             time = get_datetime(start).strftime("%H:%M")
@@ -135,7 +149,16 @@ def send_confirmation(patient_record, practitioner, appointment_type, start):
             else:
                         frappe.sendmail(patient.email_id, subject=subject, content=message)
 
-def send_notification(patient_record, practitioner, appointment_type, start, notes):
+def send_user_confirmation(user, practitioner, appointment_type, start):
+            date = formatdate(get_datetime_str(start), "dd/MM/yyyy")
+            time = get_datetime(start).strftime("%H:%M")
+
+            subject = _("""Confirmation de votre rendez-vous avec {0}""".format(practitioner))
+            message = _("""<div>Bonjour {0},<br><br>Votre rendez-vous est confirmé le {1}, à {2}.<br><br>Si vous avez un empêchement, veuillez me l'indiquer au plus vite par retour de mail.<br><br>Merci beaucoup.<br><br>{3}</div>""".format(user.first_name, date, time, practitioner))
+
+            frappe.sendmail(user.email, subject=subject, content=message)
+
+def send_notification_for_patient(patient_record, practitioner, appointment_type, start, notes):
             patient = frappe.get_doc("Patient Record", patient_record)
             practitioner_data = frappe.get_doc("Professional Information Card", practitioner)
             if practitioner_data.user:
@@ -145,5 +168,20 @@ def send_notification(patient_record, practitioner, appointment_type, start, not
 
                 subject = _("""[Maia] Nouveau Rendez-Vous en Ligne""")
                 message = _("""<div>Bonjour {0},<br><br>{1} vient de prendre rendez-vous sur votre plateforme de réservation.<br><br><strong>Date:</strong> {2}<br><br><strong>Heure:</strong> {3}<br><br><strong>Message:</strong> {4}<br><br><br>L'Équipe Maia</div>""".format(user_data.first_name, patient.name, date, time, notes))
+
+                frappe.sendmail(practitioner_data.user, subject=subject, content=message)
+
+def send_notification_for_user(user, practitioner, appointment_type, start, notes):
+            practitioner_data = frappe.get_doc("Professional Information Card", practitioner)
+            if practitioner_data.user:
+                user_data = frappe.get_doc("User", practitioner_data.user)
+                date = formatdate(get_datetime_str(start), "dd/MM/yyyy")
+                time = get_datetime(start).strftime("%H:%M")
+
+                subject = _("""[Maia] Nouveau Rendez-Vous en Ligne""")
+                if user.last_name:
+                    message = _("""<div>Bonjour {0},<br><br>{1} {2} vient de prendre rendez-vous sur votre plateforme de réservation.<br><br><strong>Date:</strong> {3}<br><br><strong>Heure:</strong> {4}<br><br><strong>Message:</strong> {5}<br><br><br>L'Équipe Maia</div>""".format(user_data.first_name, user.first_name, user.last_name, date, time, notes))
+                else:
+                    message = _("""<div>Bonjour {0},<br><br>{1} vient de prendre rendez-vous sur votre plateforme de réservation.<br><br><strong>Date:</strong> {2}<br><br><strong>Heure:</strong> {3}<br><br><strong>Message:</strong> {4}<br><br><br>L'Équipe Maia</div>""".format(user_data.first_name, user.first_name, date, time, notes))
 
                 frappe.sendmail(practitioner_data.user, subject=subject, content=message)
