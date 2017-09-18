@@ -82,6 +82,7 @@ frappe.Pregnancies = Class.extend({
 					if (!res.message) {
 						$pregnancies.find(".pregnancies").empty();
 					} else {
+						$pregnancies.find(".pregnancies").empty();
 						for (var i = 0; i < res.message.length; i++) {
 							var pregnancy_data = res.message[i];
 							if (pregnancy_data.data_type == "past_pregnancy") {

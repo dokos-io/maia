@@ -20,17 +20,19 @@ def get_pregnancies(obj):
 
     for in_progress_pregnancy in in_progress_pregnancies:
         in_progress_pregnancy["data_type"] = "current_pregnancy"
+        if in_progress_pregnancy["expected_term"]:
+            in_progress_pregnancy["expected_term"] = formatdate(in_progress_pregnancy["expected_term"])
+        if in_progress_pregnancy["beginning_of_pregnancy"]:
+            in_progress_pregnancy["beginning_of_pregnancy"] = formatdate(in_progress_pregnancy["beginning_of_pregnancy"])
         pregnancies.append(in_progress_pregnancy)
 
     current_pregnancies = frappe.db.sql(
        """SELECT * FROM `tabPregnancy` WHERE patient_record='{0}' AND date_time!='' ORDER BY date_time DESC""".format(patient_record), as_dict=True)
 
-    #current_pregnancies = frappe.get_all("Pregnancy", filters={'patient_record': patient}, fields=['date_time', 'memo', 'delivery_location', 'delivery_term', 'delivery_way', 'anesthesia', 'placental_delivery', 'scar', 'anesthesia_complications', 'gender', 'birth_weight', 'feeding_type', 'placental_delivery', 'expected_term', 'beginning_of_pregnancy', 'pregnancy_complications'])
-
     for current_pregnancy in current_pregnancies:
         current_pregnancy["data_type"] = "current_pregnancy"
         if current_pregnancy["date_time"]:
-            current_pregnancy["date_time"] = format_datetime(current_pregnancy["date_time"])
+            current_pregnancy["date_time"] = formatdate(current_pregnancy["date_time"])
         pregnancies.append(current_pregnancy)
 
     past_pregnancies = frappe.db.sql(
@@ -42,5 +44,4 @@ def get_pregnancies(obj):
             past_pregnancy["date"] = formatdate(past_pregnancy["date"])
         pregnancies.append(past_pregnancy)
 
-    frappe.logger().debug(pregnancies)
     return pregnancies
