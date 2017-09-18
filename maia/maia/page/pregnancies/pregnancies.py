@@ -15,17 +15,17 @@ def get_pregnancies(obj):
     pregnancies = []
     patient = frappe.get_doc("Patient Record", patient_record)
 
-    past_pregnancies = frappe.db.sql(
-        """SELECT * FROM `tabObstetrical Background` WHERE parent='{0}'""".format(patient_record), as_dict=True)
+    in_progress_pregnancies = frappe.db.sql(
+        """SELECT * FROM `tabPregnancy` WHERE patient_record='{0}' AND (date_time is NULL or date_time = '') ORDER BY expected_term DESC""".format(patient_record), as_dict=True)
 
-    for past_pregnancy in past_pregnancies:
-        past_pregnancy["data_type"] = "past_pregnancy"
-        if past_pregnancy["date"]:
-            past_pregnancy["date"] = formatdate(past_pregnancy["date"])
-        pregnancies.append(past_pregnancy)
+    for in_progress_pregnancy in in_progress_pregnancies:
+        in_progress_pregnancy["data_type"] = "current_pregnancy"
+        pregnancies.append(in_progress_pregnancy)
 
     current_pregnancies = frappe.db.sql(
-        """SELECT * FROM `tabPregnancy` WHERE patient_record='{0}'""".format(patient_record), as_dict=True)
+       """SELECT * FROM `tabPregnancy` WHERE patient_record='{0}' AND date_time!='' ORDER BY date_time DESC""".format(patient_record), as_dict=True)
+
+    #current_pregnancies = frappe.get_all("Pregnancy", filters={'patient_record': patient}, fields=['date_time', 'memo', 'delivery_location', 'delivery_term', 'delivery_way', 'anesthesia', 'placental_delivery', 'scar', 'anesthesia_complications', 'gender', 'birth_weight', 'feeding_type', 'placental_delivery', 'expected_term', 'beginning_of_pregnancy', 'pregnancy_complications'])
 
     for current_pregnancy in current_pregnancies:
         current_pregnancy["data_type"] = "current_pregnancy"
@@ -33,4 +33,14 @@ def get_pregnancies(obj):
             current_pregnancy["date_time"] = format_datetime(current_pregnancy["date_time"])
         pregnancies.append(current_pregnancy)
 
+    past_pregnancies = frappe.db.sql(
+        """SELECT * FROM `tabObstetrical Background` WHERE parent='{0}' ORDER BY date DESC""".format(patient_record), as_dict=True)
+
+    for past_pregnancy in past_pregnancies:
+        past_pregnancy["data_type"] = "past_pregnancy"
+        if past_pregnancy["date"]:
+            past_pregnancy["date"] = formatdate(past_pregnancy["date"])
+        pregnancies.append(past_pregnancy)
+
+    frappe.logger().debug(pregnancies)
     return pregnancies

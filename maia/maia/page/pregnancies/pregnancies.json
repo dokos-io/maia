@@ -4,13 +4,17 @@
  "docstatus": 0, 
  "doctype": "Page", 
  "idx": 0, 
- "modified": "2017-09-12 12:47:57.373574", 
+ "modified": "2017-09-15 13:17:05.809666", 
  "modified_by": "Administrator", 
  "module": "Maia", 
  "name": "pregnancies", 
  "owner": "Administrator", 
  "page_name": "pregnancies", 
- "roles": [], 
+ "roles": [
+  {
+   "role": "Midwife"
+  }
+ ], 
  "script": null, 
  "standard": "Yes", 
  "style": null, 
