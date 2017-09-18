@@ -999,7 +999,7 @@ Doctype: Gynecology,Eisinger Score,Score d'Eisinger
 Doctype: Mammography,Mammography Date,Date de la Mammographie
 Doctype: Gynecology,"Oncogenetic Consultation if &gt; 3","Consultation Oncogénétique si > 3"
 Doctype: Gynecology,Mammography : Every 2 Years after 50 Years Old,Mammographie : Tous les 2 Ans après 50 Ans
-Doctype: Patient Record,Register only past pregnancies. All current pregnancies should be registered in a dedicated Pregnancy Folder.,Veuillez n'enregistrer que les anciennes grossesses. Les grossesses que vous suivez doivent être enregistrées dans des Dossiers de Grossesse correspondants.
+Doctype: Patient Record,This table is designed to register pregnancies you don't follow. Pregnancies followed by you should be registered in a dedicated Pregnancy Folder.,Veuillez enregistrer les grossesses que vous n'avez pas suivi dans le tableau ci-dessous.<br> Les grossesses que vous suivez doivent être enregistrées dans les Dossiers de Grossesse.
 Doctype: Patient Record,Pregnancies Recap,Récapitulatif des Grossesses
 Doctype: Patient Record,No Pregnancy Registered,Aucune Grossesse Enregistrée
 apps/maia/maia/pages/past_pregnancies_result.html,pregnancies,grossesses
