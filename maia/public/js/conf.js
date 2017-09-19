@@ -12,12 +12,12 @@ $(document).bind('toolbar_setup', function() {
 
 	$('.navbar-home').html('<img class="erpnext-icon" src="'+
 			frappe.urllib.get_base_url()+'/assets/maia/images/maia_squirrel.svg" />');
-	
+
 	$('[data-link="docs"]').attr("href", "https://maia-by-dokos.fr/docs")
 	$('[data-link="issues"]').attr("href", "https://github.com/DOKOS-IO/maia/issues")
 
-        var $help_menu = $('.dropdown-help ul .documentation-links');
-        $help_menu.prev().remove();
+	var $help_menu = $('.dropdown-help ul .documentation-links');
+	$help_menu.prev().remove();
 	$help_menu.prev().remove();
 	$help_menu.prev().remove();
 
@@ -25,5 +25,6 @@ $(document).bind('toolbar_setup', function() {
 		target="_blank">'+__('User Forum')+'</a></li>').insertBefore($help_menu);
 	$('<li><a href="mailto:help@dokos.io" \
 		target="">'+__('Report an Issue')+'</a></li>').insertBefore($help_menu);
-
+	$('<li><a href="https://www.cnil.fr/fr/modele/mention/affiche-dinformation-pour-un-cabinet-medical-ou-paramedical" \
+		target="_blank">'+__('Affichette CNIL')+'</a></li>').insertBefore($help_menu);
 });

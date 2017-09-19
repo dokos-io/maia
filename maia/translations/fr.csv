@@ -110,10 +110,10 @@ DocType: Early Postnatal Consultation,Both,Mixte
 DocType: Early Postnatal Consultation,Bottle Feeding,Biberon
 DocType: Obstetrical Background,Bottle-feeding,Biberon
 apps/maia/maia/public/js/setup_wizard.js +291,Box,Boîte
-DocType: Obstetrical Background,Boy,Garçon
+DocType: Obstetrical Background,"Boy","Garçon"
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +302,Breast-Pump Rent for Breastfeeding,Location d'un Tire-Lait Electrique à simple pompe durant toute la Durée de l'Allaitement
-DocType: Obstetrical Background,Breast-feeding,Allaitement Maternel
-DocType: Early Postnatal Consultation,Breastfeeding,Allaitement Maternel
+DocType: Obstetrical Background,"Breast-feeding","Allaitement Maternel"
+DocType: Early Postnatal Consultation,"Breastfeeding","Allaitement Maternel"
 DocType: Early Postnatal Consultation,Breasts,Seins
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +97,Business Development Manager,Directeur Commercial
 DocType: Perineum Rehabilitation Consultation,C.M.P.,C.M.P.
@@ -179,7 +179,9 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +280,Complete Manual Deliv
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +277,Complete Normal Delivery,Délivrance Normale Complète
 apps/maia/maia/utilities/activation.py +59,Complete your Company Information,Complétez les Informations de votre Cabinet
 apps/maia/maia/utilities/activation.py +50,Complete your Professional Information Card,Complétez votre Carte d'Informations Professionelles
-DocType: Obstetrical Background,Complications,Complications
+DocType: Obstetrical Background,Delivery Complications,Complications de l'Accouchement
+DocType: Obstetrical Background,Pregnancy Complications,Complications de la Grossesse
+DocType: Obstetrical Background,Child Full Name,Prénom du Nouveau Né
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +246,Condom,Préservatifs
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +118,"Construction Works, Supplies, External Services","Travaux, Fournitures, Services Extérieurs"
 DocType: Free Consultation,Consultation,Consultation
@@ -303,7 +305,7 @@ DocType: Early Postnatal Consultation,Feeding Type,Type d’Allaitement
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +258,FemCap 22mm Diameter,FemCap Diamètre 22mm
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +259,FemCap 26mm Diameter,FemCap Diamètre 26mm
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +260,FemCap 30mm Diameter,FemCap Diamètre 30mm
-DocType: Pregnancy,Female,Femme
+DocType: Pregnancy,"Female","Féminin"
 DocType: Early Postnatal Consultation,Femoral Pulse Perceived on Both Sides,Pouls Fémoraux Perçus des Deux Côtés
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +370,Ferritin,Ferritine
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +372,Fibrinogen,Fibrinogène
@@ -337,7 +339,7 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +222,General,Générale
 DocType: Pregnancy Consultation,General Exam,Examen Général
 DocType: Early Postnatal Consultation,General Health,Etat Général
 DocType: Patient,Genital Herpes,Herpès Génital
-DocType: Obstetrical Background,Girl,Fille
+DocType: Obstetrical Background,"Girl","Fille"
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +379,Glucosuria and Albuminuria,Glucosurie et Albuminurie
 apps/maia/maia/setup/page/welcome_to_maia/welcome_to_maia.html +23,Go to the Desktop and start using Maia,Allez sur le Bureau et commencez à utiliser Maia
 apps/maia/maia/maia/invoicing.py +37,Government,Gouvernement
@@ -454,7 +456,7 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +348,MagneB6,MagnéB6
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +350,Magnesium 300+,Magnésium 300+
 DocType: Addiction,Maia,Maia
 apps/maia/maia/setup/setup_wizard/setup_wizard.py +225,Maia Setup Complete!,Paramétrage de Maia Terminé !
-DocType: Pregnancy,Male,Masculin
+DocType: Pregnancy,"Male","Masculin"
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +83,Management,Gestion
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +90,Manager,Directeur
 DocType: Patient Allergies,Manifestation,Manifestation
@@ -537,7 +539,7 @@ DocType: Birth Preparation Consultation,N° of Patients,Nombre de Patient(e)s
 DocType: Patient,O+,O+
 DocType: Patient,O-,O-
 DocType: Obstetrical Background,Obstetrical Background,Antécédent Obstétrical
-DocType: Patient,Obstetrical Backgrounds,Antécédents Obstétricaux
+DocType: Patient Record,Obstetrical Backgrounds,Antécédents Obstétricaux
 DocType: Pregnancy Consultation,Obstetrical Exam,Examen Obstétrical
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +262,Ogino Method,Méthode Ogino
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +359,Oligomax Fer,Oligomax Fer
@@ -559,7 +561,7 @@ DocType: Pregnancy,Otoacoustic Emissions,Emissions Oto-Acoustiques
 DocType: Perineum Rehabilitation,Overactive Bladder,Impériosité
 DocType: Patient,PACS,PACS
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +402,PAL,PAL
-apps/maia/maia/setup/setup_wizard/install_fixtures.py +406,PAPP-A and Free Beta-HCG ,PAPP-A et Béta-HCG libre (entre 11SA et 13SA+6j)
+apps/maia/maia/setup/setup_wizard/install_fixtures.py +406,PAPP-A and Free Beta-HCG,PAPP-A et Béta-HCG libre (entre 11SA et 13SA+6j)
 DocType: Patient,PAT-,PAT-
 DocType: Prenatal Interview,PI/,PI/
 DocType: Perineum Rehabilitation,PR/,PR/
@@ -997,3 +999,11 @@ Doctype: Gynecology,Eisinger Score,Score d'Eisinger
 Doctype: Mammography,Mammography Date,Date de la Mammographie
 Doctype: Gynecology,"Oncogenetic Consultation if &gt; 3","Consultation Oncogénétique si > 3"
 Doctype: Gynecology,Mammography : Every 2 Years after 50 Years Old,Mammographie : Tous les 2 Ans après 50 Ans
+Doctype: Patient Record,This table is designed to register pregnancies you don't follow. Pregnancies followed by you should be registered in a dedicated Pregnancy Folder.,Veuillez enregistrer les grossesses que vous n'avez pas suivi dans le tableau ci-dessous.<br> Les grossesses que vous suivez doivent être enregistrées dans les Dossiers de Grossesse.
+Doctype: Patient Record,Pregnancies Recap,Récapitulatif des Grossesses
+Doctype: Patient Record,No Pregnancy Registered,Aucune Grossesse Enregistrée
+apps/maia/maia/pages/past_pregnancies_result.html,pregnancies,grossesses
+apps/maia/maia/pages/past_pregnancies_result.html,Pregnancies,Grossesses
+apps/maia/maia/pages/past_pregnancies_result.html,Delivery :,Accouchement :
+apps/maia/maia/pages/pregnancies.js,Back to Patient Record,Retour au Dossier Patiente
+apps/maia/maia/pages/current_pregnancies_result.html,Pregnancy in Progress,Grossesse en Cours

@@ -1,0 +1,23 @@
+{
+ "content": null, 
+ "creation": "2017-09-12 12:47:36.971656", 
+ "docstatus": 0, 
+ "doctype": "Page", 
+ "idx": 0, 
+ "modified": "2017-09-15 13:17:05.809666", 
+ "modified_by": "Administrator", 
+ "module": "Maia", 
+ "name": "pregnancies", 
+ "owner": "Administrator", 
+ "page_name": "pregnancies", 
+ "roles": [
+  {
+   "role": "Midwife"
+  }
+ ], 
+ "script": null, 
+ "standard": "Yes", 
+ "style": null, 
+ "system_page": 0, 
+ "title": "Pregnancies"
+}

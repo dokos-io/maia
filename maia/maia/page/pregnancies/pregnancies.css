@@ -1,0 +1,51 @@
+  .list-filters {
+  overflow-y: hidden;
+  padding: 5px;
+  padding-left: 20px;
+}
+
+.list-filter-item {
+  min-width: 150px;
+  float: left;
+  margin: 5px;
+}
+
+.list-item_content {
+  flex: 1;
+  padding-right: 15px;
+  align-items: center;
+}
+
+.select-patient-record {
+  background: #f0f4f7;
+}
+
+.select-patient-record:focus {
+  background: #f0f4f7;
+}
+
+.pregnancy-section:not(:last-child) {
+  border-bottom: 1px solid #d1d8dd;
+}
+
+.pregnancy-section {
+  margin: 0px;
+}
+
+.pregnancy-column {
+  border-bottom: 0px !important;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+.pregnancy-column:last-child {
+  padding-bottom: 15px !important;
+}
+
+.pregnancy-title-uppercase {
+  padding-bottom: 10px;
+  text-transform: uppercase;
+  font-size: 16px;
+  letter-spacing: 0.4px;
+  color: #8D99A6;
+}

@@ -1,0 +1,252 @@
+<div class="row pregnancy-section">
+  {% if date_time %}
+  <div class="col-sm-12">
+    <h1 class="form-section-heading pregnancy-title-uppercase">{{ __("Delivery :") }} {{ date_time }}</h1>
+  </div>
+
+  <div class="col-sm-12">
+    {% if delivery_location %}
+    <div class="form-column pregnancy-column col-xs-6 col-sm-3">
+      <form>
+        <div class="frappe-control input-max-width">
+          <div class="form-group">
+            <div class="clearfix">
+              <label class="control-label" style="padding-right: 0px;">{{ __("Delivery Location") }}</label>
+            </div>
+            <div class="control-input-wrapper">
+              <div class="control-value like-disabled-input">{{ __(delivery_location) }}</div>
+            </div>
+          </div>
+        </div>
+        <form>
+    </div>
+    {% endif %} {% if delivery_term %}
+    <div class="form-column pregnancy-column col-xs-6 col-sm-3">
+      <form>
+        <div class="frappe-control input-max-width">
+          <div class="form-group">
+            <div class="clearfix">
+              <label class="control-label" style="padding-right: 0px;">{{ __("Term (Weeks)") }}</label>
+            </div>
+            <div class="control-input-wrapper">
+              <div class="control-value like-disabled-input">{{ __(delivery_term) }}</div>
+            </div>
+          </div>
+        </div>
+        <form>
+    </div>
+    {% endif %} {% if delivery_way %}
+    <div class=" form-column pregnancy-column col-xs-6 col-sm-3">
+      <form>
+        <div class="frappe-control input-max-width">
+          <div class="form-group">
+            <div class="clearfix">
+              <label class="control-label" style="padding-right: 0px;">{{ __("Delivery Way") }}</label>
+            </div>
+            <div class="control-input-wrapper">
+              <div class="control-value like-disabled-input">{{ __(delivery_way) }}</div>
+            </div>
+          </div>
+        </div>
+        <form>
+    </div>
+    {% endif %} {% if anesthesia %}
+    <div class="form-column pregnancy-column col-xs-6 col-sm-3">
+      <form>
+        <div class="frappe-control input-max-width">
+          <div class="form-group">
+            <div class="clearfix">
+              <label class="control-label" style="padding-right: 0px;">{{ __("Anesthesia") }}</label>
+            </div>
+            <div class="control-input-wrapper">
+              <div class="control-value like-disabled-input">{{ __(anesthesia) }}</div>
+            </div>
+          </div>
+        </div>
+        <form>
+    </div>
+    {% endif %} {% if placental_delivery %}
+    <div class="form-column pregnancy-column col-xs-6 col-sm-3">
+      <form>
+        <div class="frappe-control input-max-width">
+          <div class="form-group">
+            <div class="clearfix">
+              <label class="control-label" style="padding-right: 0px;">{{ __("Placental Delivery") }}</label>
+            </div>
+            <div class="control-input-wrapper">
+              <div class="control-value like-disabled-input">{{ __(placental_delivery) }}</div>
+            </div>
+          </div>
+        </div>
+        <form>
+    </div>
+    {% endif %} {% if scar %}
+    <div class="form-column pregnancy-column col-xs-6 col-sm-3">
+      <form>
+        <div class="frappe-control input-max-width">
+          <div class="form-group">
+            <div class="clearfix">
+              <label class="control-label" style="padding-right: 0px;">{{ __("Scar") }}</label>
+            </div>
+            <div class="control-input-wrapper">
+              <div class="control-value like-disabled-input">{{ __(scar) }}</div>
+            </div>
+          </div>
+        </div>
+        <form>
+    </div>
+    {% endif %} {% if anesthesia_complications %}
+    <div class="form-column pregnancy-column col-xs-12 col-sm-6">
+      <form>
+        <div class="frappe-control input-max-width">
+          <div class="form-group">
+            <div class="clearfix">
+              <label class="control-label" style="padding-right: 0px;">{{ __("Complications") }}</label>
+            </div>
+            <div class="control-input-wrapper">
+              <div class="control-value like-disabled-input">{{ __(anesthesia_complications) }}</div>
+            </div>
+          </div>
+        </div>
+        <form>
+    </div>
+    {% endif %}
+
+  </div>
+  <div class="col-sm-12">
+
+    {% if gender %}
+    <div class="form-column pregnancy-column col-xs-6 col-sm-3">
+      <form>
+        <div class="frappe-control input-max-width">
+          <div class="form-group">
+            <div class="clearfix">
+              <label class="control-label" style="padding-right: 0px;">{{ __("Gender") }}</label>
+            </div>
+            <div class="control-input-wrapper">
+              <div class="control-value like-disabled-input">{{ __(gender) }}</div>
+            </div>
+          </div>
+        </div>
+        <form>
+    </div>
+    {% endif %} {% if birth_weight %}
+    <div class="form-column pregnancy-column col-xs-6 col-sm-3">
+      <form>
+        <div class="frappe-control input-max-width">
+          <div class="form-group">
+            <div class="clearfix">
+              <label class="control-label" style="padding-right: 0px;">{{ __("Birth Weight (g)") }}</label>
+            </div>
+            <div class="control-input-wrapper">
+              <div class="control-value like-disabled-input">{{ __(birth_weight) }}</div>
+            </div>
+          </div>
+        </div>
+        <form>
+    </div>
+    {% endif %} {% if feeding_type %}
+    <div class="form-column pregnancy-column col-xs-6 col-sm-3">
+      <form>
+        <div class="frappe-control input-max-width">
+          <div class="form-group">
+            <div class="clearfix">
+              <label class="control-label" style="padding-right: 0px;">{{ __("Feeding Type") }}</label>
+            </div>
+            <div class="control-input-wrapper">
+              <div class="control-value like-disabled-input">{{ __(feeding_type) }}</div>
+            </div>
+          </div>
+        </div>
+        <form>
+    </div>
+    {% endif %} {% if placental_delivery %}
+    <div class="form-column pregnancy-column col-xs-6 col-sm-3">
+      <form>
+        <div class="frappe-control input-max-width">
+          <div class="form-group">
+            <div class="clearfix">
+              <label class="control-label" style="padding-right: 0px;">{{ __("Placental Delivery") }}</label>
+            </div>
+            <div class="control-input-wrapper">
+              <div class="control-value like-disabled-input">{{ __(placental_delivery) }}</div>
+            </div>
+          </div>
+        </div>
+        <form>
+    </div>
+    {% endif %}
+
+  </div>
+  {% else %}
+  <div class="col-sm-12">
+    <h1 class="form-section-heading pregnancy-title-uppercase">{{ __("Pregnancy in Progress") }}</h1>
+  </div>
+
+  <div class="col-sm-12">
+    {% if memo %}
+    <div class="form-column pregnancy-column col-xs-12">
+      <form>
+        <div class="frappe-control input-max-width">
+          <div class="form-group">
+            <div class="clearfix">
+              <label class="control-label" style="padding-right: 0px;">{{ __("Memo") }}</label>
+            </div>
+            <div class="control-input-wrapper">
+              <div class="control-value like-disabled-input">{{ __(memo) }}</div>
+            </div>
+          </div>
+        </div>
+        <form>
+    </div>
+    {% endif %} {% if expected_term %}
+    <div class="form-column pregnancy-column col-xs-6 col-sm-3">
+      <form>
+        <div class="frappe-control input-max-width">
+          <div class="form-group">
+            <div class="clearfix">
+              <label class="control-label" style="padding-right: 0px;">{{ __("Expected Term") }}</label>
+            </div>
+            <div class="control-input-wrapper">
+              <div class="control-value like-disabled-input">{{ __(expected_term) }}</div>
+            </div>
+          </div>
+        </div>
+        <form>
+    </div>
+    {% endif %} {% if beginning_of_pregnancy %}
+    <div class="form-column pregnancy-column col-xs-6 col-sm-3">
+      <form>
+        <div class="frappe-control input-max-width">
+          <div class="form-group">
+            <div class="clearfix">
+              <label class="control-label" style="padding-right: 0px;">{{ __("Beginning of Pregnancy") }}</label>
+            </div>
+            <div class="control-input-wrapper">
+              <div class="control-value like-disabled-input">{{ __(beginning_of_pregnancy) }}</div>
+            </div>
+          </div>
+        </div>
+        <form>
+    </div>
+    {% endif %} {% if pregnancy_complications %}
+    <div class="form-column pregnancy-column col-xs-12">
+      <form>
+        <div class="frappe-control input-max-width">
+          <div class="form-group">
+            <div class="clearfix">
+              <label class="control-label" style="padding-right: 0px;">{{ __("Pregnancy Complications") }}</label>
+            </div>
+            <div class="control-input-wrapper">
+              <div class="control-value like-disabled-input">{{ __(pregnancy_complications) }}</div>
+            </div>
+          </div>
+        </div>
+        <form>
+    </div>
+    {% endif %}
+
+  </div>
+  {% endif %}
+</div>
+<br>
