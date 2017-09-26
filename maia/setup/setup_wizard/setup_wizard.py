@@ -56,7 +56,7 @@ def setup_complete(args=None):
 
         set_mode_of_payment_account(args)
         frappe.db.commit()
-        
+
         correct_midwife_accounts(args)
 
         initial_list = ['Stock', 'Manufacturing', 'Learn', 'Buying', 'Selling', 'Support', 'Integrations', 'Maintenance', 'Schools', 'HR', 'CRM', 'Employee', 'Issue', 'Lead', 'POS', 'Student', 'Student Group', 'Course Schedule', 'Student Attendance', 'Course', 'Program', 'Student Applicant', 'Fees', 'Instructor', 'Room']
@@ -68,7 +68,7 @@ def setup_complete(args=None):
                         hidden_list.append(i)
                 except Exception:
                         pass
-        
+
         set_hidden_list(hidden_list)
 
         make_web_page(args)
@@ -156,7 +156,7 @@ def set_mode_of_payment_account(args):
                         'default_account': default_bank_account
                 })
                 mode_of_payment.save(ignore_permissions=True)
-        
+
 def create_price_lists(args):
 	for pl_type, pl_name in (("Selling", _("Standard Selling")), ("Buying", _("Standard Buying"))):
 		frappe.get_doc({
@@ -401,7 +401,7 @@ def create_midwife_tax_template(args):
                         "included_in_print_rate": 1
 		}]
 	}).insert(ignore_permissions=True)
-        
+
 def create_items(args):
 	for i in xrange(1,6):
 		item = args.get("item_" + str(i))
@@ -497,8 +497,8 @@ def correct_midwife_accounts(args):
         if frappe.db.exists('Account', depreciation_expense_account):
                 frappe.db.set_value('Company', args.get('company_name'), 'depreciation_expense_account', depreciation_expense_account)
 
-        
-        
+
+
 def create_customers(args):
 	for i in xrange(1,6):
 		customer = args.get("customer_" + str(i))
@@ -552,12 +552,12 @@ def create_contact(contact, party_type, party):
 def create_professional_contact_card(args):
 
 	prof_card = frappe.get_doc({
-		"doctype":"Professional Information Card",
+				"doctype":"Professional Information Card",
                 "user": args.get("email"),
-		"full_name": args.get("full_name"),
-		"siret_number": args.get("company_siret"),
+				"company": args.get("company_name"),
+				"full_name": args.get("full_name"),
+				"siret_number": args.get("company_siret"),
                 "rpps_number": args.get("rpps_number"),
-                "siret_number": args.get("company_siret"),
                 "phone": args.get("company_phone"),
                 "email": args.get("company_email")
 	})
@@ -740,7 +740,7 @@ def web_portal_settings():
                         pass
                 else:
                         frappe.db.set_value("Portal Menu Item", item.name, "enabled", 0)
-                        
+
         appointment = frappe.get_all("Portal Menu Item",filters={'route': '/appointment'})
 
         if appointment == []:
@@ -758,7 +758,7 @@ def web_portal_settings():
                 a.insert()
 
         frappe.db.commit()
-        
+
 def make_web_page(args):
         # home page
         homepage = frappe.get_doc('Homepage', 'Homepage')
