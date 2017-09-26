@@ -1007,3 +1007,6 @@ apps/maia/maia/pages/past_pregnancies_result.html,Pregnancies,Grossesses
 apps/maia/maia/pages/past_pregnancies_result.html,Delivery :,Accouchement :
 apps/maia/maia/pages/pregnancies.js,Back to Patient Record,Retour au Dossier Patiente
 apps/maia/maia/pages/current_pregnancies_result.html,Pregnancy in Progress,Grossesse en Cours
+Doctype: Professional Information Card,Default Company, Société par Défaut
+Doctype: Professional Information Card,Availability Schedule, Calendrier de Disponibilités
+Doctype: Professional Information Card,Online Booking Portal,Portail de Réservations en Ligne

@@ -14,7 +14,7 @@ from maia.maia.scheduler import get_availability_from_schedule
 def get_context(context):
             context.no_cache = 1
             context.appointment_type = frappe.get_all("Midwife Appointment Type", filters={"allow_online_booking": 1}, fields=['name'])
-            context.practitioner = frappe.get_list("Professional Information Card", fields=['name'])
+            context.practitioner = frappe.get_list("Professional Information Card", filters={"allow_online_booking": 1}, fields=['name'])
 
 
 def daterange(start_date, end_date):
