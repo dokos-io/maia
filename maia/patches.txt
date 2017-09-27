@@ -9,3 +9,4 @@ maia.patches.v1_3.create_homepage
 maia.patches.v1_3.disable_signup
 maia.patches.v1_4.breastfeeding_correction
 maia.patches.v1_4.default_company_practitioner
+maia.patches.v1_4.disable_portal_items

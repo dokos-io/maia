@@ -131,7 +131,6 @@ def update_status(appointmentId, status):
 @frappe.whitelist()
 def get_events(start, end, filters=None):
     from frappe.desk.calendar import get_event_conditions
-    frappe.logger().debug(filters)
     add_filters = get_event_conditions("Midwife Appointment", filters)
 
     events = frappe.db.sql("""select name, subject, patient_record, appointment_type, color, start_dt, end_dt, duration, repeat_this_event, repeat_on,repeat_till,
