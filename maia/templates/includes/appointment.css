@@ -159,3 +159,7 @@
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
 }
+
+.title {
+  padding-bottom: 5px;
+}

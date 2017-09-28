@@ -14,7 +14,7 @@
 <div class="row" id="calendar-selection">
 {% if practitioner|length > 1 %}
 <div class="col-sm-6 col-xs-12 h6 text-uppercase">
-  <div class="text-muted">{{ _("Midwife") }}</div>
+  <div class="text-muted title">{{ _("Midwife") }}</div>
    <div class="list-filter-item">
      <select id="practitioner" class="form-control select-doctype">
        {% for p in practitioner %}
@@ -25,13 +25,13 @@
 </div>
 {% else %}
 <div class="col-sm-6 col-xs-12 h6 text-uppercase">
-  <div class="text-muted">{{ _("Midwife") }}</div>
+  <div class="text-muted title">{{ _("Midwife") }}</div>
   <div class="single-practitioner" id="practitioner">{{ practitioner[0].name }}</div>
 </div>
 {% endif %}
 
   <div class="col-sm-6 col-xs-12 h6 text-uppercase">
-    <div class="text-muted">{{ _("Appointment Type") }}</div>
+    <div class="text-muted title">{{ _("Appointment Type") }}</div>
     <div class="list-filter-item">
       <select id="appointment_type" class="form-control select-doctype">
 	{% for type in appointment_type %}
