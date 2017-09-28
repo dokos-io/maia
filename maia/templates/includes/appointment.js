@@ -4,66 +4,9 @@
 frappe.provide('maia.appointment');
 var appointment = maia.appointment;
 
-var load_description = function() {
-	var appointment_type = $('#appointment_type option:selected').text();
-
-	frappe.call({
-		method: "frappe.client.get",
-		type: "GET",
-		args: {
-			"doctype": "Midwife Appointment Type",
-			"name": appointment_type,
-		},
-		callback: function(r) {
-			description = r.message.description;
-			$("#description").html(description);
-		}
-	})
-
-
-}
-
-var source = function(start, end, timezone, callback) {
-
-	var appointment_type = $('#appointment_type option:selected').text();
-
-	if (!$('#practitioner').is("select")) {
-		var practitioner_name = $('#practitioner').text();
-	} else {
-		var practitioner_name = $('#practitioner option:selected').text();
-	}
-	return frappe.call({
-		method: "maia.templates.pages.appointment.check_availabilities",
-		type: "GET",
-		args: {
-			"practitioner": practitioner_name,
-			"start": moment(start).format("YYYY-MM-DD"),
-			"end": moment(end).format("YYYY-MM-DD"),
-			"appointment_type": appointment_type
-		},
-		callback: function(r) {
-
-			var events = r.message;
-			events.forEach(function(item) {
-				prepare_events(item);
-				callback(item);
-			});
-		}
-	})
-};
-
-
-function loadEvents(source) {
+frappe.ready(function() {
 	load_description()
-	$('#calendar').fullCalendar('removeEvents');
-	$('#calendar').fullCalendar('refetchEvents');
-}
 
-$('#appointment_type').on('change', loadEvents);
-$('#practitioner').on('change', loadEvents);
-
-$(document).ready(function() {
-	load_description()
 	$('#calendar').fullCalendar({
 		weekends: false,
 		header: {
@@ -161,7 +104,58 @@ $(document).ready(function() {
 		transitionOutOverlay: 'fadeOut',
 	});
 
+	$('#appointment_type').on('change', loadEvents);
+	$('#practitioner').on('change', get_appointment_types);
+
 });
+
+var load_description = function() {
+	var appointment_type = $('#appointment_type option:selected').text();
+
+	frappe.call({
+		method: "frappe.client.get",
+		type: "GET",
+		args: {
+			"doctype": "Midwife Appointment Type",
+			"name": appointment_type,
+		},
+		callback: function(r) {
+			description = r.message.description;
+			$("#description").html(description);
+		}
+	})
+
+
+}
+
+var source = function(start, end, timezone, callback) {
+
+	var appointment_type = $('#appointment_type option:selected').text();
+
+	if (!$('#practitioner').is("select")) {
+		var practitioner_name = $('#practitioner').text();
+	} else {
+		var practitioner_name = $('#practitioner option:selected').text();
+	}
+	return frappe.call({
+		method: "maia.templates.pages.appointment.check_availabilities",
+		type: "GET",
+		args: {
+			"practitioner": practitioner_name,
+			"start": moment(start).format("YYYY-MM-DD"),
+			"end": moment(end).format("YYYY-MM-DD"),
+			"appointment_type": appointment_type
+		},
+		callback: function(r) {
+
+			var events = r.message;
+			events.forEach(function(item) {
+				prepare_events(item);
+				callback(item);
+			});
+		}
+	})
+};
 
 
 var prepare_events = function(events) {
@@ -187,6 +181,35 @@ var prepare_events = function(events) {
 
 		return d;
 	});
+}
+
+var get_appointment_types = function() {
+	if (!$('#practitioner').is("select")) {
+		var practitioner_name = $('#practitioner').text();
+	} else {
+		var practitioner_name = $('#practitioner option:selected').text();
+	}
+
+	return frappe.call({
+		method: "frappe.client.get_list",
+		type: "GET",
+		args: {
+			"doctype": "Midwife Appointment Type",
+			fields: ["name", "practitioner"]
+		},
+		callback: function(r) {
+
+			var types = r.message.sort(compare);
+			var message;
+			types.forEach(function(item) {
+				if (item.practitioner == practitioner_name || item.practitioner == null) {
+					message += "<option>" + item.name + "</option>"
+				}
+			});
+			$('#appointment_type').html(message);
+		}
+	});
+	loadEvents();
 }
 
 var showBookingPage = function(eventData) {
@@ -230,3 +253,24 @@ var submitBookingForm = function(eventData) {
 		}
 	})
 };
+
+
+function loadEvents(source) {
+	load_description()
+	$('#calendar').fullCalendar('removeEvents');
+	$('#calendar').fullCalendar('refetchEvents');
+}
+
+function compare(a, b) {
+	// Use toUpperCase() to ignore character casing
+	const nameA = a.name.toUpperCase();
+	const nameB = b.name.toUpperCase();
+
+	let comparison = 0;
+	if (nameA > nameB) {
+		comparison = 1;
+	} else if (nameA < nameB) {
+		comparison = -1;
+	}
+	return comparison;
+}
