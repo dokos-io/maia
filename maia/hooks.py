@@ -56,7 +56,7 @@ website_route_rules = [
 standard_portal_menu_items = [
 	{"title": _("Prendre Rendez-Vous"), "route": "/appointment", "reference_doctype": "Midwife Appointment", "role": "Customer"},
 	{"title": _("Mes Rendez-Vous"), "route": "/my-appointments", "reference_doctype": "Midwife Appointment", "role": "Customer"},
-}
+]
 
 # Includes in <head>
 # ------------------
