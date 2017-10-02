@@ -1,0 +1,129 @@
+{% extends "templates/web.html" %} {% block title %}{{ _("Appointment with") }} {{ doc.practitioner }}{% endblock %}
+{% block script %}
+<script>
+frappe.provide("maia.appointment");
+var appointment = maia.appointment;
+
+					frappe.ready(function() {
+
+						$("#cancel-appointment").click(function() {
+							appointment.cancel_appointment();
+						})
+
+						$("#confirm-cancellation").click(function() {
+							appointment.confirm_cancellation();
+						}),
+
+
+$.extend(appointment, {
+	cancel_appointment: function() {
+		return frappe.call({
+			method: 'maia.templates.pages.appointment_details.confirm_cancellation',
+			callback: function(r) {
+				if (r.message) {
+					$('#cancel-appointment').addClass("hidden");
+					$('#confirm-cancellation').removeClass("hidden");
+				}
+			}
+		});
+	},
+
+	confirm_cancellation: function() {
+		return frappe.call({
+			method: 'maia.templates.pages.appointment_details.cancel_appointment',
+			args: {
+				"doc": {{ '\"' + doc.name + '\"' }}
+			},
+			callback: function(r) {
+				if (r.message) {
+					console.log(r.message)
+					$('#appointment-cancellation').html(r.message.confirmation);
+					$('#appointment-status').html(r.message.status);
+				}
+			}
+		});
+	}
+
+});
+
+					});
+</script>
+{% endblock %}
+
+{% block header %}
+<h1>{{ doc.appointment_type }}</h1>
+{% endblock %}
+{% block page_content %}
+<div class="row transaction-subheading">
+	<div class="col-xs-6" id="appointment-status">
+		{% include "maia/templates/includes/appointments/appointment_status.html" %}
+	</div>
+	<div class="col-xs-6 text-muted text-right small">
+		{{ frappe.format_date(doc.date) }} - {{ frappe.utils.get_time(doc.start_time).strftime("%H:%M") }}
+	</div>
+</div>
+<br>
+<div class="row">
+	<div class="col-xs-6">
+		<div class="clearfix">
+			<div>
+				<h4>{{ _("Practitioner") }}</h4>
+			</div>
+			<div>
+				<p>{{ doc.practitioner }}</p>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div>
+				<h4>{{ _("Appointment Type") }}</h4>
+			</div>
+			<div>
+				<p>{{ doc.appointment_type }}</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-6">
+		<div class="clearfix">
+			<div>
+				<h4>{{ _("Date") }}</h4>
+			</div>
+			<div>
+				<p>{{ frappe.format_date(doc.date) }}</p>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div>
+				<h4>{{ _("Appointment Time") }}</h4>
+			</div>
+			<div>
+				<p>{{ frappe.utils.get_time(doc.start_time).strftime("%H:%M") }}</p>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div>
+				<h4>{{ _("Duration") }}</h4>
+			</div>
+			<div>
+				<p>{{ doc.duration }} {{ _("Minutes")}}</p>
+			</div>
+		</div>
+	</div>
+</div>
+{% if doc.docstatus==1 and frappe.format_date(doc.date) > frappe.format_date(frappe.utils.add_days(frappe.utils.nowdate(), 2)) %}
+<div class="row">
+	<div class="col-xs-12">
+		<div>
+			<div class="page-header-actions-block" data-html-block="header-actions" id="appointment-cancellation">
+				<p id="cancel-appointment">
+					<a class="btn btn-secondary btn-default btn-sm" style="float: right; position: relative; top: 10px;" id="cancel-appointment">{{ _("Cancel Appointment") }}</a>
+				</p>
+				<p id="confirm-cancellation" class="hidden">
+				  <a class="btn btn-primary btn-default btn-sm" style="float: right; position: relative; top: 10px;" id="confirm-cancellation">{{ _("Confirm Cancellation ?") }}</a>
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
+
+{% endblock %}

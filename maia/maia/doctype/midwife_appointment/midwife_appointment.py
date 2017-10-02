@@ -65,9 +65,11 @@ class MidwifeAppointment(Document):
             message = reply["message"]
         else:
             if self.patient_record:
-                patient_first_name = frappe.db.get_value("Patient Record", self.patient_record, "patient_first_name")
+                patient_first_name = frappe.db.get_value(
+                    "Patient Record", self.patient_record, "patient_first_name")
             else:
-                patient_first_name = frappe.db.get_value("User", self.email, "first_name")
+                patient_first_name = frappe.db.get_value(
+                    "User", self.email, "first_name")
             appointment_date = formatdate(getdate(self.date), "dd/MM/yyyy")
             start_time = get_datetime(self.start_dt).strftime("%H:%M")
 
@@ -122,6 +124,25 @@ class MidwifeAppointment(Document):
 
         self.reload()
 
+
+def get_appointment_list(doctype, txt, filters, limit_start, limit_page_length=20, order_by='modified desc'):
+    patient = get_patient_record()
+    appointments = frappe.db.sql("""select * from `tabMidwife Appointment`
+        where patient_record = %s order by start_dt desc""", patient, as_dict=True)
+    return appointments
+
+def get_patient_record():
+    return frappe.get_value("Patient Record",{"website_user": frappe.session.user}, "name")
+
+def get_list_context(context=None):
+    return {
+        "show_sidebar": True,
+        "show_search": True,
+        'no_breadcrumbs': True,
+        "title": _("My Appointments"),
+        "get_list": get_appointment_list,
+        "row_template": "templates/includes/appointments/appointment_row.html"
+    }
 
 @frappe.whitelist()
 def update_status(appointmentId, status):

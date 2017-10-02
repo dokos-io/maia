@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from . import __version__ as app_version
+from frappe import _
 
 app_name = "maia"
 app_title = "Maia"
@@ -42,6 +43,20 @@ default_mail_footer = """<div style="text-align: center;">
 	</a>
 </div>"""
 
+website_route_rules = [
+    {"from_route": "/my-appointments", "to_route": "Midwife Appointment"},
+    {"from_route": "/my-appointments/<path:name>", "to_route": "appointment_details",
+        "defaults": {
+            "doctype": "Midwife Appointment",
+            "parents": [{"label": "Mes Rendez-Vous", "route": "my-appointments"}]
+            }
+        }
+]
+
+standard_portal_menu_items = [
+	{"title": _("Prendre Rendez-Vous"), "route": "/appointment", "reference_doctype": "Midwife Appointment", "role": "Customer"},
+	{"title": _("Mes Rendez-Vous"), "route": "/my-appointments", "reference_doctype": "Midwife Appointment", "role": "Customer"},
+}
 
 # Includes in <head>
 # ------------------
@@ -142,4 +157,3 @@ scheduler_events = {
 # override_whitelisted_methods = {
 # 	"frappe.desk.doctype.event.event.get_events": "maia.event.get_events"
 # }
-

@@ -1157,7 +1157,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-08-25 12:35:36.725295", 
+ "modified": "2017-09-30 18:32:44.011908", 
  "modified_by": "Administrator", 
  "module": "Maia", 
  "name": "Midwife Appointment", 
@@ -1187,7 +1187,7 @@
   {
    "amend": 0, 
    "apply_user_permissions": 0, 
-   "cancel": 0, 
+   "cancel": 1, 
    "create": 1, 
    "delete": 0, 
    "email": 0, 

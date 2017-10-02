@@ -48,6 +48,11 @@
 </div>
 {% endblock %}
 
+{% block header_actions %}
+<a href="/me" class="text-muted">Revenir à mon Compte</a>
+{% endblock %}
+
+
 {% block script %}
 <script>{% include "templates/includes/appointment.js" %}</script>
 <script type="text/javascript" src="/assets/frappe/js/lib/fullcalendar/fullcalendar.min.js"></script>
