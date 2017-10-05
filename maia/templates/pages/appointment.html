@@ -23,7 +23,7 @@
       </select>
       </div>
 </div>
-{% else %}
+{% elif practitioner|length == 1 %}
 <div class="col-sm-6 col-xs-12 h6 text-uppercase">
   <div class="text-muted title">{{ _("Midwife") }}</div>
   <div class="single-practitioner" id="practitioner">{{ practitioner[0].name }}</div>
