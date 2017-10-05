@@ -1,0 +1,23 @@
+{
+ "align_labels_right": 0, 
+ "creation": "2017-10-06 00:04:47.325689", 
+ "css": ".col-xs-4, .col-xs-6, .col-xs-8, .col-xs-12 {\n  padding-top: 15px;\n}\n\ntable, tr, td, th, tbody, thead, tfoot, .col-xs-4, .col-xs-6, .col-xs-8, .col-xs-12 {\n    page-break-inside: avoid !important;\n}\n", 
+ "custom_format": 1, 
+ "disabled": 0, 
+ "doc_type": "Free Consultation", 
+ "docstatus": 0, 
+ "doctype": "Print Format", 
+ "font": "Default", 
+ "html": "{% include \"templates/includes/folder_header.html\" %}\n\n<div>\n\t<div id=\"footer-html\" class=\"visible-pdf\">\n\t\t{% if not no_letterhead and footer %}\n\t\t<div class=\"letter-head-footer\">\n\t\t\t{{ footer }}\n\t\t</div>\n\t\t{% endif %}\n\t\t<p class=\"text-center small page-number visible-pdf\">\n\t\t\t{{ _(\"Page {0} of {1}\").format('<span class=\"page\"></span>', '<span class=\"topage\"></span>') }}\n\t\t</p>\n\t</div>\n\t{% if doc.comments %}\n\t<div class=\"row data-field\">\n\t<div class=\"col-xs-12\">\n\t\t<label>{{ _(\"Comments\") }}</label>\n\t\t{{ doc.comments }}</div>\n\t</div>\n\t<br>\n\t{% endif %}\n\n\n</div>\n", 
+ "idx": 0, 
+ "line_breaks": 0, 
+ "modified": "2017-10-06 00:20:21.075707", 
+ "modified_by": "Administrator", 
+ "module": "Maia", 
+ "name": "Free Consultation", 
+ "owner": "Administrator", 
+ "print_format_builder": 0, 
+ "print_format_type": "Server", 
+ "show_section_headings": 0, 
+ "standard": "Yes"
+}

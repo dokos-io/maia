@@ -1007,3 +1007,15 @@ apps/maia/maia/pages/past_pregnancies_result.html,Pregnancies,Grossesses
 apps/maia/maia/pages/past_pregnancies_result.html,Delivery :,Accouchement :
 apps/maia/maia/pages/pregnancies.js,Back to Patient Record,Retour au Dossier Patiente
 apps/maia/maia/pages/current_pregnancies_result.html,Pregnancy in Progress,Grossesse en Cours
+Doctype: Professional Information Card,Default Company, Société par Défaut
+Doctype: Professional Information Card,Availability Schedule, Calendrier de Disponibilités
+Doctype: Professional Information Card,Online Booking Portal,Portail de Réservations en Ligne
+Doctype: Midwife Appointment Type,Restrict to Practitioner,Limiter au Professionnel
+apps/maia/maia/templates/appointment_details.html,Appointment Time,Heure
+apps/maia/maia/templates/appointment_details.html,Cancel Appointment,Annuler le Rendez-Vous
+apps/maia/maia/templates/appointment_details.html,Confirm Cancellation ?,Confirmer l'Annulation ?
+apps/maia/maia/templates/includes/cancellation_confirmation.html,Your appointment has been successfully cancelled,Votre Rendez-Vous a été annulé.
+apps/maia/maia/templates/includes/appointment_status.html,Planned,Prévu
+apps/maia/maia/templates/includes/appointment_status.html,Past,Passé
+apps/maia/maia/templates/appointment_details.html,My Appointments,Mes Rendez-Vous
+apps/maia/maia/templates/appointment_details.html,Appointment with,Rendez-Vous avec

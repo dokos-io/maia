@@ -15,14 +15,14 @@ def create_and_submit_invoice(self):
                 if frappe.db.get_value("Customer", {"customer_name": "CPAM"}) is None:
                                 create_social_security_customer(self)
 
-                if self.third_party_payment == 1 and (self.without_codification == 0 or self.without_codification is None) :                        
+                if self.third_party_payment == 1 and (self.without_codification == 0 or self.without_codification is None) :
                                 customer = frappe.db.get_value("Customer", {"customer_name": "CPAM"})
                                 update_invoice_details(self, customer, "third_party_only")
-                        
+
                 elif self.third_party_payment == 1 and (self.without_codification != 0 or self.without_codification is not None) :
                                 customer = frappe.db.get_value("Customer", {"customer_name": "CPAM"})
                                 update_invoice_details(self, customer, "third_party_and_patient")
-                                
+
                                 customer = self.customer
                                 update_invoice_details(self, customer, "third_party_and_patient")
 
@@ -39,7 +39,7 @@ def create_social_security_customer(doc):
                                 "territory": _("All Territories")
                 }).insert(ignore_permissions=True)
 
-        
+
 def get_customer_name(self):
         customer_name = frappe.db.get_value("Customer", {"patient_record": self.patient_record})
         frappe.db.set_value(self.doctype, self.name, "customer", customer_name)
@@ -49,20 +49,22 @@ def get_customer_name(self):
 
 def update_invoice_details(self, customer, case):
                 invoice = frappe.new_doc('Sales Invoice')
-               
+                company = frappe.get_value("Professional Information Card", self.practitioner, "company")
+
                 if customer == "CPAM":
                                 selling_price_list = "CPAM"
                 else:
-                                selling_price_list = "Sage Femme"        
+                                selling_price_list = "Sage Femme"
 
                 if self.no_teletransmission == 1:
                                 teletransmission = 0
                 else:
                                 teletransmission = 1
 
-                                
+
                 invoice.update({
                                 "customer": customer,
+                                "company": company,
                                 "set_posting_time": 1,
                                 "posting_date": self.consultation_date,
                                 "due_date": self.consultation_date,
@@ -80,15 +82,15 @@ def update_invoice_details(self, customer, case):
 
                                 data = [self.codification, self.lump_sum_travel_allowance_codification, self.sundays_holidays_allowance_codification, self.night_work_allowance_codification]
                                 for d in data:
-                                                if d != "" and d != 0 and d is not None and d != "HN": 
+                                                if d != "" and d != 0 and d is not None and d != "HN":
                                                                 invoice.append("items", {
                                                                                 "item_code": d,
                                                                                 "qty": 1,
                                                                 })
-                                
+
                 if case == "third_party_and_patient" and customer != "CPAM":
                                 pass
-                else:                                
+                else:
                                 if self.mileage_allowance_codification != "" and self.mileage_allowance_codification != 0 and self.mileage_allowance_codification is not None:
                                                 invoice.append("items", {
                                                                 "item_code": self.mileage_allowance_codification,
@@ -110,7 +112,7 @@ def update_invoice_details(self, customer, case):
                                                 })
 
                 invoice.set_missing_values()
-                
+
                 invoice.insert()
 
                 invoice.submit()
@@ -121,7 +123,7 @@ def update_invoice_details(self, customer, case):
 
                 else:
                                 frappe.db.set_value(self.doctype, self.name, "invoice", invoice.name)
-                                
+
                 self.reload()
 
 
@@ -129,7 +131,7 @@ def update_invoice_details(self, customer, case):
                                 pass
                 else:
                                 if self.paid_immediately == 1:
-                                                
+
                                                 payment_request = make_payment_request(dt="Sales Invoice", dn=invoice.name, submit_doc=True, mute_email=True)
 
                                                 payment_entry = frappe.get_doc(make_payment_entry(payment_request.name))

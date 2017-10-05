@@ -47,7 +47,7 @@ def get_availability_from_schedule(doctype, df, dn, schedules, date):
     for line in schedules:
         duration = get_time(line["duration"])
         events = get_events(line["start"].strftime(
-            "%Y-%m-%d %H:%M:%S"), line["end"].strftime("%Y-%m-%d %H:%M:%S"))
+            "%Y-%m-%d %H:%M:%S"), line["end"].strftime("%Y-%m-%d %H:%M:%S"), filters=[["Midwife Appointment","practitioner","=",dn]])
 
         event_list = []
         for event in events:

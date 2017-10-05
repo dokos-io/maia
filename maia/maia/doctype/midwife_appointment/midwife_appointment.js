@@ -22,6 +22,14 @@ frappe.ui.form.on('Midwife Appointment', {
 
     frm.set_df_property('appointment_type', 'reqd', 1);
     frm.set_df_property('patient_record', 'reqd', 1);
+    frm.set_query("appointment_type", function() {
+      var practitioners = [frm.doc.practitioner, ""]
+        return {
+            "filters": {
+                "practitioner": ["in", practitioners],
+            }
+        };
+    });
   },
   onload_post_render: function(frm) {
     frappe.model.set_value(frm.doctype, frm.docname, 'date', moment(frm.doc.start_dt).format(moment.defaultDateFormat));
@@ -37,6 +45,9 @@ frappe.ui.form.on('Midwife Appointment', {
         check_availability_by_midwife(frm);
       });
     }
+  },
+  practitioner: function(frm) {
+
   },
   appointment_type: function(frm) {
     duration_and_color(frm);
