@@ -12,3 +12,4 @@ maia.patches.v1_4.default_company_practitioner
 maia.patches.v1_4.disable_portal_items
 maia.patches.v1_4.appointment_list
 maia.patches.v1_5.default_print_formats
+maia.patches.v1_5.new_default_accounts

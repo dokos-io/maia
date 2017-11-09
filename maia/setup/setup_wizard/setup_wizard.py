@@ -242,8 +242,8 @@ def set_defaults(args):
     hr_settings.emp_created_by = "Naming Series"
     hr_settings.save()
 
-    #domain_settings = frappe.get_doc("Domain Settings")
-    #domain_settings.append('active_domains', dict(domain=_(args.get('domain'))))
+    # domain_settings = frappe.get_doc("Domain Settings")
+    # domain_settings.append('active_domains', dict(domain=_(args.get('domain'))))
     # domain_settings.save()
 
 
@@ -517,6 +517,9 @@ def correct_midwife_accounts(args):
         'company_abbr')
     depreciation_expense_account = "68112-Immobilisations corporelles - " + \
         args.get('company_abbr')
+    fee_account = "709-Honoraires rétrocédés - " + args.get('company_abbr')
+    personal_debit_account = "108900-Compte de l'exploitant - " + \
+        args.get('company_abbr')
 
     if frappe.db.exists('Account', hn_account):
         frappe.db.set_value('Item', "HN", 'income_account', hn_account)
@@ -550,6 +553,14 @@ def correct_midwife_accounts(args):
     if frappe.db.exists('Account', depreciation_expense_account):
         frappe.db.set_value('Company', args.get(
             'company_name'), 'depreciation_expense_account', depreciation_expense_account)
+
+    if frappe.db.exists('Account', fee_account):
+        frappe.db.set_value('Company', args.get(
+            'company_name'), 'fee_account', fee_account)
+
+    if frappe.db.exists('Account', personal_debit_account):
+        frappe.db.set_value('Company', args.get(
+            'company_name'), 'personal_debit_account', personal_debit_account)
 
 
 def create_customers(args):
