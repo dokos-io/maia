@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 import frappe
 
@@ -15,5 +16,7 @@ def execute():
                                 'fee_account', fee_account)
 
         if frappe.db.exists('Account', personal_debit_account):
+            frappe.db.set_value('Company', company.name,
+                                'personal_debit_account', personal_debit_account)
 
     frappe.db.commit()

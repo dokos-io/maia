@@ -765,10 +765,10 @@ def make_web_page(args):
     homepage.description = "Connectez-vous pour prendre rendez-vous"
     homepage.save()
 
-        website_settings = frappe.get_doc(
-            'Website Settings', 'Website Settings')
-        website_settings.home_page = 'home'
-        website_settings.save()
+    website_settings = frappe.get_doc(
+        'Website Settings', 'Website Settings')
+    website_settings.home_page = 'home'
+    website_settings.save()
 
 
 def disable_signup():
