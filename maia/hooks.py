@@ -13,7 +13,8 @@ app_email = "hello@dokos.io"
 app_license = "GNU-GPLv3.0"
 
 
-fixtures = ["Custom Field", {"doctype": "Role", "filters": {"name": "Midwife"}}, {"doctype": "Print Format", "filters": {"name": "Facture Maia"}}]
+fixtures = ["Custom Field", {"doctype": "Role", "filters": {"name": "Midwife"}}, {
+    "doctype": "Print Format", "filters": {"name": "Facture Maia"}}]
 
 error_report_email = "hello@dokos.io"
 
@@ -22,7 +23,7 @@ app_include_js = "assets/js/maia.min.js"
 website_context = {
     "favicon": "/assets/maia/favicon.png",
     "splash_image": "/assets/maia/images/maia_squirrel.svg"
-    }
+}
 
 # setup wizard
 setup_wizard_requires = "assets/maia/js/setup_wizard.js"
@@ -33,7 +34,7 @@ get_help_messages = "maia.utilities.activation.get_help_messages"
 # welcome message title
 login_mail_title = "Nous sommes heureux de vous compter parmi nous !"
 
-#calendar
+# calendar
 calendars = ["Midwife Appointment"]
 
 # default footer
@@ -49,13 +50,15 @@ website_route_rules = [
         "defaults": {
             "doctype": "Midwife Appointment",
             "parents": [{"label": "Mes Rendez-Vous", "route": "my-appointments"}]
-            }
         }
+     }
 ]
 
 standard_portal_menu_items = [
-	{"title": _("Prendre Rendez-Vous"), "route": "/appointment", "reference_doctype": "Midwife Appointment", "role": "Customer"},
-	{"title": _("Mes Rendez-Vous"), "route": "/my-appointments", "reference_doctype": "Midwife Appointment", "role": "Customer"},
+    {"title": _("Prendre Rendez-Vous"), "route": "/appointment",
+     "reference_doctype": "Midwife Appointment", "role": "Customer"},
+    {"title": _("Mes Rendez-Vous"), "route": "/my-appointments",
+     "reference_doctype": "Midwife Appointment", "role": "Customer"},
 ]
 
 # Includes in <head>
@@ -73,7 +76,6 @@ standard_portal_menu_items = [
 # ----------
 
 # application home page (will override Website Settings)
-home_page = "home"
 
 # website user home page (by Role)
 # role_home_page = {
@@ -129,22 +131,22 @@ home_page = "home"
 # ---------------
 
 scheduler_events = {
-# 	"all": [
-# 		"maia.tasks.all"
-# 	],
-# 	"daily": [
-# 		"maia.tasks.daily"
-# 	],
+    # 	"all": [
+    # 		"maia.tasks.all"
+    # 	],
+    # 	"daily": [
+    # 		"maia.tasks.daily"
+    # 	],
     "hourly": [
- 	"maia.maia.doctype.midwife_appointment.midwife_appointment.flush"
+        "maia.maia.doctype.midwife_appointment.midwife_appointment.flush"
     ]
-# 	"weekly": [
-# 		"maia.tasks.weekly"
-# 	]
-# 	"monthly": [
-# 		"maia.tasks.monthly"
-# 	]
- }
+    # 	"weekly": [
+    # 		"maia.tasks.weekly"
+    # 	]
+    # 	"monthly": [
+    # 		"maia.tasks.monthly"
+    # 	]
+}
 
 # Testing
 # -------

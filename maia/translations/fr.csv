@@ -979,6 +979,7 @@ DocType: Midwife Appointment,Patient Appointment,Rendez-Vous Patient
 DocType: Midwife Appointment Type,Send SMS Reminder,Envoyer un Rappel par SMS
 DocType: Midwife Appointment Type,This option will be applied by default but you can override it in each appointment,"Cette option est appliquée par défaut mais vous pouvez la modifier pour chaque rendez-vous. Attention pour les réservations en ligne, l'envoi d'un SMS sera automatique si la patiente a un numéro de mobile valide"
 Doctype: Midwife Appointment,The mobile n° format is incorrect,Le format du N° Mobile est incorrect
+Doctype: Midwife Appointment,Please enter a valid mobile number,Veuillez entrer un numéro de téléphone mobile valide
 Doctype: SMS Reminder,SMS Reminder,Rappel SMS
 Doctype: SMS Reminder,Send On,Envoyer Le
 Doctype: Sales Invoice,Receipt,Quittance
