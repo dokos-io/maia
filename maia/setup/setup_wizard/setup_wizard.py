@@ -75,7 +75,8 @@ def setup_complete(args=None):
 
     set_hidden_list(hidden_list)
 
-        set_default_print_formats()
+    set_default_print_formats()
+    add_terms_and_conditions()
     make_web_page(args)
     web_portal_settings()
     disable_signup()
@@ -782,3 +783,16 @@ def set_default_print_formats():
 
     for print_format in print_formats:
         make_default(print_format)
+
+
+def add_terms_and_conditions():
+    terms = frappe.get_doc({
+        "doctype": "Terms and Conditions",
+        "title": "Termes et Conditions Standard",
+        "terms": "Membre d'une société de gestion agréée, les règlements par chèques sont acceptés."
+    })
+    try:
+        terms.insert(ignore_permissions=True)
+        frappe.db.commit()
+    except:
+        pass
