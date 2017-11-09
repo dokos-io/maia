@@ -287,7 +287,7 @@ def validate_receiver_no(validated_no):
         validated_no = validated_no.replace(y, '00')
 
     if not validated_no:
-        throw(_("Please enter a valid mobile nunber"))
+        frappe.throw(_("Please enter a valid mobile nunber"))
 
     return validated_no
 
