@@ -779,7 +779,7 @@ def disable_signup():
 
 def set_default_print_formats():
     print_formats = ["Patient Folder", "Prenatal Interview Folder", "Perineum Rehabilitation Folder", "Gynecology Folder", "Pregnancy Folder", "Postnatal Consultation",
-                     "Birth Preparation Consultation", "Perineum Rehabilitation Consultation", "Free Consultation", "Early Postnatal Consultation", "Gynecological Consultation", "Pregnancy Consultation"]
+                     "Birth Preparation Consultation", "Perineum Rehabilitation Consultation", "Free Consultation", "Early Postnatal Consultation", "Gynecological Consultation", "Pregnancy Consultation", "Drug Prescription"]
 
     for print_format in print_formats:
         make_default(print_format)
