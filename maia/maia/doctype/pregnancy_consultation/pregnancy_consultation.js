@@ -1,8 +1,7 @@
 // Copyright (c) 2017, DOKOS and contributors
 // For license information, please see license.txt
 
-frappe.provide("maia"); { % include "maia/public/js/controllers/consultations.js" %
-}
+frappe.provide("maia"); {% include "maia/public/js/controllers/consultations.js" %}
 
 frappe.ui.form.on('Pregnancy Consultation', "pregnancy_folder", function(frm) {
   get_term_date(frm);
