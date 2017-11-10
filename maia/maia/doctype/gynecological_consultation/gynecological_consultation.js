@@ -3,8 +3,7 @@
 
 frappe.provide("maia.maia");
 
-{ % include "maia/public/js/controllers/consultations.js" %
-}
+{% include "maia/public/js/controllers/consultations.js" %}
 
 maia.maia.GynecologicalConsultation = frappe.ui.form.Controller.extend({
   onload: function(frm) {
