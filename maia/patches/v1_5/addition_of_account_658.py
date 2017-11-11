@@ -7,8 +7,10 @@ def execute():
 
     for company in companies:
         abbr = frappe.get_value("Company", company.name, "abbr")
+        existing_account = frappe.get_doc(
+            "Account", "65 - Autres Charges de Gestion Courante - " + abbr)
 
-        if not frappe.get_doc("Account", "65 - Autres Charges de Gestion Courante - " + abbr):
+        if not existing_account:
             parent_account = frappe.get_doc({
                 "doctype": "Account",
                 "root_type": "Expense",
