@@ -213,7 +213,9 @@ var get_appointment_types = function() {
 }
 
 var showBookingPage = function(eventData) {
+	var appointment_type = $('#appointment_type option:selected').text();
 	$("#modal").iziModal("open");
+	$('#modal').iziModal('setTitle', 'Confirmer votre rendez-vous "' + appointment_type + '" ?');
 	$('#modal').iziModal('setSubtitle', moment(eventData.start).locale('fr').format('LLLL'));
 
 	$("#modal").off('click', ".submit").on('click', '.submit', function() {

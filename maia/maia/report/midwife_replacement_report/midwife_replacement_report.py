@@ -11,7 +11,7 @@ from frappe.utils import (flt, getdate, get_first_day, get_last_day, date_diff,
                           add_months, add_days, formatdate, cint)
 
 def execute(filters=None):
-        
+
         company_currency = frappe.db.get_value("Company", filters.company, "default_currency")
 
         if filters.practicioner:
@@ -24,10 +24,10 @@ def execute(filters=None):
 
                 else:
                         frappe.throw(_("Please make sure all replacement related fields are completed in this Professional Information Card"))
-                
+
         period_list = get_period_list(filters.from_fiscal_year, filters.to_fiscal_year,
                                       filters.periodicity, False, filters.company)
-        
+
         income = get_account_type_based_data(filters.company, "Income Account", period_list,
                                              accumulated_values=False)
 
@@ -58,7 +58,7 @@ def execute(filters=None):
                 mountain_allowance = (frappe.get_all("Codification", filters={'mileage_allowance_mountain': 1}, fields=["codification"]))
                 walking_allowance = (frappe.get_all("Codification", filters={'mileage_allowance_walking_skiing': 1}, fields=["codification"]))
                 items=[lump_sum_allowance, lowland_allowance, mountain_allowance, walking_allowance]
-                
+
                 item_list = []
                 for i in items:
                         for d in i:
@@ -74,7 +74,7 @@ def execute(filters=None):
                         "account": "Mileage Allowance",
                         "currency": company_currency
                 })
-                
+
         receivable = get_account_type_based_data(filters.company, "Receivable", period_list,
                                                  accumulated_values=False)
 
@@ -96,8 +96,8 @@ def execute(filters=None):
                         "indent": 1.0,
                         "account": "Replacement Account Receivable",
                         "currency": company_currency
-                })      
-        
+                })
+
         third_party_payment = get_outstanding_social_security_data(filters.company, period_list,
                                                                    accumulated_values=False)
 
@@ -120,8 +120,8 @@ def execute(filters=None):
                         "account": "Replacement Third Party Payments",
                         "currency": company_currency
                 })
-        
-        
+
+
         data = []
         data.append(income or {})
         if filters.practicioner:
@@ -131,12 +131,12 @@ def execute(filters=None):
         data.append(receivable or {})
         if filters.practicioner:
                 data.append(replacement_receivable or {})
-        
+
         total_received = add_total_row_account(data, data, _("Total Received"), period_list, company_currency)
         total_received.update({
                 "account": "Total Received"
         })
-        
+
         total_received_replacement = add_total_replacement_row(data, data, _("Total Replacement"), period_list, company_currency)
         total_received_replacement.update({
                 "parent_account": "Total Received",
@@ -145,7 +145,7 @@ def execute(filters=None):
                 "currency": company_currency
         })
 
-        
+
         data.append(third_party_payment or {})
         if filters.practicioner:
                 data.append(replacement_third_party_payment or {})
@@ -155,7 +155,7 @@ def execute(filters=None):
         if filters.practicioner:
                 data.append(total_received_replacement)
                 data.append({})
-                
+
                 practicioner_part = total_practicioner(data, data, practicioner.name, substitute_period_list, company_currency, (practicioner.fee_percentage/100), practicioner.maximum_fee)
                 replacement_fee = total_fee(data, data, substitute_name, substitute_period_list, company_currency, (practicioner.fee_percentage/100), practicioner.maximum_fee)
 
@@ -164,9 +164,9 @@ def execute(filters=None):
 
 
         columns = get_columns(filters.periodicity, period_list, filters.company)
-        
+
         chart = get_chart_data(filters, columns, income, receivable, third_party_payment, total_received)
-        
+
         return columns, data, None, chart
 
 def get_outstanding_social_security_data(company, period_list, accumulated_values):
@@ -177,7 +177,7 @@ def get_outstanding_social_security_data(company, period_list, accumulated_value
                 gl_sum = frappe.db.sql_list("""
                 select sum(credit) - sum(debit)
                 from `tabGL Entry`
-                where company=%s and posting_date >= %s and posting_date <= %s 
+                where company=%s and posting_date >= %s and posting_date <= %s
                 and voucher_type != 'Period Closing Voucher'
                 and party="CPAM"
                 """, (company, start_date if accumulated_values else period['from_date'],
@@ -216,7 +216,7 @@ def add_total_row_account(out, data, label, period_list, currency):
                                 total_row.setdefault(period.key, 0.0)
                                 total_row[period.key] += row.get(period.key, 0.0)
 
-                                
+
                         total_row.setdefault("total", 0.0)
                         total_row["total"] += row["total"]
 
@@ -237,7 +237,7 @@ def add_total_replacement_row(out, data, label, period_list, currency):
                 if row.get("account") == "Mileage Allowance":
                         for period in period_list:
                                 total_row[period.key] -= row.get(period.key, 0.0)
-                        
+
 
         return total_row
 
@@ -274,14 +274,14 @@ def total_practicioner(out, data, label, period_list, currency, fee, maximum):
                         for period in period_list:
                                 total_row.setdefault(period.key, 0.0)
                                 total_row[period.key] += (row.get(period.key, 0.0) * fee)
-                        
+
                                 if total_row[period.key] > maximum:
                                         total_row[period.key] = maximum
 
         return total_row
 
 def get_chart_data(filters, columns, income, receivable, third_party_payments, total_received):
-        x_intervals = ['x'] + [d.get("label") for d in columns[2:]]
+        labels = [d.get("label") for d in columns[2:]]
 
         income_data, receivable_data, third_party_payments_data, total_received_data = [], [], [], []
         for p in columns[2:]:
@@ -294,31 +294,27 @@ def get_chart_data(filters, columns, income, receivable, third_party_payments, t
                 if total_received:
                         total_received_data.append(total_received.get(p.get("fieldname")))
 
-        columns = [x_intervals]
+        datasets = []
         if income_data:
-                columns.append([_("Income")] + income_data)
+                datasets.append({'title': 'Income', 'values': income_data})
         if receivable_data:
-                columns.append([_("Receivables")] + receivable_data)
+                datasets.append({'title': 'Receivables', 'values': receivable_data})
         if third_party_payments_data:
-                columns.append([_("Third Party Payments")] + third_party_payments_data)
+                datasets.append({'title': 'Third Party Payments', 'values': third_party_payments_data})
         if total_received_data:
-                columns.append([_("Total Received")] + total_received_data)
+                datasets.append({'title': 'Total Received', 'values': total_received_data})
 
         chart = {
                 "data": {
-                        'x': 'x',
-                        'columns': columns,
-                        'colors': {
-                                _('Income'): '#5E64FF',
-                                _('Receivables'): '#b8c2cc',
-                                _('Third Party Payments'): '#fff95e',
-                                _('Total Received'): '#ff5858'
+                        'labels': labels,
+                        'datasets': datasets
                         }
                 }
-        }
 
         if not filters.accumulated_values:
-                chart["chart_type"] = "bar"
+            chart["type"] = "bar"
+        else:
+            chart["type"] = "line"
 
         return chart
 
@@ -390,7 +386,7 @@ Periodicity can be (Yearly, Quarterly, Monthly)"""
                 })
 
         return period_list
-        
+
 def get_date_fiscal_year(date, company):
         from erpnext.accounts.utils import get_fiscal_year
         return get_fiscal_year(date, company=company)[0]
@@ -407,7 +403,7 @@ def add_item_row(label, period_list, currency, company, items):
                 for period in period_list:
                         from_date = period.from_date
                         to_date = period.to_date
-                        
+
                         item_row.setdefault(period.key, 0.0)
 
                         mileageall = get_mileage_allowance(company, from_date, to_date, i)
@@ -418,6 +414,6 @@ def add_item_row(label, period_list, currency, company, items):
 
 
 def get_mileage_allowance(company, from_date, to_date, item_code):
-        return frappe.db.sql("""select sum(si_item.base_net_amount) as mileage from `tabSales Invoice` si, `tabSales Invoice Item` si_item 
-        where si.name = si_item.parent and si.docstatus = 1 and company=%s and si.posting_date>=%s and si.posting_date<=%s 
+        return frappe.db.sql("""select sum(si_item.base_net_amount) as mileage from `tabSales Invoice` si, `tabSales Invoice Item` si_item
+        where si.name = si_item.parent and si.docstatus = 1 and company=%s and si.posting_date>=%s and si.posting_date<=%s
         and si_item.item_code=%s""",(company, from_date, to_date, item_code), as_dict=True)

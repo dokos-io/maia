@@ -27,4 +27,6 @@ $(document).bind('toolbar_setup', function() {
 		target="">'+__('Report an Issue')+'</a></li>').insertBefore($help_menu);
 	$('<li><a href="https://www.cnil.fr/fr/modele/mention/affiche-dinformation-pour-un-cabinet-medical-ou-paramedical" \
 		target="_blank">'+__('Affichette CNIL')+'</a></li>').insertBefore($help_menu);
+	$('<li><a href="https://maia-by-dokos.fr/files/MODELE_DE_NOTE_D%E2%80%99INFORMATION_DES_USAGERS_RELATIVE_A_L%E2%80%99HEBERGEMENT_DE_DONNEES_DE_SANTE_A_CARACTERE_PERSONNEL.pdf" \
+		target="_blank">'+__('Information Légale')+'</a></li>').insertBefore($help_menu);
 });

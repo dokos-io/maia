@@ -29,6 +29,14 @@ $.extend(cur_frm.cscript, new maia.PatientRecordController({
 }));
 
 frappe.ui.form.on("Patient Record", {
+  onload: function(frm) {
+    frm.set_query("website_user", function() {
+      return {
+        query: "maia.maia.doctype.patient_record.patient_record.get_users_for_website"
+      }
+    });
+  },
+
   invite_as_user: function(frm) {
     frm.save();
     var d = new frappe.ui.Dialog({
