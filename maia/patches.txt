@@ -14,3 +14,5 @@ maia.patches.v1_4.appointment_list
 maia.patches.v1_5.addition_of_account_658
 maia.patches.v1_5.terms_and_conditions
 maia.patches.v1_5.change_home_page
+maia.patches.v1_5.new_default_accounts
+maia.patches.v1_5.default_print_formats
