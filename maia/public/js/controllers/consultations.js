@@ -6,7 +6,6 @@ frappe.ui.form.on(this.frm.doctype, {
 
   onload: function(frm) {
     get_patient_value(frm);
-    refresh_codification_price(frm);
     refresh_without_codification_price(frm);
 
     frappe.call({
@@ -50,7 +49,7 @@ frappe.ui.form.on(this.frm.doctype, "third_party_payment", function(frm) {
 
 frappe.ui.form.on(this.frm.doctype, "codification", function(frm) {
   refresh_codification_price(frm);
-	refresh_codification_description(frm);
+  /*refresh_codification_description(frm);*/
 });
 
 var refresh_codification_price = function(frm) {
@@ -86,7 +85,7 @@ var refresh_codification_price = function(frm) {
 };
 
 var refresh_codification_description = function(frm) {
-	if (frm.doc.codification) {
+  if (frm.doc.codification) {
     frappe.call({
       "method": "frappe.client.get",
       args: {
@@ -95,8 +94,8 @@ var refresh_codification_description = function(frm) {
       },
       cache: false,
       callback: function(data) {
-				if (data.message) {
-					codification_description = data.message.codification_description;
+        if (data.message) {
+          codification_description = data.message.codification_description;
           frappe.model.set_value(frm.doctype, frm.docname, "codification_description", codification_description)
         }
       }

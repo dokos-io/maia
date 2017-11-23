@@ -1,16 +1,19 @@
 // Copyright (c) 2017, DOKOS and contributors
 // For license information, please see license.txt
 
-frappe.provide("maia"); {% include "maia/public/js/controllers/consultations.js" %}
+frappe.provide("maia");
+{% include "maia/public/js/controllers/consultations.js" %}
 
 frappe.ui.form.on('Pregnancy Consultation', "pregnancy_folder", function(frm) {
-  get_term_date(frm);
+   get_term_date(frm)
 })
 
 maia.PregnancyConsultationController = frappe.ui.form.Controller.extend({
 
   onload: function(frm) {
-    get_term_date(this.frm);
+    if(this.frm.doc.docstatus!=1) {
+      get_term_date(this.frm);
+    }
 
     this.frm.fields_dict['pregnancy_folder'].get_query = function(doc) {
       return {
@@ -30,8 +33,9 @@ maia.PregnancyConsultationController = frappe.ui.form.Controller.extend({
       this.frm.add_custom_button(__('Lab Prescription'), this.print_lab_prescription, __("Print"));
       this.frm.add_custom_button(__('Echography Prescription'), this.print_echo_prescription, __("Print"));
     }
-
-    get_term_date(this.frm);
+    if(this.frm.doc.docstatus!=1) {
+     get_term_date(this.frm)
+   }
   },
 
   print_drug_prescription: function(frm) {

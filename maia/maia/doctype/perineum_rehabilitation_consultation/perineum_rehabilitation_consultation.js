@@ -5,23 +5,25 @@ frappe.provide('maia');
 
 maia.PerineumRehabilitationConsultationController = frappe.ui.form.Controller.extend({
 
-    onload: function(frm) {
-	this.frm.fields_dict['pregnancy_folder'].get_query = function(doc) {
-	    return {
-		filters: {
-		    "patient_record": doc.patient_record
-		}
-	    }
-	},
-	this.frm.fields_dict['perineum_rehabilitation_folder'].get_query = function(doc) {
-	    return {
-		filters: {
-		    "patient_record": doc.patient_record
-		}
-	    }
-	}
+  onload: function(frm) {
+    this.frm.fields_dict['pregnancy_folder'].get_query = function(doc) {
+        return {
+          filters: {
+            "patient_record": doc.patient_record
+          }
+        }
+      },
+      this.frm.fields_dict['perineum_rehabilitation_folder'].get_query = function(doc) {
+        return {
+          filters: {
+            "patient_record": doc.patient_record
+          }
+        }
+      }
 
-    }
+  }
 });
 
-$.extend(this.frm.cscript, new maia.PerineumRehabilitationConsultationController({frm: this.frm}));
+$.extend(this.frm.cscript, new maia.PerineumRehabilitationConsultationController({
+  frm: this.frm
+}));
