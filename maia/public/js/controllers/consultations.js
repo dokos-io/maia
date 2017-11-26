@@ -5,6 +5,7 @@ frappe.provide("maia");
 frappe.ui.form.on(this.frm.doctype, {
 
   onload: function(frm) {
+  if (this.frm.doc.docstatus != 1) {
     get_patient_value(frm);
     refresh_without_codification_price(frm);
 
@@ -38,9 +39,10 @@ frappe.ui.form.on(this.frm.doctype, {
           }
         }
       })
+    }
   }
 
-});
+  });
 
 
 frappe.ui.form.on(this.frm.doctype, "third_party_payment", function(frm) {
