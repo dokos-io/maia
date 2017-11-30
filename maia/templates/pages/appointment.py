@@ -161,14 +161,16 @@ def check_availability(doctype, df, dt, dn, date, duration):
 
 
 def send_patient_confirmation(patient_record, practitioner, appointment_type, start):
+    from frappe.utils import get_url
     patient = frappe.get_doc("Patient Record", patient_record)
     date = formatdate(get_datetime_str(start), "dd/MM/yyyy")
     time = get_datetime(start).strftime("%H:%M")
+    link = get_url("/login")
 
     subject = _(
         """Confirmation de votre rendez-vous avec {0}""".format(practitioner))
-    message = _("""<div>Bonjour {0},<br><br>Votre rendez-vous ""{1}"" est confirmé le {2}, à {3}.<br><br>Si vous avez un empêchement, veuillez me l'indiquer au plus vite par retour de mail.<br><br>Merci beaucoup.<br><br>{4}</div>""".format(
-        patient.patient_first_name, appointment_type, date, time, practitioner))
+    message = _("""<div>Bonjour {0},<br><br>Votre rendez-vous ""{1}"" est confirmé le {2}, à {3}.<br><br>Pour toute annulation jusqu'à 48H avant le rendez-vous, veuillez cliquer <a href="{4}">ici.</a><br><br>En cas d'empêchement dans les dernières 48H, veuillez me contacter.<br><br>Merci beaucoup.<br><br>{5}</div>""".format(
+        patient.patient_first_name, appointment_type, date, time, link, practitioner))
 
     if patient.email_id == None:
         frappe.sendmail(patient.website_user, subject=subject, content=message)
@@ -177,13 +179,15 @@ def send_patient_confirmation(patient_record, practitioner, appointment_type, st
 
 
 def send_user_confirmation(user, practitioner, appointment_type, start):
+    from frappe.utils import get_url
     date = formatdate(get_datetime_str(start), "dd/MM/yyyy")
     time = get_datetime(start).strftime("%H:%M")
+    link = get_url("/login")
 
     subject = _(
         """Confirmation de votre rendez-vous avec {0}""".format(practitioner))
-    message = _("""<div>Bonjour {0},<br><br>Votre rendez-vous ""{1}"" est confirmé le {2}, à {3}.<br><br>Si vous avez un empêchement, veuillez me l'indiquer au plus vite par retour de mail.<br><br>Merci beaucoup.<br><br>{4}</div>""".format(
-        user.first_name, appointment_type, date, time, practitioner))
+    message = _("""<div>Bonjour {0},<br><br>Votre rendez-vous ""{1}"" est confirmé le {2}, à {3}.<br><br>Pour toute annulation jusqu'à 48H avant le rendez-vous, veuillez cliquer <a href="{4}">ici.</a><br><br>En cas d'empêchement dans les dernières 48H, veuillez me contacter.<br><br>Merci beaucoup.<br><br>{5}</div>""".format(
+        user.first_name, appointment_type, date, time, link, practitioner))
 
     frappe.sendmail(user.email, subject=subject, content=message)
 
