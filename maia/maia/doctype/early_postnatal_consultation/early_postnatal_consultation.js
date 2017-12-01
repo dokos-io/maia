@@ -2,7 +2,7 @@
 // For license information, please see license.txt
 
 frappe.provide('maia');
-{ % include "maia/public/js/controllers/consultations.js" %}
+{% include "maia/public/js/controllers/consultations.js" %}
 
 maia.EarlyPostnatalConsultationController = frappe.ui.form.Controller.extend({
   onload: function(frm) {
