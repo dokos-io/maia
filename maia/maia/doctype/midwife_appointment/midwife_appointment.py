@@ -6,7 +6,6 @@ from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
 from maia.maia.scheduler import check_availability
-from dateutil.relativedelta import relativedelta
 from frappe import _
 import datetime
 from frappe.utils import getdate, get_time, get_datetime, get_datetime_str, formatdate, now_datetime, add_days, nowdate, cstr, date_diff, add_months, cint
@@ -38,13 +37,13 @@ class MidwifeAppointment(Document):
             valid_number = validate_receiver_no(number)
 
             frappe.db.set_value(
-                "Patient Record", self.patient_record, "mobile_no", self.mobile_no)
+                "Patient Record", self.patient_record, "mobile_no", valid_number)
 
             self.send_sms_reminder(valid_number)
 
     def send_reminder(self):
         patient_email = self.email
-        sending_date = get_datetime(self.date) + relativedelta(days=-1)
+        sending_date = get_datetime(self.start_dt) + datetime.timedelta(days=-1)
 
         if self.standard_reply:
             args = {
@@ -92,7 +91,7 @@ class MidwifeAppointment(Document):
                             self.name, "queue_id", queue_id)
 
     def send_sms_reminder(self, valid_number):
-        send_after_day = get_datetime(self.start_dt) + relativedelta(days=-1)
+        send_after_day = get_datetime(self.start_dt) + datetime.timedelta(days=-1)
         appointment_date = formatdate(getdate(self.date), "dd/MM/yyyy")
         start_time = get_datetime(self.start_dt).strftime("%H:%M")
 

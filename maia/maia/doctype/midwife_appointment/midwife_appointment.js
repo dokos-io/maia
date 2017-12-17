@@ -95,6 +95,8 @@ frappe.ui.form.on('Midwife Appointment', {
           if (data.message.email_id == null) {
             frappe.model.set_value(frm.doctype, frm.docname, "email", __("Enter an Email Address"));
             frm.set_df_property("email", "read_only", 0);
+          } if (data.message.email_id == __("Enter an Email Address")) {
+            frm.set_df_property("email", "read_only", 0);
           } else if (!data.exe && data.message.email_id) {
             frappe.model.set_value(frm.doctype, frm.docname, "email", data.message.email_id);
             frm.set_df_property("email", "read_only", 1);
