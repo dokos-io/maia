@@ -54,15 +54,20 @@ frappe.ui.form.on("Patient Record", {
     });
     d.show();
     d.fields_dict.ok_button.input.onclick = function() {
+      d.hide();
       return frappe.call({
         method: "maia.maia.doctype.patient_record.patient_record.invite_user",
         args: {
           patient: frm.doc.name
         },
         callback: function(r) {
-          frm.set_value("website_user", r.message);
-          frm.save();
-          d.hide();
+          if (r.message){
+              frm.set_value("website_user", r.message);
+              frm.save();
+          } else {
+            frappe.msgprint(__("Something went wrong during the user creation.<br>Please check with the support team."))
+          }
+
         }
       });
     };

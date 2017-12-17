@@ -5,7 +5,7 @@
 from __future__ import unicode_literals
 import frappe
 from frappe.model.naming import make_autoname
-from frappe import _, throw
+from frappe import _
 from frappe.utils import cstr, cint, has_gravatar, add_years, get_timestamp
 import frappe.defaults
 from frappe.model.document import Document
@@ -147,37 +147,50 @@ def invite_user(patient):
     if not patient_record.email_id:
         frappe.throw(_("Please set Email Address"))
 
-    user = frappe.get_doc({
-        "doctype": "User",
-        "first_name": patient_record.patient_first_name,
-        "last_name": patient_record.patient_last_name,
-        "email": patient_record.email_id,
-        "user_type": "Website User",
-        "send_welcome_email": 1
-    }).insert(ignore_permissions=True)
+    try:
+        user = frappe.get_doc({
+            "doctype": "User",
+            "first_name": patient_record.patient_first_name,
+            "last_name": patient_record.patient_last_name,
+            "email": patient_record.email_id,
+            "user_type": "Website User",
+            "send_welcome_email": 1
+        }).insert(ignore_permissions=True)
 
-    user.append("roles", {
-        "doctype": "Has Role",
-        "role": "Customer"
-    })
+        user.append("roles", {
+            "doctype": "Has Role",
+            "role": "Customer"
+        })
 
-    user.save()
+        user.save()
 
-    frappe.logger().debug(patient_record.customer)
-    contact = frappe.get_doc({
-        "doctype": "Contact",
-        "first_name": patient_record.patient_first_name,
-        "last_name": patient_record.patient_last_name,
-        "email_id": patient_record.email_id,
-        "user": user.name
-    }).insert(ignore_permissions=True)
-    contact.save()
+    except:
+        user = frappe.get_doc("User", patient_record.email_id)
+        if user:
+            try:
+                frappe.delete_doc("User", user.name)
+            except:
+                return
+        return
 
-    contact.append('links', dict(link_doctype='Customer',
-                                 link_name=patient_record.customer))
-    contact.append('links', dict(link_doctype='Patient Record',
-                                 link_name=patient_record.name))
-    contact.save()
+    try:
+        contact = frappe.get_doc({
+            "doctype": "Contact",
+            "first_name": patient_record.patient_first_name,
+            "last_name": patient_record.patient_last_name,
+            "email_id": patient_record.email_id,
+            "user": user.name
+        }).insert(ignore_permissions=True)
+        contact.save()
+
+        contact.append('links', dict(link_doctype='Customer',
+                                     link_name=patient_record.customer))
+        contact.append('links', dict(link_doctype='Patient Record',
+                                     link_name=patient_record.name))
+        contact.save()
+
+    except:
+        pass
 
     return user.name
 
@@ -185,18 +198,18 @@ def invite_user(patient):
 def get_users_for_website(doctype, txt, searchfield, start, page_len, filters):
     conditions = []
     return frappe.db.sql("""select name, concat_ws(' ', first_name, middle_name, last_name)
-		from `tabUser`
-		where enabled=1
-			and name not in ("Guest", "Administrator")
-			and ({key} like %(txt)s
-				or full_name like %(txt)s)
-			{fcond} {mcond}
-		order by
-			if(locate(%(_txt)s, name), locate(%(_txt)s, name), 99999),
-			if(locate(%(_txt)s, full_name), locate(%(_txt)s, full_name), 99999),
-			idx desc,
-			name, full_name
-		limit %(start)s, %(page_len)s""".format(**{
+        from `tabUser`
+        where enabled=1
+            and name not in ("Guest", "Administrator")
+            and ({key} like %(txt)s
+                or full_name like %(txt)s)
+            {fcond} {mcond}
+        order by
+            if(locate(%(_txt)s, name), locate(%(_txt)s, name), 99999),
+            if(locate(%(_txt)s, full_name), locate(%(_txt)s, full_name), 99999),
+            idx desc,
+            name, full_name
+        limit %(start)s, %(page_len)s""".format(**{
         'key': searchfield,
         'fcond': get_filters_cond(doctype, filters, conditions),
         'mcond': get_match_cond(doctype)

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 import frappe
 
@@ -8,8 +9,7 @@ def execute():
     for company in companies:
         abbr = frappe.get_value("Company", company.name, "abbr")
         try:
-            existing_account = frappe.get_doc(
-                "Account", "654 - Pertes sur créances irrécouvrables - " + abbr)
+            existing_account = frappe.get_doc("Account", "654 - Pertes sur créances irrécouvrables - " + abbr)
 
         except:
             child_account = frappe.get_doc({

@@ -1021,3 +1021,4 @@ apps/maia/maia/templates/includes/appointment_status.html,Past,Passé
 apps/maia/maia/templates/appointment_details.html,My Appointments,Mes Rendez-Vous
 apps/maia/maia/templates/appointment_details.html,Appointment with,Rendez-Vous avec
 Doctype: Professional Information Card,Your signature will be added automatically in your prescriptions,Votre signature sera ajoutée automatiquement dans vos ordonnances
+Doctype: Patient Record,"Something went wrong during the user creation.<br>Please check with the support team.","Quelque chose s'est mal passé pendant la création de l'utilisateur.<br>Veuillez appeler le support pour résoudre le problème."
