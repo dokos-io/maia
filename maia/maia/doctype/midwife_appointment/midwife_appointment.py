@@ -160,7 +160,7 @@ def get_events(start, end, filters=None):
         or (date(start_dt) <= date(%(start)s) and date(end_dt) >= date(%(end)s))
         ) or (
         date(start_dt) <= date(%(start)s) and repeat_this_event=1 and
-        ifnull(repeat_till, "3000-01-01") > date(%(start)s)
+        ifnull(repeat_till, "3000-01-01") >= date(%(start)s)
         ))and docstatus < 2 {add_filters}""".format(add_filters=add_filters), {
         "start": start,
         "end": end
