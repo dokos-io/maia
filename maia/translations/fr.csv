@@ -153,7 +153,7 @@ DocType: Perineum Rehabilitation,Closed,Fermé
 DocType: Perineum Rehabilitation,Closing Perineum,Périnée fermé
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +206,Cocaine,Cocaïne
 DocType: Birth Preparation Consultation,Codification,Codification
-DocType: Birth Preparation Consultation,Codification & Price,Codifcation & Prix
+DocType: Birth Preparation Consultation,Codification & Price,Codification & Prix
 DocType: Codification,Codification Description,Description de la Codification
 apps/maia/maia/maia/invoicing.py +128,Codification HN is missing. Please add it in your codifications list.,La codification HN est manquant. Veuillez l’ajouter dans votre liste de codifications.
 DocType: Codification,Codification Name,Nom de la Codification
@@ -183,7 +183,6 @@ DocType: Obstetrical Background,Delivery Complications,Complications de l'Accouc
 DocType: Obstetrical Background,Pregnancy Complications,Complications de la Grossesse
 DocType: Obstetrical Background,Child Full Name,Prénom du Nouveau Né
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +246,Condom,Préservatifs
-apps/maia/maia/setup/setup_wizard/install_fixtures.py +118,"Construction Works, Supplies, External Services","Travaux, Fournitures, Services Extérieurs"
 DocType: Free Consultation,Consultation,Consultation
 DocType: Birth Preparation Consultation,Consultation Date,Date de Consultation
 DocType: Gynecological Consultation,Consultation Purpose,Motif de Consultation
@@ -439,7 +438,7 @@ apps/maia/maia/public/js/setup_wizard.js +277,"List your products or services th
 apps/maia/maia/public/js/setup_wizard.js +210,"List your tax heads (e.g. VAT, Customs etc; they should have unique names) and their standard rates. This will create a standard template, which you can edit and add more later.","Inscrivez vos titres d'impôts (par exemple, TVA, douanes, etc., ils doivent avoir des noms uniques) et leurs taux standards. Cela va créer un modèle standard, que vous pouvez modifier et compléter plus tard."
 apps/maia/maia/public/js/setup_wizard.js +292,Litre,Litre
 DocType: Prenatal Interview,Living Conditions,Conditions de Vie
-apps/maia/maia/setup/setup_wizard/setup_wizard.py +498,Local,Locale
+apps/maia/maia/setup/setup_wizard/setup_wizard.py,Supermarket,Supermarché
 DocType: Correspondents,Location,Lieu
 DocType: Early Postnatal Consultation,Lochia,Lochies
 DocType: Patient,"Long Term Disease,  Hospitalisation Or Treatment","Maladie, Hospitalisation Ou Traitement de Long Terme"
@@ -766,7 +765,7 @@ apps/maia/maia/public/js/setup_wizard.js +288,Sub Assemblies,Sous-Assemblages
 DocType: Birth Preparation Consultation,Sundays/Holidays Allowance,Indemnité Dimanche/Jours Fériés
 apps/maia/maia/public/js/setup_wizard.js +261,Supplier,Fournisseur
 apps/maia/maia/public/js/setup_wizard.js +262,Supplier Name,Nom du Fournisseur
-apps/maia/maia/setup/setup_wizard/install_fixtures.py +116,Supplies and Pharmacy,Fournitures et Pharmacie
+apps/maia/maia/setup/setup_wizard/install_fixtures.py +116,Supplies,Fournitures
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +351,Support Stocking - Class II,Bas de Contention - Classe II
 DocType: Patient,Surgical Background,Antécédents Chirurgicaux
 DocType: Patient Surgical Interventions,Surgical Intervention,Intervention Chirurgicale
@@ -1022,3 +1021,36 @@ apps/maia/maia/templates/appointment_details.html,My Appointments,Mes Rendez-Vou
 apps/maia/maia/templates/appointment_details.html,Appointment with,Rendez-Vous avec
 Doctype: Professional Information Card,Your signature will be added automatically in your prescriptions,Votre signature sera ajoutée automatiquement dans vos ordonnances
 Doctype: Patient Record,"Something went wrong during the user creation.<br>Please check with the support team.","Quelque chose s'est mal passé pendant la création de l'utilisateur.<br>Veuillez appeler le support pour résoudre le problème."
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Purchases,Achats
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Rental Expenses,Loyer et Charges Locatives
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Furniture and Equipment Rental,Location de Matériel et de Mobilier
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Maintenance and Repair,Entretien et Réparations
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Temporary Staff,Personnel Intérimaire
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Small Equipment,Petit Outillage
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,"Heating, Water, Gaz, Electricity","Chauffage, Eau, Gaz, Electricité"
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Fees without Retrocession,Honoraires ne constituant pas de Rétrocession
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Insurance Premium,Primes d'Assurance
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Vehicule Cost,Frais de Véhicules
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Other Travel Related Costs,Autres Frais de Déplacement
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Personal Social Security Contributions,Charges Sociales Personnelles
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,"Reception and Representation Expenses","Frais de Réception, de Représentation, de Congrès"
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,"Office Supplies, Documentation, Post Office","Fournitures de Bureau, Documentation, PTT"
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Deeds and Litigation Costs,Frais d'Actes et de Contentieux
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Professional Organizations Contributions,Cotisations Syndicales et Professionnelles
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Miscellaneous Management Expenses,Autres Frais Divers de Gestion
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Financial Expenses,Frais Financiers
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Miscellaneous Losses,Pertes Diverses
+apps/erpnext/erpnext/config/accounts.py,Day-to-day Operations,Opérations Courantes
+apps/erpnext/erpnext/config/accounts.py,"Ledgers and P/L Statements","Journaux et Comptes de Résultats"
+apps/erpnext/erpnext/config/accounts.py,Sales Register,Journal des Ventes
+apps/erpnext/erpnext/config/accounts.py,Purchase Register,Journal des Achats
+apps/erpnext/erpnext/config/accounts.py,Reports,Rapports
+apps/erpnext/erpnext/config/accounts.py,Sales Invoice Trends,Évolution des Honoraires
+apps/erpnext/erpnext/config/accounts.py,General Ledger,Grand Livre
+apps/erpnext/erpnext/config/accounts.py,Accounts Receivable Summary,Honoraires en Attente
+apps/erpnext/erpnext/config/accounts.py,Accounts Payable Summary,Factures fournisseurs non réglées
+apps/erpnext/erpnext/config/accounts.py,Cash Flow,Trésorerie
+apps/erpnext/erpnext/config/accounts.py,Banking Operations,Opérations Bancaires
+apps/erpnext/erpnext/config/accounts.py,Depreciations,Amortissements
+apps/frappe/frappe/config/setup.py,Auto Email Report,Envoi de Rapports par Email
+apps/frappe/frappe/config/setup.py,Email Digest,Envoi d'un compte rendu par Email
