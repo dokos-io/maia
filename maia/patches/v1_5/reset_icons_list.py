@@ -14,7 +14,7 @@ def execute():
 		try:
 			frappe.get_doc('Desktop Icon', {'standard': 1, 'module_name': i})
 			frappe.db.set_value("Desktop Icon", dict(module_name="i"), "blocked", 1)
-		except Exception:
-			pass
+		except Exception as e:
+			print(e)
 
 	frappe.db.commit()
