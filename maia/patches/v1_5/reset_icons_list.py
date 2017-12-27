@@ -12,7 +12,7 @@ def execute():
 
 	for i in initial_list:
 		try:
-			frappe.get_doc('Desktop Icon', {'standard': 1, 'module_name': i})
+			frappe.get_doc('Desktop Icon', {'standard': 1, 'label': i})
 			frappe.db.set_value("Desktop Icon", dict(module_name="i"), "blocked", 1)
 		except Exception as e:
 			print(e)

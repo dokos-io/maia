@@ -94,7 +94,7 @@ def setup_complete(args=None):
 
 	for i in initial_list:
 		try:
-			frappe.get_doc('Desktop Icon', {'standard': 1, 'module_name': i})
+			frappe.get_doc('Desktop Icon', {'standard': 1, 'label': i})
 			hidden_list.append(i)
 		except Exception:
 			pass
