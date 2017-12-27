@@ -11,64 +11,60 @@ frappe.setup.on("before_load", function () {
 	maia_slides.map(frappe.setup.add_slide);
 
 	// change header brand
-	let $brand = $('header .setup-wizard-brand');
+	/*let $brand = $('header .setup-wizard-brand');
 	if($brand.find('.erpnext-icon').length === 0) {
 		$brand.find('.frappe-icon').hide();
 		$brand.append(`<span>
 			<img src="/assets/maia/images/maia_squirrel.svg" class="brand-icon erpnext-icon"
 			style="width:36px;"><span class="brand-name"></span></span>`);
-	}
+	}*/
 });
 
 var maia_slides = [
 	{
 		// Domain
 		name: 'domain',
+		domains: ["all"],
 		title: __('Select your Activity'),
 		fields: [
 			{
-				fieldname: 'domains',
-				fieldtype: 'Select',
+				fieldname: 'domain', label: __('Activity'), fieldtype: 'Select',
 				options: [
-					{ "label": __("Midwife"), "value": "Sage-Femme" }
-				], "default": "Sage-Femme", reqd: 1
+					{ "label": __("Midwife"), "value": "Midwife" },
+				], "default": "Midwife", reqd: 1
 			},
 		],
-		// help: __('Select the nature of your activity.'),
-		validate: function () {
-			if (this.values.domains.length === 0) {
-				frappe.msgprint(__("Please select at least one domain."));
-				return false;
-			}
-			frappe.setup.domains = this.values.domains;
-			return true;
+		help: __('Select the nature of your activity.'),
+		onload: function (slide) {
+			slide.get_input("domain").on("change", function () {
+				frappe.setup.domain = $(this).val();
+				frappe.wizard.refresh_slides();
+			});
 		},
 	},
+
 	{
 		// Brand
 		name: 'brand',
+		domains: ["all"],
 		icon: "fa fa-bookmark",
 		title: __("Your Practice"),
-		// help: __('Upload your letter head and logo. (you can edit them later).'),
+		help: __('Upload your letter head and logo. (you can edit them later).'),
 		fields: [
 			{
 				fieldtype: "Attach Image", fieldname: "attach_logo",
 				label: __("Attach Logo"),
 				description: __("100px by 100px"),
-				is_private: 0,
-				align: 'center'
+				is_private: 0
 			},
 			{
 				fieldname: 'company_name',
-				label: frappe.setup.domains.includes('Education') ?
-					__('Institute Name') : __('Company Name'),
-				fieldtype: 'Data',
-				reqd: 1
+				label: __('Practice Name'),
+				fieldtype: 'Data', reqd: 1
 			},
 			{
 				fieldname: 'company_abbr',
-				label: frappe.setup.domains.includes('Education') ?
-					__('Institute Abbreviation') : __('Company Abbreviation'),
+				label:  __('Practice Abbreviation'),
 				fieldtype: 'Data'
 			}
 		],
@@ -88,92 +84,30 @@ var maia_slides = [
 					slide.get_field("company_abbr").set_value("");
 				}
 			});
-		},
-		validate: function() {
-			if ((this.values.company_name || "").toLowerCase() == "company") {
-				frappe.msgprint(__("Company Name cannot be Company"));
-				return false;
-			}
-			if (!this.values.company_abbr) {
-				return false;
-			}
-			return true;
 		}
 	},
 	{
 		// Organisation
 		name: 'organisation',
+		domains: ["all"],
 		title: __("Your Organization"),
 		icon: "fa fa-building",
-		// help: frappe.setup.domains.includes('Education') ?
-		// 	__('The name of the institute for which you are setting up this system.') :
-		// 	__('The name of your company for which you are setting up this system.')),
-		fields: [{
-				fieldtype: "Section Break",
-				label: __("Your Professional Data")
-			},
-			{
-				fieldname: "company_email",
-				label: __("Practice Email Address"),
-				fieldtype: 'Data'
-			},
-			{
-				fieldname: 'company_siret',
-				label: __('SIRET N°'),
-				fieldtype: 'Data'
-			},
-			{
-				fieldtype: "Column Break"
-			},
-			{
-				fieldname: "company_phone",
-				label: __("Practice Phone Number"),
-				fieldtype: 'Data'
-			},
-			{
-				fieldname: 'rpps_number',
-				label: __('RPPS N°'),
-				fieldtype: 'Data'
-			},
-			{
-				fieldtype: "Section Break",
-				label: __("Bank Account")
-			},
-			{
-				fieldname: 'bank_account',
-				label: __('The Name of your Bank'),
-				fieldtype: 'Data',
-				reqd: 1
-			},
-			{
-				fieldtype: "Section Break",
-				label: __("Accounting")
-			},
-			{
-				fieldname: 'chart_of_accounts',
-				label: __('Chart of Accounts'),
-				options: "",
-				fieldtype: 'Select'
-			},
-			{
-				fieldtype: "Section Break",
-				label: __("Financial Year")
-			},
-			{
-				fieldname: 'fy_start_date',
-				label: __('Financial Year Start Date'),
-				fieldtype: 'Date',
-				reqd: 1
-			},
-			{
-				fieldtype: "Column Break"
-			},
-			{
-				fieldname: 'fy_end_date',
-				label: __('Financial Year End Date'),
-				fieldtype: 'Date',
-				reqd: 1
-			},
+	        help: __('The name of the practice for which you are setting up this system. Contact our team if you have any question.'),
+            fields: [
+		 { fieldtype: "Section Break", label: __("Your Professional Data") },
+	            { fieldname: "company_email", label: __("Practice Email Address"), fieldtype:'Data' },
+		    { fieldname:'company_siret', label: __('SIRET N°'), fieldtype:'Data' },
+		    { fieldtype: "Column Break" },
+		    { fieldname: "company_phone", label: __("Practice Phone Number"), fieldtype:'Data' },
+		    { fieldname:'rpps_number', label: __('RPPS N°'), fieldtype:'Data' },
+		    { fieldtype: "Section Break", label: __("Bank Account") },
+			{ fieldname: 'bank_account', label: __('The Name of your Bank'), fieldtype: 'Data', reqd: 1 },
+		    { fieldtype: "Section Break", label: __("Accounting") },
+		    {fieldname:'chart_of_accounts', label: __('Chart of Accounts'), options: "", fieldtype: 'Select'},
+		     { fieldtype: "Section Break", label: __("Financial Year") },
+			{ fieldname: 'fy_start_date', label: __('Financial Year Start Date'), fieldtype: 'Date', reqd: 1 },
+			{ fieldtype: "Column Break" },
+			{ fieldname: 'fy_end_date', label: __('Financial Year End Date'), fieldtype: 'Date', reqd: 1 },
 		],
 
 		onload: function (slide) {
@@ -188,6 +122,12 @@ var maia_slides = [
 				frappe.msgprint(__("Please enter valid Financial Year Start and End Dates"));
 				return false;
 			}
+
+			if ((this.values.company_name || "").toLowerCase() == "company") {
+				frappe.msgprint(__("Company Name cannot be Company"));
+				return false;
+			}
+
 			return true;
 		},
 
@@ -211,6 +151,7 @@ var maia_slides = [
 				slide.get_field("fy_start_date").set_value(current_year + '-' + fy[0]);
 				slide.get_field("fy_end_date").set_value(next_year + '-' + fy[1]);
 			}
+
 		},
 
 
@@ -222,7 +163,7 @@ var maia_slides = [
 					method: "erpnext.accounts.doctype.account.chart_of_accounts.chart_of_accounts.get_charts_for_country",
 					args: { "country": country },
 					callback: function (r) {
-						if (r.message) {
+					    if (r.message) {
 							slide.get_input("chart_of_accounts").empty()
 								.add_options(r.message);
 
@@ -253,7 +194,7 @@ var maia_slides = [
 // default 1st Jan - 31st Dec
 
 maia.setup.fiscal_years = {
-	"Afghanistan": ["12-21", "12-20"],
+	"Afghanistan": ["12-20", "12-21"],
 	"Australia": ["07-01", "06-30"],
 	"Bangladesh": ["07-01", "06-30"],
 	"Canada": ["04-01", "03-31"],
@@ -271,3 +212,20 @@ maia.setup.fiscal_years = {
 	"Thailand": ["10-01", "09-30"],
 	"United Kingdom": ["04-01", "03-31"],
 };
+
+var test_values_edu = {
+	"language": "english",
+	"domain": "Education",
+	"country": "India",
+	"timezone": "Asia/Kolkata",
+	"currency": "INR",
+	"first_name": "Tester",
+	"email": "test@example.com",
+	"password": "test",
+	"company_name": "Hogwarts",
+	"company_abbr": "HS",
+	"company_tagline": "School for magicians",
+	"bank_account": "Gringotts Wizarding Bank",
+	"fy_start_date": "2016-04-01",
+	"fy_end_date": "2017-03-31"
+}

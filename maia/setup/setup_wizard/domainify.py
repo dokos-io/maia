@@ -7,7 +7,7 @@ import frappe
 def get_domain(domain):
 	'''Written as a function to prevent data mutation effects'''
 	data = {
-		'Midwife': {
+		'Sage-Femme': {
 			'desktop_icons': ['Maia', 'Patient Record', 'Calendar', 'ToDo', 'Sales Invoice', 'Accounts', 'Projects', 'Desk'],
 			'remove_roles': ['Manufacturing User', 'Manufacturing Manager', 'Academics User'],
 			'properties': [

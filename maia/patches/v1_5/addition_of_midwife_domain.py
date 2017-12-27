@@ -6,7 +6,7 @@ from frappe.frappe.custom.doctype.customize_form.customize_form import reset_to_
 
 def execute():
 	doc = frappe.new_doc("Domain")
-	doc.domain = "Sage Femme"
+	doc.domain = "Sage-Femme"
 	try:
 		doc.insert(ignore_permissions=True)
 		frappe.db.commit()
