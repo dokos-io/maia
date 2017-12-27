@@ -627,7 +627,7 @@ apps/maia/maia/public/js/setup_wizard.js +44,Practice Email Address,Adresse Emai
 apps/maia/maia/public/js/setup_wizard.js +44,Practice Abbreviation,Abréviation
 apps/maia/maia/public/js/setup_wizard.js +44,Your Practice,Votre Cabinet
 apps/maia/maia/public/js/setup_wizard.js +37,Practice Name,Nom du Cabinet
-apps/maia/maia/public/js/setup_wizard.js +49,Practice Phone Number,Numéro de Téléphone du Cabinet
+apps/maia/maia/public/js/setup_wizard.js +49,Practice Phone Number,Téléphone du Cabinet
 DocType: Birth Preparation Consultation,Practitioner,Praticien(ne)
 DocType: Pregnancy,Preferred Location for Delivery,Lieu de Naissance Souhaitée
 DocType: Pregnancy,Pregnancy,Grossesse
@@ -645,6 +645,7 @@ DocType: Early Postnatal Consultation,Prescription,Ordonnance
 DocType: Prenatal Interview,Previous Pregnancies Experience ?,Expériences des Précédentes Grossesses?
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +328,Primperan 10mg,Primpéran 10mg
 apps/maia/maia/maia/doctype/free_prescription/free_prescription.js +11,Print,Imprimer
+apps/maia/maia/maia/doctype/free_prescription/free_prescription.js,Print Prescription,Imprimer une Ordonnance
 apps/maia/maia/maia/print.py +17,Print Error: Please contact the technical support.,Erreur d’Impression : Veuillez contacter le support technique.
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +58,Privilege Leave,Congé Privilège
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +66,Probation,Essai
@@ -1054,3 +1055,13 @@ apps/erpnext/erpnext/config/accounts.py,Banking Operations,Opérations Bancaires
 apps/erpnext/erpnext/config/accounts.py,Depreciations,Amortissements
 apps/frappe/frappe/config/setup.py,Auto Email Report,Envoi de Rapports par Email
 apps/frappe/frappe/config/setup.py,Email Digest,Envoi d'un compte rendu par Email
+apps/frappe/frappe/desk/page/setup_wizard/setup_wizard.js,Hello!,Bonjour!
+apps/frappe/frappe/desk/page/setup_wizard/setup_wizard.js,Select Your Region,Choisissez votre Région
+apps/frappe/frappe/desk/page/setup_wizard/setup_wizard.js,The First User: You,Le Premier Utilisateur: Vous
+apps/frappe/frappe/desk/page/setup_wizard/setup_wizard.js,Will be your login ID,Sera votre identifiant de connexion
+Doctype: Purchase Invoice,Rate,Prix Unitaire
+apps/maia/maia/setup/setup_wizard/setup_wizard.py,Wrapping up,Finalisation
+apps/maia/maia/setup/setup_wizard/setup_wizard.py,Failed to login,La connexion a échoué
+apps/maia/maia/setup/setup_wizard/setup_wizard.py,Setting up Maia,Mise en place de Maia
+apps/maia/maia/setup/setup_wizard/setup_wizard.py,Failed to install Maia,"L'installation de Maia a échoué"
+apps/maia/maia/setup/setup_wizard/setup_wizard.py,Setting up your system,Finalisation

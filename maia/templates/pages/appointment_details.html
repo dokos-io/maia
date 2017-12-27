@@ -36,7 +36,6 @@ $.extend(appointment, {
 			},
 			callback: function(r) {
 				if (r.message) {
-					console.log(r.message)
 					$('#appointment-cancellation').html(r.message.confirmation);
 					$('#appointment-status').html(r.message.status);
 				}

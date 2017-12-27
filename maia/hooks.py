@@ -27,9 +27,13 @@ website_context = {
 
 # setup wizard
 setup_wizard_requires = "assets/maia/js/setup_wizard.js"
-setup_wizard_complete = "maia.setup.setup_wizard.setup_wizard.setup_complete"
+setup_wizard_stages = "maia.setup.setup_wizard.setup_wizard.get_setup_stages"
 
 get_help_messages = "maia.utilities.activation.get_help_messages"
+
+domains = {
+	'Sage-Femme': 'maia.domains.midwife'
+	}
 
 # welcome message title
 login_mail_title = "Nous sommes heureux de vous compter parmi nous !"

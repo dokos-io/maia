@@ -2,7 +2,6 @@
 
 # Copyright (c) 2017, DOKOS and Contributors
 # License: GNU General Public License v3. See license.txt
-
 from __future__ import unicode_literals
 import frappe
 import copy
@@ -13,19 +12,44 @@ from frappe.utils import cstr, flt, getdate
 from frappe import _
 from frappe.utils.file_manager import save_file
 import install_fixtures
-from erpnext.setup.setup_wizard.sample_data import make_sample_data
 from erpnext.accounts.doctype.account.account import RootNotEditable
 from frappe.core.doctype.communication.comment import add_info_comment
 from frappe.desk.doctype.desktop_icon.desktop_icon import set_hidden_list
-from maia.setup.setup_wizard.domainify import setup_domain
 from frappe.printing.doctype.print_format.print_format import make_default
 
+def get_setup_stages(args=None):
+	if frappe.db.sql("select name from tabCompany"):
+		stages = [
+			{
+				'status': _('Wrapping up'),
+				'fail_msg': _('Failed to login'),
+				'tasks': [
+					{
+						'fn': fin,
+						'args': args,
+						'fail_msg': _("Failed to login")
+					}
+				]
+			}
+		]
+	else:
+		stages = [
+			{
+				'status': _('Setting up Maia'),
+				'fail_msg': _('Failed to install Maia'),
+				'tasks': [
+					{
+						'fn': setup_complete,
+						'args': args,
+						'fail_msg': _("Failed to install Maia")
+					}
+				]
+			}
+		]
+
+	return stages
 
 def setup_complete(args=None):
-
-	if frappe.db.sql("select name from tabCompany"):
-		frappe.throw(_("Setup Already Complete!!"))
-
 	install_fixtures.install(args.get("country"))
 
 	create_price_lists(args)
@@ -50,7 +74,6 @@ def setup_complete(args=None):
 	create_logo(args)
 
 	frappe.local.message_log = []
-	setup_domain(args.get('domain'))
 
 	frappe.db.commit()
 	login_as_first_user(args)
@@ -63,13 +86,15 @@ def setup_complete(args=None):
 
 	correct_midwife_accounts(args)
 
-	initial_list = ['Stock', 'Manufacturing', 'Learn', 'Buying', 'Selling', 'Support', 'Integrations', 'Maintenance', 'Schools', 'HR', 'CRM', 'Employee', 'Issue',
-					'Lead', 'POS', 'Student', 'Student Group', 'Course Schedule', 'Student Attendance', 'Course', 'Program', 'Student Applicant', 'Fees', 'Instructor', 'Room']
+	initial_list = ['Stock', 'Manufacturing', 'Learn', 'Buying', 'Selling', 'Support', 'Integrations', 'Maintenance', 'Schools', 'HR', 'CRM', 'Supplier', 'Employee', 'Issue',
+					'Lead', 'POS', 'Student', 'Student Group', 'Course Schedule', 'Student Attendance', 'Course', 'Program', 'Student Applicant', 'Fees', 'Instructor', 'Room', 'Leaderboard',
+					'Student Attendance Tool', 'Education', 'Healthcare', 'Hub', 'Data Import', 'Restaurant', 'Agriculture', 'Crop', 'Crop Cycle', 'Fertilizer', 'Land Unit', 'Disease', 'Plant Analysis',
+					'Soil Analysis', 'Soil Texture', 'Water Analysis', 'Weather', 'Grant Application', 'Donor', 'Volunteer', 'Member', 'Chapter', 'Non Profit']
 	hidden_list = []
 
 	for i in initial_list:
 		try:
-			frappe.get_doc('Desktop Icon', {'standard': 1, 'module_name': i})
+			frappe.get_doc('Desktop Icon', {'standard': 1, 'label': i})
 			hidden_list.append(i)
 		except Exception:
 			pass
@@ -81,7 +106,17 @@ def setup_complete(args=None):
 	make_web_page(args)
 	web_portal_settings()
 	disable_signup()
+	fin(args)
 
+
+def fin(args):
+	frappe.local.message_log = []
+	login_as_first_user(args)
+
+
+def login_as_first_user(args):
+	if args.get("email") and hasattr(frappe.local, "login_manager"):
+		frappe.local.login_manager.login_as(args.get("email"))
 
 def create_fiscal_year_and_company(args):
 	if (args.get('fy_start_date')):

@@ -21,3 +21,5 @@ maia.patches.v1_5.addition_of_account_654
 maia.patches.v1_5.website_guest_correction
 maia.patches.v1_5.supplier_types_and_item_groups
 maia.patches.v1_5.addition_of_midwife_domain
+maia.patches.v1_5.reset_icons_list
+maia.patches.v1_5.reset_portal

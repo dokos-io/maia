@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 import frappe
-from frappe.frappe.custom.doctype.customize_form.customize_form import reset_to_defaults
 
 
 def execute():
 	doc = frappe.new_doc("Domain")
-	doc.domain = "Sage Femme"
+	doc.domain = "Sage-Femme"
 	try:
 		doc.insert(ignore_permissions=True)
 		frappe.db.commit()

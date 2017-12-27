@@ -40,7 +40,17 @@ frappe.ui.form.on(this.frm.doctype, {
         }
       })
     }
-  }
+  },
+
+	paid_immediately: function(frm) {
+		if (frm.doc.paid_immediately == 1) {
+			frm.set_df_property('mode_of_payment', 'reqd', 1);
+			frm.set_df_property('reference', 'reqd', 1);
+		} else {
+			frm.set_df_property('mode_of_payment', 'reqd', 0);
+			frm.set_df_property('reference', 'reqd', 0);
+		}
+	}
 
   });
 

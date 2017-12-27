@@ -35,17 +35,24 @@ def cancel_appointment(doc):
 	status = frappe.render_template('templates/includes/appointments/appointment_status.html', context)
 
 	send_cancellation_notification(appointment.patient_record, appointment.practitioner, appointment.appointment_type, appointment.start_dt, appointment.notes)
+
 	return {"confirmation": confirmation, "status": status}
 
 def send_cancellation_notification(patient_record, practitioner, appointment_type, start, notes):
-            patient = frappe.get_doc("Patient Record", patient_record)
-            practitioner_data = frappe.get_doc("Professional Information Card", practitioner)
-            if practitioner_data.user:
-                user_data = frappe.get_doc("User", practitioner_data.user)
-                date = formatdate(get_datetime_str(start), "dd/MM/yyyy")
-                time = get_datetime(start).strftime("%H:%M")
+			patient = frappe.get_doc("Patient Record", patient_record)
+			if patient:
+				patient_name = patient.name
+			else:
+				patient = frappe.get_doc("User", frappe.session.user)
+				patient_name = patient.first_name + " " + patient.last_name
 
-                subject = _("""[Maia] Annulation d'un Rendez-Vous""")
-                message = _("""<div>Bonjour {0},<br><br>{1} vient d'annuler le rendez-vous suivant:<br><br><strong>Date:</strong> {2}<br><br><strong>Heure:</strong> {3}<br><br><strong>Message:</strong> {4}<br><br><br>L'Équipe Maia</div>""".format(user_data.first_name, patient.name, date, time, notes))
+			practitioner_data = frappe.get_doc("Professional Information Card", practitioner)
+			if practitioner_data.user:
+				user_data = frappe.get_doc("User", practitioner_data.user)
+				date = formatdate(get_datetime_str(start), "dd/MM/yyyy")
+				time = get_datetime(start).strftime("%H:%M")
 
-                frappe.sendmail(practitioner_data.user, subject=subject, content=message)
+				subject = _("""[Maia] Annulation d'un Rendez-Vous""")
+				message = _("""<div>Bonjour {0},<br><br>{1} vient d'annuler le rendez-vous suivant:<br><br><strong>Date:</strong> {2}<br><br><strong>Heure:</strong> {3}<br><br><strong>Message:</strong> {4}<br><br><br>L'Équipe Maia</div>""".format(user_data.first_name, patient_name, date, time, notes))
+
+				frappe.sendmail(practitioner_data.user, subject=subject, content=message)

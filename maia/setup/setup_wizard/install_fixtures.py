@@ -15,6 +15,9 @@ default_lead_sources = ["Existing Customer", "Reference", "Advertisement",
 
 def install(country=None):
 	records = [
+		#setup domain
+		{ 'doctype': 'Domain', 'domain': 'Sage-Femme'},
+
 		# address template
 		{'doctype':"Address Template", "country": country},
 
@@ -126,8 +129,6 @@ def install(country=None):
 		{'doctype': 'Supplier Type', 'supplier_type': _('Transport and Travel')},
 		{'doctype': 'Supplier Type', 'supplier_type': _('Miscellaneous')},
 		{'doctype': 'Supplier Type', 'supplier_type': _('Pharmaceutical')},
-		{'doctype': 'Supplier Type', 'supplier_type': _('Restaurant')},
-		{'doctype': 'Supplier Type', 'supplier_type': _('Supermarket')},
 
 		# Sales Person
 		{'doctype': 'Sales Person', 'sales_person_name': _('Sales Team'), 'is_group': 1, "parent_sales_person": ""},
@@ -425,7 +426,7 @@ def install(country=None):
 	]
 
 
-	from erpnext.setup.setup_wizard.industry_type import get_industry_types
+	from erpnext.setup.setup_wizard.data.industry_type import get_industry_types
 	records += [{"doctype":"Industry Type", "industry": d} for d in get_industry_types()]
 	# records += [{"doctype":"Operation", "operation": d} for d in get_operations()]
 
