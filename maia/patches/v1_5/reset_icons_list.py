@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 import frappe
-from frappe.desk.doctype.desktop_icon.desktop_icon import set_hidden_list
 
 
 def execute():
@@ -14,8 +13,8 @@ def execute():
 	for i in initial_list:
 		try:
 			frappe.get_doc('Desktop Icon', {'standard': 1, 'module_name': i})
-			hidden_list.append(i)
+			frappe.db.set_value("Desktop Icon", dict(module_name="i"), "blocked", 1)
 		except Exception:
 			pass
 
-	set_hidden_list(hidden_list)
+	frappe.db.commit()
