@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 import frappe
-from frappe.frappe.custom.doctype.customize_form.customize_form import reset_to_defaults
 
 
 def execute():
