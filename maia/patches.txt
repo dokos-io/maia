@@ -23,3 +23,4 @@ maia.patches.v1_5.supplier_types_and_item_groups
 maia.patches.v1_5.addition_of_midwife_domain
 maia.patches.v1_5.reset_icons_list
 maia.patches.v1_5.reset_portal
+maia.patches.v1_5.reset_icons_list_after_migration
