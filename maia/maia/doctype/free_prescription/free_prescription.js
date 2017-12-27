@@ -8,9 +8,9 @@ maia.FreePrescriptionController = frappe.ui.form.Controller.extend({
 
   refresh: function(frm) {
     if (!this.frm.doc.__islocal) {
-      this.frm.add_custom_button(__('Drug Prescription'), this.print_drug_prescription, __("Print"));
-      this.frm.add_custom_button(__('Lab Prescription'), this.print_lab_prescription, __("Print"));
-      this.frm.add_custom_button(__('Echography Prescription'), this.print_echo_prescription, __("Print"));
+      this.frm.add_custom_button(__('Drug Prescription'), this.print_drug_prescription, __("Print Prescription"));
+      this.frm.add_custom_button(__('Lab Prescription'), this.print_lab_prescription, __("Print Prescription"));
+      this.frm.add_custom_button(__('Echography Prescription'), this.print_echo_prescription, __("Print Prescription"));
     }
 
   },

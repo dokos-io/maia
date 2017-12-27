@@ -645,6 +645,7 @@ DocType: Early Postnatal Consultation,Prescription,Ordonnance
 DocType: Prenatal Interview,Previous Pregnancies Experience ?,Expériences des Précédentes Grossesses?
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +328,Primperan 10mg,Primpéran 10mg
 apps/maia/maia/maia/doctype/free_prescription/free_prescription.js +11,Print,Imprimer
+apps/maia/maia/maia/doctype/free_prescription/free_prescription.js,Print Prescription,Imprimer une Ordonnance
 apps/maia/maia/maia/print.py +17,Print Error: Please contact the technical support.,Erreur d’Impression : Veuillez contacter le support technique.
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +58,Privilege Leave,Congé Privilège
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +66,Probation,Essai
