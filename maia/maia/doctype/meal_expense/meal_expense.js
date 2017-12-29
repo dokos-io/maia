@@ -31,7 +31,7 @@ frappe.ui.form.on('Meal Expense', {
 		} else {
 			frappe.msgprint(__("This tool calculates meal expenses for 2017 only"))
 		}
-		var deductible_share = Math.min(amount, exemption_limit) - benefit_in_kind;
+		var deductible_share = Math.max(Math.min(amount, exemption_limit) - benefit_in_kind, 0);
 		var non_deductible_share = amount - deductible_share;
 		frm.set_value("deductible_share", deductible_share);
 		frm.set_value("non_deductible_share", non_deductible_share);

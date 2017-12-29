@@ -558,7 +558,7 @@ def correct_midwife_accounts(args):
 	personal_debit_account = "108900-Compte de l'exploitant - " + \
 		args.get('company_abbr')
 	meal_expense_deductible_account = "625700-Frais de réceptions déductibles - " + args.get('company_abbr')
-	meal_expense_non_deductible_account = "625710-Frais de réceptions non déductibles - " + args.get('company_abbr')
+	meal_expense_non_deductible_account = "108900-Compte de l'exploitant - " + args.get('company_abbr')
 
 	if frappe.db.exists('Account', hn_account):
 		frappe.db.set_value('Item', "HN", 'income_account', hn_account)

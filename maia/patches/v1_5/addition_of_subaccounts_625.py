@@ -33,17 +33,6 @@ def execute():
 				"root_type": "Expense",
 				"company": company.name,
 				"parent_account": "625-Déplacements, missions et réceptions - " + abbr,
-				"account_name": "625710-Frais de réceptions non déductibles",
-				"account_type": "Expense Account",
-				"is_group": 0})
-
-			child_account.insert(ignore_permissions=True)
-
-			child_account = frappe.get_doc({
-				"doctype": "Account",
-				"root_type": "Expense",
-				"company": company.name,
-				"parent_account": "625-Déplacements, missions et réceptions - " + abbr,
 				"account_name": "625100-Voyages et déplacements",
 				"account_type": "Expense Account",
 				"is_group": 0})
