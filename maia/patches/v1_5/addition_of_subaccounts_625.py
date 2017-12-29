@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 import frappe
-
+from frappe import _
 
 def execute():
 	companies = frappe.get_all("Company")
