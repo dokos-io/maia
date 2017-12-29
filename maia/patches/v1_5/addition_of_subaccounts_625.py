@@ -32,7 +32,10 @@ def execute():
 				"is_group": 1})
 
 			parent_account.insert(ignore_permissions=True)
+		except Exception as e:
+			print(e)
 
+		try:
 			child_account = frappe.get_doc({
 				"doctype": "Account",
 				"root_type": "Expense",
