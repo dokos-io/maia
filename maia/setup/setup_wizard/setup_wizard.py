@@ -557,6 +557,8 @@ def correct_midwife_accounts(args):
 	fee_account = "709-Honoraires rétrocédés - " + args.get('company_abbr')
 	personal_debit_account = "108900-Compte de l'exploitant - " + \
 		args.get('company_abbr')
+	meal_expense_deductible_account = "625700-Frais de réceptions déductibles - " + args.get('company_abbr')
+	meal_expense_non_deductible_account = "625710-Frais de réceptions non déductibles - " + args.get('company_abbr')
 
 	if frappe.db.exists('Account', hn_account):
 		frappe.db.set_value('Item', "HN", 'income_account', hn_account)
@@ -598,6 +600,14 @@ def correct_midwife_accounts(args):
 	if frappe.db.exists('Account', personal_debit_account):
 		frappe.db.set_value('Company', args.get(
 			'company_name'), 'personal_debit_account', personal_debit_account)
+
+	if frappe.db.exists('Account', meal_expense_deductible_account):
+		frappe.db.set_value('Company', args.get(
+			'company_name'), 'meal_expense_deductible_account', meal_expense_deductible_account)
+
+	if frappe.db.exists('Account', meal_expense_non_deductible_account):
+		frappe.db.set_value('Company', args.get(
+			'company_name'), 'meal_expense_non_deductible_account', meal_expense_non_deductible_account)
 
 
 def create_customers(args):
@@ -852,9 +862,9 @@ def create_item_groups(args):
 	frappe.db.set_value("Item Group", _("Heating, Water, Gaz, Electricity"), "default_expense_account", "606-Achats non stockés de matières et founitures - " + args.get('company_abbr'))
 	frappe.db.set_value("Item Group", _("Fees without Retrocession"), "default_expense_account", "622-Rémunérations d'intermédiaires et honoraires - " + args.get('company_abbr'))
 	frappe.db.set_value("Item Group", _("Insurance Premium"), "default_expense_account", "616-Primes d'assurance - " + args.get('company_abbr'))
-	frappe.db.set_value("Item Group", _("Other Travel Related Costs"), "default_expense_account", "625-Déplacements, missions et réceptions - " + args.get('company_abbr'))
+	frappe.db.set_value("Item Group", _("Other Travel Related Costs"), "default_expense_account", "625100-Voyages et déplacements - " + args.get('company_abbr'))
 	frappe.db.set_value("Item Group", _("Personal Social Security Contributions"), "default_expense_account", "645-Charges de sécurité sociale et de prévoyance - " + args.get('company_abbr'))
-	frappe.db.set_value("Item Group", _("Reception and Representation Expenses"), "default_expense_account", "625-Déplacements, missions et réceptions - " + args.get('company_abbr'))
+	frappe.db.set_value("Item Group", _("Reception and Representation Expenses"), "default_expense_account", "625700-Frais de réceptions déductibles - " + args.get('company_abbr'))
 	frappe.db.set_value("Item Group", _("Office Supplies, Documentation, Post Office"), "default_expense_account", "606-Achats non stockés de matières et founitures - " + args.get('company_abbr'))
 	frappe.db.set_value("Item Group", _("Deeds and Litigation Costs"), "default_expense_account", "622-Rémunérations d'intermédiaires et honoraires - " + args.get('company_abbr'))
 	frappe.db.set_value("Item Group", _("Professional Organizations Contributions"), "default_expense_account", "628-Divers - " + args.get('company_abbr'))

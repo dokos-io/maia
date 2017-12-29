@@ -1065,3 +1065,13 @@ apps/maia/maia/setup/setup_wizard/setup_wizard.py,Failed to login,La connexion a
 apps/maia/maia/setup/setup_wizard/setup_wizard.py,Setting up Maia,Mise en place de Maia
 apps/maia/maia/setup/setup_wizard/setup_wizard.py,Failed to install Maia,"L'installation de Maia a échoué"
 apps/maia/maia/setup/setup_wizard/setup_wizard.py,Setting up your system,Finalisation
+Doctype: Meal Expense,Meal Expense,Frais de Repas
+Doctype: Meal Expense,Meal Expense Deductible Account,Compte de Frais Déductibles
+Doctype: Meal Expense,Meal Expense Non Deductible Account,Compte de Frais Non Déductibles
+Doctype: Meal Expense,Meal Amount,Montant du Repas
+Doctype: Meal Expense,Deductible Share,Part Déductible
+Doctype: Meal Expense,Non Deductible Share,Part Non Déductible
+apps/maia/maia/maia/doctype/meal_expense/meal_expense.js,This tool calculates meal expenses for 2017 only,Cet outil calcule les frais de repas pour 2017 seulement
+Doctype: Company,Specific Accounts,Comptes Spécifiques
+Doctype: Meal Expense,"You can either create different suppliers or create a generic supplier for each supplier category (restaurant, supermarket,...)","Vous pouvez créer différents fournisseurs ou créer un fournisseur générique pour chaque catégorie de fournisseur (restaurant, supermarché,...)"
+Doctype: Meal Expense,Meal Expense Payment,Paiement de Frais de Repas

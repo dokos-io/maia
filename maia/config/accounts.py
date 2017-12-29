@@ -29,6 +29,11 @@ def get_data():
 			"items": [
 				{
 					"type": "doctype",
+					"name": "Meal Expense",
+					"doctype": "Meal Expense"
+				},
+				{
+					"type": "doctype",
 					"name": "Journal Entry",
 					"description": _("Accounting journal entries.")
 				},

@@ -1,0 +1,39 @@
+// Copyright (c) 2017, DOKOS and contributors
+// For license information, please see license.txt
+
+frappe.ui.form.on('Meal Expense', {
+	onload: function(frm) {
+		frappe.call({
+				method: "frappe.client.get",
+				args: {
+					doctype: "Company",
+					name: frm.doc.company,
+				},
+				callback: function(r, rt) {
+					if (r.message) {
+						frm.set_value("meal_expense_deductible_account", r.message.meal_expense_deductible_account);
+						frm.set_value("meal_expense_non_deductible_account", r.message.meal_expense_non_deductible_account);
+					}
+				}
+			}),
+
+			frm.set_value("transaction_date", frappe.datetime.get_today())
+			frm.set_value("posting_date", frappe.datetime.get_today())
+	},
+	refresh: function(frm) {
+
+	},
+	meal_amount: function(frm) {
+		var amount = frm.doc.meal_amount;
+		if (frm.doc.transaction_date < "2018-01-01") {
+			var benefit_in_kind = 4.75;
+			var exemption_limit = 18.40;
+		} else {
+			frappe.msgprint(__("This tool calculates meal expenses for 2017 only"))
+		}
+		var deductible_share = Math.min(amount, exemption_limit) - benefit_in_kind;
+		var non_deductible_share = amount - deductible_share;
+		frm.set_value("deductible_share", deductible_share);
+		frm.set_value("non_deductible_share", non_deductible_share);
+	}
+});
