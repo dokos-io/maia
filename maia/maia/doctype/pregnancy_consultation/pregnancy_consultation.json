@@ -2941,7 +2941,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-12-27 17:05:24.303679", 
+ "modified": "2018-01-12 13:24:50.614151", 
  "modified_by": "Administrator", 
  "module": "Maia", 
  "name": "Pregnancy Consultation", 
@@ -2949,7 +2949,7 @@
  "owner": "Administrator", 
  "permissions": [
   {
-   "amend": 0, 
+   "amend": 1, 
    "apply_user_permissions": 0, 
    "cancel": 1, 
    "create": 1, 
