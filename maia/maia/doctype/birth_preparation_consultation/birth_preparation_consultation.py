@@ -5,7 +5,7 @@
 from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
-from maia.maia.invoicing import create_and_submit_invoice, get_customer_name, cancel_consultation_and_invoice
+from maia.maia.invoicing import create_and_submit_invoice, get_customer_name, cancel_consultation_and_invoice, remove_cancelled_invoice
 
 class BirthPreparationConsultation(Document):
 	def before_insert(self):
