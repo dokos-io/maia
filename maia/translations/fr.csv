@@ -1075,3 +1075,4 @@ apps/maia/maia/maia/doctype/meal_expense/meal_expense.js,This tool calculates me
 Doctype: Company,Specific Accounts,Comptes Spécifiques
 Doctype: Meal Expense,"You can either create different suppliers or create a generic supplier for each supplier category (restaurant, supermarket,...)","Vous pouvez créer différents fournisseurs ou créer un fournisseur générique pour chaque catégorie de fournisseur (restaurant, supermarché,...)"
 Doctype: Meal Expense,Meal Expense Payment,Paiement de Frais de Repas
+Doctype: Midwife Appointment,Please enter a valid email address,Veuillez entrer une adresse email valide

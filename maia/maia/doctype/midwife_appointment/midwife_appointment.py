@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2017, DOKOS and contributors
+# Copyright (c) 2018, DOKOS and contributors
 # For license information, please see license.txt
 
 from __future__ import unicode_literals
@@ -17,6 +17,14 @@ weekdays = ["monday", "tuesday", "wednesday",
 
 
 class MidwifeAppointment(Document):
+	def validate(self):
+		if self.reminder == 1:
+			if self.email is None:
+				frappe.throw(_("Please enter a valid email address"))
+
+		if self.sms_reminder == 1:
+			if self.mobile_no is not None:
+				frappe.throw(_("Please enter a valid mobile number"))
 	def on_submit(self):
 		date = getdate(self.date)
 		time = get_time(self.start_time)
@@ -33,7 +41,10 @@ class MidwifeAppointment(Document):
 			self.send_reminder()
 
 		if self.sms_reminder == 1:
-			number = self.mobile_no
+			if self.mobile_no is not None:
+				number = self.mobile_no
+			else:
+				frappe.throw(_("Please enter a valid mobile number"))
 			valid_number = validate_receiver_no(number)
 
 			frappe.db.set_value(
