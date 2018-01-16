@@ -34,13 +34,6 @@ def get_data():
 				},
 				{
 					"type": "doctype",
-					"name": "Domain Settings",
-					"label": _("Domain Settings"),
-					"description": _("Enable / Disable Domains"),
-					"hide_count": True
-				},
-				{
-					"type": "doctype",
 					"name": "Letter Head",
 					"description": _("Letter Heads for print templates.")
 				},

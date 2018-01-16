@@ -1034,9 +1034,9 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py,Insurance Premium,Primes d
 apps/maia/maia/setup/setup_wizard/install_fixtures.py,Vehicule Cost,Frais de Véhicules
 apps/maia/maia/setup/setup_wizard/install_fixtures.py,Other Travel Related Costs,Autres Frais de Déplacement
 apps/maia/maia/setup/setup_wizard/install_fixtures.py,Personal Social Security Contributions,Charges Sociales Personnelles
-apps/maia/maia/setup/setup_wizard/install_fixtures.py,"Reception and Representation Expenses","Frais de Réception, de Représentation, de Congrès"
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,"Reception and Representation Expenses","Frais de Réceptions, de Représentations, de Congrès"
 apps/maia/maia/setup/setup_wizard/install_fixtures.py,"Office Supplies, Documentation, Post Office","Fournitures de Bureau, Documentation, PTT"
-apps/maia/maia/setup/setup_wizard/install_fixtures.py,Deeds and Litigation Costs,Frais d'Actes et de Contentieux
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Deeds and Litigation Costs,Actes et Contentieux
 apps/maia/maia/setup/setup_wizard/install_fixtures.py,Professional Organizations Contributions,Cotisations Syndicales et Professionnelles
 apps/maia/maia/setup/setup_wizard/install_fixtures.py,Miscellaneous Management Expenses,Autres Frais Divers de Gestion
 apps/maia/maia/setup/setup_wizard/install_fixtures.py,Financial Expenses,Frais Financiers
@@ -1071,7 +1071,48 @@ Doctype: Meal Expense,Meal Expense Non Deductible Account,Compte de Frais Non D�
 Doctype: Meal Expense,Meal Amount,Montant du Repas
 Doctype: Meal Expense,Deductible Share,Part Déductible
 Doctype: Meal Expense,Non Deductible Share,Part Non Déductible
-apps/maia/maia/maia/doctype/meal_expense/meal_expense.js,This tool calculates meal expenses for 2017 only,Cet outil calcule les frais de repas pour 2017 seulement
+apps/maia/maia/maia/doctype/meal_expense/meal_expense.js,This tool calculates meal expenses for 2017 and 2018 only,Cet outil calcule les frais de repas pour 2017 et 2018 seulement
 Doctype: Company,Specific Accounts,Comptes Spécifiques
 Doctype: Meal Expense,"You can either create different suppliers or create a generic supplier for each supplier category (restaurant, supermarket,...)","Vous pouvez créer différents fournisseurs ou créer un fournisseur générique pour chaque catégorie de fournisseur (restaurant, supermarché,...)"
 Doctype: Meal Expense,Meal Expense Payment,Paiement de Frais de Repas
+Doctype: Midwife Appointment,Please enter a valid email address,Veuillez entrer une adresse email valide
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Exam Sheets,Draps d'Examen
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Medical Equipment,Matériel Médical
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Disposable Equipment,Matériel à Usage Unique
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Rent,Loyer
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Collaboration Fee,Redevance de Collaboration
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Finance Lease Rent,Loyer de Crédit-Bail
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Duty paid to an Hospital or Clinic,Redevances versées à une Clinique ou un Hôpital
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Maintenance and Repair Expenses,Dépenses d'Entretien et de Réparations
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Small Material,Petit Matériel
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Software,Logiciel
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Heating,Chauffage
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Water,Eau
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Gaz,Gaz
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Electricity,Electicité
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Fees paid to professionals other than peers,Honoraires versés à des professionnels autre que des confrères
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Remuneration for complementary services,Rémunération de services complémentaires
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Deductible Premium,"Primes Déductibles (RCP, Assurance Locaux,… )"
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Non Deductible Premium,"Primes Non Déductibles (Primes Assurance Vie, Cotisations Préfon,… )"
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Vehicule Expenses,Frais de Véhicules
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Travel Expenses,Frais de Voyage et de Séjour
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Mandatory Personal Social Security Contributions,Charges Sociales Personnelles Obligatoires
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Optional Personal Social Security Contributions,Charges Sociales Personnelles Facultatives
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Consumable Supplies,Fournitures Consommables
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,"Consumable Supplies (Stationery, Office Supplies)","Fournitures Consommables (Papeterie, Fournitures de Bureau)"
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Professional Magazine,Revue Professionnelle
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Post Office,PTT
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Certified Management Association,Association de Gestion Agréée
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,College of Midwifes,Ordre des Sages-Femmes
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Midwifes Union,Syndicat
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Regional Medical Professionals Union,Union Régionale des Professionnels de Santé
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Bank Account Operating Expenses,Frais de Fonctionnement du Compte Bancaire
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Waiting Room Magazines,Revues pour la salle d'attente
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Phone Desk Expenses,Secrétariat Téléphonique
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Interests and Professional Loan,Intérêts et Emprunts Professionnels
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Agios,Agios Bancaires
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Rental Expense,Charges Locatives
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Temporary Staff Expenses,Dépenses de Personnel Intérimaire
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Vehicule Expense,Frais de Véhicule (Voiture de Société)
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,"Reception and Representation Expense","Frais de Réception, de Représentation, de Congrès"
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Deeds and Litigation Expenses,Frais d'Actes et de Contentieux
