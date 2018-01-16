@@ -1,6 +1,6 @@
 # coding=utf-8
 
-# Copyright (c) 2017, DOKOS and Contributors
+# Copyright (c) 2018, DOKOS and Contributors
 # License: GNU General Public License v3. See license.txt
 
 from __future__ import unicode_literals
@@ -35,6 +35,7 @@ def install(country=None):
 		{'doctype': 'Item Group', 'item_group_name': _('Heating, Water, Gaz, Electricity'), 'is_group': 0, 'parent_item_group': _('Buying') },
 		{'doctype': 'Item Group', 'item_group_name': _('Fees without Retrocession'), 'is_group': 0, 'parent_item_group': _('Buying') },
 		{'doctype': 'Item Group', 'item_group_name': _('Insurance Premium'), 'is_group': 0, 'parent_item_group': _('Buying') },
+		{'doctype': 'Item Group', 'item_group_name': _('Vehicule Expenses'), 'is_group': 0, 'parent_item_group': _('Buying') },
 		{'doctype': 'Item Group', 'item_group_name': _('Other Travel Related Costs'), 'is_group': 0, 'parent_item_group': _('Buying') },
 		{'doctype': 'Item Group', 'item_group_name': _('Personal Social Security Contributions'), 'is_group': 0, 'parent_item_group': _('Buying') },
 		{'doctype': 'Item Group', 'item_group_name': _('Reception and Representation Expenses'), 'is_group': 0, 'parent_item_group': _('Buying') },
@@ -145,6 +146,7 @@ def install(country=None):
 		{'uom_name': _('Set'), 'doctype': 'UOM', 'name': _('Set'), "must_be_whole_number": 1},
 		{'uom_name': _('Hour'), 'doctype': 'UOM', 'name': _('Hour')},
 		{'uom_name': _('Minute'), 'doctype': 'UOM', 'name': _('Minute')},
+		{'uom_name': _('Month'), 'doctype': 'UOM', 'name': _('Minute')},
 
 		# Mode of Payment
 		{'doctype': 'Mode of Payment', 'mode_of_payment': 'Check' if country=="United States" else _('Cheque'), 'type': 'Bank'},
@@ -452,10 +454,76 @@ def install(country=None):
 			else:
 				raise
 
+def purchase_items(country=None):
+	records = [
+		{'doctype': 'Item', 'item_code': _('Exam Sheets'), 'item_name': _('Exam Sheets'), 'item_group': _('Purchases'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Medical Equipment'), 'item_name': _('Medical Equipment'), 'item_group': _('Purchases'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Disposable Equipment'), 'item_name': _('Disposable Equipment'), 'item_group': _('Purchases'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Rent'), 'item_name': _('Rent'), 'item_group': _('Rental Expenses'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Rental Expense'), 'item_name': _('Rental Expense'), 'item_group': _('Rental Expenses'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Collaboration Fee'), 'item_name': _('Collaboration Fee'), 'item_group': _('Furniture and Equipment Rental'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Finance Lease Rent'), 'item_name': _('Finance Lease Rent'), 'item_group': _('Furniture and Equipment Rental'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Duty paid to an Hospital or Clinic'), 'item_name': _('Duty paid to an Hospital or Clinic'), 'item_group': _('Furniture and Equipment Rental'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Maintenance and Repair Expenses'), 'item_name': _('Maintenance and Repair Expenses'), 'item_group': _('Maintenance and Repair'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Laundering Expenses'), 'item_name': _('Laundering Expenses'), 'item_group': _('Maintenance and Repair'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Temporary Staff Expenses'), 'item_name': _('Temporary Staff Expenses'), 'item_group': _('Temporary Staff'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Small Material'), 'item_name': _('Small Material'), 'item_group': _('Small Equipment'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Software'), 'item_name': _('Software'), 'item_group': _('Small Equipment'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Office Furniture'), 'item_name': _('Office Furniture'), 'item_group': _('Small Equipment'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Clothing Expenses'), 'item_name': _('Clothing Expenses'), 'item_group': _('Small Equipment'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Heating'), 'item_name': _('Heating'), 'item_group': _('Heating, Water, Gaz, Electricity'), 'stock_uom': _('Month'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Water'), 'item_name': _('Water'), 'item_group': _('Heating, Water, Gaz, Electricity'), 'stock_uom': _('Month'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Gaz'), 'item_name': _('Gaz'), 'item_group': _('Heating, Water, Gaz, Electricity'), 'stock_uom': _('Month'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Electricity'), 'item_name': _('Electricity'), 'item_group': _('Heating, Water, Gaz, Electricity'), 'stock_uom': _('Month'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Fees paid to professionals other than peers'), 'item_name': _('Fees paid to professionals other than peers'), 'item_group': _('Fees without Retrocession'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Remuneration for complementary services'), 'item_name': _('Remuneration for complementary services'), 'item_group': _('Fees without Retrocession'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Deductible Premium'), 'item_name': _('Deductible Premium'), 'item_group': _('Insurance Premium'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Non Deductible Premium'), 'item_name': _('Non Deductible Premium'), 'item_group': _('Insurance Premium'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Vehicule Expense'), 'item_name': _('Vehicule Expense'), 'item_group': _('Vehicule Expenses'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Travel Expenses'), 'item_name': _('Travel Expenses'), 'item_group': _('Other Travel Related Costs'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Mandatory Personal Social Security Contributions'), 'item_name': _('Mandatory Personal Social Security Contributions'), 'item_group': _('Personal Social Security Contributions'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Optional Personal Social Security Contributions'), 'item_name': _('Optional Personal Social Security Contributions'), 'item_group': _('Personal Social Security Contributions'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Reception and Representation Expense'), 'item_name': _('Reception and Representation Expense'), 'item_group': _('Reception and Representation Expenses'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Consumable Supplies'), 'item_name': _('Consumable Supplies (Stationery, Office Supplies)'), 'item_group': _('Office Supplies, Documentation, Post Office'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Professional Magazine'), 'item_name': _('Professional Magazine'), 'item_group': _('Office Supplies, Documentation, Post Office'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Post Office'), 'item_name': _('Post Office'), 'item_group': _('Office Supplies, Documentation, Post Office'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Deeds and Litigation Expenses'), 'item_name': _('Deeds and Litigation Expenses'), 'item_group': _('Deeds and Litigation Costs'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Certified Management Association'), 'item_name': _('Certified Management Association'), 'item_group': _('Professional Organizations Contributions'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('College of Midwifes'), 'item_name': _('College of Midwifes'), 'item_group': _('Professional Organizations Contributions'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Midwifes Union'), 'item_name': _('Midwifes Union'), 'item_group': _('Professional Organizations Contributions'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Regional Medical Professionals Union'), 'item_name': _('Regional Medical Professionals Union'), 'item_group': _('Professional Organizations Contributions'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Bank Account Operating Expenses'), 'item_name': _('Bank Account Operating Expenses'), 'item_group': _('Miscellaneous Management Expenses'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Waiting Room Magazines'), 'item_name': _('Waiting Room Magazines'), 'item_group': _('Miscellaneous Management Expenses'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Phone Desk Expenses'), 'item_name': _('Phone Desk Expenses'), 'item_group': _('Miscellaneous Management Expenses'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Interests and Professional Loan'), 'item_name': _('Interests and Professional Loan'), 'item_group': _('Financial Expenses'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Agios'), 'item_name': _('Agios'), 'item_group': _('Financial Expenses'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+	]
+
+	from frappe.modules import scrub
+	for r in records:
+		print(r)
+		doc = frappe.new_doc(r.get("doctype"))
+		doc.update(r)
+
+		# ignore mandatory for root
+		parent_link_field = ("parent_" + scrub(doc.doctype))
+		if doc.meta.get_field(parent_link_field) and not doc.get(parent_link_field):
+			doc.flags.ignore_mandatory = True
+
+		try:
+			doc.insert(ignore_permissions=True)
+		except frappe.DuplicateEntryError, e:
+			# pass DuplicateEntryError and continue
+			if e.args and e.args[0]==doc.doctype and e.args[1]==doc.name:
+				# make sure DuplicateEntryError is for the exact same doc and not a related doc
+				pass
+			else:
+				raise
+
 def codifications(country=None):
-		records = [
-				 #Midwife Codifications
-	{'doctype': 'Codification', 'codification': 'C', 'basic_price': 23, 'billing_price': 23, 'codification_name': 'C', 'codification_description': 'Consultation'},
+	records = [
+		#Midwife Codifications
+		{'doctype': 'Codification', 'codification': 'C', 'basic_price': 23, 'billing_price': 23, 'codification_name': 'C', 'codification_description': 'Consultation'},
 		{'doctype': 'Codification', 'codification': 'V', 'basic_price': 23, 'billing_price': 23, 'codification_name': 'V', 'codification_description': 'Visite'},
 		{'doctype': 'Codification', 'codification': 'SF', 'basic_price': 2.80, 'billing_price': 2.80, 'codification_name': 'SF', 'codification_description': 'Actes en SF'},
 		{'doctype': 'Codification', 'codification': 'HN', 'basic_price': 0, 'billing_price': 0, 'codification_name': 'HN', 'codification_description': 'Actes Hors Nomenclature'},
@@ -500,12 +568,13 @@ def codifications(country=None):
 		{'doctype': 'Codification', 'codification': 'S', 'basic_price': 40, 'billing_price': 40, 'codification_name': 'S', 'codification_description': 'Indemnité de nuit de 0h à 6h', 'night_work_allowance_2': 1},
 		{'doctype': 'Codification', 'codification': 'F', 'basic_price': 21, 'billing_price': 21, 'codification_name': 'F', 'codification_description': 'Indemnité dimanche et jours fériés, en cas d\'urgence dès samedi 12h', 'sundays_holidays_allowance': 1},
 		{'doctype': 'Codification', 'codification': 'C + JKHD001', 'basic_price': 35.46, 'billing_price': 35.46, 'codification_name': 'C + JKHD001', 'codification_description': 'Consultation + Prélèvement Cervicovaginal'},
-		]
+	]
 
-		from frappe.modules import scrub
-		for r in records:
-			doc = frappe.new_doc(r.get("doctype"))
-			doc.update(r)
+	from frappe.modules import scrub
+	for r in records:
+		print(r)
+		doc = frappe.new_doc(r.get("doctype"))
+		doc.update(r)
 
 		# ignore mandatory for root
 		parent_link_field = ("parent_" + scrub(doc.doctype))
