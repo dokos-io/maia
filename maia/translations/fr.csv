@@ -798,7 +798,7 @@ apps/maia/maia/public/js/setup_wizard.js +64,The name of the institute for which
 apps/maia/maia/public/js/setup_wizard.js +65,The name of the practice for which you are setting up this system. Contact our team if you have any question.,Le nom du cabinet pour lequel vous configurez ce système. Contactez-nous si vous avez la moindre question.
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +419,Third Quarter Ultrasound,Echographie du Troisième Trimestre (entre 32 et 34 SA)
 DocType: Birth Preparation Consultation,Third-Party Payment,Tiers-Payant
-apps/maia/maia/maia/doctype/patient_record/patient_record_dashboard.py +6,This is based on interactions with this Patient. See timeline below for details,Ce graphique est basé sur les consultations de cette Patiente. Voir les dossiers ci-dessous pour plus de détails.
+apps/maia/maia/maia/doctype/patient_record/patient_record_dashboard.py +6,This is based on interactions with this Patient. See timeline below for details,Ce graphique est basé sur les factures émises pour cette Patiente. Voir les dossiers ci-dessous pour plus de détails.
 DocType: Gynecological Consultation,Thyroid,Thyroïde
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +353,Titanorein,Titanoréine
 apps/maia/maia/setup/page/welcome_to_maia/welcome_to_maia.html +6,"To get the best out of Maia, we recommend that you take some time and watch these help videos.","Pour tirer le meilleur part de Maia, nous vous recommendons de prendre quelques minutes pour regarder ces vidéos d’aide."
