@@ -1116,3 +1116,4 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py,Temporary Staff Expenses,D
 apps/maia/maia/setup/setup_wizard/install_fixtures.py,Vehicule Expense,Frais de Véhicule (Voiture de Société)
 apps/maia/maia/setup/setup_wizard/install_fixtures.py,"Reception and Representation Expense","Frais de Réception, de Représentation, de Congrès"
 apps/maia/maia/setup/setup_wizard/install_fixtures.py,Deeds and Litigation Expenses,Frais d'Actes et de Contentieux
+DocType: Perineum Rehabilitation,Hypopressive Exercises,Exercices Hypopressifs
