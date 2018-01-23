@@ -11,7 +11,7 @@ import frappe.defaults
 from frappe.model.document import Document
 from frappe.contacts.address_and_contact import load_address_and_contact
 from erpnext.utilities.transaction_base import TransactionBase
-from erpnext.accounts.party import validate_party_accounts, get_timeline_data
+from erpnext.accounts.party import validate_party_accounts
 from erpnext.controllers.queries import get_filters_cond
 from frappe.desk.reportview import get_match_cond
 
@@ -122,18 +122,25 @@ def updating_customer(self):
 def get_timeline_data(doctype, name):
     '''returns timeline data for the past one year'''
     from frappe.desk.form.load import get_communication_data
-    doctype = "Customer"
+    patient_record = frappe.get_doc(doctype, name)
 
     out = {}
-    data = get_communication_data(doctype, name,
-                                  fields='date(creation), count(name)',
-                                  after=add_years(
-                                      None, -1).strftime('%Y-%m-%d'),
-                                  group_by='group by date(creation)', as_dict=False)
+
+    conditions = ' and creation > {0}'.format(add_years(None, -1).strftime('%Y-%m-%d'))
+    data = frappe.db.sql("""
+        SELECT
+            count(name), date(posting_date)
+        FROM
+            `tabSales Invoice`
+        WHERE
+            patient_record = %(pat_rec)s
+            and status!="Cancelled" {conditions}
+        GROUP BY
+            posting_date""".format(conditions=conditions),{"pat_rec": patient_record.name}, as_dict=0)
 
     timeline_items = dict(data)
 
-    for date, count in timeline_items.iteritems():
+    for count, date in timeline_items.iteritems():
         timestamp = get_timestamp(date)
         out.update({timestamp: count})
 
