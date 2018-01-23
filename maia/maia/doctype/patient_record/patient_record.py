@@ -11,7 +11,7 @@ import frappe.defaults
 from frappe.model.document import Document
 from frappe.contacts.address_and_contact import load_address_and_contact
 from erpnext.utilities.transaction_base import TransactionBase
-from erpnext.accounts.party import validate_party_accounts, get_timeline_data
+from erpnext.accounts.party import validate_party_accounts
 from erpnext.controllers.queries import get_filters_cond
 from frappe.desk.reportview import get_match_cond
 
