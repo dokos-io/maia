@@ -108,7 +108,7 @@ $.extend(appointment, {
 		</div>
 	</div>
 </div>
-{% if doc.docstatus==1 and frappe.format_date(doc.date) > frappe.format_date(frappe.utils.add_days(frappe.utils.nowdate(), 2)) %}
+{% if doc.docstatus==1 and show_cancel_button %}
 <div class="row">
 	<div class="col-xs-12">
 		<div>
