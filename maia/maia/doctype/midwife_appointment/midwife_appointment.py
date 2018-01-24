@@ -23,7 +23,7 @@ class MidwifeAppointment(Document):
 				frappe.throw(_("Please enter a valid email address"))
 
 		if self.sms_reminder == 1:
-			if self.mobile_no is not None:
+			if self.mobile_no is None:
 				frappe.throw(_("Please enter a valid mobile number"))
 	def on_submit(self):
 		date = getdate(self.date)
