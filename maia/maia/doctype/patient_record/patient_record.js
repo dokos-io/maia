@@ -20,13 +20,21 @@ maia.PatientRecordController = frappe.ui.form.Controller.extend({
       frappe.contacts.render_address_and_contact(this.frm);
       erpnext.utils.set_party_dashboard_indicators(cur_frm);
     }
-
+    this.render_patient_dashboard()
+  },
+  render_patient_dashboard: function() {
+    // render dashboard
+      $(this.frm.fields_dict['custom_dashboard_html'].wrapper)
+        .html(frappe.render_template("custom_patient_dashboard", cur_frm.doc.__onload))
+        .find(".btn-address").on("click", function() {
+        });
   }
 });
 
 $.extend(cur_frm.cscript, new maia.PatientRecordController({
   frm: cur_frm
 }));
+
 
 frappe.ui.form.on("Patient Record", {
   onload: function(frm) {

@@ -226,3 +226,6 @@ def get_users_for_website(doctype, txt, searchfield, start, page_len, filters):
         'start': start,
         'page_len': page_len
     })
+
+def load_custom_dashboard(patient_record):
+    frappe.get_doc("Custom Patient Record Dashboard", dict(patient_record=patient_record))

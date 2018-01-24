@@ -1,0 +1,12 @@
+.btn-custom_dashboard {
+  float: right;
+}
+
+.custom_dashboard {
+  background-color: #fafbfc;
+  padding: 0px 15px;
+  margin: 15px 0px;
+  border: 1px solid #d1d8dd;
+  border-radius: 3px;
+  font-size: 12px;
+}
