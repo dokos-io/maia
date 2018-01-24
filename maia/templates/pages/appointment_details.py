@@ -5,18 +5,23 @@
 from __future__ import unicode_literals
 import frappe
 from frappe import _
-from frappe.utils import formatdate, get_datetime_str, get_datetime
+from frappe.utils import formatdate, get_datetime_str, get_datetime, add_days, nowdate, getdate
 import datetime
 
 def get_context(context):
 	context.no_cache = 1
 	context.show_sidebar = True
-	context.doc = frappe.get_doc(frappe.form_dict.doctype, frappe.form_dict.name)
+	appointment = frappe.get_doc(frappe.form_dict.doctype, frappe.form_dict.name)
+	context.doc = appointment
 	if hasattr(context.doc, "set_indicator"):
 		context.doc.set_indicator()
 
 	context.parents = frappe.form_dict.parents
 	context.title = frappe.form_dict.name
+
+	cancellation_date = add_days(nowdate(), 2)
+	if getdate(appointment.date) > getdate(cancellation_date):
+		context.show_cancel_button = 1
 
 #	if not frappe.has_website_permission(context.doc):
 #		frappe.throw(_("Not Permitted"), frappe.PermissionError)
