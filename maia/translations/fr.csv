@@ -477,7 +477,7 @@ DocType: Pregnancy Consultation,Metrorrhagia,Métrorragie
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +345,Microlax,Microlax
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +238,Microval,Microval
 DocType: Addiction,Midwife,Sage-Femme
-apps/maia/maia/maia/doctype/patient_record/patient_record_dashboard.py +26,Midwife Appointment,Rendez-Vous
+Doctype: Midwife Appointment,Midwife Appointment,Rendez-Vous
 apps/maia/maia/maia/doctype/midwife_appointment/midwife_appointment.js +109,Midwife Availability,Disponibilité de la Sage-Femme
 DocType: Codification,Midwife Price,Prix Sage-Femme
 DocType: Patient,Migraine,Migraine
@@ -1127,3 +1127,4 @@ Doctype: Custom Patient Record Dashboard,Select your dashboard options,Veuillez 
 Doctype: Custom Patient Record Dashboard,Show on Patient Dashboard,Afficher sur le mémo patient
 Doctype: Custom Patient Record Dashboard,This Patient's Memo has been updated,Mémo patient mis à jour
 Doctype: Custom Patient Record Dashboard,Last Known Beginning of Pregnancy,Date de Début de la dernière Grossesse
+Doctype: Custom Patient Record Dashboard,Default Value for Patient Dashboard,Valeur par défaut pour le mémo patient

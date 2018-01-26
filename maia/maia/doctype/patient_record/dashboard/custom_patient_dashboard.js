@@ -30,7 +30,7 @@ maia.patient.PatientDashboard = Class.extend({
 	},
   render: function(data) {
     var context = data;
-    $(frappe.render_template('custom_patient_dashboards', context)).appendTo(this.result);
+    this.dashboards = $(frappe.render_template('custom_patient_dashboards', context)).appendTo(this.result).fadeIn();
   },
   show_options_dialog: function() {
     var me = this;
@@ -40,7 +40,7 @@ maia.patient.PatientDashboard = Class.extend({
     function make_fields_from_options_values(options_fields) {
 			let fields = [];
 				options_fields.forEach(value => {
-          if (fields.length === 3) {
+          if (fields.length === 5) {
             fields.push({fieldtype: 'Column Break'});
           }
 					fields.push({
@@ -84,6 +84,8 @@ maia.patient.PatientDashboard = Class.extend({
   							message: __("This Patient's Memo has been updated"),
   							indicator: 'green'
   						});
+							me.dashboards.fadeOut()
+							me.refresh()
             }
 					}
 				});

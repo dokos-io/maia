@@ -30,7 +30,7 @@
     <div class="custom_dashboard text-center">
       <span class="text-muted small">{{ __(exam.exam_type)}}</span>
       <h3 class="text-uppercase">{{ exam.exam_result || "" }}</h3>
-      <span class="text-muted small">{{ exam.date }}</span>
+      <span class="text-muted small">{{ exam.date || "" }}</span>
     </div>
   </div>
   {% endfor %}
@@ -53,6 +53,7 @@
   <div class="col-sm-3">
     <div class="custom_dashboard text-center">
       <span class="text-muted small">{{ __("Pregnancy Complications") }}</span>
+      <br>
       <h3 class="text-uppercase">{{ pregnancy_complications || "" }}</h3>
     </div>
   </div>
@@ -60,6 +61,7 @@
   <div class="col-sm-3">
     <div class="custom_dashboard text-center">
       <span class="text-muted small">{{ __("Pregnancy Complications") }}</span>
+      <br>
       <span class="text-muted small">{{ __("No Complications Registered") }}</span>
     </div>
   </div>
@@ -67,6 +69,75 @@
   {% } %}
 
 <!--End of Pregnancy Complications Section-->
+
+<!--Delivery Date Section-->
+
+  {% if (typeof delivery_date !== "undefined") { %}
+  {% if delivery_date %}
+  <div class="col-sm-3">
+    <div class="custom_dashboard text-center">
+      <span class="text-muted small">{{ __("Delivery Date") }}</span>
+      <h3 class="text-uppercase">{{ delivery_date || "" }}</h3>
+    </div>
+  </div>
+  {% else %}
+  <div class="col-sm-3">
+    <div class="custom_dashboard text-center">
+      <span class="text-muted small">{{ __("The delivery date is not defined in your latest pregnancy folder") }}</span>
+    </div>
+  </div>
+  {% endif %}
+  {% } %}
+
+<!--End of Delivery Date Section-->
+
+<!--Delivery Type Section-->
+
+  {% if (typeof delivery_way !== "undefined") { %}
+  {% if delivery_way %}
+  <div class="col-sm-3">
+    <div class="custom_dashboard text-center">
+      <span class="text-muted small">{{ __("Delivery Way") }}</span>
+      <br>
+      <h3 class="text-uppercase">{{ delivery_way || "" }}</h3>
+    </div>
+  </div>
+  {% else %}
+  <div class="col-sm-3">
+    <div class="custom_dashboard text-center">
+      <span class="text-muted small">{{ __("Delivery Way") }}</span>
+      <br>
+      <span class="text-muted small">{{ __("The delivery way is not defined in your latest pregnancy folder") }}</span>
+    </div>
+  </div>
+  {% endif %}
+  {% } %}
+
+<!--End of Delivery Type Section-->
+
+<!--Delivery Type Section-->
+
+  {% if (typeof blood_group !== "undefined") { %}
+  {% if blood_group %}
+  <div class="col-sm-3">
+    <div class="custom_dashboard text-center">
+      <span class="text-muted small">{{ __("Blood Group") }}</span>
+      <br>
+      <h3 class="text-uppercase">{{ blood_group || "" }}</h3>
+    </div>
+  </div>
+  {% else %}
+  <div class="col-sm-3">
+    <div class="custom_dashboard text-center">
+      <span class="text-muted small">{{ __("Blood Group") }}</span>
+      <br>
+      <span class="text-muted small">{{ __("The blood group is not defined for this patient") }}</span>
+    </div>
+  </div>
+  {% endif %}
+  {% } %}
+
+<!--End of Delivery Type Section-->
 
 
 </div>

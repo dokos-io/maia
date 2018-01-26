@@ -8,7 +8,7 @@ from frappe import _
 from frappe.utils import getdate, global_date_format
 import json
 
-DASHBOARD_LIST = ["beginning_of_pregnancy", "exam_results", "pregnancy_complications", "delivery_type", "child_name"]
+DASHBOARD_LIST = ["beginning_of_pregnancy", "exam_results", "pregnancy_complications", "delivery_way", "child_name", "delivery_date", "blood_group"]
 
 def get_patient_dashboard(patient_record):
     if frappe.db.exists("Custom Patient Record Dashboard", dict(patient_record=patient_record)):
@@ -42,13 +42,28 @@ def get_data(patient_record):
         if latest_pregnancy:
             pregnancy = frappe.get_doc("Pregnancy", latest_pregnancy[0].name)
             for results in pregnancy.labs_results:
-                show_on_dashboard = frappe.db.get_value("Lab Exam Type", results.exam_type, "show_on_dashboard")
-
-                if show_on_dashboard:
+                if results.show_on_dashboard:
                     results.date = global_date_format(results.date)
                     data['exam_results'].append(results)
         else:
             data['exam_results'] = None
+
+    #Delivery Date
+    if dashboard.delivery_date:
+        if latest_pregnancy:
+            delivery_date = frappe.db.get_value("Pregnancy", latest_pregnancy[0].name, "date_time")
+
+            if delivery_date is not None:
+                data['delivery_date'] = global_date_format(getdate(delivery_date))
+            else:
+                data['delivery_date'] = None
+
+    #Delivery Type
+    if dashboard.delivery_way:
+        if latest_pregnancy:
+            delivery_way = frappe.db.get_value("Pregnancy", latest_pregnancy[0].name, "delivery_way")
+
+            data['delivery_way'] = delivery_way
 
     #Pregnancy Complications
     if dashboard.pregnancy_complications:
@@ -56,13 +71,18 @@ def get_data(patient_record):
             pregnancy = frappe.get_doc("Pregnancy", latest_pregnancy[0].name)
             data['pregnancy_complications'] = pregnancy.pregnancy_complications
 
-    #Delivery Type
-    if dashboard.delivery_type:
-        pass
-
     #Child Name
-    if dashboard.child_name:
-        pass
+    #if dashboard.child_name:
+        #pass
+
+    #Blood type
+    if dashboard.blood_group:
+        blood_group = frappe.db.get_value("Patient Record", patient_record, "blood_group")
+        data['blood_group'] = blood_group
+
+    #Allergies
+    #if dashboard.allergies:
+        #pass
 
     return data
 

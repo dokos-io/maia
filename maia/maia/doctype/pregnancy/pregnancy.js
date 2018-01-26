@@ -7,3 +7,12 @@ frappe.ui.form.on('Pregnancy', {
 
 	}
 });
+
+frappe.ui.form.on('Lab Exam Results', {
+	exam_type: function(frm, cdt, cdn) {
+		var row = locals[cdt][cdn];
+		frappe.db.get_value('Lab Exam Type', {name: row.exam_type}, 'default_value', (r) => {
+				frappe.model.set_value(cdt, cdn, "show_on_dashboard", r.default_value);
+		});
+	}
+});
