@@ -316,7 +316,7 @@ DocType: Gynecology,First Menses (Year),Age des Premières Règles (Ans)
 DocType: Patient,First Name,Prénom
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +417,First Quarter Ultrasound,Echographie du Premier Trimestre (entre 11SA et 13SA+6j)
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +357,Flagyl 500mg,Flagyl 500mg
-DocType: Pregnancy Consultation,Foetal Active Movement,Mouvements Actifs Foetals
+DocType: Pregnancy Consultation,Foetal Active Movement,Mouvements Actifs Foetaux
 DocType: Echography Result,Foetal Presentation,Présentation Foetale
 apps/maia/maia/maia/doctype/patient_record/patient_record_dashboard.py +10,Folders,Dossiers
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +46,Food,Alimentation
@@ -1118,3 +1118,12 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py,"Reception and Representat
 apps/maia/maia/setup/setup_wizard/install_fixtures.py,Deeds and Litigation Expenses,Frais d'Actes et de Contentieux
 DocType: Perineum Rehabilitation,Hypopressive Exercises,Exercices Hypopressifs
 Doctype: Custom Patient Record Dashboard,Custom Patient Record Dashboard,Tableau de Bord Patient Personnalisé
+Doctype: Custom Patient Record Dashboard,Exam Results,Résultats d'Examen
+Doctype: Custom Patient Record Dashboard,Pregnancy Complications,Complications de la Grossesse
+Doctype: Custom Patient Record Dashboard,Delivery Type,Type d'Accouchement
+Doctype: Custom Patient Record Dashboard,New Born Name,Nom du Nouveau-Né
+Doctype: Custom Patient Record Dashboard,Custom Patient Record Dashboard,Mémo Patient
+Doctype: Custom Patient Record Dashboard,Select your dashboard options,Veuillez sélectionner les informations à faire apparaître sur le mémo
+Doctype: Custom Patient Record Dashboard,Show on Patient Dashboard,Afficher sur le mémo patient
+Doctype: Custom Patient Record Dashboard,This Patient's Memo has been updated,Mémo patient mis à jour
+Doctype: Custom Patient Record Dashboard,Last Known Beginning of Pregnancy,Date de Début de la dernière Grossesse

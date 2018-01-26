@@ -1,40 +1,7 @@
 // Copyright (c) 2017, DOKOS and contributors
 // For license information, please see license.txt
 
-frappe.provide("maia");
-
-maia.PatientRecordController = frappe.ui.form.Controller.extend({
-
-  refresh: function() {
-    frappe.dynamic_link = {
-      doc: this.frm.doc,
-      fieldname: 'name',
-      doctype: 'Patient Record'
-    };
-
-    if (this.frm.doc.__islocal) {
-      hide_field(['address_html']);
-      frappe.contacts.clear_address_and_contact(this.frm);
-    } else {
-      unhide_field(['address_html']);
-      frappe.contacts.render_address_and_contact(this.frm);
-      erpnext.utils.set_party_dashboard_indicators(cur_frm);
-    }
-    this.render_patient_dashboard()
-  },
-  render_patient_dashboard: function() {
-    // render dashboard
-      $(this.frm.fields_dict['custom_dashboard_html'].wrapper)
-        .html(frappe.render_template("custom_patient_dashboard", cur_frm.doc.__onload))
-        .find(".btn-address").on("click", function() {
-        });
-  }
-});
-
-$.extend(cur_frm.cscript, new maia.PatientRecordController({
-  frm: cur_frm
-}));
-
+frappe.provide("maia.patient_record");
 
 frappe.ui.form.on("Patient Record", {
   onload: function(frm) {
@@ -43,6 +10,23 @@ frappe.ui.form.on("Patient Record", {
         query: "maia.maia.doctype.patient_record.patient_record.get_users_for_website"
       }
     });
+  },
+  refresh: function(frm) {
+    frappe.dynamic_link = {
+      doc: frm.doc,
+      fieldname: 'name',
+      doctype: 'Patient Record'
+    };
+
+    if (frm.doc.__islocal) {
+      hide_field(['address_html']);
+      frappe.contacts.clear_address_and_contact(frm);
+    } else {
+      unhide_field(['address_html']);
+      frappe.contacts.render_address_and_contact(frm);
+      erpnext.utils.set_party_dashboard_indicators(frm);
+    }
+    maia.patient_record.make_dashboard(frm);
   },
 
   invite_as_user: function(frm) {
@@ -159,3 +143,17 @@ frappe.ui.form.on("Patient Record", "weight", function(frm) {
 frappe.ui.form.on("Patient Record", "pregnancies_report", function(frm) {
   return frappe.set_route('pregnancies', frm.doc.name);
 });
+
+
+$.extend(maia.patient_record, {
+  make_dashboard: function(frm) {
+    frappe.require('assets/js/patient-dashboard.min.js', function() {
+  				var section = frm.dashboard.add_section('<div class="row"><button class="btn btn-xs btn-default btn-custom_dashboard">'+__("Options")+'</button></div>');
+  				maia.patient_record.custom_patient_dashboard = new maia.patient.PatientDashboard({
+  					parent: section,
+  					patient_record: frm.doc.name
+  				});
+  				maia.patient_record.custom_patient_dashboard.refresh();
+  			});
+    }
+})

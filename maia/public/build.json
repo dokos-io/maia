@@ -1,5 +1,10 @@
 {
-	"js/maia.min.js": [
-		"public/js/conf.js"
-	]
+  "js/maia.min.js": [
+    "public/js/conf.js"
+  ],
+  "js/patient-dashboard.min.js": [
+        "maia/doctype/patient_record/dashboard/custom_patient_dashboard.html",
+        "maia/doctype/patient_record/dashboard/custom_patient_dashboards.html",
+        "maia/doctype/patient_record/dashboard/custom_patient_dashboard.js"
+    ]
 }
