@@ -273,12 +273,18 @@ def install(country=None):
 		{'doctype': "Contraception", 'contraception': _("Combined Indices Method")},
 
 		# Delivery Way
-		{'doctype': "Delivery Way", 'delivery_way': _("Normal")},
-		{'doctype': "Delivery Way", 'delivery_way': _("Vacuum")},
-		{'doctype': "Delivery Way", 'delivery_way': _("Forceps")},
-		{'doctype': "Delivery Way", 'delivery_way': _("Spatulas")},
-		{'doctype': "Delivery Way", 'delivery_way': _("Emergency C-Section")},
-		{'doctype': "Delivery Way", 'delivery_way': _("Before Labour C-Section")},
+		{'doctype': "Delivery Way", 'delivery_way': _("Normal"), 'used_in_parity': 1},
+		{'doctype': "Delivery Way", 'delivery_way': _("Vacuum"), 'used_in_parity': 1},
+		{'doctype': "Delivery Way", 'delivery_way': _("Forceps"), 'used_in_parity': 1},
+		{'doctype': "Delivery Way", 'delivery_way': _("Spatulas"), 'used_in_parity': 1},
+		{'doctype': "Delivery Way", 'delivery_way': _("Emergency C-Section"), 'used_in_parity': 1},
+		{'doctype': "Delivery Way", 'delivery_way': _("Before Labour C-Section"), 'used_in_parity': 1},
+		{'doctype': "Delivery Way", 'delivery_way': _("Therapeutic Abortion Sup To 22 WA"), 'used_in_parity': 1},
+		{'doctype': "Delivery Way", 'delivery_way': _("Therapeutic Abortion Inf To 22 WA"), 'used_in_parity': 0},
+		{'doctype': "Delivery Way", 'delivery_way': _("Surgical Abortion"), 'used_in_parity': 0},
+		{'doctype': "Delivery Way", 'delivery_way': _("Drug Induced Abortion"), 'used_in_parity': 0},
+		{'doctype': "Delivery Way", 'delivery_way': _("Miscarriage"), 'used_in_parity': 0},
+		{'doctype': "Delivery Way", 'delivery_way': _("Ectopic Pregnancy"), 'used_in_parity': 0},
 
 		# Placental Delivery
 		{'doctype': "Placental Delivery", 'placental_delivery': _("Complete Normal Delivery")},

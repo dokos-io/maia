@@ -7,7 +7,7 @@ maia.patient.PatientDashboard = Class.extend({
 	},
   make: function() {
     var me = this;
-    this.content = $(frappe.render_template('custom_patient_dashboard')).appendTo(this.parent);
+    this.content = $(frappe.render_template('result_div')).appendTo(this.parent);
     this.result = this.content.find('.result');
 
     this.parent.on('click', '.btn-custom_dashboard', function() {
@@ -29,8 +29,8 @@ maia.patient.PatientDashboard = Class.extend({
 		});
 	},
   render: function(data) {
-    var context = data;
-    this.dashboards = $(frappe.render_template('custom_patient_dashboards', context)).appendTo(this.result).fadeIn();
+		console.log(data)
+    this.dashboards = $(frappe.render_template('custom_patient_dashboard', {data: data})).appendTo(this.result).fadeIn();
   },
   show_options_dialog: function() {
     var me = this;
@@ -40,7 +40,7 @@ maia.patient.PatientDashboard = Class.extend({
     function make_fields_from_options_values(options_fields) {
 			let fields = [];
 				options_fields.forEach(value => {
-          if (fields.length === 5) {
+          if (fields.length === 7) {
             fields.push({fieldtype: 'Column Break'});
           }
 					fields.push({

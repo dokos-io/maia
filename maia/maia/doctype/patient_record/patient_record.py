@@ -14,7 +14,7 @@ from erpnext.utilities.transaction_base import TransactionBase
 from erpnext.accounts.party import validate_party_accounts
 from erpnext.controllers.queries import get_filters_cond
 from frappe.desk.reportview import get_match_cond
-
+from maia.maia.utils import parity_gravidity_calculation
 
 class PatientRecord(Document):
     def get_feed(self):
@@ -24,6 +24,7 @@ class PatientRecord(Document):
         """Load address in `__onload`"""
         load_address_and_contact(self, "patient_record")
         self.load_dashboard_info()
+        self.set_gravidity_and_parity()
 
     def load_dashboard_info(self):
         billing_this_year = frappe.db.sql("""select sum(debit_in_account_currency), account_currency
@@ -80,6 +81,7 @@ class PatientRecord(Document):
 
     def on_update(self):
         self.update_address_links()
+        self.set_gravidity_and_parity()
 
         updating_customer(self)
         frappe.db.set_value(self.doctype, self.name, "change_in_patient", 0)
@@ -96,6 +98,12 @@ class PatientRecord(Document):
     def after_rename(self, olddn, newdn, merge=False):
         frappe.rename_doc('Customer', self.customer, newdn, force=True,
                           merge=True if frappe.db.exists('Customer', newdn) else False)
+
+    def set_gravidity_and_parity(self):
+        gravidity, parity = parity_gravidity_calculation(self.name)
+
+        self.gravidity = gravidity
+        self.parity = parity
 
 
 def create_customer_from_patient(doc):

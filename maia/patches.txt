@@ -26,4 +26,5 @@ maia.patches.v1_5.reset_portal
 maia.patches.v1_5.reset_icons_list_after_migration
 maia.patches.v1_5.addition_of_subaccounts_625
 maia.patches.v1_5.purchase_items
-#maia.patches.v1_5.meal_expense_default_accounts
+maia.patches.v1_5.meal_expense_default_accounts
+maia.patches.v2_0.gravidity_parity_calculation

@@ -8,7 +8,8 @@ from frappe import _
 from frappe.utils import getdate, global_date_format
 import json
 
-DASHBOARD_LIST = ["beginning_of_pregnancy", "exam_results", "pregnancy_complications", "delivery_way", "child_name", "delivery_date", "blood_group"]
+DASHBOARD_LIST = ["beginning_of_pregnancy", "exam_results", "pregnancy_complications", "delivery_way", "child_name", "delivery_date", "blood_group",
+                    "allergies", "medical_background", "addictions", "gravidity_parity", "expected_term", "preferred_location_for_delivery"]
 
 def get_patient_dashboard(patient_record):
     if frappe.db.exists("Custom Patient Record Dashboard", dict(patient_record=patient_record)):
@@ -24,29 +25,83 @@ def get_patient_dashboard(patient_record):
 @frappe.whitelist()
 def get_data(patient_record):
     dashboard = get_patient_dashboard(patient_record)
+    patient = frappe.get_doc("Patient Record", patient_record)
     data={}
+    generaldata = {}
+    pregnancydata = {}
+    deliverydata = {}
+    newborndata = {}
+    labexamsdata = {}
+    perehabilitationdata = {}
     latest_pregnancy = get_last_pregnancy(patient_record)
 
+
+    #General Section
+    #Gravidity
+    if dashboard.gravidity_parity:
+        generaldata['gravidity'] = patient.gravidity
+
+    #Parity
+    if dashboard.gravidity_parity:
+        generaldata['parity'] = patient.parity
+
+    #Allergies
+    if dashboard.allergies:
+        generaldata['allergies'] = patient.allergies
+
+    #Medical Background
+    if dashboard.medical_background:
+        generaldata['medical_background'] = patient.long_term_disease
+
+    #Addictions
+    if dashboard.addictions:
+        generaldata['addictions'] = patient.patient_addictions
+
+    #Blood type
+    if dashboard.blood_group:
+        blood_group = frappe.db.get_value("Patient Record", patient_record, "blood_group")
+        generaldata['blood_group'] = blood_group
+
+    #Pregnancy Section
     #Beginning of Pregnancy
     if dashboard.beginning_of_pregnancy:
         if latest_pregnancy:
             beginning_of_pregnancy = frappe.db.get_value("Pregnancy", latest_pregnancy[0].name, "beginning_of_pregnancy")
-            data['beginning_of_pregnancy'] = global_date_format(beginning_of_pregnancy)
+            pregnancydata['beginning_of_pregnancy'] = global_date_format(beginning_of_pregnancy)
         else:
-            data['beginning_of_pregnancy'] = None
+            pregnancydata['beginning_of_pregnancy'] = None
+
+    #Expected Term
+    if dashboard.expected_term:
+        if latest_pregnancy:
+            expected_term = frappe.db.get_value("Pregnancy", latest_pregnancy[0].name, "expected_term")
+            pregnancydata['expected_term'] = global_date_format(expected_term)
+        else:
+            pregnancydata['expected_term'] = None
+
+    #Preferred Location for Delivery
+    if dashboard.preferred_location_for_delivery:
+        if latest_pregnancy:
+            pregnancydata['preferred_location_for_delivery'] = frappe.db.get_value("Pregnancy", latest_pregnancy[0].name, "preferred_location_for_delivery")
+
+    #Pregnancy Complications
+    if dashboard.pregnancy_complications:
+        if latest_pregnancy:
+            pregnancy = frappe.get_doc("Pregnancy", latest_pregnancy[0].name)
+            pregnancydata['pregnancy_complications'] = pregnancy.pregnancy_complications
 
     #Exam Results
     if dashboard.exam_results:
-        data['exam_results'] = []
+        labexamsdata['exam_results'] = []
 
         if latest_pregnancy:
             pregnancy = frappe.get_doc("Pregnancy", latest_pregnancy[0].name)
             for results in pregnancy.labs_results:
                 if results.show_on_dashboard:
                     results.date = global_date_format(results.date)
-                    data['exam_results'].append(results)
+                    labexamsdata['exam_results'].append(results)
         else:
-            data['exam_results'] = None
+            labexamsdata['exam_results'] = None
 
     #Delivery Date
     if dashboard.delivery_date:
@@ -54,40 +109,33 @@ def get_data(patient_record):
             delivery_date = frappe.db.get_value("Pregnancy", latest_pregnancy[0].name, "date_time")
 
             if delivery_date is not None:
-                data['delivery_date'] = global_date_format(getdate(delivery_date))
+                deliverydata['delivery_date'] = global_date_format(getdate(delivery_date))
             else:
-                data['delivery_date'] = None
+                deliverydata['delivery_date'] = None
 
     #Delivery Type
     if dashboard.delivery_way:
         if latest_pregnancy:
             delivery_way = frappe.db.get_value("Pregnancy", latest_pregnancy[0].name, "delivery_way")
 
-            data['delivery_way'] = delivery_way
-
-    #Pregnancy Complications
-    if dashboard.pregnancy_complications:
-        if latest_pregnancy:
-            pregnancy = frappe.get_doc("Pregnancy", latest_pregnancy[0].name)
-            data['pregnancy_complications'] = pregnancy.pregnancy_complications
+            deliverydata['delivery_way'] = delivery_way
 
     #Child Name
     #if dashboard.child_name:
         #pass
 
-    #Blood type
-    if dashboard.blood_group:
-        blood_group = frappe.db.get_value("Patient Record", patient_record, "blood_group")
-        data['blood_group'] = blood_group
-
-    #Allergies
-    #if dashboard.allergies:
-        #pass
+    data['general'] = generaldata
+    data['pregnancy'] = pregnancydata
+    data['delivery'] = deliverydata
+    data['newborn'] = newborndata
+    data['labexams'] = labexamsdata
+    data['perehabilitation'] = perehabilitationdata
+    print(data)
 
     return data
 
 def get_last_pregnancy(patient_record):
-    dates = frappe.get_all("Pregnancy", filters={"patient_record": patient_record}, fields=["name", "beginning_of_pregnancy", "expected_term", "last_menstrual_period"])
+    dates = frappe.get_all("Pregnancy", filters={"patient_record": patient_record}, fields=["name", "beginning_of_pregnancy", "expected_term", "last_menstrual_period", "date_time"])
 
     if all(date.beginning_of_pregnancy is None for date in dates) == False:
         latest_beginning_of_pregnancy = max(date.beginning_of_pregnancy for date in dates if date.beginning_of_pregnancy is not None)
@@ -104,11 +152,20 @@ def get_last_pregnancy(patient_record):
     else:
         latest_last_menstrual_period = "1900-01-01"
 
-    d = {'beginning_of_pregnancy':getdate(latest_beginning_of_pregnancy), 'expected_term':getdate(latest_expected_term), 'last_menstrual_period':getdate(latest_last_menstrual_period)}
+    if all(date.date_time is None for date in dates) == False:
+        date_time = max(date.date_time for date in dates if date.date_time is not None)
+    else:
+        date_time = "1900-01-01"
+
+    d = {'beginning_of_pregnancy':getdate(latest_beginning_of_pregnancy), 'expected_term':getdate(latest_expected_term), 'last_menstrual_period':getdate(latest_last_menstrual_period), 'date_time': getdate(date_time)}
 
     latest_date=max(d.iterkeys(), key = (lambda x: d[x]))
 
-    last_pregnancy = frappe.get_all("Pregnancy", filters={"patient_record": patient_record, latest_date: d[latest_date]})
+    if latest_date == 'date_time':
+        last_pregnancy = frappe.get_all("Pregnancy", filters={"patient_record": patient_record, 'date_time': date_time})
+    else:
+        last_pregnancy = frappe.get_all("Pregnancy", filters={"patient_record": patient_record, latest_date: d[latest_date]})
+
     return last_pregnancy
 
 @frappe.whitelist()

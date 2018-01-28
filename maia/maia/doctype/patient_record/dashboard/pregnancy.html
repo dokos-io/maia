@@ -1,0 +1,37 @@
+<div class="col-sm-4">
+  <div class="custom_dashboard text-center">
+    <div class="patientdashboard-pregnancy-section">
+      <img src="/assets/maia/images/pregnancy.svg" style="max-width:50px;">
+    </div>
+    {% if pregnancy.beginning_of_pregnancy %}
+    <div class="patientdashboard-pregnancy-section">
+      <span class="text-muted small">{{ __("Beginning of Pregnancy") }}</span>
+      <h4 class="patientdashboard-data">{{ pregnancy.beginning_of_pregnancy }}</h4>
+    </div>
+    {% else %}
+    <div class="col-sm-3">
+      <div class="custom_dashboard text-center">
+        <span class="text-muted small">{{ __("The beginning of pregnancy date is not defined in your latest pregnancy folder") }}</span>
+      </div>
+    </div>
+    {% endif %}
+    {% if pregnancy.expected_term %}
+    <div class="patientdashboard-pregnancy-section">
+      <span class="text-muted small">{{ __("Expected Term") }}</span>
+      <h4 class="patientdashboard-data">{{ pregnancy.expected_term }}</h4>
+    </div>
+    {% endif %}
+    {% if pregnancy.preferred_location_for_delivery %}
+    <div class="patientdashboard-pregnancy-section">
+      <span class="text-muted small">{{ __("Preferred Location for Delivery") }}</span>
+      <h4 class="patientdashboard-data">{{ pregnancy.preferred_location_for_delivery }}</h4>
+    </div>
+    {% endif %}
+    {% if pregnancy.pregnancy_complications %}
+    <div class="patientdashboard-pregnancy-section">
+      <span class="text-muted small">{{ __("Pregnancy Complications") }}</span>
+      <h4 class="patientdashboard-data">{{ pregnancy.pregnancy_complications }}</h4>
+    </div>
+    {% endif %}
+  </div>
+</div>

@@ -1,7 +1,7 @@
 {
  "allow_copy": 0, 
  "allow_guest_to_view": 0, 
- "allow_import": 0, 
+ "allow_import": 1, 
  "allow_rename": 1, 
  "autoname": "field:exam_type", 
  "beta": 0, 
@@ -84,7 +84,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2018-01-26 15:25:44.531781", 
+ "modified": "2018-01-28 22:27:39.744846", 
  "modified_by": "Administrator", 
  "module": "Maia", 
  "name": "Lab Exam Type", 

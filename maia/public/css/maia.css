@@ -1,6 +1,12 @@
+.form-dashboard-section.custom {
+  padding: 15px 15px;
+  background-color: #f0f7f9;
+}
+
 .btn-custom_dashboard {
   float: right;
   margin-right: 15px;
+  background-color: #cce4ea;
 }
 
 .custom_dashboard {
@@ -8,8 +14,27 @@
   padding: 15px 15px;
   margin: 15px 0px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
 }
 
-.form-dashboard-section.custom {
-  padding: 15px 15px;
+.custom_dashboard h4 {
+  margin-top: 2px;
+}
+
+.text-muted.small {
+  font-size: 11px;
+}
+
+.patientdashboard-general-section,
+.patientdashboard-pregnancy-section {
+  margin-top: 15px;
+  margin-bottom: 25px;
+}
+
+.patientdashboard-data {
+  color: #425668;
+}
+
+.gravidity-parity {
+  color: #ff4081;
 }

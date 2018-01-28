@@ -1,0 +1,39 @@
+<div class="col-sm-4">
+  <div class="custom_dashboard text-center">
+    <div class="patientdashboard-general-section">
+      <img src="/assets/maia/images/general.svg" style="max-width:50px;">
+    </div>
+    {% if general.gravidity || general.parity %}
+    <div class="patientdashboard-general-section">
+      <h4 class="patientdashboard-data gravidity-parity">{{ general.gravidity }} <span class="text-muted small gravidity-parity">{{ __("G") }}</span> {{ general.parity }} <span class="text-muted small gravidity-parity">{{ __("P") }}</span></h4>
+    </div>
+    {% endif %}
+    {% if general.allergies %}
+    <div class="patientdashboard-general-section">
+      <span class="text-muted small">{{ __("Allergies") }}</span>
+      {% for allergy in general.allergies %}
+      <h4 class="patientdashboard-data text-uppercase">{{ allergy.patient_allergies }}</h4>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% if general.medical_background %}
+    <div class="patientdashboard-general-section">
+      <span class="text-muted small">{{ __("Antécédents Médicaux") }}</span>
+      <h4 class="patientdashboard-data">{{ general.medical_background }}</h4>
+    </div>
+    {% endif %}
+    {% if general.addictions %}
+    <div class="patientdashboard-general-section">
+      <span class="text-muted small">{{ __("Addictions") }}</span>
+      {% for addiction in general.addictions %}
+      <h4 class="patientdashboard-data text-uppercase">{{ addiction.patient_addictions }}</h4>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% if general.blood_group %}
+    <div class="patientdashboard-general-section">
+      <h4 class="patientdashboard-data text-uppercase gravidity-parity">{{ general.blood_group }}</h4>
+    </div>
+    {% endif %}
+  </div>
+</div>

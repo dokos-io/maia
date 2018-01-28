@@ -45,7 +45,7 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +22,All Item Groups,Tous l
 apps/maia/maia/maia/invoicing.py +38,All Territories,Tous les Territoires
 DocType: Allergy,Allergies,Allergies
 DocType: Allergy,Allergy,Allergie
-DocType: Perineum Rehabilitation,Alone,Seul
+DocType: Perineum Rehabilitation,Alone,Seule
 DocType: Birth Preparation Consultation,Amended From,Modifié Depuis
 DocType: Pregnancy Consultation,Amniotic Liquid,Liquide Amniotique
 DocType: Perineum Rehabilitation,Anal Area,Zone Anale
@@ -1126,5 +1126,18 @@ Doctype: Custom Patient Record Dashboard,Custom Patient Record Dashboard,Mémo P
 Doctype: Custom Patient Record Dashboard,Select your dashboard options,Veuillez sélectionner les informations à faire apparaître sur le mémo
 Doctype: Custom Patient Record Dashboard,Show on Patient Dashboard,Afficher sur le mémo patient
 Doctype: Custom Patient Record Dashboard,This Patient's Memo has been updated,Mémo patient mis à jour
-Doctype: Custom Patient Record Dashboard,Last Known Beginning of Pregnancy,Date de Début de la dernière Grossesse
+Doctype: Custom Patient Record Dashboard,Beginning of Latest Pregnancy,Date de Début de la Dernière Grossesse
+Doctype: Custom Patient Record Dashboard,Beginning of Pregnancy,Date de Début de Grossesse
 Doctype: Custom Patient Record Dashboard,Default Value for Patient Dashboard,Valeur par défaut pour le mémo patient
+Doctype: Obstetrical Background,Multiple Pregnancy,Grossesse Multiple
+Doctype: Pregnancy,Second Newborn,Deuxième Nouveau-Né
+Doctype: Pregnancy,Third Newborn,Troisième Nouveau-Né
+Doctype: Delivery Way,Used in Parity Calculation,Utilisé dans le calcul de la parité
+Doctype: Pregnancy,Twins,Jumeaux
+Doctype: Pregnancy,Triplets,Triplets
+Doctype: Delivery Way,Therapeutic Abortion Sup To 22 WA,IMG Supérieur à 22 SA
+Doctype: Delivery Way,Therapeutic Abortion Inf To 22 WA,IMG Inférieur à 22 SA
+Doctype: Delivery Way,Surgical Abortion,IVG Chirurgicale
+Doctype: Delivery Way,Drug Induced Abortion,IVG Médicamenteuse
+Doctype: Delivery Way,Miscarriage,Fausse Couche
+Doctype: Delivery Way,Ectopic Pregnancy,Grossesse Extra-Utérine

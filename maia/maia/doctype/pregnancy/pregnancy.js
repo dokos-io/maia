@@ -4,7 +4,9 @@ frappe.provide("maia");
 
 frappe.ui.form.on('Pregnancy', {
 	refresh: function(frm) {
-
+	},
+	date_time: function(frm) {
+		frm.set_value("birth_datetime", frm.doc.date_time);
 	}
 });
 

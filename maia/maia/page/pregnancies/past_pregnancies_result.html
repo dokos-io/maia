@@ -1,9 +1,14 @@
 <div class="row pregnancy-section">
 
   <div class="col-sm-12">
-    <h1 class="form-section-heading pregnancy-title-uppercase">{{ __("Delivery :") }} {{ date }}</h1>
+    {% if show_delivery_way %}
+      <h1 class="form-section-heading pregnancy-title-uppercase">{{ __(delivery_way) }} : {{ date }}</h1>
+    {% else %}
+      <h1 class="form-section-heading pregnancy-title-uppercase">{{ __("Delivery :") }} {{ date }}</h1>
+    {% endif %}
   </div>
 
+{% if not show_delivery_way %}
   <div class="col-sm-12">
     {% if maternity %}
     <div class="form-column pregnancy-column clearfix col-xs-6 col-sm-3">
@@ -247,5 +252,6 @@
     {% endif %}
 
   </div>
+  {% endif %}
 </div>
 <br>
