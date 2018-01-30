@@ -7,7 +7,7 @@
     {% if (exam_results !==null) %}
     {% for exam in exam_results %}
     <div class="patientdashboard-labexams-section">
-      <span class="text-muted small">{{ __(exam.exam_type)}}</span>
+      <span class="text-muted small">{{ __(exam.exam_type) }}</span>
       <h4 class="patientdashboard-data">{{ exam.exam_result || "" }}</h4>
     </div>
     {% endfor %}
