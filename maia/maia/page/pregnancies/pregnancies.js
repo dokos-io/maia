@@ -11,9 +11,13 @@ frappe.Pregnancies = Class.extend({
 			single_column: true
 		});
 
+		this.page.add_inner_button(__('Refresh'), () => {
+			this.page.remove_inner_button(__('Back to Patient Record'));
+			$('.frappe-list-area').remove()
+			this.make_select();
+		});
 		this.make_select();
 	},
-
 	make_select: function() {
 		var me = this;
 		return frappe.call({

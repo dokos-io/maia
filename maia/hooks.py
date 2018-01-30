@@ -19,6 +19,7 @@ fixtures = ["Custom Field", {"doctype": "Role", "filters": {"name": "Midwife"}},
 error_report_email = "hello@dokos.io"
 
 app_include_js = "assets/js/maia.min.js"
+app_include_css = "assets/maia/css/maia.css"
 
 website_context = {
     "favicon": "/assets/maia/favicon.png",

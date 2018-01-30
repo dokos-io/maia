@@ -1,0 +1,15 @@
+{% if ((typeof exam_results !== "undefined") && (typeof exam_results !== "undefined")) { %}
+<div class="patient-dashboard-card">
+  <div class="custom_dashboard text-center custom-dashboard-card">
+    <div class="patientdashboard-labexams-section patientdashboard-icon">
+      <img src="/assets/maia/images/lab_exam_results.svg" style="max-width:50px;">
+    </div>
+    {% for exam in exam_results %}
+    <div class="patientdashboard-labexams-section">
+      <span class="text-muted small">{{ __(exam.exam_type)}}</span>
+      <h4 class="patientdashboard-data">{{ exam.exam_result || "" }}</h4>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% } %}
