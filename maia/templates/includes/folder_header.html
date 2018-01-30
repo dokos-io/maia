@@ -9,15 +9,21 @@
 
 <div class="print-heading" style="margin-top:50px">
   <div>
-    <h2 class="text-left">{{ _(doc.doctype) }}</h2>
+    <h2 style="text-align: center;">{{ _(doc.doctype) }}</h2>
   </div>
   <div class="row" style="margin-top:20px">
     <div class="col-xs-12">
       <div class="col-xs-6 text-left">
-	{% set patient = frappe.get_doc("Patient Record", doc.patient_record) %}
-	<blockquote style="font-size: 11pt;">{{ _("Date :") }} {{ doc.get_formatted("consultation_date") }}<br>
-	  {{ _("Patient :") }} {{ doc.patient_name }} {% if patient.patient_age != none %}<br>
-	  {{ _("Age :") }} {{ patient.patient_age }}</blockquote> {% endif %}
+        {% set patient = frappe.get_doc("Patient Record", doc.patient_record) %}
+	       <h4>{{ doc.patient_name }}
+           {% if patient.patient_age != none %}
+            <br>
+	          <span style="text-transform: lowercase;font-weight:400">{{ patient.patient_age }}</span>
+           </h4>
+           {% endif %}
+      </div>
+      <div class="col-xs-6 text-right">
+        <h4 style="text-transform: lowercase;">{{ frappe.format_date(doc.consultation_date) }}</h4>
       </div>
     </div>
   </div>

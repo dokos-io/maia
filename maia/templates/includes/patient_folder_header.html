@@ -10,14 +10,21 @@
 
 <div class="print-heading" style="margin-top:50px">
   <div>
-    <h2 class="text-left">{{ _(doc.doctype) }}</h2>
+    <h2 style="text-align: center;">{{ _(doc.doctype) }}</h2>
   </div>
   <div class="row" style="margin-top:20px">
     <div class="col-xs-12">
       <div class="col-xs-6 text-left">
-	<blockquote style="font-size: 11pt;">{{ _("Date :") }} {{ frappe.format_value(frappe.utils.now(), {'fieldtype': 'Date'}) }}<br>
-	  {{ _("Patient :") }} {{ doc.patient_name }} <br> {% if doc.patient_age != none %}
-	  {{ _("Age :") }} {{ doc.patient_age }}</blockquote> {% endif %}
+	       <h4>{{ doc.patient_name }}
+           {% if doc.patient_age != none %}
+            <br>
+	          <span style="text-transform: lowercase;font-weight:400">{{ doc.patient_age }}</span>
+           </h4>
+           {% endif %}
+      </div>
+      <div class="col-xs-6 text-right">
+        <h4 style="text-transform: lowercase;">{{ frappe.format_date(frappe.utils.now()) }}</h4>
+      </div>
       </div>
     </div>
   </div>
