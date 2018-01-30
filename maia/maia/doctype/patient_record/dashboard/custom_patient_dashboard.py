@@ -182,11 +182,11 @@ def get_data(patient_record):
 
         #Urgency of Urination
         if dashboard.urgency_of_urination:
-            perehabilitationdata['urgency_of_urination'] = pr_folder.urgency_of_urination
+            perehabilitationdata['urgency_of_urination'] = _(pr_folder.urgency_of_urination)
 
         #Overactive Bladder
         if dashboard.overactive_bladder:
-            perehabilitationdata['overactive_bladder'] = pr_folder.overactive_bladder
+            perehabilitationdata['overactive_bladder'] = _(pr_folder.overactive_bladder)
 
         #Testing
         if dashboard.testing:

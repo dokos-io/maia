@@ -29,6 +29,7 @@ maia.patient.PatientDashboard = Class.extend({
 		});
 	},
   render: function(dashboarddata) {
+		console.log(dashboarddata)
 		var templates = {'general': 'general_memo', 'pregnancy': 'pregnancy', 'delivery': 'delivery', 'newborn': 'newborn', 'labexams': 'lab_exam_results', 'perehabilitation': 'perineum_rehabilitation'}
 		this.dashboard = $(frappe.render_template('custom_patient_dashboard')).appendTo(this.result);
 		var $first_col = this.dashboard.find('.dashboard-col-1');
