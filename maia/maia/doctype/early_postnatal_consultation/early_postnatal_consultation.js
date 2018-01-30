@@ -31,6 +31,7 @@ $.extend(cur_frm.cscript, new maia.EarlyPostnatalConsultationController({
 }));
 
 frappe.ui.form.on("Early Postnatal Consultation", "pregnancy_folder", function(frm) {
+  if (frm.doc.pregnancy_folder) {
   frappe.call({
        method: 'frappe.client.get',
        args: {
@@ -46,6 +47,7 @@ frappe.ui.form.on("Early Postnatal Consultation", "pregnancy_folder", function(f
         frappe.model.set_value("Early Postnatal Consultation", frm.doc.name, "newborn_fullname_3", r.message.full_name_3);
     }
   });
+}
 });
 
 var get_postdelivery_date = function(frm) {

@@ -10,6 +10,7 @@ frappe.ui.form.on("Patient Record", {
         query: "maia.maia.doctype.patient_record.patient_record.get_users_for_website"
       }
     });
+    frm.trigger("setup_chart");
   },
   refresh: function(frm) {
     frappe.dynamic_link = {
@@ -69,7 +70,57 @@ frappe.ui.form.on("Patient Record", {
     if (!frm.doc.mobile_no.match(reg)) {
       frappe.msgprint(__("The mobile n° format is incorrect"));
     }
+  },
+  weight: function(frm) {
+    if (frm.doc.weight) {
+      frm.save();
+      frappe.call({
+        method: "maia.maia.doctype.patient_record.patient_record.update_weight_tracking",
+        args: {
+          doc: frm.doc.name,
+          weight: frm.doc.weight
+        },
+        callback: function(r) {
+          if (r.message == 'Success') {
+            frappe.show_alert({
+              message: __("Weight Updated"),
+              indicator: 'green'
+            });
+            frm.trigger("setup_chart");
+          }
+        }
+      })
+    }
+  },
+  setup_chart: function(frm) {
+
+    frappe.call({
+      method: "maia.maia.doctype.patient_record.patient_record.get_patient_weight_data",
+      args: {
+        patient_record: frm.doc.name
+      },
+      callback: function(r) {
+        console.log(r.message)
+        if (r.message) {
+          let data = r.message;
+
+          let $wrap = $('div[data-fieldname=weight_curve]').get(0);
+
+          let chart = new Chart({
+            parent: $wrap,
+            title: __("Patient Weight"),
+            data: data,
+            type: 'line',
+            region_fill: 1,
+            height: 250,
+
+            colors: ['#ffa00a'],
+          });
+        }
+      }
+    });
   }
+
 });
 
 frappe.ui.form.on("Patient Record", "patient_date_of_birth", function(frm) {

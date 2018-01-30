@@ -35,20 +35,22 @@ def parity_gravidity_calculation(patient_record):
 
             parity += children
 
-    pregnancies = frappe.get_all("Pregnancy", filters={'patient_record': patient_record}, fields=['name', 'date_time', 'twins', 'triplets', 'birth_datetime_2', 'birth_datetime_3'])
+    pregnancies = frappe.get_all("Pregnancy", filters={'patient_record': patient_record}, fields=['name', 'date_time', 'twins', 'triplets', 'birth_datetime_2', 'birth_datetime_3', 'delivery_way'])
 
     for pregnancy in pregnancies:
         gravidity += 1
 
+        counted_in_parity = frappe.db.get_value("Delivery Way", pregnancy.delivery_way)
+
         children = 0
-        if pregnancy.date_time is not None:
+        if pregnancy.date_time is not None and counted_in_parity is not None:
             children += 1
 
-        if pregnancy.twins is not None:
+        if pregnancy.twins is not None and counted_in_parity is not None:
             if pregnancy.birth_datetime_2 is not None:
                 children += 1
 
-        elif pregnancy.triplets is not None:
+        elif pregnancy.triplets is not None and counted_in_parity is not None:
             if pregnancy.birth_datetime_3 is not None:
                 children += 1
 

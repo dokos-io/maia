@@ -878,6 +878,7 @@ apps/maia/maia/public/js/setup_wizard.js +295,We buy this Item,Nous achetons cet
 apps/maia/maia/public/js/setup_wizard.js +294,We sell this Item,Nous vendons cet article
 apps/maia/maia/maia/doctype/pregnancy_consultation/pregnancy_consultation.js +568,Weeks Amenorrhea +,SA +
 DocType: Gynecological Consultation,Weight,Poids
+DocType: Gynecological Consultation,Weight (Kg),Poids (Kg)
 DocType: Patient,Weight (Kg),Poids (Kg)
 DocType: Early Postnatal Consultation,Weight Gain,Prise de Poids
 DocType: Perineum Rehabilitation,Weight Gain (Kg),Prise de Poids(Kg)
@@ -1150,3 +1151,6 @@ Doctype: Custom Patient Record Dashboard,Please set a delivery date in your late
 Doctype: Custom Patient Record Dashboard,Please set the beginning of pregnancy date in your latest pregnancy folder,Veuillez définir une date de début de grossesse dans votre dernier dossier de grossesse
 Doctype: Custom Patient Record Dashboard,Please set the expected term date in your latest pregnancy folder,Veuillez définir un terme prévu dans votre dernier dossier de grossesse
 Doctype: Custom Patient Record Dashboard,Please set a birth weight in the pregnancy folder,Veuillez entrer un poids de naissance dans le dossier de grossesse
+Doctype: Patient Record,Weight Updated,Poids mis à Jour
+Doctype: Patient Record,Patient Weight,Courbe de Poids Patient(e)
+Doctype: Pregnancy,Weight Curve (g),Courbe de Poids (g)
