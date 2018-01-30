@@ -35,8 +35,6 @@ maia.patient.PatientDashboard = Class.extend({
 		var $second_col = this.dashboard.find('.dashboard-col-2');
 		var $third_col = this.dashboard.find('.dashboard-col-3');
 
-		console.log(dashboarddata);
-
 		var firstHeight = 0;
 		var secondHeight = 0;
 		var thirdHeight = 0;
