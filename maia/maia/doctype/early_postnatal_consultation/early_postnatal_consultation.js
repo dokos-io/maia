@@ -30,6 +30,24 @@ $.extend(cur_frm.cscript, new maia.EarlyPostnatalConsultationController({
   frm: cur_frm
 }));
 
+frappe.ui.form.on("Early Postnatal Consultation", "pregnancy_folder", function(frm) {
+  frappe.call({
+       method: 'frappe.client.get',
+       args: {
+         doctype: 'Pregnancy',
+         name: frm.doc.pregnancy_folder
+       },
+  }).then((r) => {
+    if (r.message) {
+        frappe.model.set_value("Early Postnatal Consultation", frm.doc.name, "twins", r.message.twins);
+        frappe.model.set_value("Early Postnatal Consultation", frm.doc.name, "triplets", r.message.triplets);
+        frappe.model.set_value("Early Postnatal Consultation", frm.doc.name, "newborn_fullname", r.message.full_name);
+        frappe.model.set_value("Early Postnatal Consultation", frm.doc.name, "newborn_fullname_2", r.message.full_name_2);
+        frappe.model.set_value("Early Postnatal Consultation", frm.doc.name, "newborn_fullname_3", r.message.full_name_3);
+    }
+  });
+});
+
 var get_postdelivery_date = function(frm) {
   if (frm.doc.pregnancy_folder) {
     frappe.call({

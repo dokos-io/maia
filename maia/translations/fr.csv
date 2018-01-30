@@ -504,6 +504,8 @@ DocType: Correspondents,Name,Nom
 DocType: Pregnancy,Neonatal Heel Prick,Test de Dépistage des Maladies Métaboliques
 apps/maia/maia/utilities/activation.py +42,New Letter Head,Nouvel En-Tête
 DocType: Early Postnatal Consultation,Newborn,Nouveau Né
+DocType: Early Postnatal Consultation,Newborn 2,Nouveau Né 2
+DocType: Early Postnatal Consultation,Newborn 3,Nouveau Né 3
 DocType: Early Postnatal Consultation,Newborn Exam,Examen du Nouveau Né
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +239,Nexplanon,Nexplanon
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +286,Nexplanon Installation Kit,Un Kit de Pose du Dispositif sous Cutané
@@ -568,7 +570,7 @@ DocType: Pregnancy,PREGNANCY/,OBST/
 DocType: Birth Preparation Consultation,Paid Immediately,Paiement Immédiat
 DocType: Pregnancy Consultation,"Pain","Douleur"
 DocType: Early Postnatal Consultation,Pain Rating,Évaluation de la Douleur
-DocType: Early Postnatal Consultation,Pain Rating Details:,Détails d’Évaluation de la Douleur :
+DocType: Early Postnatal Consultation,Pain Rating Details,Détails d’Évaluation de la Douleur
 apps/maia/maia/public/js/setup_wizard.js +291,Pair,Paire
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +347,Paracetamol 500mg,Paracétamol 500mg
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +341,Parapsyllium,Parapsyllium
