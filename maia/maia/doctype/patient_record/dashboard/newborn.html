@@ -1,16 +1,32 @@
-<div class="col-sm-3">
-  <div class="custom_dashboard text-center">
-    <div class="pregnancy-section">
+<div class="patient-dashboard-card">
+  <div class="custom_dashboard text-center custom-dashboard-card">
+    <div class="patientdashboard-newborn-section patientdashboard-icon">
       <img src="/assets/maia/images/newborn.svg" style="max-width:50px;">
     </div>
-    <div class="pregnancy-section">
-      <h4 class="pregnancy-data">{{ __("Arthur Martin") }}</h4>
+    {% if ((typeof child_names !== "undefined") && (child_names.length !==0)) { %}
+    {% for name in child_names %}
+    <div class="patientdashboard-newborn-section">
+      <h4 class="patientdashboard-data">{{ name }}</h4>
     </div>
-    <div class="pregnancy-section">
-      <h4 class="pregnancy-data">{{ __("3500 g") }}</h4>
+    {% endfor %}
+    {% } %}
+    {% if ((typeof birth_weights !== "undefined") && (birth_weights.length !==0)) { %}
+    {% for weight in birth_weights %}
+    <div class="patientdashboard-newborn-section">
+      {% if weight %}
+      <h4 class="patientdashboard-data">{{ weight }} {{ __("g") }}</h4>
+      {% else %}
+      <span class="text-muted small">{{ __("Please set a birth weight in the pregnancy folder") }}</span>
+      {% endif %}
     </div>
-    <div class="pregnancy-section">
-      <h4 class="pregnancy-data">{{ __("Allaitement Maternel") }}</h4>
+    {% endfor %}
+    {% } %}
+    {% if ((typeof feeding_types !== "undefined") && (feeding_types.length !==0)) { %}
+    {% for type in feeding_types %}
+    <div class="patientdashboard-newborn-section">
+      <h4 class="patientdashboard-data">{{ __(type) }}</h4>
     </div>
+    {% endfor %}
+    {% } %}
   </div>
 </div>

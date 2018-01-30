@@ -28,9 +28,52 @@ maia.patient.PatientDashboard = Class.extend({
 			}
 		});
 	},
-  render: function(data) {
-		console.log(data)
-    this.dashboards = $(frappe.render_template('custom_patient_dashboard', {data: data})).appendTo(this.result).fadeIn();
+  render: function(dashboarddata) {
+		var templates = {'general': 'general_memo', 'pregnancy': 'pregnancy', 'delivery': 'delivery', 'newborn': 'newborn', 'labexams': 'lab_exam_results', 'perehabilitation': 'perineum_rehabilitation'}
+		this.dashboard = $(frappe.render_template('custom_patient_dashboard')).appendTo(this.result);
+		var $first_col = this.dashboard.find('.dashboard-col-1');
+		var $second_col = this.dashboard.find('.dashboard-col-2');
+		var $third_col = this.dashboard.find('.dashboard-col-3');
+
+		console.log(dashboarddata);
+
+		var firstHeight = 0;
+		var secondHeight = 0;
+		var thirdHeight = 0;
+		dashboarddata.forEach(function(dictdata, index) {
+			var key = Object.keys(dictdata)[0];
+			if (index == 0) {
+				var $firstDash = $(frappe.render_template(templates[key], dashboarddata[index][key])).appendTo($first_col).fadeIn();
+				firstHeight += $firstDash[0].clientHeight;
+			} else {
+				if (secondHeight == 0) {
+					var $secondDash = $(frappe.render_template(templates[key], dashboarddata[index][key])).appendTo($second_col).fadeIn();
+					secondHeight += $secondDash[0].clientHeight;
+
+				} else if (thirdHeight == 0) {
+					var $thirdDash = $(frappe.render_template(templates[key], dashboarddata[index][key])).appendTo($third_col).fadeIn();
+					thirdHeight += $thirdDash[0].clientHeight;
+
+				}	else if (firstHeight > secondHeight) {
+					var $secondDash = $(frappe.render_template(templates[key], dashboarddata[index][key])).appendTo($second_col).fadeIn();
+					secondHeight += $secondDash[0].clientHeight;
+
+				} else if (firstHeight > thirdHeight) {
+					var $thirdDash = $(frappe.render_template(templates[key], dashboarddata[index][key])).appendTo($third_col).fadeIn();
+					thirdHeight += $thirdDash[0].clientHeight;
+
+				} else {
+					var $firstDash = $(frappe.render_template(templates[key], dashboarddata[index][key])).appendTo($first_col).fadeIn();
+					firstHeight += $firstDash[0].clientHeight;
+				}
+			}
+			$('.dashboard-col-1').find('.patient-dashboard-card').addClass('col-sm-12');
+			$('.dashboard-col-2').find('.patient-dashboard-card').addClass('col-sm-12');
+			$('.dashboard-col-3').find('.patient-dashboard-card').addClass('col-sm-6 col-md-12');
+
+		})
+
+
   },
   show_options_dialog: function() {
     var me = this;
@@ -40,7 +83,7 @@ maia.patient.PatientDashboard = Class.extend({
     function make_fields_from_options_values(options_fields) {
 			let fields = [];
 				options_fields.forEach(value => {
-          if (fields.length === 7) {
+          if (fields.length === 10) {
             fields.push({fieldtype: 'Column Break'});
           }
 					fields.push({
@@ -84,7 +127,7 @@ maia.patient.PatientDashboard = Class.extend({
   							message: __("This Patient's Memo has been updated"),
   							indicator: 'green'
   						});
-							me.dashboards.fadeOut()
+							me.dashboard.fadeOut()
 							me.refresh()
             }
 					}

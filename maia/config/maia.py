@@ -150,6 +150,12 @@ def get_data():
                 },
                 {
                     "type": "doctype",
+                    "name": "Delivery Way",
+                    "label": _("Delivery Way"),
+                    "description": _("Delivery Way"),
+                },
+                {
+                    "type": "doctype",
                     "name": "Midwife Appointment Type",
                     "label": _("Midwife Appointment Type"),
                     "description": _("Midwife Appointment Type"),

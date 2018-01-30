@@ -1117,7 +1117,7 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py,Vehicule Expense,Frais de 
 apps/maia/maia/setup/setup_wizard/install_fixtures.py,"Reception and Representation Expense","Frais de Réception, de Représentation, de Congrès"
 apps/maia/maia/setup/setup_wizard/install_fixtures.py,Deeds and Litigation Expenses,Frais d'Actes et de Contentieux
 DocType: Perineum Rehabilitation,Hypopressive Exercises,Exercices Hypopressifs
-Doctype: Custom Patient Record Dashboard,Custom Patient Record Dashboard,Tableau de Bord Patient Personnalisé
+Doctype: Custom Patient Record Dashboard,Custom Patient Record Dashboard,Mémo Patient
 Doctype: Custom Patient Record Dashboard,Exam Results,Résultats d'Examen
 Doctype: Custom Patient Record Dashboard,Pregnancy Complications,Complications de la Grossesse
 Doctype: Custom Patient Record Dashboard,Delivery Type,Type d'Accouchement
@@ -1134,10 +1134,17 @@ Doctype: Pregnancy,Second Newborn,Deuxième Nouveau-Né
 Doctype: Pregnancy,Third Newborn,Troisième Nouveau-Né
 Doctype: Delivery Way,Used in Parity Calculation,Utilisé dans le calcul de la parité
 Doctype: Pregnancy,Twins,Jumeaux
-Doctype: Pregnancy,Triplets,Triplets
+Doctype: Pregnancy,Triplets,Triplés
 Doctype: Delivery Way,Therapeutic Abortion Sup To 22 WA,IMG Supérieur à 22 SA
 Doctype: Delivery Way,Therapeutic Abortion Inf To 22 WA,IMG Inférieur à 22 SA
 Doctype: Delivery Way,Surgical Abortion,IVG Chirurgicale
 Doctype: Delivery Way,Drug Induced Abortion,IVG Médicamenteuse
 Doctype: Delivery Way,Miscarriage,Fausse Couche
 Doctype: Delivery Way,Ectopic Pregnancy,Grossesse Extra-Utérine
+Doctype: Custom Patient Record Dashboard,Birth Weight,Poids de Naissance
+Doctype: Custom Patient Record Dashboard,Delivery Date,Date d'Accouchement
+Doctype: Custom Patient Record Dashboard,Gravidity and Parity,Gestité et Parité
+Doctype: Custom Patient Record Dashboard,Please set a delivery date in your latest pregnancy folder,Veuillez définir une date d'accouchement dans votre dernier dossier de grossesse
+Doctype: Custom Patient Record Dashboard,Please set the beginning of pregnancy date in your latest pregnancy folder,Veuillez définir une date de début de grossesse dans votre dernier dossier de grossesse
+Doctype: Custom Patient Record Dashboard,Please set the expected term date in your latest pregnancy folder,Veuillez définir un terme prévu dans votre dernier dossier de grossesse
+Doctype: Custom Patient Record Dashboard,Please set a birth weight in the pregnancy folder,Veuillez entrer un poids de naissance dans le dossier de grossesse

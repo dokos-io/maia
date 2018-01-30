@@ -148,7 +148,7 @@ frappe.ui.form.on("Patient Record", "pregnancies_report", function(frm) {
 $.extend(maia.patient_record, {
   make_dashboard: function(frm) {
     frappe.require('assets/js/patient-dashboard.min.js', function() {
-  				var section = frm.dashboard.add_section('<div class="row"><button class="btn btn-xs btn-default btn-custom_dashboard">'+__("Options")+'</button></div>');
+  				var section = frm.dashboard.add_section('<div class="row"><button class="btn btn-xs btn-default btn-custom_dashboard">'+__("Memo")+'</button></div>');
   				maia.patient_record.custom_patient_dashboard = new maia.patient.PatientDashboard({
   					parent: section,
   					patient_record: frm.doc.name

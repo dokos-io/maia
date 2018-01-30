@@ -1,24 +1,15 @@
-{% if (typeof exam_results !== "undefined") { %}
-{% if exam_results %}
-<div class="col-sm-3">
-  <div class="custom_dashboard text-center">
-    <div class="pregnancy-section">
+{% if ((typeof exam_results !== "undefined") && (typeof exam_results !== "undefined")) { %}
+<div class="patient-dashboard-card">
+  <div class="custom_dashboard text-center custom-dashboard-card">
+    <div class="patientdashboard-labexams-section patientdashboard-icon">
       <img src="/assets/maia/images/lab_exam_results.svg" style="max-width:50px;">
     </div>
     {% for exam in exam_results %}
-    <div class="exam-result">
+    <div class="patientdashboard-labexams-section">
       <span class="text-muted small">{{ __(exam.exam_type)}}</span>
-      <h4 class="text-uppercase">{{ exam.exam_result || "" }}</h4>
+      <h4 class="patientdashboard-data">{{ exam.exam_result || "" }}</h4>
     </div>
     {% endfor %}
   </div>
 </div>
-{% else %}
-<div class="col-sm3">
-  <div class="custom_dashboard text-center">
-    <span class="text-muted small">{{ __(exam.exam_type)}}</span>
-    <p class="text-muted small">{{ __("The beginning of pregnancy date is not defined in your latest pregnancy folder") }}</p>
-  </div>
-</div>
-{% endif %}
 {% } %}

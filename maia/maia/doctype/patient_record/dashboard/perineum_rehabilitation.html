@@ -1,17 +1,29 @@
-<div class="col-sm-3">
-  <div class="custom_dashboard text-center">
-    <div class="pregnancy-section">
+<div class="patient-dashboard-card">
+  <div class="custom_dashboard text-center custom-dashboard-card">
+    <div class="patientdashboard-pr-section patientdashboard-icon">
       <img src="/assets/maia/images/perineum_rehabilitation.svg" style="max-width:50px;">
     </div>
-    <div class="pregnancy-section">
-      <h4 class="pregnancy-data">{{ __("Incontinence Urinaire d\'Effort") }}</h4>
+    {% if (typeof urgency_of_urination !== "undefined") { %}
+    {% if urgency_of_urination %}
+    <div class="patientdashboard-pr-section">
+      <h4 class="patientdashboard-data">{{ urgency_of_urination }}</h4>
     </div>
-    <div class="pregnancy-section">
-      <h4 class="pregnancy-data">{{ __("Impériosité Seule") }}</h4>
+    {% endif %}
+    {% } %}
+    {% if (typeof overactive_bladder !== "undefined") { %}
+    {% if overactive_bladder %}
+    <div class="patientdashboard-pr-section">
+      <h4 class="patientdashboard-data">{{ overactive_bladder }}</h4>
     </div>
-    <div class="pregnancy-section">
+    {% endif %}
+    {% } %}
+    {% if (typeof testing !== "undefined") { %}
+    {% if testing %}
+    <div class="patientdashboard-pr-section">
       <span class="text-muted small">{{ __("Testing") }}</span>
-      <h4 class="pregnancy-data">{{ __("3") }}</h4>
+      <h4 class="patientdashboard-data">{{ testing }}</h4>
     </div>
+    {% endif %}
+    {% } %}
   </div>
 </div>

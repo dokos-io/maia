@@ -1,13 +1,14 @@
-<div class="row">
-  <div id="custom-dashboard-grid" class="col-sm-12">
+<div class="row grid" id="custom-dashboard-grid">
 
-    {% if data.general %}
-      {{ frappe.render_template("general_memo", data) }}
-    {% endif %}
-
-    {% if data.pregnancy %}
-      {{ frappe.render_template("pregnancy", data) }}
-    {% endif %}
-
+  <div class="col-sm-6 col-md-4 dashboard-col-1">
   </div>
+
+  <div class="col-sm-6 col-md-4 dashboard-col-2">
+  </div>
+
+  <div class="clearfix visible-sm"></div>
+
+  <div class="col-sm-12 col-md-4 dashboard-col-3">
+  </div>
+
 </div>
