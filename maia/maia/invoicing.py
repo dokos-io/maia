@@ -147,11 +147,11 @@ def update_invoice_details(self, customer, case):
 
 
 def cancel_consultation_and_invoice(self):
-	if self.invoice != "":
+	if self.invoice is not None:
 					invoice = frappe.get_doc("Sales Invoice", self.invoice)
 					invoice.cancel()
 
-	if self.social_security_invoice:
+	if self.social_security_invoice is not None:
 					ss_invoice = frappe.get_doc("Sales Invoice", self.social_security_invoice)
 					ss_invoice.cancel()
 
