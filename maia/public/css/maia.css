@@ -38,6 +38,7 @@
 
 .custom_dashboard h4 {
   margin-top: 2px;
+  font-size: 15px;
 }
 
 .text-muted.small {
@@ -49,7 +50,7 @@
 }
 
 .patientdashboard-icon img {
-  max-width:50px;
+  max-width:40px;
 }
 
 .patientdashboard-general-section,
