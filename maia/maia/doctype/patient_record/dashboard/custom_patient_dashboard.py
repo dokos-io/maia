@@ -202,7 +202,7 @@ def get_data(patient_record):
     if deliverydata:
         data.append({'delivery': deliverydata})
 
-    if newborndata:
+    if newborndata['firstchild'] or newborndata['secondchild'] or newborndata['thirdchild']:
         data.append({'newborn': newborndata})
 
     if labexamsdata:
