@@ -84,7 +84,6 @@ def get_newborn_weight_data(patient_record, pregnancy, child):
     data = {
         'labels': titles,
         'datasets': [{
-            'title': _("Kg"),
             'values': values
             }]
         }

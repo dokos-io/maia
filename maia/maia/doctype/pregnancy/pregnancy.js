@@ -4,10 +4,10 @@ frappe.provide("maia");
 
 frappe.ui.form.on('Pregnancy', {
   onload: function(frm) {
-    frm.events.trigger_chart(frm)
+    frm.trigger("trigger_chart");
   },
   refresh: function(frm) {
-    frm.events.trigger_chart(frm)
+    frm.trigger("trigger_chart");
   },
   date_time: function(frm) {
     frm.set_value("birth_datetime", frm.doc.date_time);
@@ -46,6 +46,7 @@ frappe.ui.form.on('Pregnancy', {
             type: 'line',
             region_fill: 1,
             height: 150,
+            format_tooltip_y: d => d + ' g',
 
             colors: colors,
           });

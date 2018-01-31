@@ -279,20 +279,22 @@ def get_patient_weight_data(patient_record):
 
     titles = []
     values = []
+    formatted_x = []
     for pw in patient_weight:
         if pw.has_key("pregnancy"):
-            titles.append(formatdate(pw["date"]) + "-" + pw["pregnancy"])
+            formatted_x.append(formatdate(pw["date"]) + "-" + pw["pregnancy"])
+            titles.append(formatdate(pw["date"]))
             values.append(pw["weight"])
         else:
+            formatted_x.append(formatdate(pw["date"]))
             titles.append(formatdate(pw["date"]))
             values.append(pw["weight"])
 
     data = {
         'labels': titles,
         'datasets': [{
-            'title': _("Kg"),
             'values': values
             }]
         }
 
-    return data
+    return data, formatted_x
