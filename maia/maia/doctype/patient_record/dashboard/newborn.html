@@ -10,8 +10,6 @@
       {% endif %}
       {% if firstchild.birth_weight %}
       <h4 class="patientdashboard-data">{{ firstchild.birth_weight }} {{ __("g") }}</h4>
-      {% else %}
-      <span class="text-muted small">{{ __("Please set a birth weight in the pregnancy folder") }}</span>
       {% endif %}
       {% if firstchild.feeding_type %}
       <h4 class="patientdashboard-data">{{ __(firstchild.feeding_type) }}</h4>
@@ -25,8 +23,6 @@
       {% endif %}
       {% if secondchild.birth_weight %}
       <h4 class="patientdashboard-data">{{ secondchild.birth_weight }} {{ __("g") }}</h4>
-      {% else %}
-      <span class="text-muted small">{{ __("Please set a birth weight in the pregnancy folder") }}</span>
       {% endif %}
       {% if secondchild.feeding_type %}
       <h4 class="patientdashboard-data">{{ __(secondchild.feeding_type) }}</h4>
@@ -40,8 +36,6 @@
       {% endif %}
       {% if thirdchild.birth_weight %}
       <h4 class="patientdashboard-data">{{ thirdchild.birth_weight }} {{ __("g") }}</h4>
-      {% else %}
-      <span class="text-muted small">{{ __("Please set a birth weight in the pregnancy folder") }}</span>
       {% endif %}
       {% if thirdchild.feeding_type %}
       <h4 class="patientdashboard-data">{{ __(thirdchild.feeding_type) }}</h4>
