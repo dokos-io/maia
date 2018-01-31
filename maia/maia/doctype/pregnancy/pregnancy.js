@@ -44,7 +44,6 @@ frappe.ui.form.on('Pregnancy', {
             title: __("Weight Curve (g)"),
             data: data,
             type: 'line',
-            region_fill: 1,
             height: 150,
             format_tooltip_y: d => d + ' g',
 

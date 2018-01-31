@@ -1159,3 +1159,4 @@ Doctype: Pregnancy,Weight Curve (g),Courbe de Poids (g)
 Doctype: Patient Record,Weight Curve,Courbe de Poids
 Doctype: Pregnancy Consultation,Calculated based on the reference weight in the patient record,Calculé par rapport au poids de réference hors grossesse du dossier patient
 Doctype: Patient Record,Reference weight outside of pregnancies,Poids de référence hors grossesses
+Doctype: Pregnancy,10% Curve,Courbe des 10%

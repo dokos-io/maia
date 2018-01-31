@@ -52,11 +52,11 @@ def get_newborn_weight_data(patient_record, pregnancy, child):
         gender = pregnancy_folder.gender_3
 
     if gender == 'Boy':
-        colors = ['#7cd6fd']
+        colors = ['#7cd6fd', '#6c7680']
     elif gender == 'Girl':
-        colors = ['#ff538d']
+        colors = ['#ff538d', '#6c7680']
     else:
-        colors = ['#fde47c']
+        colors = ['#fde47c', '#6c7680']
 
     ep_weights = frappe.get_all("Early Postnatal Consultation", filters={"pregnancy_folder": pregnancy}, fields=["consultation_date", weight_field])
 
@@ -77,14 +77,23 @@ def get_newborn_weight_data(patient_record, pregnancy, child):
 
     titles = []
     values = []
+    tenpercents = []
+
+    tenpercentvalue = birth_weight * 0.9
+
     for nw in newborn_weight:
         titles.append(formatdate(nw["date"]))
         values.append(nw["weight"])
+        tenpercents.append(tenpercentvalue)
 
     data = {
         'labels': titles,
         'datasets': [{
             'values': values
+            },
+            {
+            'title': _('10% Curve'),
+            'values': tenpercents
             }]
         }
 
