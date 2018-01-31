@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2017, DOKOS and contributors
+# Copyright (c) 2018, DOKOS and contributors
 # For license information, please see license.txt
 
 from __future__ import unicode_literals
@@ -251,7 +251,7 @@ def get_users_for_website(doctype, txt, searchfield, start, page_len, filters):
 def get_patient_weight_data(patient_record):
 
     base_weights = frappe.get_all('Weight Tracking', filters={"patient_record": patient_record}, fields=["date", "weight"])
-    pr_weights = frappe.get_all("Pregnancy Consultation", filters={"patient_record": patient_record}, fields=["consultation_date", "weight"])
+    pr_weights = frappe.get_all("Pregnancy Consultation", filters={"patient_record": patient_record}, fields=["consultation_date", "weight", "pregnancy_folder"])
     gc_weights = frappe.get_all("Gynecological Consultation", filters={"patient_record": patient_record}, fields=["consultation_date", "weight"])
     pc_weights = frappe.get_all("Postnatal Consultation", filters={"patient_record": patient_record}, fields=["consultation_date", "weight"])
 
@@ -263,7 +263,7 @@ def get_patient_weight_data(patient_record):
 
     for pr_weight in pr_weights:
         if pr_weight.weight is not None and pr_weight.weight!=0 and isinstance(pr_weight.weight, float):
-            patient_weight.append({'date': get_datetime(pr_weight.consultation_date), 'weight': pr_weight.weight})
+            patient_weight.append({'date': get_datetime(pr_weight.consultation_date), 'weight': pr_weight.weight, 'pregnancy': pr_weight.pregnancy_folder})
 
     for gc_weight in gc_weights:
         if gc_weight.weight is not None and gc_weight.weight!=0 and isinstance(gc_weight.weight, float):
@@ -278,14 +278,19 @@ def get_patient_weight_data(patient_record):
     titles = []
     values = []
     for pw in patient_weight:
-        titles.append(formatdate(pw["date"]))
-        values.append(pw["weight"])
+        if pw.has_key("pregnancy"):
+            titles.append(formatdate(pw["date"]) + "-" + pw["pregnancy"])
+            values.append(pw["weight"])
+        else:
+            titles.append(formatdate(pw["date"]))
+            values.append(pw["weight"])
 
     data = {
         'labels': titles,
         'datasets': [{
-            'title': _("g"),
+            'title': _("Kg"),
             'values': values
             }]
         }
+
     return data

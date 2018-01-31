@@ -125,7 +125,9 @@ maia.patient.PatientDashboard = Class.extend({
   							message: __("This Patient's Memo has been updated"),
   							indicator: 'green'
   						});
-							me.dashboard.fadeOut()
+							if (me.dashboard) {
+								me.dashboard.fadeOut();
+							}
 							me.refresh()
             }
 					}

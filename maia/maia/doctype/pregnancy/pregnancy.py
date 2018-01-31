@@ -69,7 +69,7 @@ def get_newborn_weight_data(patient_record, pregnancy, child):
         newborn_weight.append({'date': get_datetime(release_date), 'weight': release_weight})
 
     for ep_weight in ep_weights:
-        if ep_weight[weight_field] is not None and ep_weight[weight_field]!=0 and isinstance(ep_weight[weight_field], float):
+        if ep_weight[weight_field] is not None and ep_weight[weight_field]!=0 and isinstance(ep_weight[weight_field], int):
             newborn_weight.append({'date': get_datetime(ep_weight.consultation_date), 'weight': ep_weight[weight_field]})
 
 

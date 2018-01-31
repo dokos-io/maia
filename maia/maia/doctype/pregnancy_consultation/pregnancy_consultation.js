@@ -4,8 +4,27 @@
 frappe.provide("maia");
 {% include "maia/public/js/controllers/consultations.js" %}
 
-frappe.ui.form.on('Pregnancy Consultation', "pregnancy_folder", function(frm) {
-   get_term_date(frm)
+frappe.ui.form.on('Pregnancy Consultation', {
+   weight: function(frm) {
+     if (frm.doc.weight && frm.doc.patient_record) {
+       frappe.call({
+         method: "maia.maia.doctype.pregnancy_consultation.pregnancy_consultation.get_base_weight",
+         args: {
+           patient_record: frm.doc.patient_record
+         },
+         callback: function(r) {
+           if (r.message) {
+             let daily_weight = frm.doc.weight;
+             let difference = daily_weight - r.message;
+             frappe.model.set_value('Pregnancy Consultation', frm.doc.name, 'weight_gain', difference)
+           }
+         }
+       })
+     }
+   },
+   pregnancy_folder: function(frm) {
+     get_term_date(frm);
+   }
 })
 
 maia.PregnancyConsultationController = frappe.ui.form.Controller.extend({

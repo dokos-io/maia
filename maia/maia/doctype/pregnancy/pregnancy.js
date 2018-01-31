@@ -33,7 +33,7 @@ frappe.ui.form.on('Pregnancy', {
         child: child
       },
       callback: function(r) {
-        if (r.message) {
+        if (r.message && r.message[0].datasets[0].values.length !=0) {
           let data = r.message[0];
           let colors = r.message[1];
 
@@ -45,7 +45,7 @@ frappe.ui.form.on('Pregnancy', {
             data: data,
             type: 'line',
             region_fill: 1,
-            height: 250,
+            height: 150,
 
             colors: colors,
           });

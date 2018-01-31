@@ -100,8 +100,7 @@ frappe.ui.form.on("Patient Record", {
         patient_record: frm.doc.name
       },
       callback: function(r) {
-        console.log(r.message)
-        if (r.message) {
+        if (r.message && r.message.datasets[0].values.length !=0) {
           let data = r.message;
 
           let $wrap = $('div[data-fieldname=weight_curve]').get(0);
@@ -112,7 +111,7 @@ frappe.ui.form.on("Patient Record", {
             data: data,
             type: 'line',
             region_fill: 1,
-            height: 250,
+            height: 150,
 
             colors: ['#ffa00a'],
           });

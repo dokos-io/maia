@@ -17,37 +17,94 @@ maia.EarlyPostnatalConsultationController = frappe.ui.form.Controller.extend({
       }
     }
   },
-
   refresh: function(frm) {
     if (this.frm.doc.docstatus != 1) {
       get_postdelivery_date(this.frm);
     }
   }
-
 });
 
 $.extend(cur_frm.cscript, new maia.EarlyPostnatalConsultationController({
   frm: cur_frm
 }));
 
-frappe.ui.form.on("Early Postnatal Consultation", "pregnancy_folder", function(frm) {
-  if (frm.doc.pregnancy_folder) {
-  frappe.call({
-       method: 'frappe.client.get',
-       args: {
-         doctype: 'Pregnancy',
-         name: frm.doc.pregnancy_folder
-       },
-  }).then((r) => {
-    if (r.message) {
-        frappe.model.set_value("Early Postnatal Consultation", frm.doc.name, "twins", r.message.twins);
-        frappe.model.set_value("Early Postnatal Consultation", frm.doc.name, "triplets", r.message.triplets);
-        frappe.model.set_value("Early Postnatal Consultation", frm.doc.name, "newborn_fullname", r.message.full_name);
-        frappe.model.set_value("Early Postnatal Consultation", frm.doc.name, "newborn_fullname_2", r.message.full_name_2);
-        frappe.model.set_value("Early Postnatal Consultation", frm.doc.name, "newborn_fullname_3", r.message.full_name_3);
-    }
-  });
-}
+frappe.ui.form.on("Early Postnatal Consultation", {
+  weight_of_the_day: function(frm) {
+      if (frm.doc.weight_of_the_day && frm.doc.pregnancy_folder) {
+        frappe.call({
+          method: "maia.maia.doctype.early_postnatal_consultation.early_postnatal_consultation.get_last_weight",
+          args: {
+            consultation: frm.doc.name,
+            pregnancy: frm.doc.pregnancy_folder,
+            child: 'firstchild'
+          },
+          callback: function(r) {
+            if (r.message) {
+              let daily_weight = frm.doc.weight_of_the_day;
+              let difference = daily_weight - r.message;
+              frappe.model.set_value('Early Postnatal Consultation', frm.doc.name, 'weight_gain', difference)
+            }
+          }
+        })
+      }
+  },
+  weight_of_the_day_2: function(frm) {
+      if (frm.doc.weight_of_the_day_2 && frm.doc.pregnancy_folder) {
+        frappe.call({
+          method: "maia.maia.doctype.early_postnatal_consultation.early_postnatal_consultation.get_last_weight",
+          args: {
+            consultation: frm.doc.name,
+            pregnancy: frm.doc.pregnancy_folder,
+            child: 'secondchild'
+          },
+          callback: function(r) {
+            if (r.message) {
+              let daily_weight = frm.doc.weight_of_the_day_2;
+              let difference = daily_weight - r.message;
+              frappe.model.set_value('Early Postnatal Consultation', frm.doc.name, 'weight_gain_2', difference)
+            }
+          }
+        })
+      }
+  },
+  weight_of_the_day_3: function(frm) {
+      if (frm.doc.weight_of_the_day_3 && frm.doc.pregnancy_folder) {
+        frappe.call({
+          method: "maia.maia.doctype.early_postnatal_consultation.early_postnatal_consultation.get_last_weight",
+          args: {
+            consultation: frm.doc.name,
+            pregnancy: frm.doc.pregnancy_folder,
+            child: 'thirdchild'
+          },
+          callback: function(r) {
+            if (r.message) {
+              let daily_weight = frm.doc.weight_of_the_day_3;
+              let difference = daily_weight - r.message;
+              frappe.model.set_value('Early Postnatal Consultation', frm.doc.name, 'weight_gain_3', difference)
+            }
+          }
+        })
+      }
+  },
+  pregnancy_folder: function(frm) {
+    if (frm.doc.pregnancy_folder) {
+    frappe.call({
+         method: 'frappe.client.get',
+         args: {
+           doctype: 'Pregnancy',
+           name: frm.doc.pregnancy_folder
+         },
+    }).then((r) => {
+      if (r.message) {
+          frappe.model.set_value("Early Postnatal Consultation", frm.doc.name, "twins", r.message.twins);
+          frappe.model.set_value("Early Postnatal Consultation", frm.doc.name, "triplets", r.message.triplets);
+          frappe.model.set_value("Early Postnatal Consultation", frm.doc.name, "newborn_fullname", r.message.full_name);
+          frappe.model.set_value("Early Postnatal Consultation", frm.doc.name, "newborn_fullname_2", r.message.full_name_2);
+          frappe.model.set_value("Early Postnatal Consultation", frm.doc.name, "newborn_fullname_3", r.message.full_name_3);
+      }
+    });
+  }
+  }
 });
 
 var get_postdelivery_date = function(frm) {

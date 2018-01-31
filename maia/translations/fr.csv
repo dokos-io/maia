@@ -564,9 +564,9 @@ DocType: Patient,PACS,PACS
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +402,PAL,PAL
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +406,PAPP-A and Free Beta-HCG,PAPP-A et Béta-HCG libre (entre 11SA et 13SA+6j)
 DocType: Patient,PAT-,PAT-
-DocType: Prenatal Interview,PI/,PI/
+DocType: Prenatal Interview,PI/,IP/
 DocType: Perineum Rehabilitation,PR/,PR/
-DocType: Pregnancy,PREGNANCY/,OBST/
+DocType: Pregnancy,PREGNANCY/,G-
 DocType: Birth Preparation Consultation,Paid Immediately,Paiement Immédiat
 DocType: Pregnancy Consultation,"Pain","Douleur"
 DocType: Early Postnatal Consultation,Pain Rating,Évaluation de la Douleur
@@ -881,8 +881,10 @@ DocType: Gynecological Consultation,Weight,Poids
 DocType: Gynecological Consultation,Weight (Kg),Poids (Kg)
 DocType: Patient,Weight (Kg),Poids (Kg)
 DocType: Early Postnatal Consultation,Weight Gain,Prise de Poids
+DocType: Early Postnatal Consultation,Weight Gain (g),Prise de Poids(g)
 DocType: Perineum Rehabilitation,Weight Gain (Kg),Prise de Poids(Kg)
 DocType: Early Postnatal Consultation,Weight of the Day,Poids du Jour
+DocType: Early Postnatal Consultation,Weight of the Day (g),Poids du Jour(g)
 apps/maia/maia/setup/page/welcome_to_maia/welcome_to_maia.html +4,Welcome to Maia,Bienvenue dans Maia
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +171,White,Blanc
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +147,Wire Transfer,Virement
@@ -1154,3 +1156,6 @@ Doctype: Custom Patient Record Dashboard,Please set a birth weight in the pregna
 Doctype: Patient Record,Weight Updated,Poids mis à Jour
 Doctype: Patient Record,Patient Weight,Courbe de Poids Patient(e)
 Doctype: Pregnancy,Weight Curve (g),Courbe de Poids (g)
+Doctype: Patient Record,Weight Curve,Courbe de Poids
+Doctype: Pregnancy Consultation,Calculated based on the reference weight in the patient record,Calculé par rapport au poids de réference hors grossesse du dossier patient
+Doctype: Patient Record,Reference weight outside of pregnancies,Poids de référence hors grossesses
