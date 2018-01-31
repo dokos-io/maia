@@ -141,38 +141,38 @@ def get_data(patient_record):
             deliverydata['scar'] = scar
 
     #Child Section
+    newborndata['firstchild'] = {}
+    newborndata['secondchild'] = {}
+    newborndata['thirdchild'] = {}
     #Child Name
     if dashboard.child_name:
         if latest_pregnancy:
-            newborndata['child_names'] = []
             if patient_latest_pregnancy.full_name:
-                newborndata['child_names'].append(patient_latest_pregnancy.full_name)
+                newborndata['firstchild'].update({'child_name': patient_latest_pregnancy.full_name})
             if (patient_latest_pregnancy.twins or patient_latest_pregnancy.triplets) and patient_latest_pregnancy.full_name_2:
-                newborndata['child_names'].append(patient_latest_pregnancy.full_name_2)
+                newborndata['secondchild'].update({'child_name': patient_latest_pregnancy.full_name_2})
             if patient_latest_pregnancy.triplets and patient_latest_pregnancy.full_name_3:
-                newborndata['child_names'].append(patient_latest_pregnancy.full_name_3)
+                newborndata['thirdchild'].update({'child_name': patient_latest_pregnancy.full_name_3})
 
     #Child Weight
     if dashboard.birth_weight:
         if latest_pregnancy:
-            newborndata['birth_weights'] = []
             if patient_latest_pregnancy.birth_weight:
-                newborndata['birth_weights'].append(patient_latest_pregnancy.birth_weight)
+                newborndata['firstchild'].update({'birth_weight': patient_latest_pregnancy.birth_weight})
             if (patient_latest_pregnancy.twins or patient_latest_pregnancy.triplets) and patient_latest_pregnancy.birth_weight_2:
-                newborndata['birth_weights'].append(patient_latest_pregnancy.birth_weight_2)
+                newborndata['secondchild'].update({'birth_weight': patient_latest_pregnancy.birth_weight_2})
             if patient_latest_pregnancy.triplets and patient_latest_pregnancy.birth_weight_3:
-                newborndata['birth_weights'].append(patient_latest_pregnancy.birth_weight_3)
+                newborndata['thirdchild'].update({'birth_weight': patient_latest_pregnancy.birth_weight_3})
 
     #Feeding Type
     if dashboard.feeding_type:
         if latest_pregnancy:
-            newborndata['feeding_types'] = []
             if patient_latest_pregnancy.feeding_type:
-                newborndata['feeding_types'].append(patient_latest_pregnancy.feeding_type)
+                newborndata['firstchild'].update({'feeding_type': patient_latest_pregnancy.feeding_type})
             if (patient_latest_pregnancy.twins or patient_latest_pregnancy.triplets) and patient_latest_pregnancy.feeding_type_2:
-                newborndata['feeding_types'].append(patient_latest_pregnancy.feeding_type_2)
+                newborndata['secondchild'].update({'feeding_type': patient_latest_pregnancy.feeding_type_2})
             if patient_latest_pregnancy.triplets and patient_latest_pregnancy.feeding_type_3:
-                newborndata['feeding_types'].append(patient_latest_pregnancy.feeding_type_3)
+                newborndata['thirdchild'].update({'feeding_type': patient_latest_pregnancy.feeding_type_3})
 
     #Perineum Rehabilitation Section
     #Get latest folder
@@ -250,11 +250,15 @@ def get_last_pregnancy(patient_record):
 def get_last_perineum_rehabilitation(patient_record):
     folders = frappe.get_all("Perineum Rehabilitation", filters={"patient_record": patient_record}, fields=["name", "modified"])
 
-    latest = max(folder.modified for folder in folders)
+    if folders is not None:
+        latest = max(folder.modified for folder in folders)
 
-    latest_folder = frappe.get_all("Perineum Rehabilitation", filters={"patient_record": patient_record, 'modified': latest})
+        latest_folder = frappe.get_all("Perineum Rehabilitation", filters={"patient_record": patient_record, 'modified': latest})
 
-    return latest_folder
+        return latest_folder
+
+    else:
+        return []
 
 @frappe.whitelist()
 def get_options(patient_record):

@@ -232,7 +232,6 @@ var check_availability_by_midwife = function(frm) {
         duration: frm.doc.duration
       },
       callback: function(r) {
-        console.log(r.message)
         show_availability(frm, r.message)
       }
     });
