@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2017, DOKOS and contributors
+# Copyright (c) 2018, DOKOS and contributors
 # For license information, please see license.txt
 
 from __future__ import unicode_literals
 import frappe
 from frappe.model.naming import make_autoname
 from frappe import _
-from frappe.utils import cstr, cint, has_gravatar, add_years, get_timestamp
+from frappe.utils import cstr, cint, has_gravatar, add_years, get_timestamp, now, formatdate, get_datetime
 import frappe.defaults
 from frappe.model.document import Document
 from frappe.contacts.address_and_contact import load_address_and_contact
@@ -14,7 +14,7 @@ from erpnext.utilities.transaction_base import TransactionBase
 from erpnext.accounts.party import validate_party_accounts
 from erpnext.controllers.queries import get_filters_cond
 from frappe.desk.reportview import get_match_cond
-
+from maia.maia.utils import parity_gravidity_calculation
 
 class PatientRecord(Document):
     def get_feed(self):
@@ -24,6 +24,7 @@ class PatientRecord(Document):
         """Load address in `__onload`"""
         load_address_and_contact(self, "patient_record")
         self.load_dashboard_info()
+        self.set_gravidity_and_parity()
 
     def load_dashboard_info(self):
         billing_this_year = frappe.db.sql("""select sum(debit_in_account_currency), account_currency
@@ -75,11 +76,11 @@ class PatientRecord(Document):
                                             [cstr(self.get(f)).strip() for f in ["patient_first_name", "patient_last_name"]]))
 
         self.update_address_links()
-
         updating_customer(self)
 
     def on_update(self):
         self.update_address_links()
+        self.set_gravidity_and_parity()
 
         updating_customer(self)
         frappe.db.set_value(self.doctype, self.name, "change_in_patient", 0)
@@ -96,6 +97,12 @@ class PatientRecord(Document):
     def after_rename(self, olddn, newdn, merge=False):
         frappe.rename_doc('Customer', self.customer, newdn, force=True,
                           merge=True if frappe.db.exists('Customer', newdn) else False)
+
+    def set_gravidity_and_parity(self):
+        gravidity, parity = parity_gravidity_calculation(self.name)
+
+        self.gravidity = gravidity
+        self.parity = parity
 
 
 def create_customer_from_patient(doc):
@@ -146,6 +153,18 @@ def get_timeline_data(doctype, name):
 
     return out
 
+@frappe.whitelist()
+def update_weight_tracking(doc, weight):
+    weight=frappe.get_doc({
+    "doctype": "Weight Tracking",
+    "patient_record": doc,
+    "date": now(),
+    "weight": weight
+    }).insert(ignore_permissions=True)
+
+    weight.save()
+
+    return 'Success'
 
 @frappe.whitelist()
 def invite_user(patient):
@@ -226,3 +245,56 @@ def get_users_for_website(doctype, txt, searchfield, start, page_len, filters):
         'start': start,
         'page_len': page_len
     })
+
+
+@frappe.whitelist()
+def get_patient_weight_data(patient_record):
+
+    base_weights = frappe.get_all('Weight Tracking', filters={"patient_record": patient_record}, fields=["date", "weight"])
+    pr_weights = frappe.get_all("Pregnancy Consultation", filters={"patient_record": patient_record}, fields=["consultation_date", "weight", "pregnancy_folder"])
+    gc_weights = frappe.get_all("Gynecological Consultation", filters={"patient_record": patient_record}, fields=["consultation_date", "weight"])
+    pc_weights = frappe.get_all("Postnatal Consultation", filters={"patient_record": patient_record}, fields=["consultation_date", "weight"])
+
+    patient_weight = []
+
+    for base_weight in base_weights:
+        if base_weight.weight is not None and base_weight.weight!=0:
+            patient_weight.append({'date': base_weight.date, 'weight': base_weight.weight})
+
+    for pr_weight in pr_weights:
+        if pr_weight.weight is not None and pr_weight.weight!=0 and isinstance(pr_weight.weight, float):
+            patient_weight.append({'date': get_datetime(pr_weight.consultation_date), 'weight': pr_weight.weight, 'pregnancy': pr_weight.pregnancy_folder})
+
+    for gc_weight in gc_weights:
+        if gc_weight.weight is not None and gc_weight.weight!=0 and isinstance(gc_weight.weight, float):
+            patient_weight.append({'date': get_datetime(gc_weight.consultation_date), 'weight': gc_weight.weight})
+
+    for pc_weight in pc_weights:
+        if pc_weight.weight is not None and pc_weight.weight!=0 and isinstance(pc_weight.weight, float):
+            patient_weight.append({'date': get_datetime(pc_weight.consultation_date), 'weight': pc_weight.weight})
+
+    patient_weight = sorted(patient_weight, key=lambda x: x["date"])
+
+    print(patient_weight)
+
+    titles = []
+    values = []
+    formatted_x = []
+    for pw in patient_weight:
+        if pw.has_key("pregnancy"):
+            formatted_x.append(formatdate(pw["date"]) + "-" + pw["pregnancy"])
+            titles.append(formatdate(pw["date"]))
+            values.append(pw["weight"])
+        else:
+            formatted_x.append(formatdate(pw["date"]))
+            titles.append(formatdate(pw["date"]))
+            values.append(pw["weight"])
+
+    data = {
+        'labels': titles,
+        'datasets': [{
+            'values': values
+            }]
+        }
+
+    return data, formatted_x

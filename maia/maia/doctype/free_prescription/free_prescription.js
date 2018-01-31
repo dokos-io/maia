@@ -3,6 +3,29 @@
 
 frappe.provide('maia');
 
+frappe.ui.form.on(this.frm.doctype, {
+  onload: function(frm) {
+  if (frm.doc.docstatus != 1) {
+    frappe.call({
+        "method": "maia.client.get_practitioner",
+        args: {
+          doctype: "Professional Information Card",
+          filters: {
+            user: frappe.session.user
+          },
+          fieldname: "name"
+        },
+        cache: false,
+        callback: function(data) {
+          if (!data.exe && data.message) {
+            frappe.model.set_value(frm.doctype, frm.docname, "practitioner", data.message.name)
+          }
+        }
+      })
+    }
+  }
+
+});
 
 maia.FreePrescriptionController = frappe.ui.form.Controller.extend({
 

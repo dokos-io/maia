@@ -5,7 +5,7 @@
 from __future__ import unicode_literals
 import frappe
 import json
-from frappe.utils import formatdate, format_datetime
+from frappe.utils import formatdate, format_datetime, global_date_format
 
 @frappe.whitelist()
 def get_pregnancies(obj):
@@ -21,9 +21,9 @@ def get_pregnancies(obj):
     for in_progress_pregnancy in in_progress_pregnancies:
         in_progress_pregnancy["data_type"] = "current_pregnancy"
         if in_progress_pregnancy["expected_term"]:
-            in_progress_pregnancy["expected_term"] = formatdate(in_progress_pregnancy["expected_term"])
+            in_progress_pregnancy["expected_term"] = global_date_format(in_progress_pregnancy["expected_term"])
         if in_progress_pregnancy["beginning_of_pregnancy"]:
-            in_progress_pregnancy["beginning_of_pregnancy"] = formatdate(in_progress_pregnancy["beginning_of_pregnancy"])
+            in_progress_pregnancy["beginning_of_pregnancy"] = global_date_format(in_progress_pregnancy["beginning_of_pregnancy"])
         pregnancies.append(in_progress_pregnancy)
 
     current_pregnancies = frappe.db.sql(
@@ -32,7 +32,7 @@ def get_pregnancies(obj):
     for current_pregnancy in current_pregnancies:
         current_pregnancy["data_type"] = "current_pregnancy"
         if current_pregnancy["date_time"]:
-            current_pregnancy["date_time"] = formatdate(current_pregnancy["date_time"])
+            current_pregnancy["date_time"] = global_date_format(current_pregnancy["date_time"])
         pregnancies.append(current_pregnancy)
 
     past_pregnancies = frappe.db.sql(
@@ -40,8 +40,15 @@ def get_pregnancies(obj):
 
     for past_pregnancy in past_pregnancies:
         past_pregnancy["data_type"] = "past_pregnancy"
+        past_pregnancy["show_delivery_way"] = 0
+
+        delivery_way_in_parity = frappe.db.get_value("Delivery Way", past_pregnancy.delivery_way, 'used_in_parity')
+        frappe.logger().debug(delivery_way_in_parity)
+        if delivery_way_in_parity == 0:
+            past_pregnancy["show_delivery_way"] = 1
+
         if past_pregnancy["date"]:
-            past_pregnancy["date"] = formatdate(past_pregnancy["date"])
+            past_pregnancy["date"] = global_date_format(past_pregnancy["date"])
         pregnancies.append(past_pregnancy)
 
     return pregnancies

@@ -1,0 +1,29 @@
+<div class="patient-dashboard-card">
+  <div class="custom_dashboard text-center custom-dashboard-card">
+    <div class="patientdashboard-pr-section patientdashboard-icon">
+      <img src="/assets/maia/images/perineum_rehabilitation.svg" style="max-width:50px;">
+    </div>
+    {% if (typeof urgency_of_urination !== "undefined") { %}
+    {% if urgency_of_urination %}
+    <div class="patientdashboard-pr-section">
+      <h4 class="patientdashboard-data">{{ __(urgency_of_urination) }}</h4>
+    </div>
+    {% endif %}
+    {% } %}
+    {% if (typeof overactive_bladder !== "undefined") { %}
+    {% if overactive_bladder %}
+    <div class="patientdashboard-pr-section">
+      <h4 class="patientdashboard-data">{{ __(overactive_bladder) }}</h4>
+    </div>
+    {% endif %}
+    {% } %}
+    {% if (typeof testing !== "undefined") { %}
+    {% if testing %}
+    <div class="patientdashboard-pr-section">
+      <span class="text-muted small">{{ __("Testing") }}</span>
+      <h4 class="patientdashboard-data">{{ testing }}</h4>
+    </div>
+    {% endif %}
+    {% } %}
+  </div>
+</div>

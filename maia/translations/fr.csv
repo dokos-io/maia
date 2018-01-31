@@ -45,7 +45,7 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +22,All Item Groups,Tous l
 apps/maia/maia/maia/invoicing.py +38,All Territories,Tous les Territoires
 DocType: Allergy,Allergies,Allergies
 DocType: Allergy,Allergy,Allergie
-DocType: Perineum Rehabilitation,Alone,Seul
+DocType: Perineum Rehabilitation,Alone,Seule
 DocType: Birth Preparation Consultation,Amended From,Modifié Depuis
 DocType: Pregnancy Consultation,Amniotic Liquid,Liquide Amniotique
 DocType: Perineum Rehabilitation,Anal Area,Zone Anale
@@ -316,7 +316,7 @@ DocType: Gynecology,First Menses (Year),Age des Premières Règles (Ans)
 DocType: Patient,First Name,Prénom
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +417,First Quarter Ultrasound,Echographie du Premier Trimestre (entre 11SA et 13SA+6j)
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +357,Flagyl 500mg,Flagyl 500mg
-DocType: Pregnancy Consultation,Foetal Active Movement,Mouvements Actifs Foetals
+DocType: Pregnancy Consultation,Foetal Active Movement,Mouvements Actifs Foetaux
 DocType: Echography Result,Foetal Presentation,Présentation Foetale
 apps/maia/maia/maia/doctype/patient_record/patient_record_dashboard.py +10,Folders,Dossiers
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +46,Food,Alimentation
@@ -477,7 +477,7 @@ DocType: Pregnancy Consultation,Metrorrhagia,Métrorragie
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +345,Microlax,Microlax
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +238,Microval,Microval
 DocType: Addiction,Midwife,Sage-Femme
-apps/maia/maia/maia/doctype/patient_record/patient_record_dashboard.py +26,Midwife Appointment,Rendez-Vous
+Doctype: Midwife Appointment,Midwife Appointment,Rendez-Vous
 apps/maia/maia/maia/doctype/midwife_appointment/midwife_appointment.js +109,Midwife Availability,Disponibilité de la Sage-Femme
 DocType: Codification,Midwife Price,Prix Sage-Femme
 DocType: Patient,Migraine,Migraine
@@ -504,6 +504,8 @@ DocType: Correspondents,Name,Nom
 DocType: Pregnancy,Neonatal Heel Prick,Test de Dépistage des Maladies Métaboliques
 apps/maia/maia/utilities/activation.py +42,New Letter Head,Nouvel En-Tête
 DocType: Early Postnatal Consultation,Newborn,Nouveau Né
+DocType: Early Postnatal Consultation,Newborn 2,Nouveau Né 2
+DocType: Early Postnatal Consultation,Newborn 3,Nouveau Né 3
 DocType: Early Postnatal Consultation,Newborn Exam,Examen du Nouveau Né
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +239,Nexplanon,Nexplanon
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +286,Nexplanon Installation Kit,Un Kit de Pose du Dispositif sous Cutané
@@ -562,13 +564,13 @@ DocType: Patient,PACS,PACS
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +402,PAL,PAL
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +406,PAPP-A and Free Beta-HCG,PAPP-A et Béta-HCG libre (entre 11SA et 13SA+6j)
 DocType: Patient,PAT-,PAT-
-DocType: Prenatal Interview,PI/,PI/
+DocType: Prenatal Interview,PI/,IP/
 DocType: Perineum Rehabilitation,PR/,PR/
-DocType: Pregnancy,PREGNANCY/,OBST/
+DocType: Pregnancy,PREGNANCY/,G-
 DocType: Birth Preparation Consultation,Paid Immediately,Paiement Immédiat
 DocType: Pregnancy Consultation,"Pain","Douleur"
 DocType: Early Postnatal Consultation,Pain Rating,Évaluation de la Douleur
-DocType: Early Postnatal Consultation,Pain Rating Details:,Détails d’Évaluation de la Douleur :
+DocType: Early Postnatal Consultation,Pain Rating Details,Détails d’Évaluation de la Douleur
 apps/maia/maia/public/js/setup_wizard.js +291,Pair,Paire
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +347,Paracetamol 500mg,Paracétamol 500mg
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +341,Parapsyllium,Parapsyllium
@@ -876,10 +878,13 @@ apps/maia/maia/public/js/setup_wizard.js +295,We buy this Item,Nous achetons cet
 apps/maia/maia/public/js/setup_wizard.js +294,We sell this Item,Nous vendons cet article
 apps/maia/maia/maia/doctype/pregnancy_consultation/pregnancy_consultation.js +568,Weeks Amenorrhea +,SA +
 DocType: Gynecological Consultation,Weight,Poids
+DocType: Gynecological Consultation,Weight (Kg),Poids (Kg)
 DocType: Patient,Weight (Kg),Poids (Kg)
 DocType: Early Postnatal Consultation,Weight Gain,Prise de Poids
+DocType: Early Postnatal Consultation,Weight Gain (g),Prise de Poids(g)
 DocType: Perineum Rehabilitation,Weight Gain (Kg),Prise de Poids(Kg)
 DocType: Early Postnatal Consultation,Weight of the Day,Poids du Jour
+DocType: Early Postnatal Consultation,Weight of the Day (g),Poids du Jour(g)
 apps/maia/maia/setup/page/welcome_to_maia/welcome_to_maia.html +4,Welcome to Maia,Bienvenue dans Maia
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +171,White,Blanc
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +147,Wire Transfer,Virement
@@ -1117,3 +1122,41 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py,Vehicule Expense,Frais de 
 apps/maia/maia/setup/setup_wizard/install_fixtures.py,"Reception and Representation Expense","Frais de Réception, de Représentation, de Congrès"
 apps/maia/maia/setup/setup_wizard/install_fixtures.py,Deeds and Litigation Expenses,Frais d'Actes et de Contentieux
 DocType: Perineum Rehabilitation,Hypopressive Exercises,Exercices Hypopressifs
+Doctype: Custom Patient Record Dashboard,Custom Patient Record Dashboard,Mémo Patient
+Doctype: Custom Patient Record Dashboard,Exam Results,Résultats d'Examen
+Doctype: Custom Patient Record Dashboard,Pregnancy Complications,Complications de la Grossesse
+Doctype: Custom Patient Record Dashboard,Delivery Type,Type d'Accouchement
+Doctype: Custom Patient Record Dashboard,New Born Name,Nom du Nouveau-Né
+Doctype: Custom Patient Record Dashboard,Custom Patient Record Dashboard,Mémo Patient
+Doctype: Custom Patient Record Dashboard,Select your dashboard options,Veuillez sélectionner les informations à faire apparaître sur le mémo
+Doctype: Custom Patient Record Dashboard,Show on Patient Dashboard,Afficher sur le mémo patient
+Doctype: Custom Patient Record Dashboard,This Patient's Memo has been updated,Mémo patient mis à jour
+Doctype: Custom Patient Record Dashboard,Beginning of Latest Pregnancy,Date de Début de la Dernière Grossesse
+Doctype: Custom Patient Record Dashboard,Beginning of Pregnancy,Date de Début de Grossesse
+Doctype: Custom Patient Record Dashboard,Default Value for Patient Dashboard,Valeur par défaut pour le mémo patient
+Doctype: Obstetrical Background,Multiple Pregnancy,Grossesse Multiple
+Doctype: Pregnancy,Second Newborn,Deuxième Nouveau-Né
+Doctype: Pregnancy,Third Newborn,Troisième Nouveau-Né
+Doctype: Delivery Way,Used in Parity Calculation,Utilisé dans le calcul de la parité
+Doctype: Pregnancy,Twins,Jumeaux
+Doctype: Pregnancy,Triplets,Triplés
+Doctype: Delivery Way,Therapeutic Abortion Sup To 22 WA,IMG Supérieur à 22 SA
+Doctype: Delivery Way,Therapeutic Abortion Inf To 22 WA,IMG Inférieur à 22 SA
+Doctype: Delivery Way,Surgical Abortion,IVG Chirurgicale
+Doctype: Delivery Way,Drug Induced Abortion,IVG Médicamenteuse
+Doctype: Delivery Way,Miscarriage,Fausse Couche
+Doctype: Delivery Way,Ectopic Pregnancy,Grossesse Extra-Utérine
+Doctype: Custom Patient Record Dashboard,Birth Weight,Poids de Naissance
+Doctype: Custom Patient Record Dashboard,Delivery Date,Date d'Accouchement
+Doctype: Custom Patient Record Dashboard,Gravidity and Parity,Gestité et Parité
+Doctype: Custom Patient Record Dashboard,Please set a delivery date in your latest pregnancy folder,Veuillez définir une date d'accouchement dans votre dernier dossier de grossesse
+Doctype: Custom Patient Record Dashboard,Please set the beginning of pregnancy date in your latest pregnancy folder,Veuillez définir une date de début de grossesse dans votre dernier dossier de grossesse
+Doctype: Custom Patient Record Dashboard,Please set the expected term date in your latest pregnancy folder,Veuillez définir un terme prévu dans votre dernier dossier de grossesse
+Doctype: Custom Patient Record Dashboard,Please set a birth weight in the pregnancy folder,Veuillez entrer un poids de naissance dans le dossier de grossesse
+Doctype: Patient Record,Weight Updated,Poids mis à Jour
+Doctype: Patient Record,Patient Weight,Courbe de Poids Patient(e)
+Doctype: Pregnancy,Weight Curve (g),Courbe de Poids (g)
+Doctype: Patient Record,Weight Curve,Courbe de Poids
+Doctype: Pregnancy Consultation,Calculated based on the reference weight in the patient record,Calculé par rapport au poids de réference hors grossesse du dossier patient
+Doctype: Patient Record,Reference weight outside of pregnancies,Poids de référence hors grossesses
+Doctype: Pregnancy,10% Curve,Courbe des 10%

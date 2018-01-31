@@ -1,32 +1,7 @@
 // Copyright (c) 2017, DOKOS and contributors
 // For license information, please see license.txt
 
-frappe.provide("maia");
-
-maia.PatientRecordController = frappe.ui.form.Controller.extend({
-
-  refresh: function() {
-    frappe.dynamic_link = {
-      doc: this.frm.doc,
-      fieldname: 'name',
-      doctype: 'Patient Record'
-    };
-
-    if (this.frm.doc.__islocal) {
-      hide_field(['address_html']);
-      frappe.contacts.clear_address_and_contact(this.frm);
-    } else {
-      unhide_field(['address_html']);
-      frappe.contacts.render_address_and_contact(this.frm);
-      erpnext.utils.set_party_dashboard_indicators(cur_frm);
-    }
-
-  }
-});
-
-$.extend(cur_frm.cscript, new maia.PatientRecordController({
-  frm: cur_frm
-}));
+frappe.provide("maia.patient_record");
 
 frappe.ui.form.on("Patient Record", {
   onload: function(frm) {
@@ -35,6 +10,24 @@ frappe.ui.form.on("Patient Record", {
         query: "maia.maia.doctype.patient_record.patient_record.get_users_for_website"
       }
     });
+    frm.trigger("setup_chart");
+  },
+  refresh: function(frm) {
+    frappe.dynamic_link = {
+      doc: frm.doc,
+      fieldname: 'name',
+      doctype: 'Patient Record'
+    };
+
+    if (frm.doc.__islocal) {
+      hide_field(['address_html']);
+      frappe.contacts.clear_address_and_contact(frm);
+    } else {
+      unhide_field(['address_html']);
+      frappe.contacts.render_address_and_contact(frm);
+      erpnext.utils.set_party_dashboard_indicators(frm);
+    }
+    maia.patient_record.make_dashboard(frm);
   },
 
   invite_as_user: function(frm) {
@@ -77,7 +70,57 @@ frappe.ui.form.on("Patient Record", {
     if (!frm.doc.mobile_no.match(reg)) {
       frappe.msgprint(__("The mobile n° format is incorrect"));
     }
+  },
+  weight: function(frm) {
+    if (frm.doc.weight) {
+      frm.save();
+      frappe.call({
+        method: "maia.maia.doctype.patient_record.patient_record.update_weight_tracking",
+        args: {
+          doc: frm.doc.name,
+          weight: frm.doc.weight
+        },
+        callback: function(r) {
+          if (r.message == 'Success') {
+            frappe.show_alert({
+              message: __("Weight Updated"),
+              indicator: 'green'
+            });
+            frm.trigger("setup_chart");
+          }
+        }
+      })
+    }
+  },
+  setup_chart: function(frm) {
+
+    frappe.call({
+      method: "maia.maia.doctype.patient_record.patient_record.get_patient_weight_data",
+      args: {
+        patient_record: frm.doc.name
+      },
+      callback: function(r) {
+        if (r.message && r.message[0].datasets[0].values.length !=0) {
+          let data = r.message[0];
+          let formatted_x = r.message[1];
+
+          let $wrap = $('div[data-fieldname=weight_curve]').get(0);
+
+          let chart = new Chart({
+            parent: $wrap,
+            title: __("Patient Weight"),
+            data: data,
+            type: 'line',
+            region_fill: 1,
+            height: 150,
+            format_tooltip_y: d => d + ' Kg',
+            colors: ['#ffa00a'],
+          });
+        }
+      }
+    });
   }
+
 });
 
 frappe.ui.form.on("Patient Record", "patient_date_of_birth", function(frm) {
@@ -151,3 +194,17 @@ frappe.ui.form.on("Patient Record", "weight", function(frm) {
 frappe.ui.form.on("Patient Record", "pregnancies_report", function(frm) {
   return frappe.set_route('pregnancies', frm.doc.name);
 });
+
+
+$.extend(maia.patient_record, {
+  make_dashboard: function(frm) {
+    frappe.require('assets/js/patient-dashboard.min.js', function() {
+  				var section = frm.dashboard.add_section('<div class="row"><button class="btn btn-xs btn-default btn-custom_dashboard">'+__("Memo")+'</button></div>');
+  				maia.patient_record.custom_patient_dashboard = new maia.patient.PatientDashboard({
+  					parent: section,
+  					patient_record: frm.doc.name
+  				});
+  				maia.patient_record.custom_patient_dashboard.refresh();
+  			});
+    }
+})

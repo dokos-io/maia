@@ -7,6 +7,7 @@ import frappe
 from frappe import _
 from frappe.model.document import Document
 from maia.maia.invoicing import create_and_submit_invoice, get_customer_name, cancel_consultation_and_invoice, remove_cancelled_invoice
+from frappe.utils import get_datetime
 
 class PregnancyConsultation(Document):
 		def before_insert(self):
@@ -21,3 +22,13 @@ class PregnancyConsultation(Document):
 
 		def on_cancel(self):
 			cancel_consultation_and_invoice(self)
+
+@frappe.whitelist()
+def get_base_weight(patient_record):
+	patient = frappe.get_doc("Patient Record", patient_record)
+
+	return patient.weight
+
+
+def nearest(items, pivot):
+    return min(items, key=lambda x: abs(x - pivot))

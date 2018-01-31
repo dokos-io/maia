@@ -1,0 +1,43 @@
+<div class="patient-dashboard-card">
+  <div class="custom_dashboard text-center custom-dashboard-card">
+    <div class="patientdashboard-pregnancy-section patientdashboard-icon">
+      <img src="/assets/maia/images/pregnancy.svg">
+    </div>
+    {% if (typeof beginning_of_pregnancy !== "undefined") { %}
+    <div class="patientdashboard-pregnancy-section">
+      {% if beginning_of_pregnancy %}
+      <span class="text-muted small">{{ __("Beginning of Pregnancy") }}</span>
+      <h4 class="patientdashboard-data">{{ beginning_of_pregnancy }}</h4>
+      {% else %}
+      <span class="text-muted small">{{ __("Please set the beginning of pregnancy date in your latest pregnancy folder") }}</span>
+      {% endif %}
+    </div>
+    {% } %}
+    {% if (typeof expected_term !== "undefined") { %}
+    <div class="patientdashboard-pregnancy-section">
+      {% if expected_term %}
+      <span class="text-muted small">{{ __("Expected Term") }}</span>
+      <h4 class="patientdashboard-data">{{ expected_term }}</h4>
+      {% else %}
+      <span class="text-muted small">{{ __("Please set the expected term date in your latest pregnancy folder") }}</span>
+      {% endif %}
+    </div>
+    {% } %}
+    {% if (typeof preferred_location_for_delivery !== "undefined") { %}
+    {% if preferred_location_for_delivery %}
+    <div class="patientdashboard-pregnancy-section">
+      <span class="text-muted small">{{ __("Preferred Location for Delivery") }}</span>
+      <h4 class="patientdashboard-data">{{ preferred_location_for_delivery }}</h4>
+    </div>
+    {% endif %}
+    {% } %}
+    {% if (typeof pregnancy_complications !== "undefined") { %}
+    {% if pregnancy_complications %}
+    <div class="patientdashboard-pregnancy-section">
+      <span class="text-muted small">{{ __("Pregnancy Complications") }}</span>
+      <h4 class="patientdashboard-data">{{ pregnancy_complications }}</h4>
+    </div>
+    {% endif %}
+    {% } %}
+  </div>
+</div>
