@@ -73,7 +73,7 @@ def get_newborn_weight_data(patient_record, pregnancy, child):
             newborn_weight.append({'date': get_datetime(ep_weight.consultation_date), 'weight': ep_weight[weight_field]})
 
 
-    newborn_weight = sorted(newborn_weight, key=lambda x: x["date"], reverse=True)
+    newborn_weight = sorted(newborn_weight, key=lambda x: x["date"])
 
     titles = []
     values = []

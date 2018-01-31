@@ -273,7 +273,7 @@ def get_patient_weight_data(patient_record):
         if pc_weight.weight is not None and pc_weight.weight!=0 and isinstance(pc_weight.weight, float):
             patient_weight.append({'date': get_datetime(pc_weight.consultation_date), 'weight': pc_weight.weight})
 
-    patient_weight = sorted(patient_weight, key=lambda x: x["date"], reverse=True)
+    patient_weight = sorted(patient_weight, key=lambda x: x["date"])
 
     print(patient_weight)
 
