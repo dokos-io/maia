@@ -6,7 +6,7 @@ from __future__ import unicode_literals
 import frappe
 from frappe.model.naming import make_autoname
 from frappe import _
-from frappe.utils import cstr, cint, has_gravatar, add_years, get_timestamp, now, formatdate, get_datetime
+from frappe.utils import cstr, cint, now, formatdate, get_datetime
 import frappe.defaults
 from frappe.model.document import Document
 from frappe.contacts.address_and_contact import load_address_and_contact
@@ -14,7 +14,7 @@ from erpnext.utilities.transaction_base import TransactionBase
 from erpnext.accounts.party import validate_party_accounts
 from erpnext.controllers.queries import get_filters_cond
 from frappe.desk.reportview import get_match_cond
-from maia.maia.utils import parity_gravidity_calculation
+from maia.maia.utils import parity_gravidity_calculation, get_timeline_data
 
 class PatientRecord(Document):
     def get_feed(self):
@@ -104,7 +104,6 @@ class PatientRecord(Document):
         self.gravidity = gravidity
         self.parity = parity
 
-
 def create_customer_from_patient(doc):
 
     customer = frappe.get_doc({
@@ -124,34 +123,6 @@ def create_customer_from_patient(doc):
 def updating_customer(self):
     frappe.db.sql("""update `tabCustomer` set customer_name=%s, modified=NOW() where patient_record=%s""",
                   (self.patient_name, self.name))
-
-
-def get_timeline_data(doctype, name):
-    '''returns timeline data for the past one year'''
-    from frappe.desk.form.load import get_communication_data
-    patient_record = frappe.get_doc(doctype, name)
-
-    out = {}
-
-    conditions = ' and creation > {0}'.format(add_years(None, -1).strftime('%Y-%m-%d'))
-    data = frappe.db.sql("""
-        SELECT
-            count(name), date(posting_date)
-        FROM
-            `tabSales Invoice`
-        WHERE
-            patient_record = %(pat_rec)s
-            and status!="Cancelled" {conditions}
-        GROUP BY
-            posting_date""".format(conditions=conditions),{"pat_rec": patient_record.name}, as_dict=0)
-
-    timeline_items = dict(data)
-
-    for count, date in timeline_items.iteritems():
-        timestamp = get_timestamp(date)
-        out.update({timestamp: count})
-
-    return out
 
 @frappe.whitelist()
 def update_weight_tracking(doc, weight):

@@ -6,7 +6,7 @@ from __future__ import unicode_literals
 import frappe
 from frappe import _
 from frappe.model.document import Document
-
+from frappe.utils import add_years, get_timestamp
 
 @frappe.whitelist()
 def parity_gravidity_calculation(patient_record):
@@ -57,3 +57,30 @@ def parity_gravidity_calculation(patient_record):
         parity += children
 
     return gravidity, parity
+
+def get_timeline_data(doctype, name):
+    '''returns timeline data for the past one year'''
+    from frappe.desk.form.load import get_communication_data
+    patient_record = frappe.get_doc(doctype, name)
+
+    out = {}
+
+    conditions = ' and creation > {0}'.format(add_years(None, -1).strftime('%Y-%m-%d'))
+    data = frappe.db.sql("""
+        SELECT
+            count(name), date(posting_date)
+        FROM
+            `tabSales Invoice`
+        WHERE
+            patient_record = %(pat_rec)s
+            and status!="Cancelled" {conditions}
+        GROUP BY
+            posting_date""".format(conditions=conditions),{"pat_rec": patient_record.name}, as_dict=0)
+
+    timeline_items = dict(data)
+
+    for count, date in timeline_items.iteritems():
+        timestamp = get_timestamp(date)
+        out.update({timestamp: count})
+
+    return out
