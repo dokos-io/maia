@@ -178,19 +178,31 @@ def get_data(patient_record):
     #Get latest folder
     if dashboard.urgency_of_urination or dashboard.overactive_bladder or dashboard.testing:
         folder = get_last_perineum_rehabilitation(patient_record)
-        pr_folder = frappe.get_doc("Perineum Rehabilitation", folder[0].name)
+        if not folder:
+            pr_folder = None
+        else:
+            pr_folder = frappe.get_doc("Perineum Rehabilitation", folder[0].name)
 
-        #Urgency of Urination
-        if dashboard.urgency_of_urination:
-            perehabilitationdata['urgency_of_urination'] = _(pr_folder.urgency_of_urination)
+            #Urgency of Urination
+            if dashboard.urgency_of_urination:
+                if pr_folder is not None:
+                    perehabilitationdata['urgency_of_urination'] = _(pr_folder.urgency_of_urination)
+                else:
+                    perehabilitationdata['urgency_of_urination'] = None
 
-        #Overactive Bladder
-        if dashboard.overactive_bladder:
-            perehabilitationdata['overactive_bladder'] = _(pr_folder.overactive_bladder)
+            #Overactive Bladder
+            if dashboard.overactive_bladder:
+                if pr_folder is not None:
+                    perehabilitationdata['overactive_bladder'] = _(pr_folder.overactive_bladder)
+                else:
+                    perehabilitationdata['overactive_bladder'] = None
 
-        #Testing
-        if dashboard.testing:
-            perehabilitationdata['testing'] = pr_folder.testing
+            #Testing
+            if dashboard.testing:
+                if pr_folder is not None:
+                    perehabilitationdata['testing'] = pr_folder.testing
+                else:
+                    perehabilitationdata['testing'] = None
 
 
     if generaldata:
@@ -250,15 +262,15 @@ def get_last_pregnancy(patient_record):
 def get_last_perineum_rehabilitation(patient_record):
     folders = frappe.get_all("Perineum Rehabilitation", filters={"patient_record": patient_record}, fields=["name", "modified"])
 
-    if folders is not None:
+    if not folders:
+        return []
+
+    else:
         latest = max(folder.modified for folder in folders)
 
         latest_folder = frappe.get_all("Perineum Rehabilitation", filters={"patient_record": patient_record, 'modified': latest})
 
         return latest_folder
-
-    else:
-        return []
 
 @frappe.whitelist()
 def get_options(patient_record):
