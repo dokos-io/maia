@@ -235,6 +235,7 @@ def set_defaults(args):
 		'default_currency': args.get('currency'),
 		'default_company': args.get('company_name').strip(),
 		"country": args.get("country"),
+		'disable_rounded_total': 1
 	})
 
 	global_defaults.save()

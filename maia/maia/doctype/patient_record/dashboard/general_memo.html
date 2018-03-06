@@ -4,11 +4,9 @@
       <img src="/assets/maia/images/general.svg">
     </div>
     {% if ((typeof gravidity !== "undefined") && (typeof parity !== "undefined")) { %}
-    {% if gravidity || parity %}
     <div class="patientdashboard-general-section">
       <h4 class="patientdashboard-data gravidity-parity">{{ gravidity }} <span class="text-muted small gravidity-parity">{{ __("G") }}</span> {{ parity }} <span class="text-muted small gravidity-parity">{{ __("P") }}</span></h4>
     </div>
-    {% endif %}
     {% } %}
     {% if ((typeof allergies !== "undefined") && (allergies.length !==0)) { %}
     <div class="patientdashboard-general-section">
