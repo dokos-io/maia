@@ -1160,3 +1160,5 @@ Doctype: Patient Record,Weight Curve,Courbe de Poids
 Doctype: Pregnancy Consultation,Calculated based on the reference weight in the patient record,Calculé par rapport au poids de réference hors grossesse du dossier patient
 Doctype: Patient Record,Reference weight outside of pregnancies,Poids de référence hors grossesses
 Doctype: Pregnancy,10% Curve,Courbe des 10%
+apps/maia/maia/doctype/patient_record/dashboard/custom_patient_dashboard.js,Select All,Tout Sélectionner
+Doctype: Pregnancy,First Newborn,Premier Nouveau-Né
