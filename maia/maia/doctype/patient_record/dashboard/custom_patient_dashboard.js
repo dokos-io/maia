@@ -109,6 +109,15 @@ maia.patient.PatientDashboard = Class.extend({
 				fields: [].concat(fields)
 			});
 
+			function get_select_buttons() {
+				return $(`<div style="margin-top: 15px;"><button class="btn btn-xs btn-default select-all">
+					${__("Select All")}</button>
+					<button class="btn btn-xs btn-default deselect-all">
+				${__("Unselect All")}</button></div>`);
+			}
+
+			me.$select_buttons = get_select_buttons().appendTo(me.options_dialog.body);
+
 			me.options_dialog.set_primary_action(__("Save"), () => {
 				let selected_options = get_selected_options();
 
@@ -136,6 +145,20 @@ maia.patient.PatientDashboard = Class.extend({
 
 			$($(me.options_dialog.$wrapper.find('.form-column'))
 				.find('.frappe-control')).css('margin-bottom', '0px');
+
+			let select_all = (select=false) => {
+				let $wrapper = me.options_dialog.$wrapper.find('.form-column');
+				let checked_opts = $wrapper.find('.checkbox input');
+				checked_opts.each((i, opt) => {
+					$(opt).prop("checked", select);
+				});
+			}
+			me.$select_buttons.find('.select-all').on('click', () => {
+				select_all(true);
+			});
+			me.$select_buttons.find('.deselect-all').on('click', () => {
+				select_all();
+			});
 
 			me.options_dialog.clear();
 			me.options_dialog.show();

@@ -58,3 +58,13 @@ maia.maia.GynecologicalConsultation = frappe.ui.form.Controller.extend({
 $.extend(cur_frm.cscript, new maia.maia.GynecologicalConsultation({
   frm: cur_frm
 }));
+
+frappe.ui.form.on("Gynecological Consultation", "weight", function(frm) {
+  var weight = frm.doc.weight;
+  frappe.db.get_value("Patient Record", {'name': frm.doc.patient_record}, 'height', (data) => {
+		if (data.height) {
+			bmi = Math.round(weight / Math.pow(data.height, 2));
+			frappe.model.set_value(frm.doctype, frm.docname, "body_mass_index", bmi)
+		}
+	});
+});

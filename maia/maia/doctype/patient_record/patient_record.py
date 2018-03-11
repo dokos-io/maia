@@ -222,9 +222,9 @@ def get_users_for_website(doctype, txt, searchfield, start, page_len, filters):
 def get_patient_weight_data(patient_record):
 
     base_weights = frappe.get_all('Weight Tracking', filters={"patient_record": patient_record}, fields=["date", "weight"])
-    pr_weights = frappe.get_all("Pregnancy Consultation", filters={"patient_record": patient_record}, fields=["consultation_date", "weight", "pregnancy_folder"])
-    gc_weights = frappe.get_all("Gynecological Consultation", filters={"patient_record": patient_record}, fields=["consultation_date", "weight"])
-    pc_weights = frappe.get_all("Postnatal Consultation", filters={"patient_record": patient_record}, fields=["consultation_date", "weight"])
+    pr_weights = frappe.get_all("Pregnancy Consultation", filters={"patient_record": patient_record, "docstatus": 1}, fields=["consultation_date", "weight", "pregnancy_folder"])
+    gc_weights = frappe.get_all("Gynecological Consultation", filters={"patient_record": patient_record, "docstatus": 1}, fields=["consultation_date", "weight"])
+    pc_weights = frappe.get_all("Postnatal Consultation", filters={"patient_record": patient_record, "docstatus": 1}, fields=["consultation_date", "weight"])
 
     patient_weight = []
 

@@ -107,7 +107,7 @@ class MidwifeAppointment(Document):
 		start_time = get_datetime(self.start_dt).strftime("%H:%M")
 
 		sr = frappe.new_doc('SMS Reminder')
-		sr.sender_name = "SageFemme"
+		sr.sender_name = self.practitioner
 		sr.sender = self.practitioner
 		sr.send_on = send_after_day
 		sr.message = _("""Rappel: Vous avez rendez-vous avec {0} le {1} à {2}. En cas d'impossibilité, veuillez contacter votre sage-femme. Merci""".format(
@@ -350,7 +350,7 @@ def send_sms_reminder(name):
 		for update''', name, as_dict=True)[0]
 
 	args = {"text": sms.message}
-	args["from"] = sms.sender_name
+	args["from"] = sms.sender
 	args["to"] = sms.send_to
 	args["type"] = "transactional"
 	args["tag"] = frappe.conf.get("customer")
@@ -360,8 +360,6 @@ def send_sms_reminder(name):
 
 	if status["code"] == "success":
 		create_sms_log(args)
-		reminder = frappe.get_doc('SMS Reminder', sms.name)
-		reminder.delete()
 
 
 def send_request(params):
