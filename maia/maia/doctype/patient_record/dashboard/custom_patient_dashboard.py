@@ -40,6 +40,7 @@ def get_data(patient_record):
 	if latest_pregnancy:
 		patient_latest_pregnancy = frappe.get_doc("Pregnancy", latest_pregnancy[0].name)
 
+	gynecology_folders = frappe.get_all("Gynecology", dict(patient_record=patient_record))
 
 	#General Section
 	#Gravidity
@@ -106,11 +107,18 @@ def get_data(patient_record):
 	if dashboard.exam_results:
 		labexamsdata['exam_results'] = []
 
+		for folder in gynecology_folders:
+			doc = frappe.get_doc("Gynecology", folder)
+			for result in doc.labs_results:
+					result.date = global_date_format(result.date)
+					labexamsdata['exam_results'].append(result)
+
 		if latest_pregnancy:
 			for results in patient_latest_pregnancy.labs_results:
 				if results.show_on_dashboard:
 					results.date = global_date_format(results.date)
 					labexamsdata['exam_results'].append(results)
+
 		else:
 			labexamsdata['exam_results'] = None
 
