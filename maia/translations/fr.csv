@@ -1162,3 +1162,4 @@ Doctype: Patient Record,Reference weight outside of pregnancies,Poids de référ
 Doctype: Pregnancy,10% Curve,Courbe des 10%
 apps/maia/maia/doctype/patient_record/dashboard/custom_patient_dashboard.js,Select All,Tout Sélectionner
 Doctype: Pregnancy,First Newborn,Premier Nouveau-Né
+Doctype:Role,Appointment User,Utilisateur de Rendez-Vous
