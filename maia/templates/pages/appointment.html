@@ -35,7 +35,7 @@
     <div class="list-filter-item">
       <select id="appointment_type" class="form-control select-doctype">
 	{% for type in appointment_type %}
-	<option value="{{ type.name }}">{{ type.name }}</option>
+	<option value="{{ type.appointment_type }}">{{ type.appointment_type }}</option>
 	{% endfor %}
       </select>
       </div>
