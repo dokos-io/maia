@@ -222,7 +222,7 @@ def send_notification_for_user(user, practitioner, appointment_type, start, note
             message = _("""<div>Bonjour {0},<br><br>{1} {2} vient de prendre rendez-vous sur votre plateforme de réservation.<br><br><strong>Date:</strong> {3}<br><br><strong>Heure:</strong> {4}<br><br><strong>>Type de Rendez-Vous:</strong> {5}<br><br><strong>Message:</strong> {6}<br><br><br>L'Équipe Maia</div>""".format(
                 user_data.first_name, user.first_name, user.last_name, date, time, appointment_type, notes))
         else:
-            message = _("""<div>Bonjour {0},<br><br>{1} vient de prendre rendez-vous sur votre plateforme de réservation.<br><br><strong>Date:</strong> {2}<br><br><strong>Heure:</strong> {3}<br><br><strong>>Type de Rendez-Vous:</strong> {4}<br><br><strong>Message:</strong> {5}<br><br><br>L'Équipe Maia</div>""".format(
+            message = _("""<div>Bonjour {0},<br><br>{1} vient de prendre rendez-vous sur votre plateforme de réservation.<br><br><strong>Date:</strong> {2}<br><br><strong>Heure:</strong> {3}<br><br><strong>Type de Rendez-Vous:</strong> {4}<br><br><strong>Message:</strong> {5}<br><br><br>L'Équipe Maia</div>""".format(
                 user_data.first_name, user.first_name, date, time,  appointment_type, notes))
 
         frappe.sendmail(practitioner_data.user,
