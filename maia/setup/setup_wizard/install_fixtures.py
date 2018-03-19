@@ -178,10 +178,6 @@ def install(country=None):
 			{"attribute_value": _("White"), "abbr": "WHI"}
 		]},
 
-		{'doctype': "Email Account", "email_id": "sales@example.com", "append_to": "Opportunity"},
-		{'doctype': "Email Account", "email_id": "support@example.com", "append_to": "Issue"},
-		{'doctype': "Email Account", "email_id": "jobs@example.com", "append_to": "Job Applicant"},
-
 		{'doctype': "Party Type", "party_type": "Customer"},
 		{'doctype': "Party Type", "party_type": "Supplier"},
 		{'doctype': "Party Type", "party_type": "Employee"},
@@ -431,6 +427,14 @@ def install(country=None):
 		{'doctype': "Echography Type", 'echography_type': _("Second Quarter Ultrasound")},
 		{'doctype': "Echography Type", 'echography_type': _("Third Quarter Ultrasound")},
 		{'doctype': "Echography Type", 'echography_type': _("Pelvic Ultrasound")},
+
+		# Lab Exam Templates
+		{'doctype': 'Lab Exam Template', 'title': _('6th Month Exam'), 'lab_exam_model': [{'exam_type': _('Glucosuria and Albuminuria')}, {'exam_type': _('HBs Antigen')}, {'exam_type': _('Toxoplasmosis Serology')}, {'exam_type': _('Antiglobulin Testing')}, {'exam_type': _('Complete Blood')}]},
+		{'doctype': 'Lab Exam Template', 'title': _('5th Month Exam'), 'lab_exam_model': [{'exam_type': _('Glucosuria and Albuminuria')}, {'exam_type': _('Toxoplasmosis Serology')}, {'exam_type': _('HGPO 75g')}]},
+		{'doctype': 'Lab Exam Template', 'title': _('1st Month Exam'), 'lab_exam_model': [{'exam_type': _('Fasting Blood Glucose')}, {'exam_type': _('PAPP-A and Free Beta-HCG')}, {'exam_type': _('Complete Blood')},
+			{'exam_type': _('Ferritin')}, {'exam_type': _('Hp C Serology')}, {'exam_type': _('HIV Serology')}, {'exam_type': _('Rubella Serology')}, {'exam_type': _('Toxoplasmosis Serology')}, {'exam_type': _('First Determination of ABO- and Rh-groups')},
+			{'exam_type': _('Second Determination of ABO- and Rh-groups')}, {'exam_type': _('Antiglobulin Testing')}, {'exam_type': _('TPHA-VRDL Serology')}, {'exam_type': _('Glucosuria and Albuminuria')}]},
+		{'doctype': 'Lab Exam Template', 'title': _('Standard Exam'), 'lab_exam_model': [{'exam_type': _('Glucosuria and Albuminuria')}, {'exam_type': _('Toxoplasmosis Serology')}]},
 	]
 
 
