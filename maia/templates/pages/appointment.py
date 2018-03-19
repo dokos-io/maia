@@ -14,8 +14,7 @@ from maia.maia.scheduler import get_availability_from_schedule
 
 def get_context(context):
 	context.no_cache = 1
-	practitioners = frappe.get_list("Professional Information Card", filters={
-									"allow_online_booking": 1}, fields=['name'])
+	practitioners = frappe.get_list("Professional Information Card", filters={"allow_online_booking": 1}, fields=['name'])
 	if practitioners:
 		practitioners.sort()
 		context.practitioner = practitioners

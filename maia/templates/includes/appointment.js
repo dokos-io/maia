@@ -1,35 +1,12 @@
-// Copyright (c) 2017,DOKOS and Contributors
+// Copyright (c) 2018,DOKOS and Contributors
 // License: GNU General Public License v3. See license.txt
 
 frappe.provide('maia.appointment');
 var appointment = maia.appointment;
 
 frappe.ready(function() {
-	load_description()
-
-	$('#calendar').fullCalendar({
-		weekends: false,
-		header: {
-			left: 'title',
-			center: '',
-			right: 'prev,next agendaWeek,agendaDay'
-		},
-		defaultView: "agendaWeek",
-		editable: true,
-		selectable: true,
-		selectHelper: true,
-		forceEventDuration: true,
-		allDaySlot: false,
-		minTime: "06:00:00",
-		maxTime: "24:00:00",
-		slotDuration: '00:15:00',
-		scrollTime: '08:30:00',
-		events: source,
-		locale: 'fr',
-		eventClick: function(event) {
-			showBookingPage(event);
-		},
-	})
+	load_description();
+	load_calendar();
 
 	$('#modal').iziModal({
 		title: 'Confirmer votre rendez-vous ?',
@@ -105,7 +82,7 @@ frappe.ready(function() {
 	});
 
 	$('#appointment_type').on('change', loadEvents);
-	$('#practitioner').on('change', get_appointment_types);
+	$('#practitioner').on('change', practitionerChange);
 
 });
 
@@ -124,8 +101,53 @@ var load_description = function() {
 			$("#description").html(description);
 		}
 	})
+}
 
+var load_calendar = function() {
+	if (!$('#practitioner').is("select")) {
+		var practitioner_name = $('#practitioner').text();
+	} else {
+		var practitioner_name = $('#practitioner option:selected').text();
+	}
 
+	return frappe.call({
+		method: "frappe.client.get",
+		type: "GET",
+		args: {
+			"doctype": "Professional Information Card",
+			"name": practitioner_name,
+			fields: ["weekend_booking"]
+		},
+		callback: function(r) {
+			$('#calendar').fullCalendar({
+				weekends: (r.message.weekend_booking == 0) ? false : true,
+				header: {
+					left: 'title',
+					center: '',
+					right: 'prev,next agendaWeek,agendaDay'
+				},
+				defaultView: "agendaWeek",
+				editable: true,
+				selectable: true,
+				selectHelper: true,
+				forceEventDuration: true,
+				allDaySlot: false,
+				minTime: "06:00:00",
+				maxTime: "24:00:00",
+				slotDuration: '00:15:00',
+				scrollTime: '08:30:00',
+				events: source,
+				locale: 'fr',
+				eventClick: function(event) {
+					showBookingPage(event);
+				},
+			})
+		}
+	});
+}
+
+var destroy_calendar = function() {
+	$('#calendar').fullCalendar('destroy');
 }
 
 var source = function(start, end, timezone, callback) {
@@ -256,9 +278,14 @@ var submitBookingForm = function(eventData) {
 	})
 };
 
+function practitionerChange() {
+	destroy_calendar();
+	load_calendar();
+	get_appointment_types();
+}
 
 function loadEvents(source) {
-	load_description()
+	load_description();
 	$('#calendar').fullCalendar('removeEvents');
 	$('#calendar').fullCalendar('refetchEvents');
 }
