@@ -11,6 +11,7 @@ import datetime
 from frappe.utils import getdate, get_time, get_datetime, get_datetime_str, formatdate, now_datetime, add_days, nowdate, cstr, date_diff, add_months, cint
 from frappe.email.doctype.standard_reply.standard_reply import get_standard_reply
 from mailin import Mailin
+import re
 
 weekdays = ["monday", "tuesday", "wednesday",
 			"thursday", "friday", "saturday", "sunday"]
@@ -350,16 +351,18 @@ def send_sms_reminder(name):
 		for update''', name, as_dict=True)[0]
 
 	args = {"text": sms.message}
-	args["from"] = sms.sender
+	args["from"] = re.sub('[\W_]+', '', sms.sender)[:10]
 	args["to"] = sms.send_to
 	args["type"] = "transactional"
 	args["tag"] = frappe.conf.get("customer")
 	args["practitioner"] = sms.sender
-
+	frappe.logger().debug(args)
 	status = send_request(args)
 
 	if status["code"] == "success":
 		create_sms_log(args)
+		reminder = frappe.get_doc('SMS Reminder', sms.name)
+		reminder.delete()
 
 
 def send_request(params):
@@ -367,6 +370,7 @@ def send_request(params):
 	m = Mailin("https://api.sendinblue.com/v2.0", sendinblue_key)
 	data = params
 	result = m.send_sms(data)
+	frappe.logger().debug(result)
 	return result
 
 
