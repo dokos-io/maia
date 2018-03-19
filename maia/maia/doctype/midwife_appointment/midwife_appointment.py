@@ -356,7 +356,6 @@ def send_sms_reminder(name):
 	args["type"] = "transactional"
 	args["tag"] = frappe.conf.get("customer")
 	args["practitioner"] = sms.sender
-	frappe.logger().debug(args)
 	status = send_request(args)
 
 	if status["code"] == "success":
@@ -370,7 +369,6 @@ def send_request(params):
 	m = Mailin("https://api.sendinblue.com/v2.0", sendinblue_key)
 	data = params
 	result = m.send_sms(data)
-	frappe.logger().debug(result)
 	return result
 
 
