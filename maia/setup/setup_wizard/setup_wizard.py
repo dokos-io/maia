@@ -71,8 +71,10 @@ def setup_complete(args=None):
 
 	install_fixtures.codifications(args.get("country"))
 	install_fixtures.purchase_items(args.get("country"))
+	install_fixtures.asset_categories(args.get("country"))
 
 	create_purchase_items(args)
+	setup_asset_categories_accounts(args)
 
 	create_logo(args)
 
@@ -921,3 +923,18 @@ def create_purchase_items(args):
 	frappe.db.set_value("Item", _('Interests and Professional Loan'), "expense_account", "668-Autres charges financières - " + args.get('company_abbr'))
 	frappe.db.set_value("Item", _('Agios'), "expense_account", "668-Autres charges financières - " + args.get('company_abbr'))
 	frappe.db.commit()
+
+
+def setup_asset_categories_accounts(args):
+	categories = [{'name': _('Professional Premises'), 'faa': '2131-Bâtiments - ','dea': '68112-Immobilisations corporelles - '}, {'name':_('Repairs'), 'faa': '2135-Installations G\u00e9n\u00e9rales, agencements, am\u00e9nagements des constructions - ','dea': '68112-Immobilisations corporelles - '},
+	{'name':_('Tools'), 'faa': '2155-Outillage - ','dea': '68112-Immobilisations corporelles - '}, {'name':_('Facilities'), 'faa': '2181-Installations générales, agencements, aménagements divers - ','dea': '68112-Immobilisations corporelles - '}, {'name':_('Furniture'), 'faa': '2184-Mobilier - ','dea': '68112-Immobilisations corporelles - '},
+	{'name':_('Computer'), 'faa': '2183-Matériel de bureau et matériel informatique - ','dea': '68112-Immobilisations corporelles - '}, {'name':_('Medical Material'), 'faa': '2154-Matériel médical - ','dea': '68112-Immobilisations corporelles - '},
+	{'name':_('Car'), 'faa': '208-Autres immobilisations incorporelles - ','dea': '68111-Immobilisations incorporelles - '}]
+	for category in categories:
+
+		asset_category = frappe.get_doc("Asset Category", category['name'])
+		try:
+			asset_category.append('accounts', {'company_name': args.get('company_name').strip(), 'fixed_asset_account': category['faa'] + args.get('company_abbr'),'accumulated_depreciation_account': category['faa'] + args.get('company_abbr'),'depreciation_expense_account': category['dea'] + args.get('company_abbr')})
+			asset_category.save(ignore_permissions=True)
+		except Exception as e:
+			pass

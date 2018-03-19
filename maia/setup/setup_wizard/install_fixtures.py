@@ -526,6 +526,36 @@ def purchase_items(country=None):
 			else:
 				raise
 
+def asset_categories(country=None):
+	records = [
+		# Asset Categories
+		{'doctype': 'Asset Category', 'asset_category_name': _('Professional Premises'),'depreciation_method': 'Straight Line', 'total_number_of_depreciations': 20,'frequency_of_depreciations': 12},
+		{'doctype': 'Asset Category', 'asset_category_name': _('Repairs'),'depreciation_method': 'Straight Line', 'total_number_of_depreciations': 10,'frequency_of_depreciations': 12},
+		{'doctype': 'Asset Category', 'asset_category_name': _('Tools'),'depreciation_method': 'Straight Line', 'total_number_of_depreciations': 5,'frequency_of_depreciations': 12},
+		{'doctype': 'Asset Category', 'asset_category_name': _('Facilities'),'depreciation_method': 'Straight Line', 'total_number_of_depreciations': 5,'frequency_of_depreciations': 12},
+		{'doctype': 'Asset Category', 'asset_category_name': _('Furniture'),'depreciation_method': 'Straight Line', 'total_number_of_depreciations': 5,'frequency_of_depreciations': 12},
+		{'doctype': 'Asset Category', 'asset_category_name': _('Computer'),'depreciation_method': 'Straight Line', 'total_number_of_depreciations': 3,'frequency_of_depreciations': 12},
+		{'doctype': 'Asset Category', 'asset_category_name': _('Medical Material'),'depreciation_method': 'Straight Line', 'total_number_of_depreciations': 5,'frequency_of_depreciations': 12},
+		{'doctype': 'Asset Category', 'asset_category_name': _('Car'),'depreciation_method': 'Straight Line', 'total_number_of_depreciations': 5,'frequency_of_depreciations': 12},
+	]
+
+	from frappe.modules import scrub
+	for r in records:
+		print(r)
+		doc = frappe.new_doc(r.get("doctype"))
+		doc.update(r)
+
+		try:
+			doc.flags.ignore_mandatory = True
+			doc.insert(ignore_permissions=True)
+		except frappe.DuplicateEntryError, e:
+			# pass DuplicateEntryError and continue
+			if e.args and e.args[0]==doc.doctype and e.args[1]==doc.name:
+				# make sure DuplicateEntryError is for the exact same doc and not a related doc
+				pass
+			else:
+				raise
+
 def codifications(country=None):
 	records = [
 		#Midwife Codifications

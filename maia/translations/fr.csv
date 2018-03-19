@@ -1164,7 +1164,17 @@ apps/maia/maia/doctype/patient_record/dashboard/custom_patient_dashboard.js,Sele
 Doctype: Pregnancy,First Newborn,Premier Nouveau-Né
 Doctype: Role,Appointment User,Utilisateur de Rendez-Vous
 Doctype: Patient Record,Don't forget to save your patient record before leaving,N'oubliez d'enregistrer votre dossier patient(e)
-Doctype: Lab Exam Template,Modèle de Résultats d'Examens
+Doctype: Lab Exam Template,Lab Exam Template,Modèle de Résultats d'Examens
 Doctype: Pregnancy,Exams date ?,Date des Examens ?
 Doctype: Pregnancy,Validate,Valider
 Doctype: Professional Information Card,Allow Bookings During Week-Ends,Autoriser les Prises de Rendez-Vous pendant le Week-End
+Doctype: Asset Category,Professional Premises,Locaux Professionnels
+Doctype: Asset Category,Repairs,"Travaux (électricité, plomberie, menuiserie,...)"
+Doctype: Asset Category,Tools,Outils
+Doctype: Asset Category,Facilities,"Aménagements (peinture, revêtement de sol,...)"
+Doctype: Asset Category,Furniture,Mobilier
+Doctype: Asset Category,Computer,Ordinateur
+Doctype: Asset Category,Medical Material,Matériel Médical
+Doctype: Asset Category,Car,Voiture
+apps/maia/maia/templates/appointment.py,Please select an appointment type,Veuillez sélectionner un type de Rendez-Vous
+apps/maia/maia/templates/appointment.py,Please select a practitioner,Veuillez sélectionner un-e professionnel-le
