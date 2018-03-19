@@ -9,9 +9,10 @@ def execute():
 
 	for correspondent in correspondents:
 		doc = frappe.get_doc("Correspondents", correspondent.name)
-		patient_record = frappe.get_value(doc.parenttype, doc.parent, "patient_record")
+		if doc.parenttype != "Patient Record":
+			patient_record = frappe.get_value(doc.parenttype, doc.parent, "patient_record")
 
-		try:
-			frappe.db.sql("""update `tabCorrespondents` set parenttype='Patient Record', parent='{0}' where name='{1}'""".format(patient_record, doc.name))
-		except Exception as e:
-			print(e)
+			try:
+				frappe.db.sql("""update `tabCorrespondents` set parenttype='Patient Record', parent='{0}' where name='{1}'""".format(patient_record, doc.name))
+			except Exception as e:
+				print(e)
