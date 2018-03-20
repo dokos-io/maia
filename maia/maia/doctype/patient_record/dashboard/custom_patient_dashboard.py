@@ -5,13 +5,14 @@
 from __future__ import unicode_literals
 import frappe
 from frappe import _
-from frappe.utils import getdate, global_date_format
+from frappe.utils import getdate, global_date_format, nowdate
 import json
 from maia.maia.utils import parity_gravidity_calculation
+import dateparser
 
 DASHBOARD_LIST = ["beginning_of_pregnancy", "exam_results", "pregnancy_complications", "delivery_way", "child_name", "delivery_date", "blood_group",
 					"allergies", "medical_background", "addictions", "gravidity_parity", "expected_term", "preferred_location_for_delivery", "delivery_complications",
-					"scar", "birth_weight", "feeding_type", "urgency_of_urination", "overactive_bladder", "testing"]
+					"scar", "birth_weight", "feeding_type", "urgency_of_urination", "overactive_bladder", "testing", "cervical_smear", "contraception"]
 
 def get_patient_dashboard(patient_record):
 	if frappe.db.exists("Custom Patient Record Dashboard", dict(patient_record=patient_record)):
@@ -74,6 +75,14 @@ def get_data(patient_record):
 			color = "black"
 		if blood_group != "":
 			generaldata['blood_group'] = {"name": blood_group, "color": color}
+
+	#Cervical Smear
+	if dashboard.cervical_smear:
+		generaldata['cervical_smear'] = get_last_cervical_smear(patient_record)
+
+	#Current Contraception
+	if dashboard.contraception and patient.contraception:
+		generaldata['contraception'] = patient.contraception
 
 	#Pregnancy Section
 	#Beginning of Pregnancy
@@ -283,6 +292,18 @@ def get_last_perineum_rehabilitation(patient_record):
 		latest_folder = frappe.get_all("Perineum Rehabilitation", filters={"patient_record": patient_record, 'modified': latest})
 
 		return latest_folder
+
+def get_last_cervical_smear(patient_record):
+	doc = frappe.get_doc("Patient Record", patient_record)
+	cervical_smears = doc.cervical_smear_table
+
+	for cervical_smear in cervical_smears:
+		cervical_smear.update({'date_time': dateparser.parse(str(cervical_smear.date) if (cervical_smear.date is not None) else nowdate())})
+
+	latest = max(cervical_smear.date_time for cervical_smear in cervical_smears)
+	latest_cs = [cs for cs in cervical_smears if cs.date_time == latest]
+	return latest_cs
+
 
 @frappe.whitelist()
 def get_options(patient_record):

@@ -32,6 +32,21 @@
       {% endfor %}
     </div>
     {% } %}
+		{% if ((typeof cervical_smear !== "undefined") && (cervical_smear.length !==0)) { %}
+    <div class="patientdashboard-general-section">
+      <span class="text-muted small">{{ __("Last Cervical Smear") }}</span>
+      {% for cs in cervical_smear %}
+      <h4 class="patientdashboard-data text-uppercase">{{ cs.date }}</h4>
+			<h5 class="patientdashboard-data text-uppercase">{{ cs.result }}</h5>
+      {% endfor %}
+    </div>
+    {% } %}
+		{% if ((typeof contraception !== "undefined")) { %}
+    <div class="patientdashboard-general-section">
+      <span class="text-muted small">{{ __("Current Contraception") }}</span>
+      <h4 class="patientdashboard-data text-uppercase">{{ contraception }}</h4>
+    </div>
+    {% } %}
     {% if (typeof blood_group !== "undefined") { %}
     {% if blood_group %}
     <div class="patientdashboard-general-section">

@@ -21,10 +21,7 @@ def get_last_cervical_smears(patient_record):
 	for cervical_smear in cervical_smears:
 		cervical_smear.update({'date_time': dateparser.parse(str(cervical_smear.date) if (cervical_smear.date is not None) else nowdate())})
 
-		frappe.logger().debug(cervical_smear.date_time)
-
 	sortedsmears = sorted(cervical_smears, key=lambda x: x.date_time, reverse=True)
-	frappe.logger().debug(sortedsmears)
 	return sortedsmears[:5]
 
 
