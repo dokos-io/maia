@@ -1182,3 +1182,7 @@ Doctype: Lab Exam Template,6th Month Exam,"Bilan du 6ème Mois (25-28 SA)"
 Doctype: Lab Exam Template,5th Month Exam,"Bilan du 5ème Mois (20-24 SA)"
 Doctype: Lab Exam Template,1st Month Exam,"Bilan 1ère Consultation (Avant 10 SA)"
 Doctype: Lab Exam Template,Standard Exam,Bilan Standard
+Doctype: Gynecology,Last Cervical Smears,Derniers Frottis
+Doctype: Gynecology,New cervical smear successfully added,Nouveau frottis ajouté
+Doctype: Gynecology,New Cervical Smear,Nouveau Frottis
+Doctype: Gynecology,Result,Résultat

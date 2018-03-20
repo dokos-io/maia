@@ -219,7 +219,7 @@ def get_data(patient_record):
 	if generaldata:
 		data.append({'general': generaldata})
 
-	if pregnancydata and (('expected_term' in pregnancydata and pregnancydata['expected_term'] is not None) or ('beginning_of_pregnancy' in pregnancydata and pregnancydata['beginning_of_pregnancy'] is not None)):
+	if pregnancydata and (('expected_term' in pregnancydata) or ('beginning_of_pregnancy' in pregnancydata)):
 		data.append({'pregnancy': pregnancydata})
 
 	if deliverydata:
@@ -228,8 +228,9 @@ def get_data(patient_record):
 	if newborndata['firstchild'] or newborndata['secondchild'] or newborndata['thirdchild']:
 		data.append({'newborn': newborndata})
 
-	if labexamsdata and ('exam_results' in labexamsdata and labexamsdata['exam_results'] is not None):
-		data.append({'labexams': labexamsdata})
+	if labexamsdata and ('exam_results' in labexamsdata):
+		if labexamsdata['exam_results']:
+			data.append({'labexams': labexamsdata})
 
 	if perehabilitationdata:
 		data.append({'perehabilitation': perehabilitationdata})

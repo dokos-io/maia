@@ -1,0 +1,37 @@
+<div class="clearfix"></div>
+    <div class="cervical-smears-box">
+				<div><h5 class="text-center uppercase" style="color: #8D99A6">{{ __("Last Cervical Smears") }}</h5></div>
+				<div class="form-grid">
+					<div class="grid-heading-row">
+						<div class="grid-row">
+							<div class="data-row row">
+								<div class="col grid-static-col col-xs-3">
+									<div class="static-area ellipsis">{{ __("Date") }}</div>
+								</div>
+								<div class="col grid-static-col col-xs-9">
+									<div class="static-area ellipsis">{{ __("Result") }}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="grid-body">
+						<div class="rows">
+						{% for d in data %}
+						<div class="grid-row">
+							<div class="data-row row">
+								<div class="col grid-static-col col-xs-3">
+									<div class="static-area ellipsis">{{ d.date }}</div>
+								</div>
+								<div class="col grid-static-col col-xs-9">
+									<div class="static-area ellipsis">{{ d.result }}</div>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+
+				</div>
+			</div>
+
+<p><button class="btn btn-xs btn-default btn-cervical-smears" style="float: right;">{{ __("New Cervical Smear") }}</button></p>
