@@ -219,7 +219,7 @@ def get_data(patient_record):
 	if generaldata:
 		data.append({'general': generaldata})
 
-	if pregnancydata and (('expected_term' in pregnancydata and ['expected_term'] is not None) or ('beginning_of_pregnancy' in pregnancydata and pregnancydata['beginning_of_pregnancy'] is not None)):
+	if pregnancydata and (('expected_term' in pregnancydata and pregnancydata['expected_term'] is not None) or ('beginning_of_pregnancy' in pregnancydata and pregnancydata['beginning_of_pregnancy'] is not None)):
 		data.append({'pregnancy': pregnancydata})
 
 	if deliverydata:
