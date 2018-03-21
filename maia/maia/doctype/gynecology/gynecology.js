@@ -55,13 +55,11 @@ var render_cervical_smears = function(frm) {
 			},
 			cache: false,
 			callback: function(data) {
-				if (data.message) {
 					$(frm.fields_dict['cervical_smear_display'].wrapper)
 						.html(frappe.render_template("cervical_smears_template", {data: data.message}))
 						.find(".btn-cervical-smears").on("click", function() {
 							add_new_cervical_smear(frm);
 						});
-				}
 			}
 		})
 

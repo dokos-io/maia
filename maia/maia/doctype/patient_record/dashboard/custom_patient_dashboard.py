@@ -312,63 +312,78 @@ def get_last_cervical_smear(patient_record):
 	doc = frappe.get_doc("Patient Record", patient_record)
 	cervical_smears = doc.cervical_smear_table
 
-	for cervical_smear in cervical_smears:
-		cervical_smear.update({'date_time': dateparser.parse(str(cervical_smear.date) if (cervical_smear.date is not None) else nowdate())})
+	if cervical_smears:
+		for cervical_smear in cervical_smears:
+			cervical_smear.update({'date_time': dateparser.parse((cervical_smear.date.encode('utf-8').strip()) if (cervical_smear.date is not None) else nowdate())})
 
-	latest = max(cervical_smear.date_time for cervical_smear in cervical_smears)
-	latest_cs = [cs for cs in cervical_smears if cs.date_time == latest]
-	return latest_cs
+		latest = max(cervical_smear.date_time for cervical_smear in cervical_smears)
+		latest_cs = [cs for cs in cervical_smears if cs.date_time == latest]
+		return latest_cs
 
 def get_last_screening_test(patient_record):
 	gynecological_folders = frappe.get_all("Gynecology", dict(patient_record=patient_record))
 
-	screening_tests = []
-	for gynecological_folder in gynecological_folders:
-		doc = frappe.get_doc("Gynecology", gynecological_folder.name)
-		if doc.screening_tests is not None:
-			for test in doc.screening_tests :
-				screening_tests.append(test)
+	if gynecological_folders:
+		screening_tests = []
+		for gynecological_folder in gynecological_folders:
+			doc = frappe.get_doc("Gynecology", gynecological_folder.name)
+			print(doc.screening_tests)
+			if doc.screening_tests:
+				for test in doc.screening_tests :
+					screening_tests.append(test)
 
-	for screening_test in screening_tests:
-		screening_test.update({'date_time': dateparser.parse(str(screening_test.date) if (screening_test.date is not None) else nowdate())})
+		if screening_tests:
+			for screening_test in screening_tests:
+				screening_test.update({'date_time': dateparser.parse((screening_test.date.encode('utf-8').strip()) if (screening_test.date is not None) else nowdate())})
 
-	latest = max(screening_test.date_time for screening_test in screening_tests)
-	latest_st = [st for st in screening_tests if st.date_time == latest]
-	return latest_st
+			latest = max(screening_test.date_time for screening_test in screening_tests)
+			latest_st = [st for st in screening_tests if st.date_time == latest]
+			return latest_st
+		else:
+			return []
 
 def get_last_lipid_profile(patient_record):
 	gynecological_folders = frappe.get_all("Gynecology", dict(patient_record=patient_record))
 
-	lipid_profiles = []
-	for gynecological_folder in gynecological_folders:
-		doc = frappe.get_doc("Gynecology", gynecological_folder.name)
-		if doc.lipid_profile is not None:
-			for test in doc.lipid_profile :
-				lipid_profiles.append(test)
 
-	for lipid_profile in lipid_profiles:
-		lipid_profile.update({'date_time': dateparser.parse(str(lipid_profile.date) if (lipid_profile.date is not None) else nowdate())})
+	if gynecological_folders:
+		lipid_profiles = []
+		for gynecological_folder in gynecological_folders:
+			doc = frappe.get_doc("Gynecology", gynecological_folder.name)
+			if doc.lipid_profile:
+				for test in doc.lipid_profile :
+					lipid_profiles.append(test)
 
-	latest = max(lipid_profile.date_time for lipid_profile in lipid_profiles)
-	latest_lp = [lp for lp in lipid_profiles if lp.date_time == latest]
-	return latest_lp
+		if lipid_profiles:
+			for lipid_profile in lipid_profiles:
+				lipid_profile.update({'date_time': dateparser.parse((lipid_profile.date.encode('utf-8').strip()) if (lipid_profile.date is not None) else nowdate())})
+
+			latest = max(lipid_profile.date_time for lipid_profile in lipid_profiles)
+			latest_lp = [lp for lp in lipid_profiles if lp.date_time == latest]
+			return latest_lp
+		else:
+			return []
 
 def get_last_mammography(patient_record):
 	gynecological_folders = frappe.get_all("Gynecology", dict(patient_record=patient_record))
 
-	mammographies = []
-	for gynecological_folder in gynecological_folders:
-		doc = frappe.get_doc("Gynecology", gynecological_folder.name)
-		if doc.mammographies_table is not None:
-			for test in doc.mammographies_table :
-				mammographies.append(test)
+	if gynecological_folders:
+		mammographies = []
+		for gynecological_folder in gynecological_folders:
+			doc = frappe.get_doc("Gynecology", gynecological_folder.name)
+			if doc.mammographies_table:
+				for test in doc.mammographies_table :
+					mammographies.append(test)
 
-	for mammography in mammographies:
-		mammography.update({'date_time': dateparser.parse(str(mammography.date) if (mammography.date is not None) else nowdate())})
+		if mammographies:
+			for mammography in mammographies:
+				mammography.update({'date_time': dateparser.parse((mammography.date.encode('utf-8').strip()) if (mammography.date is not None) else nowdate())})
 
-	latest = max(mammography.date_time for mammography in mammographies)
-	latest_m = [m for m in mammographies if m.date_time == latest]
-	return latest_m
+			latest = max(mammography.date_time for mammography in mammographies)
+			latest_m = [m for m in mammographies if m.date_time == latest]
+			return latest_m
+		else:
+			return []
 
 
 @frappe.whitelist()

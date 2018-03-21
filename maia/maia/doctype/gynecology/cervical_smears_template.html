@@ -1,5 +1,6 @@
 <div class="clearfix"></div>
     <div class="cervical-smears-box">
+			  {% if ((typeof data !== "undefined") && (data.length !==0)) { %}
 				<div><h5 class="text-center uppercase" style="color: #8D99A6">{{ __("Derniers Frottis") }}</h5></div>
 				<div class="form-grid">
 					<div class="grid-heading-row">
@@ -32,6 +33,7 @@
 				</div>
 
 				</div>
+				{% } %}
 			</div>
 
 <p><button class="btn btn-xs btn-default btn-cervical-smears" style="float: right;">{{ __("New Cervical Smear") }}</button></p>
