@@ -30,6 +30,6 @@ maia.patches.v1_5.meal_expense_default_accounts
 maia.patches.v2_0.gravidity_parity_calculation
 maia.patches.v2_0.lab_exam_memo
 maia.patches.v2_0.disable_rounded_total
-#maia.patches.v2_0.correspondents_to_patient_record
-#maia.patches.v2_0.asset_categories
-#maia.patches.v2_0.cervical_smears_to_patient_record
+maia.patches.v2_0.correspondents_to_patient_record
+maia.patches.v2_0.asset_categories
+maia.patches.v2_0.cervical_smears_to_patient_record
