@@ -9,9 +9,9 @@ import frappe
 
 from frappe import _
 
-default_lead_sources = ["Existing Customer", "Reference", "Advertisement",
-	"Cold Calling", "Exhibition", "Supplier Reference", "Mass Mailing",
-	"Customer's Vendor", "Campaign", "Walk In"]
+default_lead_sources = [_("Existing Customer"), _("Reference"), _("Advertisement"),
+	_("Cold Calling"), _("Exhibition"), _("Supplier Reference"), _("Mass Mailing"),
+	_("Customer's Vendor"), _("Campaign"), _("Walk In")]
 
 def install(country=None):
 	records = [
@@ -533,14 +533,14 @@ def purchase_items(country=None):
 def asset_categories(country=None):
 	records = [
 		# Asset Categories
-		{'doctype': 'Asset Category', 'asset_category_name': _('Professional Premises'),'depreciation_method': 'Straight Line', 'total_number_of_depreciations': 20,'frequency_of_depreciations': 12},
-		{'doctype': 'Asset Category', 'asset_category_name': _('Repairs'),'depreciation_method': 'Straight Line', 'total_number_of_depreciations': 10,'frequency_of_depreciations': 12},
-		{'doctype': 'Asset Category', 'asset_category_name': _('Tools'),'depreciation_method': 'Straight Line', 'total_number_of_depreciations': 5,'frequency_of_depreciations': 12},
-		{'doctype': 'Asset Category', 'asset_category_name': _('Facilities'),'depreciation_method': 'Straight Line', 'total_number_of_depreciations': 5,'frequency_of_depreciations': 12},
-		{'doctype': 'Asset Category', 'asset_category_name': _('Furniture'),'depreciation_method': 'Straight Line', 'total_number_of_depreciations': 5,'frequency_of_depreciations': 12},
-		{'doctype': 'Asset Category', 'asset_category_name': _('Computer'),'depreciation_method': 'Straight Line', 'total_number_of_depreciations': 3,'frequency_of_depreciations': 12},
-		{'doctype': 'Asset Category', 'asset_category_name': _('Medical Material'),'depreciation_method': 'Straight Line', 'total_number_of_depreciations': 5,'frequency_of_depreciations': 12},
-		{'doctype': 'Asset Category', 'asset_category_name': _('Car'),'depreciation_method': 'Straight Line', 'total_number_of_depreciations': 5,'frequency_of_depreciations': 12},
+		{'doctype': 'Asset Category', 'asset_category_name': _('Professional Premises'),'depreciation_method': 'Straight Line', 'total_number_of_depreciations': 20,'frequency_of_depreciation': 12},
+		{'doctype': 'Asset Category', 'asset_category_name': _('Repairs'),'depreciation_method': 'Straight Line', 'total_number_of_depreciations': 10,'frequency_of_depreciation': 12},
+		{'doctype': 'Asset Category', 'asset_category_name': _('Tools'),'depreciation_method': 'Straight Line', 'total_number_of_depreciations': 5,'frequency_of_depreciation': 12},
+		{'doctype': 'Asset Category', 'asset_category_name': _('Facilities'),'depreciation_method': 'Straight Line', 'total_number_of_depreciations': 5,'frequency_of_depreciation': 12},
+		{'doctype': 'Asset Category', 'asset_category_name': _('Furniture'),'depreciation_method': 'Straight Line', 'total_number_of_depreciations': 5,'frequency_of_depreciation': 12},
+		{'doctype': 'Asset Category', 'asset_category_name': _('Computer'),'depreciation_method': 'Straight Line', 'total_number_of_depreciations': 3,'frequency_of_depreciation': 12},
+		{'doctype': 'Asset Category', 'asset_category_name': _('Medical Material'),'depreciation_method': 'Straight Line', 'total_number_of_depreciations': 5,'frequency_of_depreciation': 12},
+		{'doctype': 'Asset Category', 'asset_category_name': _('Car'),'depreciation_method': 'Straight Line', 'total_number_of_depreciations': 5,'frequency_of_depreciation': 12},
 	]
 
 	from frappe.modules import scrub
