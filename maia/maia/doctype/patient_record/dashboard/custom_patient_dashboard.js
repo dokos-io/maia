@@ -29,7 +29,7 @@ maia.patient.PatientDashboard = Class.extend({
 		});
 	},
 	render: function(dashboarddata) {
-		var templates = {'general': 'general_memo', 'pregnancy': 'pregnancy', 'delivery': 'delivery', 'newborn': 'newborn', 'labexams': 'lab_exam_results', 'perehabilitation': 'perineum_rehabilitation'}
+		var templates = {'general': 'general_memo', 'pregnancy': 'pregnancy', 'delivery': 'delivery', 'newborn': 'newborn', 'labexams': 'lab_exam_results', 'perehabilitation': 'perineum_rehabilitation', 'gynecology': 'gynecology'}
 		this.dashboard = $(frappe.render_template('custom_patient_dashboard')).appendTo(this.result);
 		var $first_col = this.dashboard.find('.dashboard-col-1');
 		var $second_col = this.dashboard.find('.dashboard-col-2');
@@ -80,24 +80,35 @@ maia.patient.PatientDashboard = Class.extend({
 
 		function make_fields_from_options_values(options_fields) {
 			let fields = [];
-				options_fields.forEach(value => {
-					if (fields.length === 12) {
-						fields.push({fieldtype: 'Column Break'});
-					}
+				options_fields.forEach((value, index) => {
+					if ((index > (Object.keys(options_fields).length / 2)) && (index < (Object.keys(options_fields).length / 2 + 1)))  {
+            fields.push({fieldtype: 'Column Break'});
+          }
+
 					fields.push({
-						fieldtype: 'Check',
-						label: value.label,
-						fieldname: value.name,
-						default: value.value,
-						onchange: function() {
-							let selected_options = get_selected_options();
-							let lengths = [];
-							Object.keys(selected_options).map(key => {
-								lengths.push(selected_options[key].length);
+						fieldtype: 'Heading',
+						label: Object.keys(value),
+						fieldname: Object.keys(value),
+					});
+					Object.keys(value).forEach(d => {
+						var fieldsToBeAdded = value[d];
+						Object.keys(fieldsToBeAdded).forEach(e => {
+							fields.push({
+								fieldtype: 'Check',
+								label: fieldsToBeAdded[e].label,
+								fieldname: fieldsToBeAdded[e].name,
+								default: fieldsToBeAdded[e].value,
+								onchange: function() {
+									let selected_options = get_selected_options();
+									let lengths = [];
+									Object.keys(selected_options).map(key => {
+										lengths.push(selected_options[key].length);
+									});
+										me.options_dialog.get_primary_btn();
+										me.options_dialog.enable_primary_action();
+								}
 							});
-								me.options_dialog.get_primary_btn();
-								me.options_dialog.enable_primary_action();
-						}
+						});
 					});
 				});
 			return fields;

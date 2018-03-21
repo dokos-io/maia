@@ -9,10 +9,10 @@ from frappe.utils import getdate, global_date_format, nowdate
 import json
 from maia.maia.utils import parity_gravidity_calculation
 import dateparser
+import itertools
+from operator import itemgetter
 
-DASHBOARD_LIST = ["beginning_of_pregnancy", "exam_results", "pregnancy_complications", "delivery_way", "child_name", "delivery_date", "blood_group",
-					"allergies", "medical_background", "addictions", "gravidity_parity", "expected_term", "preferred_location_for_delivery", "delivery_complications",
-					"scar", "birth_weight", "feeding_type", "urgency_of_urination", "overactive_bladder", "testing", "cervical_smear", "contraception"]
+DOMAINS = ["General Info", "Lab Exam", "Pregnancy", "Delivery", "Newborn", "Perineum Rehabilitation", "Gynecology"]
 
 def get_patient_dashboard(patient_record):
 	if frappe.db.exists("Custom Patient Record Dashboard", dict(patient_record=patient_record)):
@@ -31,6 +31,7 @@ def get_data(patient_record):
 	patient = frappe.get_doc("Patient Record", patient_record)
 	data=[]
 	generaldata = {}
+	gynecologydata = {}
 	pregnancydata = {}
 	deliverydata = {}
 	newborndata = {}
@@ -76,13 +77,26 @@ def get_data(patient_record):
 		if blood_group != "":
 			generaldata['blood_group'] = {"name": blood_group, "color": color}
 
+	#Gynecology Section
 	#Cervical Smear
 	if dashboard.cervical_smear:
-		generaldata['cervical_smear'] = get_last_cervical_smear(patient_record)
+		gynecologydata['cervical_smear'] = get_last_cervical_smear(patient_record)
 
 	#Current Contraception
 	if dashboard.contraception and patient.contraception:
-		generaldata['contraception'] = patient.contraception
+		gynecologydata['contraception'] = patient.contraception
+
+	#Screening Tests
+	if dashboard.screening_tests:
+		gynecologydata['screening_tests'] = get_last_screening_test(patient_record)
+
+	#Lipid Profile
+	if dashboard.lipid_profile:
+		gynecologydata['lipid_profile'] = get_last_lipid_profile(patient_record)
+
+	#Mammography
+	if dashboard.mammography:
+		gynecologydata['mammography'] = get_last_mammography(patient_record)
 
 	#Pregnancy Section
 	#Beginning of Pregnancy
@@ -108,7 +122,7 @@ def get_data(patient_record):
 
 	#Pregnancy Complications
 	if dashboard.pregnancy_complications:
-		if latest_pregnancy:
+		if latest_pregnancy and patient_latest_pregnancy.pregnancy_complications:
 			pregnancydata['pregnancy_complications'] = patient_latest_pregnancy.pregnancy_complications
 
 	#Lab Exam Section
@@ -150,7 +164,7 @@ def get_data(patient_record):
 
 	#Delivery Complications
 	if dashboard.delivery_complications:
-		if latest_pregnancy:
+		if latest_pregnancy and patient_latest_pregnancy.anesthesia_complications:
 			delivery_complications = patient_latest_pregnancy.anesthesia_complications
 			deliverydata['delivery_complications'] = delivery_complications
 
@@ -219,10 +233,8 @@ def get_data(patient_record):
 
 			#Testing
 			if dashboard.testing:
-				if pr_folder is not None:
+				if pr_folder is not None and pr_folder.testing:
 					perehabilitationdata['testing'] = pr_folder.testing
-				else:
-					perehabilitationdata['testing'] = None
 
 
 	if generaldata:
@@ -243,6 +255,9 @@ def get_data(patient_record):
 
 	if perehabilitationdata:
 		data.append({'perehabilitation': perehabilitationdata})
+
+	if gynecologydata:
+		data.append({'gynecology': gynecologydata})
 
 	return data
 
@@ -304,26 +319,86 @@ def get_last_cervical_smear(patient_record):
 	latest_cs = [cs for cs in cervical_smears if cs.date_time == latest]
 	return latest_cs
 
+def get_last_screening_test(patient_record):
+	gynecological_folders = frappe.get_all("Gynecology", dict(patient_record=patient_record))
+
+	screening_tests = []
+	for gynecological_folder in gynecological_folders:
+		doc = frappe.get_doc("Gynecology", gynecological_folder.name)
+		if doc.screening_tests is not None:
+			for test in doc.screening_tests :
+				screening_tests.append(test)
+
+	for screening_test in screening_tests:
+		screening_test.update({'date_time': dateparser.parse(str(screening_test.date) if (screening_test.date is not None) else nowdate())})
+
+	latest = max(screening_test.date_time for screening_test in screening_tests)
+	latest_st = [st for st in screening_tests if st.date_time == latest]
+	return latest_st
+
+def get_last_lipid_profile(patient_record):
+	gynecological_folders = frappe.get_all("Gynecology", dict(patient_record=patient_record))
+
+	lipid_profiles = []
+	for gynecological_folder in gynecological_folders:
+		doc = frappe.get_doc("Gynecology", gynecological_folder.name)
+		if doc.lipid_profile is not None:
+			for test in doc.lipid_profile :
+				lipid_profiles.append(test)
+
+	for lipid_profile in lipid_profiles:
+		lipid_profile.update({'date_time': dateparser.parse(str(lipid_profile.date) if (lipid_profile.date is not None) else nowdate())})
+
+	latest = max(lipid_profile.date_time for lipid_profile in lipid_profiles)
+	latest_lp = [lp for lp in lipid_profiles if lp.date_time == latest]
+	return latest_lp
+
+def get_last_mammography(patient_record):
+	gynecological_folders = frappe.get_all("Gynecology", dict(patient_record=patient_record))
+
+	mammographies = []
+	for gynecological_folder in gynecological_folders:
+		doc = frappe.get_doc("Gynecology", gynecological_folder.name)
+		if doc.mammographies_table is not None:
+			for test in doc.mammographies_table :
+				mammographies.append(test)
+
+	for mammography in mammographies:
+		mammography.update({'date_time': dateparser.parse(str(mammography.date) if (mammography.date is not None) else nowdate())})
+
+	latest = max(mammography.date_time for mammography in mammographies)
+	latest_m = [m for m in mammographies if m.date_time == latest]
+	return latest_m
+
 
 @frappe.whitelist()
 def get_options(patient_record):
 	dashboard = get_patient_dashboard(patient_record)
 
 	result = []
-	for attr, value in dashboard.__dict__.iteritems():
-		if attr in DASHBOARD_LIST:
-			label = dashboard.meta.get_label(attr)
-			prev_value = dashboard.get(attr)
+	for field in dashboard.meta.fields:
+		if field.options in DOMAINS:
+			label = field.label
+			option = field.options
+			attr = field.fieldname
+			prev_value = dashboard.get(field.fieldname)
 
-			result.append({"name": attr, "label": _(label), "value": prev_value})
+			result.append({"name": attr, "label": _(label), "value": prev_value, "option": option})
 			result = sorted(result)
 
-	return result
+	sorted_result = sorted(result, key=itemgetter('option'))
+
+	final_result = []
+	for key, group in itertools.groupby(sorted_result, key=lambda x:x['option']):
+		final_result.append({_(key): list(group)})
+
+	sorted_final_result = sorted(final_result)
+
+	return sorted_final_result
 
 @frappe.whitelist()
 def update_dashboard(patient_record, options):
 	options = json.loads(options)
-	frappe.logger().debug(options)
 	dashboard = frappe.get_doc("Custom Patient Record Dashboard", dict(patient_record=patient_record))
 
 	if options:
