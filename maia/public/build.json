@@ -9,6 +9,7 @@
         "maia/doctype/patient_record/dashboard/pregnancy.html",
         "maia/doctype/patient_record/dashboard/delivery.html",
         "maia/doctype/patient_record/dashboard/newborn.html",
+				"maia/doctype/patient_record/dashboard/gynecology.html",
         "maia/doctype/patient_record/dashboard/lab_exam_results.html",
         "maia/doctype/patient_record/dashboard/perineum_rehabilitation.html",
         "maia/doctype/patient_record/dashboard/custom_patient_dashboard.js"

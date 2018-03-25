@@ -73,7 +73,10 @@ frappe.ui.form.on("Patient Record", {
   },
   weight: function(frm) {
     if (frm.doc.weight) {
-      frm.save();
+			frappe.show_alert({
+				message: __("Don't forget to save your patient record before leaving"),
+				indicator: 'orange'
+			});
       frappe.call({
         method: "maia.maia.doctype.patient_record.patient_record.update_weight_tracking",
         args: {

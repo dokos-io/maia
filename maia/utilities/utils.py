@@ -10,3 +10,18 @@ def delete_expired_sms():
 	for d in data:
 		if d.send_on < now_datetime():
 			frappe.delete_doc("SMS Reminder", d.name, ignore_permissions=True)
+
+
+def reset_portal_doctypes():
+	frappe.reload_doctype("Portal Settings")
+
+	items = frappe.get_all("Portal Menu Item", fields=[
+						   'name', 'title', 'route', 'enabled'])
+
+	for item in items:
+		if item.route == "/appointment" or item.route == "/my-appointments":
+			pass
+		else:
+			frappe.db.set_value("Portal Menu Item", item.name, "enabled", 0)
+
+	frappe.db.commit()

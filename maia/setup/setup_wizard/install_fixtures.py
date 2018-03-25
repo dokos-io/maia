@@ -9,9 +9,9 @@ import frappe
 
 from frappe import _
 
-default_lead_sources = ["Existing Customer", "Reference", "Advertisement",
-	"Cold Calling", "Exhibition", "Supplier Reference", "Mass Mailing",
-	"Customer's Vendor", "Campaign", "Walk In"]
+default_lead_sources = [_("Existing Customer"), _("Reference"), _("Advertisement"),
+	_("Cold Calling"), _("Exhibition"), _("Supplier Reference"), _("Mass Mailing"),
+	_("Customer's Vendor"), _("Campaign"), _("Walk In")]
 
 def install(country=None):
 	records = [
@@ -177,10 +177,6 @@ def install(country=None):
 			{"attribute_value": _("Black"), "abbr": "BLA"},
 			{"attribute_value": _("White"), "abbr": "WHI"}
 		]},
-
-		{'doctype': "Email Account", "email_id": "sales@example.com", "append_to": "Opportunity"},
-		{'doctype': "Email Account", "email_id": "support@example.com", "append_to": "Issue"},
-		{'doctype': "Email Account", "email_id": "jobs@example.com", "append_to": "Job Applicant"},
 
 		{'doctype': "Party Type", "party_type": "Customer"},
 		{'doctype': "Party Type", "party_type": "Supplier"},
@@ -431,6 +427,14 @@ def install(country=None):
 		{'doctype': "Echography Type", 'echography_type': _("Second Quarter Ultrasound")},
 		{'doctype': "Echography Type", 'echography_type': _("Third Quarter Ultrasound")},
 		{'doctype': "Echography Type", 'echography_type': _("Pelvic Ultrasound")},
+
+		# Lab Exam Templates
+		{'doctype': 'Lab Exam Template', 'title': _('6th Month Exam'), 'lab_exam_model': [{'exam_type': _('Glucosuria and Albuminuria')}, {'exam_type': _('HBs Antigen')}, {'exam_type': _('Toxoplasmosis Serology')}, {'exam_type': _('Antiglobulin Testing')}, {'exam_type': _('Complete Blood')}]},
+		{'doctype': 'Lab Exam Template', 'title': _('5th Month Exam'), 'lab_exam_model': [{'exam_type': _('Glucosuria and Albuminuria')}, {'exam_type': _('Toxoplasmosis Serology')}, {'exam_type': _('HGPO 75g')}]},
+		{'doctype': 'Lab Exam Template', 'title': _('1st Month Exam'), 'lab_exam_model': [{'exam_type': _('Fasting Blood Glucose')}, {'exam_type': _('PAPP-A and Free Beta-HCG')}, {'exam_type': _('Complete Blood')},
+			{'exam_type': _('Ferritin')}, {'exam_type': _('Hp C Serology')}, {'exam_type': _('HIV Serology')}, {'exam_type': _('Rubella Serology')}, {'exam_type': _('Toxoplasmosis Serology')}, {'exam_type': _('First Determination of ABO- and Rh-groups')},
+			{'exam_type': _('Second Determination of ABO- and Rh-groups')}, {'exam_type': _('Antiglobulin Testing')}, {'exam_type': _('TPHA-VRDL Serology')}, {'exam_type': _('Glucosuria and Albuminuria')}]},
+		{'doctype': 'Lab Exam Template', 'title': _('Standard Exam'), 'lab_exam_model': [{'exam_type': _('Glucosuria and Albuminuria')}, {'exam_type': _('Toxoplasmosis Serology')}]},
 	]
 
 
@@ -517,6 +521,36 @@ def purchase_items(country=None):
 			doc.flags.ignore_mandatory = True
 
 		try:
+			doc.insert(ignore_permissions=True)
+		except frappe.DuplicateEntryError, e:
+			# pass DuplicateEntryError and continue
+			if e.args and e.args[0]==doc.doctype and e.args[1]==doc.name:
+				# make sure DuplicateEntryError is for the exact same doc and not a related doc
+				pass
+			else:
+				raise
+
+def asset_categories(country=None):
+	records = [
+		# Asset Categories
+		{'doctype': 'Asset Category', 'asset_category_name': _('Professional Premises'),'depreciation_method': 'Straight Line', 'total_number_of_depreciations': 20,'frequency_of_depreciation': 12},
+		{'doctype': 'Asset Category', 'asset_category_name': _('Repairs'),'depreciation_method': 'Straight Line', 'total_number_of_depreciations': 10,'frequency_of_depreciation': 12},
+		{'doctype': 'Asset Category', 'asset_category_name': _('Tools'),'depreciation_method': 'Straight Line', 'total_number_of_depreciations': 5,'frequency_of_depreciation': 12},
+		{'doctype': 'Asset Category', 'asset_category_name': _('Facilities'),'depreciation_method': 'Straight Line', 'total_number_of_depreciations': 5,'frequency_of_depreciation': 12},
+		{'doctype': 'Asset Category', 'asset_category_name': _('Furniture'),'depreciation_method': 'Straight Line', 'total_number_of_depreciations': 5,'frequency_of_depreciation': 12},
+		{'doctype': 'Asset Category', 'asset_category_name': _('Computer'),'depreciation_method': 'Straight Line', 'total_number_of_depreciations': 3,'frequency_of_depreciation': 12},
+		{'doctype': 'Asset Category', 'asset_category_name': _('Medical Material'),'depreciation_method': 'Straight Line', 'total_number_of_depreciations': 5,'frequency_of_depreciation': 12},
+		{'doctype': 'Asset Category', 'asset_category_name': _('Car'),'depreciation_method': 'Straight Line', 'total_number_of_depreciations': 5,'frequency_of_depreciation': 12},
+	]
+
+	from frappe.modules import scrub
+	for r in records:
+		print(r)
+		doc = frappe.new_doc(r.get("doctype"))
+		doc.update(r)
+
+		try:
+			doc.flags.ignore_mandatory = True
 			doc.insert(ignore_permissions=True)
 		except frappe.DuplicateEntryError, e:
 			# pass DuplicateEntryError and continue

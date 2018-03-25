@@ -351,10 +351,10 @@ def send_sms_reminder(name):
 		for update''', name, as_dict=True)[0]
 
 	args = {"text": sms.message}
-	args["from"] = re.sub('[\W_]+', '', sms.sender)[:10]
+	args["from"] = "SageFemme"
 	args["to"] = sms.send_to
 	args["type"] = "transactional"
-	args["tag"] = frappe.conf.get("customer")
+	args["tag"] = frappe.conf.get("customer")+ "/" + sms.sender
 	args["practitioner"] = sms.sender
 	status = send_request(args)
 
@@ -362,6 +362,9 @@ def send_sms_reminder(name):
 		create_sms_log(args)
 		reminder = frappe.get_doc('SMS Reminder', sms.name)
 		reminder.delete()
+
+	else:
+		frappe.log_error(status, "Erreur SMS: " + sms.name)
 
 
 def send_request(params):

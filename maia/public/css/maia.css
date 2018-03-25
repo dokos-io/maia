@@ -58,6 +58,7 @@
 .patientdashboard-delivery-section,
 .patientdashboard-newborn-section,
 .patientdashboard-labexams-section,
+.patientdashboard-gynecology-section,
 .patientdashboard-pr-section {
   margin-top: 15px;
   margin-bottom: 25px;
@@ -70,4 +71,9 @@
 
 .gravidity-parity {
   color: #ff4081;
+}
+
+.modal-body h4 {
+	color: #425668;
+  padding-top: 15px;
 }

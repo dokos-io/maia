@@ -311,7 +311,7 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +372,Fibrinogen,Fibrinogè
 apps/maia/maia/public/js/setup_wizard.js +60,Financial Year End Date,Date de Fin de l'Exercice Financier
 apps/maia/maia/public/js/setup_wizard.js +58,Financial Year Start Date,Date de Début de l'Exercice Financier
 apps/maia/maia/setup/setup_wizard/setup_wizard.py +384,Finished Goods,Produits Finis
-apps/maia/maia/setup/setup_wizard/install_fixtures.py +366,First Determination of ABO- and Rh-groups,Première Déterminationd de Groupe Sanguin Rhésus Phénotypé
+apps/maia/maia/setup/setup_wizard/install_fixtures.py +366,First Determination of ABO- and Rh-groups,Première Détermination de Groupe Sanguin Rhésus Phénotypé
 DocType: Gynecology,First Menses (Year),Age des Premières Règles (Ans)
 DocType: Patient,First Name,Prénom
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +417,First Quarter Ultrasound,Echographie du Premier Trimestre (entre 11SA et 13SA+6j)
@@ -716,7 +716,7 @@ DocType: Perineum Rehabilitation,Scar,Cicatrice
 apps/maia/maia/maia/scheduler.py +36,Schedules for {0} on  {1} : {2}-{3},Emploi du Temps de {0} le {1} : {2}-{3}
 DocType: Screening Test,Screening Test,Test de Dépistage
 DocType: Gynecology,Screening Tests,Tests de Dépistage
-apps/maia/maia/setup/setup_wizard/install_fixtures.py +367,Second Determination of ABO- and Rh-groups,Deuxième Déterminationd de Groupe Sanguin Rhésus Phénotypé
+apps/maia/maia/setup/setup_wizard/install_fixtures.py +367,Second Determination of ABO- and Rh-groups,Deuxième Détermination de Groupe Sanguin Rhésus Phénotypé
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +418,Second Quarter Ultrasound,Echographie du Deuxième Trimestre (entre 22 et 24 SA)
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +94,Secretary,Secrétaire
 DocType: Codification,Select one of the following options if this codification is linked with a specific allowance,Sélectionnez l’une des options suivantes si cette codification correspond à une indemnité spécifique
@@ -1162,3 +1162,34 @@ Doctype: Patient Record,Reference weight outside of pregnancies,Poids de référ
 Doctype: Pregnancy,10% Curve,Courbe des 10%
 apps/maia/maia/doctype/patient_record/dashboard/custom_patient_dashboard.js,Select All,Tout Sélectionner
 Doctype: Pregnancy,First Newborn,Premier Nouveau-Né
+Doctype: Role,Appointment User,Utilisateur de Rendez-Vous
+Doctype: Patient Record,Don't forget to save your patient record before leaving,N'oubliez d'enregistrer votre dossier patient(e)
+Doctype: Lab Exam Template,Lab Exam Template,Modèle de Bilan
+Doctype: Pregnancy,Exams date ?,Date des Examens ?
+Doctype: Pregnancy,Validate,Valider
+Doctype: Professional Information Card,Allow Bookings During Week-Ends,Autoriser les Prises de Rendez-Vous pendant le Week-End
+Doctype: Asset Category,Professional Premises,Locaux Professionnels
+Doctype: Asset Category,Repairs,"Travaux (électricité, plomberie, menuiserie,...)"
+Doctype: Asset Category,Tools,Outils
+Doctype: Asset Category,Facilities,"Aménagements (peinture, revêtement de sol,...)"
+Doctype: Asset Category,Furniture,Mobilier
+Doctype: Asset Category,Computer,Ordinateur
+Doctype: Asset Category,Medical Material,Matériel Médical
+Doctype: Asset Category,Car,Voiture
+apps/maia/maia/templates/appointment.py,Please select an appointment type,Veuillez sélectionner un type de Rendez-Vous
+apps/maia/maia/templates/appointment.py,Please select a practitioner,Veuillez sélectionner un-e professionnel-le
+Doctype: Lab Exam Template,6th Month Exam,"Bilan du 6ème Mois (25-28 SA)"
+Doctype: Lab Exam Template,5th Month Exam,"Bilan du 5ème Mois (20-24 SA)"
+Doctype: Lab Exam Template,1st Month Exam,"Bilan 1ère Consultation (Avant 10 SA)"
+Doctype: Lab Exam Template,Standard Exam,Bilan Standard
+Doctype: Gynecology,New cervical smear successfully added,Nouveau frottis ajouté
+Doctype: Patient Record,Last Cervical Smears,Derniers Frottis
+Doctype: Gynecology,New Cervical Smear,Nouveau Frottis
+Doctype: Gynecology,Result,Résultat
+Doctype: Patient Record,Last Cervical Smear,Dernier Frottis
+Doctype: Patient Record,Current Contraception,Contraception en Cours
+Doctype: Custom Patient Record Dashboard,Last Screening Test,Dernier Test de Dépistage
+Doctype: Custom Patient Record Dashboard,Last Lipid Profile,Dernier Profil Lipidique
+Doctype: Custom Patient Record Dashboard,Last Mammography,Dernière Mammographie
+Doctype: Custom Patient Record Dashboard,General Info,Informations Générales
+Doctype: Patient Record,"Dates examples : Mars 2018, 2016, 01 2015, 01/11/2014 ,...","Exemples de dates : Mars 2018, 2016, 01 2015, 01/11/2014 ,..."
