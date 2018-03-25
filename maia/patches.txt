@@ -32,5 +32,5 @@ maia.patches.v2_0.lab_exam_memo
 maia.patches.v2_0.disable_rounded_total
 maia.patches.v2_0.correspondents_to_patient_record
 maia.patches.v2_0.asset_categories
-maia.patches.v2_0.cervical_smears_to_patient_record
-#maia.patches.v2_0.exam_results_templates
+maia.patches.v2_0.gyn_cervical_smears_to_patient_record
+maia.patches.v2_0.exam_results_templates
