@@ -14,7 +14,7 @@ app_license = "GNU-GPLv3.0"
 
 
 fixtures = ["Custom Field", {"doctype": "Role", "filters": {"name": "Midwife"}}, {
-    "doctype": "Print Format", "filters": {"name": "Facture Maia"}}]
+	"doctype": "Print Format", "filters": {"name": "Facture Maia"}}]
 
 error_report_email = "hello@dokos.io"
 
@@ -22,9 +22,16 @@ app_include_js = "assets/js/maia.min.js"
 app_include_css = "assets/maia/css/maia.css"
 
 website_context = {
-    "favicon": "/assets/maia/favicon.png",
-    "splash_image": "/assets/maia/images/maia_squirrel.svg"
+	"favicon": "/assets/maia/favicon.png",
+	"splash_image": "/assets/maia/images/maia_squirrel.svg"
 }
+
+# Migration
+#----------
+before_migrate = ["maia.customizations.chart_of_accounts.add_simplified_coa",
+					"maia.customizations.demo.add_demo_page",
+					"maia.customizations.before_migration_hooks.before_migrate"]
+
 
 # setup wizard
 setup_wizard_requires = "assets/maia/js/setup_wizard.js"
@@ -50,20 +57,22 @@ default_mail_footer = """<div style="text-align: center;">
 </div>"""
 
 website_route_rules = [
-    {"from_route": "/my-appointments", "to_route": "Midwife Appointment"},
-    {"from_route": "/my-appointments/<path:name>", "to_route": "appointment_details",
-        "defaults": {
-            "doctype": "Midwife Appointment",
-            "parents": [{"label": "Mes Rendez-Vous", "route": "my-appointments"}]
-        }
-     }
+	{"from_route": "/my-appointments", "to_route": "Midwife Appointment"},
+	{"from_route": "/my-appointments/<path:name>", "to_route": "appointment_details",
+		"defaults": {
+			"doctype": "Midwife Appointment",
+			"parents": [{"label": "Mes Rendez-Vous", "route": "my-appointments"}]
+		}
+	 }
 ]
 
 standard_portal_menu_items = [
-    {"title": _("Prendre Rendez-Vous"), "route": "/appointment",
-     "reference_doctype": "Midwife Appointment", "role": "Customer"},
-    {"title": _("Mes Rendez-Vous"), "route": "/my-appointments",
-     "reference_doctype": "Midwife Appointment", "role": "Customer"},
+	{"title": _("Prendre Rendez-Vous"), "route": "/appointment",
+	 "reference_doctype": "Midwife Appointment", "role": "Customer"},
+	{"title": _("Mes Rendez-Vous"), "route": "/my-appointments",
+	 "reference_doctype": "Midwife Appointment", "role": "Customer"},
+	 {"title": _("Invoices"), "route": "/invoices",
+	 "reference_doctype": "Sales Invoice", "role":"Customer"},
 ]
 
 # Includes in <head>
@@ -136,21 +145,21 @@ standard_portal_menu_items = [
 # ---------------
 
 scheduler_events = {
-    # 	"all": [
-    # 		"maia.tasks.all"
-    # 	],
-    # 	"daily": [
-    # 		"maia.tasks.daily"
-    # 	],
-    "hourly": [
-        "maia.maia.doctype.midwife_appointment.midwife_appointment.flush"
-    ]
-    # 	"weekly": [
-    # 		"maia.tasks.weekly"
-    # 	]
-    # 	"monthly": [
-    # 		"maia.tasks.monthly"
-    # 	]
+	# 	"all": [
+	# 		"maia.tasks.all"
+	# 	],
+	# 	"daily": [
+	# 		"maia.tasks.daily"
+	# 	],
+	"hourly": [
+		"maia.maia.doctype.midwife_appointment.midwife_appointment.flush"
+	]
+	# 	"weekly": [
+	# 		"maia.tasks.weekly"
+	# 	]
+	# 	"monthly": [
+	# 		"maia.tasks.monthly"
+	# 	]
 }
 
 # Testing
