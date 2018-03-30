@@ -42,11 +42,10 @@ def prevent_company_reset():
 		frappe.log_error(e, "Company Deletion")
 
 def delete_standard_config_files():
-	erpnext_config_files = ["accounts", "setup"]
-	frappe_config_files = ["setup"]
+	config_files = ["accounts", "setup"]
 
 	for app in ["erpnext", "frappe"]:
-		for config_file in (app + "_config_files"):
+		for config_file in config_files:
 
 			target = frappe.get_app_path(app, "config", config_file + ".py")
 			target_pyc = frappe.get_app_path(app, "config", config_file + ".pyc")
