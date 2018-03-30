@@ -2,9 +2,10 @@
 
 import frappe
 from tempfile import mkstemp
-from shutil import move
+from shutil import move, rmtree
 import os
 from os import fdopen, remove
+import json
 
 
 def remove_deletion_from_permissions():
@@ -61,8 +62,8 @@ def delete_standard_config_files():
 def delete_erpnext_hooks():
 	erpnext_hooks = frappe.get_app_path("erpnext", "hooks.py")
 
-	patterns = ['setup_wizard_requires =', 'setup_wizard_stages =', 'setup_wizard_test =', 'calendars =', 'get_help_messages =', 'get_user_progress_slides =',
-				'update_and_get_user_progress =', 'email_brand_image =', 'default_mail_footer =', 'standard_portal_menu_items =', 'error_report_email =']
+	patterns = ['setup_wizard_requires = ', 'setup_wizard_stages = ', 'setup_wizard_test = ', 'calendars = ', 'get_help_messages = ', 'get_user_progress_slides = ',
+				'update_and_get_user_progress = ', 'email_brand_image = ', 'default_mail_footer = ', 'standard_portal_menu_items = ', 'error_report_email = ']
 
 	subst = ''
 	for pattern in patterns:
@@ -123,7 +124,7 @@ def remove_erpnext_footer():
 	erpnex_footer_folder = frappe.get_app_path("erpnext", "templates", "includes", "footer")
 	try:
 		if os.path.exists(erpnex_footer_folder):
-			remove(erpnex_footer_folder)
+			rmtree(erpnex_footer_folder)
 	except Exception as e:
 		print(e)
 		frappe.log_error(e, "ERPNext Footer Deletion")
@@ -134,12 +135,13 @@ def change_log_removal():
 	for user in users:
 		last_know_versions = frappe.db.get_value("User", user.name, "last_known_versions")
 
-		versions = json.loads(last_know_versions)
+		if last_know_versions is not None:
+			versions = json.loads(last_know_versions)
 
-		versions['erpnext']['version'] = frappe.get_attr("erpnext.__version__")
-		versions['frappe']['version'] = frappe.get_attr("frappe.__version__")
+			versions['erpnext']['version'] = frappe.get_attr("erpnext.__version__")
+			versions['frappe']['version'] = frappe.get_attr("frappe.__version__")
 
-		frappe.db.set_value("User", user, "last_known_versions", json.dumps(versions), update_modified=False)
+			frappe.db.set_value("User", user, "last_known_versions", json.dumps(versions), update_modified=False)
 
 
 def replace(file_path, pattern, subst):
