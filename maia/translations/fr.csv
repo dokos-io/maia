@@ -1,3 +1,9 @@
+Frappe,Make,Action
+Frappe,Not Equals,Non égal à
+Frappe,Remove,Supprimer
+Frappe,More,Plus
+ERPNext,Assets,Actifs
+ERPNext,Asset,Actif
 apps/maia/maia/maia/doctype/patient_record/patient_record.js +70, Years Old,Ans
 DocType: Birth Preparation Consultation,0h-6h,0h-6h
 DocType: Birth Preparation Consultation,20h-0h | 6h-8h,20h-0h | 6h-8h
