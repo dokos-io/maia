@@ -14,7 +14,7 @@ def execute():
 		social_contribution_deductible_account = "645 - Charges de sécurité sociale et de prévoyance - " + abbr
 		social_contributions_third_party = "URSSAF"
 		try:
-			if frappe.db.exists('Account', social_contribution_deductible_account):
+			if frappe.db.exists('Account', social_contributions_deductible_account):
 				frappe.db.set_value('Company', company.name, 'social_contribution_deductible_account', social_contribution_deductible_account)
 
 			if frappe.db.exists('Supplier', social_contributions_third_party):
