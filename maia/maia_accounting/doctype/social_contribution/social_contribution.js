@@ -12,7 +12,7 @@ frappe.ui.form.on('Social Contribution', {
 				},
 				callback: function(r, rt) {
 					if (r.message) {
-						frm.set_value("social_contribution_deductible_account", r.message.social_contributions_deductible_account);
+						frm.set_value("social_contribution_deductible_account", r.message.social_contribution_deductible_account);
 						frm.set_value("social_contribution_non_deductible_account", r.message.personal_debit_account);
 						frm.set_value("supplier", r.message.social_contributions_third_party);
 					}
@@ -23,6 +23,38 @@ frappe.ui.form.on('Social Contribution', {
 			frm.set_value("posting_date", frappe.datetime.get_today());
 			maia.socialContribution.setup_queries(frm);
 			calculate_totals(frm);
+
+			var default_items = [{'name': __('Family Allowances')}, {'name': __('Health Insurance')}]
+			$.each(default_items, function(i, v){
+				frappe.call({
+						method: "frappe.client.get",
+						args: {
+							doctype: "Item",
+							name: v.name,
+						},
+						callback: function(r, rt) {
+							if (r.message) {
+								var d = frappe.model.add_child(frm.doc, "Social Contribution Item", "items");
+								d.item_code = r.message.item_code;
+								d.item_name = r.message.item_name;
+								d.description = r.message.description;
+								frappe.call({
+									method: "maia.maia_accounting.doctype.social_contribution.social_contribution.get_default_expense_account",
+									args: {
+										company: frm.doc.company,
+										item_name: r.message.item_code,
+									},
+									callback: function(r, rt) {
+										if (r.message) {
+											d.expense_account = r.message;
+										}
+									}
+								})
+								refresh_field("items");
+							}
+						}
+					});
+			});
 	},
 	non_deductible_csg: function(frm) {
 		calculate_totals(frm);

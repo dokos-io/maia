@@ -1209,6 +1209,7 @@ Doctype: Company,Social Contributions Third Party,Compte Tiers URSAFF
 Doctype: Company,SIREN Number,Numéro de SIREN
 Doctype: Company,For reference only.,Pour information.
 Doctype: Social Contribution,Social Contributions,Contributions Sociales
+Doctype: Social Contribution,Social Contribution,Contribution Sociale
 Doctype: Social Contribution,You can change the default social contribution organization in the company settings,Vous pouvez modifier l'organisme de contributions sociales par défaut dans les paramètres de la société
 Doctype: Social Contribution,Social Contribution Deductible Account,Compte de contributions sociales déductibles
 Doctype: Social Contribution,Social Contribution Non Deductible Account,Compte de contributions sociales non déductibles

@@ -11,7 +11,7 @@ def execute():
 
 	for company in companies:
 		abbr = frappe.get_value("Company", company.name, "abbr")
-		social_contribution_deductible_account = "645 - Charges de sécurité sociale et de prévoyance - " + abbr
+		social_contribution_deductible_account = "6451 - Cotisations à l'URSSAF - " + abbr
 		social_contributions_third_party = "URSSAF"
 		try:
 			if frappe.db.exists('Account', social_contributions_deductible_account):
@@ -21,3 +21,8 @@ def execute():
 				frappe.db.set_value('Company', company.name, 'social_contributions_third_party', social_contributions_third_party)
 		except Exception as e:
 			print(e)
+
+
+		acc = frappe.get_doc("Account", "431 - Sécurité sociale - " + abbr)
+		acc.parent_account = "43 - Sécurité sociale et autres organismes sociaux créditeurs - " + abbr
+		acc.save()

@@ -566,7 +566,7 @@ def correct_midwife_accounts(args):
 		args.get('company_abbr')
 	meal_expense_deductible_account = "625700 - Frais de réceptions déductibles - " + args.get('company_abbr')
 	meal_expense_non_deductible_account = "108900 - Compte de l'exploitant - " + args.get('company_abbr')
-	social_contribution_deductible_account = "645 - Charges de sécurité sociale et de prévoyance - " + args.get('company_abbr')
+	social_contribution_deductible_account = "6451 - Cotisations à l'URSSAF - " + args.get('company_abbr')
 	social_contributions_third_party = "URSSAF"
 
 	if frappe.db.exists('Account', hn_account):
