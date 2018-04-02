@@ -235,10 +235,6 @@
 				"account_number": "42"
 			},
 			"S\u00e9curit\u00e9 sociale et autres organismes sociaux - Produits": {
-				"S\u00e9curit\u00e9 sociale": {
-					"account_number": "431",
-					"account_type": "Payable"
-				},
 				"Autres organismes sociaux": {
 					"account_number": "437",
 					"account_type": "Payable"
@@ -498,6 +494,10 @@
 				"account_number": "42"
 			},
 			"S\u00e9curit\u00e9 sociale et autres organismes sociaux créditeurs": {
+				"S\u00e9curit\u00e9 sociale": {
+					"account_number": "431",
+					"account_type": "Payable"
+				},
 				"Organismes sociaux - Charges \u00e0 payer": {
 					"Charges sociales sur cong\u00e9s \u00e0 payer": {
 						"account_number": "4382"
