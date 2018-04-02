@@ -30,7 +30,8 @@ website_context = {
 #----------
 before_migrate = ["maia.customizations.chart_of_accounts.add_simplified_coa",
 					"maia.customizations.demo.add_demo_page",
-					"maia.customizations.before_migration_hooks.before_migrate"]
+					"maia.customizations.before_migration_hooks.before_migrate"
+]
 
 
 # setup wizard

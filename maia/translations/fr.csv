@@ -1199,3 +1199,20 @@ Doctype: Custom Patient Record Dashboard,Last Lipid Profile,Dernier Profil Lipid
 Doctype: Custom Patient Record Dashboard,Last Mammography,Dernière Mammographie
 Doctype: Custom Patient Record Dashboard,General Info,Informations Générales
 Doctype: Patient Record,"Dates examples : Mars 2018, 2016, 01 2015, 01/11/2014 ,...","Exemples de dates : Mars 2018, 2016, 01 2015, 01/11/2014 ,..."
+Doctype: Social Contribution,Deductible CSG,CSG Déductible
+Doctype: Social Contribution,Non Deductible CSG,CSG Non Déductible
+Doctype: Social Contribution,Deductible Amount,Montant Déductible
+Doctype: Social Contribution,Non Deductible Amount,Montant Non Déductible
+Doctype: Social Contribution,Due Amount,Montant Dû
+Doctype: Company,Social Contributions Deductible Account,Compte de contributions sociales déductible
+Doctype: Company,Social Contributions Third Party,Compte Tiers URSAFF
+Doctype: Company,SIREN Number,Numéro de SIREN
+Doctype: Company,For reference only.,Pour information.
+Doctype: Social Contribution,Social Contributions,Contributions Sociales
+Doctype: Social Contribution,You can change the default social contribution organization in the company settings,Vous pouvez modifier l'organisme de contributions sociales par défaut dans les paramètres de la société
+Doctype: Social Contribution,Social Contribution Deductible Account,Compte de contributions sociales déductibles
+Doctype: Social Contribution,Social Contribution Non Deductible Account,Compte de contributions sociales non déductibles
+Doctype: Supplier Type,Social Security,Sécurité Sociale
+Doctype: Item,Family Allowances,Allocations Familiales
+Doctype: Item,Health Insurance,Assurance Maladie
+Doctype: Item,Contribution to vocational training,Contribution à la formation professionnelle

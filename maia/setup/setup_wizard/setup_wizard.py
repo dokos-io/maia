@@ -72,6 +72,7 @@ def setup_complete(args=None):
 	install_fixtures.codifications(args.get("country"))
 	install_fixtures.purchase_items(args.get("country"))
 	install_fixtures.asset_categories(args.get("country"))
+	social_security_account(args)
 
 	create_purchase_items(args)
 	setup_asset_categories_accounts(args)
@@ -170,7 +171,7 @@ def enable_shopping_cart(args):
 
 def create_bank_account(args):
 	if args.get("bank_account"):
-		default_bank_account = "5121-Comptes en monnaie nationale - " + \
+		default_bank_account = "5121 - Comptes en monnaie nationale - " + \
 			args.get('company_abbr')
 		company_name = args.get('company_name').strip()
 		bank_account_group = frappe.db.get_value("Account",
@@ -202,7 +203,7 @@ def set_mode_of_payment_account(args):
 		default_bank_account = "512100 - " + \
 			args.get("bank_account") + " - " + args.get('company_abbr')
 	else:
-		default_bank_account = "5121-Comptes en monnaie nationale - " + \
+		default_bank_account = "5121 - Comptes en monnaie nationale - " + \
 			args.get('company_abbr')
 	company_name = args.get('company_name').strip()
 	for list_of_payment_mode in list_of_payment_modes:
@@ -544,27 +545,29 @@ def make_item_price(item, price_list_name, item_price):
 
 
 def correct_midwife_accounts(args):
-	hn_account = "7014-Honoraires hors convention, livre Recettes - " + \
+	hn_account = "7014 - Honoraires hors convention, livre Recettes - " + \
 		args.get('company_abbr')
-	default_income_account = "7013-Honoraires conventionnels livre Recettes - " + \
+	default_income_account = "7013 - Honoraires conventionnels livre Recettes - " + \
 		args.get('company_abbr')
-	default_receivable_account = "410-Clients et Comptes rattachés - " + \
+	default_receivable_account = "410 - Clients et Comptes rattachés - " + \
 		args.get('company_abbr')
-	default_payable_account = "4011-Fournisseurs - Achats de biens ou de prestations de services - " + \
+	default_payable_account = "4011 - Fournisseurs - Achats de biens ou de prestations de services - " + \
 		args.get('company_abbr')
-	round_off_account = "658-Charges diverses de gestion courante - " + \
+	round_off_account = "658 - Charges diverses de gestion courante - " + \
 		args.get('company_abbr')
-	exchange_gain_loss_account = "666-Pertes de change financières - " + \
+	exchange_gain_loss_account = "666 - Pertes de change financières - " + \
 		args.get('company_abbr')
-	accumulated_depreciation_account = "2815-Installations techniques, matériel et outillage médical (même ventilation que celle du compte 218) - " + args.get(
+	accumulated_depreciation_account = "2815 - Installations techniques, matériel et outillage médical (même ventilation que celle du compte 218) - " + args.get(
 		'company_abbr')
-	depreciation_expense_account = "68112-Immobilisations corporelles - " + \
+	depreciation_expense_account = "68112 - Immobilisations corporelles - " + \
 		args.get('company_abbr')
-	fee_account = "709-Honoraires rétrocédés - " + args.get('company_abbr')
-	personal_debit_account = "108900-Compte de l'exploitant - " + \
+	fee_account = "709 - Honoraires rétrocédés - " + args.get('company_abbr')
+	personal_debit_account = "108900 - Compte de l'exploitant - " + \
 		args.get('company_abbr')
-	meal_expense_deductible_account = "625700-Frais de réceptions déductibles - " + args.get('company_abbr')
-	meal_expense_non_deductible_account = "108900-Compte de l'exploitant - " + args.get('company_abbr')
+	meal_expense_deductible_account = "625700 - Frais de réceptions déductibles - " + args.get('company_abbr')
+	meal_expense_non_deductible_account = "108900 - Compte de l'exploitant - " + args.get('company_abbr')
+	social_contribution_deductible_account = "645 - Charges de sécurité sociale et de prévoyance - " + args.get('company_abbr')
+	social_contributions_third_party = "URSSAF"
 
 	if frappe.db.exists('Account', hn_account):
 		frappe.db.set_value('Item', "HN", 'income_account', hn_account)
@@ -614,6 +617,14 @@ def correct_midwife_accounts(args):
 	if frappe.db.exists('Account', meal_expense_non_deductible_account):
 		frappe.db.set_value('Company', args.get(
 			'company_name'), 'meal_expense_non_deductible_account', meal_expense_non_deductible_account)
+
+	if frappe.db.exists('Account', social_contribution_deductible_account):
+		frappe.db.set_value('Company', args.get(
+			'company_name'), 'social_contribution_deductible_account', social_contribution_deductible_account)
+
+	if frappe.db.exists('Supplier', social_contributions_third_party):
+		frappe.db.set_value('Company', args.get(
+			'company_name'), 'social_contributions_third_party', social_contributions_third_party)
 
 
 def create_customers(args):
@@ -859,77 +870,77 @@ def add_terms_and_conditions():
 
 
 def create_item_groups(args):
-	frappe.db.set_value("Item Group", _("Purchases"), "default_expense_account", "602-Achats stockés - Autres approvisionnements - " + args.get('company_abbr'))
-	frappe.db.set_value("Item Group", _("Rental Expenses"), "default_expense_account", "613-Locations - " + args.get('company_abbr'))
-	frappe.db.set_value("Item Group", _("Furniture and Equipment Rental"), "default_expense_account", "613-Locations - " + args.get('company_abbr'))
-	frappe.db.set_value("Item Group", _("Maintenance and Repair"), "default_expense_account", "615-Entretiens et réparations - " + args.get('company_abbr'))
-	frappe.db.set_value("Item Group", _("Temporary Staff"), "default_expense_account", "621-Personnel extérieur à l'entreprise - " + args.get('company_abbr'))
-	frappe.db.set_value("Item Group", _("Small Equipment"), "default_expense_account", "606-Achats non stockés de matières et founitures - " + args.get('company_abbr'))
-	frappe.db.set_value("Item Group", _("Heating, Water, Gaz, Electricity"), "default_expense_account", "606-Achats non stockés de matières et founitures - " + args.get('company_abbr'))
-	frappe.db.set_value("Item Group", _("Fees without Retrocession"), "default_expense_account", "622-Rémunérations d'intermédiaires et honoraires - " + args.get('company_abbr'))
-	frappe.db.set_value("Item Group", _("Insurance Premium"), "default_expense_account", "616-Primes d'assurance - " + args.get('company_abbr'))
-	frappe.db.set_value("Item Group", _("Vehicule Expenses"), "default_expense_account", "625200-Frais de Véhicule - " + args.get('company_abbr'))
-	frappe.db.set_value("Item Group", _("Other Travel Related Costs"), "default_expense_account", "625100-Voyages et déplacements - " + args.get('company_abbr'))
-	frappe.db.set_value("Item Group", _("Personal Social Security Contributions"), "default_expense_account", "645-Charges de sécurité sociale et de prévoyance - " + args.get('company_abbr'))
-	frappe.db.set_value("Item Group", _("Reception and Representation Expenses"), "default_expense_account", "625700-Frais de réceptions déductibles - " + args.get('company_abbr'))
-	frappe.db.set_value("Item Group", _("Office Supplies, Documentation, Post Office"), "default_expense_account", "606-Achats non stockés de matières et founitures - " + args.get('company_abbr'))
-	frappe.db.set_value("Item Group", _("Deeds and Litigation Costs"), "default_expense_account", "622-Rémunérations d'intermédiaires et honoraires - " + args.get('company_abbr'))
-	frappe.db.set_value("Item Group", _("Professional Organizations Contributions"), "default_expense_account", "628-Divers - " + args.get('company_abbr'))
-	frappe.db.set_value("Item Group", _("Miscellaneous Management Expenses"), "default_expense_account", "628-Divers - " + args.get('company_abbr'))
-	frappe.db.set_value("Item Group", _("Financial Expenses"), "default_expense_account", "668-Autres charges financières - " + args.get('company_abbr'))
+	frappe.db.set_value("Item Group", _("Purchases"), "default_expense_account", "602 - Achats stockés - Autres approvisionnements - " + args.get('company_abbr'))
+	frappe.db.set_value("Item Group", _("Rental Expenses"), "default_expense_account", "613 - Locations - " + args.get('company_abbr'))
+	frappe.db.set_value("Item Group", _("Furniture and Equipment Rental"), "default_expense_account", "613 - Locations - " + args.get('company_abbr'))
+	frappe.db.set_value("Item Group", _("Maintenance and Repair"), "default_expense_account", "615 - Entretiens et réparations - " + args.get('company_abbr'))
+	frappe.db.set_value("Item Group", _("Temporary Staff"), "default_expense_account", "621 - Personnel extérieur à l'entreprise - " + args.get('company_abbr'))
+	frappe.db.set_value("Item Group", _("Small Equipment"), "default_expense_account", "606 - Achats non stockés de matières et founitures - " + args.get('company_abbr'))
+	frappe.db.set_value("Item Group", _("Heating, Water, Gaz, Electricity"), "default_expense_account", "606 - Achats non stockés de matières et founitures - " + args.get('company_abbr'))
+	frappe.db.set_value("Item Group", _("Fees without Retrocession"), "default_expense_account", "622 - Rémunérations d'intermédiaires et honoraires - " + args.get('company_abbr'))
+	frappe.db.set_value("Item Group", _("Insurance Premium"), "default_expense_account", "616 - Primes d'assurance - " + args.get('company_abbr'))
+	frappe.db.set_value("Item Group", _("Vehicule Expenses"), "default_expense_account", "625200 - Frais de Véhicule - " + args.get('company_abbr'))
+	frappe.db.set_value("Item Group", _("Other Travel Related Costs"), "default_expense_account", "625100 - Voyages et déplacements - " + args.get('company_abbr'))
+	frappe.db.set_value("Item Group", _("Personal Social Security Contributions"), "default_expense_account", "645 - Charges de sécurité sociale et de prévoyance - " + args.get('company_abbr'))
+	frappe.db.set_value("Item Group", _("Reception and Representation Expenses"), "default_expense_account", "625700 - Frais de réceptions déductibles - " + args.get('company_abbr'))
+	frappe.db.set_value("Item Group", _("Office Supplies, Documentation, Post Office"), "default_expense_account", "606 - Achats non stockés de matières et founitures - " + args.get('company_abbr'))
+	frappe.db.set_value("Item Group", _("Deeds and Litigation Costs"), "default_expense_account", "622 - Rémunérations d'intermédiaires et honoraires - " + args.get('company_abbr'))
+	frappe.db.set_value("Item Group", _("Professional Organizations Contributions"), "default_expense_account", "628 - Divers - " + args.get('company_abbr'))
+	frappe.db.set_value("Item Group", _("Miscellaneous Management Expenses"), "default_expense_account", "628 - Divers - " + args.get('company_abbr'))
+	frappe.db.set_value("Item Group", _("Financial Expenses"), "default_expense_account", "668 - Autres charges financières - " + args.get('company_abbr'))
 	frappe.db.commit()
 
 
 def create_purchase_items(args):
-	frappe.db.set_value("Item", _('Exam Sheets'), "expense_account", "602-Achats stockés - Autres approvisionnements - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Medical Equipment'), "expense_account", "602-Achats stockés - Autres approvisionnements - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Disposable Equipment'), "expense_account", "602-Achats stockés - Autres approvisionnements - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Rent'), "expense_account", "613-Locations - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Rental Expense'), "expense_account", "614-Charges locatives et de copropriété - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Collaboration Fee'), "expense_account", "613-Locations - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Finance Lease Rent'), "expense_account", "6125-Crédit-bail immobilier - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Duty paid to an Hospital or Clinic'), "expense_account", "613-Locations - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Maintenance and Repair Expenses'), "expense_account", "615-Entretiens et réparations - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Laundering Expenses'), "expense_account", "615-Entretiens et réparations - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Temporary Staff'), "expense_account", "621-Personnel extérieur à l'entreprise - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Small Material'), "expense_account", "606-Achats non stockés de matières et founitures - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Software'), "expense_account", "606-Achats non stockés de matières et founitures - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Office Furniture'), "expense_account", "606-Achats non stockés de matières et founitures - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Clothing Expenses'), "expense_account", "606-Achats non stockés de matières et founitures - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Heating'), "expense_account", "606-Achats non stockés de matières et founitures - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Water'), "expense_account", "606-Achats non stockés de matières et founitures - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Gaz'), "expense_account", "606-Achats non stockés de matières et founitures - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Electricity'), "expense_account", "606-Achats non stockés de matières et founitures - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Fees paid to professionals other than peers'), "expense_account", "622-Rémunérations d'intermédiaires et honoraires - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Remuneration for complementary services'), "expense_account", "622-Rémunérations d'intermédiaires et honoraires - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Deductible Premium'), "expense_account", "616-Primes d'assurance - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Non Deductible Premium'), "expense_account", "616-Primes d'assurance - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Vehicule Expenses'), "expense_account", "625200-Frais de Véhicule - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Travel Expenses'), "expense_account", "625100-Voyages et déplacements - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Mandatory Personal Social Security Contributions'), "expense_account", "645-Charges de sécurité sociale et de prévoyance - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Optional Personal Social Security Contributions'), "expense_account", "645-Charges de sécurité sociale et de prévoyance - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Reception and Representation Expenses'), "expense_account", "625100-Voyages et déplacements - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Consumable Supplies'), "expense_account", "606-Achats non stockés de matières et founitures - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Professional Magazine'), "expense_account", "6181-Documentation générale - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Post Office'), "expense_account", "626-Frais postaux et de télécommunications - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Deeds and Litigation Costs'), "expense_account", "622-Rémunérations d'intermédiaires et honoraires - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Certified Management Association'), "expense_account", "628-Divers - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('College of Midwifes'), "expense_account", "628-Divers - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Midwifes Union'), "expense_account", "628-Divers - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Regional Medical Professionals Union'), "expense_account", "628-Divers - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Bank Account Operating Expenses'), "expense_account", "628-Divers - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Waiting Room Magazines'), "expense_account", "628-Divers - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Phone Desk Expenses'), "expense_account", "628-Divers - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Interests and Professional Loan'), "expense_account", "668-Autres charges financières - " + args.get('company_abbr'))
-	frappe.db.set_value("Item", _('Agios'), "expense_account", "668-Autres charges financières - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Exam Sheets'), "expense_account", "602 - Achats stockés - Autres approvisionnements - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Medical Equipment'), "expense_account", "602 - Achats stockés - Autres approvisionnements - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Disposable Equipment'), "expense_account", "602 - Achats stockés - Autres approvisionnements - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Rent'), "expense_account", "613 - Locations - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Rental Expense'), "expense_account", "614 - Charges locatives et de copropriété - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Collaboration Fee'), "expense_account", "613 - Locations - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Finance Lease Rent'), "expense_account", "6125 - Crédit-bail immobilier - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Duty paid to an Hospital or Clinic'), "expense_account", "613 - Locations - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Maintenance and Repair Expenses'), "expense_account", "615 - Entretiens et réparations - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Laundering Expenses'), "expense_account", "615 - Entretiens et réparations - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Temporary Staff'), "expense_account", "621 - Personnel extérieur à l'entreprise - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Small Material'), "expense_account", "606 - Achats non stockés de matières et founitures - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Software'), "expense_account", "606 - Achats non stockés de matières et founitures - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Office Furniture'), "expense_account", "606 - Achats non stockés de matières et founitures - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Clothing Expenses'), "expense_account", "606 - Achats non stockés de matières et founitures - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Heating'), "expense_account", "606 - Achats non stockés de matières et founitures - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Water'), "expense_account", "606 - Achats non stockés de matières et founitures - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Gaz'), "expense_account", "606 - Achats non stockés de matières et founitures - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Electricity'), "expense_account", "606 - Achats non stockés de matières et founitures - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Fees paid to professionals other than peers'), "expense_account", "622 - Rémunérations d'intermédiaires et honoraires - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Remuneration for complementary services'), "expense_account", "622 - Rémunérations d'intermédiaires et honoraires - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Deductible Premium'), "expense_account", "616 - Primes d'assurance - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Non Deductible Premium'), "expense_account", "616 - Primes d'assurance - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Vehicule Expenses'), "expense_account", "625200 - Frais de Véhicule - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Travel Expenses'), "expense_account", "625100 - Voyages et déplacements - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Mandatory Personal Social Security Contributions'), "expense_account", "645 - Charges de sécurité sociale et de prévoyance - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Optional Personal Social Security Contributions'), "expense_account", "645 - Charges de sécurité sociale et de prévoyance - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Reception and Representation Expenses'), "expense_account", "625100 - Voyages et déplacements - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Consumable Supplies'), "expense_account", "606 - Achats non stockés de matières et founitures - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Professional Magazine'), "expense_account", "6181 - Documentation générale - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Post Office'), "expense_account", "626 - Frais postaux et de télécommunications - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Deeds and Litigation Costs'), "expense_account", "622 - Rémunérations d'intermédiaires et honoraires - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Certified Management Association'), "expense_account", "628 - Divers - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('College of Midwifes'), "expense_account", "628 - Divers - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Midwifes Union'), "expense_account", "628 - Divers - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Regional Medical Professionals Union'), "expense_account", "628 - Divers - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Bank Account Operating Expenses'), "expense_account", "628 - Divers - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Waiting Room Magazines'), "expense_account", "628 - Divers - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Phone Desk Expenses'), "expense_account", "628 - Divers - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Interests and Professional Loan'), "expense_account", "668 - Autres charges financières - " + args.get('company_abbr'))
+	frappe.db.set_value("Item", _('Agios'), "expense_account", "668 - Autres charges financières - " + args.get('company_abbr'))
 	frappe.db.commit()
 
 
 def setup_asset_categories_accounts(args):
-	categories = [{'name': _('Professional Premises'), 'faa': '2131-Bâtiments - ','dea': '68112-Immobilisations corporelles - '}, {'name':_('Repairs'), 'faa': '2135-Installations G\u00e9n\u00e9rales, agencements, am\u00e9nagements des constructions - ','dea': '68112-Immobilisations corporelles - '},
-	{'name':_('Tools'), 'faa': '2155-Outillage - ','dea': '68112-Immobilisations corporelles - '}, {'name':_('Facilities'), 'faa': '2181-Installations générales, agencements, aménagements divers - ','dea': '68112-Immobilisations corporelles - '}, {'name':_('Furniture'), 'faa': '2184-Mobilier - ','dea': '68112-Immobilisations corporelles - '},
-	{'name':_('Computer'), 'faa': '2183-Matériel de bureau et matériel informatique - ','dea': '68112-Immobilisations corporelles - '}, {'name':_('Medical Material'), 'faa': '2154-Matériel médical - ','dea': '68112-Immobilisations corporelles - '},
-	{'name':_('Car'), 'faa': '208-Autres immobilisations incorporelles - ','dea': '68111-Immobilisations incorporelles - '}]
+	categories = [{'name': _('Professional Premises'), 'faa': '2131 - Bâtiments - ','dea': '68112 - Immobilisations corporelles - '}, {'name':_('Repairs'), 'faa': '2135 - Installations G\u00e9n\u00e9rales, agencements, am\u00e9nagements des constructions - ','dea': '68112 - Immobilisations corporelles - '},
+	{'name':_('Tools'), 'faa': '2155 - Outillage - ','dea': '68112 - Immobilisations corporelles - '}, {'name':_('Facilities'), 'faa': '2181 - Installations générales, agencements, aménagements divers - ','dea': '68112 - Immobilisations corporelles - '}, {'name':_('Furniture'), 'faa': '2184 - Mobilier - ','dea': '68112 - Immobilisations corporelles - '},
+	{'name':_('Computer'), 'faa': '2183 - Matériel de bureau et matériel informatique - ','dea': '68112 - Immobilisations corporelles - '}, {'name':_('Medical Material'), 'faa': '2154 - Matériel médical - ','dea': '68112 - Immobilisations corporelles - '},
+	{'name':_('Car'), 'faa': '208 - Autres immobilisations incorporelles - ','dea': '68111 - Immobilisations incorporelles - '}]
 	for category in categories:
 
 		asset_category = frappe.get_doc("Asset Category", category['name'])
@@ -938,3 +949,12 @@ def setup_asset_categories_accounts(args):
 			asset_category.save(ignore_permissions=True)
 		except Exception as e:
 			pass
+
+def social_security_account(args):
+	ss = frappe.get_doc("Supplier Type", _('Social Security'))
+	ss.append("accounts", {
+		"company": args.company,
+		"account": "431 - Sécurité sociale - " + args.get('company_abbr')
+	})
+
+	ss.save(ignore_permissions=True)

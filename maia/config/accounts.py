@@ -46,6 +46,12 @@ def get_data():
 					"type": "doctype",
 					"name": "Fee Retrocession",
 					"doctype": "Fee Retrocession"
+				},
+				{
+					"type": "doctype",
+					"name": "Social Contribution",
+					"label": _("Social Contributions"),
+					"doctype": "Social Contribution"
 				}
 			]
 		},
