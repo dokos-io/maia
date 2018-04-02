@@ -130,6 +130,10 @@ def install(country=None):
 		{'doctype': 'Supplier Type', 'supplier_type': _('Transport and Travel')},
 		{'doctype': 'Supplier Type', 'supplier_type': _('Miscellaneous')},
 		{'doctype': 'Supplier Type', 'supplier_type': _('Pharmaceutical')},
+		{'doctype': 'Supplier Type', 'supplier_type': _('Social Security')},
+
+		# Supplier
+		{'doctype': 'Supplier', 'supplier_name': _('URSSAFF'), 'supplier_type': _('Social Security')},
 
 		# Sales Person
 		{'doctype': 'Sales Person', 'sales_person_name': _('Sales Team'), 'is_group': 1, "parent_sales_person": ""},
@@ -161,22 +165,6 @@ def install(country=None):
 		{'doctype': 'Activity Type', 'activity_type': _('Execution')},
 		{'doctype': 'Activity Type', 'activity_type': _('Communication')},
 
-		# Lead Source
-		{'doctype': "Item Attribute", "attribute_name": _("Size"), "item_attribute_values": [
-			{"attribute_value": _("Extra Small"), "abbr": "XS"},
-			{"attribute_value": _("Small"), "abbr": "S"},
-			{"attribute_value": _("Medium"), "abbr": "M"},
-			{"attribute_value": _("Large"), "abbr": "L"},
-			{"attribute_value": _("Extra Large"), "abbr": "XL"}
-		]},
-
-		{'doctype': "Item Attribute", "attribute_name": _("Colour"), "item_attribute_values": [
-			{"attribute_value": _("Red"), "abbr": "RED"},
-			{"attribute_value": _("Green"), "abbr": "GRE"},
-			{"attribute_value": _("Blue"), "abbr": "BLU"},
-			{"attribute_value": _("Black"), "abbr": "BLA"},
-			{"attribute_value": _("White"), "abbr": "WHI"}
-		]},
 
 		{'doctype': "Party Type", "party_type": "Customer"},
 		{'doctype': "Party Type", "party_type": "Supplier"},
@@ -506,7 +494,10 @@ def purchase_items(country=None):
 		{'doctype': 'Item', 'item_code': _('Waiting Room Magazines'), 'item_name': _('Waiting Room Magazines'), 'item_group': _('Miscellaneous Management Expenses'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
 		{'doctype': 'Item', 'item_code': _('Phone Desk Expenses'), 'item_name': _('Phone Desk Expenses'), 'item_group': _('Miscellaneous Management Expenses'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
 		{'doctype': 'Item', 'item_code': _('Interests and Professional Loan'), 'item_name': _('Interests and Professional Loan'), 'item_group': _('Financial Expenses'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
-		{'doctype': 'Item', 'item_code': _('Agios'), 'item_name': _('Agios'), 'item_group': _('Financial Expenses'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Family Allowances'), 'item_name': _('Family Allowances'), 'item_group': _('Personal Social Security Contributions'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Health Insurance'), 'item_name': _('Health Insurance'), 'item_group': _('Personal Social Security Contributions'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('Contribution to vocational training'), 'item_name': _('Contribution to vocational training'), 'item_group': _('Personal Social Security Contributions'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
+		{'doctype': 'Item', 'item_code': _('CURPS'), 'item_name': _('CURPS'), 'item_group': _('Personal Social Security Contributions'), 'stock_uom': _('Unit'), 'is_purchase_item': 1, 'is_sales_item': 0, 'publish_in_hub': 0},
 	]
 
 	from frappe.modules import scrub

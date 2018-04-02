@@ -35,3 +35,5 @@ maia.patches.v2_0.asset_categories
 maia.patches.v2_0.gyn_cervical_smears_to_patient_record
 maia.patches.v2_0.exam_results_templates
 maia.patches.v2_3.account_numbers_in_french_coa
+maia.patches.v2_3.accounts_corrections
+#maia.patches.v2_3.default_urssaf_accounts

@@ -236,10 +236,12 @@
 			},
 			"S\u00e9curit\u00e9 sociale et autres organismes sociaux - Produits": {
 				"S\u00e9curit\u00e9 sociale": {
-					"account_number": "431"
+					"account_number": "431",
+					"account_type": "Payable"
 				},
 				"Autres organismes sociaux": {
-					"account_number": "437"
+					"account_number": "437",
+					"account_type": "Payable"
 				},
 				"Organismes sociaux - Produits \u00e0 recevoir": {
 					"Produits \u00e0 recevoir": {
