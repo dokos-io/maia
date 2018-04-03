@@ -750,13 +750,20 @@
 							"account_number": "625200",
 							"account_type": "Expense Account"
 						},
-						"Frais de réceptions déductibles": {
-							"account_number": "625700",
-							"account_type": "Expense Account"
-						},
-						"Frais de réceptions non déductibles": {
-							"account_number": "625710",
-							"account_type": "Expense Account"
+						"Frais de réceptions": {
+							"Frais de repas déductibles": {
+								"account_number": "625700",
+								"account_type": "Expense Account"
+							},
+							"Frais de réceptions non déductibles": {
+								"account_number": "625710",
+								"account_type": "Expense Account"
+							},
+							"Frais de réceptions déductibles": {
+								"account_number": "625720",
+								"account_type": "Expense Account"
+							},
+							"account_number": "6257"
 						},
 						"account_number": "625"
 					},

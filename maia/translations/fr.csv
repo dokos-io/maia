@@ -1052,6 +1052,9 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py,Professional Organizations
 apps/maia/maia/setup/setup_wizard/install_fixtures.py,Miscellaneous Management Expenses,Autres Frais Divers de Gestion
 apps/maia/maia/setup/setup_wizard/install_fixtures.py,Financial Expenses,Frais Financiers
 apps/maia/maia/setup/setup_wizard/install_fixtures.py,Miscellaneous Losses,Pertes Diverses
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Clothing Expenses,Dépenses Vestimentaires
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Office Furniture,Fournitures de Bureau
+apps/maia/maia/setup/setup_wizard/install_fixtures.py,Laundering Expenses,Frais de Blanchiment
 apps/erpnext/erpnext/config/accounts.py,Day-to-day Operations,Opérations Courantes
 apps/erpnext/erpnext/config/accounts.py,"Ledgers and P/L Statements","Journaux et Comptes de Résultats"
 apps/erpnext/erpnext/config/accounts.py,Sales Register,Journal des Ventes
