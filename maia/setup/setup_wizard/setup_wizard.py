@@ -435,7 +435,7 @@ def make_sales_and_purchase_tax_templates(account, template_name=None):
 
 
 def create_midwife_tax_template(args):
-	account_name = "44566-TVA sur autres biens et services - " + \
+	account_name = "44566 - TVA sur autres biens et services - " + \
 		args.get('company_abbr')
 	purchase_tax_template = frappe.get_doc({
 		"doctype": "Purchase Taxes and Charges Template",
