@@ -42,12 +42,12 @@ def check_availability(doctype, df, dt, dn, date, duration):
 
 
 def get_availability_from_schedule(doctype, df, dn, schedules, date):
-    from maia.maia.doctype.midwife_appointment.midwife_appointment import get_events
+    from maia.maia_appointment.doctype.maia_appointment.maia_appointment import get_events
     data = []
     for line in schedules:
         duration = get_time(line["duration"])
         events = get_events(line["start"].strftime(
-            "%Y-%m-%d %H:%M:%S"), line["end"].strftime("%Y-%m-%d %H:%M:%S"), filters=[["Midwife Appointment","practitioner","=",dn]])
+            "%Y-%m-%d %H:%M:%S"), line["end"].strftime("%Y-%m-%d %H:%M:%S"), filters=[["Maia Appointment","practitioner","=",dn]])
 
         event_list = []
         for event in events:

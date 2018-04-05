@@ -93,7 +93,7 @@ var load_description = function() {
 		method: "frappe.client.get",
 		type: "GET",
 		args: {
-			"doctype": "Midwife Appointment Type",
+			"doctype": "Maia Appointment Type",
 			"name": appointment_type,
 		},
 		callback: function(r) {
@@ -216,7 +216,7 @@ var get_appointment_types = function() {
 		method: "frappe.client.get_list",
 		type: "GET",
 		args: {
-			"doctype": "Midwife Appointment Type",
+			"doctype": "Maia Appointment Type",
 			fields: ["name", "practitioner"]
 		},
 		callback: function(r) {

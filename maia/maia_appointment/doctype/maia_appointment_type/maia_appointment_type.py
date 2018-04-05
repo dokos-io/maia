@@ -7,7 +7,7 @@ import frappe
 from frappe.model.document import Document
 from frappe.utils import cstr
 
-class MidwifeAppointmentType(Document):
+class MaiaAppointmentType(Document):
 	def autoname(self):
 		if self.practitioner:
 			self.name = "-".join(filter(None, [cstr(self.get(f)).strip() for f in ["appointment_type", "practitioner"]]))

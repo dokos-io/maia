@@ -38,3 +38,4 @@ maia.patches.v2_3.account_numbers_in_french_coa
 maia.patches.v2_3.accounts_corrections
 maia.patches.v2_3.default_urssaf_accounts
 maia.patches.v2_3.miscellaneous_corrections
+maia.patches.v2_4.maia_appointment_module

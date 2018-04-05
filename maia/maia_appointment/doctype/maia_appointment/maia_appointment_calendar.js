@@ -1,4 +1,4 @@
-frappe.views.calendar["Midwife Appointment"] = {
+frappe.views.calendar["Maia Appointment"] = {
     field_map: {
 	"start": "start_dt",
 	"end": "end_dt",
@@ -8,7 +8,7 @@ frappe.views.calendar["Midwife Appointment"] = {
 	"color": "color"
     },
     gantt: false,
-    get_events_method: "maia.maia.doctype.midwife_appointment.midwife_appointment.get_events",
+    get_events_method: "maia.maia_appointment.doctype.maia_appointment.maia_appointment.get_events",
     filters: [
 	{
 	    'fieldtype': 'Link',
@@ -19,7 +19,7 @@ frappe.views.calendar["Midwife Appointment"] = {
 	{
 	    'fieldtype': 'Link',
 	    'fieldname': 'appointment_type',
-	    'options': 'Midwife Appointment Type',
+	    'options': 'Maia Appointment Type',
 	    'label': __('Appointment Type')
 	}
     ]

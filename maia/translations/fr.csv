@@ -1,4 +1,4 @@
-Frappe,Make,Action
+Maia AppointmentFrappe,Make,Action
 Frappe,Not Equals,Non égal à
 Frappe,Remove,Supprimer
 Frappe,More,Plus
@@ -69,7 +69,7 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +365,Antiglobulin Testing,
 DocType: Perineum Rehabilitation,Aperthognathia,Béance Vulvaire
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +410,Appendicitis,Appendicite
 apps/maia/maia/config/maia.py +16,Appointment,Rendez-Vous
-apps/maia/maia/maia/doctype/midwife_appointment/midwife_appointment_calendar.js +23,Appointment Type,Type de Rendez-Vous
+apps/maia/maia/maia_appointment/doctype/maia_appointment/maia_appointment_calendar.js +23,Appointment Type,Type de Rendez-Vous
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +71,Apprentice,Apprenti
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +40,Arrear,Arriéré
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +279,Artificial Delivery,Délivrance Artificielle
@@ -111,7 +111,7 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +369,Blood Platelets,Plaqu
 DocType: Early Postnatal Consultation,Blood Pressure,Pression Artérielle
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +169,Blue,Bleu
 DocType: Patient,Body Mass Index,Indice de Masse Corporelle
-apps/maia/maia/maia/doctype/midwife_appointment/midwife_appointment.js +142,Book,Réserver
+apps/maia/maia/maia_appointment/doctype/maia_appointment/maia_appointment.js +142,Book,Réserver
 DocType: Early Postnatal Consultation,Both,Mixte
 DocType: Early Postnatal Consultation,Bottle Feeding,Biberon
 DocType: Obstetrical Background,Bottle-feeding,Biberon
@@ -144,7 +144,7 @@ DocType: Gynecology,Cervical Smears,Frottis Cervico-vaginal
 DocType: Codification,Change In Item,Modification De l’Article
 DocType: Patient,Change in Patient,Modification du Patient
 apps/maia/maia/public/js/setup_wizard.js +56,Chart of Accounts,Plan Comptable
-apps/maia/maia/maia/doctype/midwife_appointment/midwife_appointment.js +23,Check Availability,Disponibilités
+apps/maia/maia/maia_appointment/doctype/maia_appointment/maia_appointment.js +23,Check Availability,Disponibilités
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +141,Cheque,Chèque
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +393,Chickenpox Serology,Sérologie  Varicelle
 DocType: Obstetrical Background,Child Health State,Etat de Santé de l'Enfant
@@ -285,7 +285,7 @@ apps/maia/maia/setup/setup_wizard/install_fixtures.py +185,Employee Benefits,Ava
 apps/maia/maia/maia/doctype/codification/codification.js +16,Enable Code,Activer le Code
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +385,Endocervix Swab,Prélèvement Endocol
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +92,Engineer,Ingénieur
-apps/maia/maia/maia/doctype/midwife_appointment/midwife_appointment.js +50,Enter an Email Address,Veuillez entrer une adresse Email
+apps/maia/maia/maia_appointment/doctype/maia_appointment/maia_appointment.js +50,Enter an Email Address,Veuillez entrer une adresse Email
 DocType: Obstetrical Background,Episiotomy,Épisiotomie
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +358,Erginux,Erginux
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +362,ErgyNatal Maternity,ErgyNatal Maternité
@@ -483,8 +483,8 @@ DocType: Pregnancy Consultation,Metrorrhagia,Métrorragie
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +345,Microlax,Microlax
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +238,Microval,Microval
 DocType: Addiction,Midwife,Sage-Femme
-Doctype: Midwife Appointment,Midwife Appointment,Rendez-Vous
-apps/maia/maia/maia/doctype/midwife_appointment/midwife_appointment.js +109,Midwife Availability,Disponibilité de la Sage-Femme
+Doctype: Maia Appointment,Maia Appointment,Rendez-Vous
+apps/maia/maia/maia_appointment/doctype/maia_appointment/maia_appointment.js +109,Midwife Availability,Disponibilité de la Sage-Femme
 DocType: Codification,Midwife Price,Prix Sage-Femme
 DocType: Patient,Migraine,Migraine
 DocType: Birth Preparation Consultation,Mileage Allowance,Indemnité Kilométrique
@@ -523,7 +523,7 @@ DocType: Birth Preparation Consultation,Night Work Allowance Type,Type d’Indem
 DocType: Codification,Night Work Allowance: 0h-6h,Indemnité de Nuit : 0h-6h
 DocType: Codification,Night Work Allowance: 20h-6h | 6h-8h,Indemnité de Nuit : 20h-6h | 6h-8h
 DocType: Perineum Rehabilitation,No,Non
-apps/maia/maia/maia/doctype/midwife_appointment/midwife_appointment.js +121,No Availability,Aucune Disponibilité
+apps/maia/maia/maia_appointment/doctype/maia_appointment/maia_appointment.js +121,No Availability,Aucune Disponibilité
 DocType: Birth Preparation Consultation,No Teletransmission,Pas de Télétransmission
 apps/maia/maia/maia/doctype/birth_preparation_consultation/birth_preparation_consultation.js +141,No codification is assigned to this specific allowance type. Please select one codification for this allowance type.,Aucune codification assignée à ce type d’indemnité spécifique. Veuillez sélectionner une codification pour ce type d’indemnité spécifique.
 apps/maia/maia/maia/scheduler.py +79,No slots left for schedule {0} {1},Aucun créneau disponible pour {0} {1}
@@ -619,7 +619,7 @@ apps/maia/maia/maia/doctype/codification/codification.py +31,Please Disable the 
 apps/maia/maia/maia/doctype/early_postnatal_consultation/early_postnatal_consultation.js +500,Please Select a Pregnancy Folder,Veuillez Sélectionner un Dossier de Grossesse
 apps/maia/maia/maia/doctype/pregnancy_consultation/pregnancy_consultation.js +590,Please Set an Expected Term or Beginning of Pregnancy Date in the Pregnancy Folder,Veuillez Définir un Terme Prévu ou une Date de Début de Grossesse dans le Dossier de Grossesse
 apps/maia/maia/public/js/setup_wizard.js +76,Please enter valid Financial Year Start and End Dates,Veuillez entrer des Dates de Début et de Fin d’Exercice valides
-apps/maia/maia/maia/doctype/midwife_appointment/midwife_appointment.js +103,"Please select a Midwife, a Date, an Appointment Type or a Duration","Veuillez sélectionner une Sage-Femme, une Date, un Type de Rendez-Vous ou une Durée"
+apps/maia/maia/maia_appointment/doctype/maia_appointment/maia_appointment.js +103,"Please select a Midwife, a Date, an Appointment Type or a Duration","Veuillez sélectionner une Sage-Femme, une Date, un Type de Rendez-Vous ou une Durée"
 apps/maia/maia/maia/doctype/patient_record/patient_record.js +31,Please select a valid Date,Veuillez sélectionner une Date valide
 DocType: Perineum Rehabilitation,Pollakiuria,Pollakiurie
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +217,Pollen,Pollen
@@ -919,11 +919,11 @@ apps/maia/maia/public/js/setup_wizard.js +218,e.g. VAT,e.g. TVA
 apps/maia/maia/public/js/setup_wizard.js +198,user@example.com,utilisateur@exemple.com
 apps/maia/maia/maia/scheduler.py +27,{0} not available on {1} {2},{0} n’a pas de disponibilité le {1} {2}
 Doctype: Patient Record,Patient Record,Dossier Patient(e)
-Doctype: Midwife Appointment Type,Midwife Appointment Type,Type de Rendez-Vous
-Doctype: Midwife Appointment,Duration (mins),Durée (mins)
+Doctype: Maia Appointment Type,Maia Appointment Type,Type de Rendez-Vous
+Doctype: Maia Appointment,Duration (mins),Durée (mins)
 apps/maia/maia/maia/scheduler.py +79,No slots left for schedule {0} {1},Aucun créneau disponible pour {0} {1}
 apps/maia/maia/maia/scheduler.py +18,You cannot schedule for past dates,Vous ne pouvez pas planifier dans le passé
-Doctype: Midwife Appointment,Send a Reminder the Day Before,Envoyer un Rappel la Veille
+Doctype: Maia Appointment,Send a Reminder the Day Before,Envoyer un Rappel la Veille
 Doctype: Prenatal Interview,Interview,Entretien
 Doctype: Prenatal Interview,Background,Antécédents
 Doctype: Prenatal Interview,Pregnancy and Delivery,Grossesse et Accouchement
@@ -975,36 +975,36 @@ DocType: Fee Retrocession,Fee Retrocession,Rétrocession d'Honoraires
 DocType: Fee Retrocession,Fee Retrocession Amount,Montant de la Rétrocession d'Honoraires
 DocType: Fee Retrocession,Fee Account,Compte de Rétrocession d'Honoraires
 apps/maia/maia/maia/templates/pages/appointment.html,Select your Appointment,Choisissez votre Rendez-Vous
-DocType: Midwife Appointment Type,The duration is used to calculate all available spots for appointments,La durée est utilisée pour calculer les créneaux disponibles
-DocType: Midwife Appointment Type,The color will be displayed in your calendar to quickly differentiate the types of appointments,La couleur est utilisée pour différencier les types de rendez-vous dans votre calendrier
-DocType: Midwife Appointment Type,The description will be available on the website to help your patient during the reservation,La description est affichée sur votre site web pour aider les patientes à choisir leur rendez-vous
+DocType: Maia Appointment Type,The duration is used to calculate all available spots for appointments,La durée est utilisée pour calculer les créneaux disponibles
+DocType: Maia Appointment Type,The color will be displayed in your calendar to quickly differentiate the types of appointments,La couleur est utilisée pour différencier les types de rendez-vous dans votre calendrier
+DocType: Maia Appointment Type,The description will be available on the website to help your patient during the reservation,La description est affichée sur votre site web pour aider les patientes à choisir leur rendez-vous
 Doctype: Patient Record,Title and Birth Name,Titre et Nom de Naissance
-DocType: Midwife Appointment,Reminder the Day Before,Rappel la Veille
-DocType: Midwife Appointment,Send an Email,Envoyer un Email
-DocType: Midwife Appointment,Send an SMS,Envoyer un SMS
-DocType: Midwife Appointment,Custom Reply,Réponse Personnalisée
-DocType: Midwife Appointment,Mobile N°,N° Mobile
-DocType: Midwife Appointment,"00336XXXXXXXX or +33 6XXXXXXXX or +33 6.XX.XX.XX.XX","00336XXXXXXXX ou +33 6XXXXXXXX ou +33 6.XX.XX.XX.XX"
-DocType: Midwife Appointment,Personal Event,Évènement Personnel
-DocType: Midwife Appointment,Patient Appointment,Rendez-Vous Patient
-DocType: Midwife Appointment Type,Send SMS Reminder,Envoyer un Rappel par SMS
-DocType: Midwife Appointment Type,This option will be applied by default but you can override it in each appointment,"Cette option est appliquée par défaut mais vous pouvez la modifier pour chaque rendez-vous. Attention pour les réservations en ligne, l'envoi d'un SMS sera automatique si la patiente a un numéro de mobile valide"
-Doctype: Midwife Appointment,The mobile n° format is incorrect,Le format du N° Mobile est incorrect
-Doctype: Midwife Appointment,Please enter a valid mobile number,Veuillez entrer un numéro de téléphone mobile valide
+DocType: Maia Appointment,Reminder the Day Before,Rappel la Veille
+DocType: Maia Appointment,Send an Email,Envoyer un Email
+DocType: Maia Appointment,Send an SMS,Envoyer un SMS
+DocType: Maia Appointment,Custom Reply,Réponse Personnalisée
+DocType: Maia Appointment,Mobile N°,N° Mobile
+DocType: Maia Appointment,"00336XXXXXXXX or +33 6XXXXXXXX or +33 6.XX.XX.XX.XX","00336XXXXXXXX ou +33 6XXXXXXXX ou +33 6.XX.XX.XX.XX"
+DocType: Maia Appointment,Personal Event,Évènement Personnel
+DocType: Maia Appointment,Patient Appointment,Rendez-Vous Patient
+DocType: Maia Appointment Type,Send SMS Reminder,Envoyer un Rappel par SMS
+DocType: Maia Appointment Type,This option will be applied by default but you can override it in each appointment,"Cette option est appliquée par défaut mais vous pouvez la modifier pour chaque rendez-vous. Attention pour les réservations en ligne, l'envoi d'un SMS sera automatique si la patiente a un numéro de mobile valide"
+Doctype: Maia Appointment,The mobile n° format is incorrect,Le format du N° Mobile est incorrect
+Doctype: Maia Appointment,Please enter a valid mobile number,Veuillez entrer un numéro de téléphone mobile valide
 Doctype: SMS Reminder,SMS Reminder,Rappel SMS
 Doctype: SMS Reminder,Send On,Envoyer Le
 Doctype: Sales Invoice,Receipt,Quittance
 Doctype: Address,Personal,Personnelle
 Doctype: Address,Professional,Professionnelle
 Doctype: Address,Other,Autre
-Doctype: Midwife Appointment Type,Allow Online Booking,Autoriser les Réservations en Ligne
-Doctype: Midwife Appointment Type,Checking this option will allow your patient to book related appointment on your booking platform,"En cochant cette case, vous donnez accès aux réservations de ce type de rendez-vous sur votre site web"
+Doctype: Maia Appointment Type,Allow Online Booking,Autoriser les Réservations en Ligne
+Doctype: Maia Appointment Type,Checking this option will allow your patient to book related appointment on your booking platform,"En cochant cette case, vous donnez accès aux réservations de ce type de rendez-vous sur votre site web"
 Doctype: Patient Record,Invite as Website User,Inviter sur votre Site Web
 Doctype: Professional Information Card,Number of Days Limit Online,Nbre de Jours Accessibles à la Réservation
 Doctype: Professional Information Card,This option will define how many days in advance a patient can make an appointment on the online platform,Cette option défini le nombre maximum de jours accessibles à la réservation sur votre plateforme
 Doctype: Patient Record,Create a New Website User ?,Créer un nouvel utilisateur sur le Site Web ?
 Doctype: Patient Record,Are you certain you want to create a website user for this patient ?,Voulez-vous donner accès à votre site web à ce(tte) patient(e) ?
-Doctype: Midwife Appointment,The mobile n° format is incorrect,Le Format du N° Mobile est Incorrect
+Doctype: Maia Appointment,The mobile n° format is incorrect,Le Format du N° Mobile est Incorrect
 apps/maia/maia/templates/pages/home.html,Make an Appointment,Prendre Rendez-Vous
 Doctype: Gynecology,Breast Cancer Screening,Dépistage du Cancer du Sein
 Doctype: Gynecology,Eisinger Score,Score d'Eisinger
@@ -1022,7 +1022,7 @@ apps/maia/maia/pages/current_pregnancies_result.html,Pregnancy in Progress,Gross
 Doctype: Professional Information Card,Default Company, Société par Défaut
 Doctype: Professional Information Card,Availability Schedule, Calendrier de Disponibilités
 Doctype: Professional Information Card,Online Booking Portal,Portail de Réservations en Ligne
-Doctype: Midwife Appointment Type,Restrict to Practitioner,Limiter au Professionnel
+Doctype: Maia Appointment Type,Restrict to Practitioner,Limiter au Professionnel
 apps/maia/maia/templates/appointment_details.html,Appointment Time,Heure
 apps/maia/maia/templates/appointment_details.html,Cancel Appointment,Annuler le Rendez-Vous
 apps/maia/maia/templates/appointment_details.html,Confirm Cancellation ?,Confirmer l'Annulation ?
@@ -1089,7 +1089,7 @@ apps/maia/maia/maia/doctype/meal_expense/meal_expense.js,This tool calculates me
 Doctype: Company,Specific Accounts,Comptes Spécifiques
 Doctype: Meal Expense,"You can either create different suppliers or create a generic supplier for each supplier category (restaurant, supermarket,...)","Vous pouvez créer différents fournisseurs ou créer un fournisseur générique pour chaque catégorie de fournisseur (restaurant, supermarché,...)"
 Doctype: Meal Expense,Meal Expense Payment,Paiement de Frais de Repas
-Doctype: Midwife Appointment,Please enter a valid email address,Veuillez entrer une adresse email valide
+Doctype: Maia Appointment,Please enter a valid email address,Veuillez entrer une adresse email valide
 apps/maia/maia/setup/setup_wizard/install_fixtures.py,Exam Sheets,Draps d'Examen
 apps/maia/maia/setup/setup_wizard/install_fixtures.py,Medical Equipment,Matériel Médical
 apps/maia/maia/setup/setup_wizard/install_fixtures.py,Disposable Equipment,Matériel à Usage Unique

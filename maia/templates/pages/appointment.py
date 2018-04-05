@@ -21,7 +21,7 @@ def get_context(context):
 	else:
 		context.practitioner = []
 
-	context.appointment_type = frappe.db.sql("""SELECT appointment_type from `tabMidwife Appointment Type` WHERE allow_online_booking=1 AND (practitioner='{0}' OR practitioner IS NULL)""".format(
+	context.appointment_type = frappe.db.sql("""SELECT appointment_type from `tabMaia Appointment Type` WHERE allow_online_booking=1 AND (practitioner='{0}' OR practitioner IS NULL)""".format(
 		context.practitioner[0].name), as_dict=True)
 
 
@@ -37,7 +37,7 @@ def daterange(start_date, end_date):
 def check_availabilities(practitioner, start, end, appointment_type):
 
 	duration = frappe.get_value(
-		"Midwife Appointment Type", dict(appointment_type=appointment_type), "duration")
+		"Maia Appointment Type", dict(appointment_type=appointment_type), "duration")
 
 	start = datetime.datetime.strptime(start, '%Y-%m-%d')
 	end = datetime.datetime.strptime(end, '%Y-%m-%d')
@@ -52,7 +52,7 @@ def check_availabilities(practitioner, start, end, appointment_type):
 			date = dt.strftime("%Y-%m-%d")
 
 			calendar_availability = check_availability(
-				"Midwife Appointment", "practitioner", "Professional Information Card", practitioner, date, duration)
+				"Maia Appointment", "practitioner", "Professional Information Card", practitioner, date, duration)
 			if bool(calendar_availability) == True:
 				payload += calendar_availability
 
@@ -70,7 +70,7 @@ def submit_appointment(email, practitioner, appointment_type, start, end, notes)
 
 	start_date = datetime.datetime.strptime(start, '%Y-%m-%d %H:%M:%S').date()
 	start_time = datetime.datetime.strptime(start, '%Y-%m-%d %H:%M:%S').time()
-	app_type = frappe.get_doc("Midwife Appointment Type", appointment_type)
+	app_type = frappe.get_doc("Maia Appointment Type", appointment_type)
 
 	sms_confirmation = app_type.send_sms_reminder
 
@@ -96,10 +96,10 @@ def submit_appointment(email, practitioner, appointment_type, start, end, notes)
 		else:
 			sms_confirmation = 0
 
-	appointment_type = frappe.get_doc("Midwife Appointment Type", dict(appointment_type=appointment_type))
+	appointment_type = frappe.get_doc("Maia Appointment Type", dict(appointment_type=appointment_type))
 
 	appointment = frappe.get_doc({
-		"doctype": "Midwife Appointment",
+		"doctype": "Maia Appointment",
 		"patient_record": patient_record,
 		"practitioner": practitioner,
 		"appointment_type": appointment_type.name,

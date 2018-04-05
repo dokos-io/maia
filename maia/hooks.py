@@ -48,7 +48,7 @@ domains = {
 login_mail_title = "Nous sommes heureux de vous compter parmi nous !"
 
 # calendar
-calendars = ["Midwife Appointment"]
+calendars = ["Maia Appointment"]
 
 # default footer
 default_mail_footer = """<div style="text-align: center;">
@@ -58,10 +58,10 @@ default_mail_footer = """<div style="text-align: center;">
 </div>"""
 
 website_route_rules = [
-	{"from_route": "/my-appointments", "to_route": "Midwife Appointment"},
+	{"from_route": "/my-appointments", "to_route": "Maia Appointment"},
 	{"from_route": "/my-appointments/<path:name>", "to_route": "appointment_details",
 		"defaults": {
-			"doctype": "Midwife Appointment",
+			"doctype": "Maia Appointment",
 			"parents": [{"label": "Mes Rendez-Vous", "route": "my-appointments"}]
 		}
 	 }
@@ -69,9 +69,9 @@ website_route_rules = [
 
 standard_portal_menu_items = [
 	{"title": _("Prendre Rendez-Vous"), "route": "/appointment",
-	 "reference_doctype": "Midwife Appointment", "role": "Customer"},
+	 "reference_doctype": "Maia Appointment", "role": "Customer"},
 	{"title": _("Mes Rendez-Vous"), "route": "/my-appointments",
-	 "reference_doctype": "Midwife Appointment", "role": "Customer"},
+	 "reference_doctype": "Maia Appointment", "role": "Customer"},
 	 {"title": _("Invoices"), "route": "/invoices",
 	 "reference_doctype": "Sales Invoice", "role":"Customer"},
 ]
@@ -153,7 +153,7 @@ scheduler_events = {
 	# 		"maia.tasks.daily"
 	# 	],
 	"hourly": [
-		"maia.maia.doctype.midwife_appointment.midwife_appointment.flush"
+		"maia.maia_appointment.doctype.maia_appointment.maia_appointment.flush"
 	]
 	# 	"weekly": [
 	# 		"maia.tasks.weekly"

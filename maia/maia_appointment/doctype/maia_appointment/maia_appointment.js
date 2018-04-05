@@ -1,9 +1,10 @@
 // Copyright (c) 2017, DOKOS and contributors
 // For license information, please see license.txt
 
-frappe.ui.form.on('Midwife Appointment', {
+frappe.ui.form.on('Maia Appointment', {
 	onload: function(frm) {
 		if (frm.doc.__islocal) {
+			console.log(frm.doc.personal_event)
 			frappe.call({
 				"method": "maia.client.get_practitioner",
 				args: {
@@ -22,8 +23,12 @@ frappe.ui.form.on('Midwife Appointment', {
 			});
 		}
 
-		frm.set_df_property('appointment_type', 'reqd', 1);
-		frm.set_df_property('patient_record', 'reqd', 1);
+		if (!frm.doc.personal_event) {
+			set_properties(frm, 1, 0);
+		} else {
+			set_properties(frm, 0, 1);
+		}
+
 		frm.set_query("appointment_type", function() {
 			var practitioners = [frm.doc.practitioner, ""]
 				return {
@@ -141,7 +146,7 @@ var duration_and_color = function(frm) {
 		frappe.call({
 			"method": "frappe.client.get",
 			args: {
-				doctype: "Midwife Appointment Type",
+				doctype: "Maia Appointment Type",
 				name: frm.doc.appointment_type
 			},
 			callback: function(data) {
@@ -156,7 +161,7 @@ var duration_and_color = function(frm) {
 var btn_update_status = function(frm, status) {
 	var doc = frm.doc;
 	frappe.call({
-		method: "maia.maia.doctype.midwife_appointment.midwife_appointment.update_status",
+		method: "maia.maia_appointment.doctype.maia_appointment.maia_appointment.update_status",
 		args: {
 			appointmentId: doc.name,
 			status: status
@@ -170,14 +175,14 @@ var btn_update_status = function(frm, status) {
 }
 
 var set_personal_event = function(frm) {
-	var df = frappe.meta.get_docfield("Midwife Appointment", "patient_record", frm.doc.name);
 	frm.clear_custom_buttons();
+	if (frm.doc.personal_event) {
+		frappe.model.set_value(frm.doctype, frm.docname, 'personal_event', 0);
 
-	if (df.hidden == 0) {
-		var perso = 0;
-		var pub = 1;
+		var perso = 1;
+		var pub = 0;
 		set_properties(frm, perso, pub);
-
+		set_values(frm, perso, pub);
 
 		frm.add_custom_button(__('Patient Appointment'), function() {
 			set_personal_event(frm);
@@ -187,9 +192,12 @@ var set_personal_event = function(frm) {
 			check_availability_by_midwife(frm);
 		});
 	} else {
-		var perso = 1;
-		var pub = 0;
+		frappe.model.set_value(frm.doctype, frm.docname, 'personal_event', 1);
+
+		var perso = 0;
+		var pub = 1;
 		set_properties(frm, perso, pub);
+		set_values(frm, perso, pub);
 
 		frm.add_custom_button(__('Personal Event'), function() {
 			set_personal_event(frm);
@@ -202,34 +210,27 @@ var set_personal_event = function(frm) {
 }
 
 var set_properties = function(frm, perso, pub) {
-	frm.set_df_property('subject', 'hidden', perso);
 	frm.set_df_property('subject', 'reqd', pub)
-	frappe.model.set_value(frm.doctype, frm.docname, 'subject', '');
 	frm.set_df_property('patient_record', 'reqd', perso);
-	frm.set_df_property('patient_record', 'hidden', pub);
-	frappe.model.set_value(frm.doctype, frm.docname, 'patient_record', '');
-	frappe.model.set_value(frm.doctype, frm.docname, 'patient_name', '');
-	frm.set_df_property('patient_name', 'hidden', pub);
-	frappe.model.set_value(frm.doctype, frm.docname, 'appointment_type', '');
 	frm.set_df_property('appointment_type', 'reqd', perso);
-	frm.set_df_property('appointment_type', 'hidden', pub);
-	frm.set_df_property('repeat_this_event', 'hidden', perso);
-	frappe.model.set_value(frm.doctype, frm.docname, 'reminder', perso);
-	frm.set_df_property('reminder', 'hidden', pub);
-	frappe.model.set_value(frm.doctype, frm.docname, 'sms_reminder', 0);
-	frm.set_df_property('sms_reminder', 'hidden', pub);
-	frm.set_df_property('reminder_the_day_before', 'hidden', pub);
-	frappe.model.set_value(frm.doctype, frm.docname, 'duration', '');
 	frm.set_df_property('duration', 'read_only', perso);
 	frm.set_df_property('duration', 'reqd', pub);
-	frm.set_df_property('color', 'hidden', perso);
-	frm.set_df_property('all_day', 'hidden', perso)
+}
+
+var set_values = function(frm, perso, pub) {
+	frappe.model.set_value(frm.doctype, frm.docname, 'subject', '');
+	frappe.model.set_value(frm.doctype, frm.docname, 'patient_record', '');
+	frappe.model.set_value(frm.doctype, frm.docname, 'patient_name', '');
+	frappe.model.set_value(frm.doctype, frm.docname, 'appointment_type', '');
+	frappe.model.set_value(frm.doctype, frm.docname, 'reminder', perso);
+	frappe.model.set_value(frm.doctype, frm.docname, 'sms_reminder', 0);
+	frappe.model.set_value(frm.doctype, frm.docname, 'duration', '');
 }
 
 var check_availability_by_midwife = function(frm) {
 	if (frm.doc.practitioner && frm.doc.date && frm.doc.duration) {
 		frappe.call({
-			method: "maia.maia.doctype.midwife_appointment.midwife_appointment.check_availability_by_midwife",
+			method: "maia.maia_appointment.doctype.maia_appointment.maia_appointment.check_availability_by_midwife",
 			args: {
 				practitioner: frm.doc.practitioner,
 				date: frm.doc.date,

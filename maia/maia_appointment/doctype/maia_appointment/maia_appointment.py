@@ -17,7 +17,7 @@ weekdays = ["monday", "tuesday", "wednesday",
 			"thursday", "friday", "saturday", "sunday"]
 
 
-class MidwifeAppointment(Document):
+class MaiaAppointment(Document):
 	def validate(self):
 		if self.reminder == 1:
 			if self.email is None:
@@ -31,9 +31,9 @@ class MidwifeAppointment(Document):
 		time = get_time(self.start_time)
 		st_dt = datetime.datetime.combine(date, time)
 		ed_dt = st_dt + datetime.timedelta(minutes=int(self.duration))
-		frappe.db.set_value("Midwife Appointment",
+		frappe.db.set_value("Maia Appointment",
 							self.name, "start_dt", st_dt)
-		frappe.db.set_value("Midwife Appointment", self.name, "end_dt", ed_dt)
+		frappe.db.set_value("Maia Appointment", self.name, "end_dt", ed_dt)
 		self.reload()
 
 		if self.reminder == 1:
@@ -99,7 +99,7 @@ class MidwifeAppointment(Document):
 	def get_email_id(self, patient_email, sending_date):
 		email_queue = frappe.get_all("Email Queue")
 		queue_id = email_queue[0].name
-		frappe.db.set_value("Midwife Appointment",
+		frappe.db.set_value("Maia Appointment",
 							self.name, "queue_id", queue_id)
 
 	def send_sms_reminder(self, valid_number):
@@ -114,20 +114,20 @@ class MidwifeAppointment(Document):
 		sr.message = _("""Rappel: Vous avez rendez-vous avec {0} le {1} à {2}. En cas d'impossibilité, veuillez contacter votre sage-femme. Merci""".format(
 			self.practitioner, appointment_date, start_time))
 		sr.send_to = valid_number
-		sr.midwife_appointment = self.name
+		sr.maia_appointment = self.name
 		sr.flags.ignore_permissions = True
 		sr.save()
 
 	def on_cancel(self):
 		queue_name = frappe.db.get_value(
-			"Midwife Appointment", self.name, "queue_id")
+			"Maia Appointment", self.name, "queue_id")
 		if frappe.db.exists("Email Queue", queue_name):
 			frappe.delete_doc("Email Queue", queue_name,
 							  ignore_permissions=True)
-		frappe.db.set_value("Midwife Appointment", self.name, "queue_id", "")
+		frappe.db.set_value("Maia Appointment", self.name, "queue_id", "")
 
 		sms_reminder = frappe.get_all("SMS Reminder", filters={
-									  "midwife_appointment": self.name})
+									  "maia_appointment": self.name})
 
 		for sms in sms_reminder:
 			frappe.delete_doc("SMS Reminder", sms.name,
@@ -139,10 +139,10 @@ class MidwifeAppointment(Document):
 def get_appointment_list(doctype, txt, filters, limit_start, limit_page_length=20, order_by='modified desc'):
 	patient = get_patient_record()
 	if patient:
-		appointments = frappe.db.sql("""select * from `tabMidwife Appointment`
+		appointments = frappe.db.sql("""select * from `tabMaia Appointment`
 			where patient_record = %s order by start_dt desc""", patient, as_dict=True)
 	else:
-		appointments = frappe.db.sql("""select * from `tabMidwife Appointment`
+		appointments = frappe.db.sql("""select * from `tabMaia Appointment`
 			where email = %s order by start_dt desc""", frappe.session.user, as_dict=True)
 	return appointments
 
@@ -161,16 +161,16 @@ def get_list_context(context=None):
 
 @frappe.whitelist()
 def update_status(appointmentId, status):
-	frappe.db.set_value("Midwife Appointment", appointmentId, "status", status)
+	frappe.db.set_value("Maia Appointment", appointmentId, "status", status)
 
 
 @frappe.whitelist()
 def get_events(start, end, filters=None):
 	from frappe.desk.calendar import get_event_conditions
-	add_filters = get_event_conditions("Midwife Appointment", filters)
+	add_filters = get_event_conditions("Maia Appointment", filters)
 
 	events = frappe.db.sql("""select name, subject, patient_record, appointment_type, color, start_dt, end_dt, duration, repeat_this_event, repeat_on,repeat_till,
-		monday, tuesday, wednesday, thursday, friday, saturday, sunday from `tabMidwife Appointment` where ((
+		monday, tuesday, wednesday, thursday, friday, saturday, sunday from `tabMaia Appointment` where ((
 		(date(start_dt) between date(%(start)s) and date(%(end)s))
 		or (date(end_dt) between date(%(start)s) and date(%(end)s))
 		or (date(start_dt) <= date(%(start)s) and date(end_dt) >= date(%(end)s))
@@ -288,7 +288,7 @@ def check_availability_by_midwife(practitioner, date, duration):
 			_("Please select a Midwife, a Date and an Appointment Type"))
 	payload = {}
 	payload[practitioner] = check_availability(
-		"Midwife Appointment", "practitioner", "Professional Information Card", practitioner, date, duration)
+		"Maia Appointment", "practitioner", "Professional Information Card", practitioner, date, duration)
 	if payload[practitioner] == [[]]:
 		payload[practitioner] = []
 	return payload
