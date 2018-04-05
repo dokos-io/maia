@@ -227,12 +227,11 @@
 			},
 			"Personnel - Avances et acomptes": {
 				"Personnel - R\u00e9mun\u00e9rations": {
-					"account_number": "421"
+					"account_number": "4211"
 				},
 				"Personnel - Avances et acomptes": {
 					"account_number": "425"
-				},
-				"account_number": "42"
+				}
 			},
 			"S\u00e9curit\u00e9 sociale et autres organismes sociaux - Produits": {
 				"Autres organismes sociaux": {
@@ -242,10 +241,8 @@
 				"Organismes sociaux - Produits \u00e0 recevoir": {
 					"Produits \u00e0 recevoir": {
 						"account_number": "4387"
-					},
-					"account_number": "438"
-				},
-				"account_number": "43"
+					}
+				}
 			},
 			"Etat et autres collectivit\u00e9s publiques": {
 				"Etat - Subventions \u00e0 recevoir": {
@@ -308,8 +305,7 @@
 							"account_number": "44586"
 						},
 						"account_number": "4458"
-					},
-					"account_number": "445"
+					}
 				},
 				"Etat - Charges \u00e0 payer et produits \u00e0 recevoir": {
 					"Charges fiscales sur cong\u00e9s \u00e0 payer": {
@@ -322,8 +318,7 @@
 						"account_number": "4487"
 					},
 					"account_number": "448"
-				},
-				"account_number": "44"
+				}
 			},
 			"Groupe et associ\u00e9s -opérations non versées": {
 				"Associ\u00e9s - Op\u00e9rations sur le capital non versées": {
@@ -451,8 +446,7 @@
 						"account_number": "4198"
 					},
 					"account_number": "419"
-				},
-				"account_number": "41"
+				}
 			},
 			"Personnel et comptes rattach\u00e9s": {
 				"Personnel - R\u00e9mun\u00e9rations dues": {
@@ -533,25 +527,18 @@
 							 "account_number": "4455"
 					},
 					"TVA due intracommunautaire": {
-						"account_number": "4452"
 					},
 					"Taxes sur le chiffre d'affaires d\u00e9ductibles": {
 								 "TVA sur immobilisations": {
-									 "account_number": "44562"
 								 },
 								 "TVA transf\u00e9r\u00e9e par d'autres entreprises": {
-									 "account_number": "44563"
 								 },
 								 "TVA sur autres biens et services": {
-									 "account_number": "44566"
 								 },
 								 "Cr\u00e9dit de TVA \u00e0 reporter": {
-									 "account_number": "44567"
 								 },
 								 "Taxes assimil\u00e9es \u00e0 la TVA": {
-									 "account_number": "44568"
-								 },
-								 "account_number": "4456"
+								 }
 					},
 					"Taxes sur le chiffre d'affaires collect\u00e9es par l'entreprise": {
 					"TVA collect\u00e9e": {
@@ -568,12 +555,10 @@
 								"account_number": "44584"
 							},
 							"Taxes sur le chiffre d'affaires sur factures non parvenues": {
-								"account_number": "44586"
 							},
 							"Taxes sur le chiffre d'affaires sur factures \u00e0 \u00e9tablir": {
 								"account_number": "44587"
-							},
-							"account_number": "4458"
+							}
 						},
 				"Obligations cautionn\u00e9es": {
 					"account_number": "446"
@@ -750,13 +735,20 @@
 							"account_number": "625200",
 							"account_type": "Expense Account"
 						},
-						"Frais de réceptions déductibles": {
-							"account_number": "625700",
-							"account_type": "Expense Account"
-						},
-						"Frais de réceptions non déductibles": {
-							"account_number": "625710",
-							"account_type": "Expense Account"
+						"Frais de réceptions": {
+							"Frais de repas déductibles": {
+								"account_number": "625700",
+								"account_type": "Expense Account"
+							},
+							"Frais de réceptions non déductibles": {
+								"account_number": "625710",
+								"account_type": "Expense Account"
+							},
+							"Frais de réceptions déductibles": {
+								"account_number": "625720",
+								"account_type": "Expense Account"
+							},
+							"account_number": "6257"
 						},
 						"account_number": "625"
 					},

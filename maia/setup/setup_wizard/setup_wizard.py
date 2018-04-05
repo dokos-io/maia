@@ -435,7 +435,7 @@ def make_sales_and_purchase_tax_templates(account, template_name=None):
 
 
 def create_midwife_tax_template(args):
-	account_name = "44566-TVA sur autres biens et services - " + \
+	account_name = "44566 - TVA sur autres biens et services - " + \
 		args.get('company_abbr')
 	purchase_tax_template = frappe.get_doc({
 		"doctype": "Purchase Taxes and Charges Template",
@@ -564,7 +564,7 @@ def correct_midwife_accounts(args):
 	fee_account = "709 - Honoraires rétrocédés - " + args.get('company_abbr')
 	personal_debit_account = "108900 - Compte de l'exploitant - " + \
 		args.get('company_abbr')
-	meal_expense_deductible_account = "625700 - Frais de réceptions déductibles - " + args.get('company_abbr')
+	meal_expense_deductible_account = "625700 - Frais de repas déductibles - " + args.get('company_abbr')
 	meal_expense_non_deductible_account = "108900 - Compte de l'exploitant - " + args.get('company_abbr')
 	social_contribution_deductible_account = "6451 - Cotisations à l'URSSAF - " + args.get('company_abbr')
 	social_contributions_third_party = "URSSAF"
@@ -882,7 +882,7 @@ def create_item_groups(args):
 	frappe.db.set_value("Item Group", _("Vehicule Expenses"), "default_expense_account", "625200 - Frais de Véhicule - " + args.get('company_abbr'))
 	frappe.db.set_value("Item Group", _("Other Travel Related Costs"), "default_expense_account", "625100 - Voyages et déplacements - " + args.get('company_abbr'))
 	frappe.db.set_value("Item Group", _("Personal Social Security Contributions"), "default_expense_account", "6451 - Cotisations à l'URSSAF - " + args.get('company_abbr'))
-	frappe.db.set_value("Item Group", _("Reception and Representation Expenses"), "default_expense_account", "625700 - Frais de réceptions déductibles - " + args.get('company_abbr'))
+	frappe.db.set_value("Item Group", _("Reception and Representation Expenses"), "default_expense_account", "625720 - Frais de réceptions déductibles - " + args.get('company_abbr'))
 	frappe.db.set_value("Item Group", _("Office Supplies, Documentation, Post Office"), "default_expense_account", "606 - Achats non stockés de matières et founitures - " + args.get('company_abbr'))
 	frappe.db.set_value("Item Group", _("Deeds and Litigation Costs"), "default_expense_account", "622 - Rémunérations d'intermédiaires et honoraires - " + args.get('company_abbr'))
 	frappe.db.set_value("Item Group", _("Professional Organizations Contributions"), "default_expense_account", "628 - Divers - " + args.get('company_abbr'))
