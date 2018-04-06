@@ -5,10 +5,10 @@
 from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
-from maia.maia.scheduler import check_availability
+from maia.maia_appointment.scheduler import check_availability
 from frappe import _
 import datetime
-from frappe.utils import getdate, get_time, get_datetime, get_datetime_str, formatdate, now_datetime, add_days, nowdate, cstr, date_diff, add_months, cint
+from frappe.utils import getdate, get_time, get_datetime, get_datetime_str, formatdate, now_datetime, add_days, nowdate, cstr, date_diff, add_months, cint, add_to_date
 from frappe.email.doctype.standard_reply.standard_reply import get_standard_reply
 from mailin import Mailin
 import re
@@ -26,6 +26,26 @@ class MaiaAppointment(Document):
 		if self.sms_reminder == 1:
 			if self.mobile_no is None:
 				frappe.throw(_("Please enter a valid mobile number"))
+
+		appointment_type = frappe.get_doc("Maia Appointment Type", self.appointment_type)
+		if appointment_type.group_appointment ==1 :
+			events = get_registration_count(self.appointment_type, self.date)
+			inconsistency = 0
+			for event in events:
+				if event.start_dt == datetime.datetime.combine(getdate(self.date), get_time(self.start_time)):
+					if event.already_registered <= appointment_type.number_of_patients:
+						if event.practitioner == self.practitioner:
+							continue
+						else:
+							inconsistency += 1
+					else:
+						frappe.throw(_("The number of participants exceeds the max. number for this group appointment."))
+				else:
+					frappe.throw(_("The date and time of your appointment don't match with the existing group appointments. Please select another slot."))
+
+			if inconsistency > 0:
+				frappe.throw(_("No existing slot could be found for this practitioner, date, time and appointment type."))
+
 	def on_submit(self):
 		date = getdate(self.date)
 		time = get_time(self.start_time)
@@ -163,13 +183,35 @@ def get_list_context(context=None):
 def update_status(appointmentId, status):
 	frappe.db.set_value("Maia Appointment", appointmentId, "status", status)
 
+@frappe.whitelist()
+def get_registration_count(appointment_type, date):
+	filters=[["Maia Appointment","appointment_type","=",appointment_type], ["Maia Appointment","group_event","=",1]]
+	start = get_datetime(date).strftime("%Y-%m-%d %H:%M:%S")
+	end = add_to_date(start, years=1)
+
+	slots = get_events(start=start, end=end, filters=filters)
+
+	for slot in slots:
+		filters = [["Maia Appointment","appointment_type","=",appointment_type], ["Maia Appointment","group_event","=",0]]
+		start = slot.start_dt.strftime("%Y-%m-%d %H:%M:%S")
+		end = slot.end_dt.strftime("%Y-%m-%d %H:%M:%S")
+		scheduled_events = get_events(start=start, end=end, filters=filters)
+
+		if scheduled_events:
+			frappe.log_error(scheduled_events, "Scheduled Events after check")
+			count = 0
+			for scheduled_event in scheduled_events:
+				count += 1
+				slot["already_registered"] = count
+
+	return slots
 
 @frappe.whitelist()
 def get_events(start, end, filters=None):
 	from frappe.desk.calendar import get_event_conditions
 	add_filters = get_event_conditions("Maia Appointment", filters)
 
-	events = frappe.db.sql("""select name, subject, patient_record, appointment_type, color, start_dt, end_dt, duration, repeat_this_event, repeat_on,repeat_till,
+	events = frappe.db.sql("""select name, subject, patient_record, appointment_type, practitioner, color, start_dt, end_dt, duration, repeat_this_event, repeat_on,repeat_till,
 		monday, tuesday, wednesday, thursday, friday, saturday, sunday from `tabMaia Appointment` where ((
 		(date(start_dt) between date(%(start)s) and date(%(end)s))
 		or (date(end_dt) between date(%(start)s) and date(%(end)s))
@@ -280,12 +322,31 @@ def get_events(start, end, filters=None):
 
 	return events
 
+@frappe.whitelist()
+def check_availabilities_for_all_practitioners(practitioner, date, duration, appointment_type=None):
+	practitioners = frappe.get_all("Professional Information Card", filters=[["name", "!=", practitioner]])
+	result =[]
+	for practitioner in practitioners:
+		availabilities = check_availability_by_midwife(practitioner, date, duration, appointment_type)
+		result.append(availabilities)
+
+	return result
 
 @frappe.whitelist()
-def check_availability_by_midwife(practitioner, date, duration):
+def check_availability_by_midwife(practitioner, date, duration, appointment_type=None):
 	if not (practitioner or date or duration):
 		frappe.throw(
 			_("Please select a Midwife, a Date and an Appointment Type"))
+	if appointment_type is not None:
+		group = frappe.db.get_value("Maia Appointment Type", appointment_type, 'group_appointment')
+		if group ==1 :
+			return 'group_appointment'
+		else:
+			return _get_availability_by_midwife(practitioner, date, duration)
+	else:
+		return _get_availability_by_midwife(practitioner, date, duration)
+
+def _get_availability_by_midwife(practitioner, date, duration):
 	payload = {}
 	payload[practitioner] = check_availability(
 		"Maia Appointment", "practitioner", "Professional Information Card", practitioner, date, duration)
@@ -295,7 +356,6 @@ def check_availability_by_midwife(practitioner, date, duration):
 
 
 def validate_receiver_no(validated_no):
-
 	for x in [' ', '-', '(', ')', '.']:
 		validated_no = validated_no.replace(x, '')
 	for y in ['+']:

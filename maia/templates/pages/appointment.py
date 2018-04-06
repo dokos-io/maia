@@ -9,7 +9,7 @@ from frappe import _
 import datetime
 from datetime import timedelta, date
 import calendar
-from maia.maia.scheduler import get_availability_from_schedule
+from maia.maia_appointment.scheduler import get_availability_from_schedule
 
 
 def get_context(context):

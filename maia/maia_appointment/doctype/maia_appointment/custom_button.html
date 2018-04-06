@@ -1,0 +1,16 @@
+<div class="btn-group menu-btn-group">
+	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+						<span class="hidden-xs">
+							<span class="menu-btn-group-label">{%= __("Other Practitioners") %}</span>
+							<span class="caret"></span>
+						</span>
+						<span class="visible-xs">
+							<i class="octicon octicon-triangle-down"></i>
+						</span>
+					</button>
+	<ul class="dropdown-menu" role="menu">
+		{% for d in data %}
+		<li><a class="grey-link other_practitioner" id="{{ d.name }}">{{ d.name }}</a></li>
+		{% endif %}
+	</ul>
+</div>
