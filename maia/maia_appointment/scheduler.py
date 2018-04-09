@@ -61,7 +61,6 @@ def get_availability_from_schedule(doctype, df, dn, schedules, date):
 
 
 def find_available_slot(date, duration, line, scheduled_items):
-
 	available_slots = []
 	current_schedule = []
 	if scheduled_items:

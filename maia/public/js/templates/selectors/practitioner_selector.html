@@ -1,0 +1,41 @@
+{% if (typeof data !== "undefined") %}
+{% if (data.length > 1) %}
+<div class="btn-group menu-btn-group">
+	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+		<span>
+			<span class="menu-btn-group-label">{{ __("Professionnel(le)") }}</span>
+			<span class="caret"></span>
+		</span>
+	</button>
+	<ul class="dropdown-menu" role="menu">
+		{% for d in data %}
+		 <li>
+			 <a class="practitioner-option" data-value="{{ d.name }}">
+					{{ d.name }}
+				</a>
+		 </li>
+		 {% endfor %}
+	</ul>
+</div>
+<div class="practitioner-name"></div>
+{% else %}
+<div class="btn-group menu-btn-group">
+	<button type="button" class="btn btn-default dropdown-toggle disabled" data-toggle="dropdown" aria-expanded="false">
+		<span>
+			<span class="menu-btn-group-label">{{ __("Professionnel(le)") }}</span>
+			<span class="caret"></span>
+		</span>
+	</button>
+	<ul class="dropdown-menu" role="menu">
+		{% for d in data %}
+		 <li>
+			 <a class="practitioner-option" data-value="{{ d.name }}">
+					{{ d.name }}
+				</a>
+		 </li>
+		 {% endfor %}
+	</ul>
+</div>
+<div class="practitioner-name"><h2>{{ data[0].name }}</h2></div>
+{% endif %}
+{% endif %}
