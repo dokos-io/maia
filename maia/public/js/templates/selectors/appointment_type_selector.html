@@ -9,8 +9,8 @@
 	<ul class="dropdown-menu" role="menu">
 		{% for d in data %}
 		 <li>
-			 <a class="appointment-type-option" data-value="{{ d }}">
-					{{ d }}
+			 <a class="appointment-type-option" data-value="{{ d.name }}" display-value="{{ d.appointment_type }}">
+					{{ d.appointment_type }}
 				</a>
 		 </li>
 		 {% endfor %}

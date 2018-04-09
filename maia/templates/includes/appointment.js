@@ -50,6 +50,8 @@ maia.appointment.AppointmentSelector = Class.extend({
 		}
 
 		$(document).on('click', '.practitioner-option', e => {
+			me.appointment_type = "";
+			me.appointment_type_name = "";
 			me.practitioner = $(e.target).attr('data-value');
 			$(document).find('.practitioner-name').html('<h2>' + me.practitioner + '</h2>');
 			me.update_progress_dots(1);
@@ -65,7 +67,7 @@ maia.appointment.AppointmentSelector = Class.extend({
 		me.data.forEach(function(value, index) {
 			if (value.name == me.practitioner){
 				value.appointment_types.forEach(function(value, index) {
-					practitionerData.push(value.name);
+					practitionerData.push({'name': value.name, 'appointment_type': value.appointment_type});
 				})
 			}
 		});
@@ -73,14 +75,20 @@ maia.appointment.AppointmentSelector = Class.extend({
 		$(frappe.render_template('appointment_type_selector', {'data': practitionerData})).appendTo('#appointment-type-selector');
 
 		$(document).on('click', '.appointment-type-option', e => {
-			$('.bookpage').remove();
-			me.remove_events();
 			me.appointment_type = $(e.target).attr('data-value');
-			$(document).find('.appointment-type-name').html('<h2>' + me.appointment_type + '</h2>');
-			me.load_description();
+			me.appointment_type_name = $(e.target).attr('display-value');
+			$(document).find('.appointment-type-name').html('<h2>' + me.appointment_type_name + '</h2>');
 			me.update_progress_dots(2);
-			me.load_calendar();
-			me.refetch_events();
+			me.load_description();
+			me.remove_events();
+			if (me.calendar_loaded) {
+				$('.bookpage').remove();
+				me.refetch_events();
+			} else {
+				me.load_calendar();
+				$('#calendar').show();
+				$('#calendar').fullCalendar('render');
+			}
 		})
 	},
 	update_progress_dots: function(step) {
@@ -92,75 +100,82 @@ maia.appointment.AppointmentSelector = Class.extend({
 	},
 	load_description: function() {
 		var me = this;
-		frappe.call({
-			method: "frappe.client.get",
-			type: "GET",
-			args: {
-				"doctype": "Maia Appointment Type",
-				"name": me.appointment_type,
-			},
-			callback: function(r) {
-				description = r.message.description;
-				$('#description').html(description);
-				$('#description').addClass('bordered-top');
+		$('#description').empty();
+		$('#description').removeClass('bordered-top');
+		me.data.forEach(function(value, index) {
+			if (value.name == me.practitioner) {
+				value.appointment_types.forEach(function(value, index) {
+					if (value.name == me.appointment_type) {
+						me.appointment_type_description = value.description;
+						me.group_appointment = value.group_appointment;
+					}
+				})
 			}
 		})
+
+		if (me.appointment_type_description) {
+			$('#description').html(me.appointment_type_description);
+			$('#description').addClass('bordered-top');
+		}
 	},
 	load_calendar: function() {
 		var me = this;
+		me.calendar_loaded = true;
 		$('#calendar').removeClass('bg-grey');
-		frappe.call({
-			method: "frappe.client.get",
-			type: "GET",
-			args: {
-				"doctype": "Professional Information Card",
-				"name": me.practitioner,
-				fields: ["weekend_booking"]
-			},
-			callback: function(r) {
-				$('#calendar').fullCalendar({
-					weekends: (r.message.weekend_booking == 0) ? false : true,
-					header: {
-						left: 'title',
-						center: '',
-						right: 'prev,next agendaWeek,agendaDay'
-					},
-					defaultView: "agendaWeek",
-					editable: true,
-					selectable: true,
-					selectHelper: true,
-					forceEventDuration: true,
-					allDaySlot: false,
-					minTime: "06:00:00",
-					maxTime: "24:00:00",
-					slotDuration: '00:15:00',
-					scrollTime: '08:30:00',
-					events: function(start, end, timezone, callback) {
-						frappe.call({
-							method: "maia.templates.pages.appointment.check_availabilities",
-							type: "GET",
-							args: {
-								"practitioner": me.practitioner,
-								"start": moment(start).format("YYYY-MM-DD"),
-								"end": moment(end).format("YYYY-MM-DD"),
-								"appointment_type": me.appointment_type
-							},
-							callback: function(r) {
-								var events = r.message;
-								events.forEach(function(item) {
-									me.prepare_events(item);
-									if(callback) callback(item);
-								});
-							}
-						})
-					},
-					locale: 'fr',
-					eventClick: function(event) {
-						me.show_booking_page(event)
-					},
-				})
+		me.data.forEach(function(value, index) {
+			if (value.name == me.practitioner) {
+				me.week_end_booking = value.week_end;
 			}
 		});
+		console.log(me)
+		$('#calendar').fullCalendar({
+			weekends: (me.week_end_booking == 0) ? false : true,
+			header: {
+				left: 'title',
+				center: '',
+				right: 'prev,next agendaWeek,agendaDay'
+			},
+			defaultView: "agendaWeek",
+			editable: true,
+			selectable: true,
+			selectHelper: true,
+			forceEventDuration: true,
+			allDaySlot: false,
+			minTime: "07:00:00",
+			maxTime: "21:00:00",
+			slotDuration: '00:15:00',
+			scrollTime: '08:30:00',
+			events: function(start, end, timezone, callback) {
+				console.log("Fetch Event")
+				if (me.group_appointment==0) {
+					frappe.call({
+						method: "maia.templates.pages.appointment.check_availabilities",
+						type: "GET",
+						args: {
+							"practitioner": me.practitioner,
+							"start": moment(start).format("YYYY-MM-DD"),
+							"end": moment(end).format("YYYY-MM-DD"),
+							"appointment_type": me.appointment_type
+						},
+						callback: function(r) {
+							var events = r.message;
+							events.forEach(function(item) {
+								me.prepare_events(item);
+								if(callback) callback(item);
+							});
+						}
+					})
+				} else {
+					console.log('group event')
+				}
+			},
+			locale: 'fr',
+			eventClick: function(event) {
+				if (me.appointment_type) {
+					me.show_booking_page(event)
+				}
+			},
+		})
 	},
 	prepare_events: function(events) {
 		var me = this;
