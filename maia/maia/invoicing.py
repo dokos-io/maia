@@ -75,7 +75,7 @@ def update_invoice_details(self, customer, case):
 	})
 
 
-	if customer == "CPAM":
+	if not (case == "third_party_and_patient" and customer != "CPAM"):
 		data = [self.codification, self.lump_sum_travel_allowance_codification, self.sundays_holidays_allowance_codification, self.night_work_allowance_codification]
 		for d in data:
 			if d != "" and d != 0 and d is not None and d != "HN":
@@ -90,7 +90,7 @@ def update_invoice_details(self, customer, case):
 				"qty": self.number_of_kilometers,
 			})
 
-	else:
+	if not (case == "third_party_and_patient" and customer == "CPAM"):
 		if self.without_codification != 0 and self.without_codification is not None:
 			if not frappe.db.exists("Codification", "HN"):
 				frappe.throw(_("Codification HN is missing. Please add it in your codifications list."))
@@ -123,7 +123,7 @@ def update_invoice_details(self, customer, case):
 	self.reload()
 
 
-	if customer != "CPAM" and self.paid_immediately == 1:
+	if not (case == "third_party_and_patient" and customer == "CPAM") and self.paid_immediately == 1:
 		payment_request = make_payment_request(dt="Sales Invoice", dn=invoice.name, submit_doc=True, mute_email=True)
 		payment_entry = frappe.get_doc(make_payment_entry(payment_request.name))
 
