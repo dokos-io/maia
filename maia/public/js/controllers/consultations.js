@@ -68,6 +68,25 @@ frappe.ui.form.on(this.frm.doctype, {
 				}
 			});
 		}
+	},
+	drug_list_template: function(frm) {
+		if(frm.doc.drug_list_template) {
+			frappe.call({
+				"method": "maia.maia.doctype.drug_list_template.drug_list_template.get_drug_list_template",
+				args: {
+					drug_list_template: frm.doc.drug_list_template
+				},
+				callback: function (data) {
+						$.each(data.message || [], function(i, v){
+							var d = frappe.model.add_child(frm.doc, "Drug Prescription", "drug_prescription_table");
+							d.drug = v.drug;
+							d.posology = v.posology;
+							d.pharmaceutical_form = v.pharmaceutical_form;
+						});
+						refresh_field("drug_prescription_table");
+				}
+			});
+		}
 	}
 
 });

@@ -1234,3 +1234,6 @@ Doctype: Maia Appointment,"The number of participants exceeds the max. number fo
 Doctype: Maia Appointment Type,Appointment Type Category,Catégorie de Rendez-Vous
 Doctype: Maia Appointment Type,Group Appointments,Ateliers
 Doctype: Maia Appointment Type Category,Maia Appointment Type Category,Catégorie de Rendez-Vous
+Doctype: Free Prescription,Drug List,Liste de Médicaments
+Doctype: Drug List Template,Drug List Template,Modèle de Liste de Médicaments
+Doctype: Drug List Model,Drug List Model,Modèle de Liste de Médicaments
