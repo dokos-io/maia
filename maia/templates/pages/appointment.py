@@ -11,6 +11,7 @@ from datetime import timedelta, date
 import calendar
 from maia.maia_appointment.scheduler import get_availability_from_schedule
 from maia.maia_appointment.doctype.maia_appointment.maia_appointment import get_registration_count
+from collections import defaultdict
 
 def get_context(context):
 	context.no_cache = 1
@@ -26,12 +27,19 @@ def get_practitioners_and_appointment_types():
 		for practitioner in practitioners:
 			result = {}
 			result.update({'name': practitioner['name'], 'week_end': practitioner['weekend_booking']})
-			appointment_types = frappe.db.sql("""SELECT appointment_type, name, group_appointment, number_of_patients, description from `tabMaia Appointment Type` WHERE allow_online_booking=1 AND (practitioner='{0}' OR practitioner IS NULL)""".format(practitioner.name), as_dict=True)
-			at = []
-			for appointment_type in appointment_types:
-				at.append({'name': appointment_type.name, 'appointment_type': appointment_type.appointment_type, 'group_appointment': appointment_type.group_appointment, 'number_of_patients': appointment_type.number_of_patients, 'description': appointment_type.description})
+			appointment_types = frappe.db.sql("""SELECT appointment_type, name, group_appointment, number_of_patients, description, category FROM `tabMaia Appointment Type` WHERE allow_online_booking=1 AND (practitioner='{0}' OR practitioner IS NULL)""".format(practitioner.name), as_dict=True)
 
-			result.update({'appointment_types': at})
+			d = defaultdict(list)
+			categories = set()
+			for appointment_type in appointment_types:
+				key = appointment_type.category
+				if key is None:
+					key = "Sans Catégorie"
+				categories.add(key)
+				d[key].append({'name': appointment_type.name, 'appointment_type': appointment_type.appointment_type, 'group_appointment': appointment_type.group_appointment, 'number_of_patients': appointment_type.number_of_patients, 'description': appointment_type.description, 'category': appointment_type.category})
+
+			result.update({'categories': list(categories)})
+			result.update({'appointment_types': d})
 			results.append(result)
 
 		return results
@@ -60,6 +68,7 @@ def check_group_events_availabilities(practitioner, start, end, appointment_type
 			slots = get_registration_count(appointment_type, start)
 
 			slots = filter(lambda x: x.practitioner == practitioner, slots)
+			slots = filter(lambda x: x.seats_left > 0, slots)
 
 	return slots
 

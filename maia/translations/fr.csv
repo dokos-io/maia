@@ -1219,7 +1219,7 @@ Doctype: Supplier Type,Social Security,Sécurité Sociale
 Doctype: Item,Family Allowances,Allocations Familiales
 Doctype: Item,Health Insurance,Assurance Maladie
 Doctype: Item,Contribution to vocational training,Contribution à la formation professionnelle
-Doctype: Maia Appointment Type,Is a Group Appointment,Est un Rendez-Vous de Groupe
+Doctype: Maia Appointment Type,Is a Group Appointment,Est un Atelier
 Doctype: Maia Appointment Type,Max. Number of Patients,Nombre de Patient(e)s Max.
 Doctype: Maia Appointment,Group Appointment,Atelier de Groupe
 Doctype: Maia Appointment,Group Event,Atelier
@@ -1231,3 +1231,6 @@ Doctype: Maia Appointment,Other Practitioners,Autres Praticien(ne)s
 Doctype: Maia Appointment,"The date and time of your appointment don't match with the existing group appointments. Please select another slot.","La date et l'heure de votre rendez-vous ne correspondent pas avec les ateliers créés. Veuillez sélectionner un autre créneau."
 Doctype: Maia Appointment,"No existing slot could be found for this practitioner, date, time and appointment type.","Aucun créneau n'a pu être trouvé pour ce(te) praticien(ne), cette date, heure et type de rendez-vous."
 Doctype: Maia Appointment,"The number of participants exceeds the max. number for this group appointment.","Le nombre de participants est plus grand que le nombre maximum autorisé pour cet atelier."
+Doctype: Maia Appointment Type,Appointment Type Category,Catégorie de Rendez-Vous
+Doctype: Maia Appointment Type,Group Appointments,Ateliers
+Doctype: Maia Appointment Type Category,Maia Appointment Type Category,Catégorie de Rendez-Vous

@@ -19,13 +19,14 @@ maia.appointment.AppointmentSelector = Class.extend({
 	make: function() {
 		var me = this;
 		me.$selector_progress = $('<div>').addClass('selector-progress text-center text-extra-muted').prependTo($('#header-selector'));
-		function selector_progress_dots() {
-			for (let i = 1; i < 3; i++) {
-				$(`<i class="fa fa-fw fa-circle"> </i>`).attr({'data-step-id': i}).appendTo(me.$selector_progress);
-			}
-		}
-		selector_progress_dots();
 		me.get_data();
+	},
+	selector_progress_dots() {
+		var me = this;
+		me.$selector_progress.empty();
+		for (let i = 1; i < me.steps + 1; i++) {
+			$(`<i class="fa fa-fw fa-circle"> </i>`).attr({'data-step-id': i}).appendTo(me.$selector_progress);
+		}
 	},
 	get_data: function() {
 		var me = this;
@@ -41,19 +42,24 @@ maia.appointment.AppointmentSelector = Class.extend({
 		var me = this;
 		$(frappe.render_template('practitioner_selector', {'data': me.data})).appendTo('#practitioner-selector');
 
+		me.steps = 2;
+		me.selector_progress_dots();
+
 		if (me.data.length == 1) {
 			me.practitioner = me.data[0].name;
-			me.update_progress_dots(1);
-			me.add_appointment_types_section();
+			me.update_progress_dots();
+			me.add_category_section();
 		}
 
 		$(document).on('click', '.practitioner-option', e => {
+			me.remove_events();
 			me.appointment_type = "";
 			me.appointment_type_name = "";
 			me.practitioner = $(e.target).attr('data-value');
 			$(document).find('.practitioner-name').html('<h2>' + me.practitioner + '</h2>');
-			me.update_progress_dots(1);
-			me.add_appointment_types_section();
+			me.step = 1;
+			me.add_category_section();
+			me.update_progress_dots();
 		})
 	},
 	add_appointment_types_section: function() {
@@ -64,7 +70,7 @@ maia.appointment.AppointmentSelector = Class.extend({
 		let practitionerData = []
 		me.data.forEach(function(value, index) {
 			if (value.name == me.practitioner){
-				value.appointment_types.forEach(function(value, index) {
+				value.appointment_types[me.category].forEach(function(value, index) {
 					practitionerData.push({'name': value.name, 'appointment_type': value.appointment_type});
 				})
 			}
@@ -76,7 +82,8 @@ maia.appointment.AppointmentSelector = Class.extend({
 			me.appointment_type = $(e.target).attr('data-value');
 			me.appointment_type_name = $(e.target).attr('display-value');
 			$(document).find('.appointment-type-name').html('<h2>' + me.appointment_type_name + '</h2>');
-			me.update_progress_dots(2);
+			me.step = 3
+			me.update_progress_dots();
 			me.load_description();
 			me.remove_events();
 			if (me.calendar_loaded) {
@@ -84,15 +91,43 @@ maia.appointment.AppointmentSelector = Class.extend({
 				me.refetch_events();
 			} else {
 				me.load_calendar();
-				$('#calendar').show();
-				$('#calendar').fullCalendar('render');
 			}
 		})
 	},
-	update_progress_dots: function(step) {
+	add_category_section: function() {
+		var me = this;
+
+		$(document).find('#category-selector').remove();
+		$('#appointment-type-selector').empty();
+
+		me.data.forEach(function(value, index) {
+			if (value.name == me.practitioner){
+				if (value.categories.length < 2 ) {
+					me.category = "Sans Catégorie";
+					me.add_appointment_types_section();
+				} else {
+					me.steps = 3;
+					me.selector_progress_dots();
+					$('<div class="col-sm-4 col-xs-12 h6 text-uppercase text-center" id="category-selector"></div>').insertAfter($('#practitioner-selector'))
+					$(frappe.render_template('category_selector', {'data': value.categories})).appendTo('#category-selector');
+				}
+			}
+		});
+
+		$(document).on('click', '.category-option', e => {
+			me.remove_events();
+			me.category = $(e.target).attr('data-value');
+			$(document).find('.category-name').html('<h2>' + me.category + '</h2>');
+			me.step = 2;
+			me.update_progress_dots();
+			me.add_appointment_types_section();
+		})
+
+	},
+	update_progress_dots: function() {
 		var me = this;
 		me.$selector_progress.find('i').removeClass('active');
-		for (let i = 1; i < step + 1; i++) {
+		for (let i = 1; i < me.step + 1; i++) {
 			me.$selector_progress.find(`[data-step-id='${i}']`).addClass('active');
 		}
 	},
@@ -102,7 +137,7 @@ maia.appointment.AppointmentSelector = Class.extend({
 		$('#description').removeClass('bordered-top');
 		me.data.forEach(function(value, index) {
 			if (value.name == me.practitioner) {
-				value.appointment_types.forEach(function(value, index) {
+				value.appointment_types[me.category].forEach(function(value, index) {
 					if (value.name == me.appointment_type) {
 						me.appointment_type_description = value.description;
 						me.group_appointment = value.group_appointment;
@@ -125,7 +160,6 @@ maia.appointment.AppointmentSelector = Class.extend({
 				me.week_end_booking = value.week_end;
 			}
 		});
-		console.log(me)
 		$('#calendar').fullCalendar({
 			weekends: (me.week_end_booking == 0) ? false : true,
 			header: {
@@ -174,8 +208,10 @@ maia.appointment.AppointmentSelector = Class.extend({
 						},
 						callback: function(r) {
 							var events = r.message;
-							me.prepare_group_events(events);
-							if(callback) callback(events);
+							if (events) {
+								me.prepare_group_events(events);
+								if(callback) callback(events);
+							}
 						}
 					})
 				}
@@ -187,6 +223,8 @@ maia.appointment.AppointmentSelector = Class.extend({
 				}
 			},
 		})
+		$('#calendar').show();
+		$('#calendar').fullCalendar('render');
 	},
 	prepare_events: function(events) {
 		var me = this;
@@ -214,10 +252,6 @@ maia.appointment.AppointmentSelector = Class.extend({
 	prepare_group_events: function(events) {
 		var me = this;
 		return (events || []).map(d => {
-			if (d.seats_left == 0) {
-				events.splice(events.indexOf(d), 1)
-				return d
-			}
 			d.id = d.name;
 			d.editable = 0;
 			d.color = '';
@@ -235,7 +269,6 @@ maia.appointment.AppointmentSelector = Class.extend({
 
 			if (!field_map.allDay)
 				d.allDay = 0;
-
 			return d;
 		});
 	},
@@ -260,15 +293,16 @@ maia.appointment.AppointmentSelector = Class.extend({
 		$(frappe.render_template('booking_page', {'data': data})).appendTo('#calendar');
 
 		$(document).on('click', '.bookpage-close', e => {
+			e.stopImmediatePropagation();
 			$('#calendar').empty();
 			me.load_calendar();
-			$('#calendar').show();
-			$('#calendar').fullCalendar('render');
 		})
 
 		$(document).on('submit', '.form', e => {
 			e.preventDefault();
 
+			let $btn = $('.form-button')
+			$btn.prop("disabled", true).addClass('btn-loading').html("Confirmation ...");
 			var message = $('textarea[id="message"]').val();
 			frappe.call({
 				method: "maia.templates.pages.appointment.submit_appointment",
@@ -284,13 +318,13 @@ maia.appointment.AppointmentSelector = Class.extend({
 				},
 				callback: function(r) {
 					if (r.message == "OK") {
-						$('.bookpage').find('.bookpage-header').remove()
-						$('.bookpage').find('.form').remove()
-						$(__('<div class="bookpage-header"><h3 class="bookpage-thank-you">Merci.<br> Vous recevrez un email de confirmation dans quelques minutes.<h3><div>')).appendTo('.bookpage');
+						$btn.removeClass('btn-loading').addClass('btn-confirmed').html("Succès");
+						$('.bookpage').find('.form-box').empty()
+						$(__('<div class="form-confirmation-container"><div class="form-confirmation"><h3 class="bookpage-thank-you">Merci.<br> Vous recevrez un email de confirmation dans quelques minutes.<h3><div></div>')).appendTo('.form-box');
 					} else {
-						$('.bookpage').find('.bookpage-header').remove()
-						$('.bookpage').find('.form').remove()
-						$(__('<div class="bookpage-header"><h3 class="bookpage-thank-you">Un problème est survenu pendant l\'enregistrement de votre rendez-vous.<br>Veuillez rééssayer ou contacter votre professionnel(le).<h3><div>')).appendTo('.bookpage');
+						$btn.removeClass('btn-loading').addClass('btn-error').html("Erreur");
+						$('.bookpage').find('.form-box').empty()
+						$(__('<div class="form-confirmation-container"><div class="form-confirmation"><h3 class="bookpage-thank-you">Un problème est survenu pendant l\'enregistrement de votre rendez-vous.<br>Veuillez rééssayer ou contacter votre professionnel(le).<h3><div></div>')).appendTo('.form-box');
 					}
 				}
 			})

@@ -8,7 +8,11 @@
 	<div class="bookpage-header">
 		<h2 class="bookpage-appointment-type" data-value="{{ data[0].appointment_type }}">{{ data[0].appointment_type_display }}</h2>
 		{% if data[0].seats_left %}
-		<h3 class="bookpage-seats-left">{{ data[0].seats_left }} Places Restantes</h3>
+			{% if data[0].seats_left == 1 %}
+				<h3 class="bookpage-seats-left">{{ data[0].seats_left }} Place Restante</h3>
+			{% else %}
+				<h3 class="bookpage-seats-left">{{ data[0].seats_left }} Places Restantes</h3>
+			{% endif %}
 		{% endif %}
 	</div>
 	<form class="form" action="#">
