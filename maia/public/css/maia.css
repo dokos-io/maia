@@ -242,3 +242,10 @@
 .btn-error {
 	background-color: #c0392b;
 }
+
+
+.print-toolbar .btn-print-edit,
+.print-toolbar .btn-print-preview,
+.print-toolbar .btn[href="#Form/Print Settings"] {
+	display: none !important;
+}

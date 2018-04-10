@@ -121,3 +121,5 @@ var get_first_menses_and_regular_cycles = function(frm) {
 		})
 	}
 };
+
+{% include "maia/public/js/controllers/print_settings.js" %}

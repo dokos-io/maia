@@ -98,7 +98,7 @@ frappe.ui.form.on(this.frm.doctype, "third_party_payment", function(frm) {
 
 frappe.ui.form.on(this.frm.doctype, "codification", function(frm) {
 	refresh_codification_price(frm);
-	/*refresh_codification_description(frm);*/
+	refresh_codification_description(frm);
 });
 
 var refresh_codification_price = function(frm) {
@@ -113,12 +113,18 @@ var refresh_codification_price = function(frm) {
 			callback: function(data) {
 				if (data.message) {
 					if (frm.doc.third_party_payment == 1) {
-						codification_price = data.message.basic_price;
+						var codification_price = data.message.basic_price;
+						var overpayment = data.message.billing_price - data.message.basic_price;
+						frappe.model.set_value(frm.doctype, frm.docname, "overpayment_value", overpayment);
+						frappe.model.set_value(frm.doctype, frm.docname, "overpayment_display", data.message.codification + " :  " + format_currency(overpayment, frm.doc.currency));
 					} else {
-						codification_price = data.message.billing_price;
+						var codification_price = data.message.billing_price;
+						var overpayment = 0;
+						frappe.model.set_value(frm.doctype, frm.docname, "overpayment_value", overpayment);
+						frappe.model.set_value(frm.doctype, frm.docname, "overpayment_display", "");
 					}
-					frappe.model.set_value(frm.doctype, frm.docname, "codification_value", codification_price)
-					frappe.model.set_value(frm.doctype, frm.docname, "codification_display", data.message.codification + " :  " + format_currency(codification_price, frm.doc.currency))
+					frappe.model.set_value(frm.doctype, frm.docname, "codification_value", codification_price);
+					frappe.model.set_value(frm.doctype, frm.docname, "codification_display", data.message.codification + " :  " + format_currency(codification_price, frm.doc.currency));
 					refresh_total_price(frm);
 					refresh_patient_price(frm);
 				}
@@ -126,8 +132,11 @@ var refresh_codification_price = function(frm) {
 		})
 	} else {
 		codification_price = 0;
-		frappe.model.set_value(frm.doctype, frm.docname, "codification_value", codification_price)
-		frappe.model.set_value(frm.doctype, frm.docname, "codification_display", "")
+		var overpayment = 0;
+		frappe.model.set_value(frm.doctype, frm.docname, "codification_value", codification_price);
+		frappe.model.set_value(frm.doctype, frm.docname, "overpayment_value", overpayment);
+		frappe.model.set_value(frm.doctype, frm.docname, "codification_display", "");
+		frappe.model.set_value(frm.doctype, frm.docname, "overpayment_display", "");
 		refresh_total_price(frm);
 		refresh_patient_price(frm);
 	}
@@ -479,7 +488,7 @@ var mileage_allowance_calculation = function(frm) {
 var refresh_patient_price = function(frm) {
 
 	if (frm.doc.third_party_payment == 1) {
-		patient_price = frm.doc.without_codification
+		patient_price = frm.doc.without_codification + frm.doc.overpayment_value
 	} else {
 		patient_price = frm.doc.total_price
 	}
@@ -493,6 +502,10 @@ var refresh_total_price = function(frm) {
 
 	if (isNaN(frm.doc.codification_value)) {} else {
 		total_price += frm.doc.codification_value;
+	}
+
+	if (isNaN(frm.doc.overpayment_value)) {} else {
+		total_price += frm.doc.overpayment_value;
 	}
 
 	if (isNaN(frm.doc.sundays_holidays_allowance_value)) {} else {

@@ -124,3 +124,5 @@ maia.FreePrescriptionController = frappe.ui.form.Controller.extend({
 $.extend(cur_frm.cscript, new maia.FreePrescriptionController({
 	frm: cur_frm
 }));
+
+{% include "maia/public/js/controllers/print_settings.js" %}

@@ -587,7 +587,7 @@ apps/maia/maia/templates/includes/prescription_header.html +26,Patient :,Patient
 DocType: Patient,Patient Addictions,Addictions de la Patiente
 DocType: Patient Allergies,Patient Allergies,Allergies de la Patiente
 DocType: Birth Preparation Consultation,Patient Invoice,Facture de la Patiente
-DocType: Birth Preparation Consultation,Patient Name,Nom de la Patiente
+DocType: Birth Preparation Consultation,Patient Name,Patient(e)
 DocType: Birth Preparation Consultation,Patient Price,Prix Patiente
 apps/maia/maia/config/maia.py +22,Patient Record,Dossier Patient(e)
 DocType: Patient Surgical Interventions,Patient Surgical Interventions,Interventions Chirurgicales de la Patiente
@@ -1030,6 +1030,8 @@ apps/maia/maia/templates/includes/appointment_status.html,Planned,Prévu
 apps/maia/maia/templates/includes/appointment_status.html,Past,Passé
 apps/maia/maia/templates/appointment_details.html,My Appointments,Mes Rendez-Vous
 apps/maia/maia/templates/appointment_details.html,Appointment with,Rendez-Vous avec
+Doctype: Professional Information Card,Signature and Letter Head,Signature et En-Tête
+Doctype: Professional Information Card,"This letter head will be selected by default in all document linked to your professional information card.","Cet en-tête sera sélectionné par défaut dans tous les documents liés à votre fiche d'informations professionnelles."
 Doctype: Professional Information Card,Your signature will be added automatically in your prescriptions,Votre signature sera ajoutée automatiquement dans vos ordonnances
 Doctype: Patient Record,"Something went wrong during the user creation.<br>Please check with the support team.","Quelque chose s'est mal passé pendant la création de l'utilisateur.<br>Veuillez appeler le support pour résoudre le problème."
 apps/maia/maia/setup/setup_wizard/install_fixtures.py,Purchases,Achats
@@ -1238,3 +1240,5 @@ Doctype: Free Prescription,Drug List,Liste de Médicaments
 Doctype: Drug List Template,Drug List Template,Modèle de Liste de Médicaments
 Doctype: Drug List Model,Drug List Model,Modèle de Liste de Médicaments
 Doctype: Maia Appointment,Online booking platform,Réservations en Ligne
+maia/public/js/controllers/consultations.js,Overpayment,Dépassement d'Honoraires
+maia/public/js/controllers/consultations.js,Overpayment:,Dépassement d'Honoraires:

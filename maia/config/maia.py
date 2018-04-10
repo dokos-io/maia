@@ -156,6 +156,12 @@ def get_data():
 				},
 				{
 					"type": "doctype",
+					"name": "Drug List Template",
+					"label": _("Drug List Template"),
+					"description": _("Drug List Template"),
+				},
+				{
+					"type": "doctype",
 					"name": "Delivery Way",
 					"label": _("Delivery Way"),
 					"description": _("Delivery Way"),

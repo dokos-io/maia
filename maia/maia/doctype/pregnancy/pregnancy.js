@@ -92,3 +92,5 @@ frappe.ui.form.on('Lab Exam Results', {
 		});
 	}
 });
+
+{% include "maia/public/js/controllers/print_settings.js" %}
