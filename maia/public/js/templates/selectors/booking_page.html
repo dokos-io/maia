@@ -6,7 +6,10 @@
 		<h3 class="bookpage-time">{{ data[0].start_time }} - {{ data[0].end_time }}</h3>
 	</div>
 	<div class="bookpage-header">
-		<h2 class="bookpage-appointment-type">{{ data[0].appointment_type }}</h2>
+		<h2 class="bookpage-appointment-type" data-value="{{ data[0].appointment_type }}">{{ data[0].appointment_type_display }}</h2>
+		{% if data[0].seats_left %}
+		<h3 class="bookpage-seats-left">{{ data[0].seats_left }} Places Restantes</h3>
+		{% endif %}
 	</div>
 	<form class="form" action="#">
 		<div class="form-box">

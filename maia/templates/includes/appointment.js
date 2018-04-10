@@ -2,8 +2,6 @@
 // License: GNU General Public License v3. See license.txt
 
 frappe.provide('maia.appointment');
-//var appointment = maia.appointment;
-
 
 frappe.ready(function() {
 	var selector = new maia.appointment.AppointmentSelector({
@@ -146,7 +144,6 @@ maia.appointment.AppointmentSelector = Class.extend({
 			slotDuration: '00:15:00',
 			scrollTime: '08:30:00',
 			events: function(start, end, timezone, callback) {
-				console.log("Fetch Event")
 				if (me.group_appointment==0) {
 					frappe.call({
 						method: "maia.templates.pages.appointment.check_availabilities",
@@ -166,7 +163,21 @@ maia.appointment.AppointmentSelector = Class.extend({
 						}
 					})
 				} else {
-					console.log('group event')
+					frappe.call({
+						method: "maia.templates.pages.appointment.check_group_events_availabilities",
+						type: "GET",
+						args: {
+							"practitioner": me.practitioner,
+							"start": moment(start).format("YYYY-MM-DD"),
+							"end": moment(end).format("YYYY-MM-DD"),
+							"appointment_type": me.appointment_type
+						},
+						callback: function(r) {
+							var events = r.message;
+							me.prepare_group_events(events);
+							if(callback) callback(events);
+						}
+					})
 				}
 			},
 			locale: 'fr',
@@ -187,7 +198,35 @@ maia.appointment.AppointmentSelector = Class.extend({
 				"id": "id",
 				"start": "start",
 				"end": "end",
-				"allDay": "all_day",
+				"all_day": "allDay",
+			};
+
+			$.each(field_map, function(target, source) {
+				d[target] = d[source];
+			});
+
+			if (!field_map.allDay)
+				d.allDay = 0;
+
+			return d;
+		});
+	},
+	prepare_group_events: function(events) {
+		var me = this;
+		return (events || []).map(d => {
+			if (d.seats_left == 0) {
+				events.splice(events.indexOf(d), 1)
+				return d
+			}
+			d.id = d.name;
+			d.editable = 0;
+			d.color = '';
+
+			var field_map = {
+				"id": "name",
+				"start": "start_dt",
+				"end": "end_dt",
+				"all_day": "allDay",
 			};
 
 			$.each(field_map, function(target, source) {
@@ -214,12 +253,17 @@ maia.appointment.AppointmentSelector = Class.extend({
 		$('#calendar').fullCalendar('destroy');
 		$('#calendar').addClass('bg-grey');
 		let data = []
-		data.push({'date': moment(event.start).format('LL'), 'start_time': moment(event.start).format('LT'), 'end_time': moment(event.end).format('LT'), 'appointment_type': me.appointment_type})
+		data.push({'date': moment(event.start).format('LL'), 'start_time': moment(event.start).format('LT'), 'end_time': moment(event.end).format('LT'), 'appointment_type': me.appointment_type, 'appointment_type_display': me.appointment_type_name})
+		if (event.seats_left) {
+			$.extend(data[0], {'seats_left': event.seats_left})
+		}
 		$(frappe.render_template('booking_page', {'data': data})).appendTo('#calendar');
 
 		$(document).on('click', '.bookpage-close', e => {
 			$('#calendar').empty();
 			me.load_calendar();
+			$('#calendar').show();
+			$('#calendar').fullCalendar('render');
 		})
 
 		$(document).on('submit', '.form', e => {
@@ -250,6 +294,7 @@ maia.appointment.AppointmentSelector = Class.extend({
 					}
 				}
 			})
+			return false;
 		})
 	}
 

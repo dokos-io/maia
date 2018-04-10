@@ -55,7 +55,7 @@ frappe.ui.form.on('Maia Appointment', {
 
 	},
 	appointment_type: function(frm) {
-		duration_color_group(frm);
+		duration_color_group(frm.doc);
 	},
 	all_day: function(frm) {
 		if (frm.doc.all_day == 1) {
@@ -163,24 +163,25 @@ var update_top_buttons = function(frm) {
 }
 
 
-var duration_color_group = function(frm) {
-	if (frm.doc.appointment_type) {
+var duration_color_group = function(doc) {
+	console.log(doc)
+	if (doc.appointment_type) {
 		frappe.call({
 			method: "frappe.client.get",
 			args: {
 				doctype: "Maia Appointment Type",
-				name: frm.doc.appointment_type
+				name: doc.appointment_type
 			},
 			callback: function(data) {
-				frappe.model.set_value(frm.doctype, frm.docname, 'duration', data.message.duration);
-				frappe.model.set_value(frm.doctype, frm.docname, 'color', data.message.color);
-				frappe.model.set_value(frm.doctype, frm.docname, 'sms_reminder', data.message.send_sms_reminder);
+				frappe.model.set_value(doc.doctype, doc.name, 'duration', data.message.duration);
+				frappe.model.set_value(doc.doctype, doc.name, 'color', data.message.color);
+				frappe.model.set_value(doc.doctype, doc.name, 'sms_reminder', data.message.send_sms_reminder);
 
-				if (data.message.group_appointment == 1 && frm.doc.group_event == 1) {
-					frappe.model.set_value(frm.doctype, frm.docname, 'number_of_seats', data.message.number_of_patients);
-					frappe.model.set_value(frm.doctype, frm.docname, 'subject', data.message.appointment_type + "-" + __("Group"));
-				} else if (data.message.group_appointment == 1 && !frm.doc.group_event) {
-					slot_choice_modal(frm, data.message);
+				if (data.message.group_appointment == 1 && doc.group_event == 1) {
+					frappe.model.set_value(doc.doctype, doc.name, 'number_of_seats', data.message.number_of_patients);
+					frappe.model.set_value(doc.doctype, doc.name, 'subject', data.message.appointment_type + "-" + __("Group"));
+				} else if (data.message.group_appointment == 1 && !doc.group_event) {
+					slot_choice_modal(doc, data.message);
 				}
 			}
 		});
@@ -291,10 +292,10 @@ var show_availability = function(frm) {
 	});
 }
 
-var slot_choice_modal = function(frm, data) {
+var slot_choice_modal = function(doc, data) {
 	new maia.maia_appointment.SlotChoiceModal({
-		parent: frm.doc,
-		patient_record: frm.doc.name,
+		parent: doc,
+		patient_record: doc.name,
 		data: data
 	});
 }

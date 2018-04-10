@@ -1228,3 +1228,6 @@ Doctype: Maia Appointment,Number of Seats,Nombre de Places
 Doctype: Maia Appointment,Group,Groupe
 Doctype: Maia Appointment,seats left,places restantes
 Doctype: Maia Appointment,Other Practitioners,Autres Praticien(ne)s
+Doctype: Maia Appointment,"The date and time of your appointment don't match with the existing group appointments. Please select another slot.","La date et l'heure de votre rendez-vous ne correspondent pas avec les ateliers créés. Veuillez sélectionner un autre créneau."
+Doctype: Maia Appointment,"No existing slot could be found for this practitioner, date, time and appointment type.","Aucun créneau n'a pu être trouvé pour ce(te) praticien(ne), cette date, heure et type de rendez-vous."
+Doctype: Maia Appointment,"The number of participants exceeds the max. number for this group appointment.","Le nombre de participants est plus grand que le nombre maximum autorisé pour cet atelier."

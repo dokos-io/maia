@@ -31,17 +31,20 @@ class MaiaAppointment(Document):
 		if appointment_type.group_appointment ==1 :
 			events = get_registration_count(self.appointment_type, self.date)
 			inconsistency = 0
-			for event in events:
-				if event.start_dt == datetime.datetime.combine(getdate(self.date), get_time(self.start_time)):
-					if event.already_registered <= appointment_type.number_of_patients:
-						if event.practitioner == self.practitioner:
+
+			corresponding_events = filter(lambda x: x.start_dt == datetime.datetime.combine(getdate(self.date), get_time(self.start_time)), events)
+			if not corresponding_events:
+				frappe.throw(_("The date and time of your appointment don't match with the existing group appointments. Please select another slot."))
+
+			else:
+				for event in corresponding_events:
+					if event.practitioner == self.practitioner:
+						if event.seats_left > 0:
 							continue
 						else:
-							inconsistency += 1
+							frappe.throw(_("The number of participants exceeds the max. number for this group appointment."))
 					else:
-						frappe.throw(_("The number of participants exceeds the max. number for this group appointment."))
-				else:
-					frappe.throw(_("The date and time of your appointment don't match with the existing group appointments. Please select another slot."))
+						inconsistency += 1
 
 			if inconsistency > 0:
 				frappe.throw(_("No existing slot could be found for this practitioner, date, time and appointment type."))
@@ -185,24 +188,28 @@ def update_status(appointmentId, status):
 
 @frappe.whitelist()
 def get_registration_count(appointment_type, date):
-	filters=[["Maia Appointment","appointment_type","=",appointment_type], ["Maia Appointment","group_event","=",1]]
+	filters=[["Maia Appointment","appointment_type","=",appointment_type], ["Maia Appointment","group_event","=",1], ["Maia Appointment", "docstatus","=",1]]
 	start = get_datetime(date).strftime("%Y-%m-%d %H:%M:%S")
 	end = add_to_date(start, years=1)
+
+	at = frappe.get_doc("Maia Appointment Type", appointment_type)
 
 	slots = get_events(start=start, end=end, filters=filters)
 
 	for slot in slots:
-		filters = [["Maia Appointment","appointment_type","=",appointment_type], ["Maia Appointment","group_event","=",0]]
+		filters = [["Maia Appointment","appointment_type","=",appointment_type], ["Maia Appointment","group_event","=",0], ["Maia Appointment", "docstatus","=",1]]
 		start = slot.start_dt.strftime("%Y-%m-%d %H:%M:%S")
 		end = slot.end_dt.strftime("%Y-%m-%d %H:%M:%S")
 		scheduled_events = get_events(start=start, end=end, filters=filters)
 
+		count = 0
 		if scheduled_events:
-			frappe.log_error(scheduled_events, "Scheduled Events after check")
-			count = 0
 			for scheduled_event in scheduled_events:
 				count += 1
-				slot["already_registered"] = count
+
+		slot["already_registered"] = count
+		slot["number_of_patients"] = at.number_of_patients
+		slot["seats_left"] = at.number_of_patients - count
 
 	return slots
 
@@ -212,7 +219,7 @@ def get_events(start, end, filters=None):
 	add_filters = get_event_conditions("Maia Appointment", filters)
 
 	events = frappe.db.sql("""select name, subject, patient_record, appointment_type, practitioner, color, start_dt, end_dt, duration, repeat_this_event, repeat_on,repeat_till,
-		monday, tuesday, wednesday, thursday, friday, saturday, sunday from `tabMaia Appointment` where ((
+		monday, tuesday, wednesday, thursday, friday, saturday, sunday, docstatus from `tabMaia Appointment` where ((
 		(date(start_dt) between date(%(start)s) and date(%(end)s))
 		or (date(end_dt) between date(%(start)s) and date(%(end)s))
 		or (date(start_dt) <= date(%(start)s) and date(end_dt) >= date(%(end)s))

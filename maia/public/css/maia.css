@@ -94,7 +94,7 @@
 	font-size: 9pt;
 }
 .selector-progress .fa-fw.active {
-	color: #5e64ff;
+	color: #ff4081;
 }
 
 #description {
@@ -162,7 +162,7 @@
   margin-bottom: 10px;
 }
 
-.bookpage-time {
+.bookpage-time, .bookpage-seats-left {
   text-align: center;
   font-size: 17px;
   font-weight: 400;
@@ -197,7 +197,7 @@
     transition: background-color .2s,max-width .3s;
     display: inline-block;
     padding: 13px 25px;
-    background-color: #5e64ff;
+    background-color: #ff4081;
     text-transform: uppercase;
     box-shadow: 0 1px 3px 0 rgba(0,0,0,.15);
     color: #fff;
