@@ -41,6 +41,7 @@ frappe.ui.form.on('Maia Appointment', {
 				}
 			};
 		});
+		frm.add_web_link("/appointment", __('Online booking platform'))
 	},
 	onload_post_render: function(frm) {
 		if (frm.doc.__islocal) {
@@ -164,7 +165,6 @@ var update_top_buttons = function(frm) {
 
 
 var duration_color_group = function(doc) {
-	console.log(doc)
 	if (doc.appointment_type) {
 		frappe.call({
 			method: "frappe.client.get",

@@ -14,7 +14,6 @@ frappe.ui.form.on('Pregnancy Consultation', {
 				 },
 				 callback: function(r) {
 					 if (r.message) {
-						 console.log(r.message)
 						 let daily_weight = frm.doc.weight;
 						 let base_difference = "Non Comparable";
 						 let latest_difference = "Non Comparable";
