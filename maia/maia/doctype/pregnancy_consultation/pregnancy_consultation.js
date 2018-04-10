@@ -8,14 +8,24 @@ frappe.ui.form.on('Pregnancy Consultation', {
 	 weight: function(frm) {
 		 if (frm.doc.weight && frm.doc.patient_record) {
 			 frappe.call({
-				 method: "maia.maia.doctype.pregnancy_consultation.pregnancy_consultation.get_base_weight",
+				 method: "maia.maia.doctype.pregnancy_consultation.pregnancy_consultation.get_comparison_weight",
 				 args: {
 					 patient_record: frm.doc.patient_record
 				 },
 				 callback: function(r) {
 					 if (r.message) {
+						 console.log(r.message)
 						 let daily_weight = frm.doc.weight;
-						 let difference = daily_weight - r.message;
+						 let base_difference = "Non Comparable";
+						 let latest_difference = "Non Comparable";
+						 if (r.message.base_weight != 0) {
+							 base_difference = daily_weight - r.message.base_weight;
+						 }
+
+						 if (r.message.last_weight != 0) {
+							 latest_difference = daily_weight - r.message.last_weight;
+						 }
+						 let difference = "Référence: "+ base_difference +" / Dernière Consultation: "+ latest_difference
 						 frappe.model.set_value('Pregnancy Consultation', frm.doc.name, 'weight_gain', difference)
 					 }
 				 }
