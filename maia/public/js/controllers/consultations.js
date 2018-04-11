@@ -116,7 +116,11 @@ var refresh_codification_price = function(frm) {
 						var codification_price = data.message.basic_price;
 						var overpayment = data.message.billing_price - data.message.basic_price;
 						frappe.model.set_value(frm.doctype, frm.docname, "overpayment_value", overpayment);
-						frappe.model.set_value(frm.doctype, frm.docname, "overpayment_display", data.message.codification + " :  " + format_currency(overpayment, frm.doc.currency));
+						if (overpayment == 0 ){
+							frappe.model.set_value(frm.doctype, frm.docname, "overpayment_display", "");
+						} else {
+							frappe.model.set_value(frm.doctype, frm.docname, "overpayment_display", data.message.codification + " :  " + format_currency(overpayment, frm.doc.currency));
+						}
 					} else {
 						var codification_price = data.message.billing_price;
 						var overpayment = 0;
@@ -492,7 +496,6 @@ var refresh_patient_price = function(frm) {
 	} else {
 		patient_price = frm.doc.total_price
 	}
-
 	frappe.model.set_value(frm.doctype, frm.docname, "patient_price", patient_price)
 }
 
@@ -559,3 +562,5 @@ var get_patient_value = function(frm) {
 		}
 	}
 }
+
+{% include "maia/public/js/controllers/print_settings.js" %}
