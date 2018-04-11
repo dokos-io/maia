@@ -37,6 +37,7 @@ before_migrate = ["maia.customizations.chart_of_accounts.add_simplified_coa",
 # setup wizard
 setup_wizard_requires = "assets/maia/js/setup_wizard.js"
 setup_wizard_stages = "maia.setup.setup_wizard.setup_wizard.get_setup_stages"
+setup_wizard_exception = "maia.setup.setup_wizard.setup_wizard.log_error"
 
 get_help_messages = "maia.utilities.activation.get_help_messages"
 

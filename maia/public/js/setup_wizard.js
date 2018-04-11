@@ -28,10 +28,11 @@ var maia_slides = [
 		fields: [
 			{
 				fieldname: 'domains',
-				fieldtype: 'Select',
+				fieldtype: 'MultiCheck',
 				options: [
-					{ "label": __("Midwife"), "value": "Sage-Femme" }
-				], "default": "Sage-Femme", reqd: 1
+					{ "label": __("Midwife"), "value": "Sage-Femme", "default": 1 }
+				],
+				reqd: 1
 			},
 		],
 		// help: __('Select the nature of your activity.'),
