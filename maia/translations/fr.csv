@@ -1242,3 +1242,7 @@ Doctype: Drug List Model,Drug List Model,Modèle de Liste de Médicaments
 Doctype: Maia Appointment,Online booking platform,Réservations en Ligne
 maia/public/js/controllers/consultations.js,Overpayment,Dépassement d'Honoraires
 maia/public/js/controllers/consultations.js,Overpayment:,Dépassement d'Honoraires:
+Doctype: Pregnancy Consultation,100% Maternity,100% Maternité
+Doctype: Pregnancy Consultation,Malady,Maladie
+Doctype: Pregnancy Consultation,Normal Rate (70%),Taux Normal (70%)
+Doctype: Pregnancy Consultation,CPAM Share,Part CPAM

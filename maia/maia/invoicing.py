@@ -76,13 +76,33 @@ def update_invoice_details(self, customer, case):
 
 
 	if not (case == "third_party_and_patient" and customer != "CPAM"):
-		data = [self.codification, self.lump_sum_travel_allowance_codification, self.sundays_holidays_allowance_codification, self.night_work_allowance_codification]
-		for d in data:
-			if d != "" and d != 0 and d is not None and d != "HN":
-				invoice.append("items", {
-					"item_code": d,
-					"qty": 1,
-				})
+		data = {self.codification: self.codification_value, self.lump_sum_travel_allowance_codification: self.lump_sum_travel_allowance_value, self.sundays_holidays_allowance_codification: self.sundays_holidays_allowance_value, self.night_work_allowance_codification: self.night_work_allowance_value, self.mileage_allowance_codification: self.mileage_allowance_value}
+		if self.third_party_payment == 1 and self.malady == 1:
+			if self.normal_rate:
+				for d in data:
+					if d != "" and d != 0 and d is not None and d != "HN":
+						invoice.append("items", {
+							"item_code": d,
+							"qty": 1,
+							"rate": data[d] * 0.7
+						})
+
+			elif self.alsace_moselle_rate:
+				for d in data:
+					if d != "" and d != 0 and d is not None and d != "HN":
+						invoice.append("items", {
+							"item_code": d,
+							"qty": 1,
+							"rate": data[d] * 0.9
+						})
+
+		else:
+			for d in data:
+				if d != "" and d != 0 and d is not None and d != "HN":
+					invoice.append("items", {
+						"item_code": d,
+						"qty": 1,
+					})
 
 		if self.mileage_allowance_codification != "" and self.mileage_allowance_codification != 0 and self.mileage_allowance_codification is not None:
 			invoice.append("items", {
@@ -91,6 +111,26 @@ def update_invoice_details(self, customer, case):
 			})
 
 	if not (case == "third_party_and_patient" and customer == "CPAM"):
+		if self.third_party_payment == 1 and self.malady == 1:
+			data = {self.codification: self.codification_value, self.lump_sum_travel_allowance_codification: self.lump_sum_travel_allowance_value, self.sundays_holidays_allowance_codification: self.sundays_holidays_allowance_value, self.night_work_allowance_codification: self.night_work_allowance_value, self.mileage_allowance_codification: self.mileage_allowance_value}
+			if self.normal_rate:
+				for d in data:
+					if d != "" and d != 0 and d is not None and d != "HN":
+						invoice.append("items", {
+							"item_code": d,
+							"qty": 1,
+							"rate": data[d] * 0.3
+						})
+
+			elif self.alsace_moselle_rate:
+				for d in data:
+					if d != "" and d != 0 and d is not None and d != "HN":
+						invoice.append("items", {
+							"item_code": d,
+							"qty": 1,
+							"rate": data[d] * 0.1
+						})
+
 		if self.without_codification != 0 and self.without_codification is not None:
 			if not frappe.db.exists("Codification", "HN"):
 				frappe.throw(_("Codification HN is missing. Please add it in your codifications list."))
@@ -108,7 +148,7 @@ def update_invoice_details(self, customer, case):
 				"item_code": self.codification,
 				"qty": 1,
 				"rate": self.overpayment_value,
-				"description": "Overpayment:"+ " " + self.codification_description
+				"description": _("Overpayment:")+ " " + self.codification_description
 			})
 
 	invoice.set_missing_values()
