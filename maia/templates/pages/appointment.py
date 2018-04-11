@@ -27,7 +27,7 @@ def get_practitioners_and_appointment_types():
 		for practitioner in practitioners:
 			result = {}
 			result.update({'name': practitioner['name'], 'week_end': practitioner['weekend_booking']})
-			appointment_types = frappe.db.sql("""SELECT appointment_type, name, group_appointment, number_of_patients, description, category FROM `tabMaia Appointment Type` WHERE allow_online_booking=1 AND (practitioner='{0}' OR practitioner IS NULL)""".format(practitioner.name), as_dict=True)
+			appointment_types = frappe.db.sql("""SELECT appointment_type, name, group_appointment, number_of_patients, description, category FROM `tabMaia Appointment Type` WHERE allow_online_booking=1 AND disabled=0 AND (practitioner='{0}' OR practitioner IS NULL)""".format(practitioner.name), as_dict=True)
 
 			d = defaultdict(list)
 			categories = set()

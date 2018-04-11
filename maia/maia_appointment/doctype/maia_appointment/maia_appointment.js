@@ -38,6 +38,7 @@ frappe.ui.form.on('Maia Appointment', {
 			return {
 				"filters": {
 					"practitioner": ["in", practitioners],
+					"disabled": ["=", 0]
 				}
 			};
 		});
