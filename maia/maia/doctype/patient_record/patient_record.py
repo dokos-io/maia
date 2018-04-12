@@ -25,6 +25,7 @@ class PatientRecord(Document):
 		load_address_and_contact(self, "patient_record")
 		self.load_dashboard_info()
 		self.set_gravidity_and_parity()
+		self.check_customer()
 
 	def load_dashboard_info(self):
 		billing_this_year = frappe.db.sql("""select sum(debit_in_account_currency), account_currency
@@ -71,30 +72,32 @@ class PatientRecord(Document):
 				address.save()
 
 	def validate(self):
+		self.update_customer()
 		self.patient_name = " ".join(filter(None, [cstr(self.get(f)).strip() for f in ["patient_first_name", "patient_last_name"]]))
 
 		self.update_address_links()
-		self.update_customer
 
 	def on_update(self):
+		self.update_customer()
 		self.update_address_links()
 		self.set_gravidity_and_parity()
 
-		self.update_customer
 		frappe.db.set_value(self.doctype, self.name, "change_in_patient", 0)
 		self.reload()
 
 	def after_insert(self):
-		self.create_customer_from_patient
+		self.create_customer_from_patient()
 
 	def on_trash(self):
 		if frappe.db.exists("Customer", self.customer):
 			doc = frappe.get_doc('Customer', self.customer)
 			doc.delete()
 
-	def after_rename(self, olddn, newdn, merge=False):
-		frappe.rename_doc('Customer', self.customer, newdn, force=True,
-						  merge=True if frappe.db.exists('Customer', newdn) else False)
+	def before_rename(self, olddn, newdn, merge=False):
+		try:
+			frappe.rename_doc('Customer', self.customer, newdn, force=True, merge=True if frappe.db.exists('Customer', newdn) else False)
+		except Exception as e:
+			frappe.log_error(e, "Customer Renaming Error")
 
 	def set_gravidity_and_parity(self):
 		gravidity, parity = parity_gravidity_calculation(self.name)
@@ -103,7 +106,6 @@ class PatientRecord(Document):
 		self.parity = parity
 
 	def create_customer_from_patient(self):
-
 		customer = frappe.get_doc({
 			"doctype": "Customer",
 			"customer_name": self.patient_name,
@@ -115,13 +117,28 @@ class PatientRecord(Document):
 
 		frappe.db.set_value("Patient Record", self.name, "Customer", customer.name)
 
-		doc.reload()
+		self.reload()
 
 	def update_customer(self):
-		if not frappe.db.exists("Customer", self.name):
-			self.create_customer_from_patient
+		if not frappe.db.exists("Customer", self.customer):
+			self.create_customer_from_patient()
 
 		frappe.db.sql("""update `tabCustomer` set customer_name=%s, modified=NOW() where patient_record=%s""", (self.patient_name, self.name))
+
+	def check_customer(self):
+		if not self.customer:
+			create_customer_from_patient(self)
+
+		elif not frappe.db.exists("Customer", self.customer):
+			customer = frappe.get_doc({
+				"doctype": "Customer",
+				"customer_name": self.customer,
+				"patient_record": self.name,
+				"customer_type": 'Individual',
+				"customer_group": _('Individual'),
+				"territory": _('All Territories')
+			}).insert(ignore_permissions=True)
+			frappe.db.commit()
 
 
 @frappe.whitelist()
