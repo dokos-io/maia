@@ -39,8 +39,12 @@ def execute():
 				"account_type": "Expense Account",
 				"is_group": 1})
 
-			child_account.insert(ignore_permissions=True)
-			frappe.db.commit()
+			try:
+				child_account.insert(ignore_permissions=True)
+				frappe.db.commit()
+			except Exception as e:
+				print(e)
+				pass
 
 
 		try:
