@@ -15,9 +15,6 @@ default_lead_sources = [_("Existing Customer"), _("Reference"), _("Advertisement
 
 def install(country=None):
 	records = [
-		#setup domain
-		{ 'doctype': 'Domain', 'domain': 'Sage-Femme'},
-
 		# address template
 		{'doctype':"Address Template", "country": country},
 
@@ -428,7 +425,6 @@ def install(country=None):
 
 	from erpnext.setup.setup_wizard.data.industry_type import get_industry_types
 	records += [{"doctype":"Industry Type", "industry": d} for d in get_industry_types()]
-	frappe.logger().debug(records)
 
 	records += [{'doctype': 'Lead Source', 'source_name': _(d)} for d in default_lead_sources]
 

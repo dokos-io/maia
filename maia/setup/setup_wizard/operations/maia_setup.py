@@ -5,7 +5,7 @@
 from __future__ import unicode_literals
 import frappe
 from frappe import _
-from frappe.desk.doctype.desktop_icon.desktop_icon import set_hidden_list
+from frappe.desk.doctype.desktop_icon.desktop_icon import set_hidden_list, set_desktop_icons
 from frappe.printing.doctype.print_format.print_format import make_default
 
 def create_professional_contact_card(args):
@@ -186,6 +186,7 @@ def set_initial_icons_list(args):
 			pass
 
 	set_hidden_list(hidden_list)
+
 	frappe.db.commit()
 
 def correct_midwife_accounts(args):

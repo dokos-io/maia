@@ -37,8 +37,10 @@ def create_new_site(first_name, last_name, email, siteprefix, max_users, custome
 	print("==========> Parameters for France Set")
 	add_system_manager_and_limits(site_name, email, first_name, last_name, max_users)
 	print("==========> System Manager and Limits Set")
-	add_sms_customer(site_name, customer)
-	print("==========> SMS Customer Added")
+	add_specific_config(site_name, customer)
+	print("==========> Specific Config Added")
+	add_domain(site_name)
+	print("==========> Custom Domain Added")
 	add_to_lets_encrypt_file(site_name)
 	print("==========> Let's Encrypt File Updated")
 
@@ -70,6 +72,8 @@ def setup_site(site_name):
 		frappe.db.set_value('System Settings', None, 'country', 'France')
 		frappe.db.set_value('System Settings', None, 'language', 'fr')
 		frappe.db.set_value('System Settings', None, 'time_zone', 'heure:France-Europe/Paris')
+		frappe.get_doc(dict(doctype='Domain', domain='Sage-Femme')).insert(ignore_permissions=True)
+
 		frappe.db.commit()
 	except Exception as e:
 		print(e)
@@ -93,15 +97,24 @@ def add_system_manager_and_limits(site_name, email, first_name, last_name, max_u
 	finally:
 		frappe.destroy()
 
-def add_sms_customer(site_name, customer):
+def add_specific_config(site_name, customer):
 	bench_path = frappe.utils.get_bench_path()
-	customer_config = {"customer": customer}
+	hostname = "https://{}".format(site_name)
+	customer_config = {"customer": customer, "host_name": hostname}
 	update_site_config(site_name, customer_config, bench_path)
+
+def add_domain(site_name):
+	commands = []
+
+	command = "bench setup add-domain {domain} --site {site_name}".format(site_name=site_name, domain=site_name)
+	commands.append(command)
+
+	run_commands(commands)
 
 def add_to_lets_encrypt_file(site_name):
 	bench_path = frappe.utils.get_bench_path()
 	f = open(os.path.join(bench_path, 'certificates.txt'), 'a+')
-	f.write(site_name)
+	f.write("{}\n".format(site_name))
 	f.close()
 
 def setup_and_reload_nginx():
@@ -117,8 +130,11 @@ def setup_and_reload_nginx():
 
 def add_system_manager(email, first_name=None, last_name=None, send_welcome_email=False):
 	# add user
-	user = frappe.new_doc("User")
-	user.update({
+	language = frappe.get_single("System Settings").language
+	frappe.local.lang = language
+
+	user = frappe.get_doc({
+		"doctype": "User",
 		"name": email,
 		"email": email,
 		"language": "fr",
