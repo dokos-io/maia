@@ -83,6 +83,7 @@ def execute():
 		language = frappe.get_single("System Settings").language
 		frappe.local.lang = language
 
-		item = frappe.get_doc("Item", "Office Supplies")
-		item.item_group = _('Office Supplies, Documentation, Post Office')
-		item.save()
+		if frappe.db.exists("Item", "Office Supplies"):
+			item = frappe.get_doc("Item", "Office Supplies")
+			item.item_group = _('Office Supplies, Documentation, Post Office')
+			item.save()
