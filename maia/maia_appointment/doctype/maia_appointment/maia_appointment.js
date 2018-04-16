@@ -140,28 +140,30 @@ frappe.ui.form.on('Maia Appointment', {
 });
 
 var update_top_buttons = function(frm) {
-	if (!frm.doc.personal_event) {
-		if (!frm.doc.group_event) {
-			frm.add_custom_button(__('Group Appointment'), function() {
-				set_group_event(frm);
+	if (frm.doc.docstatus == 0) {
+		if (!frm.doc.personal_event) {
+			if (!frm.doc.group_event) {
+				frm.add_custom_button(__('Group Appointment'), function() {
+					set_group_event(frm);
+				});
+			} else {
+				frm.add_custom_button(__('Patient Appointment'), function() {
+					set_group_event(frm);
+				});
+			}
+
+			frm.add_custom_button(__('Personal Event'), function() {
+				set_personal_event(frm);
 			});
 		} else {
 			frm.add_custom_button(__('Patient Appointment'), function() {
-				set_group_event(frm);
+				set_personal_event(frm);
 			});
 		}
-
-		frm.add_custom_button(__('Personal Event'), function() {
-			set_personal_event(frm);
-		});
-	} else {
-		frm.add_custom_button(__('Patient Appointment'), function() {
-			set_personal_event(frm);
+		frm.add_custom_button(__('Check Availability'), function() {
+			check_availability_by_midwife(frm);
 		});
 	}
-	frm.add_custom_button(__('Check Availability'), function() {
-		check_availability_by_midwife(frm);
-	});
 }
 
 
