@@ -12,7 +12,7 @@ def get_data():
 			"items": [
 				{
 					"type": "doctype",
-					"name": "Midwife Appointment",
+					"name": "Maia Appointment",
 					"label": _("Appointment"),
 					"description": _("Appointment"),
 				},
@@ -156,15 +156,21 @@ def get_data():
 				},
 				{
 					"type": "doctype",
+					"name": "Drug List Template",
+					"label": _("Drug List Template"),
+					"description": _("Drug List Template"),
+				},
+				{
+					"type": "doctype",
 					"name": "Delivery Way",
 					"label": _("Delivery Way"),
 					"description": _("Delivery Way"),
 				},
 				{
 					"type": "doctype",
-					"name": "Midwife Appointment Type",
-					"label": _("Midwife Appointment Type"),
-					"description": _("Midwife Appointment Type"),
+					"name": "Maia Appointment Type",
+					"label": _("Appointment Type"),
+					"description": _("Maia Appointment Type"),
 				},
 
 				]

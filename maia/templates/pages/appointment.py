@@ -9,50 +9,84 @@ from frappe import _
 import datetime
 from datetime import timedelta, date
 import calendar
-from maia.maia.scheduler import get_availability_from_schedule
-
+from maia.maia_appointment.scheduler import get_availability_from_schedule
+from maia.maia_appointment.doctype.maia_appointment.maia_appointment import get_registration_count
+from collections import defaultdict
 
 def get_context(context):
 	context.no_cache = 1
-	practitioners = frappe.get_list("Professional Information Card", filters={"allow_online_booking": 1}, fields=['name'])
+	if not "Customer" in frappe.get_roles(frappe.session.user):
+		frappe.throw(_("Not Permitted"), frappe.PermissionError)
+
+@frappe.whitelist()
+def get_practitioners_and_appointment_types():
+	practitioners = frappe.get_list("Professional Information Card", filters={"allow_online_booking": 1}, fields=['name', 'weekend_booking'])
+
 	if practitioners:
-		practitioners.sort()
-		context.practitioner = practitioners
+		results = []
+		for practitioner in practitioners:
+			result = {}
+			result.update({'name': practitioner['name'], 'week_end': practitioner['weekend_booking']})
+			appointment_types = frappe.db.sql("""SELECT appointment_type, name, group_appointment, number_of_patients, description, category FROM `tabMaia Appointment Type` WHERE allow_online_booking=1 AND disabled=0 AND (practitioner='{0}' OR practitioner IS NULL)""".format(practitioner.name), as_dict=True)
+
+			d = defaultdict(list)
+			categories = set()
+			for appointment_type in appointment_types:
+				key = appointment_type.category
+				if key is None:
+					key = "Sans Catégorie"
+				categories.add(key)
+				d[key].append({'name': appointment_type.name, 'appointment_type': appointment_type.appointment_type, 'group_appointment': appointment_type.group_appointment, 'number_of_patients': appointment_type.number_of_patients, 'description': appointment_type.description, 'category': appointment_type.category})
+
+			result.update({'categories': list(categories)})
+			result.update({'appointment_types': d})
+			results.append(result)
+
+		return results
+
 	else:
-		context.practitioner = []
-
-	context.appointment_type = frappe.db.sql("""SELECT appointment_type from `tabMidwife Appointment Type` WHERE allow_online_booking=1 AND (practitioner='{0}' OR practitioner IS NULL)""".format(
-		context.practitioner[0].name), as_dict=True)
-
+		return []
 
 def daterange(start_date, end_date):
 	if start_date < now_datetime():
-		start_date = datetime.datetime.now().replace(hour=0, minute=0, second=0,
-													 microsecond=0) + datetime.timedelta(days=1)
+		start_date = datetime.datetime.now().replace(hour=0, minute=0, second=0, microsecond=0) + datetime.timedelta(days=1)
 	for n in range(int((end_date - start_date).days)):
 		yield start_date + timedelta(n)
 
-
 @frappe.whitelist()
-def check_availabilities(practitioner, start, end, appointment_type):
-
-	duration = frappe.get_value(
-		"Midwife Appointment Type", dict(appointment_type=appointment_type), "duration")
-
+def check_group_events_availabilities(practitioner, start, end, appointment_type):
 	start = datetime.datetime.strptime(start, '%Y-%m-%d')
 	end = datetime.datetime.strptime(end, '%Y-%m-%d')
-	days_limit = frappe.get_value(
-		"Professional Information Card", practitioner, "number_of_days_limit")
-	limit = datetime.datetime.combine(add_days(getdate(), int(
-		days_limit)), datetime.datetime.time(datetime.datetime.now()))
+	days_limit = frappe.get_value("Professional Information Card", practitioner, "number_of_days_limit")
+	limit = datetime.datetime.combine(add_days(getdate(), int(days_limit)), datetime.datetime.time(datetime.datetime.now()))
 
 	payload = []
 	if start < limit:
 		for dt in daterange(start, end):
 			date = dt.strftime("%Y-%m-%d")
 
-			calendar_availability = check_availability(
-				"Midwife Appointment", "practitioner", "Professional Information Card", practitioner, date, duration)
+			slots = get_registration_count(appointment_type, start)
+
+			slots = filter(lambda x: x.practitioner == practitioner, slots)
+			slots = filter(lambda x: x.seats_left > 0, slots)
+
+	return slots
+
+@frappe.whitelist()
+def check_availabilities(practitioner, start, end, appointment_type):
+	duration = frappe.get_value("Maia Appointment Type", dict(appointment_type=appointment_type), "duration")
+
+	start = datetime.datetime.strptime(start, '%Y-%m-%d')
+	end = datetime.datetime.strptime(end, '%Y-%m-%d')
+	days_limit = frappe.get_value("Professional Information Card", practitioner, "number_of_days_limit")
+	limit = datetime.datetime.combine(add_days(getdate(), int(days_limit)), datetime.datetime.time(datetime.datetime.now()))
+
+	payload = []
+	if start < limit:
+		for dt in daterange(start, end):
+			date = dt.strftime("%Y-%m-%d")
+
+			calendar_availability = _check_availability("Maia Appointment", "practitioner", "Professional Information Card", practitioner, date, duration)
 			if bool(calendar_availability) == True:
 				payload += calendar_availability
 
@@ -62,15 +96,39 @@ def check_availabilities(practitioner, start, end, appointment_type):
 
 	final_avail = []
 	final_avail.append(avail)
+
 	return final_avail
 
+def _check_availability(doctype, df, dt, dn, date, duration):
+	date = getdate(date)
+	day = calendar.day_name[date.weekday()]
+	if date < getdate():
+		pass
+
+	resource = frappe.get_doc(dt, dn)
+	availability = []
+	schedules = []
+
+	if hasattr(resource, "consulting_schedule") and resource.consulting_schedule:
+		day_sch = filter(lambda x: x.day == day, resource.consulting_schedule)
+		if not day_sch:
+			return availability
+
+		for line in day_sch:
+			if(datetime.datetime.combine(date, get_time(line.end_time)) > now_datetime()):
+				schedules.append({"start": datetime.datetime.combine(date, get_time(line.start_time)), "end": datetime.datetime.combine(
+					date, get_time(line.end_time)), "duration": datetime.timedelta(minutes=cint(duration))})
+
+			if schedules:
+				availability.extend(get_availability_from_schedule(doctype, df, dn, schedules, date))
+
+	return availability
 
 @frappe.whitelist()
 def submit_appointment(email, practitioner, appointment_type, start, end, notes):
-
 	start_date = datetime.datetime.strptime(start, '%Y-%m-%d %H:%M:%S').date()
 	start_time = datetime.datetime.strptime(start, '%Y-%m-%d %H:%M:%S').time()
-	app_type = frappe.get_doc("Midwife Appointment Type", appointment_type)
+	app_type = frappe.get_doc("Maia Appointment Type", appointment_type)
 
 	sms_confirmation = app_type.send_sms_reminder
 
@@ -96,13 +154,11 @@ def submit_appointment(email, practitioner, appointment_type, start, end, notes)
 		else:
 			sms_confirmation = 0
 
-	appointment_type = frappe.get_doc("Midwife Appointment Type", dict(appointment_type=appointment_type))
-
 	appointment = frappe.get_doc({
-		"doctype": "Midwife Appointment",
+		"doctype": "Maia Appointment",
 		"patient_record": patient_record,
 		"practitioner": practitioner,
-		"appointment_type": appointment_type.name,
+		"appointment_type": app_type.name,
 		"date": start_date,
 		"start_time": start_time,
 		"start_dt": start,
@@ -121,44 +177,18 @@ def submit_appointment(email, practitioner, appointment_type, start, end, notes)
 
 	if patient_record:
 		send_patient_confirmation(
-			patient_record, practitioner, appointment_type.name, start)
+			patient_record, practitioner, app_type.name, start)
 		send_notification_for_patient(
-			patient_record, practitioner, appointment_type.name, start, notes)
+			patient_record, practitioner, app_type.name, start, notes)
 
 	else:
-		send_user_confirmation(user, practitioner, appointment_type.name, start)
+		send_user_confirmation(user, practitioner, app_type.name, start)
 		send_notification_for_user(
-			user, practitioner, appointment_type.name, start, notes)
+			user, practitioner, app_type.name, start, notes)
 
 	frappe.clear_cache()
 
 	return "OK"
-
-
-def check_availability(doctype, df, dt, dn, date, duration):
-	date = getdate(date)
-	day = calendar.day_name[date.weekday()]
-	if date < getdate():
-		pass
-
-	resource = frappe.get_doc(dt, dn)
-	availability = []
-	schedules = []
-
-	if hasattr(resource, "consulting_schedule") and resource.consulting_schedule:
-		day_sch = filter(lambda x: x.day == day, resource.consulting_schedule)
-		if not day_sch:
-			return availability
-
-		for line in day_sch:
-			if(datetime.datetime.combine(date, get_time(line.end_time)) > now_datetime()):
-				schedules.append({"start": datetime.datetime.combine(date, get_time(line.start_time)), "end": datetime.datetime.combine(
-					date, get_time(line.end_time)), "duration": datetime.timedelta(minutes=cint(duration))})
-
-			if schedules:
-				availability.extend(get_availability_from_schedule(
-					doctype, df, dn, schedules, date))
-	return availability
 
 
 def send_patient_confirmation(patient_record, practitioner, appointment_type, start):

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, DOKOS and contributors
+// Copyright (c) 2018, DOKOS and contributors
 // For license information, please see license.txt
 frappe.provide("maia");
 
@@ -41,7 +41,12 @@ frappe.ui.form.on(this.frm.doctype, {
 				})
 		}
 	},
-
+	refresh: function(frm) {
+		if (frm.doc.docstatus != 1) {
+			refresh_total_price(frm);
+			refresh_patient_price(frm);
+		}
+	},
 	paid_immediately: function(frm) {
 		if (frm.doc.paid_immediately == 1) {
 			frm.set_df_property('mode_of_payment', 'reqd', 1);
@@ -68,6 +73,75 @@ frappe.ui.form.on(this.frm.doctype, {
 				}
 			});
 		}
+	},
+	drug_list_template: function(frm) {
+		if(frm.doc.drug_list_template) {
+			frappe.call({
+				"method": "maia.maia.doctype.drug_list_template.drug_list_template.get_drug_list_template",
+				args: {
+					drug_list_template: frm.doc.drug_list_template
+				},
+				callback: function (data) {
+						$.each(data.message || [], function(i, v){
+							var d = frappe.model.add_child(frm.doc, "Drug Prescription", "drug_prescription_table");
+							d.drug = v.drug;
+							d.posology = v.posology;
+							d.pharmaceutical_form = v.pharmaceutical_form;
+						});
+						refresh_field("drug_prescription_table");
+				}
+			});
+		}
+	},
+	hundred_percent_maternity: function(frm) {
+		if (frm.doc.hundred_percent_maternity == 1) {
+			frm.set_value("malady", 0);
+			frappe.model.set_value(frm.doctype, frm.docname, "cpam_share_display", "");
+			refresh_patient_price(frm);
+		} else {
+			frm.set_value("malady", 1);
+		}
+	},
+	malady: function(frm) {
+		if (frm.doc.malady == 1) {
+			frm.set_value("hundred_percent_maternity", 0);
+		} else {
+			frm.set_value("hundred_percent_maternity", 1);
+		}
+
+		if ((frm.doc.malady == 1) && (frm.doc.normal_rate == 1)) {
+			frappe.model.set_value(frm.doctype, frm.docname, "cpam_share_display", format_currency((frm.doc.codification_value + frm.doc.lump_sum_travel_allowance_value + frm.doc.mileage_allowance_value + frm.doc.night_work_allowance_value + frm.doc.sundays_holidays_allowance_value )* 0.7, frm.doc.currency));
+			refresh_patient_price(frm);
+	 	}
+
+		if ((frm.doc.malady == 1) && (frm.doc.alsace_moselle_rate == 1)) {
+			frappe.model.set_value(frm.doctype, frm.docname, "cpam_share_display", format_currency((frm.doc.codification_value + frm.doc.lump_sum_travel_allowance_value + frm.doc.mileage_allowance_value + frm.doc.night_work_allowance_value + frm.doc.sundays_holidays_allowance_value) * 0.9, frm.doc.currency));
+			refresh_patient_price(frm);
+		}
+	},
+	normal_rate: function(frm) {
+		if (frm.doc.normal_rate == 1) {
+			frm.set_value("alsace_moselle_rate", 0);
+		} else {
+			frm.set_value("alsace_moselle_rate", 1);
+		}
+
+	 if ((frm.doc.malady == 1) && (frm.doc.normal_rate == 1)) {
+		 frappe.model.set_value(frm.doctype, frm.docname, "cpam_share_display", format_currency((frm.doc.codification_value + frm.doc.lump_sum_travel_allowance_value + frm.doc.mileage_allowance_value + frm.doc.night_work_allowance_value + frm.doc.sundays_holidays_allowance_value)  * 0.7, frm.doc.currency));
+		 refresh_patient_price(frm);
+		}
+	},
+	alsace_moselle_rate: function(frm) {
+		if (frm.doc.alsace_moselle_rate == 1) {
+			frm.set_value("normal_rate", 0);
+		} else {
+			frm.set_value("normal_rate", 1);
+		}
+
+		if ((frm.doc.malady == 1) && (frm.doc.alsace_moselle_rate == 1)) {
+			frappe.model.set_value(frm.doctype, frm.docname, "cpam_share_display", format_currency((frm.doc.codification_value + frm.doc.lump_sum_travel_allowance_value + frm.doc.mileage_allowance_value + frm.doc.night_work_allowance_value + frm.doc.sundays_holidays_allowance_value) * 0.9, frm.doc.currency));
+			refresh_patient_price(frm);
+		}
 	}
 
 });
@@ -79,7 +153,7 @@ frappe.ui.form.on(this.frm.doctype, "third_party_payment", function(frm) {
 
 frappe.ui.form.on(this.frm.doctype, "codification", function(frm) {
 	refresh_codification_price(frm);
-	/*refresh_codification_description(frm);*/
+	refresh_codification_description(frm);
 });
 
 var refresh_codification_price = function(frm) {
@@ -93,25 +167,52 @@ var refresh_codification_price = function(frm) {
 			cache: false,
 			callback: function(data) {
 				if (data.message) {
-					if (frm.doc.third_party_payment == 1) {
-						codification_price = data.message.basic_price;
-					} else {
-						codification_price = data.message.billing_price;
-					}
-					frappe.model.set_value(frm.doctype, frm.docname, "codification_value", codification_price)
-					frappe.model.set_value(frm.doctype, frm.docname, "codification_display", data.message.codification + " :  " + format_currency(codification_price, frm.doc.currency))
-					refresh_total_price(frm);
-					refresh_patient_price(frm);
+					refresh_codification_price_split(frm, data.message)
 				}
 			}
 		})
 	} else {
-		codification_price = 0;
-		frappe.model.set_value(frm.doctype, frm.docname, "codification_value", codification_price)
-		frappe.model.set_value(frm.doctype, frm.docname, "codification_display", "")
+		var codification_price = 0;
+		var overpayment = 0;
+		frappe.model.set_value(frm.doctype, frm.docname, "codification_value", codification_price);
+		frappe.model.set_value(frm.doctype, frm.docname, "overpayment_value", overpayment);
+		frappe.model.set_value(frm.doctype, frm.docname, "codification_display", "");
+		frappe.model.set_value(frm.doctype, frm.docname, "cpam_share_display", "");
+		frappe.model.set_value(frm.doctype, frm.docname, "overpayment_display", "");
 		refresh_total_price(frm);
 		refresh_patient_price(frm);
 	}
+};
+
+var refresh_codification_price_split = function(frm, data) {
+	if (frm.doc.third_party_payment == 1) {
+		var codification_price = data.basic_price;
+		var overpayment = data.billing_price - data.basic_price;
+		frappe.model.set_value(frm.doctype, frm.docname, "overpayment_value", overpayment);
+		if (overpayment == 0 ){
+			frappe.model.set_value(frm.doctype, frm.docname, "overpayment_display", "");
+		} else {
+			frappe.model.set_value(frm.doctype, frm.docname, "overpayment_display", format_currency(overpayment, frm.doc.currency));
+		}
+	} else {
+		var codification_price = data.billing_price;
+		var overpayment = 0;
+		frappe.model.set_value(frm.doctype, frm.docname, "overpayment_value", overpayment);
+		frappe.model.set_value(frm.doctype, frm.docname, "overpayment_display", "");
+	}
+	frappe.model.set_value(frm.doctype, frm.docname, "codification_value", codification_price);
+	frappe.model.set_value(frm.doctype, frm.docname, "codification_display", data.codification + " :  " + format_currency(codification_price, frm.doc.currency));
+	if ((frm.doc.third_party_payment == 1) && (frm.doc.malady == 1) && (frm.doc.normal_rate == 1)) {
+		frappe.model.set_value(frm.doctype, frm.docname, "cpam_share_display", format_currency((frm.doc.codification_value + frm.doc.lump_sum_travel_allowance_value + frm.doc.mileage_allowance_value + frm.doc.night_work_allowance_value + frm.doc.sundays_holidays_allowance_value )* 0.7, frm.doc.currency));
+		refresh_patient_price(frm);
+	}
+
+	if ((frm.doc.third_party_payment == 1) && (frm.doc.malady == 1) && (frm.doc.alsace_moselle_rate == 1)) {
+		frappe.model.set_value(frm.doctype, frm.docname, "cpam_share_display", format_currency((frm.doc.codification_value + frm.doc.lump_sum_travel_allowance_value + frm.doc.mileage_allowance_value + frm.doc.night_work_allowance_value + frm.doc.sundays_holidays_allowance_value) * 0.9, frm.doc.currency));
+		refresh_patient_price(frm);
+	}
+	refresh_total_price(frm);
+	refresh_patient_price(frm);
 };
 
 var refresh_codification_description = function(frm) {
@@ -460,11 +561,16 @@ var mileage_allowance_calculation = function(frm) {
 var refresh_patient_price = function(frm) {
 
 	if (frm.doc.third_party_payment == 1) {
-		patient_price = frm.doc.without_codification
-	} else {
-		patient_price = frm.doc.total_price
-	}
+		var patient_price = frm.doc.without_codification + frm.doc.overpayment_value
 
+		if ((frm.doc.malady == 1) && (frm.doc.normal_rate == 1)) {
+ 		 patient_price += ((frm.doc.codification_value + frm.doc.lump_sum_travel_allowance_value + frm.doc.mileage_allowance_value + frm.doc.night_work_allowance_value + frm.doc.sundays_holidays_allowance_value) * 0.3)
+	 } else if ((frm.doc.malady == 1) && (frm.doc.alsace_moselle_rate == 1)) {
+		patient_price += ((frm.doc.codification_value + frm.doc.lump_sum_travel_allowance_value + frm.doc.mileage_allowance_value + frm.doc.night_work_allowance_value + frm.doc.sundays_holidays_allowance_value) * 0.1)
+		}
+	} else {
+		var patient_price = frm.doc.total_price
+	}
 	frappe.model.set_value(frm.doctype, frm.docname, "patient_price", patient_price)
 }
 
@@ -474,6 +580,10 @@ var refresh_total_price = function(frm) {
 
 	if (isNaN(frm.doc.codification_value)) {} else {
 		total_price += frm.doc.codification_value;
+	}
+
+	if (isNaN(frm.doc.overpayment_value)) {} else {
+		total_price += frm.doc.overpayment_value;
 	}
 
 	if (isNaN(frm.doc.sundays_holidays_allowance_value)) {} else {
@@ -527,3 +637,5 @@ var get_patient_value = function(frm) {
 		}
 	}
 }
+
+{% include "maia/public/js/controllers/print_settings.js" %}

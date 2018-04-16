@@ -10,7 +10,7 @@ def get_data():
                         "color": "#ff4081",
 			"icon": "octicon octicon-calendar",
 			"type": "link",
-                        "link": "List/Midwife Appointment/Calendar",
+                        "link": "List/Maia Appointment/Calendar",
 			"label": _("Calendar")
 		},
                 {

@@ -22,29 +22,6 @@ frappe.setup.on("before_load", function () {
 
 var maia_slides = [
 	{
-		// Domain
-		name: 'domain',
-		title: __('Select your Activity'),
-		fields: [
-			{
-				fieldname: 'domains',
-				fieldtype: 'Select',
-				options: [
-					{ "label": __("Midwife"), "value": "Sage-Femme" }
-				], "default": "Sage-Femme", reqd: 1
-			},
-		],
-		// help: __('Select the nature of your activity.'),
-		validate: function () {
-			if (this.values.domains.length === 0) {
-				frappe.msgprint(__("Please select at least one domain."));
-				return false;
-			}
-			frappe.setup.domains = this.values.domains;
-			return true;
-		},
-	},
-	{
 		// Brand
 		name: 'brand',
 		icon: "fa fa-bookmark",

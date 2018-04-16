@@ -32,7 +32,7 @@ def confirm_cancellation(context=None):
 
 @frappe.whitelist()
 def cancel_appointment(doc):
-	appointment = frappe.get_doc("Midwife Appointment", doc)
+	appointment = frappe.get_doc("Maia Appointment", doc)
 	appointment.cancel()
 
 	context =  {"doc": {"docstatus": appointment.docstatus, "end_dt": appointment.end_dt}}

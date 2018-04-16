@@ -1,56 +1,56 @@
 .form-dashboard-section.custom {
-  padding: 15px 15px;
-  background-color: #f0f7f9;
+	padding: 15px 15px;
+	background-color: #f0f7f9;
 }
 
 .dashboard-col-1,
 .dashboard-col-2,
 .dashboard-col-3 {
-  padding-left: 5px;
-  padding-right: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
 }
 
 .patient-dashboard-card.col-sm-12,
 .patient-dashboard-card.col-sm-6,
 .patient-dashboard-card.col-md-12 {
-  padding-left: 5px;
-  padding-right: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
 }
 
 .custom-dashboard-card {
-    height: 100%;
-    min-width:  100%;
+		height: 100%;
+		min-width:  100%;
 }
 
 .btn-custom_dashboard {
-  float: right;
-  margin-right: 15px;
-  background-color: #cce4ea;
+	float: right;
+	margin-right: 15px;
+	background-color: #cce4ea;
 }
 
 .custom_dashboard {
-  background-color: #fff;
-  padding: 15px 15px;
-  margin: 7px 0px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
-  border-radius: 2px;
+	background-color: #fff;
+	padding: 15px 15px;
+	margin: 7px 0px;
+	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
+	border-radius: 2px;
 }
 
 .custom_dashboard h4 {
-  margin-top: 2px;
-  font-size: 15px;
+	margin-top: 2px;
+	font-size: 15px;
 }
 
 .text-muted.small {
-  font-size: 11px;
+	font-size: 11px;
 }
 
 .patientdashboard-icon {
-  border-bottom: 1px solid #d1d8dd;
+	border-bottom: 1px solid #d1d8dd;
 }
 
 .patientdashboard-icon img {
-  max-width:40px;
+	max-width:40px;
 }
 
 .patientdashboard-general-section,
@@ -60,20 +60,192 @@
 .patientdashboard-labexams-section,
 .patientdashboard-gynecology-section,
 .patientdashboard-pr-section {
-  margin-top: 15px;
-  margin-bottom: 25px;
+	margin-top: 15px;
+	margin-bottom: 25px;
 }
 
 .patientdashboard-data {
-  color: #425668;
-  word-wrap: break-word;
+	color: #425668;
+	word-wrap: break-word;
 }
 
 .gravidity-parity {
-  color: #ff4081;
+	color: #ff4081;
 }
 
 .modal-body h4 {
 	color: #425668;
-  padding-top: 15px;
+	padding-top: 15px;
+}
+
+#header-selector {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	box-shadow: 0 3px 40px 0 rgba(0, 0, 0, 0.15);
+}
+
+.selector-progress {
+	margin-bottom: 20px;
+}
+
+.selector-progress .fa-fw {
+	font-size: 9pt;
+}
+.selector-progress .fa-fw.active {
+	color: #ff4081;
+}
+
+#description {
+	margin-top: 20px;
+	padding: 20px 0 20px 0;
+	text-align: center;
+}
+
+#description.bordered-top {
+	border-top: 1px solid #d1d8dd;
+}
+
+.bg-grey {
+	background-color: #fbfbfb !important;
+}
+
+.bookpage {
+	opacity: 1 !important;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	background-color: #fbfbfb;
+	z-index: 30;
+	opacity: 0;
+	transition: opacity .2s ease;
+	border-radius: 4px;
+	text-align: center;
+}
+
+.bookpage-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 18px;
+  transition: opacity .2s ease;
+  opacity: .3;
+	font-size: 25pt;
+}
+
+.bookpage-header {
+	min-height: 110px;
+}
+
+.bookpage-date {
+  text-align: center;
+  font-size: 34px;
+  font-weight: 400;
+  margin-top: 50px;
+  margin-bottom: 10px;
+}
+
+.bookpage-thank-you {
+}
+
+.bookpage-appointment-type {
+  text-align: center;
+  font-size: 34px;
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+
+.bookpage-time, .bookpage-seats-left {
+  text-align: center;
+  font-size: 17px;
+  font-weight: 400;
+  margin-bottom: 15px;
+  margin-top: 10px;
+}
+
+.form-fields {
+	max-width: 400px;
+	margin: auto;
+}
+
+.form-confirmation-container {
+	max-width: 600px;
+	margin: auto;
+}
+
+.form-confirmation {
+	transition: box-shadow .2s ease;
+	width: 100%;
+	padding: 15px 25px;
+	margin: 0;
+	border: 0 solid #ececec;
+	font-size: 1em;
+	box-shadow: inset 0 0 1px 1px hsla(0,0%,100%,0);
+	text-align: center;
+	box-sizing: border-box;
+	line-height: 1.5em;
+	font-family: Open Sans,Helvetica,Tahoma,Arial,sans-serif;
+	color: #333;
+	overflow: auto;
+	border-bottom: 1px solid #ececec;
+	background-color: white;
+}
+
+.form-input, .form textarea {
+	transition: box-shadow .2s ease;
+	width: 100%;
+	padding: 15px 25px;
+	margin: 0;
+	border: 0 solid #ececec;
+	font-size: 1em;
+	box-shadow: inset 0 0 1px 1px hsla(0,0%,100%,0);
+	text-align: left;
+	box-sizing: border-box;
+	line-height: 1.5em;
+	font-family: Open Sans,Helvetica,Tahoma,Arial,sans-serif;
+	color: #333;
+	overflow: auto;
+	border-bottom: 1px solid #ececec;
+}
+
+.form-button {
+    position: relative;
+    transition: background-color .2s,max-width .3s;
+    display: inline-block;
+    padding: 13px 25px;
+    background-color: #ff4081;
+    text-transform: uppercase;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.15);
+    color: #fff;
+    border: 0;
+    border-radius: 3px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    height: 44px;
+    outline: 0;
+    text-align: center;
+    max-width: 200px;
+		margin: 30px auto;
+}
+
+.btn-loading {
+	background-color: #7f8c8d;
+}
+
+.btn-confirmed {
+	background-color: #67cc33;
+}
+
+.btn-error {
+	background-color: #c0392b;
+}
+
+
+.print-toolbar .btn-print-edit,
+.print-toolbar .btn-print-preview,
+.print-toolbar .btn[href="#Form/Print Settings"] {
+	display: none !important;
 }

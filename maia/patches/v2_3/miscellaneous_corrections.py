@@ -39,8 +39,12 @@ def execute():
 				"account_type": "Expense Account",
 				"is_group": 1})
 
-			child_account.insert(ignore_permissions=True)
-			frappe.db.commit()
+			try:
+				child_account.insert(ignore_permissions=True)
+				frappe.db.commit()
+			except Exception as e:
+				print(e)
+				pass
 
 
 		try:
@@ -77,12 +81,17 @@ def execute():
 			"account_type": "Expense Account",
 			"is_group": 0})
 
-		second_child_account.insert(ignore_permissions=True)
-		frappe.db.commit()
+		try:
+			second_child_account.insert(ignore_permissions=True)
+			frappe.db.commit()
+		except Exception as e:
+			print(e)
+			pass
 
 		language = frappe.get_single("System Settings").language
 		frappe.local.lang = language
 
-		item = frappe.get_doc("Item", "Office Supplies")
-		item.item_group = _('Office Supplies, Documentation, Post Office')
-		item.save()
+		if frappe.db.exists("Item", "Office Supplies"):
+			item = frappe.get_doc("Item", "Office Supplies")
+			item.item_group = _('Office Supplies, Documentation, Post Office')
+			item.save()

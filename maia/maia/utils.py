@@ -9,6 +9,18 @@ from frappe.model.document import Document
 from frappe.utils import add_years, get_timestamp
 
 @frappe.whitelist()
+def get_letter_head(practitioner=None, user=None):
+	if practitioner:
+		letterhead = frappe.db.get_value('Professional Information Card', practitioner, "letter_head")
+	else:
+		letterhead = frappe.db.get_value('Professional Information Card', dict(user=user), "letter_head")
+
+	if not letterhead:
+		letterhead = frappe.db.get_value('Letter Head', {"is_default": 1}, "name")
+
+	return letterhead
+
+@frappe.whitelist()
 def parity_gravidity_calculation(patient_record):
     patient = frappe.get_doc("Patient Record", patient_record)
 

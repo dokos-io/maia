@@ -62,7 +62,7 @@ def delete_erpnext_hooks():
 	erpnext_hooks = frappe.get_app_path("erpnext", "hooks.py")
 
 	patterns = ['setup_wizard_requires = ', 'setup_wizard_stages = ', 'setup_wizard_test = ', 'calendars = ', 'get_help_messages = ', 'get_user_progress_slides = ',
-				'update_and_get_user_progress = ', 'email_brand_image = ', 'default_mail_footer = ', 'standard_portal_menu_items = ', 'error_report_email = ']
+				'update_and_get_user_progress = ', 'email_brand_image = ', 'default_mail_footer = ', 'standard_portal_menu_items = ', 'error_report_email = ', 'domains = ']
 
 	subst = ''
 	for pattern in patterns:
