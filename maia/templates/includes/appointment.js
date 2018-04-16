@@ -286,6 +286,7 @@ maia.appointment.AppointmentSelector = Class.extend({
 	},
 	show_booking_page: function(event) {
 		var me = this;
+		me.event = event;
 		$('#calendar').fullCalendar('destroy');
 		$('#calendar').addClass('bg-grey');
 		let data = []
@@ -303,7 +304,6 @@ maia.appointment.AppointmentSelector = Class.extend({
 
 		$(document).on('submit', '.form', e => {
 			e.preventDefault();
-			console.log("Call")
 
 			let $btn = $('.form-button')
 			$btn.prop("disabled", true).addClass('btn-loading').html("Confirmation ...");
@@ -316,8 +316,8 @@ maia.appointment.AppointmentSelector = Class.extend({
 					email: frappe.session.user,
 					practitioner: me.practitioner,
 					appointment_type: me.appointment_type,
-					start: moment(event.start).format('YYYY-MM-DD H:mm:SS'),
-					end: moment(event.end).format('YYYY-MM-DD H:mm:SS'),
+					start: moment(me.event.start).format('YYYY-MM-DD H:mm:SS'),
+					end: moment(me.event.end).format('YYYY-MM-DD H:mm:SS'),
 					notes: message
 				},
 				callback: function(r) {
