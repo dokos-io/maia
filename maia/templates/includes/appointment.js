@@ -303,6 +303,7 @@ maia.appointment.AppointmentSelector = Class.extend({
 
 		$(document).on('submit', '.form', e => {
 			e.preventDefault();
+			console.log("Call")
 
 			let $btn = $('.form-button')
 			$btn.prop("disabled", true).addClass('btn-loading').html("Confirmation ...");
@@ -331,6 +332,7 @@ maia.appointment.AppointmentSelector = Class.extend({
 					}
 				}
 			})
+			e.stopImmediatePropagation();
 			return false;
 		})
 	}

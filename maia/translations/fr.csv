@@ -1167,7 +1167,9 @@ Doctype: Patient Record,Weight Updated,Poids mis à Jour
 Doctype: Patient Record,Patient Weight,Courbe de Poids Patient(e)
 Doctype: Pregnancy,Weight Curve (g),Courbe de Poids (g)
 Doctype: Patient Record,Weight Curve,Courbe de Poids
-Doctype: Pregnancy Consultation,"Calculated based on the reference weight in the patient record / the weight of the last pregnancy consultation","Calculé par rapport au poids de réference hors grossesse du dossier patient / au poids de la dernière consultation de grossesse"
+Doctype: Pregnancy Consultation,"Calculated based on the reference weight in the patient record","Calculé par rapport au poids de réference hors grossesse du dossier patient"
+Doctype: Pregnancy Consultation,"Calculated based on the weight of the last pregnancy consultation","Calculé par rapport au poids de la dernière consultation de grossesse"
+Doctype: Pregnancy Consultation,"Weight Gain since Last Consultation (Kg)","Prise de Poids depuis la Dernière Consultation (Kg)"
 Doctype: Patient Record,Reference weight outside of pregnancies,Poids de référence hors grossesses
 Doctype: Pregnancy,10% Curve,Courbe des 10%
 apps/maia/maia/doctype/patient_record/dashboard/custom_patient_dashboard.js,Select All,Tout Sélectionner
@@ -1240,6 +1242,7 @@ Doctype: Free Prescription,Drug List,Liste de Médicaments
 Doctype: Drug List Template,Drug List Template,Modèle de Liste de Médicaments
 Doctype: Drug List Model,Drug List Model,Modèle de Liste de Médicaments
 Doctype: Maia Appointment,Online booking platform,Réservations en Ligne
+Doctype: Maia Appointment,Please create at least one slot for this appointment type,Veuillez créer au moins un créneau pour cet atelier.
 maia/public/js/controllers/consultations.js,Overpayment,Dépassement d'Honoraires
 maia/public/js/controllers/consultations.js,Overpayment:,Dépassement d'Honoraires:
 Doctype: Pregnancy Consultation,100% Maternity,100% Maternité

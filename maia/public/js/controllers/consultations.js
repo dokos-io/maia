@@ -42,8 +42,10 @@ frappe.ui.form.on(this.frm.doctype, {
 		}
 	},
 	refresh: function(frm) {
-		refresh_total_price(frm);
-		refresh_patient_price(frm);
+		if (frm.doc.docstatus != 1) {
+			refresh_total_price(frm);
+			refresh_patient_price(frm);
+		}
 	},
 	paid_immediately: function(frm) {
 		if (frm.doc.paid_immediately == 1) {
@@ -113,7 +115,7 @@ frappe.ui.form.on(this.frm.doctype, {
 	 	}
 
 		if ((frm.doc.malady == 1) && (frm.doc.alsace_moselle_rate == 1)) {
-			frappe.model.set_value(frm.doctype, frm.docname, "cpam_share_display", fformat_currency((frm.doc.codification_value + frm.doc.lump_sum_travel_allowance_value + frm.doc.mileage_allowance_value + frm.doc.night_work_allowance_value + frm.doc.sundays_holidays_allowance_value) * 0.9, frm.doc.currency));
+			frappe.model.set_value(frm.doctype, frm.docname, "cpam_share_display", format_currency((frm.doc.codification_value + frm.doc.lump_sum_travel_allowance_value + frm.doc.mileage_allowance_value + frm.doc.night_work_allowance_value + frm.doc.sundays_holidays_allowance_value) * 0.9, frm.doc.currency));
 			refresh_patient_price(frm);
 		}
 	},
@@ -170,7 +172,7 @@ var refresh_codification_price = function(frm) {
 			}
 		})
 	} else {
-		codification_price = 0;
+		var codification_price = 0;
 		var overpayment = 0;
 		frappe.model.set_value(frm.doctype, frm.docname, "codification_value", codification_price);
 		frappe.model.set_value(frm.doctype, frm.docname, "overpayment_value", overpayment);
@@ -200,6 +202,15 @@ var refresh_codification_price_split = function(frm, data) {
 	}
 	frappe.model.set_value(frm.doctype, frm.docname, "codification_value", codification_price);
 	frappe.model.set_value(frm.doctype, frm.docname, "codification_display", data.codification + " :  " + format_currency(codification_price, frm.doc.currency));
+	if ((frm.doc.third_party_payment == 1) && (frm.doc.malady == 1) && (frm.doc.normal_rate == 1)) {
+		frappe.model.set_value(frm.doctype, frm.docname, "cpam_share_display", format_currency((frm.doc.codification_value + frm.doc.lump_sum_travel_allowance_value + frm.doc.mileage_allowance_value + frm.doc.night_work_allowance_value + frm.doc.sundays_holidays_allowance_value )* 0.7, frm.doc.currency));
+		refresh_patient_price(frm);
+	}
+
+	if ((frm.doc.third_party_payment == 1) && (frm.doc.malady == 1) && (frm.doc.alsace_moselle_rate == 1)) {
+		frappe.model.set_value(frm.doctype, frm.docname, "cpam_share_display", format_currency((frm.doc.codification_value + frm.doc.lump_sum_travel_allowance_value + frm.doc.mileage_allowance_value + frm.doc.night_work_allowance_value + frm.doc.sundays_holidays_allowance_value) * 0.9, frm.doc.currency));
+		refresh_patient_price(frm);
+	}
 	refresh_total_price(frm);
 	refresh_patient_price(frm);
 };
