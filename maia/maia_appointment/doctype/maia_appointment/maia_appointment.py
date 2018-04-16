@@ -28,7 +28,7 @@ class MaiaAppointment(Document):
 				frappe.throw(_("Please enter a valid mobile number"))
 
 		appointment_type = frappe.get_doc("Maia Appointment Type", self.appointment_type)
-		if appointment_type.group_appointment ==1 :
+		if appointment_type.group_appointment == 1 and self.group_event != 1:
 			events = get_registration_count(self.appointment_type, self.date)
 			inconsistency = 0
 

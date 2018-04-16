@@ -5,7 +5,7 @@
 from __future__ import unicode_literals
 import frappe
 from frappe import _
-from frappe.desk.doctype.desktop_icon.desktop_icon import set_hidden_list, set_desktop_icons
+from frappe.desk.doctype.desktop_icon.desktop_icon import set_hidden_list
 from frappe.printing.doctype.print_format.print_format import make_default
 
 def create_professional_contact_card(args):
@@ -179,11 +179,11 @@ def set_initial_icons_list(args):
 	hidden_list = []
 
 	for i in initial_list:
-		try:
-			frappe.get_doc('Desktop Icon', {'standard': 1, 'label': i})
-			hidden_list.append(i)
-		except Exception:
-			pass
+		if frappe.db.exists('Desktop Icon', {'standard': 1, 'label': i}):
+			try:
+				hidden_list.append(i)
+			except Exception:
+				pass
 
 	set_hidden_list(hidden_list)
 
