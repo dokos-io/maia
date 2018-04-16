@@ -312,7 +312,7 @@ maia.appointment.AppointmentSelector = Class.extend({
 				type: "POST",
 				cache: false,
 				args: {
-					email: "chdecultot@dokos.io",
+					email: frappe.session.user,
 					practitioner: me.practitioner,
 					appointment_type: me.appointment_type,
 					start: moment(event.start).format('YYYY-MM-DD H:mm:SS'),

@@ -27,27 +27,28 @@ class MaiaAppointment(Document):
 			if self.mobile_no is None:
 				frappe.throw(_("Please enter a valid mobile number"))
 
-		appointment_type = frappe.get_doc("Maia Appointment Type", self.appointment_type)
-		if appointment_type.group_appointment == 1 and self.group_event != 1:
-			events = get_registration_count(self.appointment_type, self.date)
-			inconsistency = 0
+		if self.personal_event != 1:
+			appointment_type = frappe.get_doc("Maia Appointment Type", self.appointment_type)
+			if appointment_type.group_appointment == 1 and self.group_event != 1:
+				events = get_registration_count(self.appointment_type, self.date)
+				inconsistency = 0
 
-			corresponding_events = filter(lambda x: x.start_dt == datetime.datetime.combine(getdate(self.date), get_time(self.start_time)), events)
-			if not corresponding_events:
-				frappe.throw(_("The date and time of your appointment don't match with the existing group appointments. Please select another slot."))
+				corresponding_events = filter(lambda x: x.start_dt == datetime.datetime.combine(getdate(self.date), get_time(self.start_time)), events)
+				if not corresponding_events:
+					frappe.throw(_("The date and time of your appointment don't match with the existing group appointments. Please select another slot."))
 
-			else:
-				for event in corresponding_events:
-					if event.practitioner == self.practitioner:
-						if event.seats_left > 0:
-							continue
+				else:
+					for event in corresponding_events:
+						if event.practitioner == self.practitioner:
+							if event.seats_left > 0:
+								continue
+							else:
+								frappe.throw(_("The number of participants exceeds the max. number for this group appointment."))
 						else:
-							frappe.throw(_("The number of participants exceeds the max. number for this group appointment."))
-					else:
-						inconsistency += 1
+							inconsistency += 1
 
-			if inconsistency > 0:
-				frappe.throw(_("No existing slot could be found for this practitioner, date, time and appointment type."))
+				if inconsistency > 0:
+					frappe.throw(_("No existing slot could be found for this practitioner, date, time and appointment type."))
 
 	def on_submit(self):
 		date = getdate(self.date)
