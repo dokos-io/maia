@@ -73,7 +73,10 @@ class PatientRecord(Document):
 
 	def validate(self):
 		self.patient_name = " ".join(filter(None, [cstr(self.get(f)).strip() for f in ["patient_first_name", "patient_last_name"]]))
-		self.update_address_links()
+
+		if not self.get('__islocal'):
+			self.update_customer()
+			self.update_address_links()
 
 	def on_update(self):
 		self.update_customer()
@@ -88,7 +91,9 @@ class PatientRecord(Document):
 
 	def on_trash(self):
 		if frappe.db.exists("Customer", self.customer):
-			frappe.delete_doc('Customer', self.customer, force=True)
+			doc = frappe.get_doc('Customer', self.customer)
+			if doc.patient_record == self.name:
+				frappe.delete_doc('Customer', self.customer, force=True)
 
 		if frappe.db.exists("Custom Patient Record Dashboard", dict(patient_record=self.name)):
 			frappe.delete_doc('Custom Patient Record Dashboard', dict(patient_record=self.name), force=True)
