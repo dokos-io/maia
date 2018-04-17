@@ -89,8 +89,7 @@ class PatientRecord(Document):
 
 	def on_trash(self):
 		if frappe.db.exists("Customer", self.customer):
-			doc = frappe.get_doc('Customer', self.customer)
-			doc.delete()
+			frappe.delete_doc('Customer', self.customer, force=True)
 
 	def before_rename(self, olddn, newdn, merge=False):
 		try:
