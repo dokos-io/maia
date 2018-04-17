@@ -72,7 +72,6 @@ class PatientRecord(Document):
 				address.save()
 
 	def validate(self):
-		self.update_customer()
 		self.patient_name = " ".join(filter(None, [cstr(self.get(f)).strip() for f in ["patient_first_name", "patient_last_name"]]))
 
 		self.update_address_links()
@@ -122,8 +121,8 @@ class PatientRecord(Document):
 	def update_customer(self):
 		if not frappe.db.exists("Customer", self.customer):
 			self.create_customer_from_patient()
-
-		frappe.db.sql("""update `tabCustomer` set customer_name=%s, modified=NOW() where patient_record=%s""", (self.patient_name, self.name))
+		else:
+			frappe.db.sql("""update `tabCustomer` set customer_name=%s, modified=NOW() where patient_record=%s""", (self.patient_name, self.name))
 
 	def check_customer(self):
 		if not self.customer:
