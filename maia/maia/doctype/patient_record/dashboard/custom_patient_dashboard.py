@@ -21,7 +21,12 @@ def get_patient_dashboard(patient_record):
 	else:
 		dashboard = frappe.new_doc("Custom Patient Record Dashboard")
 		dashboard.patient_record = patient_record
-		dashboard.save()
+		try:
+			dashboard.save()
+		except frappe.DuplicateEntryError:
+			doc = frappe.get_doc("Custom Patient Record Dashboard", patient_record)
+			frappe.rename_doc(doc.doctype, patient_record, doc.patient_record, force=True, merge=True if frappe.db.exists(doc.doctype, doc.patient_record) else False)
+			dashboard.save()
 
 		return dashboard
 

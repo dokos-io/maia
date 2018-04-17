@@ -73,7 +73,6 @@ class PatientRecord(Document):
 
 	def validate(self):
 		self.patient_name = " ".join(filter(None, [cstr(self.get(f)).strip() for f in ["patient_first_name", "patient_last_name"]]))
-
 		self.update_address_links()
 
 	def on_update(self):
@@ -91,11 +90,17 @@ class PatientRecord(Document):
 		if frappe.db.exists("Customer", self.customer):
 			frappe.delete_doc('Customer', self.customer, force=True)
 
+		if frappe.db.exists("Custom Patient Record Dashboard", dict(patient_record=self.name)):
+			frappe.delete_doc('Custom Patient Record Dashboard', dict(patient_record=self.name), force=True)
+
 	def before_rename(self, olddn, newdn, merge=False):
 		try:
 			frappe.rename_doc('Customer', self.customer, newdn, force=True, merge=True if frappe.db.exists('Customer', newdn) else False)
 		except Exception as e:
 			frappe.log_error(e, "Customer Renaming Error")
+
+		if frappe.db.exists("Custom Patient Record Dashboard", dict(patient_record=olddn)):
+			frappe.delete_doc('Custom Patient Record Dashboard', dict(patient_record=olddn), force=True)
 
 	def set_gravidity_and_parity(self):
 		gravidity, parity = parity_gravidity_calculation(self.name)
