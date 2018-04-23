@@ -31,7 +31,10 @@ def get_comparison_weight(patient_record):
 	weights.update({'base_weight': patient.weight})
 
 	last_weight = _get_last_pregnancy_consultation_weight(patient_record)
-	weights.update({'last_weight': last_weight[0].weight})
+	if last_weight:
+		weights.update({'last_weight': last_weight[0].weight})
+	else:
+		weights.update({'last_weight': patient.weight})
 
 	return weights
 
