@@ -55,17 +55,16 @@ class MaiaAppointment(Document):
 		time = get_time(self.start_time)
 		st_dt = datetime.datetime.combine(date, time)
 		ed_dt = st_dt + datetime.timedelta(minutes=int(self.duration))
-		frappe.db.set_value("Maia Appointment",
-							self.name, "start_dt", st_dt)
+		frappe.db.set_value("Maia Appointment", self.name, "start_dt", st_dt)
 		frappe.db.set_value("Maia Appointment", self.name, "end_dt", ed_dt)
 		self.reload()
 
-		if self.reminder == 1:
+		if self.reminder == 1 and not self.group_event:
 			frappe.db.set_value(
 				"Patient Record", self.patient_record, "email_id", self.email)
 			self.send_reminder()
 
-		if self.sms_reminder == 1:
+		if self.sms_reminder == 1 and not self.group_event:
 			if self.mobile_no is not None:
 				number = self.mobile_no
 			else:
