@@ -19,11 +19,11 @@ weekdays = ["monday", "tuesday", "wednesday",
 
 class MaiaAppointment(Document):
 	def validate(self):
-		if self.reminder == 1:
+		if self.reminder == 1 and not self.group_event:
 			if self.email is None:
 				frappe.throw(_("Please enter a valid email address"))
 
-		if self.sms_reminder == 1:
+		if self.sms_reminder == 1 and not self.group_event:
 			if self.mobile_no is None:
 				frappe.throw(_("Please enter a valid mobile number"))
 
