@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2017, DOKOS and Contributors
+# Copyright (c) 2018, DOKOS and Contributors
 # License: GNU General Public License v3. See license.txt
 
 from __future__ import unicode_literals
@@ -76,28 +76,30 @@ def check_group_events_availabilities(practitioner, start, end, appointment_type
 def check_availabilities(practitioner, start, end, appointment_type):
 	duration = frappe.get_value("Maia Appointment Type", appointment_type, "duration")
 
-	start = datetime.datetime.strptime(start, '%Y-%m-%d')
-	end = datetime.datetime.strptime(end, '%Y-%m-%d')
-	days_limit = frappe.get_value("Professional Information Card", practitioner, "number_of_days_limit")
-	limit = datetime.datetime.combine(add_days(getdate(), int(days_limit)), datetime.datetime.time(datetime.datetime.now()))
+	if duration is not None:
 
-	payload = []
-	if start < limit:
-		for dt in daterange(start, end):
-			date = dt.strftime("%Y-%m-%d")
+		start = datetime.datetime.strptime(start, '%Y-%m-%d')
+		end = datetime.datetime.strptime(end, '%Y-%m-%d')
+		days_limit = frappe.get_value("Professional Information Card", practitioner, "number_of_days_limit")
+		limit = datetime.datetime.combine(add_days(getdate(), int(days_limit)), datetime.datetime.time(datetime.datetime.now()))
 
-			calendar_availability = _check_availability("Maia Appointment", "practitioner", "Professional Information Card", practitioner, date, duration)
-			if bool(calendar_availability) == True:
-				payload += calendar_availability
+		payload = []
+		if start < limit:
+			for dt in daterange(start, end):
+				date = dt.strftime("%Y-%m-%d")
 
-	avail = []
-	for items in payload:
-		avail += items
+				calendar_availability = _check_availability("Maia Appointment", "practitioner", "Professional Information Card", practitioner, date, duration)
+				if bool(calendar_availability) == True:
+					payload += calendar_availability
 
-	final_avail = []
-	final_avail.append(avail)
+		avail = []
+		for items in payload:
+			avail += items
 
-	return final_avail
+		final_avail = []
+		final_avail.append(avail)
+
+		return final_avail
 
 def _check_availability(doctype, df, dt, dn, date, duration):
 	date = getdate(date)
