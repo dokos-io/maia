@@ -120,9 +120,8 @@ def _check_availability(doctype, df, dt, dn, date, duration):
 			if(datetime.datetime.combine(date, get_time(line.end_time)) > now_datetime()):
 				schedules.append({"start": datetime.datetime.combine(date, get_time(line.start_time)), "end": datetime.datetime.combine(
 					date, get_time(line.end_time)), "duration": datetime.timedelta(minutes=cint(duration))})
-
-			if schedules:
-				availability.extend(get_availability_from_schedule(doctype, df, dn, schedules, date))
+		if schedules:
+			availability.extend(get_availability_from_schedule(doctype, df, dn, schedules, date))
 
 	return availability
 

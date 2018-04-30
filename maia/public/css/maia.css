@@ -126,12 +126,12 @@
 }
 
 .bookpage-close {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 18px;
-  transition: opacity .2s ease;
-  opacity: .3;
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 18px;
+	transition: opacity .2s ease;
+	opacity: .3;
 	font-size: 25pt;
 }
 
@@ -140,29 +140,29 @@
 }
 
 .bookpage-date {
-  text-align: center;
-  font-size: 34px;
-  font-weight: 400;
-  margin-top: 50px;
-  margin-bottom: 10px;
+	text-align: center;
+	font-size: 34px;
+	font-weight: 400;
+	margin-top: 50px;
+	margin-bottom: 10px;
 }
 
 .bookpage-thank-you {
 }
 
 .bookpage-appointment-type {
-  text-align: center;
-  font-size: 34px;
-  font-weight: 400;
-  margin-bottom: 10px;
+	text-align: center;
+	font-size: 34px;
+	font-weight: 400;
+	margin-bottom: 10px;
 }
 
 .bookpage-time, .bookpage-seats-left {
-  text-align: center;
-  font-size: 17px;
-  font-weight: 400;
-  margin-bottom: 15px;
-  margin-top: 10px;
+	text-align: center;
+	font-size: 17px;
+	font-weight: 400;
+	margin-bottom: 15px;
+	margin-top: 10px;
 }
 
 .form-fields {
@@ -211,24 +211,24 @@
 }
 
 .form-button {
-    position: relative;
-    transition: background-color .2s,max-width .3s;
-    display: inline-block;
-    padding: 13px 25px;
-    background-color: #ff4081;
-    text-transform: uppercase;
-    box-shadow: 0 1px 3px 0 rgba(0,0,0,.15);
-    color: #fff;
-    border: 0;
-    border-radius: 3px;
-    font-size: 1.1em;
-    font-weight: 600;
-    cursor: pointer;
-    height: 44px;
-    outline: 0;
-    text-align: center;
-    max-width: 200px;
-		margin: 30px auto;
+	position: relative;
+	transition: background-color .2s,max-width .3s;
+	display: inline-block;
+	padding: 13px 25px;
+	background-color: #ff4081;
+	text-transform: uppercase;
+	box-shadow: 0 1px 3px 0 rgba(0,0,0,.15);
+	color: #fff;
+	border: 0;
+	border-radius: 3px;
+	font-size: 1.1em;
+	font-weight: 600;
+	cursor: pointer;
+	height: 44px;
+	outline: 0;
+	text-align: center;
+	max-width: 200px;
+	margin: 30px auto;
 }
 
 .btn-loading {
@@ -248,4 +248,12 @@
 .print-toolbar .btn-print-preview,
 .print-toolbar .btn[href="#Form/Print Settings"] {
 	display: none !important;
+}
+
+.green-response {
+	color: green;
+}
+
+.red-response {
+	color: red;
 }

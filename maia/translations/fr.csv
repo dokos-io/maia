@@ -1,7 +1,8 @@
-Maia AppointmentFrappe,Make,Action
+Frappe,Make,Action
 Frappe,Not Equals,Non égal à
 Frappe,Remove,Supprimer
 Frappe,More,Plus
+Frappe,Show tags,Afficher les balises
 ERPNext,Assets,Actifs
 ERPNext,Asset,Actif
 apps/maia/maia/maia/doctype/patient_record/patient_record.js +70, Years Old,Ans
@@ -1250,3 +1251,5 @@ Doctype: Pregnancy Consultation,Malady,Maladie
 Doctype: Pregnancy Consultation,Normal Rate (70%),Taux Normal (70%)
 Doctype: Pregnancy Consultation,CPAM Share,Part CPAM
 setup_wizard,Private Equity,Capital Investissement
+Doctype:Maia Appointment,Registered Patients,Patients Inscrits
+Doctype:Maia Appointment,Seats Left,Places Restantes

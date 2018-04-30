@@ -52,6 +52,9 @@ frappe.ui.form.on('Maia Appointment', {
 	},
 	refresh: function(frm) {
 		update_top_buttons(frm);
+		if (frm.doc.group_event && (frm.doc.docstatus === 1)) {
+		update_group_info(frm);
+	}
 	},
 	practitioner: function(frm) {
 
@@ -286,6 +289,35 @@ var check_availability_by_midwife = function(frm) {
 	} else {
 		frappe.msgprint(__("Please select a Midwife, a Date, an Appointment Type or a Duration"));
 	}
+}
+
+var update_group_info = function(frm) {
+	frappe.call({
+		method: "maia.maia_appointment.doctype.maia_appointment.maia_appointment.get_registration_count",
+		args: {
+			appointment_type: frm.doc.appointment_type,
+			date: frm.doc.start_dt
+		},
+		callback: function(r, rt) {
+			if (r.message) {
+				frappe.call({
+					method: "maia.maia_appointment.doctype.maia_appointment.maia_appointment.set_seats_left",
+					args: {
+						appointment: frm.doc.name,
+						data: r.message[0]
+					},
+					callback: function(r, rt) {
+						if (r.message=='green'){
+							$(`[data-fieldname="seats_left"]`).addClass('green-response');
+						} else {
+							$(`[data-fieldname="seats_left"]`).addClass('red-response');
+						}
+					}
+				})
+				$(frm.fields_dict['group_event_info'].wrapper).html(frappe.render_template("group_event_info", {data: r.message[0]}))
+			}
+		}
+	});
 }
 
 var show_availability = function(frm) {
