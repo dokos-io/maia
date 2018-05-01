@@ -1253,3 +1253,22 @@ Doctype: Pregnancy Consultation,CPAM Share,Part CPAM
 setup_wizard,Private Equity,Capital Investissement
 Doctype:Maia Appointment,Registered Patients,Patients Inscrits
 Doctype:Maia Appointment,Seats Left,Places Restantes
+Doctype:One Page Wonder,How to use this template,Comment utiliser ce modèle
+Doctype:One Page Wonder,1. Start by checking the preview below to understand how the template is built.,1. Commencez par regarder l'aperçu ci-dessous pour comprendre sa structure.
+Doctype:One Page Wonder,2. Fill in the data below and click on 'Update your website.',2. Remplissez les champs ci-dessous et cliquez sur 'Mettre à jour le site web'.
+Doctype:One Page Wonder,3. Go to 'Website Settings' and add a brand and a footer.,3. Allez dans 'Paramètres du Site Web' et ajouter un logo et un pied de page.
+Doctype:One Page Wonder,4. You can also add a 'contact' and an 'about us' page.,4. Vous pouvez aussi ajouter une page 'Contactez-Nous' et une page 'A Propos'
+Doctype:One Page Wonder,5. Don't forget to add links to all your pages in the top bar items (Website Settings).,5. N'oubliez pas d'ajouter des liens vers vos pages dans la barre supérieure (Réglages du Site Web)
+Doctype:One Page Wonder,Enjoy your website !,Vous avez créé votre site web !
+Doctype:One Page Wonder,Top,Partie supérieure
+Doctype:One Page Wonder,Main Image,Image principale
+Doctype:One Page Wonder,Subtitle,Sous-titre
+Doctype:One Page Wonder,Remove,Supprimer
+Doctype:One Page Wonder,Change,Modifier
+Doctype:One Page Wonder,Body,Corps
+Doctype:One Page Wonder,Template Preview,Aperçu du modèle
+Doctype:One Page Wonder,Template adapted from Startbootstrap's,Modèle adapté du modèle Startbootstrap
+Doctype:One Page Wonder,One Page Wonder,One Page Wonder
+Doctype:One Page Wonder,Update your Website,Mettre à jour le site web
+Module:Website,Maia Templates,Modèles Maia
+Frappe,About Us Settings,Réglages A Propos

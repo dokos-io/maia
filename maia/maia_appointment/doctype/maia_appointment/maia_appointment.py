@@ -437,7 +437,7 @@ def send_sms_reminder(name):
 	else:
 		frappe.log_error(status, "Erreur SMS: " + sms.name)
 		reminder = frappe.get_doc('SMS Reminder', sms.name)
-		if reminder.send_on < nowdate():
+		if reminder.send_on < now_datetime():
 			reminder.delete()
 
 

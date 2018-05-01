@@ -1,0 +1,24 @@
+<header class="header-image">
+	<div class="headline">
+		<div class="container">
+			<h1>{{ data.title }}</h1>
+			<h2>{{ data.subtitle }}</h2>
+		</div>
+	</div>
+</header>
+
+<div class="container">
+
+	<hr class="featurette-divider">
+
+	{% for d in data.body %}
+	<div class="featurette">
+		<img class="featurette-image img-circle img-responsive {% if d.idx % 2 != 0 %}pull-right{% else %}pull-left{% endif %}" src="{{ d.image }}">
+		<h2 class="featurette-heading">{{ d.heading }}</h2>
+		<p class="lead">{{ d.body }}</p>
+	</div>
+
+	<hr class="featurette-divider">
+	{% endfor %}
+
+</div>
