@@ -4,7 +4,7 @@
 
 from __future__ import unicode_literals
 import frappe
-from frappe.utils import getdate, get_time, now_datetime, nowtime, cint, get_datetime, add_days, formatdate, get_datetime_str
+from frappe.utils import getdate, get_time, now_datetime, nowtime, cint, get_datetime, add_days, formatdate, get_datetime_str, add_to_date
 from frappe import _
 import datetime
 from datetime import timedelta, date
@@ -104,8 +104,8 @@ def check_availabilities(practitioner, start, end, appointment_type):
 def _check_availability(doctype, df, dt, dn, date, duration):
 	date = getdate(date)
 	day = calendar.day_name[date.weekday()]
-	if date < getdate():
-		pass
+	if ((date < getdate()) or (date == add_to_date(getdate(), days=1) and nowtime() > "19:00")):
+		return
 
 	resource = frappe.get_doc(dt, dn)
 	availability = []
