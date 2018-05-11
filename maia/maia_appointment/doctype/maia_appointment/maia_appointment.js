@@ -166,6 +166,12 @@ var update_top_buttons = function(frm) {
 		frm.add_custom_button(__('Check Availability'), function() {
 			check_availability_by_midwife(frm);
 		});
+	} else if (frm.doc.docstatus == 1) {
+		if (!frm.doc.patient_record) {
+			frm.add_custom_button(__('New Patient Record'), function() {
+				create_new_patient_record(frm);
+			});
+		}
 	}
 }
 
@@ -318,6 +324,53 @@ var update_group_info = function(frm) {
 			}
 		}
 	});
+}
+
+var create_new_patient_record = function(frm) {
+	frappe.model.with_doc("User", frm.doc.user, ()=> {
+		let user = frappe.model.get_doc("User", frm.doc.user);
+		var d = new frappe.ui.Dialog({
+			title: __("Create a new patient record"),
+			fields: [{
+						"fieldtype": "Data",
+						"label": __("First Name"),
+						"fieldname": "first_name",
+						"default": user.first_name
+					},
+					{
+						"fieldtype": "Data",
+						"label": __("Last Name"),
+						"fieldname": "last_name",
+						"default": user.last_name
+					}
+			]
+		});
+		d.set_primary_action(__("Create"), function() {
+			var values = d.get_values();
+			if (values) {
+				d.hide();
+				frappe.call({
+					method: "maia.maia_appointment.doctype.maia_appointment.maia_appointment.create_patient_record",
+					args: {
+						data: values,
+						user: frm.doc.user
+					},
+					callback: function(r, rt) {
+						if (r.message == 'success') {
+								frm.reload_doc();
+								frappe.show_alert({
+									message: __("Patient Record successfully created"),
+									indicator: 'green'
+								});
+						} else {
+							frappe.msgprint(__("An error occured during the creation. Please create your patient record manually."))
+						}
+					}
+				})
+		}
+		});
+		d.show();
+	})
 }
 
 var show_availability = function(frm) {

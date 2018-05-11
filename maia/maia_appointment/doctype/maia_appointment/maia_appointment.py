@@ -167,7 +167,7 @@ def get_appointment_list(doctype, txt, filters, limit_start, limit_page_length=2
 			where patient_record = %s order by start_dt desc""", patient, as_dict=True)
 	else:
 		appointments = frappe.db.sql("""select * from `tabMaia Appointment`
-			where email = %s order by start_dt desc""", frappe.session.user, as_dict=True)
+			where user = %s order by start_dt desc""", frappe.session.user, as_dict=True)
 	return appointments
 
 def get_patient_record():
@@ -470,3 +470,22 @@ def set_seats_left(appointment, data):
 		return 'green'
 	else:
 		return 'red'
+
+@frappe.whitelist()
+def create_patient_record(data, user):
+	data = json.loads(data)
+	patient_record = frappe.get_doc({
+		"doctype": "Patient Record",
+		"patient_first_name": data['first_name'],
+		"patient_last_name": data['last_name'],
+		"email_id": user,
+		"website_user": user
+	})
+
+	patient_record.insert(ignore_permissions=True)
+
+	existing_appointments = frappe.get_all("Maia Appointment", filters={"user": user, "patient_record": ""})
+	for appointment in existing_appointments:
+		frappe.db.set_value("Maia Appointment", appointment.name, "patient_record", patient_record.name)
+
+	return 'success'

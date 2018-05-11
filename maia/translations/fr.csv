@@ -1272,3 +1272,9 @@ Doctype:One Page Wonder,One Page Wonder,One Page Wonder
 Doctype:One Page Wonder,Update your Website,Mettre à jour le site web
 Module:Website,Maia Templates,Modèles Maia
 Frappe,About Us Settings,Réglages A Propos
+Doctype:Maia Appointment,New Patient Record,Nouveau Dossier Patient
+Doctype:Maia Appointment,Create a new patient record,Créer un nouveau dossier patient
+Doctype:Maia Appointment,First Name,Prénom
+Doctype:Maia Appointment,Last Name,Nom
+Doctype:Maia Appointment,An error occured during the creation. Please create your patient record manually.,Il y a eu une erreur lors de la création du dossier patient. Veuillez le créer manuellement.
+Doctype:Maia Appointment,Patient Record successfully created,Dossier patient créé avec succès

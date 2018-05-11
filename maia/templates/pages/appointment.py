@@ -133,10 +133,10 @@ def submit_appointment(email, practitioner, appointment_type, start, end, notes)
 
 	sms_confirmation = app_type.send_sms_reminder
 
-	patient_records = frappe.get_all("Patient Record", filters={
-									 'website_user': email}, fields=['name', 'mobile_no'])
+	patient_records = frappe.get_all("Patient Record", filters={'website_user': email}, fields=['name', 'mobile_no'])
+	user = frappe.get_doc("User", email)
+
 	if not patient_records:
-		user = frappe.get_doc("User", email)
 		patient_record = ""
 		if user.last_name:
 			subject = "{0} {1}-En Ligne".format(
@@ -158,6 +158,7 @@ def submit_appointment(email, practitioner, appointment_type, start, end, notes)
 	appointment = frappe.get_doc({
 		"doctype": "Maia Appointment",
 		"patient_record": patient_record,
+		"user": user.name,
 		"practitioner": practitioner,
 		"appointment_type": app_type.name,
 		"date": start_date,

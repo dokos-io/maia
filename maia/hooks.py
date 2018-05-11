@@ -135,13 +135,11 @@ standard_portal_menu_items = [
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-#	}
-# }
+doc_events = {
+	"Website Settings": {
+		"on_update": "maia.customizations.doc_events.check_default_web_role"
+	}
+}
 
 # Scheduled Tasks
 # ---------------

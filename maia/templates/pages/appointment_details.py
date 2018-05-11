@@ -39,25 +39,35 @@ def cancel_appointment(doc):
 	confirmation = frappe.render_template('templates/includes/appointments/cancellation_confirmation.html', context)
 	status = frappe.render_template('templates/includes/appointments/appointment_status.html', context)
 
-	send_cancellation_notification(appointment.patient_record, appointment.practitioner, appointment.appointment_type, appointment.start_dt, appointment.notes)
+	if appointment.patient_record:
+		send_cancellation_notification(practitioner=appointment.practitioner, appointment_type=appointment.appointment_type, start=appointment.start_dt, notes=appointment.notes, patient_record=appointment.patient_record)
+	else:
+		send_cancellation_notification(practitioner=appointment.practitioner, appointment_type=appointment.appointment_type, start=appointment.start_dt, notes=appointment.notes)
 
 	return {"confirmation": confirmation, "status": status}
 
-def send_cancellation_notification(patient_record, practitioner, appointment_type, start, notes):
-			patient = frappe.get_doc("Patient Record", patient_record)
-			if patient:
-				patient_name = patient.name
-			else:
-				patient = frappe.get_doc("User", frappe.session.user)
-				patient_name = patient.first_name + " " + patient.last_name
+def send_cancellation_notification(practitioner, appointment_type, start, notes, patient_record=None):
+	if patient_record:
+		patient = frappe.get_doc("Patient Record", patient_record)
+		if patient:
+			patient_name = patient.name
+		else:
+			patient = frappe.get_doc("User", frappe.session.user)
+			patient_name = patient.first_name + " " + patient.last_name
+	else:
+		patient = frappe.get_doc("User", frappe.session.user)
+		if patient.last_name:
+			patient_name = patient.first_name + " " + patient.last_name
+		else:
+			patient_name = patient.first_name
 
-			practitioner_data = frappe.get_doc("Professional Information Card", practitioner)
-			if practitioner_data.user:
-				user_data = frappe.get_doc("User", practitioner_data.user)
-				date = formatdate(get_datetime_str(start), "dd/MM/yyyy")
-				time = get_datetime(start).strftime("%H:%M")
+	practitioner_data = frappe.get_doc("Professional Information Card", practitioner)
+	if practitioner_data.user:
+		user_data = frappe.get_doc("User", practitioner_data.user)
+		date = formatdate(get_datetime_str(start), "dd/MM/yyyy")
+		time = get_datetime(start).strftime("%H:%M")
 
-				subject = _("""[Maia] Annulation d'un Rendez-Vous""")
-				message = _("""<div>Bonjour {0},<br><br>{1} vient d'annuler le rendez-vous suivant:<br><br><strong>Date:</strong> {2}<br><br><strong>Heure:</strong> {3}<br><br><strong>Message:</strong> {4}<br><br><br>L'Équipe Maia</div>""".format(user_data.first_name, patient_name, date, time, notes))
+		subject = _("""[Maia] Annulation d'un Rendez-Vous""")
+		message = _("""<div>Bonjour {0},<br><br>{1} vient d'annuler le rendez-vous suivant:<br><br><strong>Date:</strong> {2}<br><br><strong>Heure:</strong> {3}<br><br><strong>Message:</strong> {4}<br><br><br>L'Équipe Maia</div>""".format(user_data.first_name, patient_name, date, time, notes))
 
-				frappe.sendmail(practitioner_data.user, subject=subject, content=message)
+		frappe.sendmail(practitioner_data.user, subject=subject, content=message)
