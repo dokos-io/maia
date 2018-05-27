@@ -1,2 +1,2 @@
-personnaliser_ses_dossiers_et_consultations
-modifier_un_champ_existant
+personnaliser-ses-dossiers-et-consultations
+modifier-un-champ-existant

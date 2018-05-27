@@ -53,8 +53,8 @@ frappe.ui.form.on('Maia Appointment', {
 	refresh: function(frm) {
 		update_top_buttons(frm);
 		if (frm.doc.group_event && (frm.doc.docstatus === 1)) {
-		update_group_info(frm);
-	}
+			update_group_info(frm);
+		}
 	},
 	practitioner: function(frm) {
 
@@ -167,7 +167,7 @@ var update_top_buttons = function(frm) {
 			check_availability_by_midwife(frm);
 		});
 	} else if (frm.doc.docstatus == 1) {
-		if (!frm.doc.patient_record) {
+		if (!frm.doc.patient_record && !frm.doc.group_event) {
 			frm.add_custom_button(__('New Patient Record'), function() {
 				create_new_patient_record(frm);
 			});
@@ -381,11 +381,15 @@ var show_availability = function(frm) {
 }
 
 var slot_choice_modal = function(doc, data) {
-	new maia.maia_appointment.SlotChoiceModal({
-		parent: doc,
-		patient_record: doc.name,
-		data: data
-	});
+	if (frm.doc.date) {
+		new maia.maia_appointment.SlotChoiceModal({
+			parent: doc,
+			patient_record: doc.name,
+			data: data
+		});
+	} else {
+		frappe.msgprint(__('Please select a date'))
+	}
 }
 
 maia.maia_appointment.AvailabilityModal = Class.extend({
@@ -617,9 +621,9 @@ maia.maia_appointment.SlotChoiceModal = Class.extend({
 				me.options_dialog.start_time = $(this).attr("data-start");
 				me.options_dialog.practitioner = $(this).attr("data-practitioner");
 				frappe.model.set_value(me.parent.doctype, me.parent.name, 'practitioner', me.options_dialog.practitioner);
-				frappe.model.set_value(me.parent.doctype, me.parent.name, 'start_dt', moment.utc(frappe.datetime.get_datetime_as_string(me.options_dialog.start_time)));
 				frappe.model.set_value(me.parent.doctype, me.parent.name, 'date', frappe.datetime.obj_to_str(me.options_dialog.start_time));
 				frappe.model.set_value(me.parent.doctype, me.parent.name, 'start_time', moment.utc(frappe.datetime.get_datetime_as_string(me.options_dialog.start_time)).format("HH:mm:ss"));
+				frappe.model.set_value(me.parent.doctype, me.parent.name, 'start_dt', moment.utc(frappe.datetime.get_datetime_as_string(me.options_dialog.start_time)).format("YYYY-MM-DD HH:mm:ss"));
 				me.options_dialog.hide()
 				return false;
 			});

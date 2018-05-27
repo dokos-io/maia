@@ -55,9 +55,10 @@ def update_theme():
 		"doctype": "Website Theme",
 		"theme": "One Page Wonder",
 		"apply_style": 1,
-		"bootstrap": 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
 		"css": style,
-		"js": js
+		"js": js,
+		"top_bar_color": "#333",
+		"top_bar_text_color": "#FFF"
 	})
 	theme.insert(ignore_permissions = True)
 

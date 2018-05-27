@@ -143,19 +143,20 @@ class MaiaAppointment(Document):
 		sr.save()
 
 	def on_cancel(self):
-		queue_name = frappe.db.get_value(
-			"Maia Appointment", self.name, "queue_id")
+		queue_name = frappe.db.get_value("Maia Appointment", self.name, "queue_id")
 		if frappe.db.exists("Email Queue", queue_name):
-			frappe.delete_doc("Email Queue", queue_name,
-							  ignore_permissions=True)
-		frappe.db.set_value("Maia Appointment", self.name, "queue_id", "")
+			try:
+				frappe.delete_doc("Email Queue", queue_name, ignore_permissions=True)
+				frappe.db.set_value("Maia Appointment", self.name, "queue_id", "")
+			except Exception:
+				frappe.log_error(frappe.get_traceback())
 
-		sms_reminder = frappe.get_all("SMS Reminder", filters={
-									  "maia_appointment": self.name})
-
+		sms_reminder = frappe.get_all("SMS Reminder", filters={"maia_appointment": self.name})
 		for sms in sms_reminder:
-			frappe.delete_doc("SMS Reminder", sms.name,
-							  ignore_permissions=True)
+			try:
+				frappe.delete_doc("SMS Reminder", sms.name, ignore_permissions=True)
+			except Exception:
+				frappe.log_error(frappe.get_traceback())
 
 		self.reload()
 

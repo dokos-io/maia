@@ -27,18 +27,18 @@ def get_practitioners_and_appointment_types():
 		for practitioner in practitioners:
 			result = {}
 			result.update({'name': practitioner['name'], 'week_end': practitioner['weekend_booking']})
-			appointment_types = frappe.db.sql("""SELECT appointment_type, name, group_appointment, number_of_patients, description, category FROM `tabMaia Appointment Type` WHERE allow_online_booking=1 AND disabled=0 AND (practitioner='{0}' OR practitioner IS NULL)""".format(practitioner.name), as_dict=True)
+			appointment_types = frappe.db.sql("""SELECT appointment_type, name, group_appointment, number_of_patients, description, category FROM `tabMaia Appointment Type` WHERE allow_online_booking=1 AND disabled=0 AND (practitioner='{0}' OR practitioner IS NULL) ORDER BY appointment_type""".format(practitioner.name), as_dict=True)
 
 			d = defaultdict(list)
 			categories = set()
 			for appointment_type in appointment_types:
 				key = appointment_type.category
 				if key is None:
-					key = "Sans Catégorie"
+					key = _("Without Category")
 				categories.add(key)
 				d[key].append({'name': appointment_type.name, 'appointment_type': appointment_type.appointment_type, 'group_appointment': appointment_type.group_appointment, 'number_of_patients': appointment_type.number_of_patients, 'description': appointment_type.description, 'category': appointment_type.category})
 
-			result.update({'categories': list(categories)})
+			result.update({'categories': sorted(list(categories))})
 			result.update({'appointment_types': d})
 			results.append(result)
 
@@ -61,6 +61,7 @@ def check_group_events_availabilities(practitioner, start, end, appointment_type
 	limit = datetime.datetime.combine(add_days(getdate(), int(days_limit)), datetime.datetime.time(datetime.datetime.now()))
 
 	payload = []
+	slots = []
 	if start < limit:
 		for dt in daterange(start, end):
 			date = dt.strftime("%Y-%m-%d")

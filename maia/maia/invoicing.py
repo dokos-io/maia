@@ -144,11 +144,15 @@ def update_invoice_details(self, customer, case):
 				})
 
 		if self.overpayment_value != 0 and self.overpayment_value is not None:
+			if not self.codification_description:
+				codification_description = frappe.db.get_value("Codification", self.codification, "codification_description")
+			else:
+				codification_description = self.codification_description
 			invoice.append("items", {
 				"item_code": self.codification,
 				"qty": 1,
 				"rate": self.overpayment_value,
-				"description": _("Overpayment:")+ " " + self.codification_description
+				"description": _("Overpayment:")+ " " + codification_description
 			})
 
 	invoice.set_missing_values()

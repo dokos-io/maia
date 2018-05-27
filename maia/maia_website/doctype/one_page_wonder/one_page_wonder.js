@@ -44,6 +44,6 @@ var update_instructions = function(frm) {
 }
 
 var update_credits = function(frm) {
-	$("<div>" + __('Template adapted from Startbootstrap\'s') + "<a href='https://startbootstrap.com/template-overviews/one-page-wonder/' target='_blank'> "+ __('One Page Wonder') +"</a></div>").appendTo($('[data-fieldname="template_preview"]'))
+	$("<div>" + __('Adapté du modèle Startbootstrap') + "<a href='https://startbootstrap.com/template-overviews/one-page-wonder/' target='_blank'> "+ __('One Page Wonder') +"</a></div>").appendTo($('[data-fieldname="template_preview"]'))
 
 }
