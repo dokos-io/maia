@@ -1,7 +1,8 @@
-Maia AppointmentFrappe,Make,Action
+Frappe,Make,Action
 Frappe,Not Equals,Non égal à
 Frappe,Remove,Supprimer
 Frappe,More,Plus
+Frappe,Show tags,Afficher les balises
 ERPNext,Assets,Actifs
 ERPNext,Asset,Actif
 apps/maia/maia/maia/doctype/patient_record/patient_record.js +70, Years Old,Ans
@@ -550,7 +551,7 @@ DocType: Patient Record,Obstetrical Backgrounds,Antécédents Obstétricaux
 DocType: Pregnancy Consultation,Obstetrical Exam,Examen Obstétrical
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +262,Ogino Method,Méthode Ogino
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +359,Oligomax Fer,Oligomax Fer
-DocType: Echography Result,Ombilical or Uterine Doppler,Dopler Ombilical ou Utérin
+DocType: Echography Result,Ombilical or Uterine Doppler,Doppler Ombilical et/ou Utérin
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +338,Omeprazole 10mg,Oméprazole 10mg
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +339,Omeprazole 20mg,Oméprazole 20mg
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +322,One ACL Rings System,Un jeu d'anneaux ACL
@@ -1250,3 +1251,53 @@ Doctype: Pregnancy Consultation,Malady,Maladie
 Doctype: Pregnancy Consultation,Normal Rate (70%),Taux Normal (70%)
 Doctype: Pregnancy Consultation,CPAM Share,Part CPAM
 setup_wizard,Private Equity,Capital Investissement
+Doctype:Maia Appointment,Registered Patients,Patients Inscrits
+Doctype:Maia Appointment,Seats Left,Places Restantes
+Doctype:One Page Wonder,How to use this template,Comment utiliser ce modèle
+Doctype:One Page Wonder,1. Start by checking the preview below to understand how the template is built.,1. Commencez par regarder l'aperçu ci-dessous pour comprendre sa structure.
+Doctype:One Page Wonder,2. Fill in the data below and click on 'Update your website.',2. Remplissez les champs ci-dessous et cliquez sur 'Mettre à jour le site web'.
+Doctype:One Page Wonder,3. Go to 'Website Settings' and add a brand and a footer.,3. Allez dans 'Paramètres du Site Web' et ajoutez un logo et un pied de page.
+Doctype:One Page Wonder,4. You can also add a 'contact' and an 'about us' page.,4. Vous pouvez aussi ajouter une page 'Contactez-Nous' et une page 'A Propos'
+Doctype:One Page Wonder,5. Don't forget to add links to all your pages in the top bar items (Website Settings).,5. N'oubliez pas d'ajouter des liens vers vos pages dans la barre supérieure (Réglages du Site Web)
+Doctype:One Page Wonder,Enjoy your website !,Vous avez créé votre site web !
+Doctype:One Page Wonder,Top,Partie supérieure
+Doctype:One Page Wonder,Main Image,Image principale
+Doctype:One Page Wonder,Subtitle,Sous-titre
+Doctype:One Page Wonder,Remove,Supprimer
+Doctype:One Page Wonder,Change,Modifier
+Doctype:One Page Wonder,Body,Corps
+Doctype:One Page Wonder,Template Preview,Aperçu du modèle
+Doctype:One Page Wonder,Template adapted from Startbootstrap's,Adapté du modèle Startbootstrap
+Doctype:One Page Wonder,One Page Wonder,One Page Wonder
+Doctype:One Page Wonder,Update your Website,Mettre à jour le site web
+Doctype:One Page Wonder,Website Updated,Site web mis à jour
+Module:Website,Maia Templates,Modèles Maia
+Frappe,About Us Settings,Réglages A Propos
+Doctype:Maia Appointment,New Patient Record,Nouveau Dossier Patient
+Doctype:Maia Appointment,Create a new patient record,Créer un nouveau dossier patient
+Doctype:Maia Appointment,First Name,Prénom
+Doctype:Maia Appointment,Last Name,Nom
+Doctype:Maia Appointment,An error occured during the creation. Please create your patient record manually.,Il y a eu une erreur lors de la création du dossier patient. Veuillez le créer manuellement.
+Doctype:Maia Appointment,Patient Record successfully created,Dossier patient créé avec succès
+Doctype:Maia Appointment,Please reload your document to update the number of seats left,Veuillez recharger votre document pour mettre à jour le nombre de places restantes
+Doctype:Maia Appointment,Reload the document to update the number of seats left,Rechargez le document (Menu>Recharger) pour mettre à jour le nombre de places restantes
+Doctype:Maia Appointment,Please select a date,Veuillez sélectionner une date
+Doctype:Pregnancy Consultation,Bowel Movements,Transit
+Doctype:Pregnancy Consultation,Pruritus,Prurit
+Doctype:Pregnancy Consultation,Functional Signs of Veinous Failure,Signes Fonctionnels d'Insuffisance Veineuse
+Doctype:Pregnancy Consultation,Current Treatment,Traitement Actuel
+Doctype:Pregnancy Consultation,Variability,Variabilité
+Doctype:Pregnancy Consultation,Foetal Heart Rate,Rythme Cardiaque Foetal
+Doctype:Pregnancy,Biometrics,Biométries
+Doctype:Pregnancy,Appendix,Annexes
+Doctype:Pregnancy,Head Circumference,Périmètre Cranien
+Doctype:Pregnancy,Head Circumference,Périmètre Cranien
+Doctype:Pregnancy,Abdominal Circumference,Périmètre Abdominal
+Doctype:Pregnancy,Femur Length,Longueur du Fémur
+Doctype:Pregnancy,Amniotic Fluid,Liquide Amniotique
+Doctype:Pregnancy,Localization,Localisation
+Doctype:Pregnancy,Umbilical Cord,Cordon Ombilical
+Doctype:Maia Appointment,Without Category,Sans Catégorie
+Doctype:Patient Record,Patient Vaccinations,Vaccinations de la Patiente
+Doctype:Patient Record,Spouse Vaccinations,Vaccinations du Conjoint
+Doctype:Patient Record,Vaccine,Vaccin

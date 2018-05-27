@@ -12,6 +12,7 @@ from frappe.utils import getdate, get_time, get_datetime, get_datetime_str, form
 from frappe.email.doctype.standard_reply.standard_reply import get_standard_reply
 from mailin import Mailin
 import re
+import json
 
 weekdays = ["monday", "tuesday", "wednesday",
 			"thursday", "friday", "saturday", "sunday"]
@@ -142,19 +143,20 @@ class MaiaAppointment(Document):
 		sr.save()
 
 	def on_cancel(self):
-		queue_name = frappe.db.get_value(
-			"Maia Appointment", self.name, "queue_id")
+		queue_name = frappe.db.get_value("Maia Appointment", self.name, "queue_id")
 		if frappe.db.exists("Email Queue", queue_name):
-			frappe.delete_doc("Email Queue", queue_name,
-							  ignore_permissions=True)
-		frappe.db.set_value("Maia Appointment", self.name, "queue_id", "")
+			try:
+				frappe.delete_doc("Email Queue", queue_name, ignore_permissions=True)
+				frappe.db.set_value("Maia Appointment", self.name, "queue_id", "")
+			except Exception:
+				frappe.log_error(frappe.get_traceback())
 
-		sms_reminder = frappe.get_all("SMS Reminder", filters={
-									  "maia_appointment": self.name})
-
+		sms_reminder = frappe.get_all("SMS Reminder", filters={"maia_appointment": self.name})
 		for sms in sms_reminder:
-			frappe.delete_doc("SMS Reminder", sms.name,
-							  ignore_permissions=True)
+			try:
+				frappe.delete_doc("SMS Reminder", sms.name, ignore_permissions=True)
+			except Exception:
+				frappe.log_error(frappe.get_traceback())
 
 		self.reload()
 
@@ -166,7 +168,7 @@ def get_appointment_list(doctype, txt, filters, limit_start, limit_page_length=2
 			where patient_record = %s order by start_dt desc""", patient, as_dict=True)
 	else:
 		appointments = frappe.db.sql("""select * from `tabMaia Appointment`
-			where email = %s order by start_dt desc""", frappe.session.user, as_dict=True)
+			where user = %s order by start_dt desc""", frappe.session.user, as_dict=True)
 	return appointments
 
 def get_patient_record():
@@ -203,13 +205,16 @@ def get_registration_count(appointment_type, date):
 		scheduled_events = get_events(start=start, end=end, filters=filters)
 
 		count = 0
+		registered = []
 		if scheduled_events:
 			for scheduled_event in scheduled_events:
 				count += 1
+				registered.append({'name': scheduled_event.name, 'patient': scheduled_event.patient_record})
 
 		slot["already_registered"] = count
 		slot["number_of_patients"] = at.number_of_patients
 		slot["seats_left"] = at.number_of_patients - count
+		slot["registered"] = registered
 
 	return slots
 
@@ -432,6 +437,9 @@ def send_sms_reminder(name):
 
 	else:
 		frappe.log_error(status, "Erreur SMS: " + sms.name)
+		reminder = frappe.get_doc('SMS Reminder', sms.name)
+		if reminder.send_on < now_datetime():
+			reminder.delete()
 
 
 def send_request(params):
@@ -453,3 +461,32 @@ def create_sms_log(args):
 	sl.sent_to = "\n".join(args['to'])
 	sl.flags.ignore_permissions = True
 	sl.save()
+
+@frappe.whitelist()
+def set_seats_left(appointment, data):
+	data = json.loads(data)
+	frappe.db.set_value("Maia Appointment", appointment, "seats_left", data['seats_left'])
+
+	if data['seats_left'] > 0:
+		return 'green'
+	else:
+		return 'red'
+
+@frappe.whitelist()
+def create_patient_record(data, user):
+	data = json.loads(data)
+	patient_record = frappe.get_doc({
+		"doctype": "Patient Record",
+		"patient_first_name": data['first_name'],
+		"patient_last_name": data['last_name'],
+		"email_id": user,
+		"website_user": user
+	})
+
+	patient_record.insert(ignore_permissions=True)
+
+	existing_appointments = frappe.get_all("Maia Appointment", filters={"user": user, "patient_record": ""})
+	for appointment in existing_appointments:
+		frappe.db.set_value("Maia Appointment", appointment.name, "patient_record", patient_record.name)
+
+	return 'success'

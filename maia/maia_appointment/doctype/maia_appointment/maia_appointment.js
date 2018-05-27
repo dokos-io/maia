@@ -52,6 +52,9 @@ frappe.ui.form.on('Maia Appointment', {
 	},
 	refresh: function(frm) {
 		update_top_buttons(frm);
+		if (frm.doc.group_event && (frm.doc.docstatus === 1)) {
+			update_group_info(frm);
+		}
 	},
 	practitioner: function(frm) {
 
@@ -163,6 +166,12 @@ var update_top_buttons = function(frm) {
 		frm.add_custom_button(__('Check Availability'), function() {
 			check_availability_by_midwife(frm);
 		});
+	} else if (frm.doc.docstatus == 1) {
+		if (!frm.doc.patient_record && !frm.doc.group_event) {
+			frm.add_custom_button(__('New Patient Record'), function() {
+				create_new_patient_record(frm);
+			});
+		}
 	}
 }
 
@@ -288,6 +297,82 @@ var check_availability_by_midwife = function(frm) {
 	}
 }
 
+var update_group_info = function(frm) {
+	frappe.call({
+		method: "maia.maia_appointment.doctype.maia_appointment.maia_appointment.get_registration_count",
+		args: {
+			appointment_type: frm.doc.appointment_type,
+			date: frm.doc.start_dt
+		},
+		callback: function(r, rt) {
+			if (r.message) {
+				frappe.call({
+					method: "maia.maia_appointment.doctype.maia_appointment.maia_appointment.set_seats_left",
+					args: {
+						appointment: frm.doc.name,
+						data: r.message[0]
+					},
+					callback: function(r, rt) {
+						if (r.message=='green'){
+							$(`[data-fieldname="seats_left"]`).addClass('green-response');
+						} else {
+							$(`[data-fieldname="seats_left"]`).addClass('red-response');
+						}
+					}
+				})
+				$(frm.fields_dict['group_event_info'].wrapper).html(frappe.render_template("group_event_info", {data: r.message[0]}))
+			}
+		}
+	});
+}
+
+var create_new_patient_record = function(frm) {
+	frappe.model.with_doc("User", frm.doc.user, ()=> {
+		let user = frappe.model.get_doc("User", frm.doc.user);
+		var d = new frappe.ui.Dialog({
+			title: __("Create a new patient record"),
+			fields: [{
+						"fieldtype": "Data",
+						"label": __("First Name"),
+						"fieldname": "first_name",
+						"default": user.first_name
+					},
+					{
+						"fieldtype": "Data",
+						"label": __("Last Name"),
+						"fieldname": "last_name",
+						"default": user.last_name
+					}
+			]
+		});
+		d.set_primary_action(__("Create"), function() {
+			var values = d.get_values();
+			if (values) {
+				d.hide();
+				frappe.call({
+					method: "maia.maia_appointment.doctype.maia_appointment.maia_appointment.create_patient_record",
+					args: {
+						data: values,
+						user: frm.doc.user
+					},
+					callback: function(r, rt) {
+						if (r.message == 'success') {
+								frm.reload_doc();
+								frappe.show_alert({
+									message: __("Patient Record successfully created"),
+									indicator: 'green'
+								});
+						} else {
+							frappe.msgprint(__("An error occured during the creation. Please create your patient record manually."))
+						}
+					}
+				})
+		}
+		});
+		d.show();
+	})
+}
+
 var show_availability = function(frm) {
 	new maia.maia_appointment.AvailabilityModal({
 		parent: frm.doc,
@@ -296,11 +381,15 @@ var show_availability = function(frm) {
 }
 
 var slot_choice_modal = function(doc, data) {
-	new maia.maia_appointment.SlotChoiceModal({
-		parent: doc,
-		patient_record: doc.name,
-		data: data
-	});
+	if (frm.doc.date) {
+		new maia.maia_appointment.SlotChoiceModal({
+			parent: doc,
+			patient_record: doc.name,
+			data: data
+		});
+	} else {
+		frappe.msgprint(__('Please select a date'))
+	}
 }
 
 maia.maia_appointment.AvailabilityModal = Class.extend({
@@ -532,9 +621,9 @@ maia.maia_appointment.SlotChoiceModal = Class.extend({
 				me.options_dialog.start_time = $(this).attr("data-start");
 				me.options_dialog.practitioner = $(this).attr("data-practitioner");
 				frappe.model.set_value(me.parent.doctype, me.parent.name, 'practitioner', me.options_dialog.practitioner);
-				frappe.model.set_value(me.parent.doctype, me.parent.name, 'start_dt', moment.utc(frappe.datetime.get_datetime_as_string(me.options_dialog.start_time)));
 				frappe.model.set_value(me.parent.doctype, me.parent.name, 'date', frappe.datetime.obj_to_str(me.options_dialog.start_time));
 				frappe.model.set_value(me.parent.doctype, me.parent.name, 'start_time', moment.utc(frappe.datetime.get_datetime_as_string(me.options_dialog.start_time)).format("HH:mm:ss"));
+				frappe.model.set_value(me.parent.doctype, me.parent.name, 'start_dt', moment.utc(frappe.datetime.get_datetime_as_string(me.options_dialog.start_time)).format("YYYY-MM-DD HH:mm:ss"));
 				me.options_dialog.hide()
 				return false;
 			});

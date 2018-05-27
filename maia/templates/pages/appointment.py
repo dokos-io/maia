@@ -4,7 +4,7 @@
 
 from __future__ import unicode_literals
 import frappe
-from frappe.utils import getdate, get_time, now_datetime, nowtime, cint, get_datetime, add_days, formatdate, get_datetime_str
+from frappe.utils import getdate, get_time, now_datetime, nowtime, cint, get_datetime, add_days, formatdate, get_datetime_str, add_to_date
 from frappe import _
 import datetime
 from datetime import timedelta, date
@@ -27,18 +27,18 @@ def get_practitioners_and_appointment_types():
 		for practitioner in practitioners:
 			result = {}
 			result.update({'name': practitioner['name'], 'week_end': practitioner['weekend_booking']})
-			appointment_types = frappe.db.sql("""SELECT appointment_type, name, group_appointment, number_of_patients, description, category FROM `tabMaia Appointment Type` WHERE allow_online_booking=1 AND disabled=0 AND (practitioner='{0}' OR practitioner IS NULL)""".format(practitioner.name), as_dict=True)
+			appointment_types = frappe.db.sql("""SELECT appointment_type, name, group_appointment, number_of_patients, description, category FROM `tabMaia Appointment Type` WHERE allow_online_booking=1 AND disabled=0 AND (practitioner='{0}' OR practitioner IS NULL) ORDER BY appointment_type""".format(practitioner.name), as_dict=True)
 
 			d = defaultdict(list)
 			categories = set()
 			for appointment_type in appointment_types:
 				key = appointment_type.category
 				if key is None:
-					key = "Sans Catégorie"
+					key = _("Without Category")
 				categories.add(key)
 				d[key].append({'name': appointment_type.name, 'appointment_type': appointment_type.appointment_type, 'group_appointment': appointment_type.group_appointment, 'number_of_patients': appointment_type.number_of_patients, 'description': appointment_type.description, 'category': appointment_type.category})
 
-			result.update({'categories': list(categories)})
+			result.update({'categories': sorted(list(categories))})
 			result.update({'appointment_types': d})
 			results.append(result)
 
@@ -61,6 +61,7 @@ def check_group_events_availabilities(practitioner, start, end, appointment_type
 	limit = datetime.datetime.combine(add_days(getdate(), int(days_limit)), datetime.datetime.time(datetime.datetime.now()))
 
 	payload = []
+	slots = []
 	if start < limit:
 		for dt in daterange(start, end):
 			date = dt.strftime("%Y-%m-%d")
@@ -104,8 +105,8 @@ def check_availabilities(practitioner, start, end, appointment_type):
 def _check_availability(doctype, df, dt, dn, date, duration):
 	date = getdate(date)
 	day = calendar.day_name[date.weekday()]
-	if date < getdate():
-		pass
+	if ((date < getdate()) or (date == add_to_date(getdate(), days=1) and nowtime() > "19:00")):
+		return
 
 	resource = frappe.get_doc(dt, dn)
 	availability = []
@@ -120,9 +121,8 @@ def _check_availability(doctype, df, dt, dn, date, duration):
 			if(datetime.datetime.combine(date, get_time(line.end_time)) > now_datetime()):
 				schedules.append({"start": datetime.datetime.combine(date, get_time(line.start_time)), "end": datetime.datetime.combine(
 					date, get_time(line.end_time)), "duration": datetime.timedelta(minutes=cint(duration))})
-
-			if schedules:
-				availability.extend(get_availability_from_schedule(doctype, df, dn, schedules, date))
+		if schedules:
+			availability.extend(get_availability_from_schedule(doctype, df, dn, schedules, date))
 
 	return availability
 
@@ -134,10 +134,10 @@ def submit_appointment(email, practitioner, appointment_type, start, end, notes)
 
 	sms_confirmation = app_type.send_sms_reminder
 
-	patient_records = frappe.get_all("Patient Record", filters={
-									 'website_user': email}, fields=['name', 'mobile_no'])
+	patient_records = frappe.get_all("Patient Record", filters={'website_user': email}, fields=['name', 'mobile_no'])
+	user = frappe.get_doc("User", email)
+
 	if not patient_records:
-		user = frappe.get_doc("User", email)
 		patient_record = ""
 		if user.last_name:
 			subject = "{0} {1}-En Ligne".format(
@@ -159,6 +159,7 @@ def submit_appointment(email, practitioner, appointment_type, start, end, notes)
 	appointment = frappe.get_doc({
 		"doctype": "Maia Appointment",
 		"patient_record": patient_record,
+		"user": user.name,
 		"practitioner": practitioner,
 		"appointment_type": app_type.name,
 		"date": start_date,
