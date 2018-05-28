@@ -110,8 +110,7 @@ frappe.ui.form.on("Patient Record", {
 
 					let $wrap = $('div[data-fieldname=weight_curve]').get(0);
 
-					let chart = new Chart({
-						parent: $wrap,
+					let chart = new frappeChart.Chart($wrap, {
 						title: __("Patient Weight"),
 						data: data,
 						type: 'line',

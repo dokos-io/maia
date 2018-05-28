@@ -39,8 +39,7 @@ frappe.ui.form.on('Pregnancy', {
 
 					let $wrap = $('div[data-fieldname='+domelem+']').get(0);
 
-					let chart = new Chart({
-						parent: $wrap,
+					let chart = new frappeChart.Chart($wrap, {
 						title: __("Weight Curve (g)"),
 						data: data,
 						type: 'line',
