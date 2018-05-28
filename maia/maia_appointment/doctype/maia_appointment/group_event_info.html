@@ -6,7 +6,9 @@
 	</div>
 		<div class="grid-body">
 			<div class="rows">
-				{% for d in data.registered %}
+				{% for d in data %}
+				{% if d.name==appointment %}
+				{% for r in data.registered %}
 				<div class="grid-row">
 					<div class="data-row row">
 						<div class="col grid-static-col col-xs-4" style="border-right: 0px !important;">
@@ -17,6 +19,8 @@
 						</div>
 					</div>
 				</div>
+				{% endfor %}
+				{% endif %}
 				{% endfor %}
 			</div>
 		</div>

@@ -320,7 +320,7 @@ var update_group_info = function(frm) {
 						}
 					}
 				})
-				$(frm.fields_dict['group_event_info'].wrapper).html(frappe.render_template("group_event_info", {data: r.message[0]}))
+				$(frm.fields_dict['group_event_info'].wrapper).html(frappe.render_template("group_event_info", {data: r.message, appointment: frm.doc.name}))
 			}
 		}
 	});
@@ -381,7 +381,7 @@ var show_availability = function(frm) {
 }
 
 var slot_choice_modal = function(doc, data) {
-	if (frm.doc.date) {
+	if (doc.date) {
 		new maia.maia_appointment.SlotChoiceModal({
 			parent: doc,
 			patient_record: doc.name,
