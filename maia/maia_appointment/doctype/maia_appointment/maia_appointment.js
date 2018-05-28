@@ -305,22 +305,33 @@ var update_group_info = function(frm) {
 			date: frm.doc.start_dt
 		},
 		callback: function(r, rt) {
+			var eventData;
 			if (r.message) {
-				frappe.call({
-					method: "maia.maia_appointment.doctype.maia_appointment.maia_appointment.set_seats_left",
-					args: {
-						appointment: frm.doc.name,
-						data: r.message[0]
-					},
-					callback: function(r, rt) {
-						if (r.message=='green'){
-							$(`[data-fieldname="seats_left"]`).addClass('green-response');
-						} else {
-							$(`[data-fieldname="seats_left"]`).addClass('red-response');
-						}
+				for (var i=0; i < r.message.length; i++) {
+					if (r.message[i].name == frm.doc.name) {
+						eventData = r.message[i]
 					}
-				})
-				$(frm.fields_dict['group_event_info'].wrapper).html(frappe.render_template("group_event_info", {data: r.message, appointment: frm.doc.name}))
+				}
+
+				if (eventData) {
+					frappe.call({
+						method: "maia.maia_appointment.doctype.maia_appointment.maia_appointment.set_seats_left",
+						args: {
+							appointment: frm.doc.name,
+							data: eventData
+						},
+						callback: function(r, rt) {
+							if (r.message=='green'){
+								$(`[data-fieldname="seats_left"]`).addClass('green-response');
+							} else {
+								$(`[data-fieldname="seats_left"]`).addClass('red-response');
+							}
+						}
+					})
+
+					$(frm.fields_dict['group_event_info'].wrapper).html(frappe.render_template("group_event_info", {data: eventData}))
+				}
+
 			}
 		}
 	});
