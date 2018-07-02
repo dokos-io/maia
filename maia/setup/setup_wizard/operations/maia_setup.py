@@ -9,11 +9,18 @@ from frappe.desk.doctype.desktop_icon.desktop_icon import set_hidden_list
 from frappe.printing.doctype.print_format.print_format import make_default
 
 def create_professional_contact_card(args):
+	if not "full_name" in args:
+		full_name = frappe.db.get_value("User", frappe.session.user, "full_name")
+		user = frappe.session.user
+	else:
+		full_name = args.get("full_name")
+		user = args.get("email")
+
 	prof_card = frappe.get_doc({
 		"doctype": "Professional Information Card",
-		"user": args.get("email"),
+		"user": user,
 		"company": args.get("company_name"),
-		"full_name": args.get("full_name"),
+		"full_name": full_name,
 		"siret_number": args.get("company_siret"),
 		"rpps_number": args.get("rpps_number"),
 		"phone": args.get("company_phone"),
@@ -263,11 +270,17 @@ def correct_midwife_accounts(args):
 			'company_name'), 'social_contributions_third_party', social_contributions_third_party)
 
 def set_default_print_formats():
-	print_formats = ["Patient Folder", "Prenatal Interview Folder", "Perineum Rehabilitation Folder", "Gynecology Folder", "Pregnancy Folder", "Postnatal Consultation",
+	names = ["Patient Folder", "Prenatal Interview Folder", "Perineum Rehabilitation Folder", "Gynecology Folder", "Pregnancy Folder", "Postnatal Consultation",
 					 "Birth Preparation Consultation", "Perineum Rehabilitation Consultation", "Free Consultation", "Early Postnatal Consultation", "Gynecological Consultation", "Pregnancy Consultation", "Drug Prescription", "Facture Maia"]
 
-	for print_format in print_formats:
-		make_default(print_format)
+	for name in names:
+		print_format = frappe.get_doc("Print Format", name)
+		frappe.make_property_setter({
+			'doctype_or_field': "DocType",
+			'doctype': print_format.doc_type,
+			'property': "default_print_format",
+			'value': name,
+		})
 
 def add_terms_and_conditions():
 	terms = frappe.get_doc({
