@@ -26,7 +26,7 @@ def _maia_new_site():
 
 def create_new_site(first_name, last_name, email, siteprefix, max_users, customer, mariadb_root_user, mariadb_password, admin_password):
 	site_name = siteprefix + '.maia-by-dokos.fr'
-	db_name = siteprefix[:10]
+	db_name = 'dokos-' + siteprefix[:10]
 	print(db_name)
 
 	create_db_and_site(site_name, db_name, mariadb_root_user, mariadb_password, admin_password)
@@ -120,10 +120,10 @@ def add_to_lets_encrypt_file(site_name):
 def setup_and_reload_nginx():
 	commands = []
 
-	command = "bench setup-nginx --yes"
+	command = "bench setup nginx --yes"
 	commands.append(command)
 
-	command = "bench reload-nginx"
+	command = "bench setup reload-nginx"
 	commands.append(command)
 
 	run_commands(commands)
