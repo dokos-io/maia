@@ -8,6 +8,9 @@ frappe.ui.form.on('Pregnancy', {
 	},
 	refresh: function(frm) {
 		frm.trigger("trigger_chart");
+		frm.add_custom_button(__('Calculate Term'), function() {
+			get_term_date(frm);
+		});
 	},
 	date_time: function(frm) {
 		frm.set_value("birth_datetime", frm.doc.date_time);
@@ -91,5 +94,32 @@ frappe.ui.form.on('Lab Exam Results', {
 		});
 	}
 });
+
+var get_term_date = function(frm) {
+	let expected_term = frm.doc.expected_term;
+	let beginning_of_pregnancy = frm.doc.beginning_of_pregnancy;
+	let last_menstrual_period = frm.doc.last_menstrual_period;
+	let current_date = frappe.datetime.nowdate();
+
+	if (beginning_of_pregnancy != null) {
+		am_weeks = Math.floor(frappe.datetime.get_diff(current_date, beginning_of_pregnancy) / 7) + 2
+		add_days = Math.floor((frappe.datetime.get_diff(current_date, beginning_of_pregnancy) / 7 - Math.floor(frappe.datetime.get_diff(current_date, beginning_of_pregnancy) / 7)) * 7)
+		frappe.show_alert({message: __("Calculated Term: {0} Weeks Amenorrhea + {1} Days", [am_weeks, add_days]), indicator: 'green'});
+
+	} else if (expected_term != null) {
+		am_weeks = Math.floor((287 - frappe.datetime.get_diff(expected_term, current_date)) / 7)
+		add_days = Math.floor(((287 - frappe.datetime.get_diff(expected_term, current_date)) / 7 - am_weeks) * 7)
+		frappe.show_alert({message: __("Calculated Term: {0} Weeks Amenorrhea + {1} Days", [am_weeks, add_days]), indicator: 'green'});
+
+	} else if (last_menstrual_period != null) {
+		am_weeks = Math.floor(frappe.datetime.get_diff(current_date, last_menstrual_period) / 7)
+		add_days = Math.floor((frappe.datetime.get_diff(current_date, last_menstrual_period) / 7 - Math.floor(frappe.datetime.get_diff(current_date, last_menstrual_period) / 7)) * 7)
+		frappe.show_alert({message: __("Calculated Term: {0} Weeks Amenorrhea + {1} Days", [am_weeks, add_days]), indicator: 'green'});
+
+	} else {
+		frappe.show_alert({message: __("Please set one of the following values: Beginning of pregnancy, expected term or last menstrual period"), indicator: 'orange'});
+	}
+};
+
 
 {% include "maia/public/js/controllers/print_settings.js" %}

@@ -40,9 +40,9 @@ def parity_gravidity_calculation(patient_record):
             children = 0
             if pregnancy.child_full_name or pregnancy.child_gender or pregnancy.child_weight or pregnancy.child_health_state or pregnancy.feeding:
                 children += 1
-            elif pregnancy.child_full_name_2 or pregnancy.child_gender_2 or pregnancy.child_weight_2 or pregnancy.child_health_state_2 or pregnancy.feeding_2:
+            if pregnancy.child_full_name_2 or pregnancy.child_gender_2 or pregnancy.child_weight_2 or pregnancy.child_health_state_2 or pregnancy.feeding_2:
                 children += 1
-            elif pregnancy.child_full_name_3 or pregnancy.child_gender_3 or pregnancy.child_weight_3 or pregnancy.child_health_state_3 or pregnancy.feeding_3:
+            if pregnancy.child_full_name_3 or pregnancy.child_gender_3 or pregnancy.child_weight_3 or pregnancy.child_health_state_3 or pregnancy.feeding_3:
                 children += 1
 
             parity += children
@@ -62,7 +62,7 @@ def parity_gravidity_calculation(patient_record):
             if pregnancy.birth_datetime_2 is not None:
                 children += 1
 
-        elif pregnancy.triplets is not None and counted_in_parity is not None:
+        if pregnancy.triplets is not None and counted_in_parity is not None:
             if pregnancy.birth_datetime_3 is not None:
                 children += 1
 

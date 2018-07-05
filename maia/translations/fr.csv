@@ -1301,3 +1301,7 @@ Doctype:Maia Appointment,Without Category,Sans Catégorie
 Doctype:Patient Record,Patient Vaccinations,Vaccinations de la Patiente
 Doctype:Patient Record,Spouse Vaccinations,Vaccinations du Conjoint
 Doctype:Patient Record,Vaccine,Vaccin
+Doctype:Pregnancy Consultation,Delete this draft,Supprimer ce brouillon
+Doctype:Pregnancy,"Calculated Term: {0} Weeks Amenorrhea + {1} Days","Terme calculé : {0} SA + {1} Jours"
+Doctype:Pregnancy,"Please set one of the following values: Beginning of pregnancy, expected term or last menstrual period","Veuillez définir au moins une des valeurs suivantes: Début de grossesse, terme prévu ou date des dernières règles"
+Doctype:Pregnancy,Calculate Term,Calculer le terme

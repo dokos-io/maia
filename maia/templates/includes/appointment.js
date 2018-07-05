@@ -168,8 +168,6 @@ maia.appointment.AppointmentSelector = Class.extend({
 				right: 'prev,next agendaWeek,agendaDay'
 			},
 			defaultView: "agendaWeek",
-			editable: true,
-			selectable: true,
 			selectHelper: true,
 			forceEventDuration: true,
 			height: 1000,

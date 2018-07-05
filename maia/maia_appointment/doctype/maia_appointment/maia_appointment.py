@@ -146,7 +146,7 @@ class MaiaAppointment(Document):
 		queue_name = frappe.db.get_value("Maia Appointment", self.name, "queue_id")
 		if frappe.db.exists("Email Queue", queue_name):
 			try:
-				frappe.delete_doc("Email Queue", queue_name, force=1, ignore_permissions=True)
+				frappe.delete_doc("Email Queue", queue_name, force=True, ignore_permissions=True)
 				frappe.db.set_value("Maia Appointment", self.name, "queue_id", "")
 			except Exception:
 				frappe.log_error(frappe.get_traceback())
@@ -154,7 +154,7 @@ class MaiaAppointment(Document):
 		sms_reminder = frappe.get_all("SMS Reminder", filters={"maia_appointment": self.name})
 		for sms in sms_reminder:
 			try:
-				frappe.delete_doc("SMS Reminder", sms.name, force=1, ignore_permissions=True)
+				frappe.delete_doc("SMS Reminder", sms.name, force=True, ignore_permissions=True)
 			except Exception:
 				frappe.log_error(frappe.get_traceback())
 

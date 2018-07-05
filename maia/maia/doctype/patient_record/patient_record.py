@@ -96,7 +96,11 @@ class PatientRecord(Document):
 				frappe.delete_doc('Customer', self.customer, force=True)
 
 		if frappe.db.exists("Custom Patient Record Dashboard", dict(patient_record=self.name)):
-			frappe.delete_doc('Custom Patient Record Dashboard', dict(patient_record=self.name), force=True)
+			patient_dashboard = frappe.db.get_value('Custom Patient Record Dashboard', dict(patient_record=self.name), 'name')
+			try:
+				frappe.delete_doc('Custom Patient Record Dashboard', patient_dashboard, force=True)
+			except Exception as e:
+				frappe.log_error(e)
 
 	def before_rename(self, olddn, newdn, merge=False):
 		try:
@@ -105,7 +109,11 @@ class PatientRecord(Document):
 			frappe.log_error(e, "Customer Renaming Error")
 
 		if frappe.db.exists("Custom Patient Record Dashboard", dict(patient_record=olddn)):
-			frappe.delete_doc('Custom Patient Record Dashboard', dict(patient_record=olddn), force=True)
+			patient_dashboard = frappe.db.get_value('Custom Patient Record Dashboard', dict(patient_record=olddn), 'name')
+			try:
+				frappe.delete_doc('Custom Patient Record Dashboard', patient_dashboard, force=True)
+			except Exception as e:
+				frappe.log_error(e)
 
 	def set_gravidity_and_parity(self):
 		gravidity, parity = parity_gravidity_calculation(self.name)

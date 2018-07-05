@@ -46,6 +46,11 @@ frappe.ui.form.on(this.frm.doctype, {
 			refresh_total_price(frm);
 			refresh_patient_price(frm);
 		}
+		if (frm.doc.docstatus == 0&&!frm.doc.__islocal) {
+			frm.add_custom_button(__('Delete this draft'), function() {
+				frm.savetrash();
+			});
+		}
 	},
 	paid_immediately: function(frm) {
 		if (frm.doc.paid_immediately == 1) {

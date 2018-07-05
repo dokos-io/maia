@@ -132,10 +132,10 @@ var get_term_date = function(frm) {
 			cache: false,
 			callback: function(data) {
 				if (data.message) {
-					expected_term = data.message.expected_term;
-					beginning_of_pregnancy = data.message.beginning_of_pregnancy;
-					last_menstrual_period = data.message.last_menstrual_period;
-					consultation_date = frm.doc.consultation_date;
+					let expected_term = data.message.expected_term;
+					let beginning_of_pregnancy = data.message.beginning_of_pregnancy;
+					let last_menstrual_period = data.message.last_menstrual_period;
+					let consultation_date = frm.doc.consultation_date;
 
 					if (beginning_of_pregnancy != null) {
 						am_weeks = Math.floor(frappe.datetime.get_diff(consultation_date, beginning_of_pregnancy) / 7) + 2
