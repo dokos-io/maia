@@ -48,7 +48,22 @@ frappe.ui.form.on(this.frm.doctype, {
 		}
 		if (frm.doc.docstatus == 0&&!frm.doc.__islocal) {
 			frm.add_custom_button(__('Delete this draft'), function() {
-				frm.savetrash();
+				frappe.confirm(__("Permanently delete {0}?", [frm.doc.name]), function() {
+					return frappe.call({
+						method: 'maia.utilities.utils.delete_draft_consultation',
+						args: {
+							doctype: frm.doc.doctype,
+							name: frm.doc.name
+						},
+						callback: function(r, rt) {
+							if(!r.exc) {
+								frappe.utils.play_sound("delete");
+								frappe.model.clear_doc(frm.doc.doctype, frm.doc.name);
+								window.history.back();
+							}
+						}
+					})
+				})
 			});
 		}
 	},
