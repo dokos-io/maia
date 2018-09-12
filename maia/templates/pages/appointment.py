@@ -55,7 +55,13 @@ def daterange(start_date, end_date):
 
 @frappe.whitelist()
 def check_group_events_availabilities(practitioner, start, end, appointment_type):
-	start = datetime.datetime.strptime(start, '%Y-%m-%d')
+	if (datetime.datetime.strptime(start, '%Y-%m-%d') > get_datetime()):
+		start = datetime.datetime.strptime(start, '%Y-%m-%d')
+	elif (datetime.datetime.strptime(start, '%Y-%m-%d') <= get_datetime()) and (nowtime() > "19:00"):
+		start = get_datetime() + timedelta(days=2)
+	else:
+		start = get_datetime() + timedelta(days=1)
+	
 	end = datetime.datetime.strptime(end, '%Y-%m-%d')
 	days_limit = frappe.get_value("Professional Information Card", practitioner, "number_of_days_limit")
 	limit = datetime.datetime.combine(add_days(getdate(), int(days_limit)), datetime.datetime.time(datetime.datetime.now()))
@@ -64,8 +70,6 @@ def check_group_events_availabilities(practitioner, start, end, appointment_type
 	slots = []
 	if start < limit:
 		for dt in daterange(start, end):
-			date = dt.strftime("%Y-%m-%d")
-
 			slots = get_registration_count(appointment_type, start)
 
 			slots = filter(lambda x: x.practitioner == practitioner, slots)
