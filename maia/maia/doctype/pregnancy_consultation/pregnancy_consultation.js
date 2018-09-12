@@ -39,14 +39,14 @@ frappe.ui.form.on('Pregnancy Consultation', {
 maia.PregnancyConsultationController = frappe.ui.form.Controller.extend({
 
 	onload: function(frm) {
-		if(this.frm.doc.docstatus!=1) {
+		if(this.frm.doc.docstatus < 1) {
 			get_term_date(this.frm);
-		}
 
-		this.frm.fields_dict['pregnancy_folder'].get_query = function(doc) {
-			return {
-				filters: {
-					"patient_record": doc.patient_record
+			this.frm.fields_dict['pregnancy_folder'].get_query = function(doc) {
+				return {
+					filters: {
+						"patient_record": doc.patient_record
+					}
 				}
 			}
 		}
@@ -61,7 +61,7 @@ maia.PregnancyConsultationController = frappe.ui.form.Controller.extend({
 			this.frm.add_custom_button(__('Lab Prescription'), this.print_lab_prescription, __("Print Prescription"));
 			this.frm.add_custom_button(__('Echography Prescription'), this.print_echo_prescription, __("Print Prescription"));
 		}
-		if(this.frm.doc.docstatus!=1) {
+		if(this.frm.doc.docstatus < 1) {
 		 get_term_date(this.frm)
 	 }
 	},

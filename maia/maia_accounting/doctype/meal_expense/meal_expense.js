@@ -3,22 +3,24 @@
 
 frappe.ui.form.on('Meal Expense', {
 	onload: function(frm) {
-		frappe.call({
-				method: "frappe.client.get",
-				args: {
-					doctype: "Company",
-					name: frm.doc.company,
-				},
-				callback: function(r, rt) {
-					if (r.message) {
-						frm.set_value("meal_expense_deductible_account", r.message.meal_expense_deductible_account);
-						frm.set_value("meal_expense_non_deductible_account", r.message.meal_expense_non_deductible_account);
+		if(frm.doc.docstatus == 0) {
+			frappe.call({
+					method: "frappe.client.get",
+					args: {
+						doctype: "Company",
+						name: frm.doc.company,
+					},
+					callback: function(r, rt) {
+						if (r.message) {
+							frm.set_value("meal_expense_deductible_account", r.message.meal_expense_deductible_account);
+							frm.set_value("meal_expense_non_deductible_account", r.message.meal_expense_non_deductible_account);
+						}
 					}
-				}
-			}),
+				}),
 
-			frm.set_value("transaction_date", frappe.datetime.get_today())
-			frm.set_value("posting_date", frappe.datetime.get_today())
+				frm.set_value("transaction_date", frappe.datetime.get_today())
+				frm.set_value("posting_date", frappe.datetime.get_today())
+		}
 	},
 	refresh: function(frm) {
 	},

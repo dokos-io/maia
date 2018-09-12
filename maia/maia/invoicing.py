@@ -9,6 +9,7 @@ from frappe import _
 import time
 from frappe.model.document import Document
 from erpnext.accounts.doctype.payment_request.payment_request import make_payment_request, make_payment_entry
+from erpnext.accounts.doctype.sales_invoice.sales_invoice import make_sales_return
 
 def create_and_submit_invoice(self):
 
@@ -180,12 +181,22 @@ def update_invoice_details(self, customer, case):
 
 def cancel_consultation_and_invoice(self):
 	if self.invoice is not None:
-		invoice = frappe.get_doc("Sales Invoice", self.invoice)
-		invoice.cancel()
+		try:
+			rt = make_sales_return(self.invoice)
+			rt.insert()
+			rt.submit()
+			frappe.db.commit()
+		except Exception:
+			frappe.db.rollback()
 
 	if self.social_security_invoice is not None:
-		ss_invoice = frappe.get_doc("Sales Invoice", self.social_security_invoice)
-		ss_invoice.cancel()
+		try:
+			rt = make_sales_return(self.social_security_invoice)
+			rt.insert()
+			rt.submit()
+			frappe.db.commit()
+		except Exception:
+			frappe.db.rollback()
 
 def remove_cancelled_invoice(self):
 	if self.invoice is not None:
