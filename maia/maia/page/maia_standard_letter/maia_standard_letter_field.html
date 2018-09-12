@@ -1,0 +1,20 @@
+<div class="maia-standard-letter-field" contenteditable="false"
+    {% if(field.print_hide) { %}style="background-color: #F7FAFC; color: #8D99A6;"
+        title="{{ __("Hidden") }}"{% } %}
+    data-fieldname="{%= field.fieldname %}"
+    data-label="{{ __(field.label) }}"
+
+	{% if field.align %}data-align="{{ field.align }}"{% endif %}
+    data-fieldtype="{%= field.fieldtype %}"
+    {% if(field.fieldtype==="Table") { %}
+        data-columns="{%= me.get_visible_columns_string(field) %}"
+        data-doctype="{%= field.options %}"
+    {% } %}>
+        <span class="field-label">{{ __(field.label) }}</span>
+        {% if(field.fieldtype==="Table") { %}
+            <span> ({%= __("Table") %})</span>
+            <a class="maia-standard-letter-field-settings pull-right select-columns btn btn-default btn-xs">
+                {%= __("Select Columns") %}</a>
+        {% } %}
+        <span class="fieldname">{{ field.fieldname }}</span>
+</div>&nbsp;

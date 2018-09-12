@@ -172,6 +172,12 @@ def get_data():
 					"label": _("Appointment Type"),
 					"description": _("Maia Appointment Type"),
 				},
+				{
+					"type": "page",
+					"name": "maia-standard-letter",
+					"label": _("Standard Letter"),
+					"description": _("Standard Letter"),
+				}
 
 				]
 			},

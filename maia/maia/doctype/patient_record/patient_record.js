@@ -212,4 +212,5 @@ $.extend(maia.patient_record, {
 		}
 })
 
+{% include "maia/public/js/controllers/folders.js" %}
 {% include "maia/public/js/controllers/print_settings.js" %}

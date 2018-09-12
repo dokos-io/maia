@@ -15,6 +15,7 @@ from erpnext.accounts.party import validate_party_accounts
 from erpnext.controllers.queries import get_filters_cond
 from frappe.desk.reportview import get_match_cond
 from maia.maia.utils import parity_gravidity_calculation, get_timeline_data
+import dateparser
 
 class PatientRecord(Document):
 	def get_feed(self):
@@ -77,6 +78,8 @@ class PatientRecord(Document):
 		if not self.get('__islocal'):
 			self.update_customer()
 			self.update_address_links()
+
+		self.validate_cervical_smears()
 
 	def on_update(self):
 		self.update_customer()
@@ -155,6 +158,16 @@ class PatientRecord(Document):
 				"territory": _('All Territories')
 			}).insert(ignore_permissions=True)
 			frappe.db.commit()
+
+	def validate_cervical_smears(self):
+		for cervical_smear in self.cervical_smear_table:
+			frappe.log_error(cervical_smear.__dict__)
+			date = dateparser.parse((cervical_smear.date.encode('utf-8').strip()))
+
+			if not date:
+				msg = _("Maia cannot read the date {0} at row {1} in your cervical smears table. Please use one of the recommended formats.").format(cervical_smear.date, cervical_smear.idx)
+				frappe.log_error(msg)
+				frappe.throw(msg, title=_("Error"))
 
 
 @frappe.whitelist()

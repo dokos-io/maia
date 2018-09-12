@@ -24,8 +24,8 @@ frappe.ui.form.on('Pregnancy Consultation', {
 						 if (r.message.last_weight != 0) {
 							 latest_difference = daily_weight - r.message.last_weight;
 						 }
-						 frappe.model.set_value('Pregnancy Consultation', frm.doc.name, 'weight_gain', base_difference)
-						 frappe.model.set_value('Pregnancy Consultation', frm.doc.name, 'latest_weight_gain', latest_difference)
+						 frappe.model.set_value('Pregnancy Consultation', frm.doc.name, 'weight_gain', Math.round(base_difference * 100) / 100)
+						 frappe.model.set_value('Pregnancy Consultation', frm.doc.name, 'latest_weight_gain', Math.round(latest_difference * 100) / 100)
 					 }
 				 }
 			 })

@@ -1,0 +1,60 @@
+<div class="panel-bg" style="padding: 10px; margin-bottom: 10px;">
+	<input type="text" class="form-control input-sm filter-fields" name="filter-fields"
+		placeholder="{%= __("Filter...") %}">
+</div>
+
+{% for (var key in fields) { var f = key; %}
+<div class="maia-standard-letter-doctypes">
+	{% if (f != "addVariables") { %}
+	<div class="maia-standard-letter-doctypes-placeholder ellipsis"
+		data-fieldname="{%= f %}">
+		<span class="btn btn-xs field-doctype-label btn-primary"
+			style="display: inline-block"
+			data-fieldtype="{%= f %}">
+			{%= __(f) %}
+		</span>
+	</div>
+	{% } %}
+</div>
+
+{% if (f != "addVariables") { %}
+<div class="maia-standard-letter-fields hidden" data-dtref="{%= f %}">
+	{% for (var j=0, l=fields[key].length; j < l; j++) { var fi = fields[key][j]; %}
+		{% if (fi.fieldtype == "Section Break" && fi.label) { %}
+		<div class="maia-standard-letter-field-section ellipsis"
+			data-fieldname="{%= fi.fieldname %}">
+			<span style="display: inline-block">
+				{%= __(fi.label) %}
+			</span>
+		</div>
+		{% } %}
+		{% if(!in_list(["Section Break", "Column Break", "Fold", "HTML", "Table", "Attach Image"], fi.fieldtype) && fi.print_hide !== 1) { %}
+		<div class="maia-standard-letter-field-placeholder ellipsis">
+			<span class="btn btn-xs field-label btn-default"
+				style="display: inline-block"
+				data-fieldname="{%= fi.fieldname %}"
+				data-fieldtype="{%= fi.fieldtype %}"
+				data-doctype="{%= fi.parent %}"
+				data-reference="{%= fi.reference %}">
+				{%= __(fi.label) || fi.fieldname %}
+			</span>
+		</div>
+		{% } %}
+	{% } %}
+</div>
+{% } %}
+
+{% if (f == "addVariables") { %}
+<div class="maia-standard-letter-fields" data-dtref="{%= f %}">
+	{% for (var j=0, l=fields[key].length; j < l; j++) { var fi = fields[key][j]; %}
+		<div class="maia-standard-letter-field-placeholder ellipsis">
+			<span class="btn btn-xs field-label btn-default"
+				style="display: inline-block"
+				data-function="{%= fi.function %}">
+				{{ fi.label }}
+			</span>
+		</div>
+	{% } %}
+</div>
+{% } %}
+{% } %}

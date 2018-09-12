@@ -39,8 +39,6 @@ def create_new_site(first_name, last_name, email, siteprefix, max_users, custome
 	print("==========> System Manager and Limits Set")
 	add_specific_config(site_name, customer)
 	print("==========> Specific Config Added")
-	add_domain(site_name)
-	print("==========> Custom Domain Added")
 	add_to_lets_encrypt_file(site_name)
 	print("==========> Let's Encrypt File Updated")
 
@@ -123,7 +121,7 @@ def setup_and_reload_nginx():
 	command = "bench setup nginx --yes"
 	commands.append(command)
 
-	command = "bench setup reload-nginx"
+	command = "sudo service nginx reload"
 	commands.append(command)
 
 	run_commands(commands)

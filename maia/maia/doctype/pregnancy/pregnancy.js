@@ -121,5 +121,6 @@ var get_term_date = function(frm) {
 	}
 };
 
-
+{% include "maia/public/js/controllers/folders.js" %}
 {% include "maia/public/js/controllers/print_settings.js" %}
+
