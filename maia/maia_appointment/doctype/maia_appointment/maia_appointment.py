@@ -27,6 +27,10 @@ class MaiaAppointment(Document):
 		if self.sms_reminder == 1 and not self.group_event:
 			if self.mobile_no is None:
 				frappe.throw(_("Please enter a valid mobile number"))
+			else:
+				valid_number = validate_receiver_no(self.mobile_no)
+				if not valid_number[:2] == "00":
+					frappe.msgprint(_("The phone number format doesn't seem to match with the allowed formats. Make sure you have added the country code (+33 or 0033) in front else no sms will be sent."))
 
 		if self.personal_event != 1:
 			appointment_type = frappe.get_doc("Maia Appointment Type", self.appointment_type)
@@ -70,10 +74,9 @@ class MaiaAppointment(Document):
 				number = self.mobile_no
 			else:
 				frappe.throw(_("Please enter a valid mobile number"))
-			valid_number = validate_receiver_no(number)
-
-			frappe.db.set_value(
-				"Patient Record", self.patient_record, "mobile_no", valid_number)
+			
+			valid_number = validate_receiver_no(number)			
+			frappe.db.set_value("Patient Record", self.patient_record, "mobile_no", valid_number)
 
 			self.send_sms_reminder(valid_number)
 
