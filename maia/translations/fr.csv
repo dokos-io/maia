@@ -1338,3 +1338,5 @@ Doctype:Pregnancy,Maternity Leave,Congé Maternité
 Doctype:Pregnancy,Maternity Leave End Date,Date de fin du congé maternité
 Doctype:Pregnancy,Maternity Leave Total,Durée totale du congé maternité
 Doctype:Pregnancy,{0} weeks,{0} semaines
+Doctype:Bank Reconciliation,Include POS Transactions,Inclure les transactions payées immédiatement
+Doctype:Bank Reconciliation,Add patient records to payment entries,Ajouter les dossiers patients aux écritures de paiement
