@@ -6,6 +6,7 @@
 		"public/js/templates/selectors/practitioner_selector.html",
 		"public/js/templates/selectors/appointment_type_selector.html",
 		"public/js/templates/selectors/booking_page.html",
+		"public/js/templates/selectors/next_availability_page.html",
 		"public/js/templates/selectors/category_selector.html"
 	],
 	"js/patient-dashboard.min.js": [

@@ -14,9 +14,9 @@ maia.appointment.AppointmentSelector = Class.extend({
 		$.extend(this, opts);
 		this.wrapper = this.parent.find('.page_content');
 		this.make();
-
+		moment.locale('fr');
 	},
-	make: function() {
+	make() {
 		var me = this;
 		me.$selector_progress = $('<div>').addClass('selector-progress text-center text-extra-muted').prependTo($('#header-selector'));
 		me.get_data();
@@ -28,7 +28,7 @@ maia.appointment.AppointmentSelector = Class.extend({
 			$(`<i class="fa fa-fw fa-circle"> </i>`).attr({'data-step-id': i}).appendTo(me.$selector_progress);
 		}
 	},
-	get_data: function() {
+	get_data() {
 		var me = this;
 		frappe.call({
 			method: "maia.templates.pages.appointment.get_practitioners_and_appointment_types",
@@ -38,7 +38,7 @@ maia.appointment.AppointmentSelector = Class.extend({
 			}
 		})
 	},
-	add_practitioner_section: function() {
+	add_practitioner_section() {
 		var me = this;
 		$(frappe.render_template('practitioner_selector', {'data': me.data})).appendTo('#practitioner-selector');
 
@@ -52,7 +52,7 @@ maia.appointment.AppointmentSelector = Class.extend({
 		}
 
 		$(document).on('click', '.practitioner-option', e => {
-			me.remove_events();
+			me.clear_custom_pages();
 			me.appointment_type = "";
 			me.appointment_type_name = "";
 			me.group_appointment = 0;
@@ -63,7 +63,7 @@ maia.appointment.AppointmentSelector = Class.extend({
 			me.update_progress_dots();
 		})
 	},
-	add_appointment_types_section: function() {
+	add_appointment_types_section() {
 		var me = this;
 		$('#description').removeClass('bordered-top');
 		$('#description').empty();
@@ -86,16 +86,13 @@ maia.appointment.AppointmentSelector = Class.extend({
 			me.step = 3
 			me.update_progress_dots();
 			me.load_description();
-			me.remove_events();
-			if (me.calendar_loaded) {
-				$('.bookpage').remove();
-				me.refetch_events();
-			} else {
-				me.load_calendar();
-			}
+			me.destroy_calendar();
+			$('.next-availability').remove();
+			$('.bookpage').remove();
+			me.load_calendar();
 		})
 	},
-	add_category_section: function() {
+	add_category_section() {
 		var me = this;
 		$(document).find('#category-selector').remove();
 		$('#appointment-type-selector').empty();
@@ -124,14 +121,14 @@ maia.appointment.AppointmentSelector = Class.extend({
 		})
 
 	},
-	update_progress_dots: function() {
+	update_progress_dots() {
 		var me = this;
 		me.$selector_progress.find('i').removeClass('active');
 		for (let i = 1; i < me.step + 1; i++) {
 			me.$selector_progress.find(`[data-step-id='${i}']`).addClass('active');
 		}
 	},
-	load_description: function() {
+	load_description() {
 		var me = this;
 		$('#description').empty();
 		$('#description').removeClass('bordered-top');
@@ -151,9 +148,8 @@ maia.appointment.AppointmentSelector = Class.extend({
 			$('#description').addClass('bordered-top');
 		}
 	},
-	load_calendar: function() {
+	load_calendar(default_date=moment()) {
 		var me = this;
-		me.calendar_loaded = true;
 		$('#calendar').removeClass('bg-grey');
 		me.data.forEach(function(value, index) {
 			if (value.name == me.practitioner) {
@@ -178,6 +174,7 @@ maia.appointment.AppointmentSelector = Class.extend({
 			maxTime: "21:00:00",
 			slotDuration: '00:15:00',
 			scrollTime: '08:30:00',
+			defaultDate: default_date,
 			events: function(start, end, timezone, callback) {
 				if (me.appointment_type) {
 					if (me.group_appointment==0) {
@@ -192,10 +189,14 @@ maia.appointment.AppointmentSelector = Class.extend({
 							},
 							callback: function(r) {
 								var events = r.message;
-								events.forEach(function(item) {
-									me.prepare_events(item);
-									if(callback) callback(item);
-								});
+								if (!events[0].length) {
+									me.get_next_availability(start, 0); 
+								} else {
+									events.forEach(function(item) {
+										me.prepare_events(item);
+										if(callback) callback(item);
+									});
+								}
 							}
 						})
 					} else {
@@ -210,6 +211,9 @@ maia.appointment.AppointmentSelector = Class.extend({
 							},
 							callback: function(r) {
 								var events = r.message;
+								if (events == undefined) {
+									me.get_next_availability(start, 1);
+								}
 								if (events) {
 									me.prepare_group_events(events);
 									if(callback) callback(events);
@@ -229,7 +233,43 @@ maia.appointment.AppointmentSelector = Class.extend({
 		$('#calendar').show();
 		$('#calendar').fullCalendar('render');
 	},
-	prepare_events: function(events) {
+	get_next_availability(start, isGroup) {
+		let me = this;
+		frappe.call({
+			method: "maia.templates.pages.appointment.get_next_availability",
+			type: "GET",
+			args: {
+				"practitioner": me.practitioner,
+				"start": moment(start).format("YYYY-MM-DD"),
+				"appointment_type": me.appointment_type,
+				"is_group": isGroup
+			},
+			callback: function(r) {
+				if (r.message) {
+					r.message.formatted_date = moment(r.message.date).format('LL');
+					me.show_next_availability_page(r.message);
+				}
+			}
+		})
+	},
+	show_next_availability_page(message) {
+		let me = this;
+		$('#calendar').fullCalendar('destroy');
+		$('#calendar').addClass('bg-grey');
+		$('#calendar').html(frappe.render_template('next_availability_page', {'data': message}));
+
+		$(document).on('click', '.next-availability-close', e => {
+			e.stopImmediatePropagation();
+			me.clear_custom_pages();
+		})
+
+		$(document).on('click', '.next-availability-button', e => {
+			e.stopImmediatePropagation();
+			$('#calendar').empty();
+			me.load_calendar(message.date);
+		})
+	},
+	prepare_events(events) {
 		var me = this;
 		return (events || []).map(d => {
 			d.id = d.name;
@@ -252,7 +292,7 @@ maia.appointment.AppointmentSelector = Class.extend({
 			return d;
 		});
 	},
-	prepare_group_events: function(events) {
+	prepare_group_events(events) {
 		var me = this;
 		return (events || []).map(d => {
 			d.id = d.name;
@@ -275,16 +315,16 @@ maia.appointment.AppointmentSelector = Class.extend({
 			return d;
 		});
 	},
-	remove_events: function() {
+	remove_events() {
 		$('#calendar').fullCalendar('removeEvents');
 	},
-	refetch_events: function() {
+	refetch_events() {
 		$('#calendar').fullCalendar('refetchEvents');
 	},
-	destroy_calendar: function() {
+	destroy_calendar() {
 		$('#calendar').fullCalendar('destroy');
 	},
-	show_booking_page: function(event) {
+	show_booking_page(event) {
 		var me = this;
 		me.event = event;
 		$('#calendar').fullCalendar('destroy');
@@ -294,12 +334,11 @@ maia.appointment.AppointmentSelector = Class.extend({
 		if (event.seats_left) {
 			$.extend(data[0], {'seats_left': event.seats_left})
 		}
-		$(frappe.render_template('booking_page', {'data': data})).appendTo('#calendar');
+		$('#calendar').html(frappe.render_template('booking_page', {'data': data}));
 
 		$(document).on('click', '.bookpage-close', e => {
 			e.stopImmediatePropagation();
-			$('#calendar').empty();
-			me.load_calendar();
+			me.clear_custom_pages();
 		})
 
 		$(document).on('submit', '.form', e => {
@@ -335,6 +374,11 @@ maia.appointment.AppointmentSelector = Class.extend({
 			e.stopImmediatePropagation();
 			return false;
 		})
+	},
+	clear_custom_pages() {
+		let me = this;
+		$('#calendar').empty();
+		me.load_calendar();
 	}
 
 });
