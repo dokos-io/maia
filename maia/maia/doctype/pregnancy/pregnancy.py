@@ -13,7 +13,7 @@ class Pregnancy(Document):
 	def onload(self):
 		self.set_gravidity_and_parity()
 
-	def on_update(self):
+	def before_save(self):
 		self.set_gravidity_and_parity()
 		if not self.maternity_leave_start_date:
 			self.calculate_maternity_leave()
@@ -39,7 +39,7 @@ class Pregnancy(Document):
 			if self.number_of_foetus == 1:
 				if parity < 2:
 					self.maternity_leave_start_date = add_days(self.expected_term, -42)
-					self.maternity_leave_end_date = add_days(self.expected_term, 60)
+					self.maternity_leave_end_date = add_days(self.expected_term, 70)
 				else:
 					self.maternity_leave_start_date = add_days(self.expected_term, -56)
 					self.maternity_leave_end_date = add_days(self.expected_term, 126)
