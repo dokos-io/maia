@@ -21,6 +21,8 @@ frappe.pages['maia-standard-letter'].on_page_show = function(wrapper) {
 			frappe.route_options = null;
 			frappe.maia_standard_letter.refresh();
 		}
+	} else if(route.length==1 && frappe.route_history.length>1) {
+		frappe.ui.toolbar.clear_cache();
 	}
 }
 
@@ -256,7 +258,6 @@ frappe.MaiaStandardLetter = Class.extend({
 
 		groupBy(me.fields, 'parent').then(fields => {
 			fields['addVariables'] = [{"label": __("Midwife Name"), "function": "midwife", "fieldtype": "data", "print_hide": 0}, {"label": __("Current Date"), "function": "current_date", "fieldtype": "data", "print_hide": 0}];
-			console.log(fields)
 			$(frappe.render_template("maia_standard_letter_sidebar", {fields: fields})).appendTo(this.page.sidebar);
 		})	
 
