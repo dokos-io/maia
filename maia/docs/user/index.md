@@ -1,1 +1,5 @@
-1. [User Manual](/docs/user/manual)
+# Manuel Utilisateur (Français)
+
+### Contenu:
+
+{index}
