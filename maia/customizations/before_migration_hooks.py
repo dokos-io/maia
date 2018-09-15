@@ -123,7 +123,7 @@ def modify_frappe_files():
 	frappe_file = frappe.get_app_path("frappe", "model", "sync.py")
 
 	pattern = "'print_format'"
-	subst = "'print_format', 'maia_standard_letter"
+	subst = "'print_format', 'maia_standard_letter'"
 	try:
 		replace(frappe_file, pattern, subst)
 	except Exception as e:
