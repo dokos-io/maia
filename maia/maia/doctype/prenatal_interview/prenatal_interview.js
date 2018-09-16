@@ -7,4 +7,5 @@ frappe.ui.form.on('Prenatal Interview', {
 	}
 });
 
+{% include "maia/public/js/controllers/folders.js" %}
 {% include "maia/public/js/controllers/print_settings.js" %}

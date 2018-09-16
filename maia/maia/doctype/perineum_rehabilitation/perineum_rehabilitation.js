@@ -10,4 +10,5 @@ frappe.ui.form.on('Perineum Rehabilitation', {
 		}
 });
 
+{% include "maia/public/js/controllers/folders.js" %}
 {% include "maia/public/js/controllers/print_settings.js" %}

@@ -55,7 +55,13 @@ def daterange(start_date, end_date):
 
 @frappe.whitelist()
 def check_group_events_availabilities(practitioner, start, end, appointment_type):
-	start = datetime.datetime.strptime(start, '%Y-%m-%d')
+	if (datetime.datetime.strptime(start, '%Y-%m-%d') > get_datetime()):
+		start = datetime.datetime.strptime(start, '%Y-%m-%d')
+	elif (datetime.datetime.strptime(start, '%Y-%m-%d') <= get_datetime()) and (nowtime() > "19:00"):
+		start = get_datetime().replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=2)
+	else:
+		start = get_datetime().replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1)
+	
 	end = datetime.datetime.strptime(end, '%Y-%m-%d')
 	days_limit = frappe.get_value("Professional Information Card", practitioner, "number_of_days_limit")
 	limit = datetime.datetime.combine(add_days(getdate(), int(days_limit)), datetime.datetime.time(datetime.datetime.now()))
@@ -64,12 +70,11 @@ def check_group_events_availabilities(practitioner, start, end, appointment_type
 	slots = []
 	if start < limit:
 		for dt in daterange(start, end):
-			date = dt.strftime("%Y-%m-%d")
-
 			slots = get_registration_count(appointment_type, start)
 
 			slots = filter(lambda x: x.practitioner == practitioner, slots)
 			slots = filter(lambda x: x.seats_left > 0, slots)
+			slots = filter(lambda x: x.start_dt < end, slots)
 
 	return slots
 
@@ -78,7 +83,6 @@ def check_availabilities(practitioner, start, end, appointment_type):
 	duration = frappe.get_value("Maia Appointment Type", appointment_type, "duration")
 
 	if duration is not None:
-
 		start = datetime.datetime.strptime(start, '%Y-%m-%d')
 		end = datetime.datetime.strptime(end, '%Y-%m-%d')
 		days_limit = frappe.get_value("Professional Information Card", practitioner, "number_of_days_limit")
@@ -125,6 +129,49 @@ def _check_availability(doctype, df, dt, dn, date, duration):
 			availability.extend(get_availability_from_schedule(doctype, df, dn, schedules, date))
 
 	return availability
+
+@frappe.whitelist()
+def get_next_availability(practitioner, appointment_type, start, is_group):
+	start = get_datetime(start)
+	end = start + timedelta(days=1)
+	days_limit = frappe.get_value("Professional Information Card", practitioner, "number_of_days_limit")
+	limit = datetime.datetime.combine(add_days(getdate(), int(days_limit)), datetime.datetime.time(datetime.datetime.now()))
+	slots = []
+
+	while not slots and start < limit:
+		if is_group=="1":
+			avail = check_group_events_availabilities(practitioner, start.strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d"), appointment_type)
+			if avail:
+				slots = avail
+			else:
+				start, end = _increment_start_end(practitioner, start, end)
+		else:
+			avail = check_availabilities(practitioner, start.strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d"), appointment_type)
+			if avail[0]:
+				slots = avail
+			else:
+				start, end = _increment_start_end(practitioner, start, end)
+
+	if start >= limit:
+		return {"code": 201, "date": limit}
+	else:
+		return {"code": 200, "date": start}
+
+def _increment_start_end(practitioner, start, end):
+	week_end_bookings = frappe.get_value("Professional Information Card", practitioner, "weekend_booking")
+	if week_end_bookings:
+		start = start + timedelta(days=1)
+		end = end + timedelta(days=1)
+	else:
+		wkday = start.weekday()
+		if wkday == 4:
+			start = start + timedelta(days=3)
+			end = end + timedelta(days=3)
+		else:
+			start = start + timedelta(days=1)
+			end = end + timedelta(days=1)
+
+	return start, end
 
 @frappe.whitelist()
 def submit_appointment(email, practitioner, appointment_type, start, end, notes):

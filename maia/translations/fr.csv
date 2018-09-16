@@ -377,7 +377,7 @@ DocType: Screening Test,Hepatitis B - Antibodies,Hépatite B - Anticorps
 DocType: Screening Test,Hepatitis B - Antigen,Hépatite B - Antigènes
 DocType: Screening Test,Hepatitis C,Hépatite C
 apps/maia/maia/setup/setup_wizard/install_fixtures.py +208,Heroin,Héroïne
-DocType: Gynecological Consultation,High Blood Pressure,HTA
+DocType: Gynecological Consultation,High Blood Pressure,TA
 DocType: Postnatal Consultation,High Blood Pressure Signs,Signes d'Hypertension Artérielle
 DocType: Gynecology,Hirsutism,Hirsutisme
 DocType: Patient,Hormonal Dependent Cancer,Cancer Hormono-Dépendant
@@ -1305,3 +1305,38 @@ Doctype:Pregnancy Consultation,Delete this draft,Supprimer ce brouillon
 Doctype:Pregnancy,"Calculated Term: {0} Weeks Amenorrhea + {1} Days","Terme calculé : {0} SA + {1} Jours"
 Doctype:Pregnancy,"Please set one of the following values: Beginning of pregnancy, expected term or last menstrual period","Veuillez définir au moins une des valeurs suivantes: Début de grossesse, terme prévu ou date des dernières règles"
 Doctype:Pregnancy,Calculate Term,Calculer le terme
+Page:Standard Letter,Select an existing letter to edit or start a new letter.,Sélectionnez une lettre existante à modifier ou créez une nouvelle lettre type.
+Page:Standard Letter,Select a Standard Letter to edit,Sélectionnez une lettre type à modifier
+Page:Standard Letter,Create a new letter,Créez une nouvelle lettre
+Page:Standard Letter,Modify an existing standard letter
+Page:Standard Letter,1. Select a reference document,1. Sélectionnez un document de référence
+Page:Standard Letter,2. Choose a name for your standard letter,2. Choisissez un nom pour votre lettre type
+Page:Standard Letter,Modify an existing Standard Letter,Modifier une Lettre Type existante
+Page:Standard Letter,Create a new Standard Letter,Créer une nouvelle Lettre Type
+Page:Standard Letter,Name of the new Maia Standard Letter,Nom de la nouvelle Lettre Type
+Page:Standard Letter,A reference and a name are required,Une référence et un nom sont nécessaire
+Page:Standard Letter,Standard Letter Builder,Editeur de Lettre Type
+Page:Standard Letter,Click on elements from the sidebar to add them where your cursor is positioned.,Cliquez sur les éléments de la barre latérale pour les ajouter à l'emplacement de votre curseur.
+Page:Standard Letter,Your standard letter cannot be empty,Votre lettre type ne peut pas être vide.
+Page:Standard Letter,Print preview,Aperçu avant impression
+Page:Standard Letter,Disable this Standard Letter,Désactiver cette Lettre Type
+Page:Standard Letter,Add a signature,Ajouter une signature
+Page:Standard Letter,Standard Letter,Lettre Type
+Page:Standard Letter,Maia Standard Letter,Lettre Type
+Page:Standard Letter,Standard Standard Letter cannot be updated,Les Lettres Types standard ne peuvent pas être modifiées. Veuillez copier ce modèle et modifier la copie.
+Page:Standard Letter,What is the name of this Standard Letter,Quel est le nom de cette Lettre Type
+Page:Standard Letter,Your standard letter cannot be empty,Votre Lettre Type ne peut pas être vide
+Page:Standard Letter,Test your standard letter,Testez votre Lettre Type
+Controller:Folders,Print a Standard Letter,Imprimer une Lettre Type
+Controller:Folders,Please enable pop-ups,Veuillez autoriser les pop-ups
+Page:Standard Letter,Midwife Name,Nom de la Sage-Femme
+Page:Standard Letter,Current Date,Date du jour
+Doctype:Pregnancy,Maternity Leave Start Date,Date de début du congé maternité
+Doctype:Patient Record,Maia cannot read the date {0} at row {1} in your cervical smears table. Please use one of the recommended formats.,"Maia ne peut pas lire la date {0} à la ligne {1} du tableau de frottis cervico-vaginaux. Veuillez utiliser l'un des formats recommandés."
+Doctype:Pregnancy,"Automatically calculated based on the rules provided by <a href=""https://www.ameli.fr/hauts-de-seine/assure/droits-demarches/famille/maternite-paternite-adoption/conge-maternite"" target=""_blank"">Ameli</a>.<br>Maia uses the parity, the number of foetus and the expected term date to calculated the start and end end dates of the maternity leave.<br>You can override the dates in case of a specific change.<br>Leave the start date empty to allow Maia to recalculate both dates on save.","Dates calculées automatiquement sur la base des règles fournies par <a href=""https://www.ameli.fr/hauts-de-seine/assure/droits-demarches/famille/maternite-paternite-adoption/conge-maternite"" target=""_blank"">Ameli</a>.<br>Maia utilise la parité, le nombre de foetus et le terme prévu pour calculer les dates de début et de fin du congé maternité.<br>Vous pouvez modifier ces dates manuellement pour les cas particuliers.<br>Laissez la date de début vide pour que Maia recalcule les deux dates lors de l'enregistrement du dossier."
+Doctype:Pregnancy,Maternity Leave,Congé Maternité
+Doctype:Pregnancy,Maternity Leave End Date,Date de fin du congé maternité
+Doctype:Pregnancy,Maternity Leave Total,Durée totale du congé maternité
+Doctype:Pregnancy,{0} weeks,{0} semaines
+Doctype:Bank Reconciliation,Include POS Transactions,Inclure les transactions payées immédiatement
+Doctype:Bank Reconciliation,Add patient records to payment entries,Ajouter les dossiers patients aux écritures de paiement

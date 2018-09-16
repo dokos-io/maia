@@ -1,0 +1,58 @@
+<div class="standard-letter-start-page">
+	<div class="standard-letter-start-page-title">
+			<h2 class="text-muted">{{ __("Modify an existing Standard Letter") }}</h2>
+		</div>
+	<div class="padding standard-letter-start-page-modifier">
+		<div class="standard-letter-selector" style="max-width: 300px; margin:auto;"></div>
+		<p>
+			<button class="btn btn-sm btn-default btn-edit-standard-letter">
+				{%= __("Edit") %}</button>
+		</p>
+	</div>
+	<div class="standard-letter-start-page-title">
+		<h2 class="text-muted">{{ __("Create a new Standard Letter") }}</h2>
+	</div>
+	<div class="padding">
+		<h3>{{ __("1. Select a reference document") }}</h3>
+		<div class="doctype-selector">
+			<div class="doctype-item" data-doctype="Patient Record">
+				<div class="doctype-icon">
+					<i class="fa fa-stethoscope"></i>
+				</div>
+				<div class="doctype-label">{%= __("Patient Record") %}</div>
+			</div>
+			<div class="doctype-item" data-doctype="Pregnancy">
+				<div class="doctype-icon">
+					<img src="/assets/maia/images/pregnancy.svg">
+				</div>
+				<div class="doctype-label">{%= __("Pregnancy") %}</div>
+			</div>
+			<div class="doctype-item" data-doctype="Prenatal Interview">
+				<div class="doctype-icon">
+					<img src="/assets/maia/images/delivery.svg">
+				</div>
+				<div class="doctype-label">{%= __("Prenatal Interview") %}</div>
+			</div>
+			<div class="doctype-item" data-doctype="Perineum Rehabilitation">
+				<div class="doctype-icon">
+					<img src="/assets/maia/images/perineum_rehabilitation.svg">
+				</div>
+				<div class="doctype-label">{%= __("Perineum Rehabilitation") %}</div>
+			</div>
+			<div class="doctype-item" data-doctype="Gynecology">
+				<div class="doctype-icon">
+					<img src="/assets/maia/images/gynecology.svg">
+				</div>
+				<div class="doctype-label">{%= __("Gynecology") %}</div>
+			</div>
+		</div>
+		<div class="padding">
+			<h3>{{ __("2. Choose a name for your standard letter") }}</h3>
+			<div class="name-selector" style="max-width: 300px; margin:auto;"></div>
+		</div>
+		<p>
+			<button class="btn btn-sm btn-default btn-new-standard-letter">
+				{%= __("Create a new letter") %}</button>
+		</p>
+	</div>
+<div>

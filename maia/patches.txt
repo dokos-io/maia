@@ -40,3 +40,4 @@ maia.patches.v2_3.default_urssaf_accounts
 maia.patches.v2_3.miscellaneous_corrections
 maia.patches.v2_4.maia_appointment_module
 maia.patches.v2_4.remove_maia_appointment_icon
+maia.patches.v2_6.add_min_value_for_euro

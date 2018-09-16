@@ -414,9 +414,9 @@ def install(country=None):
 		{'doctype': "Echography Type", 'echography_type': _("Pelvic Ultrasound")},
 
 		# Lab Exam Templates
-		{'doctype': 'Lab Exam Template', 'title': _('6th Month Exam'), 'lab_exam_model': [{'exam_type': _('Glucosuria and Albuminuria')}, {'exam_type': _('HBs Antigen')}, {'exam_type': _('Toxoplasmosis Serology')}, {'exam_type': _('Antiglobulin Testing')}, {'exam_type': _('Complete Blood')}]},
+		{'doctype': 'Lab Exam Template', 'title': _('6th Month Exam'), 'lab_exam_model': [{'exam_type': _('Glucosuria and Albuminuria')}, {'exam_type': _('Toxoplasmosis Serology')}, {'exam_type': _('Antiglobulin Testing')}, {'exam_type': _('Complete Blood')}]},
 		{'doctype': 'Lab Exam Template', 'title': _('5th Month Exam'), 'lab_exam_model': [{'exam_type': _('Glucosuria and Albuminuria')}, {'exam_type': _('Toxoplasmosis Serology')}, {'exam_type': _('HGPO 75g')}]},
-		{'doctype': 'Lab Exam Template', 'title': _('1st Month Exam'), 'lab_exam_model': [{'exam_type': _('Fasting Blood Glucose')}, {'exam_type': _('PAPP-A and Free Beta-HCG')}, {'exam_type': _('Complete Blood')},
+		{'doctype': 'Lab Exam Template', 'title': _('1st Month Exam'), 'lab_exam_model': [{'exam_type': _('Fasting Blood Glucose')}, {'exam_type': _('PAPP-A and Free Beta-HCG')}, {'exam_type': _('Complete Blood')}, {'exam_type': _('HBs Antigen')},
 			{'exam_type': _('Ferritin')}, {'exam_type': _('Hp C Serology')}, {'exam_type': _('HIV Serology')}, {'exam_type': _('Rubella Serology')}, {'exam_type': _('Toxoplasmosis Serology')}, {'exam_type': _('First Determination of ABO- and Rh-groups')},
 			{'exam_type': _('Second Determination of ABO- and Rh-groups')}, {'exam_type': _('Antiglobulin Testing')}, {'exam_type': _('TPHA-VRDL Serology')}, {'exam_type': _('Glucosuria and Albuminuria')}]},
 		{'doctype': 'Lab Exam Template', 'title': _('Standard Exam'), 'lab_exam_model': [{'exam_type': _('Glucosuria and Albuminuria')}, {'exam_type': _('Toxoplasmosis Serology')}]},

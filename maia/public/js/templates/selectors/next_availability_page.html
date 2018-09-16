@@ -1,0 +1,16 @@
+{% if (typeof data !== "undefined") %}
+<div class="next-availability">
+	<a class="next-availability-close" href="#"><i class="fa fa-times"></i></a>
+	{% if (data.code == 200) %}
+	<div class="next-availability-header">
+		<h2 class="next-availability-title">Le prochain créneau disponible est le:</h2>
+		<h2 class="next-availability-date">{{ data.formatted_date }}</h2>
+	</div>
+	<button class="next-availability-button">Voir cette date</button>
+	{% else %}
+	<div class="next-availability-header">
+		<h2 class="next-availability-title">Il n\'y a malheureusement plus de créneau disponible pour ce type de rendez-vous.</h2>
+	</div>
+	{% endif %}
+</div>
+{% endif %}
