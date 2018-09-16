@@ -254,9 +254,10 @@ maia.appointment.AppointmentSelector = Class.extend({
 	},
 	show_next_availability_page(message) {
 		let me = this;
+		me.next_date = message;
 		$('#calendar').fullCalendar('destroy');
 		$('#calendar').addClass('bg-grey');
-		$('#calendar').html(frappe.render_template('next_availability_page', {'data': message}));
+		$('#calendar').html(frappe.render_template('next_availability_page', {'data': me.next_date}));
 
 		$(document).on('click', '.next-availability-close', e => {
 			e.stopImmediatePropagation();
@@ -266,7 +267,7 @@ maia.appointment.AppointmentSelector = Class.extend({
 		$(document).on('click', '.next-availability-button', e => {
 			e.stopImmediatePropagation();
 			$('#calendar').empty();
-			me.load_calendar(message.date);
+			me.load_calendar(me.next_date.date);
 		})
 	},
 	prepare_events(events) {
