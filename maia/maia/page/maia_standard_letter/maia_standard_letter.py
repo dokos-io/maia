@@ -66,7 +66,7 @@ def cleanup_format(html, doctype, signature):
 			key = k
 			reference = dt[k]
 		docname = key.replace(" ", "").lower()
-		get_doc = "{%" + " set {0} = frappe.get_doc('{1}', {2}) ".format(docname, key, reference) + "%}"	
+		get_doc = "{%" + " set {0} = frappe.get_doc('{1}', doc.{2}) ".format(docname, key, reference) + "%}"	
 		soup.div.insert_before(get_doc)
 
 	if soup.div:
