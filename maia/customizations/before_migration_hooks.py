@@ -75,7 +75,7 @@ def delete_erpnext_hooks():
 def delete_frappe_hooks():
 	frappe_hooks = frappe.get_app_path("frappe", "hooks.py")
 
-	patterns = ['app_email = "info@frappe.io"']
+	patterns = ['app_email = "info@frappe.io"', '"frappe.utils.change_log.check_for_update"']
 
 	subst = ''
 	for pattern in patterns:
