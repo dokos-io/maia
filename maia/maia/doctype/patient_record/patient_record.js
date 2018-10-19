@@ -1,4 +1,4 @@
-// Copyright (c) 2017, DOKOS and contributors
+// Copyright (c) 2018, DOKOS and contributors
 // For license information, please see license.txt
 
 frappe.provide("maia.patient_record");
@@ -10,7 +10,7 @@ frappe.ui.form.on("Patient Record", {
 				query: "maia.maia.doctype.patient_record.patient_record.get_users_for_website"
 			}
 		});
-		frm.trigger("setup_chart");
+		setup_chart(frm);
 
 	},
 	refresh: function(frm) {
@@ -29,6 +29,7 @@ frappe.ui.form.on("Patient Record", {
 			erpnext.utils.set_party_dashboard_indicators(frm);
 			maia.patient_record.make_dashboard(frm);
 		}
+		setup_chart(frm);
 	},
 
 	invite_as_user: function(frm) {
@@ -95,33 +96,6 @@ frappe.ui.form.on("Patient Record", {
 				}
 			})
 		}
-	},
-	setup_chart: function(frm) {
-
-		frappe.call({
-			method: "maia.maia.doctype.patient_record.patient_record.get_patient_weight_data",
-			args: {
-				patient_record: frm.doc.name
-			},
-			callback: function(r) {
-				if (r.message && r.message[0].datasets[0].values.length !=0) {
-					let data = r.message[0];
-					let formatted_x = r.message[1];
-
-					let $wrap = $('div[data-fieldname=weight_curve]').get(0);
-
-					let chart = new frappeChart.Chart($wrap, {
-						title: __("Patient Weight"),
-						data: data,
-						type: 'line',
-						region_fill: 1,
-						height: 150,
-						format_tooltip_y: d => d + ' Kg',
-						colors: ['#ffa00a'],
-					});
-				}
-			}
-		});
 	}
 
 });
@@ -197,6 +171,34 @@ frappe.ui.form.on("Patient Record", "weight", function(frm) {
 frappe.ui.form.on("Patient Record", "pregnancies_report", function(frm) {
 	return frappe.set_route('pregnancies', frm.doc.name);
 });
+
+let setup_chart = function(frm) {
+
+	frappe.call({
+		method: "maia.maia.doctype.patient_record.patient_record.get_patient_weight_data",
+		args: {
+			patient_record: frm.doc.name
+		},
+		callback: function(r) {
+			if (r.message && r.message[0].datasets[0].values.length !=0) {
+				let data = r.message[0];
+				let formatted_x = r.message[1];
+
+				let $wrap = $('div[data-fieldname=weight_curve]').get(0);
+
+				let chart = new frappeChart.Chart($wrap, {
+					title: __("Patient Weight"),
+					data: data,
+					type: 'line',
+					region_fill: 1,
+					height: 240,
+					format_tooltip_y: d => d + ' Kg',
+					colors: ['#ffa00a'],
+				});
+			}
+		}
+	});
+};
 
 
 $.extend(maia.patient_record, {

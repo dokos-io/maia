@@ -14,11 +14,11 @@ def get_data():
 				'label': _('Consultations'),
 				'items': ['Pregnancy Consultation', 'Birth Preparation Consultation', 'Early Postnatal Consultation', 'Postnatal Consultation', 'Perineum Rehabilitation Consultation', 'Gynecological Consultation', 'Prenatal Interview Consultation', 'Free Consultation']
 			},
-                        {
+			{
 				'label': _('Payments and Invoices'),
 				'items': ['Payment Entry', 'Sales Invoice']
 			},
-                        {
+			{
 				'label': _('Free Prescriptions and Appointments'),
 				'items': ['Free Prescription', 'Maia Appointment']
 			}

@@ -80,6 +80,7 @@ class PatientRecord(Document):
 			self.update_address_links()
 
 		self.validate_cervical_smears()
+		self.validate_obtetrical_backgrounds()
 
 	def on_update(self):
 		self.update_customer()
@@ -161,11 +162,19 @@ class PatientRecord(Document):
 
 	def validate_cervical_smears(self):
 		for cervical_smear in self.cervical_smear_table:
-			frappe.log_error(cervical_smear.__dict__)
 			date = dateparser.parse((cervical_smear.date.encode('utf-8').strip()))
 
 			if not date:
 				msg = _("Maia cannot read the date {0} at row {1} in your cervical smears table. Please use one of the recommended formats.").format(cervical_smear.date, cervical_smear.idx)
+				frappe.log_error(msg)
+				frappe.throw(msg, title=_("Error"))
+
+	def validate_obtetrical_backgrounds(self):
+		for obstetrical_background in self.obstetrical_backgounds:
+			date = dateparser.parse((obstetrical_background.date.encode('utf-8').strip()))
+
+			if not date:
+				msg = _("Maia cannot read the date {0} at row {1} in your obstetrical backgrounds table. Please use one of the recommended formats.").format(obstetrical_background.date, obstetrical_background.idx)
 				frappe.log_error(msg)
 				frappe.throw(msg, title=_("Error"))
 

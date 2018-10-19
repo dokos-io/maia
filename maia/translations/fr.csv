@@ -1340,3 +1340,8 @@ Doctype:Pregnancy,Maternity Leave Total,Durée totale du congé maternité
 Doctype:Pregnancy,{0} weeks,{0} semaines
 Doctype:Bank Reconciliation,Include POS Transactions,Inclure les transactions payées immédiatement
 Doctype:Bank Reconciliation,Add patient records to payment entries,Ajouter les dossiers patients aux écritures de paiement
+Doctype:Patient Record,"Maia cannot read the date {0} at row {1} in your obstetrical backgrounds table. Please use one of the recommended formats.","Maia ne peut pas lire la date {0} à la ligne {1} du tableau d'antécédents obstétricaux. Veuillez utiliser l'un des formats recommandés."
+Doctype:Free Consultation,This pregnancy folder don't belong to this patient,Ce dossier de grossesse n'appartient pas à cette patiente
+Doctype:Free Consultation,This prenatal interview folder don't belong to this patient,Ce dossier d'entretien prénatal n'appartient pas à cette patiente
+Doctype:Free Consultation,This perineum rehabilitation folder don't belong to this patient,Ce dossier de rééducation du périnée n'appartient pas à cette patiente
+Doctype:Free Consultation,This gynecology folder don't belong to this patient,Ce dossier de gynécologie n'appartient pas à cette patiente

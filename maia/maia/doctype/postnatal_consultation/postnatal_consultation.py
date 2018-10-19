@@ -6,10 +6,12 @@ from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
 from maia.maia.invoicing import create_and_submit_invoice, get_customer_name, cancel_consultation_and_invoice, remove_cancelled_invoice
+from maia.maia.utils import check_folder_and_record
 
 class PostnatalConsultation(Document):
 	def before_insert(self):
 		remove_cancelled_invoice(self)
+		check_folder_and_record(self)
 
 	def validate(self):
 		remove_cancelled_invoice(self)

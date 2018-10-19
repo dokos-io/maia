@@ -16,7 +16,7 @@ def reset_portal_doctypes():
 	frappe.reload_doctype("Portal Settings")
 
 	items = frappe.get_all("Portal Menu Item", fields=[
-						   'name', 'title', 'route', 'enabled'])
+							'name', 'title', 'route', 'enabled'])
 
 	for item in items:
 		if item.route == "/appointment" or item.route == "/my-appointments":
