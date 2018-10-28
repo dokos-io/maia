@@ -1,59 +1,19 @@
-// Copyright (c) 2017, DOKOS and contributors
+// Copyright (c) 2018, DOKOS and contributors
 // For license information, please see license.txt
 frappe.provide("maia");
 
 frappe.ui.form.on('Pregnancy', {
 	onload: function(frm) {
-		frm.trigger("trigger_chart");
+		setup_chart(frm);
 	},
 	refresh: function(frm) {
-		frm.trigger("trigger_chart");
+		setup_chart(frm);
 		frm.add_custom_button(__('Calculate Term'), function() {
 			get_term_date(frm);
 		});
 	},
 	date_time: function(frm) {
 		frm.set_value("birth_datetime", frm.doc.date_time);
-	},
-	trigger_chart: function(frm) {
-		if(frm.doc.birth_weight||frm.doc.release_weight) {
-			frm.events.setup_newborn_chart(frm, 'firstchild', 'weight_curve');
-		}
-		if((frm.doc.twins||frm.doc.triplets)&&(frm.doc.birth_weight_2||frm.doc.release_weight_2)) {
-			frm.events.setup_newborn_chart(frm, 'secondchild', 'weight_curve_2');
-		}
-		if((frm.doc.triplets)&&(frm.doc.birth_weight_3||frm.doc.release_weight_3)) {
-			frm.events.setup_newborn_chart(frm, 'thirdchild', 'weight_curve_3');
-		}
-	},
-	setup_newborn_chart: function(frm, child, domelem) {
-
-		frappe.call({
-			method: "maia.maia.doctype.pregnancy.pregnancy.get_newborn_weight_data",
-			args: {
-				patient_record: frm.doc.patient_record,
-				pregnancy: frm.doc.name,
-				child: child
-			},
-			callback: function(r) {
-				if (r.message && r.message[0].datasets[0].values.length !=0) {
-					let data = r.message[0];
-					let colors = r.message[1];
-
-					let $wrap = $('div[data-fieldname='+domelem+']').get(0);
-
-					let chart = new frappeChart.Chart($wrap, {
-						title: __("Weight Curve (g)"),
-						data: data,
-						type: 'line',
-						height: 150,
-						format_tooltip_y: d => d + ' g',
-
-						colors: colors,
-					});
-				}
-			}
-		});
 	},
 	lab_exam_template: function(frm) {
 		if(frm.doc.lab_exam_template) {
@@ -95,7 +55,47 @@ frappe.ui.form.on('Lab Exam Results', {
 	}
 });
 
-var get_term_date = function(frm) {
+let setup_chart = function(frm) {
+	if(frm.doc.birth_weight||frm.doc.release_weight) {
+		setup_newborn_chart(frm, 'firstchild', 'weight_curve');
+	}
+	if((frm.doc.twins||frm.doc.triplets)&&(frm.doc.birth_weight_2||frm.doc.release_weight_2)) {
+		setup_newborn_chart(frm, 'secondchild', 'weight_curve_2');
+	}
+	if((frm.doc.triplets)&&(frm.doc.birth_weight_3||frm.doc.release_weight_3)) {
+		setup_newborn_chart(frm, 'thirdchild', 'weight_curve_3');
+	}
+};
+
+let setup_newborn_chart = function(frm, child, domelem) {
+	frappe.call({
+		method: "maia.maia.doctype.pregnancy.pregnancy.get_newborn_weight_data",
+		args: {
+			patient_record: frm.doc.patient_record,
+			pregnancy: frm.doc.name,
+			child: child
+		},
+		callback: function(r) {
+			if (r.message && r.message[0].datasets[0].values.length !=0) {
+				let data = r.message[0];
+				let colors = r.message[1];
+
+				let $wrap = $('div[data-fieldname='+domelem+']').get(0);
+
+				new frappeChart.Chart($wrap, {
+					title: __("Weight Curve (g)"),
+					data: data,
+					type: 'line',
+					height: 240,
+					format_tooltip_y: d => d + ' g',
+					colors: colors,
+				});
+			}
+		}
+	});
+};
+
+let get_term_date = function(frm) {
 	let expected_term = frm.doc.expected_term;
 	let beginning_of_pregnancy = frm.doc.beginning_of_pregnancy;
 	let last_menstrual_period = frm.doc.last_menstrual_period;

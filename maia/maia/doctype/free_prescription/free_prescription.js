@@ -35,6 +35,7 @@ frappe.ui.form.on(this.frm.doctype, {
 						$.each(data.message || [], function(i, v){
 							var d = frappe.model.add_child(frm.doc, "Lab Exam Prescription", "lab_prescription_table");
 							d.lab_exam = v.exam_type;
+							d.additional_notes = v.additional_notes;
 						});
 						refresh_field("lab_prescription_table");
 				}
@@ -54,6 +55,8 @@ frappe.ui.form.on(this.frm.doctype, {
 							d.drug = v.drug;
 							d.posology = v.posology;
 							d.pharmaceutical_form = v.pharmaceutical_form;
+							d.treatment_duration = v.treatment_duration;
+							d.additional_notes = v.additional_notes;
 						});
 						refresh_field("drug_prescription_table");
 				}
