@@ -3,7 +3,7 @@
 
 frappe.ui.form.on('Payment Entry', {
 	refresh: function(frm) {
-		if (frm.doc.references) {
+		if (frm.doc.references && frm.doc.payment_type==="Receive") {
 			let patient_records = [];
 			let promises = [];
 			frm.doc.references.forEach(value => {
