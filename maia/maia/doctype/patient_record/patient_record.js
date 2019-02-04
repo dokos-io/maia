@@ -11,7 +11,6 @@ frappe.ui.form.on("Patient Record", {
 			}
 		});
 		setup_chart(frm);
-
 	},
 	refresh: function(frm) {
 		frappe.dynamic_link = {
@@ -30,8 +29,14 @@ frappe.ui.form.on("Patient Record", {
 			maia.patient_record.make_dashboard(frm);
 		}
 		setup_chart(frm);
-	},
 
+		if (frm.doc.patient_date_of_birth) {
+			calculate_age(frm, "patient_date_of_birth", "patient_age");
+		}
+		if (frm.doc.spouse_date_of_birth) {
+			calculate_age(frm, "spouse_date_of_birth", "spouse_age");
+		}
+	},
 	invite_as_user: function(frm) {
 		frm.save();
 		var d = new frappe.ui.Dialog({
@@ -91,22 +96,32 @@ frappe.ui.form.on("Patient Record", {
 							message: __("Weight Updated"),
 							indicator: 'green'
 						});
-						frm.trigger("setup_chart");
+						setup_chart(frm);
 					}
 				}
 			})
 		}
+	},
+	patient_date_of_birth: function(frm) {
+		calculate_age(frm, "patient_date_of_birth", "patient_age");
+	},
+	spouse_date_of_birth: function(frm) {
+		calculate_age(frm, "spouse_date_of_birth", "spouse_age");
+	},
+	height: function(frm) {
+		calculate_bmi(frm);
+	},
+	weight: function(frm) {
+		calculate_bmi(frm);
 	}
-
 });
 
-frappe.ui.form.on("Patient Record", "patient_date_of_birth", function(frm) {
-
+function calculate_age(frm, source, target) {
 	today = new Date();
-	birthDate = new Date(frm.doc.patient_date_of_birth);
+	birthDate = new Date(frm.doc[source]);
 	if (today < birthDate) {
 		frappe.msgprint(__('Please select a valid Date'));
-		frappe.model.set_value(frm.doctype, frm.docname, "patient_date_of_birth", null)
+		frappe.model.set_value(frm.doctype, frm.docname, source, null)
 	} else {
 		age_yr = today.getFullYear() - birthDate.getFullYear();
 		today_m = today.getMonth() + 1 //Month jan = 0
@@ -121,52 +136,18 @@ frappe.ui.form.on("Patient Record", "patient_date_of_birth", function(frm) {
 		if (age_yr > 0)
 			age_str = age_yr + " " + __('Years Old')
 
-		frappe.model.set_value(frm.doctype, frm.docname, "patient_age", age_str)
+		frappe.model.set_value(frm.doctype, frm.docname, target, age_str);
 	}
-});
+	frm.refresh_field(target);
+};
 
-frappe.ui.form.on("Patient Record", "spouse_date_of_birth", function(frm) {
-
-	today = new Date();
-	birthDate = new Date(frm.doc.spouse_date_of_birth);
-	if (today < birthDate) {
-		frappe.msgprint(__('Please select a valid Date'));
-		frappe.model.set_value(frm.doctype, frm.docname, "spouse_date_of_birth", null)
-	} else {
-		age_yr = today.getFullYear() - birthDate.getFullYear();
-		today_m = today.getMonth() + 1 //Month jan = 0
-		birth_m = birthDate.getMonth() + 1 //Month jan = 0
-		m = today_m - birth_m;
-
-		if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-			age_yr--;
-		}
-
-		age_str = null
-		if (age_yr > 0)
-			age_str = age_yr + " " + __('Years Old')
-
-		frappe.model.set_value(frm.doctype, frm.docname, "spouse_age", age_str)
-	}
-});
-
-frappe.ui.form.on("Patient Record", "height", function(frm) {
-
+function calculate_bmi(frm) {
 	var weight = frm.doc.weight;
 	var height = frm.doc.height;
 	bmi = Math.round(weight / Math.pow(height, 2));
 	frappe.model.set_value(frm.doctype, frm.docname, "body_mass_index", bmi)
 
-});
-
-frappe.ui.form.on("Patient Record", "weight", function(frm) {
-
-	var weight = frm.doc.weight;
-	var height = frm.doc.height;
-	bmi = Math.round(weight / Math.pow(height, 2));
-	frappe.model.set_value(frm.doctype, frm.docname, "body_mass_index", bmi)
-
-});
+};
 
 frappe.ui.form.on("Patient Record", "pregnancies_report", function(frm) {
 	return frappe.set_route('pregnancies', frm.doc.name);
@@ -186,7 +167,7 @@ let setup_chart = function(frm) {
 
 				let $wrap = $('div[data-fieldname=weight_curve]').get(0);
 
-				let chart = new frappeChart.Chart($wrap, {
+				new frappeChart.Chart($wrap, {
 					title: __("Patient Weight"),
 					data: data,
 					type: 'line',
