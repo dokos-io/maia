@@ -549,7 +549,7 @@ def asset_categories(country=None):
 
 def codifications(country=None):
 	records = [
-		#Midwife Codifications
+		# Midwife Codifications
 		{'doctype': 'Codification', 'codification': 'C', 'basic_price': 23, 'billing_price': 23, 'codification_name': 'C', 'codification_description': 'Consultation'},
 		{'doctype': 'Codification', 'codification': 'V', 'basic_price': 23, 'billing_price': 23, 'codification_name': 'V', 'codification_description': 'Visite'},
 		{'doctype': 'Codification', 'codification': 'SF', 'basic_price': 2.80, 'billing_price': 2.80, 'codification_name': 'SF', 'codification_description': 'Actes en SF'},
@@ -557,9 +557,9 @@ def codifications(country=None):
 		{'doctype': 'Codification', 'codification': 'SF 15', 'basic_price': 42, 'billing_price': 42, 'codification_name': 'SF 15', 'codification_description': 'PNP: Première séance entretien individuel | Sur prescription à domicile: Grossesse unique avec monitoring à partir de 24 sem'},
 		{'doctype': 'Codification', 'codification': 'SF 11,6', 'basic_price': 32.48, 'billing_price': 32.48, 'codification_name': 'SF 11,6', 'codification_description': 'PNP: 7 séances suivantes ≤ 3 femmes'},
 		{'doctype': 'Codification', 'codification': 'SF 12', 'basic_price': 33.60, 'billing_price': 33.60, 'codification_name': 'SF 12', 'codification_description': 'PNP: 7 séances suivantes individuelles'},
-		{'doctype': 'Codification', 'codification': 'SF 16,5', 'basic_price': 46.20, 'billing_price': 46.20, 'codification_name': 'SF 16,5', 'codification_description': 'Forfait journalier de SURVEILLANCE MERE-ENFANT à domicile de J1 à J7 (J0 étant le jour de l\'accouchement): Un enfant, les 2 premiers forfaits'},
-		{'doctype': 'Codification', 'codification': 'SF 23', 'basic_price': 64.40, 'billing_price': 64.40, 'codification_name': 'SF 23', 'codification_description': 'Forfait journalier de SURVEILLANCE MERE-ENFANT à domicile de J1 à J7 (J0 étant le jour de l\'accouchement): Deux enfants et plus, les 2 premiers forfaits'},
-		{'doctype': 'Codification', 'codification': 'SF 17', 'basic_price': 47.60, 'billing_price': 47.60, 'codification_name': 'SF 17', 'codification_description': 'Forfait journalier de SURVEILLANCE MERE-ENFANT à domicile de J1 à J7 (J0 étant le jour de l\'accouchement): Deux enfants et plus, les forfaits suivants'},
+		{'doctype': 'Codification', 'codification': 'SF 16,5', 'basic_price': 46.20, 'billing_price': 46.20, 'codification_name': 'SF 16,5', 'codification_description': 'Forfait journalier de SURVEILLANCE MERE-ENFANT à domicile de J1 à J12 (J0 étant le jour de l\'accouchement): Un enfant, les 2 premiers forfaits'},
+		{'doctype': 'Codification', 'codification': 'SF 23', 'basic_price': 64.40, 'billing_price': 64.40, 'codification_name': 'SF 23', 'codification_description': 'Forfait journalier de SURVEILLANCE MERE-ENFANT à domicile de J1 à J12 (J0 étant le jour de l\'accouchement): Deux enfants et plus, les 2 premiers forfaits'},
+		{'doctype': 'Codification', 'codification': 'SF 17', 'basic_price': 47.60, 'billing_price': 47.60, 'codification_name': 'SF 17', 'codification_description': 'Forfait journalier de SURVEILLANCE MERE-ENFANT à domicile de J1 à J12 (J0 étant le jour de l\'accouchement): Deux enfants et plus, les forfaits suivants'},
 		{'doctype': 'Codification', 'codification': 'SF 7', 'basic_price': 19.60, 'billing_price': 19.60, 'codification_name': 'SF 7', 'codification_description': 'Rééducation périnéo-sphinctérienne'},
 		{'doctype': 'Codification', 'codification': 'SF 9', 'basic_price': 25.20, 'billing_price': 25.20, 'codification_name': 'SF 9', 'codification_description': 'Sur prescription à domicile: Surveillance grossesse sans monitoring'},
 		{'doctype': 'Codification', 'codification': 'JKLD001', 'basic_price': 38.40, 'billing_price': 38.40, 'codification_name': 'JKLD001', 'codification_description': 'Pose d\'un dispositif intra-utérin'},
@@ -595,6 +595,21 @@ def codifications(country=None):
 		{'doctype': 'Codification', 'codification': 'S', 'basic_price': 40, 'billing_price': 40, 'codification_name': 'S', 'codification_description': 'Indemnité de nuit de 0h à 6h', 'night_work_allowance_2': 1},
 		{'doctype': 'Codification', 'codification': 'F', 'basic_price': 21, 'billing_price': 21, 'codification_name': 'F', 'codification_description': 'Indemnité dimanche et jours fériés, en cas d\'urgence dès samedi 12h', 'sundays_holidays_allowance': 1},
 		{'doctype': 'Codification', 'codification': 'C + JKHD001', 'basic_price': 35.46, 'billing_price': 35.46, 'codification_name': 'C + JKHD001', 'codification_description': 'Consultation + Prélèvement Cervicovaginal'},
+		# 02/2019
+		{'doctype': 'Codification', 'codification': 'C + MSF', 'basic_price': 25, 'billing_price': 25, 'codification_name': 'C + MSF', 'codification_description': 'Consultation + Majoration'},
+		{'doctype': 'Codification', 'codification': 'V + MSF', 'basic_price': 25, 'billing_price': 25, 'codification_name': 'V + MSF', 'codification_description': 'Visite + Majoration'},
+		{'doctype': 'Codification', 'codification': 'SF 12,6', 'basic_price': 35.28, 'billing_price': 35.28, 'codification_name': 'SF 12,6', 'codification_description': 'Bilan prénatal valorisant la prévention et le parcours de soins (1 séance)'},
+		{'doctype': 'Codification', 'codification': 'SF 15,6', 'basic_price': 43.68, 'billing_price': 43.68, 'codification_name': 'SF 15,6', 'codification_description': 'Surveillance de grossesse pathologique simple + RCF à partir de 24SA'},
+		{'doctype': 'Codification', 'codification': 'SF 22,6', 'basic_price': 63.28, 'billing_price': 63.28, 'codification_name': 'SF 22,6', 'codification_description': 'Surveillance de grossesse pathologique multiple + RCF à partir de 24SA'},
+		{'doctype': 'Codification', 'codification': 'SF 12,5', 'basic_price': 35, 'billing_price': 35, 'codification_name': 'SF 12,5', 'codification_description': 'Examen de grossesse simple à partir de la 24ème SA comportant RCF+CR'},
+		{'doctype': 'Codification', 'codification': 'SF 19,5', 'basic_price': 54.6, 'billing_price': 54.6, 'codification_name': 'SF 19,5', 'codification_description': 'Examen de grossesse multiple à partir de la 24ème SA comportant RCF+CR'},
+		{'doctype': 'Codification', 'codification': 'DSP', 'basic_price': 25, 'billing_price': 25, 'codification_name': 'DSP', 'codification_description': 'Majoration forfaitaire sorties précoces (sur la 1e visite si dans les 24h après la sortie et si à moins de 72h de l’accouchement)'},
+		{'doctype': 'Codification', 'codification': 'CCP', 'basic_price': 55.2, 'billing_price': 55.2, 'codification_name': 'CCP', 'codification_description': 'Première consultation de contraception et de prévention des jeunes filles entre 15 et 18 ans'},
+		{'doctype': 'Codification', 'codification': 'ZCQJ001', 'basic_price': 69.93, 'billing_price': 69.93, 'codification_name': 'ZCQJ001', 'codification_description': 'Echographie-doppler transcutanée et échographie-doppler par voie rectale et/ou vaginale [par voie cavitaire] du petit bassin [pelvis] féminin'},
+		{'doctype': 'Codification', 'codification': 'ZCQJ002', 'basic_price': 69.93, 'billing_price': 69.93, 'codification_name': 'ZCQJ002', 'codification_description': 'Échographie-doppler du petit bassin [pelvis] féminin, par voie rectale et/ou vaginale [par voie cavitaire]'},
+		{'doctype': 'Codification', 'codification': 'ZCQJ003', 'basic_price': 52.45, 'billing_price': 52.45, 'codification_name': 'ZCQJ003', 'codification_description': 'Échographie du petit bassin [pelvis] féminin, par voie rectale et/ou vaginale [par voie cavitaire]'},
+		{'doctype': 'Codification', 'codification': 'ZCQJ006', 'basic_price': 56.7, 'billing_price': 56.7, 'codification_name': 'ZCQJ006', 'codification_description': 'Echographie transcutanée avec échographie par voie rectale et/ou vaginale [par voie cavitaire] du petit bassin [pelvis] féminin'},
+		{'doctype': 'Codification', 'codification': 'ZCQM003', 'basic_price': 52.45, 'billing_price': 52.45, 'codification_name': 'ZCQM003', 'codification_description': 'Échographie transcutanée du petit bassin [pelvis] féminin'}
 	]
 
 	from frappe.modules import scrub
