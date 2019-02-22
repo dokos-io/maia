@@ -100,6 +100,7 @@ def get_timeline_data(doctype, name):
 	return out
 
 def check_folder_and_record(doc):
+	return
 	if doc.docstatus == 0:
 		if hasattr(doc, "pregnancy_folder"):
 			v = frappe.db.get_value("Pregnancy", doc.pregnancy_folder, "patient_record")
