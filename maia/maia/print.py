@@ -9,7 +9,7 @@ from frappe.model.document import Document
 from frappe.utils import cint
 from frappe.utils.pdf import get_pdf
 from six import string_types
-from frappe.www.printview import get_html, validate_print_permission, get_letter_head, convert_markdown, make_layout
+from frappe.www.printview import validate_print_permission, get_letter_head, convert_markdown, make_layout
 
 
 @frappe.whitelist()
@@ -28,7 +28,7 @@ def download_standard_letter_pdf(doctype, name, template='Standard', doc=None, n
 
 
 @frappe.whitelist()
-def get_html_and_style(doc, name=None, template=None, no_letterhead=None, trigger_print=False, style=None, lang=None):
+def get_html_and_style(doc, name=None, template=None, no_letterhead=None, style=None, lang=None):
 	"""Returns `html` and `style` of print format, used in PDF etc"""
 
 	if isinstance(doc, string_types) and isinstance(name, string_types):
@@ -38,11 +38,10 @@ def get_html_and_style(doc, name=None, template=None, no_letterhead=None, trigge
 		doc = frappe.get_doc(json.loads(doc))
 
 	print_format = frappe.get_doc("Maia Standard Letter", template)
-	frappe.log_error(print_format)
 
-	return get_html(doc, name=name, print_format=print_format, no_letterhead=no_letterhead, trigger_print=trigger_print)
+	return get_html(doc, name=name, print_format=print_format, no_letterhead=no_letterhead)
 
-def get_html(doc, name=None, print_format=None, meta=None, no_letterhead=None, trigger_print=False):
+def get_html(doc, name=None, print_format=None, meta=None, no_letterhead=None):
 
 	print_settings = frappe.db.get_singles_dict("Print Settings")
 
@@ -85,17 +84,44 @@ def get_html(doc, name=None, print_format=None, meta=None, no_letterhead=None, t
 		"doc": doc,
 		"meta": frappe.get_meta(doc.doctype),
 		"no_letterhead": 0,
-		"trigger_print": cint(trigger_print),
+		"trigger_print": 0,
 		"letter_head": letter_head.content,
 		"footer": letter_head.footer,
 		"print_settings": frappe.get_doc("Print Settings")
 	}
 
-	html = template.render(args, filters={"len": len})
+	body = template.render(args, filters={"len": len})
 
-	if cint(trigger_print):
-		html += trigger_print_script
+	source = """<!DOCTYPE html>
+				<html lang="en">
+				<head>
+					<meta charset="utf-8">
+					<meta name="viewport" content="width=device-width, initial-scale=1.0">
+					<title>{{ title }}</title>
+					<meta name="generator" content="frappe">
+					<link type="text/css" rel="stylesheet"
+						href="/assets/frappe/css/bootstrap.css">
+					<link type="text/css" rel="stylesheet"
+						href="/assets/frappe/css/font-awesome.css">
+					<style>
+					{{ css }}
+					</style>
+				</head>
+				<body>
+					<div class="print-format-gutter">
+						<div class="print-format">
+						{{ body }}
+						</div>
+					</div>
+				</body>
+				</html>"""
+	
+	html_args = {
+		"title": doc.name,
+		"body": body,
+		"css": ""
+	}
 
-	frappe.log_error(html)
+	html = frappe.render_template(source, html_args)
 
 	return html
