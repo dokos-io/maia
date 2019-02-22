@@ -130,6 +130,17 @@ def modify_frappe_files():
 		print(e)
 		frappe.log_error(e, "Frappe Files Modifications - Standard Letter Loading")
 
+	# Timezone offset
+	frappe_file = frappe.get_app_path("frappe", "public", "js", "frappe", "views", "calendar", "calendar.js")
+
+	pattern = "moment.user_utc_offset"
+	subst = "(moment(date).tz(frappe.sys_defaults.time_zone)._offset)"
+	try:
+		replace(frappe_file, pattern, subst)
+	except Exception as e:
+		print(e)
+		frappe.log_error(e, "Frappe Files Modifications - Calendar timezone offset")
+
 def remove_erpnext_footer():
 	erpnex_footer_folder = frappe.get_app_path("erpnext", "templates", "includes", "footer")
 	try:

@@ -56,9 +56,6 @@ frappe.ui.form.on('Maia Appointment', {
 			update_group_info(frm);
 		}
 	},
-	practitioner: function(frm) {
-
-	},
 	appointment_type: function(frm) {
 		duration_color_group(frm.doc);
 	},
