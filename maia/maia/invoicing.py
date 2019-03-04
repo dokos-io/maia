@@ -4,7 +4,7 @@
 
 from __future__ import unicode_literals
 import frappe
-from frappe.utils import getdate
+from frappe.utils import getdate, flt
 from frappe import _
 import time
 from frappe.model.document import Document
@@ -180,22 +180,35 @@ def update_invoice_details(self, customer, case):
 
 def cancel_consultation_and_invoice(self):
 	if self.invoice is not None:
-		try:
-			rt = make_sales_return(self.invoice)
-			rt.insert()
-			rt.submit()
-			frappe.db.commit()
-		except Exception:
-			frappe.db.rollback()
+		undo_payment(self.invoice)
+		make_return(self.invoice)
 
 	if self.social_security_invoice is not None:
-		try:
-			rt = make_sales_return(self.social_security_invoice)
-			rt.insert()
-			rt.submit()
-			frappe.db.commit()
-		except Exception:
-			frappe.db.rollback()
+		undo_payment(self.social_security_invoice)
+		make_return(self.social_security_invoice)
+
+def undo_payment(invoice):
+	outstanding = frappe.db.get_value("Sales Invoice", invoice, "outstanding_amount")
+	total = frappe.db.get_value("Sales Invoice", invoice, "grand_total")
+	if flt(outstanding) < flt(total):
+		payments = frappe.get_all("Payment Entry Reference", filters={"reference_doctype": "Sales Invoice", "reference_name": invoice}, fields=["parent"])
+
+		if payments:
+			for p in payments:
+				doc = frappe.get_doc("Payment Entry", p.parent)
+				if doc.docstatus == 1:
+					doc.cancel()
+
+			frappe.msgprint(_("A payment linked to this consultation has been cancelled"))
+
+def make_return(invoice):
+	try:
+		rt = make_sales_return(invoice)
+		rt.insert()
+		rt.submit()
+		frappe.db.commit()
+	except Exception:
+		frappe.db.rollback()
 
 def remove_cancelled_invoice(self):
 	if self.invoice is not None:
