@@ -7,40 +7,6 @@ import os
 from os import fdopen, remove
 import json
 
-
-def remove_deletion_from_permissions():
-	permission_manager = frappe.get_app_path("frappe", "core", "page", "permission_manager", "permission_manager.py")
-	pattern = 'not_allowed_in_permission_manager = ["DocType", "Patch Log", "Module Def", "Transaction Log"]'
-	subst = 'not_allowed_in_permission_manager = ["DocType", "Patch Log", "Module Def", "Transaction Log", "Deleted Document"]'
-
-	try:
-		replace(permission_manager, pattern, subst)
-	except Exception as e:
-		print(e)
-		frappe.log_error(e, "Deleted Documents")
-
-def prevent_company_reset():
-	company_js = frappe.get_app_path("erpnext", "setup", "doctype", "company", "company.js")
-	pattern = 'frm.get_field("delete_company_transactions").$input.addClass("btn-danger");'
-	subst = 'frm.get_field("delete_company_transactions").$input.addClass("hidden");'
-
-	try:
-		replace(company_js, pattern, subst)
-	except Exception as e:
-		print(e)
-		frappe.log_error(e, "Company JS")
-
-	company_deletion = frappe.get_app_path("erpnext", "setup", "doctype", "company", "delete_company_transactions.py")
-	company_deletion_pyc = frappe.get_app_path("erpnext", "setup", "doctype", "company", "delete_company_transactions.pyc")
-	try:
-		if os.path.exists(company_deletion):
-			remove(company_deletion)
-		if os.path.exists(company_deletion_pyc):
-			remove(company_deletion_pyc)
-	except Exception as e:
-		print(e)
-		frappe.log_error(e, "Company Deletion")
-
 def delete_standard_config_files():
 	config_files = ["accounts", "setup"]
 
@@ -141,29 +107,6 @@ def modify_frappe_files():
 		print(e)
 		frappe.log_error(e, "Frappe Files Modifications - Calendar timezone offset")
 
-def remove_erpnext_footer():
-	erpnex_footer_folder = frappe.get_app_path("erpnext", "templates", "includes", "footer")
-	try:
-		if os.path.exists(erpnex_footer_folder):
-			rmtree(erpnex_footer_folder)
-	except Exception as e:
-		print(e)
-		frappe.log_error(e, "ERPNext Footer Deletion")
-
-def change_log_removal():
-	users = frappe.get_all("User")
-
-	for user in users:
-		last_know_versions = frappe.db.get_value("User", user.name, "last_known_versions")
-
-		if last_know_versions is not None:
-			versions = json.loads(last_know_versions)
-
-			versions['erpnext']['version'] = frappe.get_attr("erpnext.__version__")
-			versions['frappe']['version'] = frappe.get_attr("frappe.__version__")
-
-			frappe.db.set_value("User", user, "last_known_versions", json.dumps(versions), update_modified=False)
-
 
 def replace(file_path, pattern, subst):
 	#Create temp file
@@ -178,11 +121,7 @@ def replace(file_path, pattern, subst):
 	move(abs_path, file_path)
 
 def before_migrate():
-	remove_deletion_from_permissions()
-	prevent_company_reset()
 	delete_standard_config_files()
 	delete_erpnext_hooks()
 	delete_frappe_hooks()
 	modify_frappe_files()
-	remove_erpnext_footer()
-	change_log_removal()
