@@ -27,7 +27,7 @@ class Codification(Document):
 		if(self.item):
 			try:
 				frappe.delete_doc("Item",self.item)
-			except Exception, e:
+			except Exception as e:
 				frappe.throw(__("""Please Disable the Codification"""))
 
 

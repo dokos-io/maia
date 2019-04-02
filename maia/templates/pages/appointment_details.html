@@ -4,48 +4,47 @@
 frappe.provide("maia.appointment");
 var appointment = maia.appointment;
 
-					frappe.ready(function() {
+frappe.ready(function() {
 
-						$("#cancel-appointment").click(function() {
-							appointment.cancel_appointment();
-						})
+	$("#cancel-appointment").click(function() {
+		appointment.cancel_appointment();
+	})
 
-						$("#confirm-cancellation").click(function() {
-							appointment.confirm_cancellation();
-						}),
+	$("#confirm-cancellation").click(function() {
+		appointment.confirm_cancellation();
+	}),
 
-
-$.extend(appointment, {
-	cancel_appointment: function() {
-		return frappe.call({
-			method: 'maia.templates.pages.appointment_details.confirm_cancellation',
-			callback: function(r) {
-				if (r.message) {
-					$('#cancel-appointment').addClass("hidden");
-					$('#confirm-cancellation').removeClass("hidden");
+	$.extend(appointment, {
+		cancel_appointment: function() {
+			return frappe.call({
+				method: 'maia.templates.pages.appointment_details.confirm_cancellation',
+				callback: function(r) {
+					if (r.message) {
+						$('#cancel-appointment').addClass("hidden");
+						$('#confirm-cancellation').removeClass("hidden");
+					}
 				}
-			}
-		});
-	},
+			});
+		},
 
-	confirm_cancellation: function() {
-		return frappe.call({
-			method: 'maia.templates.pages.appointment_details.cancel_appointment',
-			args: {
-				"doc": {{ '\"' + doc.name + '\"' }}
-			},
-			callback: function(r) {
-				if (r.message) {
-					$('#appointment-cancellation').html(r.message.confirmation);
-					$('#appointment-status').html(r.message.status);
+		confirm_cancellation: function() {
+			return frappe.call({
+				method: 'maia.templates.pages.appointment_details.cancel_appointment',
+				args: {
+					"doc": {{ '\"' + doc.name + '\"' }}
+				},
+				callback: function(r) {
+					if (r.message) {
+						$('#appointment-cancellation').html(r.message.confirmation);
+						$('#appointment-status').html(r.message.status);
+					}
 				}
-			}
-		});
-	}
+			});
+		}
+
+	});
 
 });
-
-					});
 </script>
 {% endblock %}
 
@@ -54,16 +53,16 @@ $.extend(appointment, {
 {% endblock %}
 {% block page_content %}
 <div class="row transaction-subheading">
-	<div class="col-xs-6" id="appointment-status">
+	<div class="col-6" id="appointment-status">
 		{% include "maia/templates/includes/appointments/appointment_status.html" %}
 	</div>
-	<div class="col-xs-6 text-muted text-right small">
+	<div class="col-6 text-muted text-right small">
 		{{ frappe.format_date(doc.date) }} - {{ frappe.utils.get_time(doc.start_time).strftime("%H:%M") }}
 	</div>
 </div>
 <br>
 <div class="row">
-	<div class="col-xs-6">
+	<div class="col-6">
 		<div class="clearfix">
 			<div>
 				<h4>{{ _("Practitioner") }}</h4>
@@ -81,7 +80,7 @@ $.extend(appointment, {
 			</div>
 		</div>
 	</div>
-	<div class="col-xs-6">
+	<div class="col-6">
 		<div class="clearfix">
 			<div>
 				<h4>{{ _("Date") }}</h4>
@@ -110,7 +109,7 @@ $.extend(appointment, {
 </div>
 {% if doc.docstatus==1 and show_cancel_button %}
 <div class="row">
-	<div class="col-xs-12">
+	<div class="col-12">
 		<div>
 			<div class="page-header-actions-block" data-html-block="header-actions" id="appointment-cancellation">
 				<p id="cancel-appointment">

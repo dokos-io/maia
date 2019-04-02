@@ -1,17 +1,17 @@
 <div class="web-list-item">
 	<a class="no-decoration" href="/my-appointments/{{ doc.name }}">
 		<div class="row">
-			<div class="col-xs-3">
+			<div class="col-3">
         <span class="indicator {{ "red" if doc.docstatus==2 else "darkgrey" if doc.end_dt < frappe.utils.now_datetime() else "green" if doc.docstatus==1  }}">
           {{  frappe.format_date(doc.date) }}</span>
 			</div>
-      <div class="col-xs-2 small text-muted">
+      <div class="col-2 small text-muted">
 				{{  frappe.utils.get_time(doc.start_time).strftime("%H:%M") }}
 			</div>
-      <div class="col-xs-3 small text-muted">
+      <div class="col-3 small text-muted">
 				{{  doc.practitioner }}
 			</div>
-			<div class="col-xs-4 text-right small text-muted">
+			<div class="col-4 text-right small text-muted">
 				{{ doc.appointment_type }}
 			</div>
 		</div>

@@ -47,7 +47,7 @@ def execute():
 			try:
 				subdoc.insert(ignore_permissions=True)
 				print(subdoc.name)
-			except frappe.DuplicateEntryError, e:
+			except frappe.DuplicateEntryError as e:
 				# pass DuplicateEntryError and continue
 				if e.args and e.args[0]==subdoc.doctype and e.args[1]==subdoc.name:
 					# make sure DuplicateEntryError is for the exact same doc and not a related doc
@@ -60,7 +60,7 @@ def execute():
 
 		try:
 			doc.insert(ignore_permissions=True)
-		except frappe.DuplicateEntryError, e:
+		except frappe.DuplicateEntryError as e:
 			# pass DuplicateEntryError and continue
 			if e.args and e.args[0]==subdoc.doctype and e.args[1]==subdoc.name:
 				# make sure DuplicateEntryError is for the exact same doc and not a related doc

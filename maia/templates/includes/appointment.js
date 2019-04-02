@@ -1,33 +1,36 @@
-// Copyright (c) 2018,DOKOS and Contributors
+// Copyright (c) 2019,DOKOS and Contributors
 // License: GNU General Public License v3. See license.txt
 
 frappe.provide('maia.appointment');
 
 frappe.ready(function() {
-	var selector = new maia.appointment.AppointmentSelector({
+	new maia.appointment.AppointmentSelector({
 		parent: $('.page-head'),
 	});
 });
 
-maia.appointment.AppointmentSelector = Class.extend({
-	init(opts) {
+maia.appointment.AppointmentSelector = class AppointmentSelector {
+	constructor(opts) {
 		$.extend(this, opts);
 		this.wrapper = this.parent.find('.page_content');
 		this.make();
 		moment.locale('fr');
-	},
+	}
+
 	make() {
 		var me = this;
-		me.$selector_progress = $('<div>').addClass('selector-progress text-center text-extra-muted').prependTo($('#header-selector'));
+		me.$selector_progress = $('<div>').addClass('selector-progress mx-auto text-extra-muted').appendTo($('#selector-steps'));
 		me.get_data();
-	},
+	}
+
 	selector_progress_dots() {
 		var me = this;
 		me.$selector_progress.empty();
 		for (let i = 1; i < me.steps + 1; i++) {
 			$(`<i class="fa fa-fw fa-circle"> </i>`).attr({'data-step-id': i}).appendTo(me.$selector_progress);
 		}
-	},
+	}
+
 	get_data() {
 		var me = this;
 		frappe.call({
@@ -37,7 +40,8 @@ maia.appointment.AppointmentSelector = Class.extend({
 				me.add_practitioner_section();
 			}
 		})
-	},
+	}
+
 	add_practitioner_section() {
 		var me = this;
 		$(frappe.render_template('practitioner_selector', {'data': me.data})).appendTo('#practitioner-selector');
@@ -57,12 +61,13 @@ maia.appointment.AppointmentSelector = Class.extend({
 			me.appointment_type_name = "";
 			me.group_appointment = 0;
 			me.practitioner = $(e.target).attr('data-value');
-			$(document).find('.practitioner-name').html('<h2>' + me.practitioner + '</h2>');
+			$(document).find('.practitioner-name').html('<h4>' + me.practitioner + '</h4>');
 			me.step = 1;
 			me.add_category_section();
 			me.update_progress_dots();
 		})
-	},
+	}
+
 	add_appointment_types_section() {
 		var me = this;
 		$('#description').removeClass('bordered-top');
@@ -82,7 +87,7 @@ maia.appointment.AppointmentSelector = Class.extend({
 		$(document).on('click', '.appointment-type-option', e => {
 			me.appointment_type = $(e.target).attr('data-value');
 			me.appointment_type_name = $(e.target).attr('display-value');
-			$(document).find('.appointment-type-name').html('<h2>' + me.appointment_type_name + '</h2>');
+			$(document).find('.appointment-type-name').html('<h4>' + me.appointment_type_name + '</h4>');
 			me.step = 3
 			me.update_progress_dots();
 			me.load_description();
@@ -91,7 +96,8 @@ maia.appointment.AppointmentSelector = Class.extend({
 			$('.bookpage').remove();
 			me.load_calendar();
 		})
-	},
+	}
+
 	add_category_section() {
 		var me = this;
 		$(document).find('#category-selector').remove();
@@ -105,7 +111,7 @@ maia.appointment.AppointmentSelector = Class.extend({
 				} else {
 					me.steps = 3;
 					me.selector_progress_dots();
-					$('<div class="col-sm-4 col-xs-12 h6 text-uppercase text-center" id="category-selector"></div>').insertAfter($('#practitioner-selector'))
+					$('<div class="col-sm-4 col-12 h6 text-uppercase" id="category-selector"></div>').insertAfter($('#practitioner-selector'))
 					$(frappe.render_template('category_selector', {'data': value.categories})).appendTo('#category-selector');
 				}
 			}
@@ -114,20 +120,22 @@ maia.appointment.AppointmentSelector = Class.extend({
 		$(document).on('click', '.category-option', e => {
 			me.remove_events();
 			me.category = $(e.target).attr('data-value');
-			$(document).find('.category-name').html('<h2>' + me.category + '</h2>');
+			$(document).find('.category-name').html('<h4>' + me.category + '</h4>');
 			me.step = 2;
 			me.update_progress_dots();
 			me.add_appointment_types_section();
 		})
 
-	},
+	}
+
 	update_progress_dots() {
 		var me = this;
 		me.$selector_progress.find('i').removeClass('active');
 		for (let i = 1; i < me.step + 1; i++) {
 			me.$selector_progress.find(`[data-step-id='${i}']`).addClass('active');
 		}
-	},
+	}
+
 	load_description() {
 		var me = this;
 		$('#description').empty();
@@ -147,7 +155,8 @@ maia.appointment.AppointmentSelector = Class.extend({
 			$('#description').html(me.appointment_type_description);
 			$('#description').addClass('bordered-top');
 		}
-	},
+	}
+
 	load_calendar(default_date=moment()) {
 		var me = this;
 		$('#calendar').removeClass('bg-grey');
@@ -230,9 +239,10 @@ maia.appointment.AppointmentSelector = Class.extend({
 				}
 			},
 		})
-		$('#calendar').show();
+		$('#calendar').removeClass('d-none');
 		$('#calendar').fullCalendar('render');
-	},
+	}
+
 	get_next_availability(start, isGroup) {
 		let me = this;
 		frappe.call({
@@ -251,7 +261,8 @@ maia.appointment.AppointmentSelector = Class.extend({
 				}
 			}
 		})
-	},
+	}
+
 	show_next_availability_page(message) {
 		let me = this;
 		me.next_date = message;
@@ -269,7 +280,8 @@ maia.appointment.AppointmentSelector = Class.extend({
 			$('#calendar').empty();
 			me.load_calendar(me.next_date.date);
 		})
-	},
+	}
+
 	prepare_events(events) {
 		var me = this;
 		return (events || []).map(d => {
@@ -292,7 +304,8 @@ maia.appointment.AppointmentSelector = Class.extend({
 
 			return d;
 		});
-	},
+	}
+
 	prepare_group_events(events) {
 		var me = this;
 		return (events || []).map(d => {
@@ -315,16 +328,20 @@ maia.appointment.AppointmentSelector = Class.extend({
 				d.allDay = 0;
 			return d;
 		});
-	},
+	}
+
 	remove_events() {
 		$('#calendar').fullCalendar('removeEvents');
-	},
+	}
+
 	refetch_events() {
 		$('#calendar').fullCalendar('refetchEvents');
-	},
+	}
+
 	destroy_calendar() {
 		$('#calendar').fullCalendar('destroy');
-	},
+	}
+
 	show_booking_page(event) {
 		var me = this;
 		me.event = event;
@@ -375,11 +392,12 @@ maia.appointment.AppointmentSelector = Class.extend({
 			e.stopImmediatePropagation();
 			return false;
 		})
-	},
+	}
+
 	clear_custom_pages() {
 		let me = this;
 		$('#calendar').empty();
 		me.load_calendar();
 	}
 
-});
+}

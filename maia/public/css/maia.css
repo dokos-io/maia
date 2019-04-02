@@ -97,6 +97,10 @@
 	color: #ff4081;
 }
 
+#description-row {
+	padding: 20px;
+}
+
 #description {
 	margin-top: 20px;
 	padding: 20px 0 20px 0;
@@ -105,6 +109,12 @@
 
 #description.bordered-top {
 	border-top: 1px solid #d1d8dd;
+}
+
+.appointment-type-name,
+.category-name,
+.practitioner-name {
+	padding: 10px;
 }
 
 .bg-grey {

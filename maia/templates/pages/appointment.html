@@ -19,7 +19,7 @@
 
 
 {% block script %}
-<script>{% include "public/js/frappe/misc/utils.js" %}</script>
+<script type="text/javascript" src="/assets/js/moment-bundle.min.js"></script>
 <script type="text/javascript" src="/assets/js/maia-web.min.js"></script>
 <script>{% include "templates/includes/appointment.js" %}</script>
 <script type="text/javascript" src="/assets/frappe/js/lib/fullcalendar/fullcalendar.min.js"></script>
@@ -27,14 +27,15 @@
 {% endblock %}
 
 {% block page_content %}
-<div class="row" id="header-selector">
-	<div class="col-xs-12">
-		<div class="col-sm-4 col-xs-12 h6 text-uppercase text-center" id='practitioner-selector'></div>
-		<div class="col-sm-4 col-xs-12 h6 text-uppercase text-center" id='appointment-type-selector'></div>
+<div id="header-selector">
+	<div class="row" id="selector-steps"></div>
+	<div class="row">
+		<div class="col-sm-4 col-12 h6 text-uppercase mx-auto" id='practitioner-selector'></div>
+		<div class="col-sm-4 col-12 h6 text-uppercase mx-auto" id='appointment-type-selector'></div>
 	</div>
-	<div class="col-xs-12" id="description"></div>
+	<div class="row" id="description-row">
+		<div class="col-12" id="description"></div>
+	</div>
 </div>
-<div class="row">
-	<div id="calendar" hidden></div>
-</div>
+<div id="calendar" class="d-none"></div>
 {% endblock %}

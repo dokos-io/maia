@@ -9,7 +9,7 @@ from maia.maia_appointment.scheduler import check_availability
 from frappe import _
 import datetime
 from frappe.utils import getdate, get_time, get_datetime, get_datetime_str, formatdate, now_datetime, add_days, nowdate, cstr, date_diff, add_months, cint, add_to_date
-from frappe.email.doctype.standard_reply.standard_reply import get_standard_reply
+from frappe.email.doctype.email_template.email_template import get_email_template
 from mailin import Mailin
 import re
 import json
@@ -97,7 +97,7 @@ class MaiaAppointment(Document):
 				"standard_reply": self.standard_reply,
 				"duration": self.duration
 			}
-			reply = get_standard_reply(self.standard_reply, args)
+			reply = get_email_template(self.standard_reply, args)
 
 			subject = reply["subject"]
 			message = reply["message"]
@@ -292,7 +292,7 @@ def get_events(start, end, filters=None):
 						str(cint(date[1]) - 1) + "-" + date[2]
 
 				start_from = date
-				for i in xrange(int(date_diff(end, start) / 30) + 3):
+				for i in range(int(date_diff(end, start) / 30) + 3):
 					if getdate(date) >= getdate(start) and getdate(date) <= getdate(end) \
 					   and getdate(date) <= getdate(repeat) and getdate(date) >= getdate(event_start):
 						add_event(e, date)
@@ -308,7 +308,7 @@ def get_events(start, end, filters=None):
 				# start from nearest weeday after last monday
 				date = add_days(start, weekday - start_weekday)
 
-				for cnt in xrange(int(date_diff(end, start) / 7) + 3):
+				for cnt in range(int(date_diff(end, start) / 7) + 3):
 					if getdate(date) >= getdate(start) and getdate(date) <= getdate(end) \
 					   and getdate(date) <= getdate(repeat) and getdate(date) >= getdate(event_start):
 						add_event(e, date)
@@ -318,7 +318,7 @@ def get_events(start, end, filters=None):
 				remove_events.append(e)
 
 			if e.repeat_on == "Every Day":
-				for cnt in xrange(date_diff(end, start) + 1):
+				for cnt in range(date_diff(end, start) + 1):
 					date = add_days(start, cnt)
 					if getdate(date) >= getdate(event_start) and getdate(date) <= getdate(end) \
 					   and getdate(date) <= getdate(repeat) and e[weekdays[getdate(date).weekday()]]:

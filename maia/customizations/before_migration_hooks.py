@@ -38,44 +38,10 @@ def delete_erpnext_hooks():
 			print(e)
 			frappe.log_error(e, "ERPNext Hooks Deletions")
 
-def delete_frappe_hooks():
-	frappe_hooks = frappe.get_app_path("frappe", "hooks.py")
-
-	patterns = ['app_email = "info@frappe.io"', '"frappe.utils.change_log.check_for_update"']
-
-	subst = ''
-	for pattern in patterns:
-		try:
-			replace(frappe_hooks, pattern, subst)
-		except Exception as e:
-			print(e)
-			frappe.log_error(e, "Frappe Hooks Deletions")
-
 def modify_frappe_files():
-	# Different File
-	frappe_file = frappe.get_app_path("frappe", "desk", "page", "modules", "modules.js")
-
-	pattern = 'frappe.get_desktop_icons(true)'
-	subst = 'frappe.get_desktop_icons(false)'
-	try:
-		replace(frappe_file, pattern, subst)
-	except Exception as e:
-		print(e)
-		frappe.log_error(e, "Frappe Files Modifications")
 
 	# Different File
-	frappe_file = frappe.get_app_path("frappe", "utils", "setup_docs.py")
-
-	pattern = 'self.add_sidebars()'
-	subst = ''
-	try:
-		replace(frappe_file, pattern, subst)
-	except Exception as e:
-		print(e)
-		frappe.log_error(e, "Frappe Files Modifications")
-
-	# Different File
-	frappe_file = frappe.get_app_path("frappe", "database.py")
+	frappe_file = frappe.get_app_path("frappe", "database", "mariadb", "database.py")
 
 	pattern = "if self.user != 'root':"
 	subst = "if self.user != 'root' and self.user != 'dokos_bdd':"
@@ -96,17 +62,6 @@ def modify_frappe_files():
 		print(e)
 		frappe.log_error(e, "Frappe Files Modifications - Standard Letter Loading")
 
-	# Timezone offset
-	frappe_file = frappe.get_app_path("frappe", "public", "js", "frappe", "views", "calendar", "calendar.js")
-
-	pattern = "moment.user_utc_offset"
-	subst = "(moment(date).tz(frappe.sys_defaults.time_zone)._offset)"
-	try:
-		replace(frappe_file, pattern, subst)
-	except Exception as e:
-		print(e)
-		frappe.log_error(e, "Frappe Files Modifications - Calendar timezone offset")
-
 
 def replace(file_path, pattern, subst):
 	#Create temp file
@@ -123,5 +78,4 @@ def replace(file_path, pattern, subst):
 def before_migrate():
 	delete_standard_config_files()
 	delete_erpnext_hooks()
-	delete_frappe_hooks()
 	modify_frappe_files()

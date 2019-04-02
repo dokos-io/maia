@@ -15,24 +15,29 @@ def get_data():
 					"name": "Maia Appointment",
 					"label": _("Appointment"),
 					"description": _("Appointment"),
+					"route": "#List/Maia Appointment",
+					"onboard": 1
 				},
 				{
 					"type": "doctype",
 					"name": "Patient Record",
 					"label": _("Patient Record"),
 					"description": _("Patient Record"),
+					"onboard": 1
 				},
 				{
 					"type": "doctype",
 					"name": "Free Prescription",
 					"label": _("Free Prescriptions"),
 					"description": _("Free Prescriptions"),
+					"onboard": 1
 				},
 				{
 					"type": "doctype",
 					"name": "Sales Invoice",
 					"label": _("Invoices"),
 					"description": _("Invoices"),
+					"onboard": 1
 				},
 				]
 			},
