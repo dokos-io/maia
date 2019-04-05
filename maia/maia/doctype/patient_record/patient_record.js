@@ -39,7 +39,7 @@ frappe.ui.form.on("Patient Record", {
 	},
 	invite_as_user: function(frm) {
 		frm.save();
-		var d = new frappe.ui.Dialog({
+		let d = new frappe.ui.Dialog({
 			'title': __('Create a New Website User ?'),
 			fields: [{
 					fieldtype: "HTML",
@@ -73,7 +73,7 @@ frappe.ui.form.on("Patient Record", {
 		};
 	},
 	mobile_no: function(frm) {
-		var reg = /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/
+		const reg = /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/
 		if (!frm.doc.mobile_no.match(reg)) {
 			frappe.msgprint(__("The mobile n° format is incorrect"));
 		}
@@ -117,22 +117,22 @@ frappe.ui.form.on("Patient Record", {
 });
 
 function calculate_age(frm, source, target) {
-	today = new Date();
-	birthDate = new Date(frm.doc[source]);
+	const today = new Date();
+	const birthDate = new Date(frm.doc[source]);
 	if (today < birthDate) {
 		frappe.msgprint(__('Please select a valid Date'));
 		frappe.model.set_value(frm.doctype, frm.docname, source, null)
 	} else {
-		age_yr = today.getFullYear() - birthDate.getFullYear();
-		today_m = today.getMonth() + 1 //Month jan = 0
-		birth_m = birthDate.getMonth() + 1 //Month jan = 0
-		m = today_m - birth_m;
+		let age_yr = today.getFullYear() - birthDate.getFullYear();
+		const today_m = today.getMonth() + 1 //Month jan = 0
+		const birth_m = birthDate.getMonth() + 1 //Month jan = 0
+		const m = today_m - birth_m;
 
 		if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
 			age_yr--;
 		}
 
-		age_str = null
+		let age_str = null
 		if (age_yr > 0)
 			age_str = age_yr + " " + __('Years Old')
 
@@ -142,9 +142,9 @@ function calculate_age(frm, source, target) {
 };
 
 function calculate_bmi(frm) {
-	var weight = frm.doc.weight;
-	var height = frm.doc.height;
-	bmi = Math.round(weight / Math.pow(height, 2));
+	const weight = frm.doc.weight;
+	const height = frm.doc.height;
+	const bmi = Math.round(weight / Math.pow(height, 2));
 	frappe.model.set_value(frm.doctype, frm.docname, "body_mass_index", bmi)
 
 };
@@ -167,7 +167,7 @@ let setup_chart = function(frm) {
 
 				let $wrap = $('div[data-fieldname=weight_curve]').get(0);
 
-				new frappeChart.Chart($wrap, {
+				new Chart($wrap, {
 					title: __("Patient Weight"),
 					data: data,
 					type: 'line',
@@ -185,7 +185,12 @@ let setup_chart = function(frm) {
 $.extend(maia.patient_record, {
 	make_dashboard: function(frm) {
 		frappe.require('assets/js/patient-dashboard.min.js', function() {
-					var section = frm.dashboard.add_section('<div class="row"><button class="btn btn-xs btn-default btn-custom_dashboard">'+__("Memo")+'</button></div>');
+					const section = frm.dashboard.add_section(`<div class="row">
+					<div class="row">
+						<button class="btn btn-xs btn-default btn-custom_dashboard">${__("Memo")}</button>
+					</div>
+					<div id="patient-dashboard-section"></div>
+					</div>`);
 					maia.patient_record.custom_patient_dashboard = new maia.patient.PatientDashboard({
 						parent: section,
 						patient_record: frm.doc.name

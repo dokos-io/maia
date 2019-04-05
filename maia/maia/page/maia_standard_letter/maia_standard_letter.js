@@ -26,12 +26,13 @@ frappe.pages['maia-standard-letter'].on_page_show = function(wrapper) {
 	}
 }
 
-frappe.MaiaStandardLetter = Class.extend({
-	init(parent) {
+frappe.MaiaStandardLetter = class MaiaStandardLetter {
+	constructor(parent) {
 		this.parent = parent;
 		this.make();
 		this.refresh();
-	},
+	}
+
 	refresh() {
 		this.custom_html_count = 0;
 		if(!this.standard_letter) {
@@ -40,7 +41,8 @@ frappe.MaiaStandardLetter = Class.extend({
 			this.page.set_title(this.standard_letter.name);
 			this.setup_print_format();
 		}
-	},
+	}
+
 	make() {
 		this.page = frappe.ui.make_app_page({
 			parent: this.parent,
@@ -54,7 +56,8 @@ frappe.MaiaStandardLetter = Class.extend({
 		this.page.main = $('<div class="border maia-standard-letter-main" \
 			style="width: calc(100% - 200px);"></div>').appendTo(this.page.main);
 
-	},
+	}
+
 	show_start() {
 		this.page.main.html(frappe.render_template("maia_standard_letter_start", {}));
 		this.page.sidebar.html("");
@@ -62,7 +65,8 @@ frappe.MaiaStandardLetter = Class.extend({
 		this.page.set_title(__("Standard Letter Builder"));
 		this.start_edit_standard_letter();
 		this.start_new_standard_letter();
-	},
+	}
+
 	start_edit_standard_letter() {
 		// Maia Standard Letter control
 		var me = this;
@@ -95,7 +99,8 @@ frappe.MaiaStandardLetter = Class.extend({
 				frappe.set_route('maia-standard-letter', name);
 			});
 		});
-	},
+	}
+
 	start_new_standard_letter() {
 		var me = this;
 
@@ -117,7 +122,8 @@ frappe.MaiaStandardLetter = Class.extend({
 			}
 			me.setup_new_print_format(doctype, name);
 		});
-	},
+	}
+
 	setup_new_print_format(doctype, name) {
 		var me = this;
 		frappe.call({
@@ -136,11 +142,13 @@ frappe.MaiaStandardLetter = Class.extend({
 				me.refresh();
 			}
 		});
-	},
+	}
+
 	setup_print_format() {
 		var me = this;
 		me.fields = me.get_usable_fields(me.standard_letter.doc_type)
-	},
+	}
+
 	get_usable_fields(doctype) {
 		let me = this;
 		frappe.model.with_doctype(doctype, function(d) {
@@ -237,7 +245,8 @@ frappe.MaiaStandardLetter = Class.extend({
 				});
 			})
 		});
-	},
+	}
+
 	setup_sidebar() {
 		let me = this;
 		this.page.sidebar.empty();
@@ -264,7 +273,8 @@ frappe.MaiaStandardLetter = Class.extend({
 		this.setup_field_filter();
 		this.bind_doctypes_fields();
 		this.bind_docfields();
-	},
+	}
+
 	render_layout() {
 		let me = this;
 		this.page.main.empty();
@@ -292,17 +302,20 @@ frappe.MaiaStandardLetter = Class.extend({
 		});
 		$(this.disabled_input.input).prop("checked", me.standard_letter.disabled);
 		$(this.signature_input.input).prop("checked", me.standard_letter.signature);
-	},
+	}
+
 	setup_text_editor(data) {
 		this.editable_text = new EditableText({
 			parent: $(this.page.main).find('.maia-standard-letter-texteditor'),
 			data: data
 		});
-	},
+	}
+
 	prepare_data() {
 		this.layout_data = [];
 		this.data = this.standard_letter.editor_data || "";
-	},
+	}
+
 	setup_field_filter() {
 		var me = this;
 		this.page.sidebar.find(".filter-fields").on("keyup", function() {
@@ -312,14 +325,16 @@ frappe.MaiaStandardLetter = Class.extend({
 				$(this).parent().toggle(show);
 			})
 		});
-	},
+	}
+
 	bind_doctypes_fields() {
 		let me = this;
 		this.page.sidebar.on("click", ".field-doctype-label", function() {
 			let dt = $(this).attr("data-fieldtype");
 			me.page.sidebar.find(`[data-dtref='${dt}']`).toggleClass('hidden');
 		});
-	},
+	}
+
 	bind_docfields() {
 		const me = this;
 
@@ -345,7 +360,8 @@ frappe.MaiaStandardLetter = Class.extend({
 			me.editable_text.input.summernote('insertNode', createField(label, name, doctype, reference, dataFunction, fieldtype));
 			me.editable_text.input.summernote('pasteHTML', '&nbsp;');
 		});
-	},
+	}
+
 	save_print_format() {
 		let me = this;
 
@@ -366,7 +382,7 @@ frappe.MaiaStandardLetter = Class.extend({
 			}
 		})
 	}
- })
+ }
 
 
 EditableText = class EditableText {

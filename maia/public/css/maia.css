@@ -3,74 +3,14 @@
 	background-color: #f0f7f9;
 }
 
-.dashboard-col-1,
-.dashboard-col-2,
-.dashboard-col-3 {
-	padding-left: 5px;
-	padding-right: 5px;
-}
-
-.patient-dashboard-card.col-sm-12,
-.patient-dashboard-card.col-sm-6,
-.patient-dashboard-card.col-md-12 {
-	padding-left: 5px;
-	padding-right: 5px;
-}
-
-.custom-dashboard-card {
-		height: 100%;
-		min-width:  100%;
-}
-
 .btn-custom_dashboard {
 	float: right;
-	margin-right: 15px;
+	margin-right: 30px;
 	background-color: #cce4ea;
-}
-
-.custom_dashboard {
-	background-color: #fff;
-	padding: 15px 15px;
-	margin: 7px 0px;
-	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
-	border-radius: 2px;
-}
-
-.custom_dashboard h4 {
-	margin-top: 2px;
-	font-size: 15px;
 }
 
 .text-muted.small {
 	font-size: 11px;
-}
-
-.patientdashboard-icon {
-	border-bottom: 1px solid #d1d8dd;
-}
-
-.patientdashboard-icon img {
-	max-width:40px;
-}
-
-.patientdashboard-general-section,
-.patientdashboard-pregnancy-section,
-.patientdashboard-delivery-section,
-.patientdashboard-newborn-section,
-.patientdashboard-labexams-section,
-.patientdashboard-gynecology-section,
-.patientdashboard-pr-section {
-	margin-top: 15px;
-	margin-bottom: 25px;
-}
-
-.patientdashboard-data {
-	color: #425668;
-	word-wrap: break-word;
-}
-
-.gravidity-parity {
-	color: #ff4081;
 }
 
 .modal-body h4 {

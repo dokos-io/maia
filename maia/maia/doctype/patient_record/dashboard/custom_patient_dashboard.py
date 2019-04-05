@@ -34,236 +34,358 @@ def get_patient_dashboard(patient_record):
 def get_data(patient_record):
 	dashboard = get_patient_dashboard(patient_record)
 	patient = frappe.get_doc("Patient Record", patient_record)
-	data=[]
-	generaldata = {}
-	gynecologydata = {}
-	pregnancydata = {}
-	deliverydata = {}
-	newborndata = {}
-	labexamsdata = {}
-	perehabilitationdata = {}
+	data={
+		"generaldata": {
+			"icon": "/assets/maia/images/general.svg"
+		},
+		"gynecologydata": {
+			"icon": "/assets/maia/images/gynecology.svg"
+		},
+		"pregnancydata": {
+			"icon": "/assets/maia/images/pregnancy.svg"
+		},
+		"deliverydata":{
+			"icon": "/assets/maia/images/delivery.svg"
+		},
+		"newborndata": {
+			"icon": "/assets/maia/images/newborn.svg"
+		},
+		"labexamsdata": {
+			"icon": "/assets/maia/images/lab_exam_results.svg"
+		},
+		"perehabilitationdata": {
+			"icon": "/assets/maia/images/perineum_rehabilitation.svg"
+		}
+	}
 
 	latest_pregnancy = get_last_pregnancy(patient_record)
-	if latest_pregnancy:
-		patient_latest_pregnancy = frappe.get_doc("Pregnancy", latest_pregnancy[0].name)
+	patient_latest_pregnancy = frappe.get_doc("Pregnancy", latest_pregnancy[0].name) if latest_pregnancy else None
 
 	gynecology_folders = frappe.get_all("Gynecology", dict(patient_record=patient_record))
 
-	#General Section
-	#Gravidity
+	#General section
+	#Gravidity and parity
 	gravidity, parity = parity_gravidity_calculation(patient_record)
-	if dashboard.gravidity_parity:
-		generaldata['gravidity'] = gravidity
-
-	#Parity
-	if dashboard.gravidity_parity:
-		generaldata['parity'] = parity
+	data["generaldata"]["gravidity"] = {
+		"label": _("Gestity"),
+		"value": gravidity,
+		"color": "#ff4081",
+		"enabled": 1 if dashboard.gravidity_parity else 0
+	}
+	data["generaldata"]["parity"] = {
+		"label": _("Parity"),
+		"color": "#ff4081",
+		"value": parity,
+		"enabled": 1 if dashboard.gravidity_parity else 0
+	}
 
 	#Allergies
-	if dashboard.allergies and patient.allergies:
-		generaldata['allergies'] = patient.allergies
+	data["generaldata"]["allergies"] = {
+		"label": _("Allergies"),
+		"value": patient.allergies,
+		"enabled": 1 if dashboard.allergies and patient.allergies else 0
+	}
 
 	#Medical Background
-	if dashboard.medical_background and patient.long_term_disease:
-		generaldata['medical_background'] = patient.long_term_disease
+	data["generaldata"]["medical_background"] = {
+		"label": _("Medical Background"),
+		"value": patient.long_term_disease,
+		"enabled": 1 if dashboard.medical_background and patient.long_term_disease else 0
+	}
 
 	#Addictions
-	if dashboard.addictions and patient.patient_addictions:
-		generaldata['addictions'] = patient.patient_addictions
+	data["generaldata"]["addictions"] = {
+		"label": _("Addictions"),
+		"value": patient.patient_addictions,
+		"enabled": 1 if dashboard.addictions and patient.patient_addictions else 0
+	}
 
 	#Blood type
-	if dashboard.blood_group:
-		blood_group = frappe.db.get_value("Patient Record", patient_record, "blood_group")
-		negative_list = ["A-", "B-", "AB-", "O-"]
-		if blood_group in negative_list:
-			color = "red"
-		else:
-			color = "black"
-		if blood_group != "":
-			generaldata['blood_group'] = {"name": blood_group, "color": color}
+	blood_group = frappe.db.get_value("Patient Record", patient_record, "blood_group")
+	negative_list = ["A-", "B-", "AB-", "O-"]
+	data["generaldata"]["blood_group"] = {
+		"label": _("Blood Group"),
+		"value": blood_group, 
+		"color": "#ff5858" if blood_group in negative_list else "#36414c",
+		"enabled": 1 if dashboard.blood_group and blood_group != "" else 0
+	}
 
 	#Gynecology Section
 	#Cervical Smear
-	if dashboard.cervical_smear:
-		gynecologydata['cervical_smear'] = get_last_cervical_smear(patient_record)
+	data["gynecologydata"]["cervical_smear"] = {
+		"label": _("Last Cervical Smear"), 
+		"value": get_last_cervical_smear(patient_record),
+		"enabled" : 1 if dashboard.cervical_smear else 0,
+		"value_fields": ["date", "result"]
+	}
 
 	#Current Contraception
-	if dashboard.contraception and patient.contraception:
-		gynecologydata['contraception'] = patient.contraception
+	data["gynecologydata"]["contraception"] = {
+		"label": _("Current Contraception"), 
+		"value": patient.contraception,
+		"enabled": 1 if dashboard.contraception and patient.contraception else 0
+	}
 
 	#Screening Tests
-	if dashboard.screening_tests:
-		gynecologydata['screening_tests'] = get_last_screening_test(patient_record)
+	data["gynecologydata"]["screening_tests"] = {
+		"label": _("Last Screening Test"),
+		"value": get_last_screening_test(patient_record),
+		"enabled": 1 if dashboard.screening_tests else 0,
+		"value_fields": ["date"]
+	}
 
 	#Lipid Profile
-	if dashboard.lipid_profile:
-		gynecologydata['lipid_profile'] = get_last_lipid_profile(patient_record)
+	data["gynecologydata"]["lipid_profile"] = {
+		"label": _("Last Lipid Profile"),
+		"value": get_last_lipid_profile(patient_record),
+		"enabled": 1 if dashboard.lipid_profile else 0,
+		"value_fields": ["date"]
+	}
 
 	#Mammography
-	if dashboard.mammography:
-		gynecologydata['mammography'] = get_last_mammography(patient_record)
+	data["gynecologydata"]["mammography"] = {
+		"label": _("Last Mammography"), 
+		"value": get_last_mammography(patient_record),
+		"enabled": 1 if dashboard.mammography else 0,
+		"value_fields": ["date"]
+	}
 
 	#Pregnancy Section
 	#Beginning of Pregnancy
-	if dashboard.beginning_of_pregnancy:
-		if latest_pregnancy:
-			if patient_latest_pregnancy.beginning_of_pregnancy is not None:
-				pregnancydata['beginning_of_pregnancy'] = global_date_format(patient_latest_pregnancy.beginning_of_pregnancy)
-		else:
-			pregnancydata['beginning_of_pregnancy'] = None
+	data["pregnancydata"]["beginning_of_pregnancy"] = {
+		"label": _("Beginning of Pregnancy"), 
+		"value": global_date_format(patient_latest_pregnancy.beginning_of_pregnancy) \
+			if patient_latest_pregnancy.beginning_of_pregnancy is not None else None,
+		"enabled": 1 if dashboard.beginning_of_pregnancy else 0,
+		"alter_text": _("Please set the beginning of pregnancy date in your latest pregnancy folder")
+	}
 
 	#Expected Term
-	if dashboard.expected_term:
-		if latest_pregnancy:
-			if patient_latest_pregnancy.expected_term is not None:
-				pregnancydata['expected_term'] = global_date_format(patient_latest_pregnancy.expected_term)
-		else:
-			pregnancydata['expected_term'] = None
+	data["pregnancydata"]["expected_term"] = {
+		"label": _("Expected Term"), 
+		"value": global_date_format(patient_latest_pregnancy.expected_term) \
+			if patient_latest_pregnancy.expected_term is not None else None,
+		"enabled": 1 if dashboard.expected_term else 0,
+		"alter_text": _("Please set the expected term date in your latest pregnancy folder")
+	}
 
 	#Preferred Location for Delivery
-	if dashboard.preferred_location_for_delivery:
-		if latest_pregnancy:
-			pregnancydata['preferred_location_for_delivery'] = patient_latest_pregnancy.preferred_location_for_delivery
+	data["pregnancydata"]["preferred_location_for_delivery"] = {
+		"label": _("Preferred Location for Delivery"),
+		"value": patient_latest_pregnancy.preferred_location_for_delivery if latest_pregnancy else None,
+		"enabled": 1 if dashboard.preferred_location_for_delivery else 0
+	}
 
 	#Pregnancy Complications
-	if dashboard.pregnancy_complications:
-		if latest_pregnancy and patient_latest_pregnancy.pregnancy_complications:
-			pregnancydata['pregnancy_complications'] = patient_latest_pregnancy.pregnancy_complications
+	data["pregnancydata"]["pregnancy_complications"] = {
+		"label": _("Pregnancy Complications"),
+		"value": patient_latest_pregnancy.pregnancy_complications if latest_pregnancy else None,
+		"enabled": 1 if dashboard.pregnancy_complications else 0
+	}
 
 	#Lab Exam Section
 	#Exam Results
-	if dashboard.exam_results:
-		labexamsdata['exam_results'] = []
+	data["labexamsdata"]["exam_results"] = {
+		"value_label": "label",
+		"value_fields": ["value"],
+		"value": []
+	}
 
-		for folder in gynecology_folders:
-			doc = frappe.get_doc("Gynecology", folder)
-			for result in doc.labs_results:
-					result.date = global_date_format(result.date)
-					labexamsdata['exam_results'].append(result)
+	enabled = 0
+	for folder in gynecology_folders:
+		doc = frappe.get_doc("Gynecology", folder)
+		for result in doc.labs_results:
+			if result.show_on_dashboard:
+				enabled = 1 if dashboard.exam_results else enabled
+				r = {
+					"date": global_date_format(result.date),
+					"label": _(result.exam_type),
+					"value": result.exam_result,
+					"enabled": 1 if dashboard.exam_results else 0
+				}
+				data["labexamsdata"]["exam_results"]["value"].append(r)
 
-		if latest_pregnancy:
-			for results in patient_latest_pregnancy.labs_results:
-				if results.show_on_dashboard:
-					results.date = global_date_format(results.date)
-					labexamsdata['exam_results'].append(results)
-
-		else:
-			labexamsdata['exam_results'] = None
+	if latest_pregnancy:
+		for results in patient_latest_pregnancy.labs_results:
+			if results.show_on_dashboard:
+				enabled = 1 if dashboard.exam_results else enabled
+				r = {
+					"date": global_date_format(results.date),
+					"label": _(results.exam_type),
+					"value": results.exam_result,
+					"enabled": 1 if dashboard.exam_results else 0
+				}
+				data["labexamsdata"]["exam_results"]["value"].append(r)
+	
+	data["labexamsdata"]["exam_results"]["enabled"] = enabled
+				
 
 	#Delivery Section
 	#Delivery Date
-	if dashboard.delivery_date:
-		if latest_pregnancy:
-			delivery_date = patient_latest_pregnancy.date_time
+	delivery_date = patient_latest_pregnancy.date_time if latest_pregnancy else None
 
-			if delivery_date is not None:
-				deliverydata['delivery_date'] = global_date_format(getdate(delivery_date))
-			else:
-				deliverydata['delivery_date'] = None
+	data["deliverydata"]["delivery_date"] = {
+		"label": _("Delivery Date"),
+		"value": global_date_format(getdate(delivery_date)) if delivery_date is not None else None,
+		"enabled": 1 if dashboard.delivery_date else 0,
+		"alter_text": _("Please set a delivery date in your latest pregnancy folder")
+	}
 
 	#Delivery Type
-	if dashboard.delivery_way:
-		if latest_pregnancy:
-			delivery_way = patient_latest_pregnancy.delivery_way
-			deliverydata['delivery_way'] = delivery_way
+	delivery_way = patient_latest_pregnancy.delivery_way if latest_pregnancy else None
+	data["deliverydata"]["delivery_way"] = {
+		"label": _("Delivery Way"),
+		"value": delivery_way,
+		"enabled": 1 if dashboard.delivery_way else 0
+	}
 
 	#Delivery Complications
-	if dashboard.delivery_complications:
-		if latest_pregnancy and patient_latest_pregnancy.anesthesia_complications:
-			delivery_complications = patient_latest_pregnancy.anesthesia_complications
-			deliverydata['delivery_complications'] = delivery_complications
+	delivery_complications = patient_latest_pregnancy.anesthesia_complications \
+		if latest_pregnancy and patient_latest_pregnancy.anesthesia_complications else None
+	data["deliverydata"]["delivery_complications"] = {
+		"label": _("Delivery Complications"),
+		"value": delivery_complications,
+		"enabled": 1 if dashboard.delivery_complications else 0
+	}
 
 	#Scar
-	if dashboard.scar:
-		if latest_pregnancy:
-			scar = patient_latest_pregnancy.scar
-			deliverydata['scar'] = scar
+	scar = patient_latest_pregnancy.scar if latest_pregnancy else None
+	data["deliverydata"]["scar"] = {
+		"label": _("Scar"),
+		"value": scar,
+		"enabled": 1 if dashboard.scar else 0
+	}
 
 	#Child Section
-	newborndata['firstchild'] = {}
-	newborndata['secondchild'] = {}
-	newborndata['thirdchild'] = {}
+	data["newborndata"]["firstchild"] = {}
+	data["newborndata"]["secondchild"] = {}
+	data["newborndata"]["thirdchild"] = {}
+
 	#Child Name
-	if dashboard.child_name:
-		if latest_pregnancy:
-			if patient_latest_pregnancy.full_name:
-				newborndata['firstchild'].update({'child_name': patient_latest_pregnancy.full_name})
-			if (patient_latest_pregnancy.twins or patient_latest_pregnancy.triplets) and patient_latest_pregnancy.full_name_2:
-				newborndata['secondchild'].update({'child_name': patient_latest_pregnancy.full_name_2})
-			if patient_latest_pregnancy.triplets and patient_latest_pregnancy.full_name_3:
-				newborndata['thirdchild'].update({'child_name': patient_latest_pregnancy.full_name_3})
+	first_child_name = patient_latest_pregnancy.full_name if latest_pregnancy else None
+	second_child_name = patient_latest_pregnancy.full_name_2 \
+		if latest_pregnancy and (patient_latest_pregnancy.twins or patient_latest_pregnancy.triplets) \
+		else None
+	third_child_name = patient_latest_pregnancy.full_name_3 if latest_pregnancy and \
+		patient_latest_pregnancy.triplets else None
+
+	data["newborndata"]["firstchild"]["child_name"] = {
+		"label": _("Child name"),
+		"value": first_child_name,
+		"enabled": 1 if dashboard.child_name else 0
+	}
+
+	data["newborndata"]["secondchild"]["child_name"] = {
+		"label": _("Child name"),
+		"value": second_child_name,
+		"enabled": 1 if dashboard.child_name else 0
+	}
+
+	data["newborndata"]["thirdchild"]["child_name"] = {
+		"label": _("Child name"),
+		"value": third_child_name,
+		"enabled": 1 if dashboard.child_name else 0
+	}
 
 	#Child Weight
-	if dashboard.birth_weight:
-		if latest_pregnancy:
-			if patient_latest_pregnancy.birth_weight:
-				newborndata['firstchild'].update({'birth_weight': patient_latest_pregnancy.birth_weight})
-			if (patient_latest_pregnancy.twins or patient_latest_pregnancy.triplets) and patient_latest_pregnancy.birth_weight_2:
-				newborndata['secondchild'].update({'birth_weight': patient_latest_pregnancy.birth_weight_2})
-			if patient_latest_pregnancy.triplets and patient_latest_pregnancy.birth_weight_3:
-				newborndata['thirdchild'].update({'birth_weight': patient_latest_pregnancy.birth_weight_3})
+	first_child_weight = patient_latest_pregnancy.birth_weight if latest_pregnancy else None
+	second_child_weight = patient_latest_pregnancy.birth_weight_2 if latest_pregnancy and \
+		(patient_latest_pregnancy.twins or patient_latest_pregnancy.triplets) else None
+	third_child_weight = patient_latest_pregnancy.birth_weight_3 if latest_pregnancy and \
+		patient_latest_pregnancy.triplets else None
+
+	data["newborndata"]["firstchild"]["birth_weight"] = {
+		"label": _("Birth Weight"),
+		"value": first_child_weight,
+		"enabled": 1 if dashboard.birth_weight else 0
+	}
+
+	data["newborndata"]["secondchild"]["birth_weight"] = {
+		"label": _("Birth Weight"),
+		"value": second_child_weight,
+		"enabled": 1 if dashboard.birth_weight else 0
+	}
+
+	data["newborndata"]["thirdchild"]["birth_weight"] = {
+		"label": _("Birth Weight"),
+		"value": third_child_weight,
+		"enabled": 1 if dashboard.birth_weight else 0
+	}
 
 	#Feeding Type
-	if dashboard.feeding_type:
-		if latest_pregnancy:
-			if patient_latest_pregnancy.feeding_type:
-				newborndata['firstchild'].update({'feeding_type': patient_latest_pregnancy.feeding_type})
-			if (patient_latest_pregnancy.twins or patient_latest_pregnancy.triplets) and patient_latest_pregnancy.feeding_type_2:
-				newborndata['secondchild'].update({'feeding_type': patient_latest_pregnancy.feeding_type_2})
-			if patient_latest_pregnancy.triplets and patient_latest_pregnancy.feeding_type_3:
-				newborndata['thirdchild'].update({'feeding_type': patient_latest_pregnancy.feeding_type_3})
+	first_child_feeding = patient_latest_pregnancy.feeding_type if latest_pregnancy else None
+	second_child_feeding = patient_latest_pregnancy.feeding_type_2 if latest_pregnancy and \
+		(patient_latest_pregnancy.twins or patient_latest_pregnancy.triplets) else None
+	third_child_feeding = patient_latest_pregnancy.feeding_type_3 if latest_pregnancy and \
+		patient_latest_pregnancy.triplets else None
+
+	data["newborndata"]["firstchild"]["feeding_type"] = {
+		"label": _("Feeding Type"),
+		"value": first_child_feeding,
+		"enabled": 1 if dashboard.feeding_type else 0
+	}
+
+	data["newborndata"]["secondchild"]["feeding_type"] = {
+		"label": _("Feeding Type"),
+		"value": second_child_feeding,
+		"enabled": 1 if dashboard.feeding_type else 0
+	}
+
+	data["newborndata"]["thirdchild"]["feeding_type"] = {
+		"label": _("Feeding Type"),
+		"value": third_child_feeding,
+		"enabled": 1 if dashboard.feeding_type else 0
+	}
 
 	#Perineum Rehabilitation Section
 	#Get latest folder
-	if dashboard.urgency_of_urination or dashboard.overactive_bladder or dashboard.testing:
-		folder = get_last_perineum_rehabilitation(patient_record)
-		if not folder:
-			pr_folder = None
-		else:
-			pr_folder = frappe.get_doc("Perineum Rehabilitation", folder[0].name)
+	folder = get_last_perineum_rehabilitation(patient_record)
+	pr_folder = frappe.get_doc("Perineum Rehabilitation", folder[0].name) if folder else None
 
-			#Urgency of Urination
-			if dashboard.urgency_of_urination:
-				if pr_folder is not None:
-					perehabilitationdata['urgency_of_urination'] = _(pr_folder.urgency_of_urination)
-				else:
-					perehabilitationdata['urgency_of_urination'] = None
+	#Urgency of Urination
+	data["perehabilitationdata"]["urgency_of_urination"] = {
+		"label": _("Urgency of urination"),
+		"value": _(pr_folder.urgency_of_urination) if pr_folder else None,
+		"enabled": 1 if dashboard.urgency_of_urination else 0
+	}
 
-			#Overactive Bladder
-			if dashboard.overactive_bladder:
-				if pr_folder is not None:
-					perehabilitationdata['overactive_bladder'] = _(pr_folder.overactive_bladder)
-				else:
-					perehabilitationdata['overactive_bladder'] = None
+	#Overactive Bladder
+	data["perehabilitationdata"]["overactive_bladder"] = {
+		"label": _("Overactive Bladder"),
+		"value": _(pr_folder.overactive_bladder) if pr_folder else None,
+		"enabled": 1 if dashboard.overactive_bladder else 0
+	}
 
-			#Testing
-			if dashboard.testing:
-				if pr_folder is not None and pr_folder.testing:
-					perehabilitationdata['testing'] = pr_folder.testing
+	#Testing
+	data["perehabilitationdata"]["testing"] = {
+		"label": _("Testing"),
+		"value": pr_folder.testing if pr_folder else None,
+		"enabled": 1 if dashboard.testing else 0
+	}
 
+	return enable_dashboard_modules(data)
 
-	if generaldata:
-		data.append({'general': generaldata})
-
-	if pregnancydata and (('expected_term' in pregnancydata) or ('beginning_of_pregnancy' in pregnancydata)):
-		data.append({'pregnancy': pregnancydata})
-
-	if deliverydata:
-		data.append({'delivery': deliverydata})
-
-	if newborndata['firstchild'] or newborndata['secondchild'] or newborndata['thirdchild']:
-		data.append({'newborn': newborndata})
-
-	if labexamsdata and ('exam_results' in labexamsdata):
-		if labexamsdata['exam_results']:
-			data.append({'labexams': labexamsdata})
-
-	if perehabilitationdata:
-		data.append({'perehabilitation': perehabilitationdata})
-
-	if gynecologydata:
-		data.append({'gynecology': gynecologydata})
-
+def enable_dashboard_modules(data):
+	for d in data:
+		enabled = 0
+		for k, v in data[d].items():
+			if isinstance(v, dict):
+				try:
+					for l, w in data[d][k].items():
+						if isinstance(w, dict):
+							enabled = 1 if data[d][k][l]["enabled"] == 1 else enabled
+						else:
+							enabled = 1 if data[d][k]["enabled"] == 1 else enabled
+				except Exception:
+					frappe.log_error(frappe.get_traceback(), "Maia dashboard error")
+			elif isinstance(v, str):
+				continue
+			else:
+				for m in data[d][k]:
+					enabled = 1 if m.enabled == 1 else enabled
+		
+		data[d]["enabled"] = enabled
+	
 	return data
 
 def get_last_pregnancy(patient_record):
@@ -289,12 +411,12 @@ def get_last_pregnancy(patient_record):
 	else:
 		date_time = "1900-01-01"
 
-	d = {'beginning_of_pregnancy':getdate(latest_beginning_of_pregnancy), 'expected_term':getdate(latest_expected_term), 'last_menstrual_period':getdate(latest_last_menstrual_period), 'date_time': getdate(date_time)}
+	d = {"beginning_of_pregnancy":getdate(latest_beginning_of_pregnancy), "expected_term":getdate(latest_expected_term), "last_menstrual_period":getdate(latest_last_menstrual_period), "date_time": getdate(date_time)}
 
-	latest_date=max(d.iterkeys(), key = (lambda x: d[x]))
+	latest_date=max(d.keys(), key = (lambda x: d[x]))
 
-	if latest_date == 'date_time':
-		last_pregnancy = frappe.get_all("Pregnancy", filters={"patient_record": patient_record, 'date_time': date_time})
+	if latest_date == "date_time":
+		last_pregnancy = frappe.get_all("Pregnancy", filters={"patient_record": patient_record, "date_time": date_time})
 	else:
 		last_pregnancy = frappe.get_all("Pregnancy", filters={"patient_record": patient_record, latest_date: d[latest_date]})
 
@@ -309,7 +431,7 @@ def get_last_perineum_rehabilitation(patient_record):
 	else:
 		latest = max(folder.modified for folder in folders)
 
-		latest_folder = frappe.get_all("Perineum Rehabilitation", filters={"patient_record": patient_record, 'modified': latest})
+		latest_folder = frappe.get_all("Perineum Rehabilitation", filters={"patient_record": patient_record, "modified": latest})
 
 		return latest_folder
 
@@ -319,7 +441,8 @@ def get_last_cervical_smear(patient_record):
 
 	if cervical_smears:
 		for cervical_smear in cervical_smears:
-			cervical_smear.update({'date_time': dateparser.parse((cervical_smear.date.encode('utf-8').strip()) if (cervical_smear.date is not None) else nowdate())})
+			cervical_smear.update({"date_time": dateparser.parse((cervical_smear.date.strip()) \
+				if (cervical_smear.date is not None) else nowdate())})
 
 		latest = max(cervical_smear.date_time for cervical_smear in cervical_smears)
 		latest_cs = [cs for cs in cervical_smears if cs.date_time == latest]
@@ -332,14 +455,13 @@ def get_last_screening_test(patient_record):
 		screening_tests = []
 		for gynecological_folder in gynecological_folders:
 			doc = frappe.get_doc("Gynecology", gynecological_folder.name)
-			print(doc.screening_tests)
 			if doc.screening_tests:
 				for test in doc.screening_tests :
 					screening_tests.append(test)
 
 		if screening_tests:
 			for screening_test in screening_tests:
-				screening_test.update({'date_time': dateparser.parse((screening_test.date.encode('utf-8').strip()) if (screening_test.date is not None) else nowdate())})
+				screening_test.update({"date_time": dateparser.parse((screening_test.date.strip()) if (screening_test.date is not None) else nowdate())})
 
 			latest = max(screening_test.date_time for screening_test in screening_tests)
 			latest_st = [st for st in screening_tests if st.date_time == latest]
@@ -361,7 +483,7 @@ def get_last_lipid_profile(patient_record):
 
 		if lipid_profiles:
 			for lipid_profile in lipid_profiles:
-				lipid_profile.update({'date_time': dateparser.parse((lipid_profile.date.encode('utf-8').strip()) if (lipid_profile.date is not None) else nowdate())})
+				lipid_profile.update({"date_time": dateparser.parse((lipid_profile.date.strip()) if (lipid_profile.date is not None) else nowdate())})
 
 			latest = max(lipid_profile.date_time for lipid_profile in lipid_profiles)
 			latest_lp = [lp for lp in lipid_profiles if lp.date_time == latest]
@@ -382,7 +504,7 @@ def get_last_mammography(patient_record):
 
 		if mammographies:
 			for mammography in mammographies:
-				mammography.update({'date_time': dateparser.parse((mammography.date.encode('utf-8').strip()) if (mammography.date is not None) else nowdate())})
+				mammography.update({"date_time": dateparser.parse((mammography.date.strip()) if (mammography.date is not None) else nowdate())})
 
 			latest = max(mammography.date_time for mammography in mammographies)
 			latest_m = [m for m in mammographies if m.date_time == latest]
@@ -404,17 +526,14 @@ def get_options(patient_record):
 			prev_value = dashboard.get(field.fieldname)
 
 			result.append({"name": attr, "label": _(label), "value": prev_value, "option": option})
-			result = sorted(result)
 
-	sorted_result = sorted(result, key=itemgetter('option'))
+	sorted_result = sorted(result, key=itemgetter("option"))
 
 	final_result = []
-	for key, group in itertools.groupby(sorted_result, key=lambda x:x['option']):
+	for key, group in itertools.groupby(sorted_result, key=lambda x:x["option"]):
 		final_result.append({_(key): list(group)})
 
-	sorted_final_result = sorted(final_result)
-
-	return sorted_final_result
+	return final_result
 
 @frappe.whitelist()
 def update_dashboard(patient_record, options):

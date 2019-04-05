@@ -1,79 +1,38 @@
-frappe.provide('maia.patient');
+import Vue from 'vue/dist/vue.js';
+import DashboardBase from './DashboardBase.vue';
 
-maia.patient.PatientDashboard = Class.extend({
-	init: function(opts) {
+Vue.prototype.__ = window.__;
+frappe.provide('maia.patient');
+frappe.provide('maia.updates');
+
+maia.patient.PatientDashboard = class PatientDashboard{
+	constructor(opts) {
 		$.extend(this, opts);
 		this.make();
-	},
-	make: function() {
-		var me = this;
-		this.content = $(frappe.render_template('result_div')).appendTo(this.parent);
-		this.result = this.content.find('.result');
+	}
 
+	make() {
+		const me = this;
 		this.parent.on('click', '.btn-custom_dashboard', function() {
 			me.show_options_dialog();
 		});
-	},
-	refresh: function() {
-		var me = this;
-		frappe.call({
-			method: 'maia.maia.doctype.patient_record.dashboard.custom_patient_dashboard.get_data',
-			args: {
-				patient_record: this.patient_record,
-			},
-			callback: function(r) {
-				if (r.message) {
-					me.render(r.message);
-				}
+	}
+
+	refresh() {
+		this.render();
+	}
+
+	render() {
+		new Vue({
+			el: $(this.parent).find('#patient-dashboard-section')[0],
+			render: h => h(DashboardBase),
+			data: {
+				'patient_record': this.patient_record
 			}
 		});
-	},
-	render: function(dashboarddata) {
-		var templates = {'general': 'general_memo', 'pregnancy': 'pregnancy', 'delivery': 'delivery', 'newborn': 'newborn', 'labexams': 'lab_exam_results', 'perehabilitation': 'perineum_rehabilitation', 'gynecology': 'gynecology'}
-		this.dashboard = $(frappe.render_template('custom_patient_dashboard')).appendTo(this.result);
-		var $first_col = this.dashboard.find('.dashboard-col-1');
-		var $second_col = this.dashboard.find('.dashboard-col-2');
-		var $third_col = this.dashboard.find('.dashboard-col-3');
+	}
 
-		var firstHeight = 0;
-		var secondHeight = 0;
-		var thirdHeight = 0;
-		dashboarddata.forEach(function(dictdata, index) {
-			var key = Object.keys(dictdata)[0];
-			if (index == 0) {
-				var $firstDash = $(frappe.render_template(templates[key], dashboarddata[index][key])).appendTo($first_col).fadeIn();
-				firstHeight += $firstDash[0].clientHeight;
-			} else {
-				if (secondHeight == 0) {
-					var $secondDash = $(frappe.render_template(templates[key], dashboarddata[index][key])).appendTo($second_col).fadeIn();
-					secondHeight += $secondDash[0].clientHeight;
-
-				} else if (thirdHeight == 0) {
-					var $thirdDash = $(frappe.render_template(templates[key], dashboarddata[index][key])).appendTo($third_col).fadeIn();
-					thirdHeight += $thirdDash[0].clientHeight;
-
-				}	else if (firstHeight > secondHeight) {
-					var $secondDash = $(frappe.render_template(templates[key], dashboarddata[index][key])).appendTo($second_col).fadeIn();
-					secondHeight += $secondDash[0].clientHeight;
-
-				} else if (firstHeight > thirdHeight) {
-					var $thirdDash = $(frappe.render_template(templates[key], dashboarddata[index][key])).appendTo($third_col).fadeIn();
-					thirdHeight += $thirdDash[0].clientHeight;
-
-				} else {
-					var $firstDash = $(frappe.render_template(templates[key], dashboarddata[index][key])).appendTo($first_col).fadeIn();
-					firstHeight += $firstDash[0].clientHeight;
-				}
-			}
-			$('.dashboard-col-1').find('.patient-dashboard-card').addClass('col-sm-12');
-			$('.dashboard-col-2').find('.patient-dashboard-card').addClass('col-sm-12');
-			$('.dashboard-col-3').find('.patient-dashboard-card').addClass('col-sm-6 col-md-12');
-
-		})
-
-
-	},
-	show_options_dialog: function() {
+	show_options_dialog() {
 		var me = this;
 		let promises = [];
 		let options_fields = {};
@@ -145,10 +104,7 @@ maia.patient.PatientDashboard = Class.extend({
 								message: __("This Patient's Memo has been updated"),
 								indicator: 'green'
 							});
-							if (me.dashboard) {
-								me.dashboard.fadeOut();
-							}
-							me.refresh()
+							maia.updates.trigger('refresh_dashboard');
 						}
 					}
 				});
@@ -197,7 +153,7 @@ maia.patient.PatientDashboard = Class.extend({
 			frappe.call({
 					 method: 'maia.maia.doctype.patient_record.dashboard.custom_patient_dashboard.get_options',
 					 args: {
-								 patient_record: this.patient_record,
+						patient_record: this.patient_record,
 					 },
 			}).then((r) => {
 				if (r.message) {
@@ -214,4 +170,6 @@ maia.patient.PatientDashboard = Class.extend({
 		})
 
 	}
-})
+}
+
+frappe.utils.make_event_emitter(maia.updates);

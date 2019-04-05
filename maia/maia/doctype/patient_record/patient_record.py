@@ -162,7 +162,7 @@ class PatientRecord(Document):
 
 	def validate_cervical_smears(self):
 		for cervical_smear in self.cervical_smear_table:
-			date = dateparser.parse((cervical_smear.date.encode('utf-8').strip()))
+			date = dateparser.parse((cervical_smear.date.strip()))
 
 			if not date:
 				msg = _("Maia cannot read the date {0} at row {1} in your cervical smears table. Please use one of the recommended formats.").format(cervical_smear.date, cervical_smear.idx)
@@ -171,7 +171,7 @@ class PatientRecord(Document):
 
 	def validate_obtetrical_backgrounds(self):
 		for obstetrical_background in self.obstetrical_backgounds:
-			date = dateparser.parse((obstetrical_background.date.encode('utf-8').strip()))
+			date = dateparser.parse((obstetrical_background.date.strip()))
 
 			if not date:
 				msg = _("Maia cannot read the date {0} at row {1} in your obstetrical backgrounds table. Please use one of the recommended formats.").format(obstetrical_background.date, obstetrical_background.idx)
@@ -301,13 +301,11 @@ def get_patient_weight_data(patient_record):
 
 	patient_weight = sorted(patient_weight, key=lambda x: x["date"])
 
-	print(patient_weight)
-
 	titles = []
 	values = []
 	formatted_x = []
 	for pw in patient_weight:
-		if pw.has_key("pregnancy"):
+		if "pregnancy" in pw:
 			formatted_x.append(formatdate(pw["date"]) + "-" + pw["pregnancy"])
 			titles.append(formatdate(pw["date"]))
 			values.append(pw["weight"])
