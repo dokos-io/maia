@@ -4,44 +4,45 @@ frappe.provide("maia");
 
 frappe.ui.form.on(this.frm.doctype, {
 
-	onload: function(frm) {
+	onload(frm) {
 		if (frm.doc.docstatus != 1) {
 			get_patient_value(frm);
 			refresh_without_codification_price(frm);
 
 			frappe.call({
-					"method": "maia.client.get_practitioner",
-					args: {
-						doctype: "Professional Information Card",
-						filters: {
-							user: frappe.session.user
-						},
-						fieldname: "name"
+				"method": "maia.client.get_practitioner",
+				args: {
+					doctype: "Professional Information Card",
+					filters: {
+						user: frappe.session.user
 					},
-					cache: false,
-					callback: function(data) {
-						if (!data.exe && data.message) {
-							frappe.model.set_value(frm.doctype, frm.docname, "practitioner", data.message.name)
-						}
+					fieldname: "name"
+				},
+				cache: false,
+				callback: function(data) {
+					if (!data.exe && data.message) {
+						frappe.model.set_value(frm.doctype, frm.docname, "practitioner", data.message.name)
 					}
-				}),
+				}
+			}),
 
-				frappe.call({
-					"method": "frappe.client.get",
-					args: {
-						doctype: "Codification",
-						name: "HN"
-					},
-					cache: false,
-					callback: function(data) {
-						if (data.message) {
-							frappe.model.set_value(frm.doctype, frm.docname, "without_codification_description", data.message.codification_description)
-						}
+			frappe.call({
+				"method": "frappe.client.get",
+				args: {
+					doctype: "Codification",
+					name: "HN"
+				},
+				cache: false,
+				callback: function(data) {
+					if (data.message) {
+						frappe.model.set_value(frm.doctype, frm.docname, "without_codification_description", data.message.codification_description)
 					}
-				})
+				}
+			})
 		}
 	},
-	refresh: function(frm) {
+
+	refresh(frm) {
 		if (frm.doc.docstatus != 1) {
 			refresh_total_price(frm);
 			refresh_patient_price(frm);
@@ -67,7 +68,8 @@ frappe.ui.form.on(this.frm.doctype, {
 			});
 		}
 	},
-	paid_immediately: function(frm) {
+
+	paid_immediately(frm) {
 		if (frm.doc.paid_immediately == 1) {
 			frm.set_df_property('mode_of_payment', 'reqd', 1);
 			frm.set_df_property('reference', 'reqd', 1);
@@ -77,7 +79,7 @@ frappe.ui.form.on(this.frm.doctype, {
 		}
 	},
 
-	lab_exam_template: function(frm) {
+	lab_exam_template(frm) {
 		if(frm.doc.lab_exam_template) {
 			frappe.call({
 				"method": "maia.maia.doctype.lab_exam_template.lab_exam_template.get_lab_exam_template",
@@ -95,7 +97,8 @@ frappe.ui.form.on(this.frm.doctype, {
 			});
 		}
 	},
-	drug_list_template: function(frm) {
+
+	drug_list_template(frm) {
 		if(frm.doc.drug_list_template) {
 			frappe.call({
 				"method": "maia.maia.doctype.drug_list_template.drug_list_template.get_drug_list_template",
@@ -116,89 +119,149 @@ frappe.ui.form.on(this.frm.doctype, {
 			});
 		}
 	},
-	hundred_percent_maternity: function(frm) {
-		if (frm.doc.hundred_percent_maternity == 1) {
-			frm.set_value("malady", 0);
-			frappe.model.set_value(frm.doctype, frm.docname, "cpam_share_display", "");
-			refresh_patient_price(frm);
-		} else {
-			frm.set_value("malady", 1);
-		}
+
+	hundred_percent_maternity(frm) {
+		frm.doc.hundred_percent_maternity === 1 && frm.set_value("malady", 0);
+		refresh_codification_price(frm);
 	},
-	malady: function(frm) {
-		if (frm.doc.malady == 1) {
-			frm.set_value("hundred_percent_maternity", 0);
-		} else {
-			frm.set_value("hundred_percent_maternity", 1);
-		}
 
-		if ((frm.doc.malady == 1) && (frm.doc.normal_rate == 1)) {
-			frappe.model.set_value(frm.doctype, frm.docname, "cpam_share_display", format_currency((frm.doc.codification_value + frm.doc.lump_sum_travel_allowance_value + frm.doc.mileage_allowance_value + frm.doc.night_work_allowance_value + frm.doc.sundays_holidays_allowance_value )* 0.7, frm.doc.currency));
-			refresh_patient_price(frm);
-	 	}
-
-		if ((frm.doc.malady == 1) && (frm.doc.alsace_moselle_rate == 1)) {
-			frappe.model.set_value(frm.doctype, frm.docname, "cpam_share_display", format_currency((frm.doc.codification_value + frm.doc.lump_sum_travel_allowance_value + frm.doc.mileage_allowance_value + frm.doc.night_work_allowance_value + frm.doc.sundays_holidays_allowance_value) * 0.9, frm.doc.currency));
-			refresh_patient_price(frm);
-		}
+	malady(frm) {
+		frm.doc.malady === 1 && frm.set_value("hundred_percent_maternity", 0);
+		refresh_codification_price(frm);
 	},
-	normal_rate: function(frm) {
-		if (frm.doc.normal_rate == 1) {
-			frm.set_value("alsace_moselle_rate", 0);
-		} else {
-			frm.set_value("alsace_moselle_rate", 1);
-		}
 
-	 if ((frm.doc.malady == 1) && (frm.doc.normal_rate == 1)) {
-		 frappe.model.set_value(frm.doctype, frm.docname, "cpam_share_display", format_currency((frm.doc.codification_value + frm.doc.lump_sum_travel_allowance_value + frm.doc.mileage_allowance_value + frm.doc.night_work_allowance_value + frm.doc.sundays_holidays_allowance_value)  * 0.7, frm.doc.currency));
-		 refresh_patient_price(frm);
-		}
+	normal_rate(frm) {
+		frm.doc.normal_rate === 1 && frm.set_value("alsace_moselle_rate", 0);
+		refresh_codification_price(frm);
 	},
-	alsace_moselle_rate: function(frm) {
-		if (frm.doc.alsace_moselle_rate == 1) {
-			frm.set_value("normal_rate", 0);
-		} else {
-			frm.set_value("normal_rate", 1);
-		}
 
-		if ((frm.doc.malady == 1) && (frm.doc.alsace_moselle_rate == 1)) {
-			frappe.model.set_value(frm.doctype, frm.docname, "cpam_share_display", format_currency((frm.doc.codification_value + frm.doc.lump_sum_travel_allowance_value + frm.doc.mileage_allowance_value + frm.doc.night_work_allowance_value + frm.doc.sundays_holidays_allowance_value) * 0.9, frm.doc.currency));
-			refresh_patient_price(frm);
-		}
-	}
+	alsace_moselle_rate(frm) {
+		frm.doc.alsace_moselle_rate === 1 && frm.set_value("normal_rate", 0);
+		refresh_codification_price(frm);
+	},
 
-});
+	third_party_payment(frm) {
+		refresh_codification_price(frm);
+	},
 
+	codification(frm) {
+		refresh_codification_price(frm);
+		refresh_codification_description(frm);
+	},
 
-frappe.ui.form.on(this.frm.doctype, "third_party_payment", function(frm) {
-	refresh_codification_price(frm);
-});
+	lump_sum_travel_allowance(frm) {
+		if (frm.doc.lump_sum_travel_allowance) {
+			get_codification_list("lump_sum_travel_allowance")
+			.then(data => {
+				if (data.message == undefined) {
+					frappe.msgprint(__("No codification is assigned to this specific allowance type. Please select one codification for this allowance type."))
+					lump_sum_allowance_not_selected(frm);
+				} else if (data.message.length > 1) {
+					frappe.msgprint(multiple_codes_msg)
+				} else if (data.message) {
 
-frappe.ui.form.on(this.frm.doctype, "codification", function(frm) {
-	refresh_codification_price(frm);
-	refresh_codification_description(frm);
-});
+					const lump_sum_travel_allowance = data.message[0].basic_price;
 
-let refresh_codification_price = function(frm) {
-	if (frm.doc.codification) {
-		frappe.call({
-			"method": "frappe.client.get",
-			args: {
-				doctype: "Codification",
-				name: frm.doc.codification
-			},
-			cache: false,
-			callback: function(data) {
-				if (data.message) {
-					refresh_codification_price_split(frm, data.message)
+					frappe.model.set_value(frm.doctype, frm.docname, "lump_sum_travel_allowance_codification", data.message[0].name)
+					frappe.model.set_value(frm.doctype, frm.docname, "lump_sum_travel_allowance_value", lump_sum_travel_allowance)
+					frappe.model.set_value(frm.doctype, frm.docname, "lump_sum_travel_allowance_display", data.message[0].codification + " :  " + format_currency(lump_sum_travel_allowance, frm.doc.currency))
+					refresh_total_price(frm);
+					refresh_patient_price(frm);
 				}
+			})
+		} else {
+			lump_sum_allowance_not_selected(frm);
+		}
+	},
+
+	night_work_allowance(frm) {
+		if (frm.doc.night_work_allowance == 0) {
+			night_work_allowance_not_selected(frm);
+		} else {
+			night_work_calculation(frm);
+		}
+	},
+
+	night_work_allowance_type(frm) {
+		night_work_calculation(frm);
+	},
+
+	mileage_allowance(frm) {
+		if (frm.doc.mileage_allowance == 0) {
+			mileage_allowance_not_selected(frm);
+		} else {
+			mileage_allowance_calculation(frm);
+		}
+	},
+
+	mileage_allowance_type(frm) {
+		mileage_allowance_calculation(frm);
+	},
+
+	number_of_kilometers(frm) {
+		mileage_allowance_calculation(frm);
+	},
+
+	sundays_holidays_allowance(frm) {
+		if (frm.doc.sundays_holidays_allowance) {
+			get_codification_list("sundays_holidays_allowance")
+			.then(data => {
+				if (data.message == undefined) {
+					frappe.msgprint(no_data_msg)
+					sundays_holidays_allowance_not_selected(frm);
+				} else if (data.message.length > 1) {
+					frappe.msgprint(multiple_codes_msg)
+				} else if (data.message) {
+
+					const sundays_holidays_price = data.message[0].basic_price;
+
+					frappe.model.set_value(frm.doctype, frm.docname, "sundays_holidays_allowance_codification", data.message[0].name)
+					frappe.model.set_value(frm.doctype, frm.docname, "sundays_holidays_allowance_value", sundays_holidays_price)
+					frappe.model.set_value(frm.doctype, frm.docname, "sundays_holidays_allowance_display", data.message[0].codification + " :  " + format_currency(sundays_holidays_price, frm.doc.currency))
+					refresh_total_price(frm);
+					refresh_patient_price(frm);
+				}
+			})
+		} else {
+			sundays_holidays_allowance_not_selected(frm);
+		}
+	},
+
+	without_codification(frm) {
+		refresh_without_codification_price(frm);
+	}
+});
+
+const refresh_codification_price = (frm) => {
+	if (frm.doc.codification.length) {
+		getCodification(frm.doc.codification)
+		.then(r => {
+			const result = r.reduce((acc, d) => {
+				const acc_price = (frm.doc.third_party_payment == 1) ? format_currency(acc.basic_price, frm.doc.currency) :
+					format_currency(acc.billing_price, frm.doc.currency);
+				const d_price = (frm.doc.third_party_payment == 1) ? format_currency(d.basic_price, frm.doc.currency) :
+					format_currency(d.billing_price, frm.doc.currency);
+
+				let newObj = {...acc};
+				newObj.basic_price = acc.basic_price + d.basic_price;
+				newObj.billing_price = acc.billing_price + d.billing_price;
+				newObj.codification = acc.codification + `<br> ${d.codification}`;
+				newObj.codification_display = acc.hasOwnProperty("codification_display") ? acc.codification_display + `<br> ${d.codification}: ${d_price}` :
+					`${acc.codification}: ${acc_price}<br> ${d.codification}: ${d_price}`;
+
+				return newObj;
+			})
+			if (!result.hasOwnProperty("codification_display")) {
+				const price = (frm.doc.third_party_payment == 1) ? format_currency(result.basic_price, frm.doc.currency) :
+					format_currency(result.billing_price, frm.doc.currency);
+				result.codification_display = `${result.codification}: ${price}`;
 			}
+			return result;
 		})
+		.then((conso) => refresh_codification_price_split(frm, conso))
 	} else {
-		let codification_price = 0;
-		let overpayment = 0;
-		frappe.model.set_value(frm.doctype, frm.docname, "codification_value", codification_price);
-		frappe.model.set_value(frm.doctype, frm.docname, "overpayment_value", overpayment);
+		frappe.model.set_value(frm.doctype, frm.docname, "codification_value", 0);
+		frappe.model.set_value(frm.doctype, frm.docname, "overpayment_value", 0);
 		frappe.model.set_value(frm.doctype, frm.docname, "codification_display", "");
 		frappe.model.set_value(frm.doctype, frm.docname, "cpam_share_display", "");
 		frappe.model.set_value(frm.doctype, frm.docname, "overpayment_display", "");
@@ -207,110 +270,112 @@ let refresh_codification_price = function(frm) {
 	}
 };
 
-let refresh_codification_price_split = function(frm, data) {
-	let codification_price, overpayment;
+const get_reimbursable_price = frm => {
+	return flt(frm.doc.codification_value + frm.doc.lump_sum_travel_allowance_value + frm.doc.mileage_allowance_value +
+		frm.doc.night_work_allowance_value + frm.doc.sundays_holidays_allowance_value)
+}
+
+const refresh_codification_price_split = (frm, data) => {
+	let codification_price =  data.billing_price;
+	let overpayment = 0;
+	let cpam_price = 0;
 
 	if (frm.doc.third_party_payment == 1) {
 		codification_price = data.basic_price;
 		overpayment = data.billing_price - data.basic_price;
-		frappe.model.set_value(frm.doctype, frm.docname, "overpayment_value", overpayment);
-		if (overpayment == 0 ){
-			frappe.model.set_value(frm.doctype, frm.docname, "overpayment_display", "");
-		} else {
-			frappe.model.set_value(frm.doctype, frm.docname, "overpayment_display", format_currency(overpayment, frm.doc.currency));
-		}
-	} else {
-		codification_price = data.billing_price;
-		overpayment = 0;
-		frappe.model.set_value(frm.doctype, frm.docname, "overpayment_value", overpayment);
-		frappe.model.set_value(frm.doctype, frm.docname, "overpayment_display", "");
 	}
+
+	frappe.model.set_value(frm.doctype, frm.docname, "overpayment_value", overpayment);
+	frappe.model.set_value(frm.doctype, frm.docname, "overpayment_display", overpayment > 0 ? format_currency(overpayment, frm.doc.currency) : "");
+
 	frappe.model.set_value(frm.doctype, frm.docname, "codification_value", codification_price);
-	frappe.model.set_value(frm.doctype, frm.docname, "codification_display", data.codification + " :  " + format_currency(codification_price, frm.doc.currency));
+	frappe.model.set_value(frm.doctype, frm.docname, "codification_display", data.codification_display);
+
+	if ((frm.doc.third_party_payment == 1) && (frm.doc.hundred_percent_maternity == 1)) {
+		cpam_price = get_reimbursable_price(frm);
+	}
+
 	if ((frm.doc.third_party_payment == 1) && (frm.doc.malady == 1) && (frm.doc.normal_rate == 1)) {
-		frappe.model.set_value(frm.doctype, frm.docname, "cpam_share_display", format_currency((frm.doc.codification_value + frm.doc.lump_sum_travel_allowance_value + frm.doc.mileage_allowance_value + frm.doc.night_work_allowance_value + frm.doc.sundays_holidays_allowance_value )* 0.7, frm.doc.currency));
-		refresh_patient_price(frm);
+		cpam_price = get_reimbursable_price(frm) * 0.7;
 	}
 
 	if ((frm.doc.third_party_payment == 1) && (frm.doc.malady == 1) && (frm.doc.alsace_moselle_rate == 1)) {
-		frappe.model.set_value(frm.doctype, frm.docname, "cpam_share_display", format_currency((frm.doc.codification_value + frm.doc.lump_sum_travel_allowance_value + frm.doc.mileage_allowance_value + frm.doc.night_work_allowance_value + frm.doc.sundays_holidays_allowance_value) * 0.9, frm.doc.currency));
-		refresh_patient_price(frm);
+		cpam_price =  get_reimbursable_price(frm) * 0.9;
 	}
+
+	frappe.model.set_value(frm.doctype, frm.docname, "cpam_share_display", format_currency(cpam_price, frm.doc.currency));
 	refresh_total_price(frm);
 	refresh_patient_price(frm);
 };
 
-let refresh_codification_description = function(frm) {
+const refresh_codification_description = (frm) => {
+	let codification_description = "";
 	if (frm.doc.codification) {
-		frappe.call({
+		getCodification(frm.doc.codification)
+		.then(r => {
+			r.forEach(codif => {
+				codification_description += `${codif.codification_description} <br>`;
+			})
+		})
+		.then(() => set_codification_description(frm, codification_description))
+	} else {
+		set_codification_description(frm, codification_description);
+	}
+}
+
+const set_codification_description = (frm, description) => {
+	frappe.model.set_value(frm.doctype, frm.docname, "codification_description", description);
+}
+
+async function getCodification(codifications) {
+	let result = []
+	for (let i = 0; i < codifications.length; i++) {
+		const values = await frappe.call({
 			"method": "frappe.client.get",
 			args: {
 				doctype: "Codification",
-				name: frm.doc.codification
+				name: codifications[i].codification
 			},
 			cache: false,
 			callback: function(data) {
-				if (data.message) {
-					codification_description = data.message.codification_description;
-					frappe.model.set_value(frm.doctype, frm.docname, "codification_description", codification_description)
-				}
+				return data;
 			}
-		})
-	} else {
-		codification_price = "";
-		frappe.model.set_value(frm.doctype, frm.docname, "codification_description", codification_description)
+		});
+		result.push(values.message);
 	}
-
+	return result;
 }
 
-frappe.ui.form.on(this.frm.doctype, "without_codification", function(frm) {
-	refresh_without_codification_price(frm);
-});
+async function get_codification_list(filterName) {
+	
+	const result = await frappe.call({
+		"method": "frappe.client.get_list",
+		args: {
+			doctype: "Codification",
+			fields: ["name", "codification", "basic_price", "billing_price"],
+			filters: {
+				[filterName]: 1
+			}
+		},
+		cache: false,
+		callback: function(data) {
+			return data.message;
+		},
+		error: function(frm) {
+			frappe.throw(error_msg);
+		}
+	})
+	return result;
+}
 
-let refresh_without_codification_price = function(frm) {
+const refresh_without_codification_price = (frm) => {
 	frappe.model.set_value(frm.doctype, frm.docname, "without_codification_display", "HN :  " + format_currency(frm.doc.without_codification, frm.doc.currency))
 	refresh_total_price(frm);
 	refresh_patient_price(frm);
 }
 
-frappe.ui.form.on(this.frm.doctype, "sundays_holidays_allowance", function(frm) {
-	if (frm.doc.sundays_holidays_allowance) {
-		frappe.call({
-			"method": "frappe.client.get_list",
-			args: {
-				doctype: "Codification",
-				fields: ["name", "codification", "basic_price", "billing_price"],
-				filters: {
-					"sundays_holidays_allowance": 1
-				}
-			},
-			cache: false,
-			callback: function(data) {
-				if (data.message == undefined) {
-					frappe.msgprint(no_data_msg)
-					sundays_holidays_allowance_not_selected(frm);
-				} else if (data.message.length > 1) {
-					frappe.msgprint(multiple_codes_msg)
-				} else if (data.message) {
-
-					sundays_holidays_price = data.message[0].basic_price;
-
-					frappe.model.set_value(frm.doctype, frm.docname, "sundays_holidays_allowance_codification", data.message[0].name)
-					frappe.model.set_value(frm.doctype, frm.docname, "sundays_holidays_allowance_value", sundays_holidays_price)
-					frappe.model.set_value(frm.doctype, frm.docname, "sundays_holidays_allowance_display", data.message[0].codification + " :  " + format_currency(sundays_holidays_price, frm.doc.currency))
-					refresh_total_price(frm);
-					refresh_patient_price(frm);
-				}
-			}
-		})
-	} else {
-		sundays_holidays_allowance_not_selected(frm);
-	}
-
-});
-
-let sundays_holidays_allowance_not_selected = function(frm) {
-	sundays_holidays_price = 0;
+const sundays_holidays_allowance_not_selected = (frm) => {
+	const sundays_holidays_price = 0;
 	frappe.model.set_value(frm.doctype, frm.docname, "sundays_holidays_allowance_codification", "")
 	frappe.model.set_value(frm.doctype, frm.docname, "sundays_holidays_allowance_value", sundays_holidays_price)
 	frappe.model.set_value(frm.doctype, frm.docname, "sundays_holidays_allowance_display", "")
@@ -318,46 +383,8 @@ let sundays_holidays_allowance_not_selected = function(frm) {
 	refresh_patient_price(frm);
 }
 
-frappe.ui.form.on(this.frm.doctype, "lump_sum_travel_allowance", function(frm) {
-	if (frm.doc.lump_sum_travel_allowance) {
-		frappe.call({
-			"method": "frappe.client.get_list",
-			args: {
-				doctype: "Codification",
-				fields: ["name", "codification", "basic_price", "billing_price"],
-				filters: {
-					"lump_sum_travel_allowance": 1
-				}
-			},
-			cache: false,
-			callback: function(data) {
-				if (data.message == undefined) {
-					frappe.msgprint(__("No codification is assigned to this specific allowance type. Please select one codification for this allowance type."))
-					lump_sum_allowance_not_selected(frm);
-				} else if (data.message.length > 1) {
-					frappe.msgprint(multiple_codes_msg)
-				} else if (data.message) {
-
-					lump_sum_travel_allowance = data.message[0].basic_price;
-
-					frappe.model.set_value(frm.doctype, frm.docname, "lump_sum_travel_allowance_codification", data.message[0].name)
-					frappe.model.set_value(frm.doctype, frm.docname, "lump_sum_travel_allowance_value", lump_sum_travel_allowance)
-					frappe.model.set_value(frm.doctype, frm.docname, "lump_sum_travel_allowance_display", data.message[0].codification + " :  " + format_currency(lump_sum_travel_allowance, frm.doc.currency))
-					refresh_total_price(frm);
-					refresh_patient_price(frm);
-				}
-			},
-			error: function(frm) {
-				frappe.throw(error_msg);
-			}
-		})
-	} else {
-		lump_sum_allowance_not_selected(frm);
-	}
-});
-
-let lump_sum_allowance_not_selected = function(frm) {
-	lump_sum_travel_allowance = 0;
+const lump_sum_allowance_not_selected = (frm) => {
+	const lump_sum_travel_allowance = 0;
 	frappe.model.set_value(frm.doctype, frm.docname, "lump_sum_travel_allowance_codification", "")
 	frappe.model.set_value(frm.doctype, frm.docname, "lump_sum_travel_allowance_value", lump_sum_travel_allowance)
 	frappe.model.set_value(frm.doctype, frm.docname, "lump_sum_travel_allowance_display", "")
@@ -365,20 +392,8 @@ let lump_sum_allowance_not_selected = function(frm) {
 	refresh_patient_price(frm);
 }
 
-frappe.ui.form.on(this.frm.doctype, "night_work_allowance", function(frm) {
-	if (frm.doc.night_work_allowance == 0) {
-		night_work_allowance_not_selected(frm);
-	} else {
-		night_work_calculation(frm);
-	}
-});
-
-frappe.ui.form.on(this.frm.doctype, "night_work_allowance_type", function(frm) {
-	night_work_calculation(frm);
-});
-
-let night_work_allowance_not_selected = function(frm) {
-	night_work_allowance_price = 0;
+const night_work_allowance_not_selected = (frm) => {
+	const night_work_allowance_price = 0;
 	frappe.model.set_value(frm.doctype, frm.docname, "night_work_allowance_codification", "")
 	frappe.model.set_value(frm.doctype, frm.docname, "night_work_allowance_value", night_work_allowance_price)
 	frappe.model.set_value(frm.doctype, frm.docname, "night_work_allowance_display", "")
@@ -386,94 +401,30 @@ let night_work_allowance_not_selected = function(frm) {
 	refresh_patient_price(frm);
 }
 
-let night_work_calculation = function(frm) {
-	if (frm.doc.night_work_allowance_type == "20h-0h | 6h-8h") {
-		frappe.call({
-			"method": "frappe.client.get_list",
-			args: {
-				doctype: "Codification",
-				fields: ["name", "codification", "basic_price", "billing_price"],
-				filters: {
-					"night_work_allowance_1": 1
-				}
-			},
-			cache: false,
-			callback: function(data) {
-				if (data.message == undefined) {
-					frappe.msgprint(__("No codification is assigned to this specific allowance type. Please select one codification for this allowance type."))
-					night_work_allowance_not_selected(frm);
-				} else if (data.message.length > 1) {
-					frappe.msgprint(multiple_codes_msg)
-				} else if (data.message) {
-
-					night_work_allowance_price = data.message[0].basic_price;
-
-					frappe.model.set_value(frm.doctype, frm.docname, "night_work_allowance_codification", data.message[0].name)
-					frappe.model.set_value(frm.doctype, frm.docname, "night_work_allowance_value", night_work_allowance_price)
-					frappe.model.set_value(frm.doctype, frm.docname, "night_work_allowance_display", data.message[0].codification + " :  " + format_currency(night_work_allowance_price, frm.doc.currency))
-					refresh_total_price(frm);
-					refresh_patient_price(frm);
-				}
-			},
-			error: function(frm) {
-				frappe.throw(error_msg);
-			}
-		})
-	} else if (frm.doc.night_work_allowance_type == "0h-6h") {
-		frappe.call({
-			"method": "frappe.client.get_list",
-			args: {
-				doctype: "Codification",
-				fields: ["name", "codification", "basic_price", "billing_price"],
-				filters: {
-					"night_work_allowance_2": 1
-				}
-			},
-			cache: false,
-			callback: function(data) {
-				if (data.message == undefined) {
-					frappe.msgprint(no_data_msg)
-					night_work_allowance_not_selected(frm);
-				} else if (data.message.length > 1) {
-					frappe.msgprint(multiple_codes_msg)
-				} else if (data.message) {
-
-					night_work_allowance_price = data.message[0].basic_price;
-
-					frappe.model.set_value(frm.doctype, frm.docname, "night_work_allowance_codification", data.message[0].name)
-					frappe.model.set_value(frm.doctype, frm.docname, "night_work_allowance_value", night_work_allowance_price)
-					frappe.model.set_value(frm.doctype, frm.docname, "night_work_allowance_display", data.message[0].codification + " :  " + format_currency(night_work_allowance_price, frm.doc.currency))
-					refresh_total_price(frm);
-					refresh_patient_price(frm);
-				}
-			},
-			error: function(frm) {
-				frappe.throw(error_msg);
-			}
-		})
-	}
-
-
+const night_work_calculation = (frm) => {
+	const filterName = (frm.doc.night_work_allowance_type == "20h-0h | 6h-8h") ? "night_work_allowance_1" : "night_work_allowance_2";
+	get_codification_list(filterName)
+	.then(data => {
+		if (data.message == undefined) {
+			frappe.msgprint(__("No codification is assigned to this specific allowance type. Please select one codification for this allowance type."))
+			night_work_allowance_not_selected(frm);
+		} else if (data.message.length > 1) {
+			frappe.msgprint(multiple_codes_msg)
+		} else if (data.message) {
+	
+			const night_work_allowance_price = data.message[0].basic_price;
+	
+			frappe.model.set_value(frm.doctype, frm.docname, "night_work_allowance_codification", data.message[0].name)
+			frappe.model.set_value(frm.doctype, frm.docname, "night_work_allowance_value", night_work_allowance_price)
+			frappe.model.set_value(frm.doctype, frm.docname, "night_work_allowance_display", data.message[0].codification + " :  " + format_currency(night_work_allowance_price, frm.doc.currency))
+			refresh_total_price(frm);
+			refresh_patient_price(frm);
+		}
+	})
 }
 
-frappe.ui.form.on(this.frm.doctype, "mileage_allowance", function(frm) {
-	if (frm.doc.mileage_allowance == 0) {
-		mileage_allowance_not_selected(frm);
-	} else {
-		mileage_allowance_calculation(frm);
-	}
-});
-
-frappe.ui.form.on(this.frm.doctype, "mileage_allowance_type", function(frm) {
-	mileage_allowance_calculation(frm);
-});
-
-frappe.ui.form.on(this.frm.doctype, "number_of_kilometers", function(frm) {
-	mileage_allowance_calculation(frm);
-});
-
 let mileage_allowance_not_selected = function(frm) {
-	mileage_allowance_price = 0;
+	const mileage_allowance_price = 0;
 	frappe.model.set_value(frm.doctype, frm.docname, "mileage_allowance_codification", "")
 	frappe.model.set_value(frm.doctype, frm.docname, "mileage_allowance_value", mileage_allowance_price)
 	frappe.model.set_value(frm.doctype, frm.docname, "mileage_allowance_display", "")
@@ -482,166 +433,63 @@ let mileage_allowance_not_selected = function(frm) {
 }
 
 let mileage_allowance_calculation = function(frm) {
-	if (frm.doc.mileage_allowance_type == "Lowland") {
-		frappe.call({
-			"method": "frappe.client.get_list",
-			args: {
-				doctype: "Codification",
-				fields: ["name", "codification", "basic_price", "billing_price"],
-				filters: {
-					"mileage_allowance_lowland": 1
-				}
-			},
-			cache: false,
-			callback: function(data) {
-				if (data.message == undefined) {
-					frappe.msgprint(no_data_msg)
-					mileage_allowance_not_selected(frm);
-				} else if (data.message.length > 1) {
-					frappe.msgprint(multiple_codes_msg)
-				} else if (data.message) {
+	const filterName = (frm.doc.mileage_allowance_type == "Lowland") ? "mileage_allowance_lowland" : 
+		((frm.doc.mileage_allowance_type == "Mountain") ? "mileage_allowance_mountain" : "mileage_allowance_walking_skiing")
+	get_codification_list(filterName)
+	.then(data => {
+		if (data.message == undefined) {
+			frappe.msgprint(no_data_msg)
+			mileage_allowance_not_selected(frm);
+		} else if (data.message.length > 1) {
+			frappe.msgprint(multiple_codes_msg)
+		} else if (data.message) {
 
-					mileage_allowance_price = data.message[0].basic_price * frm.doc.number_of_kilometers;
+			const mileage_allowance_price = data.message[0].basic_price * (frm.doc.number_of_kilometers || 0);
 
-					frappe.model.set_value(frm.doctype, frm.docname, "mileage_allowance_codification", data.message[0].name)
-					frappe.model.set_value(frm.doctype, frm.docname, "mileage_allowance_value", mileage_allowance_price)
-					frappe.model.set_value(frm.doctype, frm.docname, "mileage_allowance_display", data.message[0].codification + " :  " + format_currency(mileage_allowance_price, frm.doc.currency))
-					refresh_total_price(frm);
-					refresh_patient_price(frm);
-				}
-			},
-			error: function(frm) {
-				frappe.throw(error_msg);
-			}
-		})
-	} else if (frm.doc.mileage_allowance_type == "Mountain") {
-		frappe.call({
-			"method": "frappe.client.get_list",
-			args: {
-				doctype: "Codification",
-				fields: ["name", "codification", "basic_price", "billing_price"],
-				filters: {
-					"mileage_allowance_mountain": 1
-				}
-			},
-			cache: false,
-			callback: function(data) {
-				if (data.message == undefined) {
-					frappe.msgprint(no_data_msg)
-					mileage_allowance_not_selected(frm);
-				} else if (data.message.length > 1) {
-					frappe.msgprint(mutiple_codes_msg)
-				} else if (data.message) {
-
-					mileage_allowance_price = data.message[0].basic_price * frm.doc.number_of_kilometers;
-
-					frappe.model.set_value(frm.doctype, frm.docname, "mileage_allowance_codification", data.message[0].name)
-					frappe.model.set_value(frm.doctype, frm.docname, "mileage_allowance_value", mileage_allowance_price)
-					frappe.model.set_value(frm.doctype, frm.docname, "mileage_allowance_display", data.message[0].codification + " :  " + format_currency(mileage_allowance_price, frm.doc.currency))
-					refresh_total_price(frm);
-					refresh_patient_price(frm);
-				}
-			},
-			error: function(frm) {
-				frappe.throw(error_msg);
-			}
-		})
-	} else if (frm.doc.mileage_allowance_type == "Walking/Skiing") {
-		frappe.call({
-			"method": "frappe.client.get_list",
-			args: {
-				doctype: "Codification",
-				fields: ["name", "codification", "basic_price", "billing_price"],
-				filters: {
-					"mileage_allowance_walking_skiing": 1
-				}
-			},
-			cache: false,
-			callback: function(data) {
-				if (data.message == undefined) {
-					frappe.msgprint(no_data_msg)
-					mileage_allowance_not_selected(frm);
-				} else if (data.message.length > 1) {
-					frappe.msgprint(multiple_codes_msg)
-				} else if (data.message) {
-
-					mileage_allowance_price = data.message[0].basic_price * frm.doc.number_of_kilometers;
-
-					frappe.model.set_value(frm.doctype, frm.docname, "mileage_allowance_codification", data.message[0].name)
-					frappe.model.set_value(frm.doctype, frm.docname, "mileage_allowance_value", mileage_allowance_price)
-					frappe.model.set_value(frm.doctype, frm.docname, "mileage_allowance_display", data.message[0].codification + " :  " + format_currency(mileage_allowance_price, frm.doc.currency))
-					refresh_total_price(frm);
-					refresh_patient_price(frm);
-				}
-			},
-			error: function(frm) {
-				frappe.throw(error_msg);
-			}
-		})
-	}
-
+			frappe.model.set_value(frm.doctype, frm.docname, "mileage_allowance_codification", data.message[0].name)
+			frappe.model.set_value(frm.doctype, frm.docname, "mileage_allowance_value", mileage_allowance_price)
+			frappe.model.set_value(frm.doctype, frm.docname, "mileage_allowance_display", data.message[0].codification + " :  " + format_currency(mileage_allowance_price, frm.doc.currency))
+			refresh_total_price(frm);
+			refresh_patient_price(frm);
+		}
+	})
 };
 
-
-let refresh_patient_price = function (frm) {
-	let patient_price;
+const refresh_patient_price = (frm) => {
+	let patient_price = 0;
 	if (frm.doc.third_party_payment == 1) {
-		patient_price = frm.doc.without_codification + frm.doc.overpayment_value
+		patient_price = (flt(frm.doc.without_codification) || 0) + flt(frm.doc.overpayment_value || 0)
 
 		if ((frm.doc.malady == 1) && (frm.doc.normal_rate == 1)) {
-			patient_price += ((frm.doc.codification_value + frm.doc.lump_sum_travel_allowance_value + frm.doc.mileage_allowance_value + frm.doc.night_work_allowance_value + frm.doc.sundays_holidays_allowance_value) * 0.3)
+			patient_price += get_reimbursable_price(frm) * 0.3
 		} else if ((frm.doc.malady == 1) && (frm.doc.alsace_moselle_rate == 1)) {
-			patient_price += ((frm.doc.codification_value + frm.doc.lump_sum_travel_allowance_value + frm.doc.mileage_allowance_value + frm.doc.night_work_allowance_value + frm.doc.sundays_holidays_allowance_value) * 0.1)
+			patient_price += get_reimbursable_price(frm) * 0.1
 		}
 	} else {
-		patient_price = frm.doc.total_price
+		patient_price = flt(frm.doc.total_price)
 	}
+
 	frappe.model.set_value(frm.doctype, frm.docname, "patient_price", patient_price)
 }
 
-let refresh_total_price = function(frm) {
+const refresh_total_price = (frm) => {
 
 	let total_price = 0;
+	const fields = ["codification_value", "overpayment_value", "sundays_holidays_allowance_value", "lump_sum_travel_allowance_value", 
+		"night_work_allowance_value", "mileage_allowance_value", "without_codification"]
 
-	if (isNaN(frm.doc.codification_value)) {} else {
-		total_price += frm.doc.codification_value;
-	}
-
-	if (isNaN(frm.doc.overpayment_value)) {} else {
-		total_price += frm.doc.overpayment_value;
-	}
-
-	if (isNaN(frm.doc.sundays_holidays_allowance_value)) {} else {
-		total_price += frm.doc.sundays_holidays_allowance_value;
-	}
-
-	if (isNaN(frm.doc.lump_sum_travel_allowance_value)) {} else {
-		total_price += frm.doc.lump_sum_travel_allowance_value;
-	}
-
-	if (isNaN(frm.doc.night_work_allowance_value)) {} else {
-		total_price += frm.doc.night_work_allowance_value;
-	}
-
-	if (isNaN(frm.doc.mileage_allowance_value)) {} else {
-		total_price += frm.doc.mileage_allowance_value;
-	}
-
-	if (isNaN(frm.doc.without_codification)) {} else {
-		total_price += frm.doc.without_codification;
-	}
+	fields.forEach(field => {
+		total_price += flt(frm.doc[field]) || 0;
+	})
 
 	frappe.model.set_value(frm.doctype, frm.docname, "total_price", total_price)
 }
 
-let error_msg = __("You have no codification setup for this allowance type. Please create a codification for this specific allowance type in the codification list.")
+const error_msg = __("You have no codification setup for this allowance type. Please create a codification for this specific allowance type in the codification list.")
+const no_data_msg = __("No codification is assigned to this specific allowance type. Please select one codification for this allowance type.")
+const multiple_codes_msg = __("Several codifications exist for this specific allowance. Please check your codifications and select only one.")
 
-let no_data_msg = __("No codification is assigned to this specific allowance type. Please select one codification for this allowance type.")
-
-let multiple_codes_msg = __("Several codifications exist for this specific allowance. Please check your codifications and select only one.")
-
-let get_patient_value = function(frm) {
-
+const get_patient_value = (frm) => {
 	if (!frm.doc.patient) {
 
 		if (frm.doc.pregnancy_folder) {

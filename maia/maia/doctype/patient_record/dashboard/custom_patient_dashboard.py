@@ -155,7 +155,7 @@ def get_data(patient_record):
 	data["pregnancydata"]["beginning_of_pregnancy"] = {
 		"label": _("Beginning of Pregnancy"), 
 		"value": global_date_format(patient_latest_pregnancy.beginning_of_pregnancy) \
-			if patient_latest_pregnancy.beginning_of_pregnancy is not None else None,
+			if patient_latest_pregnancy and patient_latest_pregnancy.beginning_of_pregnancy is not None else None,
 		"enabled": 1 if dashboard.beginning_of_pregnancy else 0,
 		"alter_text": _("Please set the beginning of pregnancy date in your latest pregnancy folder")
 	}
@@ -164,7 +164,7 @@ def get_data(patient_record):
 	data["pregnancydata"]["expected_term"] = {
 		"label": _("Expected Term"), 
 		"value": global_date_format(patient_latest_pregnancy.expected_term) \
-			if patient_latest_pregnancy.expected_term is not None else None,
+			if patient_latest_pregnancy and patient_latest_pregnancy.expected_term is not None else None,
 		"enabled": 1 if dashboard.expected_term else 0,
 		"alter_text": _("Please set the expected term date in your latest pregnancy folder")
 	}
