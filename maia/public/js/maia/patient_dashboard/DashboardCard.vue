@@ -1,5 +1,5 @@
 <template>
-  <div class="widget widget-card">
+  <div class="widget widget-card" v-if="preparedData.length">
 	<img class="widget-img" :src="cardIcon">
 
 	<div v-for="(item, index) in preparedData" :key="index">
@@ -33,9 +33,12 @@ export default {
 			Object.keys(this.cardData).forEach(value => {
 				if (!["enabled", "icon"].includes(value) && this.cardData[value].hasOwnProperty("enabled")
 					&& this.cardData[value]["enabled"] === 1) {
-						if (((Object.entries(this.cardData[value]["value"]).length && 
-							this.cardData[value]["value"].constructor === Object) || (this.cardData[value]["value"] != ""))
+						if ((typeof this.cardData[value]["value"] === 'object' && this.cardData[value]["value"] !== null)
 							&& this.cardData[value]["enabled"]===1) {
+								if (Object.keys(this.cardData[value]["value"].length)) {
+									result.push(this.cardData[value]);
+								}
+						} else if (this.cardData[value]["value"] !== null && this.cardData[value]["enabled"]===1) {
 							result.push(this.cardData[value]);
 						}
 				} else if (!["enabled", "icon"].includes(value) && !this.cardData[value].hasOwnProperty("enabled")) {
@@ -48,9 +51,6 @@ export default {
 			})
 			return result;
 		}
-
-	},
-	methods: {
 
 	}
 }
