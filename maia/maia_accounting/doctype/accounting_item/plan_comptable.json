@@ -1,0 +1,458 @@
+{
+	"Recettes encaissées, Honoraire": {
+		"accounting_number": "701000",
+		"accounting_item_type": "Revenue",
+		"accounting_journal": "Sales",
+		"line_2035": 1,
+		"code_2035": "AA",
+		"description": ""
+	},
+	"Honoraires cabinet secondaire": {
+		"accounting_number": "701002",
+		"accounting_item_type": "Revenue",
+		"accounting_journal": "Sales",
+		"line_2035": 1,
+		"code_2035": "AA",
+		"description": ""
+	},
+	"Autres honoraires": {
+		"accounting_number": "700001",
+		"accounting_item_type": "Revenue",
+		"accounting_journal": "Sales",
+		"line_2035": 1,
+		"code_2035": "AA",
+		"description": ""
+	},
+	"Rétrocession d'honoraires": {
+		"accounting_number": "709000",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 3,
+		"code_2035": "AC",
+		"description": ""
+	},
+	"Produits financiers": {
+		"accounting_number": "768000",
+		"accounting_item_type": "Revenue",
+		"accounting_journal": "Sales",
+		"line_2035": 5,
+		"code_2035": "AE",
+		"description": ""
+	},
+	"Gains divers": {
+		"accounting_number": "706000",
+		"accounting_item_type": "Revenue",
+		"accounting_journal": "Sales",
+		"line_2035": 6,
+		"code_2035": "AF",
+		"description": ""
+	},
+	"Achats": {
+		"accounting_number": "601000",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 8,
+		"code_2035": "BA",
+		"description": ""
+	},
+	"Avantages en nature": {
+		"accounting_number": "641000",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 9,
+		"code_2035": "BB",
+		"description": ""
+	},
+	"Salaires nets payés": {
+		"accounting_number": "641000",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 9,
+		"code_2035": "BB",
+		"description": ""
+	},
+	"Charges sociales sur salaires": {
+		"accounting_number": "645000",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 10,
+		"code_2035": "BC",
+		"description": ""
+	},
+	"Droits d'enregistrement": {
+		"accounting_number": "635500",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 13,
+		"code_2035": "BS",
+		"description": ""
+	},
+	"Autres impôts": {
+		"accounting_number": "635100",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 13,
+		"code_2035": "BS",
+		"description": ""
+	},
+	"CSG déductible": {
+		"accounting_number": "635300",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 14,
+		"code_2035": "BV",
+		"description": ""
+	},
+	"Loyers et charges locatives": {
+		"accounting_number": "613200",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 15,
+		"code_2035": "BF",
+		"description": ""
+	},
+	"Redevance collaborateur": {
+		"accounting_number": "613550",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 16,
+		"code_2035": "BW",
+		"description": ""
+	},
+	"Location matériel et mobilier": {
+		"accounting_number": "613500",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 16,
+		"code_2035": "BG",
+		"description": ""
+	},
+	"Leasing véhicule": {
+		"accounting_number": "612200",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 16,
+		"code_2035": "BG",
+		"description": ""
+	},
+	"Entretien et réparations": {
+		"accounting_number": "615000",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 17,
+		"code_2035": "BH",
+		"description": ""
+	},
+	"Blanchissage : forfait": {
+		"accounting_number": "512000",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 17,
+		"code_2035": "BH",
+		"description": ""
+	},
+	"Personnel intérimaire": {
+		"accounting_number": "621000",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 18,
+		"code_2035": "BH",
+		"description": ""
+	},
+	"Petit outillage": {
+		"accounting_number": "606300",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 19,
+		"code_2035": "BH",
+		"description": ""
+	},
+	"Chauffage,eau,gaz,électricité": {
+		"accounting_number": "606100",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 20,
+		"code_2035": "BH",
+		"description": ""
+	},
+	"Honoraires non rétrocédés": {
+		"accounting_number": "622600",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 21,
+		"code_2035": "BH",
+		"description": ""
+	},
+	"Assurances, hors véhicule": {
+		"accounting_number": "616000",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 22,
+		"code_2035": "BH",
+		"description": ""
+	},
+	"Frais de véhicule": {
+		"accounting_number": "625500",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 23,
+		"code_2035": "BJ",
+		"description": ""
+	},
+	"Frais de repas": {
+		"accounting_number": "625130",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 24,
+		"code_2035": "BJ",
+		"description": ""
+	},
+	"Autres frais de déplacements": {
+		"accounting_number": "625100",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 24,
+		"code_2035": "BJ",
+		"description": ""
+	},
+	"Allocations familiales": {
+		"accounting_number": "646100",
+		"accounting_item_type": "Social contributions",
+		"accounting_journal": "Purchases",
+		"line_2035": 25,
+		"code_2035": "BT",
+		"description": ""
+	},
+	"Charges sociales RETRAITES": {
+		"accounting_number": "646300",
+		"accounting_item_type": "Social contributions",
+		"accounting_journal": "Purchases",
+		"line_2035": 25,
+		"code_2035": "BT",
+		"description": ""
+	},
+	"Charges sociales URSSAF": {
+		"accounting_number": "646200",
+		"accounting_item_type": "Social contributions",
+		"accounting_journal": "Purchases",
+		"line_2035": 25,
+		"code_2035": "BT",
+		"description": ""
+	},
+	"Assurances MADELIN": {
+		"accounting_number": "646500",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 25,
+		"code_2035": "BU",
+		"description": ""
+	},
+	"MADELIN RETRAITE": {
+		"accounting_number": "650102",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 25,
+		"code_2035": "BU",
+		"description": ""
+	},
+	"MADELIN PREVOYANCE": {
+		"accounting_number": "650101",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 25,
+		"code_2035": "BU",
+		"description": ""
+	},
+	"Frais de réception, congrès...": {
+		"accounting_number": "625600",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 26,
+		"code_2035": "BM",
+		"description": ""
+	},
+	"Fournitures de bureau": {
+		"accounting_number": "606400",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 27,
+		"code_2035": "BM",
+		"description": ""
+	},
+	"Documentation": {
+		"accounting_number": "618100",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 27,
+		"code_2035": "BM",
+		"description": ""
+	},
+	"Postes et télécommunications": {
+		"accounting_number": "626000",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 27,
+		"code_2035": "BM",
+		"description": ""
+	},
+	"Téléphone": {
+		"accounting_number": "626100",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 27,
+		"code_2035": "BM",
+		"description": ""
+	},
+	"Frais d'actes et contentieux": {
+		"accounting_number": "622700",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 28,
+		"code_2035": "BM",
+		"description": ""
+	},
+	"Cotis. syndicales et profess.": {
+		"accounting_number": "628100",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 29,
+		"code_2035": "BY",
+		"description": ""
+	},
+	"Autres frais divers de gestion": {
+		"accounting_number": "623800",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 30,
+		"code_2035": "BM",
+		"description": ""
+	},
+	"Agios, frais de banque": {
+		"accounting_number": "661500",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 31,
+		"code_2035": "BN",
+		"description": ""
+	},
+	"Intérêts d'emprunts": {
+		"accounting_number": "661100",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 31,
+		"code_2035": "BN",
+		"description": ""
+	},
+	"Pertes diverses": {
+		"accounting_number": "670000",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": 32,
+		"code_2035": "BP",
+		"description": ""
+	},
+	"Plus values à court terme": {
+		"accounting_number": "775000",
+		"accounting_item_type": "Revenue",
+		"accounting_journal": "Sales",
+		"line_2035": 35,
+		"code_2035": "CB",
+		"description": ""
+	},
+	"Divers à réintégrer": {
+		"accounting_number": "791900",
+		"accounting_item_type": "Revenue",
+		"accounting_journal": "Sales",
+		"line_2035": 36,
+		"code_2035": "CC",
+		"description": ""
+	},
+	"SCM - Bénéfice": {
+		"accounting_number": "684600",
+		"accounting_item_type": "Revenue",
+		"accounting_journal": "Sales",
+		"line_2035": 37,
+		"code_2035": "CD",
+		"description": ""
+	},
+	"Dépots et Cautionnement": {
+		"accounting_number": "275000",
+		"accounting_item_type": "Expense",
+		"accounting_journal": "Purchases",
+		"line_2035": null,
+		"code_2035": null,
+		"description": ""
+	},
+	"Cessions d'immobilisations": {
+		"accounting_number": "215500",
+		"accounting_item_type": "Asset selling",
+		"accounting_journal": "Sales",
+		"line_2035": null,
+		"code_2035": null,
+		"description": ""
+	},
+	"Achat d'immobilisations": {
+		"accounting_number": "210000",
+		"accounting_item_type": "Asset purchasing",
+		"accounting_journal": "Purchases",
+		"line_2035": null,
+		"code_2035": null,
+		"description": ""
+	},
+	"Emprunts": {
+		"accounting_number": "164000",
+		"accounting_item_type": "Miscellaneous",
+		"accounting_journal": "Miscellaneous operations",
+		"line_2035": null,
+		"code_2035": null,
+		"description": ""
+	},
+	"Versements à la SCM": {
+		"accounting_number": "164710",
+		"accounting_item_type": "Miscellaneous",
+		"accounting_journal": "Miscellaneous operations",
+		"line_2035": null,
+		"code_2035": null,
+		"description": ""
+	},
+	"Frais d'établissement": {
+		"accounting_number": "201000",
+		"accounting_item_type": "Miscellaneous",
+		"accounting_journal": "Miscellaneous operations",
+		"line_2035": null,
+		"code_2035": null,
+		"description": ""
+	},
+	"Personnel - Exploitant": {
+		"accounting_number": "108000",
+		"accounting_item_type": "Practitioner",
+		"accounting_journal": "Miscellaneous operations",
+		"line_2035": null,
+		"code_2035": null,
+		"description": ""
+	},
+	"Virement Interne": {
+		"accounting_number": "580000",
+		"accounting_item_type": "Internal transfer",
+		"accounting_journal": "Miscellaneous operations",
+		"line_2035": null,
+		"code_2035": null,
+		"description": ""
+	},
+	"Caisse": {
+		"accounting_number": "513000",
+		"accounting_item_type": "Miscellaneous",
+		"accounting_journal": "Cash",
+		"line_2035": null,
+		"code_2035": null,
+		"description": ""
+	},
+	"Apport Initial": {
+		"accounting_number": "109000",
+		"accounting_item_type": "Opening",
+		"accounting_journal": "Opening Entries",
+		"line_2035": null,
+		"code_2035": null,
+		"description": ""
+	}
+}

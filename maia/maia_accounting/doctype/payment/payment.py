@@ -4,6 +4,7 @@
 
 from __future__ import unicode_literals
 import frappe
+from frappe import _
 from maia.maia_accounting.controllers.accounting_controller import AccountingController
 from frappe.utils import flt
 from maia.maia_accounting.doctype.general_ledger_entry.general_ledger_entry import make_gl_entries
@@ -21,6 +22,9 @@ class Payment(AccountingController):
 	def on_submit(self):
 		self.post_gl_entries()
 		self.set_outstanding_amount()
+
+	def on_cancel(self):
+		self.reverse_gl_entries()
 
 	def validate_paid_allocation(self):
 		total_allocated = 0
@@ -40,40 +44,35 @@ class Payment(AccountingController):
 					.format(d.idx, d.reference_type, d.reference_name))
 			reference_names.append((d.reference_type, d.reference_name))
 
-	def get_rev_exp_accounting_journal(self):
-		journals = frappe.get_all("Maia Accounting Journal", filters={"journal_type": "Sales journal" \
-			if self.payment_type == "Incoming payment" else "Purchase journal"})
+	def get_rev_exp_accounting_journal(self, accounting_item):
+		journal = frappe.db.get_value("Accounting Item", accounting_item, "accounting_journal")
 
-		if journals:
-			return journals[0].name
+		if journal:
+			return journal
 		else:
-			frappe.throw(_("Please configure your accounting journals first"))
+			frappe.throw(_("Please choose an accounting journal for accounting item {0}".format(accounting_item)))
 
 	def get_bank_cash_accounting_journal(self):
-		payment_type = frappe.db.get_value("Payment Method", self.payment_method, "payment_type")
-		journals = frappe.get_all("Maia Accounting Journal", filters={"journal_type": "Bank journal" \
-			if payment_type == "Bank" else "Cash journal"})
+		journal = frappe.db.get_value("Payment Method", self.payment_method, "accounting_journal")
 
-		if journals:
-			return journals[0].name
+		if journal:
+			return journal
 		else:
-			frappe.throw(_("Please configure your accounting journals first"))
+			frappe.throw(_("Please choose an accounting journal for payment method {0}".format(self.payment_method)))
 
 	def get_party_accounting_item(self):
 		if self.party_type == "Patient Record" and self.party:
-			party_item = frappe.db.get_value("Patient Record", self.party, "accounting_item")
-			if not party_item:
-				default_item = frappe.get_all("Accounting Item", filters={"accounting_item_type": "Sales Party"})
-				if default_item:
-					party_item = default_item[0].name
+			if frappe.db.exists("Accounting Item", dict(accounting_item_type="Sales Party")):
+				party_item = frappe.get_doc("Accounting Item", dict(accounting_item_type="Sales Party"))
+			else:
+				frappe.throw(_("Please add at least one accounting item with accounting item type as Sales Party"))
 
 		elif self.party_type == "Party" and self.party:
-			party_item = frappe.db.get_value("Party", self.party, ["accounting_item", "is_customer", "is_supplier"])
-			if not party_item.accounting_item:
-				default_item = frappe.get_all("Accounting Item", filters={"accounting_item_type": "Sales Party" \
-					if party_item.is_customer == 1 else "Purchase Party"})
-				if default_item:
-					party_item = default_item[0].name
+			party_type = "Sales Party" if frappe.db.get_value("Party", self.party, "is_customer") == 1 else "Purchase Party"
+			if frappe.db.exists("Accounting Item", dict(accounting_item_type=party_type)):
+				party_item = frappe.get_doc("Accounting Item", dict(accounting_item_type=party_type))
+			else:
+				frappe.throw(_("Please add at least one accounting item with accounting item type as {0}".format(party_type)))
 
 		return party_item
 
@@ -89,40 +88,50 @@ class Payment(AccountingController):
 		gl_entries = []
 		for ref in self.get("payment_references"):
 			doc = frappe.get_doc(ref.reference_type, ref.reference_name)
+			gl_entries.extend(self.get_gl_entries(doc))
 
-			if hasattr(doc, "with_items") and doc.with_items:
-				for codification in doc.get("codifications"):
-					gl_entries.append({
-						"posting_date": self.payment_date,
-						"accounting_item": codification.accounting_item,
-						"debit": codification.total_amount if self.payment_type == "Outgoing payment" else 0,
-						"credit": codification.total_amount if self.payment_type == "Incoming payment" else 0,
-						"currency": "EUR",
-						"reference_type": ref.reference_type,
-						"reference_name": ref.reference_name,
-						"accounting_journal": self.get_rev_exp_accounting_journal(),
-						"practitioner": self.practitioner
-					})
-				
-			else:
-				gl_entries.append({
-						"posting_date": self.payment_date,
-						"accounting_item": doc.accounting_item,
-						"debit": doc.amount if self.payment_type == "Outgoing payment" else 0,
-						"credit": doc.amount if self.payment_type == "Incoming payment" else 0,
-						"currency": "EUR",
-						"reference_type": ref.reference_type,
-						"reference_name": ref.reference_name,
-						"accounting_journal": self.get_rev_exp_accounting_journal(),
-						"practitioner": self.practitioner
-					})
 		make_gl_entries(gl_entries)
+
+	def get_gl_entries(self, doc):
+		entries = []
+		if doc.with_items:
+			items = doc.get("codifications") if doc.doctype == "Revenue" else doc.get("expense_items")
+			for item in items:
+				entries.append({
+					"posting_date": self.payment_date,
+					"accounting_item": item.accounting_item,
+					"debit": item.total_amount if self.payment_type == "Outgoing payment" else 0,
+					"credit": item.total_amount if self.payment_type == "Incoming payment" else 0,
+					"currency": "EUR",
+					"reference_type": doc.doctype,
+					"reference_name": doc.name,
+					"link_doctype": self.doctype,
+					"link_docname": self.name,
+					"accounting_journal": self.get_rev_exp_accounting_journal(item.accounting_item),
+					"practitioner": self.practitioner
+				})
+		else:
+			entries.append({
+				"posting_date": self.payment_date,
+				"accounting_item": doc.accounting_item,
+				"debit": doc.amount if self.payment_type == "Outgoing payment" else 0,
+				"credit": doc.amount if self.payment_type == "Incoming payment" else 0,
+				"currency": "EUR",
+				"reference_type": doc.doctype,
+				"reference_name": doc.name,
+				"link_doctype": self.doctype,
+				"link_docname": self.name,
+				"accounting_journal": self.get_rev_exp_accounting_journal(item.accounting_item),
+				"practitioner": self.practitioner
+			})
+
+		return entries
 	
 	def make_pending_gl_entries(self):
-		if not self.party:
-			frappe.throw(_("Please select a party if the paid amount is not fully allocated"))
-
 		if self.pending_amount > 0:
+			if not self.party:
+				frappe.throw(_("Please select a party if the paid amount is not fully allocated"))
+
 			accounting_item = self.get_party_accounting_item()
 			gl_entries = []
 
@@ -132,9 +141,11 @@ class Payment(AccountingController):
 				"debit": self.pending_amount if self.payment_type == "Outgoing payment" else 0,
 				"credit": self.pending_amount if self.payment_type == "Incoming payment" else 0,
 				"currency": "EUR",
-				"reference_type": "Payment",
+				"reference_type": self.doctype,
 				"reference_name": self.name,
-				"accounting_journal": self.get_rev_exp_accounting_journal(),
+				"link_doctype": self.doctype,
+				"link_docname": self.name,
+				"accounting_journal": self.get_rev_exp_accounting_journal(item.accounting_item),
 				"practitioner": self.practitioner
 			})
 
@@ -152,8 +163,10 @@ class Payment(AccountingController):
 			"debit": self.paid_amount if self.payment_type == "Incoming payment" else 0,
 			"credit": self.paid_amount if self.payment_type == "Outgoing payment" else 0,
 			"currency": "EUR",
-			"reference_type": "Payment",
+			"reference_type": self.doctype,
 			"reference_name": self.name,
+			"link_doctype": self.doctype,
+			"link_docname": self.name,
 			"accounting_journal": self.get_bank_cash_accounting_journal(),
 			"practitioner": self.practitioner
 		})
@@ -163,7 +176,7 @@ class Payment(AccountingController):
 	def set_outstanding_amount(self):
 		for ref in self.get("payment_references"):
 			outstanding = frappe.db.get_value(ref.reference_type, ref.reference_name, "outstanding_amount")
-			frappe.db.set_value(ref.reference_type, ref.reference_name, "outstanding_amount", flt(outstanding) + flt(ref.paid_amount))
+			frappe.db.set_value(ref.reference_type, ref.reference_name, "outstanding_amount", flt(outstanding) - flt(ref.paid_amount))
 
 @frappe.whitelist()
 def get_payment(dt, dn):

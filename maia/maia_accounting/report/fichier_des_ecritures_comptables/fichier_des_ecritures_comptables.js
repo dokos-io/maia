@@ -15,7 +15,7 @@ frappe.query_reports["Fichier des Ecritures Comptables"] = {
 			"fieldname": "fiscal_year",
 			"label": __("Fiscal Year"),
 			"fieldtype": "Link",
-			"options": "Fiscal Year",
+			"options": "Maia Fiscal Year",
 			"default": frappe.defaults.get_user_default("fiscal_year"),
 			"reqd": 1
 		}
@@ -40,7 +40,7 @@ let fec_export = function(query_report) {
 		if (practitioner_data === null || practitioner_data === undefined) {
 			frappe.msgprint(__("Please register the SIREN number in the professional information card"));
 		} else {
-			frappe.db.get_value("Fiscal Year", fiscal_year, "year_end_date", (r) => {
+			frappe.db.get_value("Maia Fiscal Year", fiscal_year, "year_end_date", (r) => {
 				const fy = r.year_end_date;
 				const title = practitioner_data + "FEC" + moment(fy).format('YYYYMMDD');
 				const column_row = query_report.columns.map(col => col.label);

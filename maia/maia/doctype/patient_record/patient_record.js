@@ -25,7 +25,7 @@ frappe.ui.form.on("Patient Record", {
 		} else {
 			unhide_field(['address_html']);
 			frappe.contacts.render_address_and_contact(frm);
-			erpnext.utils.set_party_dashboard_indicators(frm);
+			maia.patient_record.set_dashboard_indicators(frm);
 			maia.patient_record.make_dashboard(frm);
 		}
 		setup_chart(frm);
@@ -171,7 +171,9 @@ let setup_chart = function(frm) {
 					title: __("Patient Weight"),
 					data: data,
 					type: 'line',
-					region_fill: 1,
+					lineOptions: {
+						regionFill: 1
+					},
 					height: 240,
 					format_tooltip_y: d => d + ' Kg',
 					colors: ['#ffa00a'],
@@ -185,19 +187,41 @@ let setup_chart = function(frm) {
 $.extend(maia.patient_record, {
 	make_dashboard: function(frm) {
 		frappe.require('assets/js/patient-dashboard.min.js', function() {
-					const section = frm.dashboard.add_section(`<div class="row">
-					<div class="row">
-						<button class="btn btn-xs btn-default btn-custom_dashboard">${__("Memo")}</button>
-					</div>
-					<div id="patient-dashboard-section"></div>
-					</div>`);
-					maia.patient_record.custom_patient_dashboard = new maia.patient.PatientDashboard({
-						parent: section,
-						patient_record: frm.doc.name
-					});
-					maia.patient_record.custom_patient_dashboard.refresh();
+			const section = frm.dashboard.add_section(`<div class="row">
+				<div class="row">
+					<button class="btn btn-xs btn-default btn-custom_dashboard">${__("Memo")}</button>
+				</div>
+				<div id="patient-dashboard-section"></div>
+				</div>`);
+			maia.patient_record.custom_patient_dashboard = new maia.patient.PatientDashboard({
+				parent: section,
+				patient_record: frm.doc.name
+			});
+			maia.patient_record.custom_patient_dashboard.refresh();
+		});
+	},
+	set_dashboard_indicators: function(frm) {
+		if(frm.doc.__onload && frm.doc.__onload.dashboard_info) {
+			var company_wise_info = frm.doc.__onload.dashboard_info;
+			if(company_wise_info.length > 1) {
+				company_wise_info.forEach(function(info) {
+					maia.utils.add_indicator_for_multicompany(frm, info);
 				});
+			} else if (company_wise_info.length === 1) {
+				frm.dashboard.add_indicator(__('Annual Billing: {0}',
+					[format_currency(company_wise_info[0].billing_this_year, company_wise_info[0].currency)]), 'blue');
+				frm.dashboard.add_indicator(__('Total Unpaid: {0}',
+					[format_currency(company_wise_info[0].total_unpaid, company_wise_info[0].currency)]),
+				company_wise_info[0].total_unpaid ? 'orange' : 'green');
+
+				if(company_wise_info[0].loyalty_points) {
+					frm.dashboard.add_indicator(__('Loyalty Points: {0}',
+						[company_wise_info[0].loyalty_points]), 'blue');
+				}
+			}
 		}
+	}
+
 })
 
 {% include "maia/public/js/controllers/folders.js" %}

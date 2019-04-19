@@ -32,6 +32,16 @@ frappe.query_reports["Maia General Ledger"] = {
 			"label": __("Accounting Item"),
 			"fieldtype": "Link",
 			"options": "Accounting Item"
+		},
+		{
+			"fieldname":"reference_name",
+			"label": __("Reference Document"),
+			"fieldtype": "Data"
+		},
+		{
+			"fieldname":"link_docname",
+			"label": __("Posting Document"),
+			"fieldtype": "Data"
 		}
 	]
 }

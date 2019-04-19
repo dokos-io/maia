@@ -10,10 +10,7 @@ from frappe.utils import cstr, cint, now, formatdate, get_datetime
 import frappe.defaults
 from frappe.model.document import Document
 from frappe.contacts.address_and_contact import load_address_and_contact
-from erpnext.utilities.transaction_base import TransactionBase
-from erpnext.accounts.party import validate_party_accounts
-from erpnext.controllers.queries import get_filters_cond
-from frappe.desk.reportview import get_match_cond
+from frappe.desk.reportview import get_match_cond, get_filters_cond
 from maia.maia.utils import parity_gravidity_calculation, get_timeline_data
 import dateparser
 

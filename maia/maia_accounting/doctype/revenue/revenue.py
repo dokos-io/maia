@@ -43,3 +43,15 @@ class Revenue(AccountingController):
 				total += codification.total_amount
 
 			self.amount = total
+
+@frappe.whitelist()
+def get_asset_revenue(dt, dn):
+	asset = frappe.get_doc(dt, dn)
+
+	revenue = frappe.new_doc("Revenue")
+	revenue.label = asset.asset_label
+	revenue.revenue_type = "Miscellaneous"
+	revenue.amount = asset.asset_value
+	revenue.accounting_item = frappe.db.get_value("Accounting Item", dict(accounting_item_type="Asset Selling"), "name")
+
+	return revenue

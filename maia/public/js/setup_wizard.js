@@ -12,10 +12,10 @@ frappe.setup.on("before_load", function () {
 
 	// change header brand
 	let $brand = $('header .setup-wizard-brand');
-	if($brand.find('.erpnext-icon').length === 0) {
+	if($brand.find('.maia-icon').length === 0) {
 		$brand.find('.frappe-icon').hide();
 		$brand.append(`<span>
-			<img src="/assets/maia/images/maia_squirrel.svg" class="brand-icon erpnext-icon"
+			<img src="/assets/maia/images/maia_squirrel.svg" class="brand-icon maia-icon"
 			style="width:36px;"><span class="brand-name"></span></span>`);
 	}
 });

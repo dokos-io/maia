@@ -31,8 +31,8 @@ def create_new_site(first_name, last_name, email, siteprefix, max_users, custome
 
 	create_db_and_site(site_name, db_name, mariadb_root_user, mariadb_password, admin_password)
 	print("==========> DB and Site Successfully Created")
-	install_erpnext_and_maia(site_name)
-	print("==========> ERPNext and Maia Installed")
+	install_maia(site_name)
+	print("==========> Maia Installed")
 	setup_site(site_name)
 	print("==========> Parameters for France Set")
 	add_system_manager_and_limits(site_name, email, first_name, last_name, max_users)
@@ -54,11 +54,9 @@ def create_db_and_site(site_name, db_name, mariadb_root_user, mariadb_password, 
 
 	run_commands(commands)
 
-def install_erpnext_and_maia(site_name):
+def install_maia(site_name):
 	commands = []
 
-	command = "bench --site {site_name} install-app erpnext".format(site_name=site_name)
-	commands.append(command)
 	command = "bench --site {site_name} install-app maia".format(site_name=site_name)
 	commands.append(command)
 

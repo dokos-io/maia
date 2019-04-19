@@ -10,7 +10,7 @@ $(document).bind('toolbar_setup', function() {
 	frappe.help_feedback_link = '<p><a class="text-muted" \
 		href="https://forum.maia-by-dokos.fr">Feedback</a></p>'
 
-	$('.navbar-home').html('<img class="erpnext-icon" src="'+
+	$('.navbar-home').html('<img class="maia-icon" src="'+
 			frappe.urllib.get_base_url()+'/assets/maia/images/maia_squirrel.svg" />');
 
 	$('[data-link="docs"]').attr("href", "https://maia-by-dokos.fr/docs")

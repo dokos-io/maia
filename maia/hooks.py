@@ -28,9 +28,8 @@ website_context = {
 
 # Migration
 #----------
-before_migrate = ["maia.customizations.chart_of_accounts.add_simplified_coa",
-					"maia.customizations.demo.add_demo_page",
-					"maia.customizations.before_migration_hooks.before_migrate"
+before_migrate = ["maia.customizations.demo.add_demo_page",
+	"maia.customizations.before_migration_hooks.before_migrate"
 ]
 
 

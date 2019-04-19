@@ -10,13 +10,9 @@ class GeneralLedgerEntry(Document):
 	pass
 
 
-def make_gl_entries(gl_entries, cancel=False):
-	if not cancel:
-		for entry in gl_entries:
-			gl = frappe.new_doc("General Ledger Entry")
-			gl.update(entry)
-			print(gl.__dict__)
-			gl.insert()
-			gl.submit()
-	else:
-		pass
+def make_gl_entries(gl_entries):
+	for entry in gl_entries:
+		gl = frappe.new_doc("General Ledger Entry")
+		gl.update(entry)
+		gl.insert()
+		gl.submit()

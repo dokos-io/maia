@@ -4,12 +4,9 @@
 
 from __future__ import unicode_literals
 import frappe
-from frappe.utils import getdate, flt
-from frappe import _
-import time
 from frappe.model.document import Document
-from erpnext.accounts.doctype.payment_request.payment_request import make_payment_request, make_payment_entry
-from erpnext.accounts.doctype.sales_invoice.sales_invoice import make_sales_return
+from frappe import _
+from frappe.utils import flt
 
 class ConsultationController(Document):
 	def on_submit(self):
@@ -40,11 +37,11 @@ class ConsultationController(Document):
 		return "Honoraires"
 
 	def update_invoice_details(self, revenue_type, case):
-		self.invoice = frappe.new_doc('Revenue')
+		self.revenue_doc = frappe.new_doc('Revenue')
 
 		customer = frappe.get_doc("Party", "CPAM")
 
-		self.invoice.update({
+		self.revenue_doc.update({
 			"revenue_type": revenue_type,
 			"practitioner": self.practitioner,
 			"patient": self.patient_name,
@@ -74,7 +71,7 @@ class ConsultationController(Document):
 				if self.normal_rate:
 					for d in data:
 						if d != "" and d != 0 and d is not None and d != "HN":
-							self.invoice.append("codifications", {
+							self.revenue_doc.append("codifications", {
 								"codification": d,
 								"qty": 1,
 								"unit_price": data[d] * 0.7
@@ -83,7 +80,7 @@ class ConsultationController(Document):
 				elif self.alsace_moselle_rate:
 					for d in data:
 						if d != "" and d != 0 and d is not None and d != "HN":
-							self.invoice.append("codifications", {
+							self.revenue_doc.append("codifications", {
 								"codification": d,
 								"qty": 1,
 								"unit_price": data[d] * 0.9
@@ -92,14 +89,14 @@ class ConsultationController(Document):
 			else:
 				for d in data:
 					if d != "" and d != 0 and d is not None and d != "HN":
-						self.invoice.append("codifications", {
+						self.revenue_doc.append("codifications", {
 							"codification": d,
 							"qty": 1,
 							"unit_price": data[d]
 						})
 
 			if self.mileage_allowance_codification != "" and self.mileage_allowance_codification != 0 and self.mileage_allowance_codification is not None:
-				self.invoice.append("codifications", {
+				self.revenue_doc.append("codifications", {
 					"codification": self.mileage_allowance_codification,
 					"qty": self.number_of_kilometers,
 				})
@@ -109,7 +106,7 @@ class ConsultationController(Document):
 				if self.normal_rate:
 					for d in data:
 						if d != "" and d != 0 and d is not None and d != "HN":
-							self.invoice.append("codifications", {
+							self.revenue_doc.append("codifications", {
 								"codification": d,
 								"qty": 1,
 								"unit_price": data[d] * 0.3
@@ -118,7 +115,7 @@ class ConsultationController(Document):
 				elif self.alsace_moselle_rate:
 					for d in data:
 						if d != "" and d != 0 and d is not None and d != "HN":
-							self.invoice.append("codifications", {
+							self.revenue_doc.append("codifications", {
 								"codification": d,
 								"qty": 1,
 								"unit_price": data[d] * 0.1
@@ -129,7 +126,7 @@ class ConsultationController(Document):
 					frappe.throw(_("Codification HN is missing. Please add it in your codifications list."))
 
 				else:
-					self.invoice.append("codifications", {
+					self.revenue_doc.append("codifications", {
 						"codification": "HN",
 						"qty": 1,
 						"unit_price": self.without_codification,
@@ -141,65 +138,60 @@ class ConsultationController(Document):
 					codification_description = frappe.db.get_value("Codification", self.codification, "codification_description")
 				else:
 					codification_description = self.codification_description
-				self.invoice.append("codifications", {
+				self.revenue_doc.append("codifications", {
 					"codification": self.codification,
 					"qty": 1,
 					"unit_price": self.overpayment_value,
 					"description": _("Overpayment:")+ " " + codification_description
 				})
 
-		self.invoice.insert()
-		self.invoice.submit()
+		self.revenue_doc.insert()
+		self.revenue_doc.submit()
 
 
 		if revenue_type == "Social Security":
-			frappe.db.set_value(self.doctype, self.name, "social_security_invoice", self.invoice.name)
+			frappe.db.set_value(self.doctype, self.name, "social_security_invoice", self.revenue_doc.name)
 		else:
-			frappe.db.set_value(self.doctype, self.name, "invoice", self.invoice.name)
+			frappe.db.set_value(self.doctype, self.name, "invoice", self.revenue_doc.name)
 		self.reload()
 
 
-		"""
-		if not (case == "third_party_and_patient" and customer == "CPAM") and self.paid_immediately == 1:
-			payment_request = make_payment_request(dt="Sales Invoice", dn=invoice.name, submit_doc=True, mute_email=True)
-			payment_entry = frappe.get_doc(make_payment_entry(payment_request.name))
+		if not (case == "third_party_and_patient" and revenue_type == "Social Security") and self.paid_immediately == 1:
+			if self.revenue_doc:
+				payment = get_payment(self.revenue_doc.doctype, self.revenue_doc.name)
+				payment.payment_method = self.mode_of_payment
+				payment.payment_reference = self.reference
+				payment.payment_date = self.consultation_date
 
-			payment_entry.mode_of_payment = self.mode_of_payment
-			payment_entry.reference_no = self.reference
-			payment_entry.reference_date = self.consultation_date
-			payment_entry.posting_date = frappe.flags.current_date
-
-			payment_entry.submit()
-		"""
+				payment.insert()
+				payment.submit()
 
 	def cancel_consultation_and_invoice(self):
 		if self.invoice is not None:
 			undo_payment(self.invoice)
-			make_return(self.invoice)
+			cancel_invoice(self.invoice)
 
 		if self.social_security_invoice is not None:
 			undo_payment(self.social_security_invoice)
-			make_return(self.social_security_invoice)
+			cancel_invoice(self.social_security_invoice)
 
 	def undo_payment(invoice):
-		outstanding = frappe.db.get_value("Sales Invoice", invoice, "outstanding_amount")
-		total = frappe.db.get_value("Sales Invoice", invoice, "grand_total")
+		outstanding = frappe.db.get_value("Revenue", invoice, "outstanding_amount")
+		total = frappe.db.get_value("Revenue", invoice, "amount")
 		if flt(outstanding) < flt(total):
-			payments = frappe.get_all("Payment Entry Reference", filters={"reference_doctype": "Sales Invoice", "reference_name": invoice}, fields=["parent"])
+			payments = frappe.get_all("Payment References", filters={"reference_type": "Revenue", "reference_name": invoice}, fields=["parent"])
 
 			if payments:
 				for p in payments:
-					doc = frappe.get_doc("Payment Entry", p.parent)
+					doc = frappe.get_doc("Payment", p.parent)
 					if doc.docstatus == 1:
 						doc.cancel()
 
 				frappe.msgprint(_("A payment linked to this consultation has been cancelled"))
 
-	def make_return(invoice):
+	def cancel_invoice(invoice):
 		try:
-			rt = make_sales_return(invoice)
-			rt.insert()
-			rt.submit()
+			frappe.get_doc("Revenue", invoice).cancel()
 			frappe.db.commit()
 		except Exception:
 			frappe.db.rollback()

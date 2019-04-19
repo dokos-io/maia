@@ -12,7 +12,7 @@ def create_fiscal_year_and_company(args):
 	if (args.get('fy_start_date')):
 		curr_fiscal_year = get_fy_details(args.get('fy_start_date'), args.get('fy_end_date'))
 		frappe.get_doc({
-			"doctype":"Fiscal Year",
+			"doctype":"Maia Fiscal Year",
 			'year': curr_fiscal_year,
 			'year_start_date': args.get('fy_start_date'),
 			'year_end_date': args.get('fy_end_date'),

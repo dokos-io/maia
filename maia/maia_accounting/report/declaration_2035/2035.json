@@ -1,0 +1,222 @@
+{
+	"Recettes": {
+		"Recettes encaissées y compris les remboursements de frais": {
+			"line": 1,
+			"cell": "AA"
+		},
+		"Débours payés pour le compte des clients": {
+			"line": 2,
+			"cell": "AB"
+		},
+		"Honoraires rétrocédés": {
+			"line": 3,
+			"cell": "AC"
+		},
+		"Montant net des recettes": {
+			"line": 4,
+			"cell": "AD",
+			"calculation": [1, "minus", 2, "minus", 3]
+		},
+		"Produits financiers": {
+			"line": 5,
+			"cell": "AE"
+		},
+		"Gains divers": {
+			"line": 6,
+			"cell": "AF"
+		},
+		"TOTAL (lignes 4 à 6)": {
+			"line": 7,
+			"cell": "AG",
+			"total": [4, 5, 6]
+		}
+	},
+	"Dépenses Professionnelles": {
+		"Achats": {
+			"line": 8,
+			"cell": "BA"
+		},
+		"Salaires nets et avantages en nature": {
+			"line": 9,
+			"cell": "BB"
+		},
+		"Charges sociales sur salaires (parts patronale et ouvrière)": {
+			"line": 10,
+			"cell": "BC"
+		},
+		"Taxe sur la valeur ajoutée": {
+			"line": 11,
+			"cell": "BD"
+		},
+		"Contribution économique territoriale": {
+			"line": 12,
+			"cell": "JY"
+		},
+		"Autres impôts": {
+			"line": 13,
+			"cell": "BS"
+		},
+		"Contribution sociale généralisée déductible": {
+			"line": 14,
+			"cell": "BV"
+		},
+		"Loyer et charges locatives": {
+			"line": 15,
+			"cell": "BF"
+		},
+		"Location de matériel et de mobilier": {
+			"Redevances de collaboration": {
+				"line": 16,
+				"cell": "BW"
+			},
+			"line": 16,
+			"cell": "BG"
+		},
+		"Entretien et réparations": {
+			"line": 17,
+			"cell": "BH"
+		},
+		"Personnel intérimaire": {
+			"line": 18,
+			"cell": "BH"
+		},
+		"Petit outillage": {
+			"line": 19,
+			"cell": "BH"
+		},
+		"Chauffage, eau, gaz, électricité": {
+			"line": 20,
+			"cell": "BH"
+		},
+		"Honoraires ne constituant pas des rétrocessions": {
+			"line": 21,
+			"cell": "BH"
+		},
+		"Primes d'assurances": {
+			"line": 22,
+			"cell": "BH"
+		},
+		"Frais de véhicules ": {
+			"line": 23,
+			"cell": "BJ"
+		},
+		"Autres frais de déplacements (voyages...)": {
+			"line": 24,
+			"cell": "BJ"
+		},
+		"Charges sociales personnelles": {
+			"Obligatoires": {
+				"line": 25,
+				"cell": "BT"
+			},
+			"Facultatives": {
+				"line": 25,
+				"cell": "BU"
+			},
+			"line": 25,
+			"cell": "BK"
+			
+		},
+		"Frais de réception, de représentation et de congrès": {
+			"line": 26,
+			"cell": "BM"
+		},
+		"Fournitures de bureau, frais de documentation, de correspondance et de téléphone": {
+			"line": 27,
+			"cell": "BM"
+		},
+		"Frais d'actes et de contentieux": {
+			"line": 28,
+			"cell": "BM"
+		},
+		"Cotisations syndicales et professionnelles": {
+			"Cotisations syndicales et professionnelles": {
+				"line": 29,
+				"cell": "BY"
+			},
+			"line": 29,
+			"cell": "BM"
+		},
+		"Autres frais divers de gestion": {
+			"line": 30,
+			"cell": "BM"
+		},
+		"Frais financiers": {
+			"line": 31,
+			"cell": "BN"
+		},
+		"Pertes diverses": {
+			"line": 32,
+			"cell": "BP"
+		},
+		"TOTAL (lignes 8 à 32)": {
+			"line": 33,
+			"cell": "BR",
+			"total": [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32]
+		}
+	},
+	"Détermination du résultat": {
+		"Excédent (ligne 7 - ligne 33)": {
+			"line": 34,
+			"cell": "CA",
+			"calculation": [7, "minus", 33]
+		},
+		"Plus-values à court terme": {
+			"line": 35,
+			"cell": "CB"
+		},
+		"Divers à réintégrer": {
+			"line": 36,
+			"cell": "CC"
+		},
+		"Bénéfice Sté civile de moyens": {
+			"line": 37,
+			"cell": "CD"
+		},
+		"TOTAL (lignes 34 à 37)": {
+			"line": 38,
+			"cell": "CE",
+			"total": [34, 35, 36, 37]
+		},
+		"Insuffisance (ligne 33 - ligne 7)": {
+			"line": 39,
+			"cell": "CF",
+			"calculation": [33, "minus", 7]
+		},
+		"Frais d'établissement": {
+			"line": 40,
+			"cell": "CG"
+		},
+		"Dotation aux amortissements": {
+			"line": 41,
+			"cell": "CH"
+		},
+		"Moins-values à court terme": {
+			"line": 42,
+			"cell": "CK"
+		},
+		"Divers à déduire": {
+			"line": 43,
+			"cell": "CL"
+		},
+		"Déficits Ste civile de moyens": {
+			"line": 44,
+			"cell": "CM"
+		},
+		"TOTAL (lignes 39 à 44)": {
+			"line": 45,
+			"cell": "CN",
+			"total": [39, 40, 41, 42, 43, 44]
+		},
+		"Bénéfice (ligne 38 - ligne 45)": {
+			"line": 46,
+			"cell": "CP",
+			"calculation": [38, "minus", 45]
+		},
+		"Déficit (ligne 45 - ligne 38)": {
+			"line": 47,
+			"cell": "CR",
+			"calculation": [45, "minus", 38]
+		}
+	}
+}

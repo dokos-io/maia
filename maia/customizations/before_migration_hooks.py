@@ -10,7 +10,7 @@ import json
 def delete_standard_config_files():
 	config_files = ["accounts", "setup"]
 
-	for app in ["erpnext", "frappe"]:
+	for app in ["frappe"]:
 		for config_file in config_files:
 
 			target = frappe.get_app_path(app, "config", config_file + ".py")
@@ -23,20 +23,6 @@ def delete_standard_config_files():
 			except Exception as e:
 				print(e)
 				frappe.log_error(e, "Config Files Deletion")
-
-def delete_erpnext_hooks():
-	erpnext_hooks = frappe.get_app_path("erpnext", "hooks.py")
-
-	patterns = ['setup_wizard_requires = ', 'setup_wizard_stages = ', 'setup_wizard_test = ', 'calendars = ', 'get_help_messages = ', 'get_user_progress_slides = ',
-				'update_and_get_user_progress = ', 'email_brand_image = ', 'default_mail_footer = ', 'standard_portal_menu_items = ', 'error_report_email = ', 'domains = ']
-
-	subst = ''
-	for pattern in patterns:
-		try:
-			replace(erpnext_hooks, pattern, subst)
-		except Exception as e:
-			print(e)
-			frappe.log_error(e, "ERPNext Hooks Deletions")
 
 def modify_frappe_files():
 
@@ -77,5 +63,4 @@ def replace(file_path, pattern, subst):
 
 def before_migrate():
 	delete_standard_config_files()
-	delete_erpnext_hooks()
 	modify_frappe_files()

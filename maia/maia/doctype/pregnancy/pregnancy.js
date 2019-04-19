@@ -86,6 +86,9 @@ let setup_newborn_chart = function(frm, child, domelem) {
 					title: __("Weight Curve (g)"),
 					data: data,
 					type: 'line',
+					lineOptions: {
+						regionFill: 1
+					},
 					height: 240,
 					format_tooltip_y: d => d + ' g',
 					colors: colors,

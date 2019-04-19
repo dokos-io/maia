@@ -17,8 +17,6 @@ def execute(filters=None):
 
 	validate_filters(filters, account_details)
 
-	filters["account_currency"] = "EUR"
-
 	columns = get_columns(filters)
 
 	res = get_result(filters, account_details)
@@ -51,7 +49,8 @@ def get_gl_entries(filters):
 		"""
 		select
 			posting_date, accounting_item,
-			reference_type, reference_name
+			reference_type, reference_name,
+			link_doctype, link_docname
 			{select_fields}
 		from `tabGeneral Ledger Entry`
 		where practitioner=%(practitioner)s {conditions}
@@ -69,6 +68,12 @@ def get_conditions(filters):
 	conditions = []
 	if filters.get("accounting_item"):
 		conditions.append("""accounting_item = '%s'""" % (filters.get("accounting_item")))
+
+	if filters.get("reference_name"):
+		conditions.append("reference_name=%(reference_name)s")
+
+	if filters.get("link_docname"):
+		conditions.append("link_docname=%(link_docname)s")
 
 	from frappe.desk.reportview import build_match_conditions
 	match_conditions = build_match_conditions("General Ledger Entry")
@@ -141,18 +146,20 @@ def get_accountwise_gle(filters, gl_entries, gle_map):
 	return totals, entries
 
 def get_result_as_list(data, filters):
-	balance, balance_in_account_currency = 0, 0
+	balance = 0
 
 	for d in data:
 		if not d.get('posting_date'):
-			balance, balance_in_account_currency = 0, 0
+			balance = 0
 
-		if d.get('reference_type'):
-			d['reference_type'] = _(d.get('reference_type'))
+		#if d.get('reference_type'):
+		#	d['reference_type'] = _(d.get('reference_type'))
+
+		#if d.get('link_doctype'):
+		#	d['link_doctype'] = _(d.get('link_doctype'))
 
 		balance = get_balance(d, balance, 'debit', 'credit')
 		d['balance'] = balance
-		d['account_currency'] = filters.account_currency
 
 	return data
 
@@ -209,6 +216,18 @@ def get_columns(filters):
 			"fieldname": "reference_name",
 			"fieldtype": "Dynamic Link",
 			"options": "reference_type",
+			"width": 180
+		},
+		{
+			"label": _("Posting Doctype"),
+			"fieldname": "link_doctype",
+			"width": 120
+		},
+		{
+			"label": _("Posting Document Name"),
+			"fieldname": "link_docname",
+			"fieldtype": "Dynamic Link",
+			"options": "link_doctype",
 			"width": 180
 		}
 	])
