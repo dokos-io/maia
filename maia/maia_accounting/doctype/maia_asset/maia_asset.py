@@ -8,6 +8,7 @@ from frappe.model.document import Document
 from frappe.utils import getdate, add_months, date_diff, add_days, flt
 from pandas.tseries import offsets
 import json
+import os
 
 class MaiaAsset(Document):
 	pass
@@ -39,12 +40,21 @@ def get_depreciation_schedule(doc):
 			previous_date=previous_depreciation_date,
 			next_date=next_depreciation_date,
 			doc=doc)
+
+		max_deductible = depreciation_amount
+		if doc["deduction_ceiling"] > 0:
+			max_deductible = get_deductible_amount(
+				previous_date=previous_depreciation_date,
+				next_date=next_depreciation_date,
+				doc=doc)
+
 		cumulated_depreciation += flt(depreciation_amount)
 
 		depreciation_entries.append({
 			"depreciation_date": next_depreciation_date,
 			"depreciation_base": depreciation_base,
 			"depreciation_amount": depreciation_amount,
+			"max_deductible": max_deductible,
 			"cumulated_depreciation": cumulated_depreciation
 		})
 		
@@ -61,3 +71,21 @@ def get_prorata_ratio(previous_date, next_date):
 def get_depreciation_amount(**kwargs):
 	return (kwargs["doc"]["depreciation_rate"] / 100) * kwargs["doc"]["asset_value"] \
 		* get_prorata_ratio(kwargs["previous_date"], kwargs["next_date"])
+
+def get_deductible_amount(**kwargs):
+	return (kwargs["doc"]["depreciation_rate"] / 100) * kwargs["doc"]["deduction_ceiling"] \
+		* get_prorata_ratio(kwargs["previous_date"], kwargs["next_date"])
+
+@frappe.whitelist()
+def get_deduction_ceiling(year, co2_rate):
+	path = os.path.join(frappe.get_module_path('maia_accounting'), "doctype", "maia_asset", "car_deduction_ceiling_fr.json") 
+	data = frappe.get_file_json(path)
+
+	if getdate(year).year in data:
+		year_data = data[getdate(year).year]
+	else:
+		year_data = data[next(iter(data))]
+
+	for d in year_data:
+		if flt(co2_rate) <= flt(d):
+			return year_data[d]

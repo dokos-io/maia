@@ -4,6 +4,7 @@
 frappe.ui.form.on('Maia Asset', {
 	refresh(frm) {
 		add_expense_btn(frm);
+		add_revenue_btn(frm);
 
 		if (frm.doc.docstatus == 1) {
 			frm.trigger("setup_chart");
@@ -40,21 +41,33 @@ frappe.ui.form.on('Maia Asset', {
 				formatTooltipY: d => d.toFixed(2) + ' €'
 			}
 		});
+	},
+	service_start(frm) {
+		get_deduction_ceiling(frm);
+	},
+	co2_rate(frm) {
+		get_deduction_ceiling(frm);
+	},
+	professional_percentage(frm) {
+		get_deduction_ceiling(frm);
+	},
+	asset_value(frm) {
+		get_deduction_ceiling(frm);
 	}
 });
 
 const add_expense_btn = frm => {
 	if (frm.doc.docstatus == 1 && !frm.doc.expense) {
 		frm.set_intro(__("No expense has been registered against this asset. Click on 'Actions > Expense' to register it."))
-		frm.page.add_action_item(__('Purchase the asset'), function() {
+		frm.page.add_action_item(__('Purchase this asset'), function() {
 			make_expense(frm);
 		})
 	}
 }
 
 const add_revenue_btn = frm => {
-	if (frm.doc.docstatus == 1 && !frm.doc.expense) {
-		frm.page.add_action_item(__('Sell the asset'), function() {
+	if (frm.doc.docstatus == 1 && frm.doc.expense && !frm.doc.revenue) {
+		frm.page.add_action_item(__('Sell this asset'), function() {
 			make_revenue(frm);
 		})
 	}
@@ -104,12 +117,26 @@ const calculate_depreciations = frm => {
 					row.depreciation_base = value.depreciation_base;
 					row.depreciation_amount = value.depreciation_amount;
 					row.cumulated_depreciation = value.cumulated_depreciation;
-					row.deductible_amount = frm.doc.professional_percentage * value.depreciation_amount;
-					row.non_deductible_amount = (1 - frm.doc.professional_percentage) * value.depreciation_amount;
+					row.deductible_amount = value.max_deductible;
+					row.non_deductible_amount = value.depreciation_amount - row.deductible_amount;
 				})
 				frm.refresh_fields();
 			}
 		})
 
+	}
+}
+
+const get_deduction_ceiling = frm => {
+	if (frm.doc.service_start && frm.doc.co2_rate) {
+		frappe.xcall('maia.maia_accounting.doctype.maia_asset.maia_asset.get_deduction_ceiling',
+			{year: frm.doc.service_start, co2_rate: frm.doc.co2_rate})
+		.then(e => {
+			if (e) {
+				frm.set_value("deduction_ceiling", e * (frm.doc.professional_percentage / 100));
+			}
+		})
+	} else if (frm.doc.asset_value && frm.doc.professional_percentage) {
+		frm.set_value("deduction_ceiling", frm.doc.asset_value * (frm.doc.professional_percentage / 100));
 	}
 }
