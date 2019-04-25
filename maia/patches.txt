@@ -42,4 +42,9 @@ maia.patches.v2_4.maia_appointment_module
 maia.patches.v2_4.remove_maia_appointment_icon
 maia.patches.v2_6.add_min_value_for_euro
 maia.patches.v2_6.update_codifications
+maia.patches.v3_0.migrate_sales_invoices
+maia.patches.v3_0.migrate_purchase_invoices
+maia.patches.v3_0.migrate_journal_entries
+maia.patches.v3_0.migrate_assets
+maia.patches.v3_0.remove_deprecated_doctypes
 

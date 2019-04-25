@@ -4,6 +4,7 @@
 from __future__ import unicode_literals
 import frappe
 from maia.maia_accounting.controllers.status_updater import StatusUpdater
+from maia.maia_accounting.doctype.general_ledger_entry.general_ledger_entry import make_gl_entries
 
 class AccountingController(StatusUpdater):
 	def set_outstanding_amount(self):

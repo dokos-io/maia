@@ -50,7 +50,8 @@ def get_gl_entries(filters):
 		select
 			posting_date, accounting_item,
 			reference_type, reference_name,
-			link_doctype, link_docname
+			link_doctype, link_docname,
+			accounting_journal
 			{select_fields}
 		from `tabGeneral Ledger Entry`
 		where practitioner=%(practitioner)s {conditions}
@@ -74,6 +75,12 @@ def get_conditions(filters):
 
 	if filters.get("link_docname"):
 		conditions.append("link_docname=%(link_docname)s")
+
+	if filters.get("from_date") and filters.get("to_date"):
+		conditions.append("posting_date>=%(from_date)s and posting_date<=%(to_date)s")
+
+	if filters.get("accounting_journal"):
+		conditions.append("accounting_journal=%(accounting_journal)s")
 
 	from frappe.desk.reportview import build_match_conditions
 	match_conditions = build_match_conditions("General Ledger Entry")
@@ -118,10 +125,11 @@ def get_totals_dict():
 	)
 
 def initialize_gle_map(gl_entries, filters):
-	gle_map = frappe._dict()
+	gle_map = _dict()
 
 	for gle in gl_entries:
 		gle_map.setdefault(gle.get("reference_name"), _dict(totals=get_totals_dict(), entries=[]))
+
 	return gle_map
 
 
@@ -149,6 +157,7 @@ def get_result_as_list(data, filters):
 	balance = 0
 
 	for d in data:
+		print(d)
 		if not d.get('posting_date'):
 			balance = 0
 
@@ -206,6 +215,11 @@ def get_columns(filters):
 	]
 
 	columns.extend([
+		{
+			"label": _("Accounting Journal"),
+			"fieldname": "accounting_journal",
+			"width": 150
+		},
 		{
 			"label": _("Reference Type"),
 			"fieldname": "reference_type",

@@ -34,7 +34,13 @@ class Revenue(AccountingController):
 	def calculate_line_total(self):
 		if self.with_items:
 			for codification in self.codifications:
+				if not codification.unit_price:
+					frappe.db.set_value("Revenue Items", codification.name, "unit_price", frappe.db.get_value("Codification", codification.codification, "billing_price") or 0)
+				if not codification.accounting_item:
+					frappe.db.set_value("Revenue Items", codification.name, "accounting_item", frappe.db.get_value("Codification", codification.codification, "accounting_item"))
+
 				codification.total_amount = float(codification.qty) * float(codification.unit_price)
+
 
 	def calculate_total(self):
 		if self.with_items:

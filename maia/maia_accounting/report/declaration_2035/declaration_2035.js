@@ -1,4 +1,4 @@
-// Copyright (c) 2016, DOKOS and contributors
+// Copyright (c) 2019, DOKOS and contributors
 // For license information, please see license.txt
 /* eslint-disable */
 

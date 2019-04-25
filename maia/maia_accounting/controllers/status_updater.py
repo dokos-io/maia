@@ -11,16 +11,21 @@ status_map = {
 	"Expense": [
 		["Draft", None],
 		["Paid", "eval:self.outstanding_amount<=0 and self.docstatus==1"],
-		["Unpaid", "eval:self.outstanding_amount > 0 and getdate(self.due_date) >= getdate(nowdate()) and self.docstatus==1"]
+		["Unpaid", "eval:self.outstanding_amount>0 and getdate(self.due_date)>=getdate(nowdate()) and self.docstatus==1"]
 	],
 	"Revenue": [
 		["Draft", None],
 		["Paid", "eval:self.outstanding_amount<=0 and self.docstatus==1"],
-		["Unpaid", "eval:self.outstanding_amount > 0 and getdate(self.due_date) >= getdate(nowdate()) and self.docstatus==1"]
+		["Unpaid", "eval:self.outstanding_amount>0 and getdate(self.due_date)>=getdate(nowdate()) and self.docstatus==1"]
 	],
 	"Payment": [
 		["Reconciled", "eval:self.clearance_date"],
 		["Unreconciled", "eval:self.clearance_date is None"]
+	],
+	"Maia Asset": [
+		["Fully depreciated", "is_fully_depreciated"],
+		["Partly depreciated", "is_partly_depreciated"],
+		["Not depreciated", "is_not_depreciated"]
 	]
 }
 

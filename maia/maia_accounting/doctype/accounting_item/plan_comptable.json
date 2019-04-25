@@ -311,7 +311,7 @@
 		"code_2035": "BM",
 		"description": ""
 	},
-	"Cotis. syndicales et profess.": {
+	"Cotisations syndicales et professionnelles": {
 		"accounting_number": "628100",
 		"accounting_item_type": "Expense",
 		"accounting_journal": "Purchases",
@@ -351,6 +351,14 @@
 		"code_2035": "BP",
 		"description": ""
 	},
+	"Dotations aux amortissements": {
+		"accounting_number": "681000",
+		"accounting_item_type": "Asset depreciation charge",
+		"accounting_journal": "Miscellaneous operations",
+		"line_2035": 41,
+		"code_2035": "CH",
+		"description": ""
+	},
 	"Plus values à court terme": {
 		"accounting_number": "775000",
 		"accounting_item_type": "Revenue",
@@ -379,6 +387,14 @@
 		"accounting_number": "275000",
 		"accounting_item_type": "Expense",
 		"accounting_journal": "Purchases",
+		"line_2035": null,
+		"code_2035": null,
+		"description": ""
+	},
+	"Amortissements des immobilisations corporelles": {
+		"accounting_number": "281000",
+		"accounting_item_type": "Asset depreciation",
+		"accounting_journal": "Miscellaneous operations",
 		"line_2035": null,
 		"code_2035": null,
 		"description": ""
@@ -450,7 +466,23 @@
 	"Apport Initial": {
 		"accounting_number": "109000",
 		"accounting_item_type": "Opening",
-		"accounting_journal": "Opening Entries",
+		"accounting_journal": "Opening entries",
+		"line_2035": null,
+		"code_2035": null,
+		"description": ""
+	},
+	"Fournisseurs": {
+		"accounting_number": "401100",
+		"accounting_item_type": "Purchase party",
+		"accounting_journal": "Purchases",
+		"line_2035": null,
+		"code_2035": null,
+		"description": ""
+	},
+	"Clients": {
+		"accounting_number": "410100",
+		"accounting_item_type": "Sales party",
+		"accounting_journal": "Sales",
 		"line_2035": null,
 		"code_2035": null,
 		"description": ""

@@ -28,6 +28,12 @@ frappe.query_reports["Maia General Ledger"] = {
 			"width": "60px"
 		},
 		{
+			"fieldname":"accounting_journal",
+			"label": __("Accounting Journal"),
+			"fieldtype": "Select",
+			"options": ["Bank", "Cash", "Miscellaneous operations", "Purchases", "Sales"]
+		},
+		{
 			"fieldname":"accounting_item",
 			"label": __("Accounting Item"),
 			"fieldtype": "Link",

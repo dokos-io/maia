@@ -6,6 +6,7 @@ import frappe
 from frappe import _
 import os
 from frappe.utils import flt
+from maia.utilities.utils import get_fiscal_year
 
 def execute(filters=None):
 	columns = get_columns(filters)
@@ -103,13 +104,9 @@ def calculate_totals(data):
 		if "amount" in d and flt(d["amount"]) < 0:
 			d["amount"] = 0
 
-
 	return data
 
 def get_gl_entries(filters):
-	journals = frappe.get_all("Maia Accounting Journal", \
-		filters=[["Maia Accounting Journal", "journal_type", "in", ["Sales journal", "Purchase journal"]]])
-
 	gl_entries = frappe.db.sql(
 		"""
 		select
@@ -119,18 +116,21 @@ def get_gl_entries(filters):
 		from `tabGeneral Ledger Entry` gl
 		left join `tabAccounting Item` ai on gl.accounting_item = ai.name
 		where practitioner=%(practitioner)s
-		and gl.accounting_journal in {journals}
+		and gl.accounting_journal in ('Sales', 'Purchases')
 		{conditions}
 		order by posting_date, accounting_item
 		""".format(
-			conditions=get_conditions(filters),
-			journals=tuple([j["name"] for j in journals])
+			conditions=get_conditions(filters)
 		), filters, as_dict=1)
 
 	return gl_entries
 
 def get_conditions(filters):
 	conditions = []
+
+	if filters.get("fiscal_year"):
+		fy = get_fiscal_year(fiscal_year=filters.get("fiscal_year"), as_dict=1)
+		conditions.append("posting_date>='{0}' and posting_date<='{1}'".format(fy.year_start_date, fy.year_end_date))
 
 	from frappe.desk.reportview import build_match_conditions
 	match_conditions = build_match_conditions("General Ledger Entry")

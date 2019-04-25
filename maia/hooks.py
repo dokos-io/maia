@@ -147,9 +147,9 @@ scheduler_events = {
 	# 	"all": [
 	# 		"maia.tasks.all"
 	# 	],
-	# 	"daily": [
-	# 		"maia.tasks.daily"
-	# 	],
+	"daily": [
+		"maia.maia_accounting.doctype.maia_asset.maia_asset.post_depreciations"
+	],
 	"hourly": [
 		"maia.maia_appointment.doctype.maia_appointment.maia_appointment.flush"
 	]

@@ -2,6 +2,24 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Maia Asset', {
+	onload(frm) {
+		frappe.call({
+			"method": "maia.client.get_practitioner",
+			args: {
+				doctype: "Professional Information Card",
+				filters: {
+					user: frappe.session.user
+				},
+				fieldname: "name"
+			},
+			cache: false,
+			callback: function(data) {
+				if (!data.exe && data.message) {
+					frappe.model.set_value(frm.doctype, frm.docname, "practitioner", data.message.name)
+				}
+			}
+		})
+	},
 	refresh(frm) {
 		add_expense_btn(frm);
 		add_revenue_btn(frm);
@@ -118,7 +136,7 @@ const calculate_depreciations = frm => {
 					row.depreciation_amount = value.depreciation_amount;
 					row.cumulated_depreciation = value.cumulated_depreciation;
 					row.deductible_amount = value.max_deductible;
-					row.non_deductible_amount = value.depreciation_amount - row.deductible_amount;
+					row.non_deductible_amount = flt(value.depreciation_amount) - flt(row.deductible_amount);
 				})
 				frm.refresh_fields();
 			}

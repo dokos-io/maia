@@ -60,7 +60,7 @@ class MiscellaneousOperation(AccountingController):
 				"reference_name": self.name,
 				"link_doctype": self.doctype,
 				"link_docname": self.name,
-				"accounting_journal": item.accounting_journal if self.operation_type in ["Internal Transfer"] else "Miscellaneous Operations",
+				"accounting_journal": item.accounting_journal if self.operation_type in ["Internal Transfer"] else "Miscellaneous operations",
 				"practitioner": self.practitioner
 			})
 

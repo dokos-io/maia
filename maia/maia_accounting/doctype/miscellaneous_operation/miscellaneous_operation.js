@@ -44,7 +44,10 @@ frappe.ui.form.on('Miscellaneous Operation Items', {
 	},
 
 	items_add(frm, cdt, cdn) {
-		frappe.model.set_value(cdt, cdn, "amount", flt(frm.doc.difference) > 0 ? Math.abs(frm.doc.difference) * -1 : Math.abs(frm.doc.difference));
+		if (!isNaN(frm.doc.difference)) {
+			frappe.model.set_value(cdt, cdn, "amount", flt(frm.doc.difference) > 0
+				? Math.abs(frm.doc.difference) * -1 : Math.abs(frm.doc.difference));
+		}
 	}
 })
 
