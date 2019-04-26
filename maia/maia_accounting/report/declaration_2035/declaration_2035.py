@@ -6,7 +6,7 @@ import frappe
 from frappe import _
 import os
 from frappe.utils import flt
-from maia.utilities.utils import get_fiscal_year
+from maia.maia_accounting.utils import get_fiscal_year
 
 def execute(filters=None):
 	columns = get_columns(filters)

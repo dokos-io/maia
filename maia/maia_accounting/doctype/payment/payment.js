@@ -19,7 +19,12 @@ frappe.ui.form.on('Payment', {
 				}
 			}
 		})
-		set_default_payment_method(frm);
+		if (frm.is_new() || !frm.doc.payment_type) {
+			set_default_payment_method(frm);
+		}
+	},
+	refresh(frm) {
+		add_reconciliation_btn(frm);
 	},
 	party(frm) {
 		frm.events.get_references(frm);
@@ -81,4 +86,25 @@ const set_default_payment_method = frm => {
 const set_default_party_type = frm => {
 	const party_type = (frm.doc.payment_type === "Outgoing payment") ? "Party" : "Patient Record";
 	frm.set_value("party_type", party_type)
+}
+
+const add_reconciliation_btn = frm => {
+	if (frm.doc.docstatus == 1) {
+		frm.page.add_action_item(__('Update clearance date'), function() {
+			frappe.prompt({
+				fieldtype:"Date",
+				label:__("Clearance Date"),
+				fieldname:"clearance_date",
+				reqd:1,
+				default: frm.doc.payment_date
+			},
+			function(data) {
+				frappe.xcall('maia.maia_accounting.doctype.payment.payment.update_clearance_date', {docname: frm.doc.name, date: data.clearance_date})
+				.then(() => {
+					frm.refresh();
+					frappe.show_alert({message:__("Clearance date updated successfully"), indicator:'green'});
+				})
+			})
+		})
+	}
 }

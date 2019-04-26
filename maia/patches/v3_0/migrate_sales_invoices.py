@@ -8,6 +8,7 @@ from frappe.utils import flt
 import os
 from frappe import _
 from frappe.utils import update_progress_bar
+import json
 
 def execute():
 	reload_docs_for_migration()
@@ -17,6 +18,7 @@ def execute():
 	allocate_accounting_items_to_codifications()
 	bank_map = create_bank_accounts()
 	migrate_payment_methods(bank_map)
+	add_fiscal_years()
 	frappe.db.commit()
 
 	sales_invoices = frappe.get_all("Sales Invoice", dict(docstatus=1))
@@ -45,9 +47,9 @@ def execute():
 			revenue.party = make_new_party(si.customer)
 		revenue.practitioner = frappe.db.get_value("Professional Information Card", dict(company=si.company), "name")
 		revenue.transaction_date = si.posting_date
-		revenue.with_items = 1
 		revenue.amount = si.grand_total
 		revenue.codifications = []
+		revenue.note = ""
 
 		for item in si.items:
 			revenue_item = {
@@ -57,7 +59,18 @@ def execute():
 				"unit_price": item.rate
 			}
 
-			revenue.append("codifications", revenue_item)
+			if frappe.db.exists("Codification", item.item_code):
+				revenue.with_items = 1
+				revenue.append("codifications", revenue_item)
+			else:
+				revenue.accounting_item = frappe.db.get_value("Accounting Item", dict(accounting_journal="Sales"), "name")
+				revenue.with_items = 0
+				revenue.note += json.dumps({
+					"codification": item.item_code,
+					"accounting_item": frappe.db.get_value("Codification", item.item_code, "accounting_item"),
+					"qty": item.qty,
+					"unit_price": item.rate
+				})
 
 		revenue.insert(ignore_permissions=True)
 		revenue.submit()
@@ -210,22 +223,25 @@ def make_new_party(name):
 		return name
 
 def change_reference_in_consultation(si, name):
-	if si.consultation_reference.startswith("PGC"):
-		dt = "Pregnancy Consultation"
-	elif si.consultation_reference.startswith("BPC"):
-		dt = "Birth Preparation Consultation"
-	elif si.consultation_reference.startswith("EPC"):
-		dt = "Early Postnatal Consultation"
-	elif si.consultation_reference.startswith("PRC"):
-		dt = "Perineum Rehabilitation Consultation"
-	elif si.consultation_reference.startswith("PNC"):
-		dt = "Postnatal Consultation"
-	elif si.consultation_reference.startswith("GC"):
-		dt = "Gynecological Consultation"
-	elif si.consultation_reference.startswith("PIC"):
-		dt = "Prenatal Interview Consultation"
-	elif si.consultation_reference.startswith("FC"):
-		dt = "Free Consultation"
+	if si.consultation_reference:
+		if si.consultation_reference.startswith("PGC"):
+			dt = "Pregnancy Consultation"
+		elif si.consultation_reference.startswith("BPC"):
+			dt = "Birth Preparation Consultation"
+		elif si.consultation_reference.startswith("EPC"):
+			dt = "Early Postnatal Consultation"
+		elif si.consultation_reference.startswith("PRC"):
+			dt = "Perineum Rehabilitation Consultation"
+		elif si.consultation_reference.startswith("PNC"):
+			dt = "Postnatal Consultation"
+		elif si.consultation_reference.startswith("GC"):
+			dt = "Gynecological Consultation"
+		elif si.consultation_reference.startswith("PIC"):
+			dt = "Prenatal Interview Consultation"
+		elif si.consultation_reference.startswith("FC"):
+			dt = "Free Consultation"
+		else:
+			return
 	else:
 		return
 
@@ -312,3 +328,19 @@ def reload_docs_for_migration():
 	frappe.reload_doc('maia_accounting', 'doctype', 'payment_method')
 
 	frappe.reload_doc('maia', 'doctype', 'codification')
+
+def add_fiscal_years():
+	fiscal_years: [
+		{"year": 2016, "start": "2016-01-01", "end": "2016-12-31"},
+		{"year": 2017, "start": "2017-01-01", "end": "2017-12-31"},
+		{"year": 2018, "start": "2018-01-01", "end": "2018-12-31"},
+		{"year": 2019, "start": "2019-01-01", "end": "2019-12-31"},
+	]
+
+	for fy in fiscal_years:
+		frappe.get_doc({
+			"doctype": "Maia Fiscal Year",
+			"year": fy["year"],
+			"year_start_date": fy["start"],
+			"year_end_date": fy["end"]
+		}).insert(ignore_permissions=True)

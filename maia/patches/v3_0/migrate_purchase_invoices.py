@@ -10,6 +10,9 @@ from frappe import _
 from frappe.utils import update_progress_bar
 
 def execute():
+
+	add_meal_deductions()
+
 	purchase_invoices = frappe.get_all("Purchase Invoice", dict(docstatus=1))
 	to_be_debited = []
 	account_map = get_account_map()
@@ -151,3 +154,21 @@ def get_account_map():
 		"Loyer et Charges Locatives": "Loyers et charges locatives",
 		"Achats": "Achats"
 	}
+
+def add_meal_deductions():
+	deductions = [
+		{"fiscal_year": 2016, "deductible_amount": 4.70, "limit": 18.3},
+		{"fiscal_year": 2017, "deductible_amount": 4.75, "limit": 18.4},
+		{"fiscal_year": 2018, "deductible_amount": 4.80, "limit": 18.6},
+		{"fiscal_year": 2019, "deductible_amount": 4.75, "limit": 18.8}
+	]
+
+	for d in deductions:
+		doc = frappe.get_doc({
+			"doctype": "Meal Expense Deduction",
+			"fiscal_year": d["fiscal_year"],
+			"deductible_amount": d["deductible_amount"],
+			"limit": d["limit"]
+		})
+		doc.insert()
+		doc.submit()

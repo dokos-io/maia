@@ -6,6 +6,7 @@ import frappe
 from frappe.utils import format_datetime
 from frappe import _
 import re
+from maia.maia_accounting.utils import get_fiscal_year
 
 def execute(filters=None):
 	account_details = {}
@@ -86,11 +87,26 @@ def get_gl_entries(filters):
 			left join `tabParty` par on rev.party = par.name or exp.party = par.name
 			
 		where gl.practitioner=%(practitioner)s
+		{conditions}
 		group by gl.name
-		order by GlPostDate, reference_name""", filters, as_dict=1)
+		order by GlPostDate, reference_name""".format(conditions=get_conditions(filters)), filters, as_dict=1)
 
 	return gl_entries
 
+def get_conditions(filters):
+	conditions = []
+
+	if filters.get("fiscal_year"):
+		fy = get_fiscal_year(fiscal_year=filters.get("fiscal_year"), as_dict=1)
+		conditions.append("posting_date>='{0}' and posting_date<='{1}'".format(fy.year_start_date, fy.year_end_date))
+
+	from frappe.desk.reportview import build_match_conditions
+	match_conditions = build_match_conditions("General Ledger Entry")
+
+	if match_conditions:
+		conditions.append(match_conditions)
+
+	return "and {}".format(" and ".join(conditions)) if conditions else ""
 
 def get_result_as_list(data, filters):
 	result = []

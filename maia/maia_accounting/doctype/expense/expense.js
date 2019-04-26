@@ -50,7 +50,7 @@ frappe.ui.form.on('Expense', {
 		}
 	},
 	with_items(frm) {
-		frm.toggle_enable("amount", frm.doc.with_items === 1 ? 0 : 1)
+		frm.toggle_display("amount", frm.doc.with_items === 1 ? 0 : 1)
 	},
 	amount(frm) {
 		if (frm.doc.expense_type === "Meal expense") {
@@ -97,8 +97,8 @@ frappe.ui.form.on('Expense', {
 		}
 		frm.toggle_reqd("party", frm.doc.expense_type === "Personal debit" ? 0 : 1)
 		frm.toggle_reqd("accounting_item", frm.doc.expense_type === "Meal expense" ? 0 : 1)
-		frm.toggle_enable("party", frm.doc.expense_type === "Personal debit" ? 0 : 1)
-		frm.toggle_enable("accounting_item", frm.doc.expense_type === "Meal expense" ? 0 : 1)
+		frm.toggle_display("party", frm.doc.expense_type === "Personal debit" ? 0 : 1)
+		frm.toggle_display("accounting_item", frm.doc.expense_type === "Meal expense" ? 0 : 1)
 		
 	}
 });
@@ -129,24 +129,24 @@ const calculate_deduction = frm => {
 
 	const amount = frm.doc.amount;
 	const trans_date = new Date(frm.doc.transaction_date);
-	let benefit_in_kind = 0;
+	let deductible_amount = 0;
 	let exemption_limit = 0;
 
 	frappe.db.get_value("Meal Expense Deduction", {"fiscal_year": trans_date.getFullYear()}, ["deductible_amount", "limit"], e => {
 		if (e) {
-			benefit_in_kind = e.deductible_amount;
+			deductible_amount = e.deductible_amount;
 			exemption_limit = e.limit;
 		} else {
 			frappe.msgprint(__("The deductible amount and deduction limit for {0} could not be found.<br> Please add them in the Meal Expense Deduction doctype.", [trans_date.getFullYear()]))
 		}
 	})
 	.then(() => {
-		const deductible_share = Math.max(Math.min(flt(amount), flt(exemption_limit)) - flt(benefit_in_kind), 0);
+		const deductible_share = Math.max(Math.min(flt(amount), flt(exemption_limit)) - flt(deductible_amount), 0);
 		const non_deductible_share = flt(amount) - flt(deductible_share);
 		if (!isNaN(deductible_share) && !isNaN(non_deductible_share)) {
 			frm.set_value("expense_items", []);
 			[deductible_share, non_deductible_share].forEach((value, i) => {
-				const acc_type = (i === 1) ? "Travel": "Practitioner";
+				const acc_type = (i === 0) ? "Meal": "Practitioner";
 				frappe.db.get_value("Accounting Item", {"accounting_item_type": acc_type}, ["name", "description"], e => {
 					if (e) {
 						frm.add_child('expense_items', {
@@ -155,6 +155,8 @@ const calculate_deduction = frm => {
 							accounting_item: e.name,
 							description: e.description
 						});
+					} else {
+						frappe.msgprint(__("No accounting item with account type {0} could be found", [acc_type]))
 					}
 				})
 				.then(() => frm.refresh())
@@ -172,6 +174,7 @@ const add_social_contibutions_items = frm => {
 			e.forEach(value => {
 				let row = frappe.model.add_child(frm.doc, "Expense Items", "expense_items");
 				row.label = value.name;
+				row.total_amount = 0.0;
 				row.accounting_item = value.name;
 			})
 			frm.refresh_fields();

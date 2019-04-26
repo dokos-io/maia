@@ -201,7 +201,7 @@
 	},
 	"Frais de repas": {
 		"accounting_number": "625130",
-		"accounting_item_type": "Expense",
+		"accounting_item_type": "Meal",
 		"accounting_journal": "Purchases",
 		"line_2035": 24,
 		"code_2035": "BJ",

@@ -6,7 +6,7 @@ from __future__ import unicode_literals
 import frappe
 from frappe import _
 from maia.maia_accounting.controllers.accounting_controller import AccountingController
-from frappe.utils import flt
+from frappe.utils import flt, getdate, formatdate
 from maia.maia_accounting.doctype.general_ledger_entry.general_ledger_entry import make_gl_entries
 
 class Payment(AccountingController):
@@ -94,7 +94,7 @@ class Payment(AccountingController):
 		return party_item
 
 	def set_title(self):
-		self.title = self.party + " - " + frappe.utils.fmt_money(self.paid_amount, currency="EUR")
+		self.title = self.party or _("No party") + " - " + frappe.utils.fmt_money(self.paid_amount, currency="EUR")
 
 	def post_gl_entries(self):
 		self.make_references_gl_entries()
@@ -219,7 +219,7 @@ def get_payment(dt, dn):
 def get_outstanding_references(party_type, payment_type, party=None):
 	dt = "Revenue" if payment_type == "Incoming payment" else "Expense"
 
-	filters = {"outstanding_amount": [">", 0]}
+	filters = {"outstanding_amount": [">", 0], "docstatus": 1}
 	if party:
 		party_filter = "party" if party_type == "Party" else "patient"
 		filters[party_filter] = party
@@ -227,3 +227,16 @@ def get_outstanding_references(party_type, payment_type, party=None):
 	references = frappe.get_all(dt, filters=filters, fields=["name", "amount", "outstanding_amount"])
 
 	return [dict(r,**{"doctype": dt}) for r in references]
+
+@frappe.whitelist()
+def update_clearance_date(docname, date):
+	payment = frappe.get_doc("Payment", docname)
+	current_clearance_date = payment.clearance_date
+
+	frappe.db.set_value("Payment", docname, "clearance_date", getdate(date), update_modified=False)
+	frappe.db.commit()
+	payment.set_status(update=True)
+
+	if current_clearance_date:
+		payment.add_comment('Comment', \
+			_("Clearance date changed from {0} to {1}".format(formatdate(current_clearance_date), formatdate(date))))
