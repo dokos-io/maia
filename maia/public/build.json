@@ -1,8 +1,6 @@
 {
 	"js/maia.min.js": [
-		"public/js/conf.js",
-		"public/js/custom_scripts/bank_reconciliation.js",
-		"public/js/custom_scripts/payment_entry.js"
+		"public/js/conf.js"
 	],
 	"js/maia-web.min.js": [
 		"public/js/templates/selectors/practitioner_selector.html",
