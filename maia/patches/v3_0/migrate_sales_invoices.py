@@ -326,11 +326,12 @@ def reload_docs_for_migration():
 	frappe.reload_doc('maia_accounting', 'doctype', 'miscellaneous_operation')
 	frappe.reload_doc('maia_accounting', 'doctype', 'miscellaneous_operation_items')
 	frappe.reload_doc('maia_accounting', 'doctype', 'payment_method')
+	frappe.reload_doc('maia_accounting', 'doctype', 'meal_expense_deduction')
 
 	frappe.reload_doc('maia', 'doctype', 'codification')
 
 def add_fiscal_years():
-	fiscal_years: [
+	fiscal_years = [
 		{"year": 2016, "start": "2016-01-01", "end": "2016-12-31"},
 		{"year": 2017, "start": "2017-01-01", "end": "2017-12-31"},
 		{"year": 2018, "start": "2018-01-01", "end": "2018-12-31"},
