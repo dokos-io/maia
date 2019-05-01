@@ -12,6 +12,7 @@ class Expense(AccountingController):
 	def validate(self):
 		self.set_outstanding_amount()
 		self.set_status()
+		self.validate_fields()
 
 		if self.reference_doctype == "Maia Asset" and self.reference_name:
 			if frappe.db.get_value(self.reference_doctype, self.reference_name, "expense") != self.name:
@@ -27,6 +28,9 @@ class Expense(AccountingController):
 		if self.reference_doctype == "Maia Asset" and frappe.db.get_value(self.reference_doctype, self.reference_name, "expense") == self.name:
 				frappe.db.set_value(self.reference_doctype, self.reference_name, "expense", None)
 
+	def validate_fields(self):
+		if self.expense_type == "Personal debit":
+			self.party = None
 
 @frappe.whitelist()	
 def register_personal_debit(docname, payment_method):

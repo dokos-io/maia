@@ -117,28 +117,30 @@ class Payment(AccountingController):
 				entries.append({
 					"posting_date": self.payment_date,
 					"accounting_item": item.accounting_item,
-					"debit": item.total_amount if self.payment_type == "Outgoing payment" else 0,
-					"credit": item.total_amount if self.payment_type == "Incoming payment" else 0,
+					"debit": abs(item.total_amount) if self.payment_type == "Outgoing payment" else 0,
+					"credit": abs(item.total_amount) if self.payment_type == "Incoming payment" else 0,
 					"currency": "EUR",
 					"reference_type": doc.doctype,
 					"reference_name": doc.name,
 					"link_doctype": self.doctype,
 					"link_docname": self.name,
 					"accounting_journal": self.get_rev_exp_accounting_journal(item.accounting_item),
+					"party": self.party,
 					"practitioner": self.practitioner
 				})
 		else:
 			entries.append({
 				"posting_date": self.payment_date,
 				"accounting_item": doc.accounting_item,
-				"debit": doc.amount if self.payment_type == "Outgoing payment" else 0,
-				"credit": doc.amount if self.payment_type == "Incoming payment" else 0,
+				"debit": abs(doc.amount) if self.payment_type == "Outgoing payment" else 0,
+				"credit": abs(doc.amount) if self.payment_type == "Incoming payment" else 0,
 				"currency": "EUR",
 				"reference_type": doc.doctype,
 				"reference_name": doc.name,
 				"link_doctype": self.doctype,
 				"link_docname": self.name,
 				"accounting_journal": self.get_rev_exp_accounting_journal(doc.accounting_item),
+				"party": self.party,
 				"practitioner": self.practitioner
 			})
 
@@ -155,14 +157,15 @@ class Payment(AccountingController):
 			gl_entries.append({
 				"posting_date": self.payment_date,
 				"accounting_item": accounting_item.name,
-				"debit": self.pending_amount if self.payment_type == "Outgoing payment" else 0,
-				"credit": self.pending_amount if self.payment_type == "Incoming payment" else 0,
+				"debit": abs(self.pending_amount) if self.payment_type == "Outgoing payment" else 0,
+				"credit": abs(self.pending_amount) if self.payment_type == "Incoming payment" else 0,
 				"currency": "EUR",
 				"reference_type": self.doctype,
 				"reference_name": self.name,
 				"link_doctype": self.doctype,
 				"link_docname": self.name,
 				"accounting_journal": self.get_rev_exp_accounting_journal(accounting_item.name),
+				"party": self.party,
 				"practitioner": self.practitioner
 			})
 
@@ -176,14 +179,15 @@ class Payment(AccountingController):
 		gl_entries.append({
 			"posting_date": self.payment_date,
 			"accounting_item": account,
-			"debit": self.paid_amount if self.payment_type == "Incoming payment" else 0,
-			"credit": self.paid_amount if self.payment_type == "Outgoing payment" else 0,
+			"debit": abs(self.paid_amount) if self.payment_type == "Incoming payment" else 0,
+			"credit": abs(self.paid_amount) if self.payment_type == "Outgoing payment" else 0,
 			"currency": "EUR",
 			"reference_type": self.doctype,
 			"reference_name": self.name,
 			"link_doctype": self.doctype,
 			"link_docname": self.name,
 			"accounting_journal": journal,
+			"party": self.party,
 			"practitioner": self.practitioner
 		})
 
@@ -205,6 +209,7 @@ def get_payment(dt, dn):
 	payment.party_type = "Party" if source_doc.party else "Patient Record"
 	payment.party = source_doc.party if source_doc.party else source_doc.patient
 	payment.paid_amount = source_doc.outstanding_amount
+	payment.payment_date = source.transaction_date
 
 	payment.append("payment_references", {
 		'reference_type': dt,

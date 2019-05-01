@@ -28,6 +28,7 @@ class AccountingController(StatusUpdater):
 				"link_doctype": gl.link_doctype,
 				"link_docname": gl.link_docname,
 				"accounting_journal": gl.accounting_journal,
+				"party": gl.party,
 				"practitioner": gl.practitioner
 			})
 

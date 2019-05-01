@@ -18,8 +18,14 @@ frappe.ui.form.on('Expense', {
 			frm.set_df_property("party", "hidden", 1);
 		}
 	},
-	refresh(frm) {
+	before_save(frm) {
 		frm.toggle_reqd("accounting_item", frm.doc.with_items == 1 ? 0 : 1)
+		if (frm.doc.with_items == 1 && frm.doc.expense_items) {
+			calculate_total(frm);
+		}
+	},
+	refresh(frm) {
+		frm.toggle_enable("amount", frm.doc.with_items === 1 ? 0 : 1)
 	},
 	before_submit(frm) {
 		if (frm.doc.expense_type === "Personal debit") {
@@ -50,7 +56,7 @@ frappe.ui.form.on('Expense', {
 		}
 	},
 	with_items(frm) {
-		frm.toggle_display("amount", frm.doc.with_items === 1 ? 0 : 1)
+		frm.toggle_enable("amount", frm.doc.with_items === 1 ? 0 : 1)
 	},
 	amount(frm) {
 		if (frm.doc.expense_type === "Meal expense") {
@@ -63,7 +69,7 @@ frappe.ui.form.on('Expense', {
 		}
 	},
 	party(frm) {
-		if (!frm.doc.label) {
+		if (frm.doc.party && !frm.doc.label) {
 			frm.set_value("label", `${frm.doc.party}-${__(frm.doc.expense_type)}`);
 		}
 	},
@@ -106,7 +112,8 @@ frappe.ui.form.on('Expense', {
 frappe.ui.form.on('Expense Items', {
 	total_amount(frm, cdt, cdn) {
 		calculate_total(frm);
-		frm.refresh_fields("codifications");
+		frm.refresh_fields("expense_items");
+		frm.refresh_fields("amount");
 	},
 
 	expense_items_remove(frm) {
@@ -115,11 +122,13 @@ frappe.ui.form.on('Expense Items', {
 })
 
 const calculate_total = frm => {
-	let total = 0;
-	frm.doc.expense_items.forEach(value => {
-		total += value.amount;
-	})
-	frm.set_value("amount", total)
+	if (frm.doc.expense_items) {
+		let total = 0;
+		frm.doc.expense_items.forEach(value => {
+			total += value.total_amount;
+		})
+		frm.set_value("amount", total)
+	}
 }
 
 const calculate_deduction = frm => {

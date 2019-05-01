@@ -51,7 +51,7 @@ def get_gl_entries(filters):
 			posting_date, accounting_item,
 			reference_type, reference_name,
 			link_doctype, link_docname,
-			accounting_journal
+			accounting_journal, party
 			{select_fields}
 		from `tabGeneral Ledger Entry`
 		where practitioner=%(practitioner)s {conditions}
@@ -218,6 +218,11 @@ def get_columns(filters):
 		{
 			"label": _("Accounting Journal"),
 			"fieldname": "accounting_journal",
+			"width": 150
+		},
+		{
+			"label": _("Party"),
+			"fieldname": "party",
 			"width": 150
 		},
 		{
