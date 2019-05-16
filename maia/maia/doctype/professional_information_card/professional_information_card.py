@@ -10,41 +10,67 @@ from frappe import _
 class ProfessionalInformationCard(Document):
 	pass
 
-
 @frappe.whitelist()
-def replacement_user(contact):
-        contact = frappe.get_doc("Professional Information Card", contact)
+def create_replacement_user(origin):
+	origin = frappe.get_doc("Professional Information Card", origin)
 
-        if not contact.substitute_email:
-                frappe.throw(_("Please set Email Address"))
+	user = create_user(origin)
+	practitioner = create_professional_information_card(user)
 
-        
-        if contact.has_permission("write"):
-                user = frappe.get_doc({
-                        "doctype": "User",
-                        "user_type": "System User",
-                        "first_name": contact.substitute_first_name,
-                        "last_name": contact.substitute_last_name,
-                        "email": contact.substitute_email,
-                        "send_welcome_email": 1
-                }).insert(ignore_permissions = True)
+	origin.substitute_practitioner = practitioner
+	origin.save()
 
-                roles = ["Accounts User", "Customer", "Item Manager", "Stock User", "Projects User", "Purchase Manager", "Purchase Master Manager", "Purchase User", "Sales Master Manager", "Sales User", "Supplier", "Midwife", "HR User", "Stock Manager"]
-                for role in roles:
-                        if not frappe.db.exists("Role", role):
-                                role_doc = frappe.get_doc({
-                                        "doctype": "Role",
-                                        "role_name": role
-                                })
-                                role_doc.save()
-                        
-                        user.append("roles", {
-                                "doctype": "Has Role",
-                                "role": role
-                        })
+	return practitioner
 
-                        
-                        
-                user.save()
+def create_user(origin):
+	if not origin.substitute_email:
+		frappe.throw(_("Please set an email address for your substitute"))
 
-                return user.name
+	if frappe.db.exists("User", origin.substitute_email):
+		new_user = frappe.get_doc("User", origin.substitute_email)
+	else:
+		new_user = frappe.get_doc({
+				"doctype": "User",
+				"user_type": "System User",
+				"first_name": origin.substitute_first_name,
+				"last_name": origin.substitute_last_name,
+				"email": origin.substitute_email,
+				"send_welcome_email": 0
+		}).insert(ignore_permissions = True)
+
+	roles = ["Midwife Substitute"]
+	for role in roles:
+		if not frappe.db.exists("Role", role):
+				role_doc = frappe.get_doc({
+						"doctype": "Role",
+						"role_name": role
+				})
+				role_doc.insert()
+			
+		new_user.append("roles", {
+				"doctype": "Has Role",
+				"role": role
+		})
+
+	new_user.save()
+
+	return new_user
+
+def create_professional_information_card(user):
+	if frappe.db.exists("Professional Information Card", {"user": user.name}):
+		return frappe.db.get_value("Professional Information Card", {"user": user.name}, "name")
+
+	elif frappe.db.exists("Professional Information Card", {"last_name": user.last_name, "first_name": user.first_name}):
+		return frappe.db.get_value("Professional Information Card", {"last_name": user.last_name, "first_name": user.first_name}, "name")
+	
+	else:
+		new_practitioner = frappe.get_doc({
+				"doctype": "Professional Information Card",
+				"full_name": user.first_name + " " + user.last_name,
+				"first_name": user.first_name,
+				"last_name": user.last_name,
+				"user": user.name
+		}).insert(ignore_permissions = True)
+
+		return new_practitioner.name
+

@@ -1,6 +1,3 @@
 {
-  "dependencies": {
-    "tiptap": "^1.16.2",
-    "tiptap-extensions": "^1.16.2"
-  }
+  "dependencies": {}
 }

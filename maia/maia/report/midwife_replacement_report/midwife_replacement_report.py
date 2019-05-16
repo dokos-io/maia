@@ -4,29 +4,46 @@
 from __future__ import unicode_literals
 import frappe
 from frappe import _
-from erpnext.accounts.report.financial_statements import (get_period_list, get_columns, get_fiscal_year_data, validate_fiscal_year, get_months, get_label)
-from erpnext.accounts.report.cash_flow.cash_flow import get_account_type_based_data
-from erpnext.accounts.utils import get_fiscal_year
-from frappe.utils import (flt, getdate, get_first_day, get_last_day, date_diff,
-			  add_months, add_days, formatdate, cint)
+from frappe.utils import (getdate, get_first_day, get_last_day, add_days, formatdate)
+
+from maia.maia_accounting.utils import get_fiscal_year_data, get_fiscal_year
+from maia.maia_accounting.doctype.accounting_item.accounting_item import get_accounts
+from maia.maia_accounting.report.maia_profit_and_loss_statement.maia_profit_and_loss_statement import get_period_list, get_columns, \
+	validate_fiscal_year, get_months, get_label, get_data
 
 def execute(filters=None):
+	currency = "EUR"
 
-	company_currency = frappe.db.get_value("Company", filters.company, "default_currency")
+	period_list = get_period_list(filters.from_fiscal_year, filters.to_fiscal_year, filters.periodicity, filters.practitioner)
+	practitioner_income = get_data(filters.practitioner, "Revenue", period_list)
+	practitioner_social_security = get_third_party_payments(filters.practitioner, period_list)
 
-	if filters.practicioner:
-		practicioner = frappe.get_doc("Professional Information Card", filters.practicioner)
+	print(practitioner_social_security)
+	if filters.practitioner:
+		substitute = frappe.db.get_value("Professional Information Card", filters.practitioner, "substitute_practitioner")
+		if substitute:
+			substitute_income = get_data(substitute, "Revenue", period_list)
 
-		if practicioner.substitute_first_name and practicioner.substitute_last_name and practicioner.substitute_start_date and practicioner.substitute_end_date:
-			substitute_name = practicioner.substitute_first_name + " " + practicioner.substitute_last_name
+	receivable = []
+	third_party_payment = []
+	total_received = []
 
-			substitute_period_list = get_substitute_period_list(filters.from_fiscal_year, filters.to_fiscal_year, filters.periodicity, practicioner.substitute_start_date, practicioner.substitute_end_date, False, filters.company)
+	data = []
 
+	columns = get_columns(filters.periodicity, period_list, filters.practitioner)
+	chart = get_chart_data(filters, columns, practitioner_income, receivable, third_party_payment, total_received)
+
+	return columns, data, None, chart
+
+	if filters.practitioner:
+		practitioner = frappe.get_doc("Professional Information Card", filters.practitioner)
+
+		if practitioner.substitute_first_name and practitioner.substitute_last_name and practitioner.substitute_start_date and practitioner.substitute_end_date:
+			substitute_name = practitioner.substitute_first_name + " " + practitioner.substitute_last_name
+			substitute_period_list = get_substitute_period_list(filters.from_fiscal_year, filters.to_fiscal_year, filters.periodicity, practitioner.substitute_start_date, practitioner.substitute_end_date, False)
 		else:
-			frappe.throw(_("Please make sure all replacement related fields are completed in this Professional Information Card"))
+			frappe.throw(_("Please make sure all replacement related fields are completed in this professional information card"))
 
-	period_list = get_period_list(filters.from_fiscal_year, filters.to_fiscal_year,
-					  filters.periodicity, False, filters.company)
 
 	income = get_account_type_based_data(filters.company, "Income Account", period_list,
 						 accumulated_values=False)
@@ -39,12 +56,12 @@ def execute(filters=None):
 		"currency": company_currency
 	})
 
-	if filters.practicioner:
+	if filters.practitioner:
 		replacement_income = get_account_type_based_data(filters.company, "Income Account", substitute_period_list,
 								 accumulated_values=False)
 
 		replacement_income.update({
-			"account_name": "'"+_("Replacement : {0}-{1}").format(formatdate(practicioner.substitute_start_date), formatdate(practicioner.substitute_end_date)) + "'",
+			"account_name": "'"+_("Replacement : {0}-{1}").format(formatdate(practitioner.substitute_start_date), formatdate(practitioner.substitute_end_date)) + "'",
 			"parent_account": "Income",
 			"indent": 1.0,
 			"account": "Replacement Income",
@@ -52,7 +69,7 @@ def execute(filters=None):
 		})
 
 
-	if filters.practicioner and practicioner.mileage_allowance_excluded == 1:
+	if filters.practitioner and practitioner.mileage_allowance_excluded == 1:
 		lump_sum_allowance = (frappe.get_all("Codification", filters={'lump_sum_travel_allowance': 1}, fields=["codification"]))
 		lowland_allowance = (frappe.get_all("Codification", filters={'mileage_allowance_lowland': 1}, fields=["codification"]))
 		mountain_allowance = (frappe.get_all("Codification", filters={'mileage_allowance_mountain': 1}, fields=["codification"]))
@@ -68,7 +85,7 @@ def execute(filters=None):
 		item_row = add_item_row(_("Mileage Allowances"), substitute_period_list, company_currency, filters.company, item_list)
 
 		item_row.update({
-			"account_name": "'"+_("Mileage Allowances : {0}-{1}").format(formatdate(practicioner.substitute_start_date), formatdate(practicioner.substitute_end_date)) + "'",
+			"account_name": "'"+_("Mileage Allowances : {0}-{1}").format(formatdate(practitioner.substitute_start_date), formatdate(practitioner.substitute_end_date)) + "'",
 			"parent_account": "Income",
 			"indent": 1.0,
 			"account": "Mileage Allowance",
@@ -86,12 +103,12 @@ def execute(filters=None):
 		"currency": company_currency
 	})
 
-	if filters.practicioner:
+	if filters.practitioner:
 		replacement_receivable = get_account_type_based_data(filters.company, "Receivable", substitute_period_list,
 									 accumulated_values=False)
 
 		replacement_receivable.update({
-			"account_name": "'"+_("Replacement : {0}-{1}").format(formatdate(practicioner.substitute_start_date), formatdate(practicioner.substitute_end_date)) + "'",
+			"account_name": "'"+_("Replacement : {0}-{1}").format(formatdate(practitioner.substitute_start_date), formatdate(practitioner.substitute_end_date)) + "'",
 			"parent_account": "Account Receivable",
 			"indent": 1.0,
 			"account": "Replacement Account Receivable",
@@ -109,12 +126,12 @@ def execute(filters=None):
 		"currency": company_currency
 	})
 
-	if filters.practicioner:
+	if filters.practitioner:
 		replacement_third_party_payment = get_outstanding_social_security_data(filters.company, substitute_period_list,
 											   accumulated_values=False)
 
 		replacement_third_party_payment.update({
-			"account_name": "'"+_("Replacement : {0}-{1}").format(formatdate(practicioner.substitute_start_date), formatdate(practicioner.substitute_end_date)) + "'",
+			"account_name": "'"+_("Replacement : {0}-{1}").format(formatdate(practitioner.substitute_start_date), formatdate(practitioner.substitute_end_date)) + "'",
 			"parent_account": "Third Party Payments",
 			"indent": 1.0,
 			"account": "Replacement Third Party Payments",
@@ -124,12 +141,12 @@ def execute(filters=None):
 
 	data = []
 	data.append(income or {})
-	if filters.practicioner:
+	if filters.practitioner:
 		data.append(replacement_income or {})
-		if practicioner.mileage_allowance_excluded:
+		if practitioner.mileage_allowance_excluded:
 			data.append(item_row or {})
 	data.append(receivable or {})
-	if filters.practicioner:
+	if filters.practitioner:
 		data.append(replacement_receivable or {})
 
 	total_received = add_total_row_account(data, data, _("Total Received"), period_list, company_currency)
@@ -147,17 +164,17 @@ def execute(filters=None):
 
 
 	data.append(third_party_payment or {})
-	if filters.practicioner:
+	if filters.practitioner:
 		data.append(replacement_third_party_payment or {})
 	data.append({})
 	data.append(total_received)
 
-	if filters.practicioner:
+	if filters.practitioner:
 		data.append(total_received_replacement)
 		data.append({})
 
-		practicioner_part = total_practicioner(data, data, practicioner.name, substitute_period_list, company_currency, (practicioner.fee_percentage/100), practicioner.maximum_fee)
-		replacement_fee = total_fee(data, data, substitute_name, substitute_period_list, company_currency, (practicioner.fee_percentage/100), practicioner.maximum_fee)
+		practicioner_part = total_practitioner(data, data, practitioner.name, substitute_period_list, company_currency, (practitioner.fee_percentage/100), practitioner.maximum_fee)
+		replacement_fee = total_fee(data, data, substitute_name, substitute_period_list, company_currency, (practitioner.fee_percentage/100), practitioner.maximum_fee)
 
 		data.append(practicioner_part)
 		data.append(replacement_fee)
@@ -169,20 +186,26 @@ def execute(filters=None):
 
 	return columns, data, None, chart
 
-def get_outstanding_social_security_data(company, period_list, accumulated_values):
+def get_third_party_payments(practitioner, period_list):
 	data = {}
 	total = 0
-	for period in period_list:
-		start_date = get_start_date(period, accumulated_values, company)
-		gl_sum = frappe.db.sql_list("""
-		select sum(credit) - sum(debit)
-		from `tabGL Entry`
-		where company=%s and posting_date >= %s and posting_date <= %s
-		and voucher_type != 'Period Closing Voucher'
-		and party="CPAM"
-		""", (company, start_date if accumulated_values else period['from_date'],
-			  period['to_date']))
 
+	third_parties = tuple([x['name'] for x in frappe.get_all("Party", filters={"is_social_contribution": 1})])
+
+	for period in period_list:
+		print(third_parties, practitioner, getdate(period['from_date']), getdate(period['to_date']))
+		gl_sum = frappe.db.sql_list("""
+			SELECT IFNULL(SUM(gl.debit - gl.credit), 0)
+			FROM `tabPayment` pay
+			LEFT JOIN `tabGeneral Ledger Entry` gl
+			ON gl.link_docname = pay.name
+			WHERE pay.party in (%s)
+			AND pay.practitioner = %s
+			AND pay.payment_date >= %s AND pay.payment_date <= %s
+			AND gl.reference_type != 'Payment'
+		""", (third_parties, practitioner, getdate(period['from_date']), getdate(period['to_date'])))
+
+		print(gl_sum)
 		if gl_sum and gl_sum[0]:
 			amount = gl_sum[0]
 		else:
@@ -193,14 +216,6 @@ def get_outstanding_social_security_data(company, period_list, accumulated_value
 
 	data["total"] = total
 	return data
-
-
-def get_start_date(period, accumulated_values, company):
-	start_date = period["year_start_date"]
-	if accumulated_values:
-		start_date = get_fiscal_year(period.to_date, company=company)[1]
-
-	return start_date
 
 
 
@@ -263,7 +278,7 @@ def total_fee(out, data, label, period_list, currency, fee, maximum):
 
 	return total_row
 
-def total_practicioner(out, data, label, period_list, currency, fee, maximum):
+def total_practitioner(out, data, label, period_list, currency, fee, maximum):
 	total_row = {
 		"account_name": "'" + _("{0}").format(label) + "'",
 		"account": "'" + _("{0}").format(label) + "'",
@@ -286,7 +301,7 @@ def get_chart_data(filters, columns, income, receivable, third_party_payments, t
 	income_data, receivable_data, third_party_payments_data, total_received_data = [], [], [], []
 	for p in columns[2:]:
 		if income:
-			income_data.append(income.get(p.get("fieldname")))
+			income_data.append(income[-2].get(p.get("fieldname")))
 		if receivable:
 			receivable_data.append(receivable.get(p.get("fieldname")))
 		if third_party_payments:
@@ -388,8 +403,8 @@ Periodicity can be (Yearly, Quarterly, Monthly)"""
 	return period_list
 
 def get_date_fiscal_year(date, company):
-	from erpnext.accounts.utils import get_fiscal_year
-	return get_fiscal_year(date, company=company)[0]
+	from maia.maia_accounting.utils import get_fiscal_year
+	return get_fiscal_year(date, practitioner=practitioner)[0]
 
 
 def add_item_row(label, period_list, currency, company, items):

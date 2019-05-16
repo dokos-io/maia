@@ -31,14 +31,7 @@ def get_data():
 					"label": _("Free Prescriptions"),
 					"description": _("Free Prescriptions"),
 					"onboard": 1
-				},
-				{
-					"type": "doctype",
-					"name": "Sales Invoice",
-					"label": _("Invoices"),
-					"description": _("Invoices"),
-					"onboard": 1
-				},
+				}
 				]
 			},
 		{

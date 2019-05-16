@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2017, DOKOS and Contributors
+# Copyright (c) 2019, DOKOS and Contributors
 # See license.txt
 from __future__ import unicode_literals
 
-import frappe
+# import frappe
 import unittest
 
-class TestFeeRetrocession(unittest.TestCase):
+class TestProfession(unittest.TestCase):
 	pass

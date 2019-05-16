@@ -8,5 +8,25 @@
   "name": "Midwife",
   "restrict_to_domain": null, 
   "role_name": "Midwife"
- }
+ },
+ {
+    "desk_access": 1,
+    "disabled": 0,
+    "docstatus": 0,
+    "doctype": "Role",
+    "modified": "2019-03-21 17:37:04.543560",
+    "name": "Midwife Substitute",
+    "restrict_to_domain": null, 
+    "role_name": "Midwife Substitute"
+   },
+   {
+    "desk_access": 0,
+    "disabled": 0,
+    "docstatus": 0,
+    "doctype": "Role",
+    "modified": "2019-03-21 17:37:04.543560",
+    "name": "Patient",
+    "restrict_to_domain": null, 
+    "role_name": "Patient"
+   }
 ]

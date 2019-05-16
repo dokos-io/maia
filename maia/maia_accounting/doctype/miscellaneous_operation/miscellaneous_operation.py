@@ -61,7 +61,7 @@ class MiscellaneousOperation(AccountingController):
 				"link_doctype": self.doctype,
 				"link_docname": self.name,
 				"accounting_journal": item.accounting_journal if self.operation_type in ["Internal Transfer"] else "Miscellaneous operations",
-				"party": None
+				"party": None,
 				"practitioner": self.practitioner
 			})
 
@@ -81,7 +81,7 @@ class MiscellaneousOperation(AccountingController):
 					"link_doctype": self.doctype,
 					"link_docname": self.name,
 					"accounting_journal": item.accounting_journal,
-					"party": None
+					"party": None,
 					"practitioner": self.practitioner
 				})
 

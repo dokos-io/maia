@@ -48,4 +48,5 @@ maia.patches.v3_0.migrate_purchase_invoices
 maia.patches.v3_0.migrate_journal_entries
 maia.patches.v3_0.migrate_assets
 maia.patches.v3_0.remove_deprecated_doctypes
+maia.patches.v3_0.move_erpnext_doctypes
 

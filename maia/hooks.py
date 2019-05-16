@@ -32,17 +32,14 @@ before_migrate = ["maia.customizations.demo.add_demo_page",
 	"maia.customizations.before_migration_hooks.before_migrate"
 ]
 
-
-# setup wizard
-setup_wizard_requires = "assets/maia/js/setup_wizard.js"
-setup_wizard_stages = "maia.setup.setup_wizard.setup_wizard.get_setup_stages"
-setup_wizard_exception = "maia.setup.setup_wizard.setup_wizard.log_error"
-
-get_help_messages = "maia.utilities.activation.get_help_messages"
+# after install
+after_install = "maia.setup.setup_wizard.setup_wizard.setup_complete"
 
 domains = {
 	'Sage-Femme': 'maia.domains.midwife'
-	}
+}
+
+jinja_template_functions = "maia.utilities.utils.custom_template_functions"
 
 # welcome message title
 login_mail_title = "Nous sommes heureux de vous compter parmi nous !"
@@ -71,9 +68,7 @@ standard_portal_menu_items = [
 	{"title": _("Prendre Rendez-Vous"), "route": "/appointment",
 	 "reference_doctype": "Maia Appointment", "role": "Customer"},
 	{"title": _("Mes Rendez-Vous"), "route": "/my-appointments",
-	 "reference_doctype": "Maia Appointment", "role": "Customer"},
-	 {"title": _("Invoices"), "route": "/invoices",
-	 "reference_doctype": "Sales Invoice", "role":"Customer"},
+	 "reference_doctype": "Maia Appointment", "role": "Customer"}
 ]
 
 # Includes in <head>

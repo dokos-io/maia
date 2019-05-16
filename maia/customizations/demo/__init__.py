@@ -3,8 +3,9 @@
 import frappe
 import shutil
 
-
 def add_demo_page():
+	return
+	#TODO: rewrite demo
 	maia_demo = frappe.get_app_path("maia", "customizations", "demo", "demo.html")
 	erpnext_folder = frappe.get_app_path("erpnext", "templates", "pages")
 	try:

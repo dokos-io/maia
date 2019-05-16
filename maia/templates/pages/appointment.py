@@ -15,7 +15,7 @@ from collections import defaultdict
 
 def get_context(context):
 	context.no_cache = 1
-	if not "Customer" in frappe.get_roles(frappe.session.user):
+	if not "Patient" in frappe.get_roles(frappe.session.user):
 		frappe.throw(_("Not Permitted"), frappe.PermissionError)
 
 @frappe.whitelist()

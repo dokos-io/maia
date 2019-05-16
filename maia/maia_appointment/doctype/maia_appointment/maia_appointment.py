@@ -222,7 +222,14 @@ def get_registration_count(appointment_type, date):
 	return slots
 
 @frappe.whitelist()
-def get_events(start, end, filters=None):
+def get_events(start, end, user=None, filters=None):
+
+	if user:
+		practitioner = frappe.db.get_value('Professional Information Card', {'user': frappe.session.user}, 'name')
+		if practitioner:
+			filters = filters if filters else []
+			filters.append(["Maia Appointment","practitioner","=",practitioner])
+
 	from frappe.desk.calendar import get_event_conditions
 	add_filters = get_event_conditions("Maia Appointment", filters)
 

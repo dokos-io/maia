@@ -26,19 +26,19 @@ def _maia_new_site():
 
 def create_new_site(first_name, last_name, email, siteprefix, max_users, customer, mariadb_root_user, mariadb_password, admin_password):
 	site_name = siteprefix + '.maia-by-dokos.fr'
-	db_name = 'dokos-' + siteprefix[:10]
-	print(db_name)
+	db_name = 'dokos-' + siteprefix[-10:]
+	print("==========> DB name: " + db_name)
 
 	create_db_and_site(site_name, db_name, mariadb_root_user, mariadb_password, admin_password)
 	print("==========> DB and Site Successfully Created")
+	add_specific_config(site_name, customer)
+	print("==========> Specific Config Added")
 	install_maia(site_name)
 	print("==========> Maia Installed")
 	setup_site(site_name)
 	print("==========> Parameters for France Set")
 	add_system_manager_and_limits(site_name, email, first_name, last_name, max_users)
 	print("==========> System Manager and Limits Set")
-	add_specific_config(site_name, customer)
-	print("==========> Specific Config Added")
 	add_to_lets_encrypt_file(site_name)
 	print("==========> Let's Encrypt File Updated")
 
@@ -96,7 +96,7 @@ def add_system_manager_and_limits(site_name, email, first_name, last_name, max_u
 def add_specific_config(site_name, customer):
 	bench_path = frappe.utils.get_bench_path()
 	hostname = "https://{}".format(site_name)
-	customer_config = {"customer": customer, "host_name": hostname}
+	customer_config = {"customer": customer, "host_name": hostname, "skip_setup_wizard": 1}
 	update_site_config(site_name, customer_config, bench_path)
 
 def add_domain(site_name):
@@ -149,9 +149,10 @@ def add_system_manager(email, first_name=None, last_name=None, send_welcome_emai
 
 def run_commands(commands):
 	bench_path = frappe.utils.get_bench_path()
+
 	try:
 		for command in commands:
-			terminal_action = Popen(shlex.split(command.encode('utf8')), stdin=PIPE, stdout=PIPE, stderr=STDOUT, cwd=bench_path)
+			terminal_action = Popen(shlex.split(frappe.safe_decode(command)), stdin=PIPE, stdout=PIPE, stderr=STDOUT, cwd=frappe.safe_decode(bench_path))
 			return_ = terminal_action.wait()
 
 	except Exception as e:

@@ -77,6 +77,8 @@ def get_timeline_data(doctype, name):
 	from frappe.desk.form.load import get_communication_data
 	patient_record = frappe.get_doc(doctype, name)
 
+	return {}
+	#TODO: Rewrite method
 	out = {}
 
 	conditions = ' and creation > "{0}"'.format(add_years(None, -1).strftime('%Y-%m-%d'))

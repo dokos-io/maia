@@ -11,8 +11,5 @@
 	],
 	"js/patient-dashboard.min.js": [
 		"public/js/maia/patient_dashboard/custom_patient_dashboard.js"
-	],
-	"js/maia-standard-letter.min.js": [
-		"public/js/maia/standard_letter/standard_letter.js"
 	]
 }

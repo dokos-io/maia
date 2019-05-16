@@ -21,7 +21,7 @@ def execute():
             "enabled": 1,
             "route": "/my-appointments",
             "reference_doctype": "Midwife Appointment",
-            "role": "Customer",
+            "role": "Patient",
             "parent": "Portal Settings",
             "parenttype": "Portal Settings",
             "parentfield": "menu"

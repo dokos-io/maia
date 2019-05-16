@@ -1,7 +1,6 @@
 data = {
-	'desktop_icons': ['Maia', 'Patient Record', 'Calendar', 'Accounts', 'Desk', 'Setup'],
-	'default_portal_role': 'Customer',
+	'default_portal_role': 'Patient',
 	'restricted_roles': [
-		'Midwife'
+		'Midwife', 'Midwife Substitute', 'Patient'
 	]
 }

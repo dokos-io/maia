@@ -23,18 +23,17 @@ class PatientRecord(Document):
 		load_address_and_contact(self, "patient_record")
 		self.load_dashboard_info()
 		self.set_gravidity_and_parity()
-		self.check_customer()
 
 	def load_dashboard_info(self):
-		billing_this_year = frappe.db.sql("""select sum(debit_in_account_currency), account_currency
-				from `tabGL Entry` where voucher_type='Sales Invoice' and party_type='Customer' and party=%s and fiscal_year = %s""", (self.customer, frappe.db.get_default("fiscal_year")))
+		billing_this_year = 0 #frappe.db.sql("""select sum(debit_in_account_currency), account_currency
+				#from `tabGL Entry` where voucher_type='Sales Invoice' and party_type='Customer' and party=%s and fiscal_year = %s""", (self.customer, frappe.db.get_default("fiscal_year")))
 
-		total_unpaid = frappe.db.sql(
-			"""select sum(outstanding_amount) from `tabSales Invoice` where customer=%s and docstatus = 1""", self.customer)
+		total_unpaid = 0 #frappe.db.sql(
+			#"""select sum(outstanding_amount) from `tabSales Invoice` where customer=%s and docstatus = 1""", self.customer)
 
 		info = {}
 		info["billing_this_year"] = billing_this_year[0][0] if billing_this_year else 0
-		info["currency"] = billing_this_year[0][1] if billing_this_year else get_default_currency()
+		info["currency"] = billing_this_year[0][1] if billing_this_year else "EUR"
 		info["total_unpaid"] = total_unpaid[0][0] if total_unpaid else 0
 
 		self.set_onload('dashboard_info', info)
@@ -54,48 +53,19 @@ class PatientRecord(Document):
 
 		return self.patient_name
 
-	def update_address_links(self):
-		address_names = frappe.get_all('Dynamic Link', filters={
-			"parenttype": "Address",
-			"link_doctype": "Patient Record",
-			"link_name": self.name
-		}, fields=["parent as name"])
-
-		# check if customer is linked to each parent
-		for address_name in address_names:
-			address = frappe.get_doc('Address', address_name.get('name'))
-			if not address.has_link('Customer', self.customer):
-				address.append('links', dict(
-					link_doctype='Customer', link_name=self.customer))
-				address.save()
-
 	def validate(self):
 		self.patient_name = " ".join(filter(None, [cstr(self.get(f)).strip() for f in ["patient_first_name", "patient_last_name"]]))
-
-		if not self.get('__islocal'):
-			self.update_customer()
-			self.update_address_links()
-
 		self.validate_cervical_smears()
 		self.validate_obtetrical_backgrounds()
 
 	def on_update(self):
-		self.update_customer()
 		self.update_address_links()
 		self.set_gravidity_and_parity()
 
 		frappe.db.set_value(self.doctype, self.name, "change_in_patient", 0)
 		self.reload()
 
-	def after_insert(self):
-		self.create_customer_from_patient()
-
 	def on_trash(self):
-		if frappe.db.exists("Customer", self.customer):
-			doc = frappe.get_doc('Customer', self.customer)
-			if doc.patient_record == self.name:
-				frappe.delete_doc('Customer', self.customer, force=True)
-
 		if frappe.db.exists("Custom Patient Record Dashboard", dict(patient_record=self.name)):
 			patient_dashboard = frappe.db.get_value('Custom Patient Record Dashboard', dict(patient_record=self.name), 'name')
 			try:
@@ -104,11 +74,6 @@ class PatientRecord(Document):
 				frappe.log_error(e)
 
 	def before_rename(self, olddn, newdn, merge=False):
-		try:
-			frappe.rename_doc('Customer', self.customer, newdn, force=True, merge=True if frappe.db.exists('Customer', newdn) else False)
-		except Exception as e:
-			frappe.log_error(e, "Customer Renaming Error")
-
 		if frappe.db.exists("Custom Patient Record Dashboard", dict(patient_record=olddn)):
 			patient_dashboard = frappe.db.get_value('Custom Patient Record Dashboard', dict(patient_record=olddn), 'name')
 			try:
@@ -121,41 +86,6 @@ class PatientRecord(Document):
 
 		self.gravidity = gravidity
 		self.parity = parity
-
-	def create_customer_from_patient(self):
-		customer = frappe.get_doc({
-			"doctype": "Customer",
-			"customer_name": self.patient_name,
-			"patient_record": self.name,
-			"customer_type": 'Individual',
-			"customer_group": _('Individual'),
-			"territory": _('All Territories')
-		}).insert(ignore_permissions=True)
-
-		frappe.db.set_value("Patient Record", self.name, "Customer", customer.name)
-
-		self.reload()
-
-	def update_customer(self):
-		if not frappe.db.exists("Customer", self.customer):
-			self.create_customer_from_patient()
-		else:
-			frappe.db.sql("""update `tabCustomer` set customer_name=%s, modified=NOW() where patient_record=%s""", (self.patient_name, self.name))
-
-	def check_customer(self):
-		if not self.customer:
-			create_customer_from_patient(self)
-
-		elif not frappe.db.exists("Customer", self.customer):
-			customer = frappe.get_doc({
-				"doctype": "Customer",
-				"customer_name": self.customer,
-				"patient_record": self.name,
-				"customer_type": 'Individual',
-				"customer_group": _('Individual'),
-				"territory": _('All Territories')
-			}).insert(ignore_permissions=True)
-			frappe.db.commit()
 
 	def validate_cervical_smears(self):
 		for cervical_smear in self.cervical_smear_table:
@@ -208,7 +138,7 @@ def invite_user(patient):
 
 		user.append("roles", {
 			"doctype": "Has Role",
-			"role": "Customer"
+			"role": "Patient"
 		})
 
 		user.save()
@@ -232,10 +162,7 @@ def invite_user(patient):
 		}).insert(ignore_permissions=True)
 		contact.save()
 
-		contact.append('links', dict(link_doctype='Customer',
-									 link_name=patient_record.customer))
-		contact.append('links', dict(link_doctype='Patient Record',
-									 link_name=patient_record.name))
+		contact.append('links', dict(link_doctype='Patient Record', link_name=patient_record.name))
 		contact.save()
 
 	except:

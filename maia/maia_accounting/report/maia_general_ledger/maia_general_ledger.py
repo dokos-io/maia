@@ -157,7 +157,6 @@ def get_result_as_list(data, filters):
 	balance = 0
 
 	for d in data:
-		print(d)
 		if not d.get('posting_date'):
 			balance = 0
 

@@ -37,17 +37,6 @@ def modify_frappe_files():
 		print(e)
 		frappe.log_error(e, "Frappe Files Modifications")
 
-	# Load Standard Letters
-	frappe_file = frappe.get_app_path("frappe", "model", "sync.py")
-
-	pattern = "'print_format'"
-	subst = "'print_format', 'maia_standard_letter'"
-	try:
-		replace(frappe_file, pattern, subst)
-	except Exception as e:
-		print(e)
-		frappe.log_error(e, "Frappe Files Modifications - Standard Letter Loading")
-
 
 def replace(file_path, pattern, subst):
 	#Create temp file

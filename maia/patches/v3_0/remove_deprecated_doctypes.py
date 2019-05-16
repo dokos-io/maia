@@ -11,3 +11,5 @@ def execute():
 	frappe.delete_doc("DocType", "Social Contribution")
 	frappe.delete_doc("DocType", "Social Contribution Item")
 	frappe.delete_doc("DocType", "Cash Deposit")
+	frappe.delete_doc("DocType", "Fee Retrocession")
+	frappe.delete_doc("Page", "maia-standard-letter")

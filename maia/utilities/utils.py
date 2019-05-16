@@ -25,6 +25,30 @@ def reset_portal_doctypes():
 
 	frappe.db.commit()
 
+def custom_template_functions(functions):
+	# Midwife's name
+	functions.append({
+		"fieldname": None,
+		"label": _("Midwife's Name"),
+		"fieldtype": None,
+		"parent": "Custom Functions",
+		"reference": None,
+		"function": "frappe.get_doc('Professional Information Card', {'user': frappe.session.user}).name"
+	})
+
+	# Midwife's signature
+	functions.append({
+		"fieldname": None,
+		"label": _("Midwife's Signature"),
+		"fieldtype": None,
+		"parent": "Custom Functions",
+		"reference": None,
+		"function": "Signature#frappe.get_doc('Professional Information Card', {'user': frappe.session.user}).signature"
+	})
+
+	return functions
+
+
 @frappe.whitelist()
 def delete_draft_consultation(doctype, name):
 	frappe.delete_doc(doctype, name, ignore_permissions=True, ignore_missing=False)
