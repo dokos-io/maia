@@ -41,7 +41,10 @@ def execute():
 		expense.expense_items = []
 
 		for item in pi.items:
-			item_group = frappe.db.get_value("Item", item.item_code, "item_group")
+			if item.asset:
+				item_group = "Achat d'immobilisations"
+			else:
+				item_group = frappe.db.get_value("Item", item.item_code, "item_group")
 			expense_item = {
 				"label": item.item_code,
 				"accounting_item": account_map[item_group],
@@ -152,7 +155,8 @@ def get_account_map():
 		"Entretien et Réparations": "Entretien et réparations",
 		"Location de Matériel et de Mobilier": "Location matériel et mobilier",
 		"Loyer et Charges Locatives": "Loyers et charges locatives",
-		"Achats": "Achats"
+		"Achats": "Achats",
+		"Achat d'immobilisations": "Achat d'immobilisations"
 	}
 
 def add_meal_deductions():

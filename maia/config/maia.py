@@ -163,21 +163,8 @@ def get_data():
 					"name": "Delivery Way",
 					"label": _("Delivery Way"),
 					"description": _("Delivery Way"),
-				},
-				{
-					"type": "doctype",
-					"name": "Maia Appointment Type",
-					"label": _("Appointment Type"),
-					"description": _("Maia Appointment Type"),
-				},
-				{
-					"type": "page",
-					"name": "maia-standard-letter",
-					"label": _("Standard Letter"),
-					"description": _("Standard Letter"),
 				}
-
-				]
-			},
+			]
+		}
 
 	]

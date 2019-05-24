@@ -6,29 +6,31 @@ from frappe import _
 def get_data():
 	return [
 		{
-			"module_name": "Calendar",
-			"doctype": "Event",
-			"color": "#ff4081",
-			"icon": "octicon octicon-calendar",
-			"type": "link",
-			"link": "List/Maia Appointment/Calendar",
-			"label": _("Calendar")
-		},
-		{
-			"module_name": "Patient Record",
-			"_doctype": "Patient Record",
+			"module_name": "Maia",
+			"category": "Modules",
+			"label": _("Medical Records"),
 			"color": "#ff4081",
 			"icon": "fa fa-stethoscope",
-			"type": "link",
-			"link": "List/Patient Record",
-			"label": _("Patients")
+			"type": "module",
+			"description": _("Your patient's medical records")
 		},
 		{
-			"module_name": "Maia",
-			"color": "#ff4081",
-			"icon": "octicon octicon-squirrel",
+			"module_name": "Maia Accounting",
+			"category": "Modules",
+			"label": _("Accounting"),
+			"color": "#3498db",
+			"icon": "octicon octicon-repo",
 			"type": "module",
-			"label": _("Maia")
+			"description": _("Revenue, expense, payments and reporting")
+		},
+		{
+			"module_name": "Maia Appointment",
+			"category": "Modules",
+			"label": _("Appointments"),
+			"color": "#8e44ad",
+			"icon": "octicon octicon-calendar",
+			"type": "module",
+			"description": _("Your appointments and calendar")
 		}
 
 	]

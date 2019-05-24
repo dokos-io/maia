@@ -35,50 +35,6 @@ def create_professional_contact_card():
 	})
 	prof_card.insert(ignore_permissions=True)
 
-def create_midwife_tax_template(args):
-	account_name = "44566 - TVA sur autres biens et services - " + args.get('company_abbr')
-	purchase_tax_template = frappe.get_doc({
-		"doctype": "Purchase Taxes and Charges Template",
-		"title": _("VAT 20% - Included"),
-		"company": args.get("company_name"),
-		"taxes": [{
-			"category": "Total",
-			"charge_type": "On Net Total",
-			"account_head": account_name,
-			"description": _("VAT 20%"),
-			"rate": 20,
-			"included_in_print_rate": 1
-		}]
-	}).insert(ignore_permissions=True)
-
-	purchase_tax_template = frappe.get_doc({
-		"doctype": "Purchase Taxes and Charges Template",
-		"title": _("VAT 10% - Included"),
-		"company": args.get("company_name"),
-		"taxes": [{
-			"category": "Total",
-			"charge_type": "On Net Total",
-			"account_head": account_name,
-			"description": _("VAT 10%"),
-			"rate": 10,
-			"included_in_print_rate": 1
-		}]
-	}).insert(ignore_permissions=True)
-
-	purchase_tax_template = frappe.get_doc({
-		"doctype": "Purchase Taxes and Charges Template",
-		"title": _("VAT 5.5% - Included"),
-		"company": args.get("company_name"),
-		"taxes": [{
-			"category": "Total",
-			"charge_type": "On Net Total",
-			"account_head": account_name,
-			"description": _("VAT 5.5%"),
-			"rate": 5.5,
-			"included_in_print_rate": 1
-		}]
-	}).insert(ignore_permissions=True)
-
 def set_default_print_formats():
 	names = ["Patient Folder", "Prenatal Interview Folder", "Perineum Rehabilitation Folder", "Gynecology Folder", \
 		"Pregnancy Folder", "Postnatal Consultation", "Birth Preparation Consultation", "Perineum Rehabilitation Consultation", \
@@ -117,3 +73,10 @@ def disable_signup():
 def disable_guest_access():
 	frappe.db.set_value("Role", "Guest", "desk_access", 0)
 	frappe.db.commit()
+
+def send_welcome_email():
+	users = frappe.get_all("User", filters={"name": ["not in", ["Guest", "Administrator"]]})
+
+	if users:
+		user = frappe.get_doc("User", users[0]["name"])
+		user.send_welcome_mail_to_user()

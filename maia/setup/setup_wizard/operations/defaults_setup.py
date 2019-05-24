@@ -8,3 +8,7 @@ def set_default_settings():
 	domain_settings = frappe.get_single('Domain Settings')
 	domain_settings.flags.ignore_permissions = True
 	domain_settings.set_active_domains(['Sage-Femme'])
+
+	frappe.db.set_value('System Settings', None, 'country', 'France')
+	frappe.db.set_value('System Settings', None, 'language', 'fr')
+	frappe.db.set_value('System Settings', None, 'time_zone', 'heure:France-Europe/Paris')

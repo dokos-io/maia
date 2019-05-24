@@ -209,7 +209,7 @@ def get_payment(dt, dn):
 	payment.party_type = "Party" if source_doc.party else "Patient Record"
 	payment.party = source_doc.party if source_doc.party else source_doc.patient
 	payment.paid_amount = source_doc.outstanding_amount
-	payment.payment_date = source.transaction_date
+	payment.payment_date = source_doc.transaction_date
 
 	payment.append("payment_references", {
 		'reference_type': dt,

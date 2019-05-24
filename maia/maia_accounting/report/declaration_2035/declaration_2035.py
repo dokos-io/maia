@@ -116,7 +116,7 @@ def get_gl_entries(filters):
 		from `tabGeneral Ledger Entry` gl
 		left join `tabAccounting Item` ai on gl.accounting_item = ai.name
 		where practitioner=%(practitioner)s
-		and gl.accounting_journal in ('Sales', 'Purchases')
+		and gl.accounting_journal in ('Sales', 'Purchases', 'Miscellaneous operations')
 		{conditions}
 		order by posting_date, accounting_item
 		""".format(

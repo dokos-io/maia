@@ -122,7 +122,7 @@ def post_depreciations():
 		for depreciation in doc.asset_depreciations:
 			if getdate(depreciation.depreciation_date) <= getdate(nowdate()) and not depreciation.depreciation_document:
 				new_depreciation = frappe.new_doc("Miscellaneous Operation")
-				new_depreciation.posting_date = asset.depreciation_date
+				new_depreciation.posting_date = depreciation.depreciation_date
 				new_depreciation.practitioner = doc.practitioner
 				new_depreciation.append("items", {
 					'accounting_item': depreciation_account.name,

@@ -29,22 +29,36 @@ def create_new_site(first_name, last_name, email, siteprefix, max_users, custome
 	db_name = 'dokos-' + siteprefix[-10:]
 	print("==========> DB name: " + db_name)
 
+	check_prerequisites()
+	print("==========> Prerequisites checked")
+
 	create_db_and_site(site_name, db_name, mariadb_root_user, mariadb_password, admin_password)
 	print("==========> DB and Site Successfully Created")
 	add_specific_config(site_name, customer)
 	print("==========> Specific Config Added")
-	install_maia(site_name)
-	print("==========> Maia Installed")
-	setup_site(site_name)
-	print("==========> Parameters for France Set")
 	add_system_manager_and_limits(site_name, email, first_name, last_name, max_users)
 	print("==========> System Manager and Limits Set")
-	add_to_lets_encrypt_file(site_name)
+	install_maia(site_name)
+	print("==========> Maia Installed")
+
+	#add_to_lets_encrypt_file(site_name)
 	print("==========> Let's Encrypt File Updated")
 
-	setup_and_reload_nginx()
+	#setup_and_reload_nginx()
 	print("==========> Installation Successful")
 
+
+def check_prerequisites():
+	bench_path = frappe.utils.get_bench_path()
+	config_path = os.path.join(bench_path, 'sites', 'common_site_config.json')
+
+	if not os.path.exists(config_path):
+		config = {}
+	with open(config_path, 'r') as f:
+		config = json.load(f)
+
+	if not config.get("skip_setup_wizard"):
+		click.confirm('skip_setup_wizard key missing in common_site.json. Do you want to continue ?', abort = True)
 
 def create_db_and_site(site_name, db_name, mariadb_root_user, mariadb_password, admin_password):
 	commands = []
@@ -62,20 +76,6 @@ def install_maia(site_name):
 
 	run_commands(commands)
 
-def setup_site(site_name):
-	frappe.connect(site=site_name)
-	try:
-		frappe.db.set_value('System Settings', None, 'country', 'France')
-		frappe.db.set_value('System Settings', None, 'language', 'fr')
-		frappe.db.set_value('System Settings', None, 'time_zone', 'heure:France-Europe/Paris')
-		frappe.get_doc(dict(doctype='Domain', domain='Sage-Femme')).insert(ignore_permissions=True)
-
-		frappe.db.commit()
-	except Exception as e:
-		print(e)
-	finally:
-		frappe.destroy()
-
 def add_system_manager_and_limits(site_name, email, first_name, last_name, max_users):
 	commands = []
 
@@ -86,7 +86,7 @@ def add_system_manager_and_limits(site_name, email, first_name, last_name, max_u
 
 	frappe.connect(site=site_name)
 	try:
-		add_system_manager(email=email, first_name=first_name, last_name=last_name, send_welcome_email=True)
+		add_system_manager(email=email, first_name=first_name, last_name=last_name, send_welcome_email=False)
 		frappe.db.commit()
 	except Exception as e:
 		print(e)
@@ -96,7 +96,7 @@ def add_system_manager_and_limits(site_name, email, first_name, last_name, max_u
 def add_specific_config(site_name, customer):
 	bench_path = frappe.utils.get_bench_path()
 	hostname = "https://{}".format(site_name)
-	customer_config = {"customer": customer, "host_name": hostname, "skip_setup_wizard": 1}
+	customer_config = {"customer": customer, "host_name": hostname}
 	update_site_config(site_name, customer_config, bench_path)
 
 def add_domain(site_name):

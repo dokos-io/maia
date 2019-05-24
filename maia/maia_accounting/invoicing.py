@@ -7,6 +7,7 @@ import frappe
 from frappe.model.document import Document
 from frappe import _
 from frappe.utils import flt
+from maia.maia_accounting.doctype.payment.payment import get_payment
 
 class ConsultationController(Document):
 	def on_submit(self):

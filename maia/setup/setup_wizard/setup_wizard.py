@@ -31,3 +31,4 @@ def setup_maia():
 	maia_setup.web_portal_settings()
 	maia_setup.disable_signup()
 	maia_setup.disable_guest_access()
+	maia_setup.send_welcome_email()

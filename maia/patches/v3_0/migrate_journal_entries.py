@@ -31,7 +31,7 @@ def execute():
 		else:
 			second_round.append(journal_entry.name)
 
-		with open(os.path.join(frappe.utils.get_bench_path(), "manual_migration.txt"), "wb") as migration_file:
+		with open(os.path.join(frappe.utils.get_bench_path(), "manual_migration_{0}.txt".format(frappe.db.get_default('site_name'))), "wb") as migration_file:
 			migration_file.write(bytes(",".join([str(i) for i in second_round]), 'utf-8'))
 
 		update_progress_bar("Migrating Journal Entries", i, l)
