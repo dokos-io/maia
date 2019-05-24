@@ -136,6 +136,7 @@ var get_term_date = function(frm) {
 					let beginning_of_pregnancy = data.message.beginning_of_pregnancy;
 					let last_menstrual_period = data.message.last_menstrual_period;
 					let consultation_date = frm.doc.consultation_date;
+					let am_weeks, add_days;
 
 					if (beginning_of_pregnancy != null) {
 						am_weeks = Math.floor(frappe.datetime.get_diff(consultation_date, beginning_of_pregnancy) / 7) + 2

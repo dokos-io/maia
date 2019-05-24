@@ -491,7 +491,7 @@ const multiple_codes_msg = __("Several codifications exist for this specific all
 
 const get_patient_value = (frm) => {
 	if (!frm.doc.patient) {
-
+		let patient;
 		if (frm.doc.pregnancy_folder) {
 			patient = frappe.model.get_value('Pregnancy', frm.doc.pregnancy_folder, 'patient');
 			frappe.model.set_value(frm.doctype, frm.docname, 'patient', patient);
