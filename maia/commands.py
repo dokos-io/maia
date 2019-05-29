@@ -1,10 +1,13 @@
 # coding=utf-8
+# Copyright (c) 2019, Dokos and Contributors
+# See license.txt
 from __future__ import unicode_literals, absolute_import
 import click
 from subprocess import Popen, check_output, PIPE, STDOUT
 import os, shlex
 import json
 import frappe
+from frappe.commands import pass_context, get_site
 
 @click.command('maia-new-site')
 def _maia_new_site():
@@ -22,6 +25,28 @@ def _maia_new_site():
 		click.echo('New Site Creation Started')
 
 		create_new_site(first_name, last_name, email, siteprefix, max_users, customer, mariadb_root_user, mariadb_password, admin_password)
+
+@click.command('make-maia-demo')
+@click.option('--site', help='site name')
+@click.option('--reinstall', default=False, is_flag=True, help='Reinstall site before demo')
+@pass_context
+def make_maia_demo(context, site, reinstall=False):
+	"Reinstall site and setup demo"
+	from frappe.commands.site import _reinstall
+	from frappe.installer import install_app
+
+	site = get_site(context)
+
+	if reinstall:
+		_reinstall(site, yes=True)
+	with frappe.init_site(site=site):
+		frappe.connect()
+		if not 'maia' in frappe.get_installed_apps():
+			install_app('maia')
+
+		# import needs site
+		from maia.demo import demo
+		demo.make()
 
 
 def create_new_site(first_name, last_name, email, siteprefix, max_users, customer, mariadb_root_user, mariadb_password, admin_password):
@@ -175,4 +200,4 @@ def update_site_config(site, new_config, bench_path='.'):
 	config.update(new_config)
 	put_site_config(site, config, bench_path=bench_path)
 
-commands = [_maia_new_site]
+commands = [_maia_new_site, make_maia_demo]

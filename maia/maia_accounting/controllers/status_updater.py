@@ -9,18 +9,22 @@ from frappe import _
 
 status_map = {
 	"Expense": [
-		["Draft", None],
+		["Draft", "eval:self.docstatus==0"],
 		["Paid", "eval:self.outstanding_amount<=0 and self.docstatus==1"],
-		["Unpaid", "eval:self.outstanding_amount>0 and getdate(self.due_date)>=getdate(nowdate()) and self.docstatus==1"]
+		["Unpaid", "eval:self.outstanding_amount>0 and getdate(self.due_date)>=getdate(nowdate()) and self.docstatus==1"],
+		["Cancelled", "eval:self.docstatus==2"],
 	],
 	"Revenue": [
-		["Draft", None],
+		["Draft", "eval:self.docstatus==0"],
 		["Paid", "eval:self.outstanding_amount<=0 and self.docstatus==1"],
-		["Unpaid", "eval:self.outstanding_amount>0 and getdate(self.due_date)>=getdate(nowdate()) and self.docstatus==1"]
+		["Unpaid", "eval:self.outstanding_amount>0 and getdate(self.due_date)>=getdate(nowdate()) and self.docstatus==1"],
+		["Cancelled", "eval:self.docstatus==2"]
 	],
 	"Payment": [
+		["Draft", "eval:self.docstatus==0"],
 		["Reconciled", "eval:self.clearance_date"],
-		["Unreconciled", "eval:self.clearance_date is None"]
+		["Unreconciled", "eval:self.clearance_date is None"],
+		["Cancelled", "eval:self.docstatus==2"]
 	],
 	"Maia Asset": [
 		["Fully depreciated", "is_fully_depreciated"],

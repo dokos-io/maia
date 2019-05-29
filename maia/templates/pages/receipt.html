@@ -1,0 +1,88 @@
+{% extends "templates/web.html" %}
+
+{% block breadcrumbs %}
+	{% include "templates/includes/breadcrumbs.html" %}
+{% endblock %}
+
+{% block title %}{{ doc.name }}{% endblock %}
+
+{% block header %}
+	<h1 class="m-0">{{ _("Receipt : ")}} {{ doc.name }}</h1>
+{% endblock %}
+
+{% block header_actions %}
+<a class="btn btn-primary" href='/api/method/frappe.utils.print_format.download_pdf?doctype={{ doc.doctype }}&name={{ doc.name }}&format={{ print_format }}&no_letterhead=0&lang=fr' target="_blank" rel="noopener noreferrer">{{ _("Print") }}</a>
+{% endblock %}
+
+{% block page_content %}
+<div class="main mt-5">
+	<div class="row mt-3">
+		<div class="col-7">
+			<div class="row">
+				<div class="col-5 text-left"><label>{{ _("Patient Name") }}</label></div>
+				<div class="col-7 text-left "><strong>{{ doc.patient }}</strong></div>
+			</div>
+			{% if billing_address %}{% set address = frappe.get_doc("Address", doc.billing_address) %}
+			<div class="row">
+				<div class="col-5 text-left"><label>{{ _("Address") }}</label></div>
+				<div class="col-7 text-left">
+					{% if address.address_line1 %} {{ address.address_line1 }}<br> {% endif %}
+					{% if address.address_line2 %} {{ address.address_line2 }}<br> {% endif %}
+					{% if address.pincode %} {{ address.pincode }} {% endif %}
+					{% if address.city %} {{ address.city }}<br> {% endif %}
+					{% if address.country %} {{ address.country }} {% endif %}
+				</div>
+			</div>
+			{% endif %}
+		</div>
+
+		<div class="col-5">
+			<div class="row">
+				<div class="col-7 text-left"><label>{{ _("Receipt Number") }}</label></div>
+				<div class="col-5 text-left ">{{ doc.name }}</div>
+			</div>
+			<div class="row">
+				<div class="col-7 text-left"> <label>{{ _("Consultation Date") }}</label> </div>
+				<div class="col-5 text-left ">{{ frappe.utils.formatdate(doc.transaction_date, "medium") }}</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row table-row mt-5">
+		<table class="table table-condensed table-bordered">
+			<tr>
+				<th>{{ _("Description") }}</th>
+				<th>{{ _("Codification") }}</th>
+				<th>{{ _("Quantity") }}</th>
+				<th class="text-right">{{ _("Rate") }}</th>
+				<th class="text-right">{{ _("Amount") }}</th>
+			</tr>
+			{%- for row in doc.codifications -%}
+			<tbody>
+			<tr>
+				<td style="width: 45%;">{{ row.description or '' }}</td>
+				<td style="width: 15%;">{{ row.codification or '' }}</td>
+				<td style="width: 10%;">{{ row.get_formatted("qty") }}</td>
+				<td style="width: 15%; text-align: right;">{{ row.get_formatted("unit_price", currency=currency) }}</td>
+				<td style="width: 15%; text-align: right;">{{ row.get_formatted("total_amount", currency=currency) }}</td>
+			</tr>
+			{%- endfor -%}
+			</tbody>
+		</table>
+	</div>
+
+	<div class="row mt-5">
+		<div class="col-6 text-right"></div>
+		<div class="col-4 text-right"><label>{{ _("Total") }}</label></div>
+		<div class="col-2 text-right">{{ doc.get_formatted("amount", currency=currency) }}</div>
+	</div>
+	<br>
+
+	<div class="row" style="margin-top: 200px">
+		<div class="col-12 text-center">{{ doc.legal_mentions or '' }}</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

@@ -62,3 +62,15 @@ def get_asset_revenue(dt, dn):
 	revenue.accounting_item = frappe.db.get_value("Accounting Item", dict(accounting_item_type="Asset Selling"), "name")
 
 	return revenue
+
+def get_list_context(context=None):
+	from maia.controllers.website_list_for_contact import get_list_context
+	list_context = get_list_context(context)
+	list_context.update({
+		'show_sidebar': True,
+		'show_search': True,
+		'no_breadcrumbs': True,
+		'title': _('Receipts'),
+	})
+
+	return list_context

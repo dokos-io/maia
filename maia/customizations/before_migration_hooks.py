@@ -7,23 +7,6 @@ import os
 from os import fdopen, remove
 import json
 
-def delete_standard_config_files():
-	config_files = ["accounts", "setup"]
-
-	for app in ["frappe"]:
-		for config_file in config_files:
-
-			target = frappe.get_app_path(app, "config", config_file + ".py")
-			target_pyc = frappe.get_app_path(app, "config", config_file + ".pyc")
-			try:
-				if os.path.exists(target):
-					remove(target)
-				if os.path.exists(target_pyc):
-					remove(target_pyc)
-			except Exception as e:
-				print(e)
-				frappe.log_error(e, "Config Files Deletion")
-
 def modify_frappe_files():
 
 	# Different File
@@ -51,5 +34,4 @@ def replace(file_path, pattern, subst):
 	move(abs_path, file_path)
 
 def before_migrate():
-	delete_standard_config_files()
 	modify_frappe_files()

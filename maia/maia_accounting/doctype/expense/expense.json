@@ -148,7 +148,7 @@
    "hidden": 1,
    "in_standard_filter": 1,
    "label": "Status",
-   "options": "Draft\nUnpaid\nPaid"
+   "options": "Draft\nUnpaid\nPaid\nCancelled"
   },
   {
    "fieldname": "column_break_20",
@@ -173,7 +173,7 @@
  ],
  "is_sealed": 1,
  "is_submittable": 1,
- "modified": "2019-05-28 16:48:30.087479",
+ "modified": "2019-05-29 13:56:15.262450",
  "modified_by": "Administrator",
  "module": "Maia Accounting",
  "name": "Expense",

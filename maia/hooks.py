@@ -27,7 +27,7 @@ website_context = {
 
 # Migration
 #----------
-before_migrate = ["maia.customizations.demo.add_demo_page",
+before_migrate = [
 	"maia.customizations.before_migration_hooks.before_migrate"
 ]
 
@@ -61,14 +61,23 @@ website_route_rules = [
 			"doctype": "Maia Appointment",
 			"parents": [{"label": "Mes Rendez-Vous", "route": "my-appointments"}]
 		}
-	 }
+	},
+	{"from_route": "/receipts", "to_route": "Revenue"},
+	{"from_route": "/receipts/<path:name>", "to_route": "receipt",
+		"defaults": {
+			"doctype": "Revenue",
+			"parents": [{"label": _("Receipts"), "route": "receipts"}]
+		}
+	},
 ]
 
 standard_portal_menu_items = [
 	{"title": _("Prendre Rendez-Vous"), "route": "/appointment",
-	 "reference_doctype": "Maia Appointment", "role": "Customer"},
+	 "reference_doctype": "Maia Appointment", "role": "Patient"},
 	{"title": _("Mes Rendez-Vous"), "route": "/my-appointments",
-	 "reference_doctype": "Maia Appointment", "role": "Customer"}
+	 "reference_doctype": "Maia Appointment", "role": "Patient"},
+	 {"title": _("Mes quittances"), "route": "/receipts",
+	 "reference_doctype": "Revenue", "role": "Patient"}
 ]
 
 # Includes in <head>
@@ -121,9 +130,9 @@ standard_portal_menu_items = [
 # 	"Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
 # }
 #
-# has_permission = {
-# 	"Event": "frappe.desk.doctype.event.event.has_permission",
-# }
+has_website_permission = {
+	"Revenue": "maia.controllers.website_list_for_contact.has_website_permission",
+}
 
 # Document Events
 # ---------------
