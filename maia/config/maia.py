@@ -12,14 +12,6 @@ def get_data():
 			"items": [
 				{
 					"type": "doctype",
-					"name": "Maia Appointment",
-					"label": _("Appointment"),
-					"description": _("Appointment"),
-					"route": "#List/Maia Appointment",
-					"onboard": 1
-				},
-				{
-					"type": "doctype",
 					"name": "Patient Record",
 					"label": _("Patient Record"),
 					"description": _("Patient Record"),

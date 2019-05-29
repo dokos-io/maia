@@ -4,6 +4,7 @@
 
 from __future__ import unicode_literals
 import frappe
+from frappe import _
 from maia.maia_accounting.controllers.accounting_controller import AccountingController
 
 class Revenue(AccountingController):

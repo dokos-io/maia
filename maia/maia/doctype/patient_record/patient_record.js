@@ -29,6 +29,7 @@ frappe.ui.form.on("Patient Record", {
 			maia.patient_record.make_dashboard(frm);
 		}
 		setup_chart(frm);
+		add_folder_print_btn(frm);
 
 		if (frm.doc.patient_date_of_birth) {
 			calculate_age(frm, "patient_date_of_birth", "patient_age");
@@ -36,6 +37,7 @@ frappe.ui.form.on("Patient Record", {
 		if (frm.doc.spouse_date_of_birth) {
 			calculate_age(frm, "spouse_date_of_birth", "spouse_age");
 		}
+
 	},
 	invite_as_user: function(frm) {
 		frm.save();
@@ -79,6 +81,7 @@ frappe.ui.form.on("Patient Record", {
 		}
 	},
 	weight: function(frm) {
+		calculate_bmi(frm);
 		if (frm.doc.weight) {
 			frappe.show_alert({
 				message: __("Don't forget to save your patient record before leaving"),
@@ -102,21 +105,22 @@ frappe.ui.form.on("Patient Record", {
 			})
 		}
 	},
+	height: function(frm) {
+		calculate_bmi(frm);
+	},
 	patient_date_of_birth: function(frm) {
 		calculate_age(frm, "patient_date_of_birth", "patient_age");
 	},
 	spouse_date_of_birth: function(frm) {
 		calculate_age(frm, "spouse_date_of_birth", "spouse_age");
 	},
-	height: function(frm) {
-		calculate_bmi(frm);
-	},
-	weight: function(frm) {
-		calculate_bmi(frm);
+	pregnancies_report: function(frm) {
+		frappe.set_route('pregnancies', frm.doc.name);
 	}
 });
 
-function calculate_age(frm, source, target) {
+
+const calculate_age = (frm, source, target) => {
 	const today = new Date();
 	const birthDate = new Date(frm.doc[source]);
 	if (today < birthDate) {
@@ -141,20 +145,14 @@ function calculate_age(frm, source, target) {
 	frm.refresh_field(target);
 };
 
-function calculate_bmi(frm) {
+const calculate_bmi = (frm) => {
 	const weight = frm.doc.weight;
 	const height = frm.doc.height;
 	const bmi = Math.round(weight / Math.pow(height, 2));
 	frappe.model.set_value(frm.doctype, frm.docname, "body_mass_index", bmi)
-
 };
 
-frappe.ui.form.on("Patient Record", "pregnancies_report", function(frm) {
-	return frappe.set_route('pregnancies', frm.doc.name);
-});
-
-let setup_chart = function(frm) {
-
+const setup_chart = (frm) => {
 	frappe.call({
 		method: "maia.maia.doctype.patient_record.patient_record.get_patient_weight_data",
 		args: {
@@ -162,26 +160,96 @@ let setup_chart = function(frm) {
 		},
 		callback: function(r) {
 			if (r.message && r.message[0].datasets[0].values.length !=0) {
-				let data = r.message[0];
-				let formatted_x = r.message[1];
+				const data = r.message[0];
 
-				let $wrap = $('div[data-fieldname=weight_curve]').get(0);
-
-				new Chart($wrap, {
-					title: __("Patient Weight"),
-					data: data,
-					type: 'line',
-					lineOptions: {
-						regionFill: 1
-					},
-					height: 240,
-					format_tooltip_y: d => d + ' Kg',
-					colors: ['#ffa00a'],
-				});
+				if (data.datasets[0].values.length > 1) {
+					const $wrap = $('div[data-fieldname=weight_curve]').get(0);
+					new Chart($wrap, {
+						title: __("Patient Weight"),
+						data: data,
+						type: 'line',
+						lineOptions: {
+							regionFill: 1
+						},
+						height: 240,
+						format_tooltip_y: d => d + ' Kg',
+						colors: ['#ffa00a'],
+					});
+				} else {
+					const empty_text = __("Not enough data for a chart yet")
+					$('div[data-fieldname=weight_curve]').html(`
+						<p class="text-muted text-center">${empty_text}</p>
+					`);
+				}
 			}
 		}
 	});
 };
+
+const add_folder_print_btn = (frm) => {
+	frm.page.add_menu_item(__("Print complete record"), () => {
+		print_complete_record(frm);
+	}, false)
+}
+
+const printable_doctypes = ["Patient Record", "Pregnancy", "Gynecology", "Prenatal Interview", "Perineum Rehabilitation",
+"Birth Preparation Consultation", "Early Postnatal Consultation", "Free Consultation", "Gynecological Consultation", "Perineum Rehabilitation Consultation",
+"Postnatal Consultation", "Pregnancy Consultation", "Prenatal Interview Consultation"]
+
+const print_complete_record = (frm) => {
+	frappe.xcall("frappe.desk.form.linked_with.get_linked_doctypes", {doctype: frm.doctype})
+	.then((dt) => {
+		let linked_doctypes = {}
+		Object.keys(dt).forEach(value => {
+			if (printable_doctypes.includes(value)) { linked_doctypes[value] = dt[value] }
+		})
+		return linked_doctypes
+	})
+	.then((linked_doctypes) => {
+		return frappe.xcall("frappe.desk.form.linked_with.get_linked_docs", {doctype: frm.doctype, name: frm.docname, linkinfo: linked_doctypes})
+	})
+	.then((docs) => print_record(docs))
+}
+
+const print_record = (docs) => {
+	if (Object.keys(docs).length > 0) {
+		const dialog = new frappe.ui.Dialog({
+			title: __('Print complete record'),
+			fields: [{
+				'fieldtype': 'Check',
+				'label': __('With Letterhead'),
+				'fieldname': 'with_letterhead'
+			}]
+		});
+
+		dialog.set_primary_action(__('Print'), args => {
+			if (!args) return;
+			Object.keys(docs).forEach(dt => {
+				frappe.model.with_doctype(dt, () => {
+					const docnames = docs[dt].map(doc => doc.name)
+					const print_format = frappe.get_meta(dt).default_print_format;
+					const with_letterhead = args.with_letterhead ? 1 : 0;
+					const json_string = JSON.stringify(docnames);
+
+					const w = window.open('/api/method/frappe.utils.print_format.download_multi_pdf?' +
+						'doctype=' + encodeURIComponent(dt) +
+						'&name=' + encodeURIComponent(json_string) +
+						'&format=' + encodeURIComponent(print_format) +
+						'&no_letterhead=' + (with_letterhead ? '0' : '1'));
+					if (!w) {
+						frappe.msgprint(__('Please enable pop-ups'));
+						return;
+					}
+				})
+			})
+			
+		});
+
+		dialog.show();
+	} else {
+		frappe.msgprint(__('There must be at least 1 record to be printed'));
+	}
+}
 
 
 $.extend(maia.patient_record, {
@@ -202,23 +270,15 @@ $.extend(maia.patient_record, {
 	},
 	set_dashboard_indicators: function(frm) {
 		if(frm.doc.__onload && frm.doc.__onload.dashboard_info) {
-			var company_wise_info = frm.doc.__onload.dashboard_info;
-			if(company_wise_info.length > 1) {
-				company_wise_info.forEach(function(info) {
-					maia.utils.add_indicator_for_multicompany(frm, info);
-				});
-			} else if (company_wise_info.length === 1) {
-				frm.dashboard.add_indicator(__('Annual Billing: {0}',
-					[format_currency(company_wise_info[0].billing_this_year, company_wise_info[0].currency)]), 'blue');
-				frm.dashboard.add_indicator(__('Total Unpaid: {0}',
-					[format_currency(company_wise_info[0].total_unpaid, company_wise_info[0].currency)]),
-				company_wise_info[0].total_unpaid ? 'orange' : 'green');
-
-				if(company_wise_info[0].loyalty_points) {
-					frm.dashboard.add_indicator(__('Loyalty Points: {0}',
-						[company_wise_info[0].loyalty_points]), 'blue');
-				}
-			}
+			const info = frm.doc.__onload.dashboard_info
+			frm.dashboard.add_indicator(__('Annual Revenue: {0}',
+				[format_currency(info.billing_this_year, info.currency)]), 'blue');
+			frm.dashboard.add_indicator(__('Outstanding Amount: {0}',
+				[format_currency(info.total_unpaid, info.currency)]),
+				info.total_unpaid ? 'orange' : 'green');
+			frm.dashboard.add_indicator(__('Social Security Outstanding Amount: {0}',
+				[format_currency(info.total_unpaid_social_security, info.currency)]),
+				info.total_unpaid_social_security ? 'orange' : 'green');
 		}
 	}
 

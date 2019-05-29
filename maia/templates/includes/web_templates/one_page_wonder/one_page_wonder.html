@@ -1,24 +1,36 @@
-<header class="header-image">
-	<div class="headline">
-		<div class="container">
-			<h1>{{ data.title }}</h1>
-			<h2>{{ data.subtitle }}</h2>
-		</div>
+<header class="masthead text-center text-white">
+	<div class="masthead-content">
+	<div class="container">
+		<h1>{{ data.title or '' }}</h1>
+		<h2>{{ data.subtitle or '' }}</h2>
+		{% if data.button_label %}
+		<a href="{{ data.button_link or '/login' }}" class="btn btn-primary btn-xl rounded-pill mt-5">{{ data.button_label }}</a>
+		{% endif %}
 	</div>
+	</div>
+	<div class="bg-circle-1 bg-circle"></div>
+	<div class="bg-circle-2 bg-circle"></div>
+	<div class="bg-circle-3 bg-circle"></div>
+	<div class="bg-circle-4 bg-circle"></div>
 </header>
 
-<div class="container">
 
-	<hr class="featurette-divider">
-
-	{% for d in data.body %}
-	<div class="featurette">
-		<img class="featurette-image img-circle img-responsive {% if d.idx % 2 != 0 %}pull-right{% else %}pull-left{% endif %}" src="{{ d.image }}">
-		<h2 class="featurette-heading">{{ d.heading }}</h2>
-		<p class="lead">{{ d.body }}</p>
+{% for d in data.body %}
+<section>
+	<div class="container">
+		<div class="row align-items-center">
+		<div class="col-lg-6 order-lg-2">
+			<div class="p-5">
+			<img class="img-fluid rounded-circle" src="{{ d.image }}" alt="{{ d.image_alt or '' }}">
+			</div>
+		</div>
+		<div class="col-lg-6 order-lg-1">
+			<div class="p-5">
+			<h2 class="display-4">{{ d.heading or '' }}</h2>
+			<p>{{ d.body or '' }}</p>
+			</div>
+		</div>
+		</div>
 	</div>
-
-	<hr class="featurette-divider">
-	{% endfor %}
-
-</div>
+</section>
+{% endfor %}

@@ -1,7 +1,5 @@
-// Copyright (c) 2018, DOKOS and contributors
+// Copyright (c) 2019, DOKOS and contributors
 // For license information, please see license.txt
-frappe.provide("maia");
-
 frappe.ui.form.on(this.frm.doctype, {
 	refresh: function(frm) {
 		if (!frm.doc.__islocal) {
@@ -13,7 +11,7 @@ frappe.ui.form.on(this.frm.doctype, {
 let add_buttons = function(frm) {
 	frm.page.add_menu_item(__("Letter"), function() {
 		frm.create_letter();
-	}, true); 
+	}, false); 
 }
 
 

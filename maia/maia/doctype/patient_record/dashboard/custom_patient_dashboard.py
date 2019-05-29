@@ -22,11 +22,11 @@ def get_patient_dashboard(patient_record):
 		dashboard = frappe.new_doc("Custom Patient Record Dashboard")
 		dashboard.patient_record = patient_record
 		try:
-			dashboard.save()
-		except frappe.DuplicateEntryError:
+			dashboard.insert()
+		except Exception as e:
 			doc = frappe.get_doc("Custom Patient Record Dashboard", patient_record)
 			frappe.rename_doc(doc.doctype, patient_record, doc.patient_record, force=True, merge=True if frappe.db.exists(doc.doctype, doc.patient_record) else False)
-			dashboard.save()
+			return doc
 
 		return dashboard
 
@@ -83,7 +83,8 @@ def get_data(patient_record):
 	data["generaldata"]["allergies"] = {
 		"label": _("Allergies"),
 		"value": patient.allergies,
-		"enabled": 1 if dashboard.allergies and patient.allergies else 0
+		"enabled": 1 if dashboard.allergies and patient.allergies else 0,
+		"value_fields": ["patient_allergies"]
 	}
 
 	#Medical Background
@@ -97,7 +98,8 @@ def get_data(patient_record):
 	data["generaldata"]["addictions"] = {
 		"label": _("Addictions"),
 		"value": patient.patient_addictions,
-		"enabled": 1 if dashboard.addictions and patient.patient_addictions else 0
+		"enabled": 1 if dashboard.addictions and patient.patient_addictions else 0,
+		"value_fields": ["patient_addictions"]
 	}
 
 	#Blood type

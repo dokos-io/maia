@@ -4,10 +4,7 @@
 from __future__ import unicode_literals
 import frappe
 from frappe import _
-import frappe.model
-import frappe.utils
-import json, os
-
+import json
 
 @frappe.whitelist()
 def get_practitioner(doctype, name=None, filters=None):

@@ -235,12 +235,13 @@ def get_outstanding_references(party_type, payment_type, party=None):
 
 @frappe.whitelist()
 def update_clearance_date(docname, date):
-	payment = frappe.get_doc("Payment", docname)
-	current_clearance_date = payment.clearance_date
+	current_clearance_date = frappe.db.get_value("Payment", docname, "clearance_date")
 
 	frappe.db.set_value("Payment", docname, "clearance_date", getdate(date), update_modified=False)
 	frappe.db.commit()
-	payment.set_status(update=True)
+
+	payment = frappe.get_doc("Payment", docname)
+	payment.set_status(update=True, status="Reconciled")
 
 	if current_clearance_date:
 		payment.add_comment('Comment', \

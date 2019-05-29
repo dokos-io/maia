@@ -43,7 +43,8 @@ export default {
 						}
 				} else if (!["enabled", "icon"].includes(value) && !this.cardData[value].hasOwnProperty("enabled")) {
 					Object.keys(this.cardData[value]).forEach(v => {
-						if (this.cardData[value][v]["value"] !== null) {
+						if (this.cardData[value][v]["value"] !== null&&this.cardData[value][v]["value"] !== ""
+							&&this.cardData[value][v]["enabled"]===1) {
 							result.push(this.cardData[value][v]);
 						}
 					});
@@ -51,7 +52,6 @@ export default {
 			})
 			return result;
 		}
-
 	}
 }
 </script>

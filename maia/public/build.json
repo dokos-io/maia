@@ -1,6 +1,8 @@
 {
 	"js/maia.min.js": [
-		"public/js/conf.js"
+		"public/js/conf.js",
+		"public/js/templates/address_list.html",
+		"public/js/templates/contact_list.html"
 	],
 	"js/maia-web.min.js": [
 		"public/js/templates/selectors/practitioner_selector.html",

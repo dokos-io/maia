@@ -13,6 +13,9 @@ frappe.ui.form.on('Revenue', {
 			return {
 				filters: {
 					is_customer: 1
+				},
+				or_filters: {
+					is_social_security: 1
 				}
 			}
 		})
@@ -25,6 +28,7 @@ frappe.ui.form.on('Revenue', {
 	revenue_type(frm) {
 		check_mandatory_fields(frm);
 		set_title(frm);
+		set_accounting_item(frm)
 	},
 
 	patient(frm) {
@@ -53,6 +57,13 @@ frappe.ui.form.on('Revenue Items', {
 			calculate_total(frm);
 			frm.refresh_fields("codifications")
 		})
+	},
+
+	unit_price(frm, cdt, cdn) {
+		const item = frappe.get_doc(cdt, cdn);
+		item.total_amount = flt(item.qty) * flt(item.unit_price);
+		calculate_total(frm);
+		frm.refresh_fields("codifications");
 	},
 
 	qty(frm, cdt, cdn) {
@@ -99,8 +110,22 @@ const set_title = frm => {
 	if (!frm.doc.label && frm.doc.revenue_type) {
 		if (frm.doc.revenue_type == "Consultation" && frm.doc.patient) {
 			frm.set_value("label", `${frm.doc.patient}-${__(frm.doc.revenue_type)}`);
+		} else if (frm.doc.revenue_type == "Personal credit") {
+			frm.set_value("label", `${__(frm.doc.revenue_type)}`);
 		} else if (frm.doc.party) {
 			frm.set_value("label", `${frm.doc.party}-${__(frm.doc.revenue_type)}`);
 		}
+	} else {
+		frm.set_value("label", "");
+	}
+}
+
+const set_accounting_item = frm => {
+	if (frm.doc.revenue_type == "Personal credit") {
+		frappe.db.get_value("Accounting Item", {accounting_item_type: "Practitioner"}, "name", e => {
+			frm.set_value("accounting_item", e.name)
+		})
+	} else {
+		frm.set_value("accounting_item", "")
 	}
 }

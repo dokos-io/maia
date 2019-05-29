@@ -99,9 +99,6 @@
   "patient_price",
   "total_price",
   "section_break_57",
-  "invoice",
-  "column_break_60",
-  "social_security_invoice",
   "amended_from",
   "print_settings",
   "letter_head"
@@ -620,24 +617,6 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "invoice",
-   "fieldtype": "Link",
-   "label": "Patient Invoice",
-   "options": "Revenue",
-   "read_only": 1
-  },
-  {
-   "fieldname": "column_break_60",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "social_security_invoice",
-   "fieldtype": "Link",
-   "label": "Social Security Invoice",
-   "options": "Revenue",
-   "read_only": 1
-  },
-  {
    "fieldname": "amended_from",
    "fieldtype": "Link",
    "label": "Amended From",
@@ -672,7 +651,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-05-24 19:44:43.372564",
+ "modified": "2019-05-28 15:04:51.410219",
  "modified_by": "Administrator",
  "module": "Maia",
  "name": "Gynecological Consultation",

@@ -2,7 +2,6 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on(this.frm.doctype, {
-
 	onload(frm) {
 		if (frm.is_new()) {
 			frappe.call({
@@ -24,6 +23,7 @@ frappe.ui.form.on(this.frm.doctype, {
 		}
 	},
 	refresh(frm) {
+		frm.page.clear_actions_menu();
 		add_payment_btn(frm);
 		show_general_ledger(frm);
 	}

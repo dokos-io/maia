@@ -28,18 +28,18 @@ def create_professional_contact_card():
 		user = users[0]["name"]
 		full_name = users[0]["full_name"]
 
-	prof_card = frappe.get_doc({
-		"doctype": "Professional Information Card",
-		"user": user,
-		"full_name": full_name
-	})
-	prof_card.insert(ignore_permissions=True)
+		prof_card = frappe.get_doc({
+			"doctype": "Professional Information Card",
+			"user": user,
+			"full_name": full_name
+		})
+		prof_card.insert(ignore_permissions=True)
 
 def set_default_print_formats():
 	names = ["Patient Folder", "Prenatal Interview Folder", "Perineum Rehabilitation Folder", "Gynecology Folder", \
 		"Pregnancy Folder", "Postnatal Consultation", "Birth Preparation Consultation", "Perineum Rehabilitation Consultation", \
 		"Free Consultation", "Early Postnatal Consultation", "Gynecological Consultation", "Pregnancy Consultation", "Drug Prescription",
-		"Facture Maia"]
+		"Quittance Maia"]
 
 	for name in names:
 		print_format = frappe.get_doc("Print Format", name)
@@ -51,10 +51,17 @@ def set_default_print_formats():
 		})
 
 def make_web_page():
-	website_settings = frappe.get_doc(
-		'Website Settings', 'Website Settings')
-	website_settings.home_page = 'home'
-	website_settings.save()
+	users = frappe.db.get_all("User", fields=["full_name"])
+	if users:
+		full_name = users[0]["full_name"]
+
+	default_template = frappe.get_doc('Default Template', None)
+	default_template.website_title = full_name
+	default_template.title = full_name
+	default_template.subtitle = _("Please login to make an appointment")
+	default_template.button_label = _("Make an appointment")
+	default_template.button_link = "/login"
+	default_template.save()
 
 def web_portal_settings():
 	frappe.reload_doctype("Portal Settings")

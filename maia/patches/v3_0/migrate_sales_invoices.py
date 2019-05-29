@@ -51,6 +51,11 @@ def execute():
 		revenue.codifications = []
 		revenue.note = ""
 
+		if si.consultation_reference:
+			revenue.consultation_type = get_reference_doctype(si)
+			if revenue.consultation_type:
+				revenue.consultation = si.consultation_reference
+
 		for item in si.items:
 			revenue_item = {
 				"codification": item.item_code,
@@ -78,8 +83,6 @@ def execute():
 		if si.name in to_be_credited:
 			revenue.cancel()
 			to_be_credited.remove(si.name)
-
-		change_reference_in_consultation(si, revenue.name)
 
 		if si.outstanding_amount == si.grand_total and si.grand_total != 0:
 			pass
@@ -222,33 +225,25 @@ def make_new_party(name):
 	else:
 		return name
 
-def change_reference_in_consultation(si, name):
-	if si.consultation_reference:
-		if si.consultation_reference.startswith("PGC"):
-			dt = "Pregnancy Consultation"
-		elif si.consultation_reference.startswith("BPC"):
-			dt = "Birth Preparation Consultation"
-		elif si.consultation_reference.startswith("EPC"):
-			dt = "Early Postnatal Consultation"
-		elif si.consultation_reference.startswith("PRC"):
-			dt = "Perineum Rehabilitation Consultation"
-		elif si.consultation_reference.startswith("PNC"):
-			dt = "Postnatal Consultation"
-		elif si.consultation_reference.startswith("GC"):
-			dt = "Gynecological Consultation"
-		elif si.consultation_reference.startswith("PIC"):
-			dt = "Prenatal Interview Consultation"
-		elif si.consultation_reference.startswith("FC"):
-			dt = "Free Consultation"
-		else:
-			return
+def get_reference_doctype(si):
+	if si.consultation_reference.startswith("PGC"):
+		return "Pregnancy Consultation"
+	elif si.consultation_reference.startswith("BPC"):
+		return "Birth Preparation Consultation"
+	elif si.consultation_reference.startswith("EPC"):
+		return "Early Postnatal Consultation"
+	elif si.consultation_reference.startswith("PRC"):
+		return "Perineum Rehabilitation Consultation"
+	elif si.consultation_reference.startswith("PNC"):
+		return "Postnatal Consultation"
+	elif si.consultation_reference.startswith("GC"):
+		return "Gynecological Consultation"
+	elif si.consultation_reference.startswith("PIC"):
+		return "Prenatal Interview Consultation"
+	elif si.consultation_reference.startswith("FC"):
+		return "Free Consultation"
 	else:
-		return
-
-	if si.customer == "CPAM":
-		frappe.db.set_value(dt, si.consultation_reference, "social_security_invoice", name)
-	else:
-		frappe.db.set_value(dt, si.consultation_reference, "invoice", name)
+		return None
 
 def create_payment(si, revenue):
 	if si.is_pos:

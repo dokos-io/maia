@@ -24,6 +24,7 @@ frappe.ui.form.on('Payment', {
 		}
 	},
 	refresh(frm) {
+		frm.page.clear_actions_menu();
 		add_reconciliation_btn(frm);
 	},
 	party(frm) {
@@ -90,7 +91,8 @@ const set_default_party_type = frm => {
 
 const add_reconciliation_btn = frm => {
 	if (frm.doc.docstatus == 1) {
-		frm.page.add_action_item(__('Update clearance date'), function() {
+		const clearance_msg = frm.doc.clearance_date ? __('Update clearance date') : __('Clear payment')
+		frm.page.add_action_item(clearance_msg, function() {
 			frappe.prompt({
 				fieldtype:"Date",
 				label:__("Clearance Date"),
@@ -101,7 +103,7 @@ const add_reconciliation_btn = frm => {
 			function(data) {
 				frappe.xcall('maia.maia_accounting.doctype.payment.payment.update_clearance_date', {docname: frm.doc.name, date: data.clearance_date})
 				.then(() => {
-					frm.refresh();
+					frm.reload_doc();
 					frappe.show_alert({message:__("Clearance date updated successfully"), indicator:'green'});
 				})
 			})

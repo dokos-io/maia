@@ -13,8 +13,7 @@ app_email = "hello@dokos.io"
 app_license = "GNU-GPLv3.0"
 
 
-fixtures = ["Custom Field", {"doctype": "Role", "filters": {"name": "Midwife"}}, {
-	"doctype": "Print Format", "filters": {"name": "Facture Maia"}}]
+fixtures = ["Custom Field", {"doctype": "Role", "filters": {"name": "Midwife"}}]
 
 error_report_email = "hello@dokos.io"
 
@@ -40,6 +39,7 @@ domains = {
 }
 
 jinja_template_functions = "maia.utilities.utils.custom_template_functions"
+boot_session = "maia.startup.boot.boot_session"
 
 # welcome message title
 login_mail_title = "Nous sommes heureux de vous compter parmi nous !"

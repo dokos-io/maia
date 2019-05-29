@@ -1,0 +1,37 @@
+<header class="maia-header">
+	<div>
+		<div class="hero">
+			<h1 class="text-center">{{ data.title or '' }}</h1>
+			<p class="text-center">{{ data.subtitle or '' }}</p>
+		</div>
+		<div class="text-center padding">
+			<a class="btn btn-primary appointment" href="/login">
+			{{ data.button_label }}</a>
+		</div>
+	</div>
+</header>
+
+<section class="maia-body">
+	<div class="container">
+		{% if data.body_title %}
+		<div class="row heading">
+			<div class="col-md-12">
+					<h2 class="text-center bottom-line">{{ data.body_title }}</h2>
+			</div>
+		</div>
+		{% endif %}
+		<div class="row">
+			{% for d in data.body %}
+			<div class="col-md-4 service-item">
+				<div class="service-item-box icon-effect-1 icon-effect-1a text-center">
+					<a class="inactiveLink">
+						<i class="{{ d.icon }} hi-icon" aria-hidden="true"></i>
+						</a>
+					<h3>{{ d.heading }}</h3>
+					<p>{{ d.body }}</p>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</section>

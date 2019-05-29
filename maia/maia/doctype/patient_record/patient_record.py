@@ -4,15 +4,15 @@
 
 from __future__ import unicode_literals
 import frappe
-from frappe.model.naming import make_autoname
+import maia
+import dateparser
 from frappe import _
+from frappe.model.naming import make_autoname
 from frappe.utils import cstr, cint, now, formatdate, get_datetime
-import frappe.defaults
 from frappe.model.document import Document
 from frappe.contacts.address_and_contact import load_address_and_contact
 from frappe.desk.reportview import get_match_cond, get_filters_cond
 from maia.maia.utils import parity_gravidity_calculation, get_timeline_data
-import dateparser
 
 class PatientRecord(Document):
 	def get_feed(self):
@@ -24,24 +24,55 @@ class PatientRecord(Document):
 		self.load_dashboard_info()
 		self.set_gravidity_and_parity()
 
-	def load_dashboard_info(self):
-		billing_this_year = 0 #frappe.db.sql("""select sum(debit_in_account_currency), account_currency
-				#from `tabGL Entry` where voucher_type='Sales Invoice' and party_type='Customer' and party=%s and fiscal_year = %s""", (self.customer, frappe.db.get_default("fiscal_year")))
+	def autoname(self):
+		self.patient_name = " ".join(filter(None, [cstr(self.get(f)).strip() for f in ["patient_first_name", "patient_last_name"]]))
+		self.name = self.get_patient_name()
+	
+	def after_insert(self):
+		dashboard = frappe.new_doc("Custom Patient Record Dashboard")
+		dashboard.patient_record = self.name
+		try:
+			dashboard.insert()
+		except Exception as e:
+			frappe.log_error("Patient Dashboard Creation Error", e)
 
-		total_unpaid = 0 #frappe.db.sql(
-			#"""select sum(outstanding_amount) from `tabSales Invoice` where customer=%s and docstatus = 1""", self.customer)
+	def load_dashboard_info(self):
+		fiscal_year = maia.get_default_fiscal_year()
+		billing_this_year = frappe.db.sql("""
+			select sum(amount)
+			from `tabRevenue` 
+			where patient=%s
+			and docstatus = 1
+			and transaction_date >= %s
+			and transaction_date <= %s""", (self.name, fiscal_year[1], fiscal_year[2]))
+
+		total_unpaid = frappe.db.sql("""
+			select sum(amount)
+			from `tabRevenue` 
+			where patient=%s
+			and party=NULL
+			and status != 'Paid'
+			and docstatus = 1
+			and transaction_date >= %s
+			and transaction_date <= %s""", (self.name, fiscal_year[1], fiscal_year[2]))
+
+		social_security_parties = tuple([x["name"] for x in frappe.get_all("Party", filters={"is_social_security": 1})])
+		total_unpaid_social_security = frappe.db.sql("""
+			select sum(amount)
+			from `tabRevenue` 
+			where patient=%s
+			and party in (%s)
+			and status != 'Paid'
+			and transaction_date >= %s
+			and transaction_date <= %s""", (self.name, social_security_parties, fiscal_year[1], fiscal_year[2]))
 
 		info = {}
 		info["billing_this_year"] = billing_this_year[0][0] if billing_this_year else 0
-		info["currency"] = billing_this_year[0][1] if billing_this_year else "EUR"
+		info["currency"] = maia.get_default_currency()
 		info["total_unpaid"] = total_unpaid[0][0] if total_unpaid else 0
+		info["total_unpaid_social_security"] = total_unpaid_social_security[0][0] if total_unpaid_social_security else 0
 
 		self.set_onload('dashboard_info', info)
-
-	def autoname(self):
-		self.patient_name = " ".join(filter(None, [cstr(self.get(f)).strip() for f in ["patient_first_name", "patient_last_name"]]))
-
-		self.name = self.get_patient_name()
 
 	def get_patient_name(self):
 		if frappe.db.get_value("Patient Record", self.patient_name):
@@ -59,7 +90,6 @@ class PatientRecord(Document):
 		self.validate_obtetrical_backgrounds()
 
 	def on_update(self):
-		self.update_address_links()
 		self.set_gravidity_and_parity()
 
 		frappe.db.set_value(self.doctype, self.name, "change_in_patient", 0)
@@ -109,10 +139,10 @@ class PatientRecord(Document):
 @frappe.whitelist()
 def update_weight_tracking(doc, weight):
 	weight=frappe.get_doc({
-	"doctype": "Weight Tracking",
-	"patient_record": doc,
-	"date": now(),
-	"weight": weight
+		"doctype": "Weight Tracking",
+		"patient_record": doc,
+		"date": now(),
+		"weight": weight
 	}).insert(ignore_permissions=True)
 
 	weight.save()
@@ -246,3 +276,20 @@ def get_patient_weight_data(patient_record):
 		}
 
 	return data, formatted_x
+
+def get_timeline_data(doctype, name):
+	result = dict()
+	doctype_list = ['Pregnancy Consultation', 'Birth Preparation Consultation', 'Early Postnatal Consultation', \
+		'Postnatal Consultation', 'Perineum Rehabilitation Consultation', 'Gynecological Consultation', \
+		'Prenatal Interview Consultation', 'Free Consultation']
+
+	for dt in doctype_list:
+		result.update(dict(frappe.db.sql("""select unix_timestamp(date(creation)), count(name)
+			from `tab%s`
+			where
+				date(creation) > subdate(curdate(), interval 1 year)
+			and patient_record='%s'
+			group by date(creation)
+			order by creation asc""" % (dt, name))))
+
+	return result

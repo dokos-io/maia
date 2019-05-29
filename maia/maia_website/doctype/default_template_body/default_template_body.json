@@ -1,0 +1,43 @@
+{
+ "creation": "2019-05-29 10:35:42.549758",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "heading",
+  "body",
+  "icon"
+ ],
+ "fields": [
+  {
+   "fieldname": "heading",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Heading"
+  },
+  {
+   "fieldname": "body",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Body"
+  },
+  {
+   "description": "You can use any free <a href=\"https://fontawesome.com/icons?d=gallery&amp;m=free\" target=\"_blank\">Fontawesome icons</a>.<br>Copy and paste the icon name like: \"fas fa-calendar-alt\"",
+   "fieldname": "icon",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Icon"
+  }
+ ],
+ "istable": 1,
+ "modified": "2019-05-29 10:56:17.797027",
+ "modified_by": "Administrator",
+ "module": "Maia Website",
+ "name": "Default Template Body",
+ "owner": "Administrator",
+ "permissions": [],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}
