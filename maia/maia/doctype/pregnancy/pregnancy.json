@@ -635,7 +635,7 @@
    "options": "Letter Head"
   }
  ],
- "modified": "2019-05-28 12:33:06.791513",
+ "modified": "2019-05-29 19:30:10.064224",
  "modified_by": "Administrator",
  "module": "Maia",
  "name": "Pregnancy",
@@ -646,6 +646,7 @@
    "delete": 1,
    "email": 1,
    "export": 1,
+   "import": 1,
    "print": 1,
    "read": 1,
    "report": 1,

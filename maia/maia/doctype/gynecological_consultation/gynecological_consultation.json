@@ -651,7 +651,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-05-28 15:04:51.410219",
+ "modified": "2019-05-29 19:28:41.677418",
  "modified_by": "Administrator",
  "module": "Maia",
  "name": "Gynecological Consultation",
@@ -663,6 +663,7 @@
    "create": 1,
    "email": 1,
    "export": 1,
+   "import": 1,
    "print": 1,
    "read": 1,
    "report": 1,

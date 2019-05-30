@@ -13,6 +13,8 @@ from frappe.model.document import Document
 from frappe.contacts.address_and_contact import load_address_and_contact
 from frappe.desk.reportview import get_match_cond, get_filters_cond
 from maia.maia.utils import parity_gravidity_calculation, get_timeline_data
+import json
+import os
 
 class PatientRecord(Document):
 	def get_feed(self):
@@ -200,33 +202,6 @@ def invite_user(patient):
 
 	return user.name
 
-
-def get_users_for_website(doctype, txt, searchfield, start, page_len, filters):
-	conditions = []
-	return frappe.db.sql("""select name, concat_ws(' ', first_name, middle_name, last_name)
-		from `tabUser`
-		where enabled=1
-			and name not in ("Guest", "Administrator")
-			and ({key} like %(txt)s
-				or full_name like %(txt)s)
-			{fcond} {mcond}
-		order by
-			if(locate(%(_txt)s, name), locate(%(_txt)s, name), 99999),
-			if(locate(%(_txt)s, full_name), locate(%(_txt)s, full_name), 99999),
-			idx desc,
-			name, full_name
-		limit %(start)s, %(page_len)s""".format(**{
-		'key': searchfield,
-		'fcond': get_filters_cond(doctype, filters, conditions),
-		'mcond': get_match_cond(doctype)
-	}), {
-		'txt': "%%%s%%" % txt,
-		'_txt': txt.replace("%", ""),
-		'start': start,
-		'page_len': page_len
-	})
-
-
 @frappe.whitelist()
 def get_patient_weight_data(patient_record):
 
@@ -277,6 +252,107 @@ def get_patient_weight_data(patient_record):
 
 	return data, formatted_x
 
+@frappe.whitelist()
+def download_patient_record(docs, record, args=None):
+	from frappe.utils.print_format import read_multi_pdf
+	from PyPDF2 import PdfFileWriter
+	import gzip
+	import zipfile
+
+	files = []
+	attachments = []
+
+	docs = json.loads(docs)
+	record = json.loads(record)
+	args = json.loads(args)
+	letterhead = 0 if args.get("with_letterhead") == 1 else 1
+	for dt in docs:
+		docnames = [x["name"] for x in docs[dt]]
+		print_format = frappe.get_meta(dt).default_print_format
+
+		if args.get("with_attachments") == 1:
+			for d in docs[dt]:
+				attachments.extend([x["file_url"] for x in frappe.get_all("File", \
+					filters={"attached_to_doctype": dt, "attached_to_name": d["name"]}, fields=["file_url"])])
+
+		output = PdfFileWriter()
+
+		for i, ss in enumerate(docnames):
+			try:
+				if frappe.db.get_value(dt, ss, "docstatus") != 2:
+					print_output = frappe.get_print(dt, ss, print_format, as_pdf=True, output=output, no_letterhead=letterhead)
+			except Exception:
+				frappe.log_error("Record zip error", frappe.get_traceback())
+
+		try:
+			fname = os.path.join("/tmp", "{0}-{1}.pdf".format(frappe.scrub(_(dt)), frappe.generate_hash(length=6)))
+			files.append(fname)
+
+			with open(fname,"wb") as f:
+				f.write(print_output)
+
+		except Exception:
+			frappe.log_error("Record zip error", frappe.get_traceback())
+
+	try:
+		site_path = os.path.abspath(frappe.get_site_path())
+
+		private_files = frappe.get_site_path('private', 'files')
+		zipname = os.path.join(private_files, "{0}-{1}.zip".format(frappe.scrub(record["name"]), frappe.generate_hash(length=6)))
+		zf = zipfile.ZipFile(zipname, mode="w")
+		for fi in files:
+			zf.write(fi, os.path.basename(fi))
+		for attach in attachments:
+			try:
+				path = site_path
+				for a in attach.split('/'):
+					path = os.path.join(path, a)
+				zf.write(path, os.path.basename(path))
+			except Exception:
+				print(frappe.get_traceback())
+				continue
+	finally:
+		zf.close()
+
+	try:
+		new_file = frappe.get_doc({
+			"doctype": "File",
+			"file_name": os.path.basename(zipname),
+			"attached_to_doctype": record["doctype"],
+			"attached_to_name": record["name"],
+			"file_url": "/private/files/" + zipname.split('/private/files/')[1]
+		})
+		new_file.insert()
+
+		return new_file.name
+	except Exception:
+		frappe.log_error("Record zip error", frappe.get_traceback())
+
+def get_users_for_website(doctype, txt, searchfield, start, page_len, filters):
+	conditions = []
+	return frappe.db.sql("""select name, concat_ws(' ', first_name, middle_name, last_name)
+		from `tabUser`
+		where enabled=1
+			and name not in ("Guest", "Administrator")
+			and ({key} like %(txt)s
+				or full_name like %(txt)s)
+			{fcond} {mcond}
+		order by
+			if(locate(%(_txt)s, name), locate(%(_txt)s, name), 99999),
+			if(locate(%(_txt)s, full_name), locate(%(_txt)s, full_name), 99999),
+			idx desc,
+			name, full_name
+		limit %(start)s, %(page_len)s""".format(**{
+		'key': searchfield,
+		'fcond': get_filters_cond(doctype, filters, conditions),
+		'mcond': get_match_cond(doctype)
+	}), {
+		'txt': "%%%s%%" % txt,
+		'_txt': txt.replace("%", ""),
+		'start': start,
+		'page_len': page_len
+	})
+
 def get_timeline_data(doctype, name):
 	result = dict()
 	doctype_list = ['Pregnancy Consultation', 'Birth Preparation Consultation', 'Early Postnatal Consultation', \
@@ -293,3 +369,13 @@ def get_timeline_data(doctype, name):
 			order by creation asc""" % (dt, name))))
 
 	return result
+
+def zip_files(self):
+		for folder in ("public", "private"):
+			files_path = frappe.get_site_path(folder, "files")
+			backup_path = self.backup_path_files if folder=="public" else self.backup_path_private_files
+
+			cmd_string = """tar -cf %s %s""" % (backup_path, files_path)
+			err, out = frappe.utils.execute_in_shell(cmd_string)
+
+			print('Backed up files', os.path.abspath(backup_path))

@@ -327,7 +327,7 @@
    "options": "Letter Head"
   }
  ],
- "modified": "2019-05-28 12:33:20.846678",
+ "modified": "2019-05-29 19:30:48.971315",
  "modified_by": "Administrator",
  "module": "Maia",
  "name": "Gynecology",
@@ -338,6 +338,7 @@
    "delete": 1,
    "email": 1,
    "export": 1,
+   "import": 1,
    "print": 1,
    "read": 1,
    "report": 1,

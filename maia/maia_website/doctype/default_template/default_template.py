@@ -17,8 +17,8 @@ class DefaultTemplate(Document):
 		main_section = self.build_main_section()
 		script = self.build_script()
 
-		if frappe.db.exists("Web Page", dict(route="home", title=self.website_title)):
-			page = frappe.get_doc("Web Page", dict(route="home", title=self.website_title))
+		if frappe.db.exists("Web Page", dict(route="home")):
+			page = frappe.get_doc("Web Page", dict(route="home"))
 		else:
 			page = frappe.new_doc("Web Page")
 

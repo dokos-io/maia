@@ -208,41 +208,44 @@ const print_complete_record = (frm) => {
 	.then((linked_doctypes) => {
 		return frappe.xcall("frappe.desk.form.linked_with.get_linked_docs", {doctype: frm.doctype, name: frm.docname, linkinfo: linked_doctypes})
 	})
-	.then((docs) => print_record(docs))
+	.then((docs) => {
+		docs[frm.doctype] = [{"name": frm.doc.name}]
+		print_record(frm, docs)
+	})
 }
 
-const print_record = (docs) => {
+const print_record = (frm, docs) => {
 	if (Object.keys(docs).length > 0) {
 		const dialog = new frappe.ui.Dialog({
 			title: __('Print complete record'),
 			fields: [{
 				'fieldtype': 'Check',
 				'label': __('With Letterhead'),
-				'fieldname': 'with_letterhead'
+				'fieldname': 'with_letterhead',
+				'default': 1
+			},
+			{
+				'fieldtype': 'Check',
+				'label': __('With Attachments'),
+				'fieldname': 'with_attachments',
+				'default': 1
 			}]
 		});
 
 		dialog.set_primary_action(__('Print'), args => {
 			if (!args) return;
-			Object.keys(docs).forEach(dt => {
-				frappe.model.with_doctype(dt, () => {
-					const docnames = docs[dt].map(doc => doc.name)
-					const print_format = frappe.get_meta(dt).default_print_format;
-					const with_letterhead = args.with_letterhead ? 1 : 0;
-					const json_string = JSON.stringify(docnames);
-
-					const w = window.open('/api/method/frappe.utils.print_format.download_multi_pdf?' +
-						'doctype=' + encodeURIComponent(dt) +
-						'&name=' + encodeURIComponent(json_string) +
-						'&format=' + encodeURIComponent(print_format) +
-						'&no_letterhead=' + (with_letterhead ? '0' : '1'));
-					if (!w) {
-						frappe.msgprint(__('Please enable pop-ups'));
-						return;
-					}
-				})
+			dialog.hide()
+			frappe.show_alert({ message: __("Patient record in preparation"), indicator: 'green'})
+			frappe.xcall("maia.maia.doctype.patient_record.patient_record.download_patient_record", {docs: docs, record: frm.doc, args: args})
+			.then(() => {
+				frm.sidebar.reload_docinfo();
+				frm.reload_doc();
+				frappe.show_alert({ message: __("Patient record available in the sidebar"), indicator: 'green' })
 			})
-			
+			.catch((e) =>
+				{console.log(e)
+				frappe.show_alert({ message: __("An issue occured while preparing the patient record. Please contact the support."), indicator: 'red' })}
+			)
 		});
 
 		dialog.show();

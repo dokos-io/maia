@@ -1,5 +1,5 @@
 # Copyright (c) 2017, DOKOS and Contributors
-# MIT License. See license.txt
+# See license.txt
 
 from __future__ import unicode_literals
 import frappe

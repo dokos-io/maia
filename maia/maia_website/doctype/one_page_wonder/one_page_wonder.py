@@ -17,8 +17,8 @@ class OnePageWonder(Document):
 		main_section = self.build_main_section()
 		script = self.build_script()
 
-		if frappe.db.exists("Web Page", dict(route="index", title=self.website_title)):
-			page = frappe.get_doc("Web Page", dict(route="index", title=self.website_title))
+		if frappe.db.exists("Web Page", dict(route="index")):
+			page = frappe.get_doc("Web Page", dict(route="index"))
 		else:
 			page = frappe.new_doc("Web Page")
 

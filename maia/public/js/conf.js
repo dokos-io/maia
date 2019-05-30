@@ -1,5 +1,5 @@
 // Copyright (c) 2017, DOKOS and Contributors
-// License: GNU General Public License v3. See license.txt
+// See license.txt
 
 // add toolbar icon
 $(document).bind('toolbar_setup', function() {

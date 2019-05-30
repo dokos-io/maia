@@ -1,5 +1,5 @@
 # Copyright (c) 2019, Dokos and Contributors
-# License: GNU General Public License v3. See license.txt
+# See license.txt
 
 from __future__ import unicode_literals
 import frappe

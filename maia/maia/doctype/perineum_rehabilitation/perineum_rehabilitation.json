@@ -544,7 +544,7 @@
    "options": "Letter Head"
   }
  ],
- "modified": "2019-05-28 12:33:57.286306",
+ "modified": "2019-05-29 19:31:14.499695",
  "modified_by": "Administrator",
  "module": "Maia",
  "name": "Perineum Rehabilitation",
@@ -555,6 +555,7 @@
    "delete": 1,
    "email": 1,
    "export": 1,
+   "import": 1,
    "print": 1,
    "read": 1,
    "report": 1,
