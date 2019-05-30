@@ -16,6 +16,10 @@
   "practitioner",
   "consultation_date",
   "day",
+  "consultation_purpose_section",
+  "consultation_type",
+  "column_break_12",
+  "consultation_purpose",
   "section_break_10",
   "mother",
   "mother_general_health",
@@ -151,6 +155,14 @@
   "weight_gain_3",
   "section_break_143",
   "comments",
+  "drug_prescription",
+  "drug_list_template",
+  "drug_prescription_table",
+  "lab_prescription",
+  "lab_exam_template",
+  "lab_prescription_table",
+  "echography_prescription",
+  "echography_prescription_table",
   "billing_details",
   "third_party_payment",
   "column_break_19",
@@ -274,6 +286,7 @@
    "label": "Day"
   },
   {
+   "depends_on": "eval:doc.consultation_type==\"Early Postnatal\"",
    "fieldname": "section_break_10",
    "fieldtype": "Section Break"
   },
@@ -293,6 +306,7 @@
    "label": "Mother Pain Rating"
   },
   {
+   "depends_on": "eval:doc.consultation_type==\"Early Postnatal\"",
    "fieldname": "section_break_12",
    "fieldtype": "Section Break"
   },
@@ -368,6 +382,7 @@
    "label": "Details"
   },
   {
+   "depends_on": "eval:doc.consultation_type==\"Early Postnatal\"",
    "fieldname": "section_break_21",
    "fieldtype": "Section Break"
   },
@@ -396,6 +411,7 @@
    "label": "Suture/C-Section Scar"
   },
   {
+   "depends_on": "eval:doc.consultation_type==\"Early Postnatal\"",
    "fieldname": "section_break_26",
    "fieldtype": "Section Break"
   },
@@ -435,6 +451,7 @@
    "label": "General Health"
   },
   {
+   "depends_on": "eval:doc.consultation_type != \"Breastfeeding\"",
    "fieldname": "newborn_temperature",
    "fieldtype": "Data",
    "label": "Temperature"
@@ -466,6 +483,7 @@
    "read_only": 1
   },
   {
+   "depends_on": "eval:[\"Baby\", \"Early Postnatal\"].includes(doc.consultation_type)",
    "fieldname": "cardio_pulmonary_exam",
    "fieldtype": "Section Break",
    "label": "Newborn Exam"
@@ -521,7 +539,7 @@
   },
   {
    "fieldname": "effective_feeding_criterion",
-   "fieldtype": "Data",
+   "fieldtype": "Small Text",
    "label": "Effective Feeding Criterion"
   },
   {
@@ -535,6 +553,7 @@
    "options": "0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24"
   },
   {
+   "depends_on": "eval:[\"Baby\", \"Early Postnatal\"].includes(doc.consultation_type)",
    "fieldname": "section_break_47",
    "fieldtype": "Section Break"
   },
@@ -615,7 +634,7 @@
    "label": "Weight Gain (g)"
   },
   {
-   "depends_on": "eval:(doc.twins||doc.triplets)",
+   "depends_on": "eval:(doc.twins||doc.triplets) && doc.consultation!=\"Baby\"",
    "fieldname": "section_break_31",
    "fieldtype": "Section Break"
   },
@@ -630,6 +649,7 @@
    "label": "General Health"
   },
   {
+   "depends_on": "eval:doc.consultation_type != \"Breastfeeding\"",
    "fieldname": "newborn_temperature_2",
    "fieldtype": "Data",
    "label": "Temperature"
@@ -645,7 +665,7 @@
    "read_only": 1
   },
   {
-   "depends_on": "eval:(doc.twins||doc.triplets)",
+   "depends_on": "eval:(doc.twins||doc.triplets) && ![\"Breastfeeding\", \"Baby\"].includes(doc.consultation_type)",
    "fieldname": "cardio_pulmonary_exam_2",
    "fieldtype": "Section Break",
    "label": "Newborn Exam"
@@ -689,7 +709,7 @@
    "label": "If Femoral Pulse Not Perceived:"
   },
   {
-   "depends_on": "eval:(doc.twins||doc.triplets)",
+   "depends_on": "eval:(doc.twins||doc.triplets) && doc.consultation_type != \"Baby\"",
    "fieldname": "feeding_2",
    "fieldtype": "Section Break",
    "label": "Feeding"
@@ -702,7 +722,7 @@
   },
   {
    "fieldname": "effective_feeding_criterion_2",
-   "fieldtype": "Data",
+   "fieldtype": "Small Text",
    "label": "Effective Feeding Criterion"
   },
   {
@@ -716,7 +736,7 @@
    "options": "0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24"
   },
   {
-   "depends_on": "eval:(doc.twins||doc.triplets)",
+   "depends_on": "eval:(doc.twins||doc.triplets) && ![\"Breastfeeding\", \"Baby\"].includes(doc.consultation_type)",
    "fieldname": "section_break_46",
    "fieldtype": "Section Break"
   },
@@ -779,7 +799,7 @@
    "label": "Pain Rating Details"
   },
   {
-   "depends_on": "eval:(doc.twins||doc.triplets)",
+   "depends_on": "eval:(doc.twins||doc.triplets) && doc.consultation_type != \"Baby\"",
    "fieldname": "section_break_59",
    "fieldtype": "Section Break"
   },
@@ -798,7 +818,7 @@
    "label": "Weight Gain (g)"
   },
   {
-   "depends_on": "eval:(doc.triplets)",
+   "depends_on": "eval:(doc.triplets) && doc.consultation_type != \"Baby\"",
    "fieldname": "section_break_9",
    "fieldtype": "Section Break"
   },
@@ -813,6 +833,7 @@
    "label": "General Health"
   },
   {
+   "depends_on": "eval:doc.consultation_type != \"Breastfeeding\"",
    "fieldname": "newborn_temperature_3",
    "fieldtype": "Data",
    "label": "Temperature"
@@ -828,7 +849,7 @@
    "read_only": 1
   },
   {
-   "depends_on": "eval:(doc.triplets)",
+   "depends_on": "eval:(doc.triplets) && ![\"Breastfeeding\", \"Baby\"].includes(doc.consultation_type)",
    "fieldname": "cardio_pulmonary_exam_3",
    "fieldtype": "Section Break",
    "label": "Newborn Exam"
@@ -872,7 +893,7 @@
    "label": "If Femoral Pulse Not Perceived:"
   },
   {
-   "depends_on": "eval:(doc.triplets)",
+   "depends_on": "eval:(doc.triplets) && doc.consultation_type!=\"Baby\"",
    "fieldname": "feeding_3",
    "fieldtype": "Section Break",
    "label": "Feeding"
@@ -885,7 +906,7 @@
   },
   {
    "fieldname": "effective_feeding_criterion_3",
-   "fieldtype": "Data",
+   "fieldtype": "Small Text",
    "label": "Effective Feeding Criterion"
   },
   {
@@ -899,7 +920,7 @@
    "options": "0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24"
   },
   {
-   "depends_on": "eval:(doc.triplets)",
+   "depends_on": "eval:(doc.triplets) && ![\"Breastfeeding\", \"Baby\"].includes(doc.consultation_type)",
    "fieldname": "section_break_50",
    "fieldtype": "Section Break"
   },
@@ -962,7 +983,7 @@
    "label": "Pain Rating Details"
   },
   {
-   "depends_on": "eval:(doc.triplets)",
+   "depends_on": "eval:(doc.triplets) && doc.consultation_type != \"Baby\"",
    "fieldname": "section_break_61",
    "fieldtype": "Section Break"
   },
@@ -1306,10 +1327,81 @@
    "fieldtype": "Link",
    "label": "Letter Head",
    "options": "Letter Head"
+  },
+  {
+   "fieldname": "consultation_purpose_section",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "consultation_type",
+   "fieldtype": "Select",
+   "label": "Consultation Type",
+   "options": "Early Postnatal\nBreastfeeding\nBaby"
+  },
+  {
+   "depends_on": "eval:[\"Breastfeeding\", \"Baby\"].includes(doc.consultation_type)",
+   "fieldname": "consultation_purpose",
+   "fieldtype": "Data",
+   "label": "Consultation Purpose"
+  },
+  {
+   "fieldname": "column_break_12",
+   "fieldtype": "Column Break"
+  },
+  {
+   "collapsible": 1,
+   "depends_on": "eval:[\"Breastfeeding\", \"Baby\"].includes(doc.consultation_type)",
+   "fieldname": "drug_prescription",
+   "fieldtype": "Section Break",
+   "label": "Drug Prescription"
+  },
+  {
+   "fieldname": "drug_list_template",
+   "fieldtype": "Link",
+   "label": "Drug List",
+   "options": "Drug List Template"
+  },
+  {
+   "fieldname": "drug_prescription_table",
+   "fieldtype": "Table",
+   "label": "Drug Prescription",
+   "options": "Drug Prescription"
+  },
+  {
+   "collapsible": 1,
+   "depends_on": "eval:[\"Breastfeeding\", \"Baby\"].includes(doc.consultation_type)",
+   "fieldname": "lab_prescription",
+   "fieldtype": "Section Break",
+   "label": "Lab Prescription"
+  },
+  {
+   "fieldname": "lab_exam_template",
+   "fieldtype": "Link",
+   "label": "Lab Exam Template",
+   "options": "Lab Exam Template"
+  },
+  {
+   "fieldname": "lab_prescription_table",
+   "fieldtype": "Table",
+   "label": "Lab Prescription",
+   "options": "Lab Exam Prescription"
+  },
+  {
+   "collapsible": 1,
+   "depends_on": "eval:[\"Breastfeeding\", \"Baby\"].includes(doc.consultation_type)",
+   "fieldname": "echography_prescription",
+   "fieldtype": "Section Break",
+   "label": "Echography Prescription"
+  },
+  {
+   "fieldname": "echography_prescription_table",
+   "fieldtype": "Table",
+   "label": "Echography Prescription",
+   "options": "Echography Prescription"
   }
  ],
  "is_submittable": 1,
- "modified": "2019-05-29 19:28:54.833703",
+ "modified": "2019-05-30 15:53:47.624067",
  "modified_by": "Administrator",
  "module": "Maia",
  "name": "Early Postnatal Consultation",
@@ -1319,6 +1411,7 @@
    "amend": 1,
    "cancel": 1,
    "create": 1,
+   "delete": 1,
    "email": 1,
    "export": 1,
    "import": 1,
@@ -1326,6 +1419,20 @@
    "read": 1,
    "report": 1,
    "role": "Midwife",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Midwife Substitute",
    "share": 1,
    "submit": 1,
    "write": 1

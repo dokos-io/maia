@@ -509,7 +509,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-05-29 19:29:48.806327",
+ "modified": "2019-05-30 15:56:16.190889",
  "modified_by": "Administrator",
  "module": "Maia",
  "name": "Perineum Rehabilitation Consultation",
@@ -519,6 +519,7 @@
    "amend": 1,
    "cancel": 1,
    "create": 1,
+   "delete": 1,
    "email": 1,
    "export": 1,
    "import": 1,
@@ -526,6 +527,20 @@
    "read": 1,
    "report": 1,
    "role": "Midwife",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Midwife Substitute",
    "share": 1,
    "submit": 1,
    "write": 1

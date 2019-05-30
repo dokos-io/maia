@@ -450,7 +450,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-05-29 19:29:26.758346",
+ "modified": "2019-05-30 15:55:47.835856",
  "modified_by": "Administrator",
  "module": "Maia",
  "name": "Prenatal Interview Consultation",
@@ -460,6 +460,7 @@
    "amend": 1,
    "cancel": 1,
    "create": 1,
+   "delete": 1,
    "email": 1,
    "export": 1,
    "import": 1,
@@ -467,6 +468,20 @@
    "read": 1,
    "report": 1,
    "role": "Midwife",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Midwife Substitute",
    "share": 1,
    "submit": 1,
    "write": 1

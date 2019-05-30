@@ -119,6 +119,15 @@ frappe.ui.form.on("Patient Record", {
 	}
 });
 
+frappe.ui.form.on('Patient Sports', {
+	sport: function(frm, cdt, cdn) {
+		const row = locals[cdt][cdn];
+		frappe.db.get_value('Sport', {name: row.sport}, 'recommendations', (r) => {
+				frappe.model.set_value(cdt, cdn, "recommendations", r.recommendations);
+		});
+	}
+});
+
 
 const calculate_age = (frm, source, target) => {
 	const today = new Date();
@@ -228,7 +237,7 @@ const print_record = (frm, docs) => {
 				'fieldtype': 'Check',
 				'label': __('With Attachments'),
 				'fieldname': 'with_attachments',
-				'default': 1
+				'default': 0
 			}]
 		});
 

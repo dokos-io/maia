@@ -55,6 +55,15 @@ frappe.ui.form.on('Lab Exam Results', {
 	}
 });
 
+frappe.ui.form.on('Patient Sports', {
+	sport: function(frm, cdt, cdn) {
+		const row = locals[cdt][cdn];
+		frappe.db.get_value('Sport', {name: row.sport}, 'recommendations', (r) => {
+				frappe.model.set_value(cdt, cdn, "recommendations", r.recommendations);
+		});
+	}
+});
+
 let setup_chart = function(frm) {
 	if(frm.doc.birth_weight||frm.doc.release_weight) {
 		setup_newborn_chart(frm, 'firstchild', 'weight_curve');

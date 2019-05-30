@@ -10,13 +10,6 @@ from frappe.utils import flt
 from maia.maia_accounting.doctype.payment.payment import get_payment
 
 class ConsultationController(Document):
-	def before_insert(self):
-		if self.invoice is not None:
-			self.invoice = None
-
-		if self.social_security_invoice is not None:
-			self.social_security_invoice = None
-
 	def on_submit(self):
 		self.create_and_submit_invoice()
 
@@ -186,17 +179,9 @@ class ConsultationController(Document):
 					"accounting_item": self.accounting_item
 				})
 
-		print(self.revenue_doc.__dict__)
+
 		self.revenue_doc.insert()
 		self.revenue_doc.submit()
-
-
-		if revenue_type == "Social Security":
-			frappe.db.set_value(self.doctype, self.name, "social_security_invoice", self.revenue_doc.name)
-		else:
-			frappe.db.set_value(self.doctype, self.name, "invoice", self.revenue_doc.name)
-		self.reload()
-
 
 		if not (case == "third_party_and_patient" and revenue_type == "Social Security") and self.paid_immediately == 1:
 			if self.revenue_doc:

@@ -32,338 +32,341 @@ def get_patient_dashboard(patient_record):
 
 @frappe.whitelist()
 def get_data(patient_record):
-	dashboard = get_patient_dashboard(patient_record)
-	patient = frappe.get_doc("Patient Record", patient_record)
-	data={
-		"generaldata": {
-			"icon": "/assets/maia/images/general.svg"
-		},
-		"gynecologydata": {
-			"icon": "/assets/maia/images/gynecology.svg"
-		},
-		"pregnancydata": {
-			"icon": "/assets/maia/images/pregnancy.svg"
-		},
-		"deliverydata":{
-			"icon": "/assets/maia/images/delivery.svg"
-		},
-		"newborndata": {
-			"icon": "/assets/maia/images/newborn.svg"
-		},
-		"labexamsdata": {
-			"icon": "/assets/maia/images/lab_exam_results.svg"
-		},
-		"perehabilitationdata": {
-			"icon": "/assets/maia/images/perineum_rehabilitation.svg"
+	try:
+		dashboard = get_patient_dashboard(patient_record)
+		patient = frappe.get_doc("Patient Record", patient_record)
+		data={
+			"generaldata": {
+				"icon": "/assets/maia/images/general.svg"
+			},
+			"gynecologydata": {
+				"icon": "/assets/maia/images/gynecology.svg"
+			},
+			"pregnancydata": {
+				"icon": "/assets/maia/images/pregnancy.svg"
+			},
+			"deliverydata":{
+				"icon": "/assets/maia/images/delivery.svg"
+			},
+			"newborndata": {
+				"icon": "/assets/maia/images/newborn.svg"
+			},
+			"labexamsdata": {
+				"icon": "/assets/maia/images/lab_exam_results.svg"
+			},
+			"perehabilitationdata": {
+				"icon": "/assets/maia/images/perineum_rehabilitation.svg"
+			}
 		}
-	}
 
-	latest_pregnancy = get_last_pregnancy(patient_record)
-	patient_latest_pregnancy = frappe.get_doc("Pregnancy", latest_pregnancy[0].name) if latest_pregnancy else None
+		latest_pregnancy = get_last_pregnancy(patient_record)
+		patient_latest_pregnancy = frappe.get_doc("Pregnancy", latest_pregnancy[0].name) if latest_pregnancy else None
 
-	gynecology_folders = frappe.get_all("Gynecology", dict(patient_record=patient_record))
+		gynecology_folders = frappe.get_all("Gynecology", dict(patient_record=patient_record))
 
-	#General section
-	#Gravidity and parity
-	gravidity, parity = parity_gravidity_calculation(patient_record)
-	data["generaldata"]["gravidity"] = {
-		"label": _("Gestity"),
-		"value": gravidity,
-		"color": "#ff4081",
-		"enabled": 1 if dashboard.gravidity_parity else 0
-	}
-	data["generaldata"]["parity"] = {
-		"label": _("Parity"),
-		"color": "#ff4081",
-		"value": parity,
-		"enabled": 1 if dashboard.gravidity_parity else 0
-	}
+		#General section
+		#Gravidity and parity
+		gravidity, parity = parity_gravidity_calculation(patient_record)
+		data["generaldata"]["gravidity"] = {
+			"label": _("Gestity"),
+			"value": gravidity,
+			"color": "#ff4081",
+			"enabled": 1 if dashboard.gravidity_parity else 0
+		}
+		data["generaldata"]["parity"] = {
+			"label": _("Parity"),
+			"color": "#ff4081",
+			"value": parity,
+			"enabled": 1 if dashboard.gravidity_parity else 0
+		}
 
-	#Allergies
-	data["generaldata"]["allergies"] = {
-		"label": _("Allergies"),
-		"value": patient.allergies,
-		"enabled": 1 if dashboard.allergies and patient.allergies else 0,
-		"value_fields": ["patient_allergies"]
-	}
+		#Allergies
+		data["generaldata"]["allergies"] = {
+			"label": _("Allergies"),
+			"value": patient.allergies,
+			"enabled": 1 if dashboard.allergies and patient.allergies else 0,
+			"value_fields": ["patient_allergies"]
+		}
 
-	#Medical Background
-	data["generaldata"]["medical_background"] = {
-		"label": _("Medical Background"),
-		"value": patient.long_term_disease,
-		"enabled": 1 if dashboard.medical_background and patient.long_term_disease else 0
-	}
+		#Medical Background
+		data["generaldata"]["medical_background"] = {
+			"label": _("Medical Background"),
+			"value": patient.long_term_disease,
+			"enabled": 1 if dashboard.medical_background and patient.long_term_disease else 0
+		}
 
-	#Addictions
-	data["generaldata"]["addictions"] = {
-		"label": _("Addictions"),
-		"value": patient.patient_addictions,
-		"enabled": 1 if dashboard.addictions and patient.patient_addictions else 0,
-		"value_fields": ["patient_addictions"]
-	}
+		#Addictions
+		data["generaldata"]["addictions"] = {
+			"label": _("Addictions"),
+			"value": patient.patient_addictions,
+			"enabled": 1 if dashboard.addictions and patient.patient_addictions else 0,
+			"value_fields": ["patient_addictions"]
+		}
 
-	#Blood type
-	blood_group = frappe.db.get_value("Patient Record", patient_record, "blood_group")
-	negative_list = ["A-", "B-", "AB-", "O-"]
-	data["generaldata"]["blood_group"] = {
-		"label": _("Blood Group"),
-		"value": blood_group, 
-		"color": "#ff5858" if blood_group in negative_list else "#36414c",
-		"enabled": 1 if dashboard.blood_group and blood_group != "" else 0
-	}
+		#Blood type
+		blood_group = frappe.db.get_value("Patient Record", patient_record, "blood_group")
+		negative_list = ["A-", "B-", "AB-", "O-"]
+		data["generaldata"]["blood_group"] = {
+			"label": _("Blood Group"),
+			"value": blood_group, 
+			"color": "#ff5858" if blood_group in negative_list else "#36414c",
+			"enabled": 1 if dashboard.blood_group and blood_group != "" else 0
+		}
 
-	#Gynecology Section
-	#Cervical Smear
-	data["gynecologydata"]["cervical_smear"] = {
-		"label": _("Last Cervical Smear"), 
-		"value": get_last_cervical_smear(patient_record),
-		"enabled" : 1 if dashboard.cervical_smear else 0,
-		"value_fields": ["date", "result"]
-	}
+		#Gynecology Section
+		#Cervical Smear
+		data["gynecologydata"]["cervical_smear"] = {
+			"label": _("Last Cervical Smear"), 
+			"value": get_last_cervical_smear(patient_record),
+			"enabled" : 1 if dashboard.cervical_smear else 0,
+			"value_fields": ["date", "result"]
+		}
 
-	#Current Contraception
-	data["gynecologydata"]["contraception"] = {
-		"label": _("Current Contraception"), 
-		"value": patient.contraception,
-		"enabled": 1 if dashboard.contraception and patient.contraception else 0
-	}
+		#Current Contraception
+		data["gynecologydata"]["contraception"] = {
+			"label": _("Current Contraception"), 
+			"value": patient.contraception,
+			"enabled": 1 if dashboard.contraception and patient.contraception else 0
+		}
 
-	#Screening Tests
-	data["gynecologydata"]["screening_tests"] = {
-		"label": _("Last Screening Test"),
-		"value": get_last_screening_test(patient_record),
-		"enabled": 1 if dashboard.screening_tests else 0,
-		"value_fields": ["date"]
-	}
+		#Screening Tests
+		data["gynecologydata"]["screening_tests"] = {
+			"label": _("Last Screening Test"),
+			"value": get_last_screening_test(patient_record),
+			"enabled": 1 if dashboard.screening_tests else 0,
+			"value_fields": ["date"]
+		}
 
-	#Lipid Profile
-	data["gynecologydata"]["lipid_profile"] = {
-		"label": _("Last Lipid Profile"),
-		"value": get_last_lipid_profile(patient_record),
-		"enabled": 1 if dashboard.lipid_profile else 0,
-		"value_fields": ["date"]
-	}
+		#Lipid Profile
+		data["gynecologydata"]["lipid_profile"] = {
+			"label": _("Last Lipid Profile"),
+			"value": get_last_lipid_profile(patient_record),
+			"enabled": 1 if dashboard.lipid_profile else 0,
+			"value_fields": ["date"]
+		}
 
-	#Mammography
-	data["gynecologydata"]["mammography"] = {
-		"label": _("Last Mammography"), 
-		"value": get_last_mammography(patient_record),
-		"enabled": 1 if dashboard.mammography else 0,
-		"value_fields": ["date"]
-	}
+		#Mammography
+		data["gynecologydata"]["mammography"] = {
+			"label": _("Last Mammography"), 
+			"value": get_last_mammography(patient_record),
+			"enabled": 1 if dashboard.mammography else 0,
+			"value_fields": ["date"]
+		}
 
-	#Pregnancy Section
-	#Beginning of Pregnancy
-	data["pregnancydata"]["beginning_of_pregnancy"] = {
-		"label": _("Beginning of Pregnancy"), 
-		"value": global_date_format(patient_latest_pregnancy.beginning_of_pregnancy) \
-			if patient_latest_pregnancy and patient_latest_pregnancy.beginning_of_pregnancy is not None else None,
-		"enabled": 1 if dashboard.beginning_of_pregnancy else 0,
-		"alter_text": _("Please set the beginning of pregnancy date in your latest pregnancy folder")
-	}
+		#Pregnancy Section
+		#Beginning of Pregnancy
+		data["pregnancydata"]["beginning_of_pregnancy"] = {
+			"label": _("Beginning of Pregnancy"), 
+			"value": global_date_format(patient_latest_pregnancy.beginning_of_pregnancy) \
+				if patient_latest_pregnancy and patient_latest_pregnancy.beginning_of_pregnancy is not None else None,
+			"enabled": 1 if dashboard.beginning_of_pregnancy else 0,
+			"alter_text": _("Please set the beginning of pregnancy date in your latest pregnancy folder")
+		}
 
-	#Expected Term
-	data["pregnancydata"]["expected_term"] = {
-		"label": _("Expected Term"), 
-		"value": global_date_format(patient_latest_pregnancy.expected_term) \
-			if patient_latest_pregnancy and patient_latest_pregnancy.expected_term is not None else None,
-		"enabled": 1 if dashboard.expected_term else 0,
-		"alter_text": _("Please set the expected term date in your latest pregnancy folder")
-	}
+		#Expected Term
+		data["pregnancydata"]["expected_term"] = {
+			"label": _("Expected Term"), 
+			"value": global_date_format(patient_latest_pregnancy.expected_term) \
+				if patient_latest_pregnancy and patient_latest_pregnancy.expected_term is not None else None,
+			"enabled": 1 if dashboard.expected_term else 0,
+			"alter_text": _("Please set the expected term date in your latest pregnancy folder")
+		}
 
-	#Preferred Location for Delivery
-	data["pregnancydata"]["preferred_location_for_delivery"] = {
-		"label": _("Preferred Location for Delivery"),
-		"value": patient_latest_pregnancy.preferred_location_for_delivery if latest_pregnancy else None,
-		"enabled": 1 if dashboard.preferred_location_for_delivery else 0
-	}
+		#Preferred Location for Delivery
+		data["pregnancydata"]["preferred_location_for_delivery"] = {
+			"label": _("Preferred Location for Delivery"),
+			"value": patient_latest_pregnancy.preferred_location_for_delivery if latest_pregnancy else None,
+			"enabled": 1 if dashboard.preferred_location_for_delivery else 0
+		}
 
-	#Pregnancy Complications
-	data["pregnancydata"]["pregnancy_complications"] = {
-		"label": _("Pregnancy Complications"),
-		"value": patient_latest_pregnancy.pregnancy_complications if latest_pregnancy else None,
-		"enabled": 1 if dashboard.pregnancy_complications else 0
-	}
+		#Pregnancy Complications
+		data["pregnancydata"]["pregnancy_complications"] = {
+			"label": _("Pregnancy Complications"),
+			"value": patient_latest_pregnancy.pregnancy_complications if latest_pregnancy else None,
+			"enabled": 1 if dashboard.pregnancy_complications else 0
+		}
 
-	#Lab Exam Section
-	#Exam Results
-	data["labexamsdata"]["exam_results"] = {
-		"value_label": "label",
-		"value_fields": ["value"],
-		"value": []
-	}
+		#Lab Exam Section
+		#Exam Results
+		data["labexamsdata"]["exam_results"] = {
+			"value_label": "label",
+			"value_fields": ["value"],
+			"value": []
+		}
 
-	enabled = 0
-	for folder in gynecology_folders:
-		doc = frappe.get_doc("Gynecology", folder)
-		for result in doc.labs_results:
-			if result.show_on_dashboard:
-				enabled = 1 if dashboard.exam_results else enabled
-				r = {
-					"date": global_date_format(result.date),
-					"label": _(result.exam_type),
-					"value": result.exam_result,
-					"enabled": 1 if dashboard.exam_results else 0
-				}
-				data["labexamsdata"]["exam_results"]["value"].append(r)
+		enabled = 0
+		for folder in gynecology_folders:
+			doc = frappe.get_doc("Gynecology", folder)
+			for result in doc.labs_results:
+				if result.show_on_dashboard:
+					enabled = 1 if dashboard.exam_results else enabled
+					r = {
+						"date": global_date_format(result.date),
+						"label": _(result.exam_type),
+						"value": result.exam_result,
+						"enabled": 1 if dashboard.exam_results else 0
+					}
+					data["labexamsdata"]["exam_results"]["value"].append(r)
 
-	if latest_pregnancy:
-		for results in patient_latest_pregnancy.labs_results:
-			if results.show_on_dashboard:
-				enabled = 1 if dashboard.exam_results else enabled
-				r = {
-					"date": global_date_format(results.date),
-					"label": _(results.exam_type),
-					"value": results.exam_result,
-					"enabled": 1 if dashboard.exam_results else 0
-				}
-				data["labexamsdata"]["exam_results"]["value"].append(r)
-	
-	data["labexamsdata"]["exam_results"]["enabled"] = enabled
-				
+		if latest_pregnancy:
+			for results in patient_latest_pregnancy.labs_results:
+				if results.show_on_dashboard:
+					enabled = 1 if dashboard.exam_results else enabled
+					r = {
+						"date": global_date_format(results.date),
+						"label": _(results.exam_type),
+						"value": results.exam_result,
+						"enabled": 1 if dashboard.exam_results else 0
+					}
+					data["labexamsdata"]["exam_results"]["value"].append(r)
+		
+		data["labexamsdata"]["exam_results"]["enabled"] = enabled
+					
 
-	#Delivery Section
-	#Delivery Date
-	delivery_date = patient_latest_pregnancy.date_time if latest_pregnancy else None
+		#Delivery Section
+		#Delivery Date
+		delivery_date = patient_latest_pregnancy.date_time if latest_pregnancy else None
 
-	data["deliverydata"]["delivery_date"] = {
-		"label": _("Delivery Date"),
-		"value": global_date_format(getdate(delivery_date)) if delivery_date is not None else None,
-		"enabled": 1 if dashboard.delivery_date else 0,
-		"alter_text": _("Please set a delivery date in your latest pregnancy folder")
-	}
+		data["deliverydata"]["delivery_date"] = {
+			"label": _("Delivery Date"),
+			"value": global_date_format(getdate(delivery_date)) if delivery_date is not None else None,
+			"enabled": 1 if dashboard.delivery_date else 0,
+			"alter_text": _("Please set a delivery date in your latest pregnancy folder")
+		}
 
-	#Delivery Type
-	delivery_way = patient_latest_pregnancy.delivery_way if latest_pregnancy else None
-	data["deliverydata"]["delivery_way"] = {
-		"label": _("Delivery Way"),
-		"value": delivery_way,
-		"enabled": 1 if dashboard.delivery_way else 0
-	}
+		#Delivery Type
+		delivery_way = patient_latest_pregnancy.delivery_way if latest_pregnancy else None
+		data["deliverydata"]["delivery_way"] = {
+			"label": _("Delivery Way"),
+			"value": delivery_way,
+			"enabled": 1 if dashboard.delivery_way else 0
+		}
 
-	#Delivery Complications
-	delivery_complications = patient_latest_pregnancy.anesthesia_complications \
-		if latest_pregnancy and patient_latest_pregnancy.anesthesia_complications else None
-	data["deliverydata"]["delivery_complications"] = {
-		"label": _("Delivery Complications"),
-		"value": delivery_complications,
-		"enabled": 1 if dashboard.delivery_complications else 0
-	}
+		#Delivery Complications
+		delivery_complications = patient_latest_pregnancy.anesthesia_complications \
+			if latest_pregnancy and patient_latest_pregnancy.anesthesia_complications else None
+		data["deliverydata"]["delivery_complications"] = {
+			"label": _("Delivery Complications"),
+			"value": delivery_complications,
+			"enabled": 1 if dashboard.delivery_complications else 0
+		}
 
-	#Scar
-	scar = patient_latest_pregnancy.scar if latest_pregnancy else None
-	data["deliverydata"]["scar"] = {
-		"label": _("Scar"),
-		"value": scar,
-		"enabled": 1 if dashboard.scar else 0
-	}
+		#Scar
+		scar = patient_latest_pregnancy.scar if latest_pregnancy else None
+		data["deliverydata"]["scar"] = {
+			"label": _("Scar"),
+			"value": scar,
+			"enabled": 1 if dashboard.scar else 0
+		}
 
-	#Child Section
-	data["newborndata"]["firstchild"] = {}
-	data["newborndata"]["secondchild"] = {}
-	data["newborndata"]["thirdchild"] = {}
+		#Child Section
+		data["newborndata"]["firstchild"] = {}
+		data["newborndata"]["secondchild"] = {}
+		data["newborndata"]["thirdchild"] = {}
 
-	#Child Name
-	first_child_name = patient_latest_pregnancy.full_name if latest_pregnancy else None
-	second_child_name = patient_latest_pregnancy.full_name_2 \
-		if latest_pregnancy and (patient_latest_pregnancy.twins or patient_latest_pregnancy.triplets) \
-		else None
-	third_child_name = patient_latest_pregnancy.full_name_3 if latest_pregnancy and \
-		patient_latest_pregnancy.triplets else None
+		#Child Name
+		first_child_name = patient_latest_pregnancy.full_name if latest_pregnancy else None
+		second_child_name = patient_latest_pregnancy.full_name_2 \
+			if latest_pregnancy and (patient_latest_pregnancy.twins or patient_latest_pregnancy.triplets) \
+			else None
+		third_child_name = patient_latest_pregnancy.full_name_3 if latest_pregnancy and \
+			patient_latest_pregnancy.triplets else None
 
-	data["newborndata"]["firstchild"]["child_name"] = {
-		"label": _("Child name"),
-		"value": first_child_name,
-		"enabled": 1 if dashboard.child_name else 0
-	}
+		data["newborndata"]["firstchild"]["child_name"] = {
+			"label": _("Child name"),
+			"value": first_child_name,
+			"enabled": 1 if dashboard.child_name else 0
+		}
 
-	data["newborndata"]["secondchild"]["child_name"] = {
-		"label": _("Child name"),
-		"value": second_child_name,
-		"enabled": 1 if dashboard.child_name else 0
-	}
+		data["newborndata"]["secondchild"]["child_name"] = {
+			"label": _("Child name"),
+			"value": second_child_name,
+			"enabled": 1 if dashboard.child_name else 0
+		}
 
-	data["newborndata"]["thirdchild"]["child_name"] = {
-		"label": _("Child name"),
-		"value": third_child_name,
-		"enabled": 1 if dashboard.child_name else 0
-	}
+		data["newborndata"]["thirdchild"]["child_name"] = {
+			"label": _("Child name"),
+			"value": third_child_name,
+			"enabled": 1 if dashboard.child_name else 0
+		}
 
-	#Child Weight
-	first_child_weight = patient_latest_pregnancy.birth_weight if latest_pregnancy else None
-	second_child_weight = patient_latest_pregnancy.birth_weight_2 if latest_pregnancy and \
-		(patient_latest_pregnancy.twins or patient_latest_pregnancy.triplets) else None
-	third_child_weight = patient_latest_pregnancy.birth_weight_3 if latest_pregnancy and \
-		patient_latest_pregnancy.triplets else None
+		#Child Weight
+		first_child_weight = patient_latest_pregnancy.birth_weight if latest_pregnancy else None
+		second_child_weight = patient_latest_pregnancy.birth_weight_2 if latest_pregnancy and \
+			(patient_latest_pregnancy.twins or patient_latest_pregnancy.triplets) else None
+		third_child_weight = patient_latest_pregnancy.birth_weight_3 if latest_pregnancy and \
+			patient_latest_pregnancy.triplets else None
 
-	data["newborndata"]["firstchild"]["birth_weight"] = {
-		"label": _("Birth Weight"),
-		"value": first_child_weight,
-		"enabled": 1 if dashboard.birth_weight else 0
-	}
+		data["newborndata"]["firstchild"]["birth_weight"] = {
+			"label": _("Birth Weight"),
+			"value": first_child_weight,
+			"enabled": 1 if dashboard.birth_weight else 0
+		}
 
-	data["newborndata"]["secondchild"]["birth_weight"] = {
-		"label": _("Birth Weight"),
-		"value": second_child_weight,
-		"enabled": 1 if dashboard.birth_weight else 0
-	}
+		data["newborndata"]["secondchild"]["birth_weight"] = {
+			"label": _("Birth Weight"),
+			"value": second_child_weight,
+			"enabled": 1 if dashboard.birth_weight else 0
+		}
 
-	data["newborndata"]["thirdchild"]["birth_weight"] = {
-		"label": _("Birth Weight"),
-		"value": third_child_weight,
-		"enabled": 1 if dashboard.birth_weight else 0
-	}
+		data["newborndata"]["thirdchild"]["birth_weight"] = {
+			"label": _("Birth Weight"),
+			"value": third_child_weight,
+			"enabled": 1 if dashboard.birth_weight else 0
+		}
 
-	#Feeding Type
-	first_child_feeding = patient_latest_pregnancy.feeding_type if latest_pregnancy else None
-	second_child_feeding = patient_latest_pregnancy.feeding_type_2 if latest_pregnancy and \
-		(patient_latest_pregnancy.twins or patient_latest_pregnancy.triplets) else None
-	third_child_feeding = patient_latest_pregnancy.feeding_type_3 if latest_pregnancy and \
-		patient_latest_pregnancy.triplets else None
+		#Feeding Type
+		first_child_feeding = patient_latest_pregnancy.feeding_type if latest_pregnancy else None
+		second_child_feeding = patient_latest_pregnancy.feeding_type_2 if latest_pregnancy and \
+			(patient_latest_pregnancy.twins or patient_latest_pregnancy.triplets) else None
+		third_child_feeding = patient_latest_pregnancy.feeding_type_3 if latest_pregnancy and \
+			patient_latest_pregnancy.triplets else None
 
-	data["newborndata"]["firstchild"]["feeding_type"] = {
-		"label": _("Feeding Type"),
-		"value": first_child_feeding,
-		"enabled": 1 if dashboard.feeding_type else 0
-	}
+		data["newborndata"]["firstchild"]["feeding_type"] = {
+			"label": _("Feeding Type"),
+			"value": first_child_feeding,
+			"enabled": 1 if dashboard.feeding_type else 0
+		}
 
-	data["newborndata"]["secondchild"]["feeding_type"] = {
-		"label": _("Feeding Type"),
-		"value": second_child_feeding,
-		"enabled": 1 if dashboard.feeding_type else 0
-	}
+		data["newborndata"]["secondchild"]["feeding_type"] = {
+			"label": _("Feeding Type"),
+			"value": second_child_feeding,
+			"enabled": 1 if dashboard.feeding_type else 0
+		}
 
-	data["newborndata"]["thirdchild"]["feeding_type"] = {
-		"label": _("Feeding Type"),
-		"value": third_child_feeding,
-		"enabled": 1 if dashboard.feeding_type else 0
-	}
+		data["newborndata"]["thirdchild"]["feeding_type"] = {
+			"label": _("Feeding Type"),
+			"value": third_child_feeding,
+			"enabled": 1 if dashboard.feeding_type else 0
+		}
 
-	#Perineum Rehabilitation Section
-	#Get latest folder
-	folder = get_last_perineum_rehabilitation(patient_record)
-	pr_folder = frappe.get_doc("Perineum Rehabilitation", folder[0].name) if folder else None
+		#Perineum Rehabilitation Section
+		#Get latest folder
+		folder = get_last_perineum_rehabilitation(patient_record)
+		pr_folder = frappe.get_doc("Perineum Rehabilitation", folder[0].name) if folder else None
 
-	#Urgency of Urination
-	data["perehabilitationdata"]["urgency_of_urination"] = {
-		"label": _("Urgency of urination"),
-		"value": _(pr_folder.urgency_of_urination) if pr_folder else None,
-		"enabled": 1 if dashboard.urgency_of_urination else 0
-	}
+		#Urgency of Urination
+		data["perehabilitationdata"]["urgency_of_urination"] = {
+			"label": _("Urgency of urination"),
+			"value": _(pr_folder.urgency_of_urination) if pr_folder else None,
+			"enabled": 1 if dashboard.urgency_of_urination else 0
+		}
 
-	#Overactive Bladder
-	data["perehabilitationdata"]["overactive_bladder"] = {
-		"label": _("Overactive Bladder"),
-		"value": _(pr_folder.overactive_bladder) if pr_folder else None,
-		"enabled": 1 if dashboard.overactive_bladder else 0
-	}
+		#Overactive Bladder
+		data["perehabilitationdata"]["overactive_bladder"] = {
+			"label": _("Overactive Bladder"),
+			"value": _(pr_folder.overactive_bladder) if pr_folder else None,
+			"enabled": 1 if dashboard.overactive_bladder else 0
+		}
 
-	#Testing
-	data["perehabilitationdata"]["testing"] = {
-		"label": _("Testing"),
-		"value": pr_folder.testing if pr_folder else None,
-		"enabled": 1 if dashboard.testing else 0
-	}
+		#Testing
+		data["perehabilitationdata"]["testing"] = {
+			"label": _("Testing"),
+			"value": pr_folder.testing if pr_folder else None,
+			"enabled": 1 if dashboard.testing else 0
+		}
+	except Exception:
+		print(frappe.get_traceback())
 
 	return enable_dashboard_modules(data)
 

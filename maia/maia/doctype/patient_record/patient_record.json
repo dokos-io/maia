@@ -93,6 +93,8 @@
   "body_mass_index",
   "section_break_79",
   "weight_curve",
+  "sport_section",
+  "patient_sports",
   "family_background",
   "mother_background",
   "column_break_58",
@@ -702,9 +704,21 @@
    "fieldtype": "Check",
    "hidden": 1,
    "label": "Change in Patient"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "sport_section",
+   "fieldtype": "Section Break",
+   "label": "Sport"
+  },
+  {
+   "fieldname": "patient_sports",
+   "fieldtype": "Table",
+   "label": "Patient sports",
+   "options": "Patient Sports"
   }
  ],
- "modified": "2019-05-29 19:30:36.110224",
+ "modified": "2019-05-30 12:01:54.694821",
  "modified_by": "Administrator",
  "module": "Maia",
  "name": "Patient Record",
@@ -715,11 +729,35 @@
    "delete": 1,
    "email": 1,
    "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
    "import": 1,
    "print": 1,
    "read": 1,
    "report": 1,
    "role": "Midwife",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Midwife Substitute",
    "share": 1,
    "write": 1
   },

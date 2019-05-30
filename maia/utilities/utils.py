@@ -47,8 +47,3 @@ def custom_template_functions(functions):
 	})
 
 	return functions
-
-
-@frappe.whitelist()
-def delete_draft_consultation(doctype, name):
-	frappe.delete_doc(doctype, name, ignore_permissions=True, ignore_missing=False)

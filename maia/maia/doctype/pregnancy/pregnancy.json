@@ -101,6 +101,8 @@
   "feeding_type_3",
   "otoacoustic_emissions_3",
   "release_weight_3",
+  "sport_section",
+  "patient_sports",
   "section_break_91",
   "weight_curve_3",
   "print_settings",
@@ -633,9 +635,21 @@
    "fieldtype": "Link",
    "label": "Letter Head",
    "options": "Letter Head"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "sport_section",
+   "fieldtype": "Section Break",
+   "label": "Sport"
+  },
+  {
+   "fieldname": "patient_sports",
+   "fieldtype": "Table",
+   "label": "Sports during pregnancy",
+   "options": "Patient Sports"
   }
  ],
- "modified": "2019-05-29 19:30:10.064224",
+ "modified": "2019-05-30 14:41:34.954384",
  "modified_by": "Administrator",
  "module": "Maia",
  "name": "Pregnancy",

@@ -5,6 +5,9 @@ def get_data():
 		'heatmap': True,
 		'heatmap_message': _('This is based on interactions with this Patient. See consultations below for details'),
 		'fieldname': 'patient_record',
+		'non_standard_fieldnames': {
+			'Revenue': 'patient'
+		},
 		'transactions': [
 			{
 				'label': _('Folders'),
@@ -17,6 +20,10 @@ def get_data():
 			{
 				'label': _('Free Prescriptions and Appointments'),
 				'items': ['Free Prescription', 'Maia Appointment']
+			},
+			{
+				'label': _('Revenue'),
+				'items': ['Revenue']
 			}
 		]
 	}

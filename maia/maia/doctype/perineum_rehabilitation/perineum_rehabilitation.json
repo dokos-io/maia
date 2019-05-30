@@ -66,6 +66,7 @@
   "pelvis_statis",
   "column_break_59",
   "resumption_of_sport",
+  "sports_before_pregnancy",
   "section_break_53",
   "vulva_heading",
   "diasthasis",
@@ -542,9 +543,14 @@
    "fieldtype": "Link",
    "label": "Letter Head",
    "options": "Letter Head"
+  },
+  {
+   "fieldname": "sports_before_pregnancy",
+   "fieldtype": "HTML",
+   "label": "Sports before pregnancy"
   }
  ],
- "modified": "2019-05-29 19:31:14.499695",
+ "modified": "2019-05-30 15:02:33.488471",
  "modified_by": "Administrator",
  "module": "Maia",
  "name": "Perineum Rehabilitation",
@@ -565,6 +571,7 @@
   }
  ],
  "quick_entry": 1,
+ "route": "/desk#Form/DocType/Perineum Rehabilitation",
  "show_name_in_global_search": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
