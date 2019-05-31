@@ -386,7 +386,7 @@
   {
    "fieldname": "long_term_disease",
    "fieldtype": "Small Text",
-   "label": "Long Term Disease,  Hospitalisation Or Treatment"
+   "label": "Long Term Disease, Hospitalisation Or Treatment"
   },
   {
    "fieldname": "allergies",
@@ -718,7 +718,7 @@
    "options": "Patient Sports"
   }
  ],
- "modified": "2019-05-30 12:01:54.694821",
+ "modified": "2019-05-30 13:01:54.694821",
  "modified_by": "Administrator",
  "module": "Maia",
  "name": "Patient Record",

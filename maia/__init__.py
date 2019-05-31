@@ -20,3 +20,7 @@ def get_default_fiscal_year(user=None):
 def get_default_currency():
 	'''Returns the currency of the default company'''
 	return "EUR"
+
+def get_consultation_types():
+	return ["Early Postnatal Consultation", "Pregnancy Consultation", "Postnatal Consultation", "Gynecological Consultation", "Birth Preparation Consultation", \
+		"Prenatal Interview Consultation", "Free Consultation", "Perineum Rehabilitation Consultation"]

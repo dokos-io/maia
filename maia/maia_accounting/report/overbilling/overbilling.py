@@ -3,6 +3,7 @@
 
 from __future__ import unicode_literals
 import frappe
+import maia
 from frappe import _
 from frappe.utils import (getdate, get_first_day, get_last_day, add_days, formatdate, flt)
 
@@ -20,8 +21,7 @@ def execute(filters=None):
 	return columns, data
 
 def get_data(practitioner):
-	doctypes = ["Early Postnatal Consultation", "Pregnancy Consultation", "Postnatal Consultation", "Gynecological Consultation", "Birth Preparation Consultation", \
-		"Prenatal Interview Consultation", "Free Consultation", "Perineum Rehabilitation Consultation"]
+	doctypes = maia.get_consultation_types()
 	paid_invoices = [x["name"] for x in frappe.get_all("Revenue", filters={"transaction_date": ["between", ["2018-01-01", "2018-12-31"]], "status": "Paid"})]
 
 	total = 0

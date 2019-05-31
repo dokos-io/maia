@@ -1,0 +1,12 @@
+{
+ "card_name": "Appointments per week",
+ "creation": "2019-05-30 16:11:25.648030",
+ "docstatus": 0,
+ "doctype": "Dashboard Card Source",
+ "idx": 0,
+ "modified": "2019-05-30 16:11:25.648030",
+ "modified_by": "Administrator",
+ "module": "Maia Appointment",
+ "name": "Appointments per week",
+ "owner": "Administrator"
+}
