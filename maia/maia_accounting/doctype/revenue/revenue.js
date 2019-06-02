@@ -32,11 +32,15 @@ frappe.ui.form.on('Revenue', {
 	},
 
 	patient(frm) {
-		set_title(frm);
+		if (frm.doc.patient) {
+			set_title(frm);
+		}
 	},
 
 	party(frm) {
-		set_title(frm);
+		if (frm.doc.party) {
+			set_title(frm);
+		}
 	},
 
 	with_items(frm) {

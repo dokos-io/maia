@@ -1,6 +1,6 @@
 {
  "allow_rename": 1,
- "autoname": "naming_series",
+ "autoname": "naming_series:",
  "creation": "2019-05-30 10:52:40.097791",
  "doctype": "DocType",
  "editable_grid": 1,
@@ -10,7 +10,8 @@
   "start_date",
   "end_date",
   "column_break_4",
-  "professional_information_card",
+  "practitioner",
+  "substitute",
   "section_break_6",
   "fee_percentage",
   "maximum_fee",
@@ -18,10 +19,13 @@
  ],
  "fields": [
   {
+   "default": "REMP-.YYYY.-",
    "fieldname": "naming_series",
    "fieldtype": "Select",
+   "hidden": 1,
    "label": "Naming Series",
-   "options": "REMP-.YYYY.-"
+   "options": "REMP-.YYYY.-",
+   "reqd": 1
   },
   {
    "fieldname": "start_date",
@@ -42,14 +46,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "professional_information_card",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Professional Information Card",
-   "options": "Professional Information Card",
-   "reqd": 1
-  },
-  {
    "fieldname": "section_break_6",
    "fieldtype": "Section Break"
   },
@@ -57,7 +53,7 @@
    "fieldname": "fee_percentage",
    "fieldtype": "Percent",
    "in_list_view": 1,
-   "label": "Fee Percentage",
+   "label": "Fee Percentage (%)",
    "reqd": 1
   },
   {
@@ -70,9 +66,24 @@
    "fieldname": "mileage_allowance_excluded",
    "fieldtype": "Check",
    "label": "Mileage Allowance Excluded"
+  },
+  {
+   "fieldname": "practitioner",
+   "fieldtype": "Link",
+   "label": "Replaced Practitioner",
+   "options": "Professional Information Card",
+   "reqd": 1
+  },
+  {
+   "fieldname": "substitute",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Substitute Practitioner",
+   "options": "Professional Information Card",
+   "reqd": 1
   }
  ],
- "modified": "2019-05-30 10:52:40.097791",
+ "modified": "2019-05-31 14:17:08.859752",
  "modified_by": "Administrator",
  "module": "Maia",
  "name": "Replacement",
@@ -105,5 +116,6 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
+ "title_field": "substitute",
  "track_changes": 1
 }

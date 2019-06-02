@@ -11,13 +11,13 @@ status_map = {
 	"Expense": [
 		["Draft", "eval:self.docstatus==0"],
 		["Paid", "eval:self.outstanding_amount<=0 and self.docstatus==1"],
-		["Unpaid", "eval:self.outstanding_amount>0 and getdate(self.due_date)>=getdate(nowdate()) and self.docstatus==1"],
+		["Unpaid", "eval:self.outstanding_amount>0 and self.docstatus==1"],
 		["Cancelled", "eval:self.docstatus==2"],
 	],
 	"Revenue": [
 		["Draft", "eval:self.docstatus==0"],
 		["Paid", "eval:self.outstanding_amount<=0 and self.docstatus==1"],
-		["Unpaid", "eval:self.outstanding_amount>0 and getdate(self.due_date)>=getdate(nowdate()) and self.docstatus==1"],
+		["Unpaid", "eval:self.outstanding_amount>0 and self.docstatus==1"],
 		["Cancelled", "eval:self.docstatus==2"]
 	],
 	"Payment": [

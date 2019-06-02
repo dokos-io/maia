@@ -9,7 +9,7 @@ frappe.query_reports["Midwife Replacement Report"] = {
 			"label": __("Practitioner"),
 			"fieldtype": "Link",
 			"options": "Professional Information Card",
-			"default": frappe.defaults.get_user_default("email"),
+			"default": frappe.boot.practitioner,
 			"reqd": 0
 		},
 		{
@@ -42,26 +42,28 @@ frappe.query_reports["Midwife Replacement Report"] = {
 			"reqd": 1
 		}
 	],
-	"formatter": function(row, cell, value, columnDef, dataContext, default_formatter) {
-		if (columnDef.df.fieldname=="account") {
-			value = dataContext.account_name;
-			columnDef.df.is_tree = true;
-		}
+	formatter: function(value, row, column, data, default_formatter) {
+		value = default_formatter(value, row, column, data);
+		if (data.account_name == "substitute") {
+			value = $(`<span>${value}</span>`);
 
-		value = default_formatter(row, cell, value, columnDef, dataContext);
+			let $value = $(value).css("font-weight", "bold");
+			value = $value.wrap("<p></p>").parent().html();
+		} else if (data.account_name == "dates") {
+			value = $(`<span>${value}</span>`);
 
-		if (!dataContext.parent_account) {
-			var $value = $(value).css("font-weight", "bold");
-			if (dataContext.warn_if_negative && dataContext[columnDef.df.fieldname] < 0) {
-			$value.addClass("text-danger");
-			}
+			let $value = $(value).css("font-style", "italic");
 			value = $value.wrap("<p></p>").parent().html();
 		}
-
 		return value;
 	},
-	"tree": true,
-	"name_field": "account",
-	"parent_field": "parent_account",
-	"initial_depth": 3
+	get_datatable_options: function (options) {
+		console.log(options)
+		return Object.assign(options, {
+			tooltipOptions: {
+				formatTooltipX: d => (d + '').toUpperCase(),
+				formatTooltipY: d => d + ' ' + frappe.defaults.get_user_default("currency"),
+			}
+		});
+	}
 }

@@ -9,6 +9,7 @@ frappe.query_reports["Fichier des Ecritures Comptables"] = {
 			"label": __("Practitioner"),
 			"fieldtype": "Link",
 			"options": "Professional Information Card",
+			"default": frappe.boot.practitioner,
 			"reqd": 1
 		},
 		{

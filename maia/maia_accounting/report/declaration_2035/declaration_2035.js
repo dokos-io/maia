@@ -9,6 +9,7 @@ frappe.query_reports["Declaration 2035"] = {
 			"label": __("Practitioner"),
 			"fieldtype": "Link",
 			"options": "Professional Information Card",
+			"default": frappe.boot.practitioner,
 			"reqd": 1
 		},
 		{
