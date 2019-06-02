@@ -143,11 +143,12 @@ def get_mileage_allowance(period_list, practitioner, currency):
 	total_mileage = 0
 	for period in period_list:
 		total = frappe.db.sql("""
-			SELECT SUM(ri.total_amount) as total
+			SELECT SUM(ri.total_amount) as total,
+			r.amount, r.outstanding_amount
 			FROM `tabRevenue` r
 			LEFT JOIN `tabRevenue Items` ri
 			ON r.name = ri.parent
-			WHERE r.status = "Paid"
+			WHERE r.docstatus = 1
 			AND r.transaction_date >= '{from_date}'
 			AND r.transaction_date <= '{to_date}'
 			AND ri.codification in {codifications}
@@ -157,8 +158,10 @@ def get_mileage_allowance(period_list, practitioner, currency):
 			to_date=period.to_date
 			), as_dict=True)
 
-		data = {period.key: total[0]["total"] if total else None}
-		total_mileage += total[0]["total"] if total else 0
+		calculated_amount = (total[0]["total"] * ((total[0]["amount"] - total[0]["outstanding_amount"]) / total[0]["amount"])) if total else 0
+
+		data = {period.key: calculated_amount}
+		total_mileage += calculated_amount
 		result.update(data)
 
 	result["total"] = total_mileage

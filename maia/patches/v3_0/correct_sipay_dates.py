@@ -37,4 +37,3 @@ def execute():
 			for gl in gl_entries:
 				frappe.db.set_value("GL Entry", gl.name, "posting_date", doc.reference_date, update_modified=False)
 
-	

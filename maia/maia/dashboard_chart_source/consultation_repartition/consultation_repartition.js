@@ -5,5 +5,7 @@ frappe.dashboards.chart_sources["Consultation Repartition"] = {
 	unit: __("Consultations"),
 	color: "#77ecca",
 	width: "Third",
-	type: "Bar"
+	type: "Bar",
+	timespan: "Last Year",
+	timeseries: 1
 };

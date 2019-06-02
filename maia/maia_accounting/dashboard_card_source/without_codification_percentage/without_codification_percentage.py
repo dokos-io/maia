@@ -43,9 +43,10 @@ def get_without_codification_percentage(practitioner, from_date, to_date):
 		return 0
 
 def get_income(practitioner, from_date, to_date):
-	revenue = frappe.get_all("Revenue", \
-		filters={"transaction_date": ["between", [from_date, to_date]], "docstatus": 1, "practitioner": practitioner, "status": "Paid"}, \
-		fields=["SUM(amount) as total"])
+	revenue = frappe.get_all("General Ledger Entry", \
+		filters={"posting_date": ["between", [from_date, to_date]], "docstatus": 1, "practitioner": practitioner, \
+			"accounting_journal": ["in", ["Sales", "Miscellaneous Operations"]]}, \
+		fields=["SUM(credit) - SUM(debit) as total"])
 
 	if revenue:
 		return revenue[0]["total"]
@@ -53,20 +54,28 @@ def get_income(practitioner, from_date, to_date):
 		return 0
 
 def get_without_codification_income(practitioner, from_date, to_date):
-	revenue_docs = tuple([x["name"] for x in frappe.get_all("Revenue", \
-		filters={"transaction_date": ["between", [from_date, to_date]], "docstatus": 1, "practitioner": practitioner, "status": "Paid"}, \
-		fields=["name"])])
-
 	codifications = tuple([x["name"] for x in frappe.get_all("Codification", filters={"basic_price": 0})])
 
-	without_codifications = frappe.get_all("Revenue Items", \
-		filters={"parenttype": "Revenue", "parent": ("in", revenue_docs), "codification": ("in", codifications)},
-		fields=["total_amount"])
+	without_codifications = frappe.db.sql("""
+			SELECT SUM(ri.total_amount) as total_amount,
+			r.amount, r.outstanding_amount
+			FROM `tabRevenue` r
+			LEFT JOIN `tabRevenue Items` ri
+			ON r.name = ri.parent
+			WHERE r.docstatus = 1
+			AND r.transaction_date >= '{from_date}'
+			AND r.transaction_date <= '{to_date}'
+			AND ri.codification in {codifications}
+		""".format(
+			codifications=codifications,
+			from_date=from_date,
+			to_date=to_date
+			), as_dict=True)
 
 	if without_codifications:
 		total = 0
 		for item in without_codifications:
-			total += flt(item.total_amount)
+			total += item.total_amount * ((item.amount - item.outstanding_amount) / item.amount)
 		return total
 	else:
 		return 0

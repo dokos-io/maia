@@ -13,13 +13,11 @@ from frappe.core.page.dashboard.dashboard import cache_source, get_from_date_fro
 def get(chart_name=None, from_date = None, to_date = None):
 	chart = frappe.get_doc('Dashboard Chart', chart_name)
 	timespan = chart.timespan
-	timegrain = chart.time_interval
 
 	if not to_date:
 		to_date = nowdate()
 	if not from_date:
-		if timegrain in ('Monthly', 'Quarterly'):
-			from_date = get_from_date_from_timespan(to_date, timespan)
+		from_date = get_from_date_from_timespan(to_date, timespan)
 
 	result = get_repartition(from_date, to_date)
 
