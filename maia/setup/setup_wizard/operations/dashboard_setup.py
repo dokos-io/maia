@@ -70,25 +70,26 @@ def setup_charts():
 
 def init_dashboard(user=None):
 	if not user:
+		users = frappe.get_all("User", filters={"user_type": "System User"})
 		for user in users:
-			_init_dashboard(user)
+			_init_dashboard(user.name)
 	else:
 		_init_dashboard(user)
 
 def _init_dashboard(user):
 	for card in frappe.get_all("Dashboard Card"):
-		widget = WidgetCreator("Desk")
+		widget = WidgetCreator("Desk", user=user)
 		widget.add_widget("Dashboard Stats", **{
 			"card": card.name
 		})
 
 	for chart in frappe.get_all("Dashboard Chart"):
-		widget = WidgetCreator("Desk")
+		widget = WidgetCreator("Desk", user=user)
 		widget.add_widget("Dashboard Chart", **{
 			"chart": chart.name
 		})
 
-	widget = WidgetCreator("Desk")
+	widget = WidgetCreator("Desk", user=user)
 	widget.add_widget("Dashboard Calendar", **{
 		"reference": "Maia Appointment",
 		"user": user

@@ -37,7 +37,7 @@ def get_without_codification_percentage(practitioner, from_date, to_date):
 	income = get_income(practitioner, from_date, to_date)
 	without_codification_income = get_without_codification_income(practitioner, from_date, to_date)
 
-	if income > 0:
+	if flt(income) > 0:
 		return round(without_codification_income / income, 2)
 	else:
 		return 0
@@ -75,7 +75,8 @@ def get_without_codification_income(practitioner, from_date, to_date):
 	if without_codifications:
 		total = 0
 		for item in without_codifications:
-			total += item.total_amount * ((item.amount - item.outstanding_amount) / item.amount)
+			if flt(item.amount) != None and flt(item.amount) != 0:
+				total += flt(item.total_amount) * ((flt(item.amount) - flt(item.outstanding_amount)) / flt(item.amount))
 		return total
 	else:
 		return 0

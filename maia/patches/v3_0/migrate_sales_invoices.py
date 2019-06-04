@@ -21,7 +21,7 @@ def execute():
 	add_fiscal_years()
 	frappe.db.commit()
 
-	sales_invoices = frappe.get_all("Sales Invoice", dict(docstatus=1))
+	sales_invoices = frappe.get_all("Sales Invoice", dict(docstatus=1), limit=None)
 	to_be_credited = []
 
 	l = len(sales_invoices)
@@ -77,7 +77,7 @@ def execute():
 					"unit_price": item.rate
 				})
 
-		revenue.insert(ignore_permissions=True)
+		revenue.insert(ignore_permissions=True, ignore_links=True)
 		revenue.submit()
 
 		if si.name in to_be_credited:
@@ -334,9 +334,12 @@ def add_fiscal_years():
 	]
 
 	for fy in fiscal_years:
-		frappe.get_doc({
-			"doctype": "Maia Fiscal Year",
-			"year": fy["year"],
-			"year_start_date": fy["start"],
-			"year_end_date": fy["end"]
-		}).insert(ignore_permissions=True)
+		try:
+			frappe.get_doc({
+				"doctype": "Maia Fiscal Year",
+				"year": fy["year"],
+				"year_start_date": fy["start"],
+				"year_end_date": fy["end"]
+			}).insert(ignore_permissions=True)
+		except Exception as e:
+			print(e)

@@ -13,7 +13,7 @@ def execute():
 
 	add_meal_deductions()
 
-	purchase_invoices = frappe.get_all("Purchase Invoice", dict(docstatus=1))
+	purchase_invoices = frappe.get_all("Purchase Invoice", dict(docstatus=1), limit=None)
 	to_be_debited = []
 	account_map = get_account_map()
 

@@ -16,6 +16,8 @@ def execute():
 
 	l = len(journal_entries)
 
+	hash_site = frappe.generate_hash()
+
 	for i, entry in enumerate(journal_entries):
 		journal_entry = frappe.get_doc("Journal Entry", entry.name)
 
@@ -29,14 +31,13 @@ def execute():
 			continue
 
 		else:
-			second_round.append(journal_entry.name)
+			second_round.append(frappe.get_doc("Journal Entry", journal_entry.name).__dict__)
 
-		with open(os.path.join(frappe.utils.get_bench_path(), "manual_migration_{0}.txt".format(frappe.db.get_default('site_name'))), "wb") as migration_file:
+		with open(os.path.join(frappe.utils.get_bench_path(), "manual_migration_{0}.json".format(hash_site)), "wb") as migration_file:
 			migration_file.write(bytes(",".join([str(i) for i in second_round]), 'utf-8'))
 
 		update_progress_bar("Migrating Journal Entries", i, l)
 
-	print(second_round)
 	frappe.db.commit()
 
 def make_meal_expense(journal_entry):

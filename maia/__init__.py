@@ -9,7 +9,6 @@ __version__ = '3.0.0'
 
 
 def get_default_fiscal_year(user=None):
-	'''Get default company for user'''
 	if not user:
 		user = frappe.session.user
 
@@ -18,7 +17,6 @@ def get_default_fiscal_year(user=None):
 	return  get_fiscal_year(date=now(), practitioner=practitioner)
 
 def get_default_currency():
-	'''Returns the currency of the default company'''
 	return "EUR"
 
 def get_consultation_types():
