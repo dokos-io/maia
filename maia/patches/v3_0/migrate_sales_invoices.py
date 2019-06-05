@@ -156,7 +156,7 @@ def migrate_payment_methods(bank_map):
 		frappe.set_value("Payment Method", used_pay_mop[0][0], "default_outgoing", 1)
 
 	if used_rec_mop:
-		frappe.set_value("Payment Method", used_pay_mop[0][0], "default_incoming", 1)
+		frappe.set_value("Payment Method", used_rec_mop[0][0], "default_incoming", 1)
 
 def create_bank_accounts():
 	accounts_list = []
@@ -263,7 +263,7 @@ def create_payment(si, revenue):
 			})
 			new_payment.clearance_date = line.clearance_date
 
-			new_payment.insert(ignore_permissions=True)
+			new_payment.insert(ignore_permissions=True, ignore_links=True)
 			new_payment.submit()
 	else:
 		references = frappe.get_all("Payment Entry Reference", filters={"docstatus": 1, "reference_doctype": "Sales Invoice", "reference_name": si.name}, \
@@ -301,7 +301,7 @@ def create_payment(si, revenue):
 			for ref in payment_references:
 				new_payment.append("payment_references", ref)
 
-			new_payment.insert(ignore_permissions=True)
+			new_payment.insert(ignore_permissions=True, ignore_links=True)
 			new_payment.submit()
 
 def reload_docs_for_migration():
