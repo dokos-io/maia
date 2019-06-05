@@ -79,7 +79,7 @@ def init_dashboard(user=None):
 def _init_dashboard(user):
 	for card in frappe.get_all("Dashboard Card"):
 		widget = WidgetCreator("Desk", user=user)
-		widget.add_widget("Dashboard Stats", **{
+		widget.add_widget("Dashboard Card", **{
 			"card": card.name
 		})
 

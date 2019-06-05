@@ -19,9 +19,10 @@ def execute():
 	"""
 
 	frappe.model.sync.sync_all()
+	frappe.clear_cache()
 
 	for user in frappe.get_all("User", filters={"user_type": "System User"}):
-		frappe.set_user(user)
+		frappe.set_user(user.name)
 		create_user_desk(user.name)
 
 	frappe.set_user("Administrator")

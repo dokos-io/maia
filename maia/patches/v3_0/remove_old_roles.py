@@ -26,6 +26,7 @@ def execute():
 		frappe.db.sql("""DELETE FROM `tabHas Role` WHERE parent=%s""", user.name)
 
 		clear_user_permissions(user.name, "Company")
+		clear_user_permissions(user.name, "Employee")
 		frappe.db.commit()
 		frappe.clear_cache()
 
@@ -37,9 +38,22 @@ def execute():
 			if "Appointment User" in user_roles:
 				user_doc.add_roles("Appointment User")
 				user_doc.add_roles("Patient")
+				user_doc.add_roles("Website Manager")
+				user_doc.add_roles("Blogger")
 			else:
 				user_doc.add_roles("Midwife")
 				user_doc.add_roles("Patient")
+				user_doc.add_roles("Website Manager")
+				user_doc.add_roles("Report Manager")
+				user_doc.add_roles("Blogger")
+
+			user_doc.append('block_modules', {
+				'module': 'Integrations'
+			})
+			user_doc.append('block_modules', {
+				'module': 'Customization'
+			})
+			user_doc.save()
 
 	frappe.db.set_value("User", "Guest", "user_type", "Website User")
 

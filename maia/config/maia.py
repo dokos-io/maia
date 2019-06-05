@@ -157,6 +157,19 @@ def get_data():
 					"description": _("Delivery Way"),
 				}
 			]
+		},
+		{
+			"label": _("Replacements"),
+			"icon": "icon-star",
+			"items": [
+				{
+					"type": "doctype",
+					"name": "Replacement",
+					"label": _("Replacement"),
+					"description": _("Replacement"),
+
+				}
+			]
 		}
 
 	]
