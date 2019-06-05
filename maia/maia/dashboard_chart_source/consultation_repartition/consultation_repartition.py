@@ -20,9 +20,10 @@ def get(chart_name=None, from_date = None, to_date = None):
 		from_date = get_from_date_from_timespan(to_date, timespan)
 
 	result = get_repartition(from_date, to_date)
+	labels = [_(x) for x in maia.get_consultation_types()]
 
 	return {
-		"labels": [_(x) for x in maia.get_consultation_types()],
+		"labels": labels,
 		"datasets": [{
 			"name": _("Consultation Repartition"),
 			"values": result

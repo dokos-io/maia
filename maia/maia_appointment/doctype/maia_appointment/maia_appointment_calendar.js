@@ -3,10 +3,16 @@ var get_business_hours = function() {
 	let agenda = [];
 	frappe.call({
 		async: false,
-		method: "frappe.client.get",
-		args: {doctype: "Professional Information Card", filters: {user: frappe.session.user}},
+		"method": "maia.client.get_practitioner",
+		args: {
+			doctype: "Professional Information Card",
+			filters: {
+				user: frappe.session.user
+			},
+			fieldname: ["name", "consulting_schedule"]
+		},
 		callback: function (data) {
-			if (data.message.consulting_schedule.length>0) {
+			if (data.message&&data.message.consulting_schedule.length>0) {
 				data.message.consulting_schedule.forEach(value => {
 					agenda.push({dow: [mapping[value.day]], start: value.start_time, end: value.end_time})
 				})
