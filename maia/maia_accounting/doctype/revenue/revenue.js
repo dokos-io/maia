@@ -35,12 +35,14 @@ frappe.ui.form.on('Revenue', {
 		if (frm.doc.patient) {
 			set_title(frm);
 		}
+		add_billing_address(frm)
 	},
 
 	party(frm) {
 		if (frm.doc.party) {
 			set_title(frm);
 		}
+		add_billing_address(frm)
 	},
 
 	with_items(frm) {
@@ -131,5 +133,20 @@ const set_accounting_item = frm => {
 		})
 	} else {
 		frm.set_value("accounting_item", "")
+	}
+}
+
+const add_billing_address = frm => {
+	let party_type, party;
+	if (frm.doc.party) {
+		party_type = "Party"
+		party = frm.doc.party
+	} else if (frm.doc.patient) {
+		party_type = "Patient"
+		party = frm.doc.party
+	}
+
+	if (party!=null) {
+		frappe.xcall("maia.maia_accounting.doctype.revenue.revenue.get_billing_address", {party_type: party_type, party: party})
 	}
 }

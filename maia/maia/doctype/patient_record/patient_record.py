@@ -58,8 +58,15 @@ class PatientRecord(Document):
 			and transaction_date >= %s
 			and transaction_date <= %s""", (self.name, fiscal_year[1], fiscal_year[2]))
 
-		social_security_parties = tuple([x["name"] for x in frappe.get_all("Party", filters={"is_social_security": 1})])
-		conditions = "and party in {0}".format(social_security_parties) if social_security_parties else ""
+		social_security_parties = [x["name"] for x in frappe.get_all("Party", filters={"is_social_security": 1})]
+
+		conditions = ""
+		if social_security_parties:
+			if len(social_security_parties) > 1:
+				conditions = "and party in {0}".format(tuple(social_security_parties))
+			else:
+				conditions = "and party='{0}'".format(social_security_parties[0])
+
 		total_unpaid_social_security = frappe.db.sql("""
 			select sum(amount)
 			from `tabRevenue` 

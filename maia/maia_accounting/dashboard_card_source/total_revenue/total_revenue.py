@@ -31,7 +31,7 @@ def get(card_name, from_date=None, to_date=None):
 
 	revenue = get_revenue(practitioner, from_date, to_date)
 
-	return fmt_money(revenue, 0, currency)
+	return fmt_money(revenue or 0, 0, currency)
 
 def get_revenue(practitioner, from_date, to_date):
 	revenue = frappe.get_all("Revenue", filters={"transaction_date": ["between", [from_date, to_date]], "docstatus": 1, "practitioner": practitioner}, \
