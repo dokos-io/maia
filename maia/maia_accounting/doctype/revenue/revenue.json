@@ -189,7 +189,7 @@
    "fieldname": "consultation_type",
    "fieldtype": "Select",
    "label": "Consultation Type",
-   "options": "Free Consultation\nPregnancy Consultation\nGynecological Consultation\nEarly Postnatal Consultation\nPostnatal Consultation\nPrenatal Interview Consultation\nBirth Preparation Consultation\nPerineum Rehabilitation Consultation"
+   "options": "\nFree Consultation\nPregnancy Consultation\nGynecological Consultation\nEarly Postnatal Consultation\nPostnatal Consultation\nPrenatal Interview Consultation\nBirth Preparation Consultation\nPerineum Rehabilitation Consultation"
   },
   {
    "fieldname": "consultation",
@@ -222,7 +222,7 @@
  ],
  "is_sealed": 1,
  "is_submittable": 1,
- "modified": "2019-05-29 13:56:03.758449",
+ "modified": "2019-06-06 11:43:01.104677",
  "modified_by": "Administrator",
  "module": "Maia Accounting",
  "name": "Revenue",

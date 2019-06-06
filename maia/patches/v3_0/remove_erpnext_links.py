@@ -10,7 +10,7 @@ from frappe.utils import update_progress_bar
 from frappe.cache_manager import clear_user_cache
 
 def execute():
-	l = 11
+	l = 12
 	frappe.delete_doc("Dashboard Chart Source", "Account Balance Timeline")
 
 	erpnext_modules = ["Selling", "Accounts", "Assets", "Buying", \
@@ -113,3 +113,29 @@ def execute():
 
 	clear_user_cache()
 	update_progress_bar("Cleaning up ERPNext", 11, l)
+
+	cleanup_dynamic_links()
+	update_progress_bar("Cleaning up ERPNext", 12, l)
+
+def cleanup_dynamic_links():
+	# Contacts
+	contacts = frappe.get_all("Dynamic Link", filters={"parenttype": "Contact", "link_doctype": "Customer"}, fields=["name", "link_name"])
+
+	for contact in contacts:
+		contact_links = frappe.get_all("Dynamic Link", filters={"parenttype": "Contact", "link_name": contact.link_name})
+
+		if len(contact_links) > 1:
+			frappe.delete_doc("Dynamic Link", contact.name, force=True)
+		else:
+			frappe.db.set_value("Dynamic Link", contact.name, "link_doctype", "Patient Record")
+
+	# Addresses
+	addresses = frappe.get_all("Dynamic Link", filters={"parenttype": "Address", "link_doctype": "Customer"}, fields=["name", "link_name"])
+
+	for address in addresses:
+		address_links = frappe.get_all("Dynamic Link", filters={"parenttype": "Address", "link_name": address.link_name})
+
+		if len(address_links) > 1:
+			frappe.delete_doc("Dynamic Link", address.name, force=True)
+		else:
+			frappe.db.set_value("Dynamic Link", address.name, "link_doctype", "Patient Record")

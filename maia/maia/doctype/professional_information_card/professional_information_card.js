@@ -9,5 +9,16 @@ frappe.ui.form.on('Professional Information Card', {
 				frappe.show_alert({message: __("User creation in progress"), indicator: 'green'});
 			});
 		}
+	},
+	sender_name: function(frm) {
+		if (frm.doc.sender_name && !isAlphaNumeric(frm.doc.sender_name)) {
+			frm.set_value("sender_name", null);
+			frappe.throw(__("Please enter only alphanumeric values"));
+		}
 	}
 });
+
+
+const isAlphaNumeric = ch => {
+	return ch.match(/^[a-z0-9]+$/i) !== null;
+}

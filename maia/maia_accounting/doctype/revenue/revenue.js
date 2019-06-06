@@ -142,11 +142,17 @@ const add_billing_address = frm => {
 		party_type = "Party"
 		party = frm.doc.party
 	} else if (frm.doc.patient) {
-		party_type = "Patient"
-		party = frm.doc.party
+		party_type = "Patient Record"
+		party = frm.doc.patient
 	}
 
 	if (party!=null) {
 		frappe.xcall("maia.maia_accounting.doctype.revenue.revenue.get_billing_address", {party_type: party_type, party: party})
+		.then(r => {
+			console.log(r)
+			if (r) {
+				frm.set_value("billing_address", r);
+			}
+		})
 	}
 }

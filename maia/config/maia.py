@@ -10,26 +10,26 @@ def get_data():
 			"label": _("Patients"),
 			"icon": "icon-star",
 			"items": [
-				{
-					"type": "doctype",
-					"name": "Patient Record",
-					"label": _("Patient Record"),
-					"description": _("Patient Record"),
-					"onboard": 1
-				},
-				{
-					"type": "doctype",
-					"name": "Address",
-					"label": _("Addresses"),
-					"description": _("Addresses"),
-				},
-				{
-					"type": "doctype",
-					"name": "Free Prescription",
-					"label": _("Free Prescriptions"),
-					"description": _("Free Prescriptions"),
-					"onboard": 1
-				}
+					{
+						"type": "doctype",
+						"name": "Patient Record",
+						"label": _("Patient Record"),
+						"description": _("Patient Record"),
+						"onboard": 1
+					},
+					{
+						"type": "doctype",
+						"name": "Free Prescription",
+						"label": _("Free Prescriptions"),
+						"description": _("Free Prescriptions"),
+						"onboard": 1
+					},
+					{
+						"type": "doctype",
+						"name": "Address",
+						"label": _("Addresses"),
+						"description": _("Addresses"),
+					}
 				]
 			},
 		{
@@ -134,12 +134,6 @@ def get_data():
 				},
 				{
 					"type": "doctype",
-					"name": "Drug",
-					"label": _("Drugs"),
-					"description": _("Drugs"),
-				},
-				{
-					"type": "doctype",
 					"name": "Lab Exam Type",
 					"label": _("Lab Exam Types"),
 					"description": _("Lab Exam Types"),
@@ -147,20 +141,86 @@ def get_data():
 				{
 					"type": "doctype",
 					"name": "Lab Exam Template",
-					"label": _("Lab Exam Template"),
+					"label": _("Lab Exam Templates"),
 					"description": _("Lab Exam Template"),
 				},
 				{
 					"type": "doctype",
 					"name": "Drug List Template",
-					"label": _("Drug List Template"),
+					"label": _("Drug List Templates"),
 					"description": _("Drug List Template"),
 				},
 				{
 					"type": "doctype",
+					"name": "Maternity",
+					"label": _("Maternities"),
+					"description": _("Maternity"),
+				},
+				{
+					"type": "doctype",
+					"name": "Origin",
+					"label": _("Origins"),
+					"description": _("Origin"),
+				},
+				{
+					"type": "doctype",
+					"name": "Profession",
+					"label": _("Professions"),
+					"description": _("Professions"),
+				},
+				{
+					"type": "doctype",
+					"name": "Employment Status",
+					"label": _("Employment Statuses"),
+					"description": _("Employment Statuses"),
+				},
+				{
+					"type": "doctype",
+					"name": "Sport",
+					"label": _("Sports"),
+					"description": _("Sports"),
+				}
+			]
+		},
+		{
+			"label": _("Medical Master Data"),
+			"icon": "icon-star",
+			"items": [
+				{
+					"type": "doctype",
+					"name": "Addiction",
+					"label": _("Addictions"),
+					"description": _("Addiction"),
+				},
+				{
+					"type": "doctype",
+					"name": "Allergia",
+					"label": _("Allergia"),
+					"description": _("Allergia"),
+				},
+				{
+					"type": "doctype",
+					"name": "Anesthesia Type",
+					"label": _("Anesthesia Types"),
+					"description": _("Anesthesia Type"),
+				},
+				{
+					"type": "doctype",
+					"name": "Contraception",
+					"label": _("Contraceptions"),
+					"description": _("Contraception"),
+				},
+				{
+					"type": "doctype",
 					"name": "Delivery Way",
-					"label": _("Delivery Way"),
+					"label": _("Delivery Ways"),
 					"description": _("Delivery Way"),
+				},
+				{
+					"type": "doctype",
+					"name": "Vaccine",
+					"label": _("Vaccines"),
+					"description": _("Vaccines"),
 				}
 			]
 		},
@@ -173,7 +233,12 @@ def get_data():
 					"name": "Replacement",
 					"label": _("Replacement"),
 					"description": _("Replacement"),
-
+				},
+				{
+					"type": "report",
+					"name": "Midwife Replacement Report",
+					"label": _("Replacement Report"),
+					"is_query_report": True,
 				}
 			]
 		}

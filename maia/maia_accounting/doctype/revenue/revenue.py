@@ -63,6 +63,22 @@ def get_asset_revenue(dt, dn):
 
 	return revenue
 
+@frappe.whitelist()
+def get_billing_address(party_type, party):
+	party_links = [x["parent"] for x in frappe.get_all("Dynamic Link", filters={"parenttype": "Address", "link_doctype": party_type, "link_name": party}, fields=["parent"])]
+
+	party_addresses = frappe.get_all("Address", filters={"name": ["in", party_links]}, fields=["name", "is_primary_address"])
+
+	if party_addresses:
+		for address in party_addresses:
+			if address.is_primary_address:
+				return address.name
+		
+		return party_addresses[0]["name"]
+	
+	else:
+		return None
+
 def get_list_context(context=None):
 	from maia.controllers.website_list_for_contact import get_list_context
 	list_context = get_list_context(context)

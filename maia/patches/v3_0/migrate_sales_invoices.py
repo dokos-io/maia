@@ -218,7 +218,8 @@ def make_new_party(name):
 	if not frappe.db.exists("Party", name):
 		party = frappe.new_doc("Party")
 		party.party_name = name
-		party.is_customer = 1
+		party.is_customer = 1 if name != "CPAM" else 0
+		party.is_social_security = 0 if name != "CPAM" else 1
 		party.insert(ignore_permissions=True)
 		return party.name
 

@@ -23,21 +23,24 @@ def check_availability(doctype, df, dt, dn, date, duration):
 	schedules = []
 
 	if hasattr(resource, "consulting_schedule") and resource.consulting_schedule:
-		day_sch = filter(lambda x: x.day == day, resource.consulting_schedule)
-		if not day_sch:
-			availability.append(
-				{"msg": _("{0} not available on {1} {2}").format(dn, _(day), formatdate(get_datetime_str(date), "dd/MM/yyyy"))})
+		day_schedule = list(filter(lambda x: x.day == day, resource.consulting_schedule))
+		if not day_schedule:
+			availability.append({"msg": _("{0} not available on {1} {2}").format(dn, _(day), \
+				formatdate(get_datetime_str(date), "dd/MM/yyyy"))})
 			return availability
-		for line in day_sch:
+
+		for line in day_schedule:
 			if(datetime.datetime.combine(date, get_time(line.end_time)) > now_datetime()):
 				schedules.append({"start": datetime.datetime.combine(date, get_time(line.start_time)), "end": datetime.datetime.combine(
 					date, get_time(line.end_time)), "duration": datetime.timedelta(minutes=cint(duration))})
-			if not schedules:
-				for sch in day_sch:
-					availability.append({"msg": _(
-						"Schedules for {0} on  {1} : {2}-{3}").format(dn, formatdate(get_datetime_str(date), "dd/MM/yyyy"), sch.start_time, sch.end_time)})
-			if schedules:
-				availability.extend(get_availability_from_schedule(doctype, df, dn, schedules, date))
+
+		if not schedules:
+			for line in day_schedule:
+				availability.append({"msg": _("Schedules for {0} on  {1} : {2}-{3}").format(dn, \
+					formatdate(get_datetime_str(date), "dd/MM/yyyy"), line.start_time, line.end_time)})
+		if schedules:
+			availability.extend(get_availability_from_schedule(doctype, df, dn, schedules, date))
+
 	return availability
 
 
@@ -46,12 +49,13 @@ def get_availability_from_schedule(doctype, df, dn, schedules, date):
 	data = []
 	for line in schedules:
 		duration = get_time(line["duration"])
-		events = get_events(line["start"].strftime(
-			"%Y-%m-%d %H:%M:%S"), line["end"].strftime("%Y-%m-%d %H:%M:%S"), filters=[["Maia Appointment","practitioner","=",dn]])
+		events = get_events(line["start"].strftime("%Y-%m-%d %H:%M:%S"), line["end"].strftime("%Y-%m-%d %H:%M:%S"), \
+			filters=[["Maia Appointment","practitioner","=",dn]])
 
 		event_list = []
 		for event in events:
-			if (get_datetime(event.start_dt) >= line["start"] and get_datetime(event.start_dt) <= line["end"]) or get_datetime(event.end_dt) >= line["start"]:
+			if (get_datetime(event.start_dt) >= line["start"] and get_datetime(event.start_dt) <= line["end"]) \
+				or get_datetime(event.end_dt) >= line["start"]:
 				event_list.append(event)
 
 		available_slot = find_available_slot(date, duration, line, event_list)
@@ -59,28 +63,25 @@ def get_availability_from_schedule(doctype, df, dn, schedules, date):
 
 	return data
 
-
 def find_available_slot(date, duration, line, scheduled_items):
 	available_slots = []
 	current_schedule = []
 	if scheduled_items:
 		for scheduled_item in scheduled_items:
-
 			if get_datetime(scheduled_item.start_dt) < line["start"]:
-				new_entry = (get_datetime(line["start"]),
-							 get_datetime(scheduled_item.end_dt))
+				new_entry = (get_datetime(line["start"]), get_datetime(scheduled_item.end_dt))
 			elif get_datetime(scheduled_item.start_dt) < line["end"]:
-				new_entry = (get_datetime(scheduled_item.start_dt),
-						 get_datetime(scheduled_item.end_dt))
+				new_entry = (get_datetime(scheduled_item.start_dt), get_datetime(scheduled_item.end_dt))
+
+			print(new_entry)
 			try:
 				current_schedule.append(new_entry)
-			except:
-				pass
+			except Exception as e:
+				print(e)
 
 		scheduled_items = sorted(current_schedule, key = lambda x: x[0])
 		final_schedule = list(reduced(scheduled_items))
-		slots = get_all_slots(
-			line["start"], line["end"], line["duration"], final_schedule)
+		slots = get_all_slots(line["start"], line["end"], line["duration"], final_schedule)
 
 		for slot in slots:
 			available_slots.append(get_dict(slot[0], slot[1]))
@@ -95,13 +96,11 @@ def find_available_slot(date, duration, line, scheduled_items):
 
 		return available_slots
 
-
 def get_all_slots(day_start, day_end, time_delta, scheduled_items=None):
 	interval = int(time_delta.total_seconds() / 60)
 
 	if scheduled_items:
-		slots = sorted([(day_start, day_start)] +
-					   scheduled_items + [(day_end, day_end)])
+		slots = sorted([(day_start, day_start)] + scheduled_items + [(day_end, day_end)])
 	else:
 		slots = sorted([(day_start, day_start)] + [(day_end, day_end)])
 
@@ -112,8 +111,7 @@ def get_all_slots(day_start, day_end, time_delta, scheduled_items=None):
 			start += timedelta(minutes=interval)
 	return free_slots
 
-
-def get_dict(start, end, slots=None):
+def get_dict(start, end):
 	return {"start": start, "end": end}
 
 def reduced(timeseries):

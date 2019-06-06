@@ -4,15 +4,17 @@
 
 from __future__ import unicode_literals
 import frappe
-from frappe.model.document import Document
-from maia.maia_appointment.scheduler import check_availability
-from frappe import _
 import datetime
-from frappe.utils import getdate, get_time, get_datetime, get_datetime_str, formatdate, now_datetime, add_days, nowdate, cstr, date_diff, add_months, cint, add_to_date
-from frappe.email.doctype.email_template.email_template import get_email_template
-from mailin import Mailin
 import re
 import json
+import requests
+from frappe import _
+from frappe.model.document import Document
+from maia.maia_appointment.scheduler import check_availability
+from frappe.utils import getdate, get_time, get_datetime, get_datetime_str, formatdate, now_datetime, add_days, \
+	cstr, date_diff, add_months, cint, add_to_date
+from frappe.email.doctype.email_template.email_template import get_email_template
+
 
 weekdays = ["monday", "tuesday", "wednesday",
 			"thursday", "friday", "saturday", "sunday"]
@@ -80,6 +82,9 @@ class MaiaAppointment(Document):
 
 			self.send_sms_reminder(valid_number)
 
+		if not self.subject:
+			self.subject = self.name
+
 	def send_reminder(self):
 		patient_email = self.email
 		sending_date = get_datetime(self.start_dt) + datetime.timedelta(days=-1)
@@ -130,20 +135,44 @@ class MaiaAppointment(Document):
 							self.name, "queue_id", queue_id)
 
 	def send_sms_reminder(self, valid_number):
-		send_after_day = get_datetime(self.start_dt) + datetime.timedelta(days=-1)
 		appointment_date = formatdate(getdate(self.date), "dd/MM/yyyy")
 		start_time = get_datetime(self.start_dt).strftime("%H:%M")
 
+		sms_settings = self.get_sms_settings()		
+
 		sr = frappe.new_doc('SMS Reminder')
-		sr.sender_name = self.practitioner
+		sr.sender_name = sms_settings["sender_name"]
 		sr.sender = self.practitioner
-		sr.send_on = send_after_day
-		sr.message = _("""Rappel: Vous avez rendez-vous avec {0} le {1} à {2}. En cas d'impossibilité, veuillez contacter votre sage-femme. Merci""".format(
-			self.practitioner, appointment_date, start_time))
+		sr.send_on = get_datetime(self.start_dt) + datetime.timedelta(days=-cint(sms_settings["send_before"]))
+		sr.message = sms_settings["sms_content"].format( midwife=self.practitioner, date=appointment_date, time=start_time)
 		sr.send_to = valid_number
+		sr.recipient = self.patient_name
 		sr.maia_appointment = self.name
 		sr.flags.ignore_permissions = True
 		sr.save()
+
+	def get_sms_settings(self):
+		sms_settings = frappe.db.get_values("Professional Information Card", self.practitioner, \
+			["sender_name", "sms_content", "send_before"], as_dict=True)
+		
+		default_sender = "SageFemme"
+		default_content = _("Rappel: Vous avez rendez-vous avec {midwife} le {date} à {time}. En cas d'impossibilité, veuillez contacter votre sage-femme. Merci")
+		default_send_before = 1
+		
+		if sms_settings:
+			result = {
+				"sender_name": sms_settings[0]["sender_name"] or default_sender,
+				"sms_content": sms_settings[0]["sms_content"] or default_content,
+				"send_before": sms_settings[0]["send_before"] or default_send_before
+			}
+		else:
+			result = {
+				"sender_name": default_sender,
+				"sms_content": default_content,
+				"send_before": default_send_before
+			}
+
+		return result
 
 	def on_cancel(self):
 		queue_name = frappe.db.get_value("Maia Appointment", self.name, "queue_id")
@@ -162,7 +191,6 @@ class MaiaAppointment(Document):
 				frappe.log_error(frappe.get_traceback())
 
 		self.reload()
-
 
 def get_appointment_list(doctype, txt, filters, limit_start, limit_page_length=20, order_by='modified desc'):
 	patient = get_patient_record()
@@ -371,11 +399,16 @@ def check_availability_by_midwife(practitioner, date, duration, appointment_type
 def _get_availability_by_midwife(practitioner, date, duration):
 	payload = {}
 	payload[practitioner] = check_availability(
-		"Maia Appointment", "practitioner", "Professional Information Card", practitioner, date, duration)
+		"Maia Appointment",
+		"practitioner",
+		"Professional Information Card",
+		practitioner,
+		date,
+		duration
+	)
 	if payload[practitioner] == [[]]:
 		payload[practitioner] = []
 	return payload
-
 
 def validate_receiver_no(validated_no):
 	for x in [' ', '-', '(', ')', '.']:
@@ -388,89 +421,66 @@ def validate_receiver_no(validated_no):
 
 	return validated_no
 
-
-def flush(from_test=False):
+def flush():
 	"""flush email queue, every time: called from scheduler"""
 	if frappe.conf.get("sms_activated") == 1:
-		# additional check
-		cache = frappe.cache()
-
-		auto_commit = not from_test
-
 		make_cache_queue()
+		cache = frappe.cache()
 
 		for i in range(cache.llen('cache_sms_queue')):
 			sms = cache.lpop('cache_sms_queue')
-
 			if sms:
 				send_sms_reminder(sms)
-
 
 def make_cache_queue():
 	'''cache values in queue before sending'''
 	cache = frappe.cache()
 
-	sms = frappe.db.sql('''select
-		name
-		from `tabSMS Reminder`
-		where send_on < %(now)s
-		order by creation asc
-		limit 500''', {'now': now_datetime()})
+	sms = [x["name"] for x in frappe.get_all("SMS Reminder", filters={"send_on": ["<", now_datetime()], "status": "Queued"}, \
+		order_by="creation asc", limit=500)]
 
 	# reset value
 	cache.delete_value('cache_sms_queue')
-	for e in sms:
-		cache.rpush('cache_sms_queue', e[0])
-
+	for s in sms:
+		cache.rpush('cache_sms_queue', s)
 
 def send_sms_reminder(name):
-	sms = frappe.db.sql('''select
-		name, sender_name, sender, send_on, message, send_to
-		from
-		`tabSMS Reminder`
-		where
-		name=%s
-		for update''', name, as_dict=True)[0]
+	if not frappe.conf.get("customer"):
+		frappe.sendmail(recipients="support@dokos.io", subject="SMS customer account missing", \
+			content="Missing customer account for site {0}".format(frappe.utils.get_site_base_path().split("/")[1]))
+		return frappe.log_error("Missing customer account", "SMS Error")
 
-	args = {"text": sms.message}
-	args["from"] = "SageFemme"
-	args["to"] = sms.send_to
-	args["type"] = "transactional"
-	args["tag"] = frappe.conf.get("customer")+ "/" + sms.sender
-	args["practitioner"] = sms.sender
-	status = send_request(args)
+	if frappe.db.exists("SMS Reminder", name):
+		sms = frappe.get_doc("SMS Reminder", name)
 
-	if status["code"] == "success":
-		create_sms_log(args)
-		reminder = frappe.get_doc('SMS Reminder', sms.name)
-		reminder.delete()
+		args = {
+			"sender": sms.sender_name,
+			"content": sms.message,
+			"recipient": sms.send_to,
+			"type": "transactional",
+			"tag": frappe.conf.get("customer")+ "/" + sms.sender,
+			"webUrl": "https://portail.dokos.io?cmd=dokops.api.sms_callback"
+		}
 
-	else:
-		frappe.log_error(status, "Erreur SMS: " + sms.name)
-		reminder = frappe.get_doc('SMS Reminder', sms.name)
-		if reminder.send_on < now_datetime():
-			reminder.delete()
+		status = send_request(args)
+		print(status.status_code)
+		if status.status_code in [200, 201, 202, 204]:
+			frappe.db.set_value("SMS Reminder", sms.name, "status", "Sent")
+			frappe.db.set_value("SMS Reminder", sms.name, "sent_on", now_datetime())
+		else:
+			status = status.json()
+			frappe.db.set_value("SMS Reminder", sms.name, "status", "Error")
+			frappe.db.set_value("SMS Reminder", sms.name, "sending_status", "{0}: {1}".format(status["message"]))
+			frappe.log_error(status, "SMS Error")
 
-
-def send_request(params):
-	sendinblue_key = frappe.conf.get("sendinblue_key")
-	m = Mailin("https://api.sendinblue.com/v2.0", sendinblue_key)
-	data = params
-	result = m.send_sms(data)
-	return result
-
-
-def create_sms_log(args):
-	sl = frappe.new_doc('SMS Log')
-	sl.sender_name = args['practitioner']
-	sl.sent_on = nowdate()
-	sl.message = args['text']
-	sl.no_of_requested_sms = 1
-	sl.requested_numbers = "\n".join(args['to'])
-	sl.no_of_sent_sms = 1
-	sl.sent_to = "\n".join(args['to'])
-	sl.flags.ignore_permissions = True
-	sl.save()
+def send_request(data):
+	url = "https://api.sendinblue.com/v3/transactionalSMS/sms"
+	headers = {
+		"content-type": "application/json",
+		"api-key": frappe.conf.get("sendinblue_key")
+	}
+	response = requests.post(url, headers=headers, json=data)
+	return response
 
 @frappe.whitelist()
 def set_seats_left(appointment, data):

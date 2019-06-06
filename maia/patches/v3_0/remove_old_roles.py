@@ -65,3 +65,10 @@ def execute():
 		except Exception as e:
 			print("Role: " + role)
 			print(e)
+
+	# Add the default sms values in professional informations cards
+	cards = frappe.get_all("Professional Information Card")
+
+	for card in cards:
+		frappe.db.set_value("Professional Information Card", card.name, "sms_content", \
+			"Rappel: Vous avez rendez-vous avec {midwife} le {date} à {time}. En cas d'impossibilité, veuillez contacter votre sage-femme. Merci")
