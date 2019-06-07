@@ -21,6 +21,7 @@ def get(chart_name=None, from_date = None, to_date = None):
 
 	result = get_repartition(from_date, to_date)
 	labels = [_(x) for x in maia.get_consultation_types()]
+	#labels = ["12am-3am", "3am-6am", "6am-9am", "9am-12pm", "12pm-3pm", "3pm-6pm", "6pm-9pm", "9pm-12am"]
 
 	return {
 		"labels": labels,

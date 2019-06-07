@@ -41,7 +41,7 @@ def setup_charts():
 		color = re.search('color: "(.*)"', config)
 		parameters["color"] = color.group(1) if color else None
 
-		unit = re.search('unit: "(.*)"', config)
+		unit = re.search('unit: _"(.*)"', config)
 		parameters["unit"] = unit.group(1) if unit else None
 
 		width = re.search('width: "(.*)"', config)
