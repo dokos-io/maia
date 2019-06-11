@@ -42,7 +42,8 @@ maia.patches.v2_4.maia_appointment_module
 maia.patches.v2_4.remove_maia_appointment_icon
 maia.patches.v2_6.add_min_value_for_euro
 maia.patches.v2_6.update_codifications
-maia.patches.v3_0.correct_sipay_dates #2019-04-28
+maia.patches.v3_0.update_accounting
+maia.patches.v3_0.correct_sipay_dates
 maia.patches.v3_0.migrate_sales_invoices
 maia.patches.v3_0.migrate_purchase_invoices
 maia.patches.v3_0.migrate_journal_entries

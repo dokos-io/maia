@@ -1,12 +1,10 @@
 // Copyright (c) 2017, DOKOS and contributors
 // For license information, please see license.txt
 
-frappe.provide('maia');
-
-frappe.ui.form.on(this.frm.doctype, {
+frappe.ui.form.on("Free Prescription", {
 	onload: function(frm) {
-	if (frm.doc.docstatus != 1) {
-		frappe.call({
+		if (frm.doc.docstatus != 1) {
+			frappe.call({
 				"method": "maia.client.get_practitioner",
 				args: {
 					doctype: "Professional Information Card",
@@ -24,108 +22,15 @@ frappe.ui.form.on(this.frm.doctype, {
 			})
 		}
 	},
-	lab_exam_template: function(frm) {
-		if(frm.doc.lab_exam_template) {
-			frappe.call({
-				"method": "maia.maia.doctype.lab_exam_template.lab_exam_template.get_lab_exam_template",
-				args: {
-					lab_exam_template: frm.doc.lab_exam_template
-				},
-				callback: function (data) {
-						$.each(data.message || [], function(i, v){
-							var d = frappe.model.add_child(frm.doc, "Lab Exam Prescription", "lab_prescription_table");
-							d.lab_exam = v.exam_type;
-							d.additional_notes = v.additional_notes;
-						});
-						refresh_field("lab_prescription_table");
-				}
-			});
-		}
-	},
-	drug_list_template: function(frm) {
-		if(frm.doc.drug_list_template) {
-			frappe.call({
-				"method": "maia.maia.doctype.drug_list_template.drug_list_template.get_drug_list_template",
-				args: {
-					drug_list_template: frm.doc.drug_list_template
-				},
-				callback: function (data) {
-						$.each(data.message || [], function(i, v){
-							var d = frappe.model.add_child(frm.doc, "Drug Prescription", "drug_prescription_table");
-							d.drug = v.drug;
-							d.posology = v.posology;
-							d.pharmaceutical_form = v.pharmaceutical_form;
-							d.treatment_duration = v.treatment_duration;
-							d.additional_notes = v.additional_notes;
-						});
-						refresh_field("drug_prescription_table");
-				}
-			});
-		}
-	}
-
-});
-
-maia.FreePrescriptionController = frappe.ui.form.Controller.extend({
 
 	refresh: function(frm) {
-		if (!this.frm.doc.__islocal) {
-			this.frm.add_custom_button(__('Drug Prescription'), this.print_drug_prescription, __("Print Prescription"));
-			this.frm.add_custom_button(__('Lab Prescription'), this.print_lab_prescription, __("Print Prescription"));
-			this.frm.add_custom_button(__('Echography Prescription'), this.print_echo_prescription, __("Print Prescription"));
-		}
-
-	},
-
-	print_drug_prescription: function(frm) {
-		var w = window.open(
-			frappe.urllib.get_full_url("/api/method/frappe.utils.print_format.download_pdf?" +
-				"doctype=" + encodeURIComponent(cur_frm.doc.doctype) +
-				"&name=" + encodeURIComponent(cur_frm.doc.name) +
-				"&format=Drug Prescription" +
-				"&no_letterhead=0" +
-				"&_lang=fr")
-		);
-		if (!w) {
-			frappe.msgprint(__("Please enable pop-ups"));
-			return;
-		}
-	},
-
-	print_lab_prescription: function(frm) {
-		var w = window.open(
-			frappe.urllib.get_full_url("/api/method/frappe.utils.print_format.download_pdf?" +
-				"doctype=" + encodeURIComponent(cur_frm.doc.doctype) +
-				"&name=" + encodeURIComponent(cur_frm.doc.name) +
-				"&format=Lab Prescription" +
-				"&no_letterhead=0" +
-				"&_lang=fr")
-		);
-		if (!w) {
-			frappe.msgprint(__("Please enable pop-ups"));
-			return;
-		}
-	},
-
-	print_echo_prescription: function(frm) {
-		var w = window.open(
-			frappe.urllib.get_full_url("/api/method/frappe.utils.print_format.download_pdf?" +
-				"doctype=" + encodeURIComponent(cur_frm.doc.doctype) +
-				"&name=" + encodeURIComponent(cur_frm.doc.name) +
-				"&format=Echography Prescription" +
-				"&no_letterhead=0" +
-				"&_lang=fr")
-		);
-		if (!w) {
-			frappe.msgprint(__("Please enable pop-ups"));
-			return;
+		if (!frm.doc.__islocal) {
+			frm.add_custom_button(__('Drug Prescription'), () => { print_drug_prescription(frm) }, __("Print Prescription"));
+			frm.add_custom_button(__('Lab Prescription'), () => { print_lab_prescription(frm) }, __("Print Prescription"));
+			frm.add_custom_button(__('Echography Prescription'), () => { print_echo_prescription(frm) }, __("Print Prescription"));
 		}
 	}
 
 });
-
-$.extend(cur_frm.cscript, new maia.FreePrescriptionController({
-	frm: cur_frm
-}));
 
 {% include "maia/public/js/controllers/print_settings.js" %}

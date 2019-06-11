@@ -25,10 +25,16 @@
   "signature",
   "column_break_19",
   "letter_head",
+  "accounting_settings_section",
+  "disable_accounting",
+  "column_break_21",
+  "third_party_payment",
+  "social_security_price",
+  "social_security_rate",
   "sms_settings_section",
   "sender_name",
   "send_before",
-  "column_break_21",
+  "column_break_22",
   "sms_content",
   "section_break_19",
   "allow_online_booking",
@@ -170,7 +176,8 @@
    "label": "Is a substitute"
   },
   {
-   "description": "Your signature will be added automatically in your prescriptions",
+   "collapsible": 1,
+   "description": "Your signature and letter head will be used for printing your documents",
    "fieldname": "section_break_18",
    "fieldtype": "Section Break",
    "label": "Signature and Letter Head"
@@ -205,9 +212,47 @@
    "fieldtype": "Select",
    "label": "Send x day(s) before the appointment",
    "options": "1\n2\n3\n4\n5\n6\n7"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "accounting_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Accounting Settings"
+  },
+  {
+   "default": "0",
+   "fieldname": "disable_accounting",
+   "fieldtype": "Check",
+   "label": "Disable Accounting"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.disable_accounting===0",
+   "fieldname": "third_party_payment",
+   "fieldtype": "Check",
+   "label": "Third party payment by default"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.disable_accounting===0",
+   "fieldname": "social_security_price",
+   "fieldtype": "Check",
+   "label": "Social security price by default"
+  },
+  {
+   "default": "Normal Rate (70%)",
+   "depends_on": "eval:doc.disable_accounting===0",
+   "fieldname": "social_security_rate",
+   "fieldtype": "Select",
+   "label": "Social security rate",
+   "options": "Normal Rate (70%)\nR\u00e9gime d'Alsace-Moselle (90%)"
+  },
+  {
+   "fieldname": "column_break_22",
+   "fieldtype": "Column Break"
   }
  ],
- "modified": "2019-06-06 16:20:27.212327",
+ "modified": "2019-06-07 16:15:42.896441",
  "modified_by": "Administrator",
  "module": "Maia",
  "name": "Professional Information Card",

@@ -8,10 +8,8 @@ frappe.ui.form.on(this.frm.doctype, {
 	}
 })
 
-let add_buttons = function(frm) {
+const add_buttons = (frm) => {
 	frm.page.add_menu_item(__("Letter"), function() {
 		new frappe.views.LetterComposer({doc: frm.doc, frm: frm});
 	}, false); 
 }
-
-

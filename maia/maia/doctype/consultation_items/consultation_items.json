@@ -1,0 +1,83 @@
+{
+ "creation": "2019-06-10 08:45:12.791998",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "codification_name",
+  "codification",
+  "description",
+  "rate",
+  "social_security_share",
+  "patient_share",
+  "overbilling",
+  "category"
+ ],
+ "fields": [
+  {
+   "fieldname": "codification",
+   "fieldtype": "Data",
+   "in_standard_filter": 1,
+   "label": "Codification",
+   "read_only": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Description",
+   "read_only": 1
+  },
+  {
+   "fieldname": "rate",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Rate",
+   "read_only": 1
+  },
+  {
+   "fieldname": "social_security_share",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Social Security Share",
+   "read_only": 1
+  },
+  {
+   "fieldname": "patient_share",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Patient Share",
+   "read_only": 1
+  },
+  {
+   "fieldname": "overbilling",
+   "fieldtype": "Currency",
+   "label": "Overbilling",
+   "read_only": 1
+  },
+  {
+   "fieldname": "codification_name",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Codification Name",
+   "options": "Codification",
+   "read_only": 1
+  },
+  {
+   "fieldname": "category",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Category",
+   "options": "codification\nallowance\nwithout_codification"
+  }
+ ],
+ "istable": 1,
+ "modified": "2019-06-11 12:33:57.734378",
+ "modified_by": "Administrator",
+ "module": "Maia",
+ "name": "Consultation Items",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

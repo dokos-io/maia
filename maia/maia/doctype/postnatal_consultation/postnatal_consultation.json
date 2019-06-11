@@ -43,54 +43,44 @@
   "lab_exam_template",
   "lab_prescription_table",
   "billing_details",
+  "accounting_disabled",
   "third_party_payment",
+  "social_security_price",
   "column_break_19",
   "hundred_percent_maternity",
   "malady",
   "column_break_58",
   "normal_rate",
   "alsace_moselle_rate",
-  "no_teletransmission",
-  "section_break_19",
+  "billing_details_1",
   "sundays_holidays_allowance",
-  "sundays_holidays_allowance_codification",
-  "sundays_holidays_allowance_value",
   "night_work_allowance",
   "night_work_allowance_type",
-  "night_work_allowance_codification",
-  "night_work_allowance_value",
   "codification",
-  "codification_value",
-  "overpayment_value",
   "codification_description",
   "column_break_10",
   "lump_sum_travel_allowance",
-  "lump_sum_travel_allowance_codification",
-  "lump_sum_travel_allowance_value",
   "mileage_allowance",
   "mileage_allowance_type",
   "number_of_kilometers",
-  "mileage_allowance_codification",
-  "mileage_allowance_value",
   "without_codification",
   "without_codification_description",
-  "codification_price_section",
-  "codification_display",
-  "cpam_share_display",
-  "overpayment_display",
-  "without_codification_display",
+  "billing_details_2",
+  "consultation_items",
+  "billing_details_4",
+  "codification_value",
+  "overpayment_value",
   "column_break_41",
-  "sundays_holidays_allowance_display",
-  "night_work_allowance_display",
-  "lump_sum_travel_allowance_display",
-  "mileage_allowance_display",
-  "section_break_33",
+  "without_codification_display",
+  "total_allowances",
+  "billing_details_3",
+  "cpam_share_display",
+  "patient_price",
+  "total_price",
+  "column_break_37",
   "paid_immediately",
   "mode_of_payment",
   "reference",
-  "column_break_37",
-  "patient_price",
-  "total_price",
   "section_break_57",
   "amended_from",
   "print_settings",
@@ -294,6 +284,7 @@
    "options": "Lab Exam Prescription"
   },
   {
+   "depends_on": "eval:doc.accounting_disabled==0",
    "fieldname": "billing_details",
    "fieldtype": "Section Break",
    "label": "Billing Details"
@@ -342,31 +333,9 @@
   },
   {
    "default": "0",
-   "fieldname": "no_teletransmission",
-   "fieldtype": "Check",
-   "hidden": 1,
-   "label": "No Teletransmission"
-  },
-  {
-   "fieldname": "section_break_19",
-   "fieldtype": "Section Break"
-  },
-  {
-   "default": "0",
    "fieldname": "sundays_holidays_allowance",
    "fieldtype": "Check",
    "label": "Sundays/Holidays Allowance"
-  },
-  {
-   "fieldname": "sundays_holidays_allowance_codification",
-   "fieldtype": "Data",
-   "hidden": 1
-  },
-  {
-   "default": "0",
-   "fieldname": "sundays_holidays_allowance_value",
-   "fieldtype": "Float",
-   "hidden": 1
   },
   {
    "default": "0",
@@ -383,34 +352,23 @@
    "options": "20h-0h | 6h-8h\n0h-6h"
   },
   {
-   "fieldname": "night_work_allowance_codification",
-   "fieldtype": "Data",
-   "hidden": 1
-  },
-  {
-   "default": "0",
-   "fieldname": "night_work_allowance_value",
-   "fieldtype": "Float",
-   "hidden": 1
-  },
-  {
    "fieldname": "codification",
    "fieldtype": "Table MultiSelect",
    "label": "Codification",
-   "options": "Maia Selected Codification",
-   "reqd": 1
+   "options": "Maia Selected Codification"
   },
   {
    "default": "0",
    "fieldname": "codification_value",
-   "fieldtype": "Float",
-   "hidden": 1
+   "fieldtype": "Currency",
+   "label": "Codification Total Value",
+   "read_only": 1
   },
   {
-   "default": "0",
    "fieldname": "overpayment_value",
-   "fieldtype": "Float",
-   "hidden": 1
+   "fieldtype": "Currency",
+   "label": "Overpayment",
+   "read_only": 1
   },
   {
    "fieldname": "codification_description",
@@ -427,17 +385,6 @@
    "fieldname": "lump_sum_travel_allowance",
    "fieldtype": "Check",
    "label": "Lump Sum Travel Allowance"
-  },
-  {
-   "fieldname": "lump_sum_travel_allowance_codification",
-   "fieldtype": "Data",
-   "hidden": 1
-  },
-  {
-   "default": "0",
-   "fieldname": "lump_sum_travel_allowance_value",
-   "fieldtype": "Float",
-   "hidden": 1
   },
   {
    "default": "0",
@@ -461,17 +408,6 @@
    "precision": "1"
   },
   {
-   "fieldname": "mileage_allowance_codification",
-   "fieldtype": "Data",
-   "hidden": 1
-  },
-  {
-   "default": "0",
-   "fieldname": "mileage_allowance_value",
-   "fieldtype": "Float",
-   "hidden": 1
-  },
-  {
    "fieldname": "without_codification",
    "fieldtype": "Currency",
    "label": "Without Codification (\u20ac)"
@@ -483,70 +419,21 @@
    "label": "Description"
   },
   {
-   "fieldname": "codification_price_section",
-   "fieldtype": "Section Break",
-   "label": "Codification & Price"
-  },
-  {
-   "fieldname": "codification_display",
-   "fieldtype": "Read Only",
-   "label": "Codification"
-  },
-  {
-   "depends_on": "eval:doc.third_party_payment",
    "fieldname": "cpam_share_display",
-   "fieldtype": "Data",
+   "fieldtype": "Currency",
    "label": "CPAM Share",
-   "read_only": 1
-  },
-  {
-   "fieldname": "overpayment_display",
-   "fieldtype": "Data",
-   "label": "Overpayment",
    "read_only": 1
   },
   {
    "depends_on": "eval:(doc.without_codification!=0)&&(doc.without_codification!=null)",
    "fieldname": "without_codification_display",
-   "fieldtype": "Data",
+   "fieldtype": "Currency",
    "label": "Without Codification",
    "read_only": 1
   },
   {
    "fieldname": "column_break_41",
    "fieldtype": "Column Break"
-  },
-  {
-   "depends_on": "eval:(doc.sundays_holidays_allowance==1)",
-   "fieldname": "sundays_holidays_allowance_display",
-   "fieldtype": "Data",
-   "label": "Sundays/Holidays Allowance",
-   "read_only": 1
-  },
-  {
-   "depends_on": "eval:(doc.night_work_allowance==1)",
-   "fieldname": "night_work_allowance_display",
-   "fieldtype": "Data",
-   "label": "Night Work Allowance",
-   "read_only": 1
-  },
-  {
-   "depends_on": "eval:(doc.lump_sum_travel_allowance==1)",
-   "fieldname": "lump_sum_travel_allowance_display",
-   "fieldtype": "Data",
-   "label": "Lump Sum Travel Allowance",
-   "read_only": 1
-  },
-  {
-   "depends_on": "eval:(doc.mileage_allowance==1)",
-   "fieldname": "mileage_allowance_display",
-   "fieldtype": "Data",
-   "label": "Mileage Allowance",
-   "read_only": 1
-  },
-  {
-   "fieldname": "section_break_33",
-   "fieldtype": "Section Break"
   },
   {
    "default": "0",
@@ -580,6 +467,7 @@
   },
   {
    "bold": 1,
+   "default": "0",
    "fieldname": "total_price",
    "fieldtype": "Currency",
    "label": "Total Price",
@@ -610,10 +498,57 @@
    "fieldtype": "Link",
    "label": "Letter Head",
    "options": "Letter Head"
+  },
+  {
+   "default": "0",
+   "fieldname": "social_security_price",
+   "fieldtype": "Check",
+   "label": "Apply social security price"
+  },
+  {
+   "depends_on": "eval:doc.accounting_disabled==0",
+   "fieldname": "billing_details_1",
+   "fieldtype": "Section Break"
+  },
+  {
+   "collapsible": 1,
+   "depends_on": "eval:doc.accounting_disabled==0",
+   "fieldname": "billing_details_2",
+   "fieldtype": "Section Break",
+   "label": "Pricing Details"
+  },
+  {
+   "depends_on": "eval:doc.accounting_disabled==0",
+   "fieldname": "billing_details_3",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "accounting_disabled",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Accounting Disabled"
+  },
+  {
+   "fieldname": "total_allowances",
+   "fieldtype": "Currency",
+   "label": "Total Allowances",
+   "read_only": 1
+  },
+  {
+   "fieldname": "consultation_items",
+   "fieldtype": "Table",
+   "options": "Consultation Items",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.accounting_disabled==0",
+   "fieldname": "billing_details_4",
+   "fieldtype": "Section Break"
   }
  ],
  "is_submittable": 1,
- "modified": "2019-05-30 15:55:17.328580",
+ "modified": "2019-06-11 15:48:24.590725",
  "modified_by": "Administrator",
  "module": "Maia",
  "name": "Postnatal Consultation",

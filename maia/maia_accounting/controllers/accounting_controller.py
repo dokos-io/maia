@@ -9,6 +9,7 @@ from maia.maia_accounting.doctype.general_ledger_entry.general_ledger_entry impo
 class AccountingController(StatusUpdater):
 	def set_outstanding_amount(self):
 		self.outstanding_amount = self.amount
+		self.set_status()
 	
 	def reverse_gl_entries(self):
 		gl_entries = frappe.get_all("General Ledger Entry", filters={"link_doctype": self.doctype, \
