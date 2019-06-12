@@ -18,6 +18,7 @@
   "party",
   "section_break_11",
   "paid_amount",
+  "previously_paid_amount",
   "payment_references",
   "pending_amount",
   "clearance_date",
@@ -163,11 +164,18 @@
    "in_standard_filter": 1,
    "label": "Status",
    "options": "Draft\nUnreconciled\nReconciled\nCancelled"
+  },
+  {
+   "depends_on": "eval:doc.previously_paid_amount > 0",
+   "fieldname": "previously_paid_amount",
+   "fieldtype": "Currency",
+   "label": "Previously paid amount",
+   "read_only": 1
   }
  ],
  "is_sealed": 1,
  "is_submittable": 1,
- "modified": "2019-05-29 13:58:30.803377",
+ "modified": "2019-06-12 09:04:10.592628",
  "modified_by": "Administrator",
  "module": "Maia Accounting",
  "name": "Payment",
@@ -200,6 +208,21 @@
    "read": 1,
    "report": 1,
    "role": "Midwife",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Midwife Substitute",
    "share": 1,
    "submit": 1,
    "write": 1

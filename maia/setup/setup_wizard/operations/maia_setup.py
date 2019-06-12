@@ -22,6 +22,24 @@ def install_chart_of_accounts():
 
 	frappe.db.commit()
 
+def add_meal_expense_deductions():
+	deductions = [
+		{"fiscal_year": 2016, "deductible_amount": 4.70, "limit": 18.3},
+		{"fiscal_year": 2017, "deductible_amount": 4.75, "limit": 18.4},
+		{"fiscal_year": 2018, "deductible_amount": 4.80, "limit": 18.6},
+		{"fiscal_year": 2019, "deductible_amount": 4.85, "limit": 18.8}
+	]
+
+	for d in deductions:
+		doc = frappe.get_doc({
+			"doctype": "Meal Expense Deduction",
+			"fiscal_year": d["fiscal_year"],
+			"deductible_amount": d["deductible_amount"],
+			"limit": d["limit"]
+		})
+		doc.insert()
+		doc.submit()
+
 def create_professional_contact_card():
 	users = frappe.db.get_all("User", fields=["name", "full_name"])
 	if users:
@@ -39,7 +57,7 @@ def set_default_print_formats():
 	names = ["Patient Folder", "Prenatal Interview Folder", "Perineum Rehabilitation Folder", "Gynecology Folder", \
 		"Pregnancy Folder", "Postnatal Consultation", "Birth Preparation Consultation", "Perineum Rehabilitation Consultation", \
 		"Free Consultation", "Early Postnatal Consultation", "Gynecological Consultation", "Pregnancy Consultation", "Drug Prescription",
-		"Quittance Maia"]
+		"Facture Maia"]
 
 	for name in names:
 		print_format = frappe.get_doc("Print Format", name)

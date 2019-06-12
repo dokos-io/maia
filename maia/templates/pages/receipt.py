@@ -20,7 +20,7 @@ def get_context(context):
 	if default_print_format:
 		context.print_format = default_print_format
 	else:
-		context.print_format = "Quittance Maia"
+		context.print_format = "Facture Maia"
 
 	if not frappe.has_website_permission(context.doc):
 		frappe.throw(_("Not Permitted"), frappe.PermissionError)

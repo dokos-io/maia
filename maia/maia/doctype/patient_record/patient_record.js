@@ -116,6 +116,18 @@ frappe.ui.form.on("Patient Record", {
 	},
 	pregnancies_report: function(frm) {
 		frappe.set_route('pregnancies', frm.doc.name);
+	},
+	disable_user: function(frm) {
+		if (frm.doc.website_user) {
+			frappe.xcall("maia.maia.doctype.patient_record.patient_record.disable_user", {user: frm.doc.website_user, status: !frm.doc.disable_user})
+			.then(e => {
+				frappe.show_alert({ message: __("Website user {0}", [frm.doc.disable_user ? __("disabled") : __("enabled")]), indicator: 'green' })
+			})
+			.catch(() => {
+				frappe.show_alert({ message: __("Error while disabling the website user. Please contact the support."), indicator: 'orange' })
+			})
+		}
+		
 	}
 });
 

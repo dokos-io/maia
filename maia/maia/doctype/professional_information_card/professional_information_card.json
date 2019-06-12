@@ -108,6 +108,7 @@
    "label": "Work Phone"
   },
   {
+   "allow_in_quick_entry": 1,
    "fieldname": "email",
    "fieldtype": "Data",
    "label": "Work Email"
@@ -170,6 +171,7 @@
    "options": "Midwife Consulting Schedule"
   },
   {
+   "allow_in_quick_entry": 1,
    "default": "0",
    "fieldname": "is_substitute",
    "fieldtype": "Check",
@@ -252,7 +254,7 @@
    "fieldtype": "Column Break"
   }
  ],
- "modified": "2019-06-07 16:15:42.896441",
+ "modified": "2019-06-12 10:32:30.024290",
  "modified_by": "Administrator",
  "module": "Maia",
  "name": "Professional Information Card",
@@ -266,13 +268,33 @@
    "print": 1,
    "read": 1,
    "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
    "role": "Midwife",
    "share": 1,
    "write": 1
   },
   {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
    "read": 1,
-   "role": "Patient"
+   "report": 1,
+   "role": "Midwife Substitute",
+   "share": 1,
+   "write": 1
   },
   {
    "create": 1,
@@ -285,6 +307,10 @@
    "role": "Appointment User",
    "share": 1,
    "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Patient"
   }
  ],
  "quick_entry": 1,

@@ -6,7 +6,7 @@
 		</div>
 		<div class="text-center padding">
 			<a class="btn btn-primary appointment" href="/login">
-			{{ data.button_label }}</a>
+			{{ data.button_label or '' }}</a>
 		</div>
 	</div>
 </header>
@@ -16,7 +16,7 @@
 		{% if data.body_title %}
 		<div class="row heading">
 			<div class="col-md-12">
-					<h2 class="text-center bottom-line">{{ data.body_title }}</h2>
+					<h2 class="text-center bottom-line">{{ data.body_title or '' }}</h2>
 			</div>
 		</div>
 		{% endif %}
@@ -27,8 +27,8 @@
 					<a class="inactiveLink">
 						<i class="{{ d.icon }} hi-icon" aria-hidden="true"></i>
 						</a>
-					<h3>{{ d.heading }}</h3>
-					<p>{{ d.body }}</p>
+					<h3>{{ d.heading or '' }}</h3>
+					<p>{{ d.body or '' }}</p>
 				</div>
 			</div>
 			{% endfor %}

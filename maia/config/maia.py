@@ -152,33 +152,9 @@ def get_data():
 				},
 				{
 					"type": "doctype",
-					"name": "Maternity",
-					"label": _("Maternities"),
-					"description": _("Maternity"),
-				},
-				{
-					"type": "doctype",
-					"name": "Origin",
-					"label": _("Origins"),
-					"description": _("Origin"),
-				},
-				{
-					"type": "doctype",
-					"name": "Profession",
-					"label": _("Professions"),
-					"description": _("Professions"),
-				},
-				{
-					"type": "doctype",
-					"name": "Employment Status",
-					"label": _("Employment Statuses"),
-					"description": _("Employment Statuses"),
-				},
-				{
-					"type": "doctype",
-					"name": "Sport",
-					"label": _("Sports"),
-					"description": _("Sports"),
+					"name": "Email Template",
+					"label": _("Email Templates"),
+					"description": _("Email Templates"),
 				}
 			]
 		},
@@ -221,6 +197,36 @@ def get_data():
 					"name": "Vaccine",
 					"label": _("Vaccines"),
 					"description": _("Vaccines"),
+				},
+				{
+					"type": "doctype",
+					"name": "Maternity",
+					"label": _("Maternities"),
+					"description": _("Maternity"),
+				},
+				{
+					"type": "doctype",
+					"name": "Origin",
+					"label": _("Origins"),
+					"description": _("Origin"),
+				},
+				{
+					"type": "doctype",
+					"name": "Profession",
+					"label": _("Professions"),
+					"description": _("Professions"),
+				},
+				{
+					"type": "doctype",
+					"name": "Employment Status",
+					"label": _("Employment Statuses"),
+					"description": _("Employment Statuses"),
+				},
+				{
+					"type": "doctype",
+					"name": "Sport",
+					"label": _("Sports"),
+					"description": _("Sports"),
 				}
 			]
 		},

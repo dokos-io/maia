@@ -194,7 +194,7 @@
    "options": "Letter Head"
   }
  ],
- "modified": "2019-05-29 19:31:02.858047",
+ "modified": "2019-06-12 10:28:44.243798",
  "modified_by": "Administrator",
  "module": "Maia",
  "name": "Prenatal Interview",
@@ -210,6 +210,18 @@
    "read": 1,
    "report": 1,
    "role": "Midwife",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Midwife Substitute",
    "share": 1,
    "write": 1
   }

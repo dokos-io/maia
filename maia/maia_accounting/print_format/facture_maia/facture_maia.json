@@ -14,7 +14,7 @@
  "modified": "2019-05-29 14:38:15.142981",
  "modified_by": "Administrator",
  "module": "Maia Accounting",
- "name": "Quittance Maia",
+ "name": "Facture Maia",
  "owner": "Administrator",
  "print_format_builder": 0,
  "print_format_type": "Jinja",

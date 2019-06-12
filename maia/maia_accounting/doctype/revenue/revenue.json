@@ -222,7 +222,7 @@
  ],
  "is_sealed": 1,
  "is_submittable": 1,
- "modified": "2019-06-06 11:43:01.104677",
+ "modified": "2019-06-12 09:07:51.894623",
  "modified_by": "Administrator",
  "module": "Maia Accounting",
  "name": "Revenue",
@@ -263,6 +263,21 @@
    "print": 1,
    "read": 1,
    "role": "Patient"
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Midwife Substitute",
+   "share": 1,
+   "submit": 1,
+   "write": 1
   }
  ],
  "route": "/desk#Form/DocType/Revenue",

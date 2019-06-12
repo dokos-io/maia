@@ -27,8 +27,37 @@ frappe.ui.form.on('Payment', {
 		frm.page.clear_actions_menu();
 		add_reconciliation_btn(frm);
 	},
+	practitioner(frm) {
+		frm.events.get_accounting_practitioner(frm);
+	},
+	payment_date(frm) {
+		frm.events.get_accounting_practitioner(frm);
+	},
+	get_accounting_practitioner(frm) {
+		if (frm.doc.practitioner&&frm.doc.payment_date) {
+			frappe.xcall("maia.maia_accounting.doctype.payment.payment.get_replaced_practitioner",
+			{date: frm.doc.payment_date, practitioner:frm.doc.practitioner})
+			.then(e => {
+				if (e) {
+					frappe.confirm(__("Would you like to use practitioner {0} to register this payment ?", [e]), () => {
+						frm.set_value("practitioner", e)
+					})
+				}
+			})
+		}
+	},
 	party(frm) {
-		frm.events.get_references(frm);
+		if (frm.doc.party) {
+			frappe.xcall("maia.maia_accounting.doctype.payment.payment.get_pending_amount",
+			{payment_type: frm.doc.payment_type, party: frm.doc.party})
+			.then(e => {
+				console.log(e)
+				if (e) { frm.set_value("previously_paid_amount", e) }
+			})
+			.then(() => {
+				frm.events.get_references(frm);
+			})
+		}
 	},
 	payment_type(frm) {
 		set_default_payment_method(frm);
@@ -59,17 +88,19 @@ frappe.ui.form.on('Payment', {
 		frm.set_value("pending_amount", null);
 
 		let total = 0
-		frm.doc.payment_references.forEach(row => {
-			if (total + row.outstanding_amount <= frm.doc.paid_amount) {
-				row.paid_amount = row.outstanding_amount;
-				total += row.outstanding_amount;
-			} else {
-				row.paid_amount = frm.doc.paid_amount - total;
-				total += frm.doc.paid_amount - total;
-			}
-		})
+		if (frm.doc.payment_references&&frm.doc.payment_references.length) {
+			frm.doc.payment_references.forEach(row => {
+				if (total + row.outstanding_amount <= (frm.doc.paid_amount + frm.doc.previously_paid_amount)) {
+					row.paid_amount = row.outstanding_amount;
+					total += row.outstanding_amount;
+				} else {
+					row.paid_amount = frm.doc.paid_amount - total;
+					total += frm.doc.paid_amount - total;
+				}
+			})
+		}
 
-		if (frm.doc.paid_amount > total) {
+		if ((frm.doc.paid_amount + frm.doc.previously_paid_amount) > total) {
 			frm.set_value("pending_amount", frm.doc.paid_amount - total);
 		}
 		frm.refresh_fields();

@@ -7,7 +7,7 @@ import frappe
 from frappe.model.document import Document
 from frappe import _
 from frappe.utils import flt
-from maia.maia_accounting.doctype.payment.payment import get_payment
+from maia.maia_accounting.doctype.payment.payment import get_payment, get_replaced_practitioner
 
 class ConsultationController(Document):
 	def on_submit(self):
@@ -172,6 +172,10 @@ class ConsultationController(Document):
 		if not frappe.db.exists("Party", dict(is_social_security=1)):
 			self.create_social_security_party()
 
+		replaced_practitioner = get_replaced_practitioner(self.consultation_date, self.practitioner)
+		if replaced_practitioner:
+			self.accounted_practitioner = replaced_practitioner
+
 		if self.third_party_payment == 1 and not self.patient_price:
 			self.update_invoice_details("Social Security")
 
@@ -198,7 +202,7 @@ class ConsultationController(Document):
 
 		self.revenue_doc.update({
 			"revenue_type": revenue_type,
-			"practitioner": self.practitioner,
+			"practitioner": self.accounted_practitioner,
 			"patient": self.patient_name,
 			"party": customer.name if revenue_type == "Social Security" else None,
 			"transaction_date": self.consultation_date,
@@ -215,7 +219,7 @@ class ConsultationController(Document):
 		if revenue_type == "Consultation" and self.paid_immediately == 1:
 			if self.revenue_doc:
 				payment = get_payment(self.revenue_doc.doctype, self.revenue_doc.name)
-				payment.practitioner = self.practitioner
+				payment.practitioner = self.accounted_practitioner
 				payment.payment_method = self.mode_of_payment
 				payment.payment_reference = self.reference
 				payment.payment_date = self.consultation_date

@@ -7,6 +7,7 @@ import frappe
 from maia.maia_accounting.controllers.accounting_controller import AccountingController
 from frappe.utils import flt
 from frappe import _
+from maia.maia_accounting.utils import get_accounting_query_conditions
 
 class Expense(AccountingController):
 	def validate(self):
@@ -91,3 +92,6 @@ def get_asset_expense(dt, dn):
 		)
 
 	return expense
+
+def get_permission_query_conditions(user):
+	return get_accounting_query_conditions("Expense", user)

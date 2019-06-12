@@ -38,6 +38,12 @@ def get_data():
 					"name": "Maia Appointment Type",
 					"label": _("Appointment Type"),
 					"description": _("Maia Appointment Type"),
+				},
+				{
+					"type": "doctype",
+					"name": "Maia Appointment Type Category",
+					"label": _("Appointment Type Category"),
+					"description": _("Appointment Type Category"),
 				}
 			]
 		}

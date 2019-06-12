@@ -72,12 +72,12 @@ website_route_rules = [
 ]
 
 standard_portal_menu_items = [
-	{"title": _("Prendre Rendez-Vous"), "route": "/appointment",
-	 "reference_doctype": "Maia Appointment", "role": "Patient"},
-	{"title": _("Mes Rendez-Vous"), "route": "/my-appointments",
-	 "reference_doctype": "Maia Appointment", "role": "Patient"},
-	 {"title": _("Mes quittances"), "route": "/receipts",
-	 "reference_doctype": "Revenue", "role": "Patient"}
+	{"title": _("Prendre rendez-Vous"), "route": "/appointment",
+		"reference_doctype": "Maia Appointment", "role": "Patient"},
+	{"title": _("Mes rendez-Vous"), "route": "/my-appointments",
+		"reference_doctype": "Maia Appointment", "role": "Patient"},
+	{"title": _("Mes factures"), "route": "/receipts",
+		"reference_doctype": "Revenue", "role": "Patient"}
 ]
 
 # Includes in <head>
@@ -130,6 +130,22 @@ standard_portal_menu_items = [
 # 	"Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
 # }
 #
+permission_query_conditions = {
+	"Revenue": "maia.maia_accounting.doctype.revenue.revenue.get_permission_query_conditions",
+	"Expense": "maia.maia_accounting.doctype.expense.expense.get_permission_query_conditions",
+	"Miscellaneous Operation": "maia.maia_accounting.doctype.miscellaneous_operation.miscellaneous_operation.get_permission_query_conditions",
+	"Payment": "maia.maia_accounting.doctype.payment.payment.get_permission_query_conditions",
+	"General Ledger Entry": "maia.maia_accounting.doctype.general_ledger_entry.general_ledger_entry.get_permission_query_conditions"
+}
+
+has_permission = {
+	"Revenue": "maia.maia_accounting.utils.has_accounting_permissions",
+	"Expense": "maia.maia_accounting.utils.has_accounting_permissions",
+	"Miscellaneous Operation": "maia.maia_accounting.utils.has_accounting_permissions",
+	"Payment": "maia.maia_accounting.utils.has_accounting_permissions",
+	"General Ledger Entry": "maia.maia_accounting.utils.has_accounting_permissions"
+}
+
 has_website_permission = {
 	"Revenue": "maia.controllers.website_list_for_contact.has_website_permission",
 }

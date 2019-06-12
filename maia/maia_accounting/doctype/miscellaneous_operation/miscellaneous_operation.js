@@ -59,24 +59,22 @@ const calculate_debit_credit = frm => {
 	frm.set_value("difference", difference);
 }
 
-const set_item_queries = frm => {
-	if (frm.doc.operation_type == "Miscellaneous Operation") {
-		frm.set_query('accounting_item', 'items', function(frm, cdt, cdn) {
+const set_item_queries = main => {
+	main.set_query('accounting_item', 'items', function(frm, cdt, cdn) {
+		if (main.doc.operation_type == "Miscellaneous Operation") {
 			return {
 				"filters": {
 					"accounting_journal": ["in", ["Sales", "Purchases", "Miscellaneous Operations"]]
 				}
 			};
-		});
-	} else if (frm.doc.operation_type == "Internal Transfer") {
-		frm.set_query('accounting_item', 'items', function(frm, cdt, cdn) {
+		} else if (main.doc.operation_type == "Internal Transfer") {
 			return {
 				"filters": {
 					"accounting_journal": ["in", ["Bank", "Cash"]]
 				}
 			};
-		});
-	}
+		}
+	});
 }
 
 const add_operation_related_items = frm => {

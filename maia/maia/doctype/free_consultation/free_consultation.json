@@ -397,6 +397,7 @@
   {
    "fieldname": "consultation_items",
    "fieldtype": "Table",
+   "label": "Details",
    "options": "Consultation Items",
    "read_only": 1
   },
@@ -420,7 +421,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-06-11 15:04:13.104497",
+ "modified": "2019-06-11 17:55:45.796418",
  "modified_by": "Administrator",
  "module": "Maia",
  "name": "Free Consultation",

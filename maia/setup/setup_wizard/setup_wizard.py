@@ -1,6 +1,6 @@
 # coding=utf-8
 
-# Copyright (c) 2018, DOKOS and Contributors
+# Copyright (c) 2019, DOKOS and Contributors
 # See license.txt
 from __future__ import unicode_literals
 
@@ -25,6 +25,7 @@ def setup_defaults():
 
 def setup_maia():
 	install_fixtures.codifications()
+	maia_setup.add_meal_expense_deductions()
 	maia_setup.create_professional_contact_card()
 	maia_setup.set_default_print_formats()
 	maia_setup.make_web_page()

@@ -576,6 +576,7 @@
   {
    "fieldname": "consultation_items",
    "fieldtype": "Table",
+   "label": "Details",
    "options": "Consultation Items",
    "read_only": 1
   },
@@ -586,7 +587,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-06-11 15:41:36.741520",
+ "modified": "2019-06-11 17:56:24.728540",
  "modified_by": "Administrator",
  "module": "Maia",
  "name": "Gynecological Consultation",

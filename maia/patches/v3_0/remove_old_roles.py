@@ -5,6 +5,8 @@
 from __future__ import unicode_literals
 import frappe
 from frappe.core.doctype.user_permission.user_permission import clear_user_permissions
+from frappe.permissions import reset_perms
+from frappe.core.doctype.doctype.doctype import clear_permissions_cache
 
 def execute():
 	frappe.reload_doc('maia_appointment', 'doctype', 'maia_appointment')
@@ -15,6 +17,10 @@ def execute():
 	frappe.reload_doc('contacts', 'doctype', 'address', force=True, reset_permissions=True)
 	frappe.reload_doc('contacts', 'report', 'addresses_and_contacts', force=True, reset_permissions=True)
 	frappe.reload_doc('desk', 'doctype', 'auto_repeat')
+
+	for dt in ["Professional Information Card", "Address"]:
+		reset_perms(dt)
+		clear_permissions_cache(dt)
 
 	users = frappe.get_all("User")
 	kept_roles = ["Midwife", "System Manager", "Midwife Substitute", "Patient", "Appointment User", "Administrator", "Guest", \

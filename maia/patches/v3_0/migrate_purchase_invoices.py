@@ -164,7 +164,7 @@ def add_meal_deductions():
 		{"fiscal_year": 2016, "deductible_amount": 4.70, "limit": 18.3},
 		{"fiscal_year": 2017, "deductible_amount": 4.75, "limit": 18.4},
 		{"fiscal_year": 2018, "deductible_amount": 4.80, "limit": 18.6},
-		{"fiscal_year": 2019, "deductible_amount": 4.75, "limit": 18.8}
+		{"fiscal_year": 2019, "deductible_amount": 4.85, "limit": 18.8}
 	]
 
 	for d in deductions:

@@ -6,6 +6,7 @@ from __future__ import unicode_literals
 import frappe
 from frappe import _
 from maia.maia_accounting.controllers.accounting_controller import AccountingController
+from maia.maia_accounting.utils import get_accounting_query_conditions
 
 class Revenue(AccountingController):
 	def after_insert(self):
@@ -90,3 +91,6 @@ def get_list_context(context=None):
 	})
 
 	return list_context
+
+def get_permission_query_conditions(user):
+	return get_accounting_query_conditions("Revenue", user)

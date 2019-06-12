@@ -107,7 +107,7 @@ def add_balances_to_data(filters, bank_account, data, balances):
 	bank_balance = get_bank_balance(filters.get("from_date"), filters.get("to_date"), bank_account.name)
 
 	if (bank_balance["start"] is None or bank_balance["end"] is None) and isinstance(bank_account, dict):
-		frappe.msgprint(_("Please add the initial and final bank statement values for {0} through the action button".format(bank_account.name)))
+		frappe.msgprint(_("Please add the initial and final bank statement values for {0} through the action button").format(bank_account.name))
 
 	calculated_balance = get_balance_on(account=bank_account.accounting_item, date=filters.get("from_date"), practitioner=filters.get("practitioner")) or 0
 	start_bank_balance = bank_balance["start"] or 0
@@ -179,18 +179,18 @@ def init_data(filters):
 
 	return [
 		{"line": 0, "description": _("Bank statement balance on {0}").format(from_date), "indent": 0},
-		{"line": 1, "description": _("Revenue from {0} uncredited before the {1}".format(previous_year, from_date)), "indent": 0},
-		{"line": 2, "description": _("Expense from {0} undebited before the {1}".format(previous_year, from_date)), "indent": 0},
+		{"line": 1, "description": _("Revenue from {0} uncredited before the {1}").format(previous_year, from_date), "indent": 0},
+		{"line": 2, "description": _("Expense from {0} undebited before the {1}").format(previous_year, from_date), "indent": 0},
 		{"line": 3, "description": _("Calculated accounting balance on {0}").format(from_date), "indent": 0},
 		{"line": 4},
 		{"line": 5, "description": _("Bank statement balance on {0}").format(to_date), "indent": 0, "index": 5},
-		{"line": 6, "description": _("Revenue from {0} uncredited before the {1}".format(current_year, to_date)), "indent": 0},
-		{"line": 7, "description": _("Expense from {0} undebited before the {1}".format(current_year, to_date)), "indent": 0},
+		{"line": 6, "description": _("Revenue from {0} uncredited before the {1}").format(current_year, to_date), "indent": 0},
+		{"line": 7, "description": _("Expense from {0} undebited before the {1}").format(current_year, to_date), "indent": 0},
 		{"line": 8, "description": _("Calculated accounting balance on {0}").format(to_date), "indent": 0},
 		{"line": 9},
 		{"line": 10, "description": _("Accounting balance on {0}").format(from_date), "indent": 0},
-		{"line": 11, "description": _("Revenue from {0}".format(current_year)), "indent": 0},
-		{"line": 12, "description": _("Expense from {0}".format(current_year)), "indent": 0},
+		{"line": 11, "description": _("Revenue from {0}").format(current_year), "indent": 0},
+		{"line": 12, "description": _("Expense from {0}").format(current_year), "indent": 0},
 		{"line": 13, "description": _("Accounting balance on {0}").format(to_date), "indent": 0}
 	]
 

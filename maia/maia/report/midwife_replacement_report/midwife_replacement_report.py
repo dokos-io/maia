@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 import frappe
 import maia
 from frappe import _
-from frappe.utils import (getdate, get_first_day, get_last_day, add_days, formatdate)
+from frappe.utils import (getdate, get_first_day, get_last_day, add_days, formatdate, flt)
 
 from maia.maia_accounting.utils import get_fiscal_year_data, get_fiscal_year
 from maia.maia_accounting.doctype.accounting_item.accounting_item import get_accounts
@@ -27,18 +27,19 @@ def execute(filters=None):
 		data.extend(get_substitute_header(replacement))
 		substitute_period_list = get_substitute_period_list(period_list, replacement)
 
-		practitioner_income = get_data(replacement.substitute, "Revenue", substitute_period_list)[-2]
-		retrocessions = calculate_retrocession(substitute_period_list, replacement, practitioner_income, currency)
+		practitioner_income = get_data(replacement.substitute, "Revenue", substitute_period_list)
 
-		data.extend(retrocessions)
-		data.append({})
+		if practitioner_income:
+			retrocessions = calculate_retrocession(substitute_period_list, replacement, practitioner_income[-2], currency)
 
-		datasets.append({'title': replacement.substitute, 'values': retrocessions[-1]})
+			data.extend(retrocessions)
+			data.append({})
+
+			datasets.append({'title': replacement.substitute, 'values': retrocessions[-1]})
 
 
 	columns = get_report_columns(filters.periodicity, period_list)
 	chart = get_chart_data(filters, columns, datasets)
-	print(chart)
 
 	return columns, data, None, chart
 
@@ -113,7 +114,7 @@ def calculate_retrocession(period_list, replacement, income, currency):
 	total = 0
 	for period in period_list:
 		retrocessions = (calculated_retrocession[period.key] - (mileage[period.key] if period.key in mileage else 0)) \
-			* (replacement.fee_percentage / 100)
+			* (1 - replacement.fee_percentage / 100)
 
 		if replacement.maximum_fee > 0:
 			retrocessions = min(retrocessions, replacement.maximum_fee)
@@ -158,7 +159,7 @@ def get_mileage_allowance(period_list, practitioner, currency):
 			to_date=period.to_date
 			), as_dict=True)
 
-		calculated_amount = (total[0]["total"] * ((total[0]["amount"] - total[0]["outstanding_amount"]) / total[0]["amount"])) if total else 0
+		calculated_amount = (flt(total[0]["total"]) * ((flt(total[0]["amount"]) - flt(total[0]["outstanding_amount"])) / flt(total[0]["amount"]))) if (total and flt(total[0]["amount"]) != 0) else 0
 
 		data = {period.key: calculated_amount}
 		total_mileage += calculated_amount

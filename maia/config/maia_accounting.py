@@ -106,6 +106,12 @@ def get_data():
 				},
 				{
 					"type": "doctype",
+					"name": "Payment Method",
+					"label": _("Payment Methods"),
+					"description": _("Payment Methods")
+				},
+				{
+					"type": "doctype",
 					"name": "Bank Statement Balance",
 					"label": _("Bank Statement Balance"),
 					"description": _("Bank Statement Balance"),
@@ -131,6 +137,12 @@ def get_data():
 					"label": _("Fiscal Year"),
 					"description": _("Fiscal Years"),
 					"onboard": 1
+				},
+				{
+					"type": "doctype",
+					"name": "Meal Expense Deduction",
+					"label": _("Meal Expense Deduction"),
+					"description": _("Meal Expense Deduction")
 				}
 			]
 		},

@@ -9,6 +9,7 @@ from frappe import _
 from frappe.utils import flt
 from maia.maia_accounting.controllers.accounting_controller import AccountingController
 from maia.maia_accounting.doctype.general_ledger_entry.general_ledger_entry import make_gl_entries
+from maia.maia_accounting.utils import get_accounting_query_conditions
 
 class MiscellaneousOperation(AccountingController):
 	def validate(self):
@@ -86,3 +87,6 @@ class MiscellaneousOperation(AccountingController):
 				})
 
 		make_gl_entries(gl_entries)
+
+def get_permission_query_conditions(user):
+	return get_accounting_query_conditions("Miscellaneous Operation", user)

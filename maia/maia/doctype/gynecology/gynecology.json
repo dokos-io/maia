@@ -327,7 +327,7 @@
    "options": "Letter Head"
   }
  ],
- "modified": "2019-05-29 19:30:48.971315",
+ "modified": "2019-06-12 10:28:24.562413",
  "modified_by": "Administrator",
  "module": "Maia",
  "name": "Gynecology",
@@ -338,11 +338,35 @@
    "delete": 1,
    "email": 1,
    "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
    "import": 1,
    "print": 1,
    "read": 1,
    "report": 1,
    "role": "Midwife",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Midwife Substitute",
    "share": 1,
    "write": 1
   }

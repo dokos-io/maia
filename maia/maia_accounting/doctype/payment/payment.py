@@ -4,10 +4,12 @@
 
 from __future__ import unicode_literals
 import frappe
+import maia
 from frappe import _
 from maia.maia_accounting.controllers.accounting_controller import AccountingController
 from frappe.utils import flt, getdate, formatdate
 from maia.maia_accounting.doctype.general_ledger_entry.general_ledger_entry import make_gl_entries
+from maia.maia_accounting.utils import get_accounting_query_conditions
 
 class Payment(AccountingController):
 	def validate(self):
@@ -43,7 +45,7 @@ class Payment(AccountingController):
 
 			total_allocated += flt(abs(reference.paid_amount))
 
-		self.pending_amount = self.paid_amount - total_allocated
+		self.pending_amount = (flt(self.paid_amount) + flt(self.previously_paid_amount)) - total_allocated
 
 	def validate_duplicate_entry(self):
 		reference_names = []
@@ -94,11 +96,12 @@ class Payment(AccountingController):
 		return party_item
 
 	def set_title(self):
-		self.title = self.party or _("No party") + " - " + frappe.utils.fmt_money(self.paid_amount, currency="EUR")
+		self.title = self.party or _("No party") + " - " + frappe.utils.fmt_money(self.paid_amount, currency=maia.get_default_currency())
 
 	def post_gl_entries(self):
 		self.make_references_gl_entries()
 		self.make_pending_gl_entries()
+		self.reverse_pending_gl_entries()
 		self.make_payment_gl_entries()
 
 	def make_references_gl_entries(self):
@@ -119,7 +122,7 @@ class Payment(AccountingController):
 					"accounting_item": item.accounting_item,
 					"debit": abs(item.total_amount) if self.payment_type == "Outgoing payment" else 0,
 					"credit": abs(item.total_amount) if self.payment_type == "Incoming payment" else 0,
-					"currency": "EUR",
+					"currency": maia.get_default_currency(),
 					"reference_type": doc.doctype,
 					"reference_name": doc.name,
 					"link_doctype": self.doctype,
@@ -134,7 +137,7 @@ class Payment(AccountingController):
 				"accounting_item": doc.accounting_item,
 				"debit": abs(doc.amount) if self.payment_type == "Outgoing payment" else 0,
 				"credit": abs(doc.amount) if self.payment_type == "Incoming payment" else 0,
-				"currency": "EUR",
+				"currency": maia.get_default_currency(),
 				"reference_type": doc.doctype,
 				"reference_name": doc.name,
 				"link_doctype": self.doctype,
@@ -159,7 +162,32 @@ class Payment(AccountingController):
 				"accounting_item": accounting_item.name,
 				"debit": abs(self.pending_amount) if self.payment_type == "Outgoing payment" else 0,
 				"credit": abs(self.pending_amount) if self.payment_type == "Incoming payment" else 0,
-				"currency": "EUR",
+				"currency": maia.get_default_currency(),
+				"reference_type": self.doctype,
+				"reference_name": self.name,
+				"link_doctype": self.doctype,
+				"link_docname": self.name,
+				"accounting_journal": self.get_rev_exp_accounting_journal(accounting_item.name),
+				"party": self.party,
+				"practitioner": self.practitioner
+			})
+
+			make_gl_entries(gl_entries)
+
+	def reverse_pending_gl_entries(self):
+		if self.previously_paid_amount > 0:
+			if not self.party:
+				frappe.throw(_("Please select a party"))
+
+			accounting_item = self.get_party_accounting_item()
+			gl_entries = []
+
+			gl_entries.append({
+				"posting_date": self.payment_date,
+				"accounting_item": accounting_item.name,
+				"debit": abs(self.previously_paid_amount) if self.payment_type == "Incoming payment" else 0,
+				"credit": abs(self.previously_paid_amount) if self.payment_type == "Outgoing payment" else 0,
+				"currency": maia.get_default_currency(),
 				"reference_type": self.doctype,
 				"reference_name": self.name,
 				"link_doctype": self.doctype,
@@ -181,7 +209,7 @@ class Payment(AccountingController):
 			"accounting_item": account,
 			"debit": abs(self.paid_amount) if self.payment_type == "Incoming payment" else 0,
 			"credit": abs(self.paid_amount) if self.payment_type == "Outgoing payment" else 0,
-			"currency": "EUR",
+			"currency": maia.get_default_currency(),
 			"reference_type": self.doctype,
 			"reference_name": self.name,
 			"link_doctype": self.doctype,
@@ -199,6 +227,15 @@ class Payment(AccountingController):
 			frappe.db.set_value(ref.reference_type, ref.reference_name, "outstanding_amount", flt(outstanding) - flt(ref.paid_amount))
 			frappe.get_doc(ref.reference_type, ref.reference_name).set_status(update=True)
 			frappe.db.commit()
+
+@frappe.whitelist()
+def get_replaced_practitioner(date, practitioner):
+	replacements = frappe.get_all("Replacement", \
+			filters={"start_date": ["<=", date], "end_date": [">=", date], "substitute": practitioner}, \
+			fields=["practitioner"])
+
+	if replacements:
+		return replacements[0]["practitioner"]
 
 @frappe.whitelist()
 def get_payment(dt, dn):
@@ -234,6 +271,19 @@ def get_outstanding_references(party_type, payment_type, party=None):
 	return [dict(r,**{"doctype": dt}) for r in references]
 
 @frappe.whitelist()
+def get_pending_amount(payment_type, party):
+	filters = {"party": party}
+
+	party_type = "Sales Party" if payment_type == "Incoming payment" else "Purchase Party"
+	party_item = frappe.db.get_value("Accounting Item", dict(accounting_item_type=party_type), "name")
+	filters["accounting_item"] = party_item
+
+	result = frappe.get_all("General Ledger Entry", filters=filters, fields=["SUM(credit)-SUM(debit) as total"])
+
+	if result and len(result) == 1:
+		return flt(result[0]["total"]) if payment_type == "Incoming payment" else (0-flt(result[0]["total"]))
+
+@frappe.whitelist()
 def update_clearance_date(docname, date):
 	current_clearance_date = frappe.db.get_value("Payment", docname, "clearance_date")
 
@@ -246,3 +296,6 @@ def update_clearance_date(docname, date):
 	if current_clearance_date:
 		payment.add_comment('Comment', \
 			_("Clearance date changed from {0} to {1}".format(formatdate(current_clearance_date), formatdate(date))))
+
+def get_permission_query_conditions(user):
+	return get_accounting_query_conditions("Payment", user)

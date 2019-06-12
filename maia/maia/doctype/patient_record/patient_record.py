@@ -8,7 +8,7 @@ import maia
 import dateparser
 from frappe import _
 from frappe.model.naming import make_autoname
-from frappe.utils import cstr, cint, now, formatdate, get_datetime
+from frappe.utils import cstr, cint, now, formatdate, get_datetime, flt
 from frappe.model.document import Document
 from frappe.contacts.address_and_contact import load_address_and_contact
 from frappe.desk.reportview import get_match_cond, get_filters_cond
@@ -58,6 +58,16 @@ class PatientRecord(Document):
 			and transaction_date >= %s
 			and transaction_date <= %s""", (self.name, fiscal_year[1], fiscal_year[2]))
 
+		patient_unpaid = flt(total_unpaid[0][0]) if total_unpaid else 0
+
+		# Add previously paid amounts
+		party_accounting_item = frappe.db.get_value("Accounting Item", dict(accounting_item_type="Sales Party"), "name")
+		result = frappe.get_all("General Ledger Entry", filters={"party": self.name, "accounting_item": party_accounting_item}, \
+			fields=["SUM(credit)-SUM(debit) as total"])
+
+		if result and len(result) == 1:
+			patient_unpaid -= flt(result[0]["total"])
+
 		social_security_parties = [x["name"] for x in frappe.get_all("Party", filters={"is_social_security": 1})]
 
 		conditions = ""
@@ -79,7 +89,7 @@ class PatientRecord(Document):
 		info = {}
 		info["billing_this_year"] = billing_this_year[0][0] if billing_this_year else 0
 		info["currency"] = maia.get_default_currency()
-		info["total_unpaid"] = total_unpaid[0][0] if total_unpaid else 0
+		info["total_unpaid"] = patient_unpaid
 		info["total_unpaid_social_security"] = total_unpaid_social_security[0][0] if total_unpaid_social_security else 0
 
 		self.set_onload('dashboard_info', info)
@@ -209,6 +219,10 @@ def invite_user(patient):
 		pass
 
 	return user.name
+
+@frappe.whitelist()
+def disable_user(user, status):
+	return frappe.db.set_value("User", user, "enabled", 0 if status=='false' else 1)
 
 @frappe.whitelist()
 def get_patient_weight_data(patient_record):

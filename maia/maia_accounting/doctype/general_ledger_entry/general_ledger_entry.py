@@ -5,10 +5,10 @@
 from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
+from maia.maia_accounting.utils import get_accounting_query_conditions
 
 class GeneralLedgerEntry(Document):
 	pass
-
 
 def make_gl_entries(gl_entries):
 	for entry in gl_entries:
@@ -16,3 +16,6 @@ def make_gl_entries(gl_entries):
 		gl.update(entry)
 		gl.insert()
 		gl.submit()
+
+def get_permission_query_conditions(user):
+	return get_accounting_query_conditions("General Ledger Entry", user)

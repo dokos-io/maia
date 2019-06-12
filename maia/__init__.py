@@ -22,3 +22,9 @@ def get_default_currency():
 def get_consultation_types():
 	return ["Early Postnatal Consultation", "Pregnancy Consultation", "Postnatal Consultation", "Gynecological Consultation", "Birth Preparation Consultation", \
 		"Prenatal Interview Consultation", "Free Consultation", "Perineum Rehabilitation Consultation"]
+
+def get_practitioner(user=None):
+	if not user:
+		user = frappe.session.user
+
+	return frappe.db.get_value("Professional Information Card", dict(user=user), "name")

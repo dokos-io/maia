@@ -61,7 +61,7 @@
   }
  ],
  "icon": "fa fa-calendar",
- "modified": "2019-05-27 10:12:26.670063",
+ "modified": "2019-06-12 11:38:27.676588",
  "modified_by": "Administrator",
  "module": "Maia Accounting",
  "name": "Maia Fiscal Year",
@@ -77,6 +77,27 @@
    "role": "System Manager",
    "share": 1,
    "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Midwife",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Midwife Substitute",
+   "share": 1
   }
  ],
  "route": "/desk#Form/DocType/Maia Fiscal Year",

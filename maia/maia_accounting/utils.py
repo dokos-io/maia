@@ -6,6 +6,7 @@ from __future__ import unicode_literals
 import frappe
 from frappe import _
 from frappe.utils import flt, getdate, cstr, formatdate, nowdate
+import maia
 
 class FiscalYearError(frappe.ValidationError): pass
 
@@ -114,3 +115,19 @@ def get_balance_on(account=None, date=None, practitioner=None):
 
 		# if bal is None, return 0
 		return flt(bal)
+
+def has_accounting_permissions(doc, ptype, user):
+	if "System Manager" in frappe.get_roles(user):
+		return True
+
+	return doc.owner==user or doc.practitioner==maia.get_practitioner(user)
+
+def get_accounting_query_conditions(doctype, user):
+	if not user: user = frappe.session.user
+
+	if user=="Administrator" or "System Manager" in frappe.get_roles(user):
+		return ""
+	
+	query = """(`tab{doctype}`.owner="{user}" or `tab{doctype}`.practitioner="{practitioner}")""".format(doctype=doctype, user=user, practitioner=maia.get_practitioner(user))
+	print(query)
+	return query

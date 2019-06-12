@@ -119,6 +119,7 @@
   {
    "fieldname": "web_page",
    "fieldtype": "Data",
+   "hidden": 1,
    "label": "Web page"
   },
   {
@@ -128,7 +129,7 @@
   }
  ],
  "issingle": 1,
- "modified": "2019-06-05 11:57:51.589513",
+ "modified": "2019-06-12 11:45:17.433240",
  "modified_by": "Administrator",
  "module": "Maia Website",
  "name": "One Page Wonder",

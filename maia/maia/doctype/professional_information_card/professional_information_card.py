@@ -6,7 +6,6 @@ from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
 from frappe import _
-from maia.setup.setup_wizard.operations.dashboard_setup import init_dashboard
 
 class ProfessionalInformationCard(Document):
 	def before_insert(self):
@@ -23,8 +22,6 @@ class ProfessionalInformationCard(Document):
 			self.user = user.name
 			self.save()
 
-		init_dashboard(user)
-
 	def add_user(self):
 		if not self.email:
 			frappe.throw(_("Please add a work email"))
@@ -39,7 +36,7 @@ class ProfessionalInformationCard(Document):
 						"first_name": self.first_name,
 						"last_name": self.last_name,
 						"email": self.email,
-						"send_welcome_email": 0
+						"send_welcome_email": 1
 				}).insert(ignore_permissions = True)
 
 				roles = ["Midwife Substitute"] if self.is_substitute else ["Midwife", "Midwife Substitute"]

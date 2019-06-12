@@ -649,7 +649,7 @@
    "options": "Patient Sports"
   }
  ],
- "modified": "2019-05-30 14:41:34.954384",
+ "modified": "2019-06-12 10:28:05.835181",
  "modified_by": "Administrator",
  "module": "Maia",
  "name": "Pregnancy",
@@ -660,11 +660,35 @@
    "delete": 1,
    "email": 1,
    "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
    "import": 1,
    "print": 1,
    "read": 1,
    "report": 1,
    "role": "Midwife",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Midwife Substitute",
    "share": 1,
    "write": 1
   }

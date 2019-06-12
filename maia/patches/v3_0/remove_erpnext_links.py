@@ -50,13 +50,13 @@ def execute():
 		frappe.delete_doc("Print Format", print_format.name)
 	update_progress_bar("Cleaning up ERPNext", 6, l)
 
-	# Add Quittance Maia
+	# Add Facture Maia
 	frappe.reload_doctype('Print Format')
 	frappe.make_property_setter({
 		'doctype_or_field': "DocType",
 		'doctype': "Print Format",
 		'property': "default_print_format",
-		'value': "Quittance Maia",
+		'value': "Facture Maia",
 	})
 	update_progress_bar("Cleaning up ERPNext", 7, l)
 

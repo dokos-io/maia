@@ -27,6 +27,7 @@
   "email_id",
   "website_user",
   "invite_as_user",
+  "disable_user",
   "address_html",
   "column_break2",
   "mobile_no",
@@ -716,9 +717,16 @@
    "fieldtype": "Table",
    "label": "Patient sports",
    "options": "Patient Sports"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.website_user",
+   "fieldname": "disable_user",
+   "fieldtype": "Check",
+   "label": "User disabled"
   }
  ],
- "modified": "2019-05-30 13:01:54.694821",
+ "modified": "2019-06-12 14:21:27.114842",
  "modified_by": "Administrator",
  "module": "Maia",
  "name": "Patient Record",
