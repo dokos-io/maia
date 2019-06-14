@@ -13,7 +13,8 @@ class ProfessionalInformationCard(Document):
 			self.full_name = self.first_name + " " + self.last_name
 
 	def validate(self):
-		self.full_name = self.first_name + " " + self.last_name
+		if not self.full_name:
+			self.full_name = self.first_name + " " + self.last_name
 
 	def create_user(self):
 		user = self.add_user()

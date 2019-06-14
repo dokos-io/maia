@@ -22,6 +22,25 @@ def install_chart_of_accounts():
 
 	frappe.db.commit()
 
+def add_fiscal_years():
+	fiscal_years = [
+		{"year": 2016, "start": "2016-01-01", "end": "2016-12-31"},
+		{"year": 2017, "start": "2017-01-01", "end": "2017-12-31"},
+		{"year": 2018, "start": "2018-01-01", "end": "2018-12-31"},
+		{"year": 2019, "start": "2019-01-01", "end": "2019-12-31"},
+	]
+
+	for fy in fiscal_years:
+		try:
+			frappe.get_doc({
+				"doctype": "Maia Fiscal Year",
+				"year": fy["year"],
+				"year_start_date": fy["start"],
+				"year_end_date": fy["end"]
+			}).insert(ignore_permissions=True)
+		except Exception as e:
+			print(e)
+
 def add_meal_expense_deductions():
 	deductions = [
 		{"fiscal_year": 2016, "deductible_amount": 4.70, "limit": 18.3},
@@ -41,17 +60,21 @@ def add_meal_expense_deductions():
 		doc.submit()
 
 def create_professional_contact_card():
-	users = frappe.db.get_all("User", fields=["name", "full_name"])
+	users = frappe.db.get_all("User", filters={"name": ["!=", ["Administrator", "Guest"]]}, fields=["name", "first_name", "last_name", "full_name"])
 	if users:
 		user = users[0]["name"]
+		first_name = users[0]["first_name"]
+		last_name = users[0]["last_name"]
 		full_name = users[0]["full_name"]
 
 		prof_card = frappe.get_doc({
 			"doctype": "Professional Information Card",
 			"user": user,
+			"first_name": first_name,
+			"last_name": last_name,
 			"full_name": full_name
 		})
-		prof_card.insert(ignore_permissions=True)
+		prof_card.insert(ignore_permissions=True, ignore_mandatory=True)
 
 def set_default_print_formats():
 	names = ["Patient Folder", "Prenatal Interview Folder", "Perineum Rehabilitation Folder", "Gynecology Folder", \
@@ -69,13 +92,9 @@ def set_default_print_formats():
 		})
 
 def make_web_page():
-	users = frappe.db.get_all("User", fields=["full_name"])
-	if users:
-		full_name = users[0]["full_name"]
-
 	default_template = frappe.get_doc('Default Template', None)
-	default_template.website_title = full_name
-	default_template.title = full_name
+	default_template.website_title = _("Welcome")
+	default_template.title = _("Default Theme")
 	default_template.subtitle = _("Please login to make an appointment")
 	default_template.button_label = _("Make an appointment")
 	default_template.button_link = "/login"

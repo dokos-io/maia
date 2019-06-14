@@ -172,6 +172,7 @@ class ConsultationController(Document):
 		if not frappe.db.exists("Party", dict(is_social_security=1)):
 			self.create_social_security_party()
 
+		self.accounted_practitioner = self.practitioner
 		replaced_practitioner = get_replaced_practitioner(self.consultation_date, self.practitioner)
 		if replaced_practitioner:
 			self.accounted_practitioner = replaced_practitioner

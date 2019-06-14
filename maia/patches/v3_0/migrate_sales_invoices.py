@@ -25,6 +25,7 @@ def execute():
 	to_be_credited = []
 
 	l = len(sales_invoices)
+	print(l)
 
 
 	for i, invoice in enumerate(sales_invoices):
@@ -79,6 +80,7 @@ def execute():
 
 		revenue.insert(ignore_permissions=True, ignore_links=True)
 		revenue.submit()
+		frappe.db.commit()
 
 		if si.name in to_be_credited:
 			revenue.cancel()
@@ -152,10 +154,10 @@ def migrate_payment_methods(bank_map):
 				pm.bank_account = bank_map[practitioner]
 			pm.insert(ignore_permissions=True)
 
-	if used_pay_mop:
-		frappe.set_value("Payment Method", used_pay_mop[0][0], "default_outgoing", 1)
+	if used_pay_mop and used_pay_mop[0][0]:
+			frappe.set_value("Payment Method", used_pay_mop[0][0], "default_outgoing", 1)
 
-	if used_rec_mop:
+	if used_rec_mop and used_rec_mop[0][0]:
 		frappe.set_value("Payment Method", used_rec_mop[0][0], "default_incoming", 1)
 
 def create_bank_accounts():
