@@ -100,7 +100,7 @@
   }
  ],
  "icon": "fa fa-mobile-phone",
- "modified": "2019-06-12 10:31:53.391398",
+ "modified": "2019-06-14 09:33:50.186422",
  "modified_by": "Administrator",
  "module": "Maia Appointment",
  "name": "SMS Reminder",
@@ -132,6 +132,16 @@
    "read": 1,
    "report": 1,
    "role": "Midwife Substitute",
+   "share": 1
+  },
+  {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Appointment User",
    "share": 1
   }
  ],

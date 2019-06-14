@@ -24,7 +24,7 @@
    "label": "Recommendations"
   }
  ],
- "modified": "2019-05-30 11:52:01.188949",
+ "modified": "2019-06-14 09:15:32.296656",
  "modified_by": "Administrator",
  "module": "Maia",
  "name": "Sport",
@@ -63,6 +63,18 @@
    "read": 1,
    "report": 1,
    "role": "Midwife Substitute",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Appointment User",
    "share": 1,
    "write": 1
   }

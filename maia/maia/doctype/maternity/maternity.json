@@ -26,7 +26,7 @@
    "label": "City"
   }
  ],
- "modified": "2019-06-12 10:20:07.423806",
+ "modified": "2019-06-14 09:14:17.678710",
  "modified_by": "Administrator",
  "module": "Maia",
  "name": "Maternity",
@@ -65,6 +65,18 @@
    "read": 1,
    "report": 1,
    "role": "Midwife Substitute",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Appointment User",
    "share": 1,
    "write": 1
   }

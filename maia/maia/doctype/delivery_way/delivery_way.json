@@ -29,7 +29,7 @@
    "label": "Used in Parity Calculation"
   }
  ],
- "modified": "2019-06-12 10:26:54.668492",
+ "modified": "2019-06-14 09:14:30.695188",
  "modified_by": "Administrator",
  "module": "Maia",
  "name": "Delivery Way",
@@ -68,6 +68,18 @@
    "read": 1,
    "report": 1,
    "role": "Midwife Substitute",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Appointment User",
    "share": 1,
    "write": 1
   }

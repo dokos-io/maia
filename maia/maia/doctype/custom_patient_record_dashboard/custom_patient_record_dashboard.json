@@ -247,7 +247,7 @@
   }
  ],
  "in_create": 1,
- "modified": "2019-06-12 10:49:46.987137",
+ "modified": "2019-06-14 09:31:19.094706",
  "modified_by": "Administrator",
  "module": "Maia",
  "name": "Custom Patient Record Dashboard",
@@ -302,6 +302,7 @@
    "write": 1
   }
  ],
+ "read_only": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "track_changes": 1

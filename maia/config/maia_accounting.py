@@ -56,14 +56,20 @@ def get_data():
 			"items": [
 				{
 					"type": "report",
+					"name": "Revenue Journal",
+					"label": _("Revenue Journal"),
+					"is_query_report": True,
+				},
+				{
+					"type": "report",
 					"name": "Maia General Ledger",
-					"label": _("General Ledger"),
+					"label": _("Maia General Ledger"),
 					"is_query_report": True,
 				},
 				{
 					"type": "report",
 					"name": "Maia Profit and Loss Statement",
-					"label": _("Profit and Loss Statement"),
+					"label": _("Maia Profit and Loss Statement"),
 					"is_query_report": True,
 				},
 				{
