@@ -251,6 +251,9 @@ def get_payment(dt, dn):
 	payment.append("payment_references", {
 		'reference_type': dt,
 		'reference_name': dn,
+		'transaction_date': source_doc.transaction_date,
+		'party': source_doc.party,
+		'patient_record': source_doc.patient_record if dt=="Revenue" else None,
 		'outstanding_amount': source_doc.outstanding_amount,
 		'paid_amount': source_doc.outstanding_amount
 	})
