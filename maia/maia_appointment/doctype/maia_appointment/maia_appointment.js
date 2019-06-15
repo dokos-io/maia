@@ -493,7 +493,7 @@ maia.maia_appointment.AvailabilityModal = class AvailabilityModal {
 					cache: false,
 					callback: function(data) {
 						if (data.message && data.message.length>1) {
-							const el = $(frappe.render_template('custom_button', {'data': data.message}))
+							let el = $(frappe.render_template('custom_button', {'data': data.message}))
 							el.appendTo($html_field.find('.comparison-view'));
 						}
 					}
@@ -631,8 +631,8 @@ maia.maia_appointment.SlotChoiceModal = class SlotChoiceModal{
 			frappe.xcall('maia.maia_appointment.doctype.maia_appointment.maia_appointment.get_registration_count',
 				{ date: me.parent.date, appointment_type: me.data.name }
 			).then(r => {
-				if (r.message&&r.message.length) {
-					options_fields = r.message;
+				if (r&&r.length) {
+					options_fields = r;
 					resolve();
 				} else {
 					frappe.msgprint(__('Please create at least one slot for this appointment type'))
