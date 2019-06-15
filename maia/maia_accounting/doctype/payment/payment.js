@@ -52,6 +52,7 @@ frappe.ui.form.on('Payment', {
 			{payment_type: frm.doc.payment_type, party: frm.doc.party})
 			.then(e => {
 				if (e) { frm.set_value("previously_paid_amount", e) }
+				else { frm.set_value("previously_paid_amount", 0) }
 			})
 			.then(() => {
 				frm.events.get_references(frm);

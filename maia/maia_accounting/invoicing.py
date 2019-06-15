@@ -204,7 +204,7 @@ class ConsultationController(Document):
 		self.revenue_doc.update({
 			"revenue_type": revenue_type,
 			"practitioner": self.accounted_practitioner,
-			"patient": self.patient_name,
+			"patient": self.patient_record,
 			"party": customer.name if revenue_type == "Social Security" else None,
 			"transaction_date": self.consultation_date,
 			"with_items": 1,

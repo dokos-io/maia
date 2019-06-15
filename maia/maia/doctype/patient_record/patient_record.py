@@ -49,11 +49,10 @@ class PatientRecord(Document):
 			and transaction_date <= %s""", (self.name, fiscal_year[1], fiscal_year[2]))
 
 		total_unpaid = frappe.db.sql("""
-			select sum(amount)
+			select sum(outstanding_amount)
 			from `tabRevenue` 
 			where patient=%s
-			and party=NULL
-			and status != 'Paid'
+			and party is NULL
 			and docstatus = 1
 			and transaction_date >= %s
 			and transaction_date <= %s""", (self.name, fiscal_year[1], fiscal_year[2]))
@@ -78,11 +77,10 @@ class PatientRecord(Document):
 				conditions = "and party='{0}'".format(social_security_parties[0])
 
 		total_unpaid_social_security = frappe.db.sql("""
-			select sum(amount)
+			select sum(outstanding_amount)
 			from `tabRevenue` 
 			where patient=%s
 			{0}
-			and status != 'Paid'
 			and transaction_date >= %s
 			and transaction_date <= %s""".format(conditions), (self.name, fiscal_year[1], fiscal_year[2]))
 
