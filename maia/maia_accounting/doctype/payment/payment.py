@@ -253,7 +253,7 @@ def get_payment(dt, dn):
 		'reference_name': dn,
 		'transaction_date': source_doc.transaction_date,
 		'party': source_doc.party,
-		'patient_record': source_doc.patient_record if dt=="Revenue" else None,
+		'patient_record': source_doc.patient if dt=="Revenue" else None,
 		'outstanding_amount': source_doc.outstanding_amount,
 		'paid_amount': source_doc.outstanding_amount
 	})
