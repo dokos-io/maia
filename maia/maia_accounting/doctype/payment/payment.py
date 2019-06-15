@@ -260,13 +260,17 @@ def get_payment(dt, dn):
 @frappe.whitelist()
 def get_outstanding_references(party_type, payment_type, party=None):
 	dt = "Revenue" if payment_type == "Incoming payment" else "Expense"
+	fields=["name", "amount", "outstanding_amount", "party", "transaction_date"]
+
+	if dt == "Revenue":
+		fields.append("patient")
 
 	filters = {"outstanding_amount": [">", 0], "docstatus": 1}
 	if party:
 		party_filter = "party" if party_type == "Party" else "patient"
 		filters[party_filter] = party
 
-	references = frappe.get_all(dt, filters=filters, fields=["name", "amount", "outstanding_amount"])
+	references = frappe.get_all(dt, filters=filters, fields=fields)
 
 	return [dict(r,**{"doctype": dt}) for r in references]
 

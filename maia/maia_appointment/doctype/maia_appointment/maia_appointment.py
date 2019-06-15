@@ -121,12 +121,15 @@ class MaiaAppointment(Document):
 			message = _("""Bonjour {0}, <br><br>Votre rendez-vous est toujours prévu le {1}, à {2}. <br><br>Si vous avez un empêchement, veuillez me l'indiquer au plus vite par retour de mail.<br><br>Merci beaucoup.<br><br>{3}""".format(
 				patient_first_name, appointment_date, start_time, self.practitioner))
 
-		if sending_date > now_datetime():
-			frappe.sendmail(patient_email, subject=subject,
-							content=message, send_after=sending_date)
-			self.get_email_id(patient_email, sending_date)
-		else:
-			frappe.sendmail(patient_email, subject=subject, content=message)
+		try:
+			if sending_date > now_datetime():
+				frappe.sendmail(patient_email, subject=subject,
+								content=message, send_after=sending_date)
+				self.get_email_id(patient_email, sending_date)
+			else:
+				frappe.sendmail(patient_email, subject=subject, content=message)
+		except Exception as e:
+			frappe.log_error(e, "Email reminder sending error")
 
 	def get_email_id(self, patient_email, sending_date):
 		email_queue = frappe.get_all("Email Queue")

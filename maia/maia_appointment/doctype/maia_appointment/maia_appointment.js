@@ -294,7 +294,7 @@ const update_group_info = frm => {
 		callback: function(r, rt) {
 			let eventData;
 			if (r.message) {
-				for (const i=0; i < r.message.length; i++) {
+				for (let i=0; i < r.message.length; i++) {
 					if (r.message[i].name == frm.doc.name) {
 						eventData = r.message[i]
 					}

@@ -51,7 +51,6 @@ frappe.ui.form.on('Payment', {
 			frappe.xcall("maia.maia_accounting.doctype.payment.payment.get_pending_amount",
 			{payment_type: frm.doc.payment_type, party: frm.doc.party})
 			.then(e => {
-				console.log(e)
 				if (e) { frm.set_value("previously_paid_amount", e) }
 			})
 			.then(() => {
@@ -78,6 +77,12 @@ frappe.ui.form.on('Payment', {
 					c.reference_type = doc.doctype;
 					c.reference_name = doc.name;
 					c.outstanding_amount = doc.outstanding_amount;
+					c.party = doc.party;
+					c.transaction_date = doc.transaction_date;
+
+					if ("patient" in doc) {
+						c.patient_record = doc.patient;
+					}
 				})
 				frm.refresh_fields()
 			}
