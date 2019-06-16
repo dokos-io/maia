@@ -55,4 +55,5 @@ maia.patches.v3_0.remove_erpnext_links
 maia.patches.v3_0.remove_old_roles
 maia.patches.v3_0.remove_duplicate_patient_dashboards
 maia.patches.v3_0.setup_dashboard
+maia.patches.v3_0.sms_reminder_update
 
