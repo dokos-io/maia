@@ -427,11 +427,11 @@ def validate_receiver_no(validated_no):
 def flush():
 	"""flush email queue, every time: called from scheduler"""
 	if frappe.conf.get("sms_activated") == 1:
-		sms = [x["name"] for x in frappe.get_all("SMS Reminder", filters={"send_on": ["<", now_datetime()], "status": "Queued"}, \
-			order_by="creation asc", limit=500)]
+		sms = frappe.get_all("SMS Reminder", filters={"send_on": ["<", now_datetime()], "status": "Queued"}, \
+			order_by="creation asc", limit=500)
 
 		for s in sms:
-			send_sms_reminder(sms)
+			send_sms_reminder(s["name"])
 
 def send_sms_reminder(name):
 	if not frappe.conf.get("customer"):
