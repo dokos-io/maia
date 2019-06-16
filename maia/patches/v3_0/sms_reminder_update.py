@@ -9,4 +9,4 @@ def execute():
 	sms_queue = frappe.get_all("SMS Reminder", filters={"status": ["in", ["Queued", "Error"]]})
 
 	for sms in sms_queue:
-		frappe.db.set_value("SMS Reminder", s.name, "sender_name", "SageFemme")
+		frappe.db.set_value("SMS Reminder", sms.name, "sender_name", "SageFemme")

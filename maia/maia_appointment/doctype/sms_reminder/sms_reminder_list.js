@@ -4,6 +4,6 @@
 // render
 frappe.listview_settings['SMS Reminder'] = {
 	get_indicator: function(doc) {
-		return [__(doc.status), doc.status === "Queued" ? "orange" : ("Sent" ? "green" : "red")];
+		return [__(doc.status), doc.status === "Queued" ? "orange" : (doc.status === "Sent" ? "green" : "red")];
 	}
 };
