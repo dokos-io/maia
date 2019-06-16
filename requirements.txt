@@ -1,3 +1,2 @@
 frappe
-Sendinblue==2.0.5.1
 dateparser

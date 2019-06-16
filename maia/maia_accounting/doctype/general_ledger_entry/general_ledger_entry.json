@@ -1,0 +1,175 @@
+{
+ "autoname": "naming_series:",
+ "creation": "2019-04-15 10:39:26.958183",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "posting_date",
+  "accounting_item",
+  "debit",
+  "credit",
+  "currency",
+  "accounting_journal",
+  "reference_type",
+  "reference_name",
+  "link_doctype",
+  "link_docname",
+  "party",
+  "practitioner",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "default": "GL-.YYYY.-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "GL-.YYYY.-",
+   "reqd": 1
+  },
+  {
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "accounting_item",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Accounting Item",
+   "options": "Accounting Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "debit",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Debit",
+   "reqd": 1
+  },
+  {
+   "fieldname": "credit",
+   "fieldtype": "Currency",
+   "label": "Credit",
+   "reqd": 1
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency",
+   "reqd": 1
+  },
+  {
+   "fieldname": "accounting_journal",
+   "fieldtype": "Select",
+   "in_standard_filter": 1,
+   "label": "Accounting Journal",
+   "options": "Miscellaneous operations\nSales\nPurchases\nBank\nCash\nOpening Entries",
+   "reqd": 1
+  },
+  {
+   "fieldname": "reference_type",
+   "fieldtype": "Link",
+   "label": "Reference Type",
+   "options": "DocType",
+   "reqd": 1
+  },
+  {
+   "fieldname": "reference_name",
+   "fieldtype": "Dynamic Link",
+   "label": "Reference Name",
+   "options": "reference_type",
+   "reqd": 1
+  },
+  {
+   "fieldname": "link_doctype",
+   "fieldtype": "Link",
+   "label": "Link DocType",
+   "options": "DocType",
+   "reqd": 1
+  },
+  {
+   "fieldname": "link_docname",
+   "fieldtype": "Dynamic Link",
+   "label": "Link Name",
+   "options": "link_doctype",
+   "reqd": 1
+  },
+  {
+   "fieldname": "party",
+   "fieldtype": "Data",
+   "label": "Party"
+  },
+  {
+   "fieldname": "practitioner",
+   "fieldtype": "Link",
+   "label": "Practitioner",
+   "options": "Professional Information Card",
+   "reqd": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "General Ledger Entry",
+   "print_hide": 1,
+   "read_only": 1
+  }
+ ],
+ "is_sealed": 1,
+ "is_submittable": 1,
+ "modified": "2019-06-12 09:09:23.961663",
+ "modified_by": "Administrator",
+ "module": "Maia Accounting",
+ "name": "General Ledger Entry",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Midwife",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Midwife Substitute",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "route": "/desk#Form/DocType/General Ledger Entry",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1,
+ "valid_on_cancel": 1
+}

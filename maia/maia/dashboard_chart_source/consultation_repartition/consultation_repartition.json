@@ -1,0 +1,13 @@
+{
+ "creation": "2019-05-31 09:09:13.929495",
+ "docstatus": 0,
+ "doctype": "Dashboard Chart Source",
+ "idx": 0,
+ "modified": "2019-05-31 09:09:13.929495",
+ "modified_by": "Administrator",
+ "module": "Maia",
+ "name": "Consultation Repartition",
+ "owner": "Administrator",
+ "source_name": "Consultation Repartition",
+ "timeseries": 0
+}

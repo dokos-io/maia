@@ -1,0 +1,146 @@
+{
+ "allow_rename": 1,
+ "autoname": "field:accounting_item",
+ "creation": "2019-04-08 20:27:26.161086",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "accounting_item",
+  "accounting_number",
+  "column_break_3",
+  "accounting_item_type",
+  "accounting_journal",
+  "2035_section",
+  "line_2035",
+  "column_break_7",
+  "code_2035",
+  "section_break_9",
+  "description"
+ ],
+ "fields": [
+  {
+   "fieldname": "accounting_item",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Accounting Item",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "accounting_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Accounting Number",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "accounting_item_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Accounting Item Type",
+   "options": "Revenue\nExpense\nCash\nBank\nSales party\nPurchase party\nPractitioner\nMeal\nTravel\nSocial contributions\nInternal transfer\nOpening\nAsset selling\nAsset purchasing\nAsset depreciation\nAsset depreciation charge\nMiscellaneous",
+   "reqd": 1
+  },
+  {
+   "fieldname": "accounting_journal",
+   "fieldtype": "Select",
+   "label": "Accounting Journal",
+   "options": "Sales\nPurchases\nBank\nCash\nOpening entries\nMiscellaneous operations",
+   "reqd": 1
+  },
+  {
+   "fieldname": "2035_section",
+   "fieldtype": "Section Break",
+   "label": "2035 Declaration"
+  },
+  {
+   "default": "0",
+   "fieldname": "line_2035",
+   "fieldtype": "Int",
+   "label": "2035 Line",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_7",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "00",
+   "fieldname": "code_2035",
+   "fieldtype": "Data",
+   "label": "2035 Code",
+   "length": 2,
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_9",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  }
+ ],
+ "modified": "2019-06-14 09:15:57.497797",
+ "modified_by": "Administrator",
+ "module": "Maia Accounting",
+ "name": "Accounting Item",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Midwife",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Midwife Substitute",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Appointment User",
+   "share": 1
+  }
+ ],
+ "route": "/desk#Form/DocType/Accounting Item",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

@@ -1,0 +1,108 @@
+{
+ "allow_rename": 1,
+ "autoname": "field:party_name",
+ "creation": "2019-04-08 18:21:20.001871",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "party_name",
+  "column_break_2",
+  "is_customer",
+  "is_supplier",
+  "is_social_contribution",
+  "is_social_security"
+ ],
+ "fields": [
+  {
+   "fieldname": "party_name",
+   "fieldtype": "Data",
+   "label": "Party Name",
+   "unique": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "is_customer",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Is a customer"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_supplier",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Is a supplier"
+  },
+  {
+   "default": "0",
+   "description": "e.g URSSAF",
+   "fieldname": "is_social_contribution",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Is a social contribution party"
+  },
+  {
+   "default": "0",
+   "description": "e.g CPAM",
+   "fieldname": "is_social_security",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Is a social security party"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "modified": "2019-06-12 10:12:34.372465",
+ "modified_by": "Administrator",
+ "module": "Maia Accounting",
+ "name": "Party",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Midwife",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Midwife Substitute",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "route": "/desk#Form/DocType/Party",
+ "sort_field": "modified",
+ "sort_order": "DESC"
+}

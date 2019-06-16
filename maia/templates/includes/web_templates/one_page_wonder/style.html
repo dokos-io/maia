@@ -1,205 +1,165 @@
-/*
- * Start Bootstrap - One Page Wonder (http://startbootstrap.com/)
- * Copyright 2013-2016 Start Bootstrap
- * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
+/*!
+ * Start Bootstrap - One Page Wonder v5.0.4 (https://startbootstrap.com/template-overviews/one-page-wonder)
+ * Copyright 2013-2019 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-one-page-wonder/blob/master/LICENSE)
  */
 
-/* Defaults */
-.hero-and-content {
-    margin-top: 80px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+ @import "frappe/public/scss/website";
+
+$white: #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #868e96 !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+$black: #000 !default;
+
+$primary: {{ data.primary_color }};
+$secondary: {{ data.secondary_color }};
+
+// Frappe override
+div[data-path="index"] > main {
+  max-width: 100% !important;
+  padding: 0 !important;
 }
 
-.navbar-brand img {
-	max-height: 24px;
+@mixin heading-font {
+  font-family: 'Catamaran';
+  font-weight: 800 !important;
 }
 
-.navbar {
-	border-bottom: 0px !important;
+@mixin body-font {
+  font-family: 'Lato';
 }
 
-.header-image {
-    display: block;
-		min-height: 800px;
-    width: 100%;
-    text-align: center;
-    background: url('{{ data.main_image }}') no-repeat center center scroll;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    background-size: cover;
-    -o-background-size: cover;
+body {
+  @include body-font;
 }
 
-.headline {
-    padding: 120px 0;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @include heading-font;
 }
 
-.headline h1 {
-    font-size: 130px;
-    background: #fff;
-    background: rgba(255,255,255,0.9);
+.btn-xl {
+  text-transform: uppercase;
+  padding: 1.5rem 3rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.1rem;
 }
 
-.headline h2 {
-    font-size: 77px;
-    background: #fff;
-    background: rgba(255,255,255,0.9);
+.bg-black {
+  background-color: $black !important;
 }
 
-.featurette-divider {
-    margin: 80px 0;
+.rounded-pill {
+  border-radius: 5rem;
 }
 
-.featurette {
-    overflow: hidden;
+header.masthead {
+  position: relative;
+  overflow: hidden;
+  padding-top: calc(7rem + 72px);
+  padding-bottom: 7rem;
+  background: linear-gradient(0deg, $secondary 0%, $primary 100%);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: scroll;
+  background-size: cover;
+  .masthead-content {
+    z-index: 1;
+    position: relative;
+    .masthead-heading {
+      font-size: 4rem;
+    }
+    .masthead-subheading {
+      font-size: 2rem;
+    }
+  }
+  .bg-circle {
+    z-index: 0;
+    position: absolute;
+    border-radius: 100%;
+    background: linear-gradient(0deg, $primary 0%, $secondary 100%);
+  }
+  .bg-circle-1 {
+    height: 90rem;
+    width: 90rem;
+    bottom: -55rem;
+    left: -55rem;
+  }
+  .bg-circle-2 {
+    height: 50rem;
+    width: 50rem;
+    top: -25rem;
+    right: -25rem;
+  }
+  .bg-circle-3 {
+    height: 20rem;
+    width: 20rem;
+    bottom: -10rem;
+    right: 5%;
+  }
+  .bg-circle-4 {
+    height: 30rem;
+    width: 30rem;
+    top: -5rem;
+    right: 35%;
+  }
 }
 
-.featurette-image {
-	max-width: 500px !important;
+@media (min-width: 992px) {
+  header.masthead {
+    padding-top: calc(10rem + 55px);
+    padding-bottom: 10rem;
+    .masthead-content {
+      .masthead-heading {
+        font-size: 6rem;
+      }
+      .masthead-subheading {
+        font-size: 4rem;
+      }
+    }
+  }
 }
 
-.featurette-image.pull-left {
-    margin-right: 40px;
+.bg-primary {
+  background-color: $primary !important;
 }
 
-.featurette-image.pull-right {
-    margin-left: 40px;
+.btn-primary {
+  background-color: $primary;
+  border-color: $primary;
+  &:active,
+  &:focus,
+  &:hover {
+    background-color: darken($primary, 10%) !important;
+    border-color: darken($primary, 10%) !important;
+  }
+  &:focus {
+    box-shadow: 0 0 0 0.2rem fade-out($primary, 0.5);
+  }
 }
 
-.featurette-heading {
-    font-size: 50px;
-}
-
-footer {
-    margin: 50px 0;
-}
-
-@media(max-width:1200px) {
-    .headline h1 {
-        font-size: 140px;
-    }
-
-    .headline h2 {
-        font-size: 63px;
-    }
-
-    .featurette-divider {
-        margin: 50px 0;
-    }
-
-    .featurette-image.pull-left {
-        margin-right: 20px;
-    }
-
-    .featurette-image.pull-right {
-        margin-left: 20px;
-    }
-
-    .featurette-heading {
-        font-size: 35px;
-    }
-}
-
-@media(max-width:991px) {
-    .headline h1 {
-        font-size: 105px;
-    }
-
-    .headline h2 {
-        font-size: 50px;
-    }
-
-    .featurette-divider {
-        margin: 40px 0;
-    }
-
-    .featurette-image {
-        max-width: 50%;
-    }
-
-    .featurette-image.pull-left {
-        margin-right: 10px;
-    }
-
-    .featurette-image.pull-right {
-        margin-left: 10px;
-    }
-
-    .featurette-heading {
-        font-size: 30px;
-    }
-}
-
-@media(max-width:768px) {
-    .container {
-        margin: 0 15px;
-    }
-
-    .featurette-divider {
-        margin: 40px 0;
-    }
-
-    .featurette-heading {
-        font-size: 25px;
-    }
-}
-
-@media(max-width:668px) {
-    .headline h1 {
-        font-size: 70px;
-    }
-
-    .headline h2 {
-        font-size: 32px;
-    }
-
-    .featurette-divider {
-        margin: 30px 0;
-    }
-}
-
-@media(max-width:640px) {
-    .headline {
-        padding: 75px 0 25px 0;
-    }
-
-    .headline h1 {
-        font-size: 60px;
-    }
-
-    .headline h2 {
-        font-size: 30px;
-    }
-}
-
-@media(max-width:375px) {
-    .featurette-divider {
-        margin: 10px 0;
-    }
-
-    .featurette-image {
-        max-width: 100%;
-    }
-
-    .featurette-image.pull-left {
-        margin-right: 0;
-        margin-bottom: 10px;
-    }
-
-    .featurette-image.pull-right {
-        margin-bottom: 10px;
-        margin-left: 0;
-    }
-}
-
-.about-content {
-	font-size: 50px;
-	font-weight: 400;
-	line-height: 1.1;
-}
-
-.about-content p {
-	font-size: 21px;
-	margin-bottom: 20px;
-	font-weight: 300;
-	line-height: 1.4;
+.btn-secondary {
+  background-color: $secondary;
+  border-color: $secondary;
+  &:active,
+  &:focus,
+  &:hover {
+    background-color: darken($secondary, 10%) !important;
+    border-color: darken($secondary, 10%) !important;
+  }
+  &:focus {
+    box-shadow: 0 0 0 0.2rem fade-out($secondary, 0.5);
+  }
 }

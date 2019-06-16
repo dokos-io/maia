@@ -1,8 +1,8 @@
 {
 	"js/maia.min.js": [
 		"public/js/conf.js",
-		"public/js/custom_scripts/bank_reconciliation.js",
-		"public/js/custom_scripts/payment_entry.js"
+		"public/js/templates/address_list.html",
+		"public/js/templates/contact_list.html"
 	],
 	"js/maia-web.min.js": [
 		"public/js/templates/selectors/practitioner_selector.html",
@@ -12,15 +12,6 @@
 		"public/js/templates/selectors/category_selector.html"
 	],
 	"js/patient-dashboard.min.js": [
-		"maia/doctype/patient_record/dashboard/result_div.html",
-		"maia/doctype/patient_record/dashboard/custom_patient_dashboard.html",
-		"maia/doctype/patient_record/dashboard/general_memo.html",
-		"maia/doctype/patient_record/dashboard/pregnancy.html",
-		"maia/doctype/patient_record/dashboard/delivery.html",
-		"maia/doctype/patient_record/dashboard/newborn.html",
-		"maia/doctype/patient_record/dashboard/gynecology.html",
-		"maia/doctype/patient_record/dashboard/lab_exam_results.html",
-		"maia/doctype/patient_record/dashboard/perineum_rehabilitation.html",
-		"maia/doctype/patient_record/dashboard/custom_patient_dashboard.js"
-		]
+		"public/js/maia/patient_dashboard/custom_patient_dashboard.js"
+	]
 }

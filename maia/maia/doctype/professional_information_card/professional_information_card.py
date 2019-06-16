@@ -8,43 +8,57 @@ from frappe.model.document import Document
 from frappe import _
 
 class ProfessionalInformationCard(Document):
-	pass
+	def before_insert(self):
+		if not self.full_name:
+			self.full_name = self.first_name + " " + self.last_name
 
+	def validate(self):
+		if not self.full_name:
+			self.full_name = self.first_name + " " + self.last_name
 
-@frappe.whitelist()
-def replacement_user(contact):
-        contact = frappe.get_doc("Professional Information Card", contact)
+	def create_user(self):
+		user = self.add_user()
+		
+		if user:
+			self.user = user.name
+			self.save()
 
-        if not contact.substitute_email:
-                frappe.throw(_("Please set Email Address"))
+	def add_user(self):
+		if not self.email:
+			frappe.throw(_("Please add a work email"))
 
-        
-        if contact.has_permission("write"):
-                user = frappe.get_doc({
-                        "doctype": "User",
-                        "user_type": "System User",
-                        "first_name": contact.substitute_first_name,
-                        "last_name": contact.substitute_last_name,
-                        "email": contact.substitute_email,
-                        "send_welcome_email": 1
-                }).insert(ignore_permissions = True)
+		if frappe.db.exists("User", self.email):
+			new_user = frappe.get_doc("User", self.email)
+		else:
+			try:
+				new_user = frappe.get_doc({
+						"doctype": "User",
+						"user_type": "System User",
+						"first_name": self.first_name,
+						"last_name": self.last_name,
+						"email": self.email,
+						"send_welcome_email": 1
+				}).insert(ignore_permissions = True)
 
-                roles = ["Accounts User", "Customer", "Item Manager", "Stock User", "Projects User", "Purchase Manager", "Purchase Master Manager", "Purchase User", "Sales Master Manager", "Sales User", "Supplier", "Midwife", "HR User", "Stock Manager"]
-                for role in roles:
-                        if not frappe.db.exists("Role", role):
-                                role_doc = frappe.get_doc({
-                                        "doctype": "Role",
-                                        "role_name": role
-                                })
-                                role_doc.save()
-                        
-                        user.append("roles", {
-                                "doctype": "Has Role",
-                                "role": role
-                        })
+				roles = ["Midwife Substitute"] if self.is_substitute else ["Midwife", "Midwife Substitute"]
+				for role in roles:
+					if not frappe.db.exists("Role", role):
+							role_doc = frappe.get_doc({
+									"doctype": "Role",
+									"role_name": role
+							})
+							role_doc.insert()
+						
+					new_user.append("roles", {
+							"doctype": "Has Role",
+							"role": role
+					})
 
-                        
-                        
-                user.save()
+				new_user.save()
+			except Exception:
+				frappe.log_error(frappe.get_traceback())
 
-                return user.name
+		self.user = new_user.name
+		self.reload()
+
+		return new_user

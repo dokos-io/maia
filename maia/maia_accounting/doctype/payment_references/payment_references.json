@@ -1,0 +1,79 @@
+{
+ "allow_rename": 1,
+ "creation": "2019-04-09 18:01:39.653147",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "reference_type",
+  "reference_name",
+  "transaction_date",
+  "party",
+  "patient_record",
+  "outstanding_amount",
+  "paid_amount"
+ ],
+ "fields": [
+  {
+   "fieldname": "reference_type",
+   "fieldtype": "Select",
+   "label": "Reference Type",
+   "options": "Revenue\nExpense",
+   "reqd": 1
+  },
+  {
+   "fieldname": "reference_name",
+   "fieldtype": "Dynamic Link",
+   "label": "Reference Name",
+   "options": "reference_type",
+   "reqd": 1
+  },
+  {
+   "fieldname": "outstanding_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Outstanding Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "paid_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Amount Paid"
+  },
+  {
+   "fieldname": "patient_record",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Patient",
+   "options": "Patient Record",
+   "read_only": 1
+  },
+  {
+   "fieldname": "party",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Party",
+   "options": "Party",
+   "read_only": 1
+  },
+  {
+   "fieldname": "transaction_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Transaction Date",
+   "read_only": 1
+  }
+ ],
+ "istable": 1,
+ "modified": "2019-06-15 16:23:48.091520",
+ "modified_by": "Administrator",
+ "module": "Maia Accounting",
+ "name": "Payment References",
+ "owner": "Administrator",
+ "permissions": [],
+ "route": "/desk#Form/DocType/Payment References",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

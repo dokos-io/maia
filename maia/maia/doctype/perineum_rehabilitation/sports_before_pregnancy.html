@@ -1,0 +1,25 @@
+<div class="clearfix"></div>
+<div class="cervical-smears-box">
+	{% if ((typeof data !== "undefined") && (data.length !==0)) { %}
+	<div><h5 class="text-center uppercase" style="color: #8D99A6">{{ __("Sports before pregnancy") }}</h5></div>
+	<div class="form-grid">
+		<div class="grid-body">
+			<div class="rows">
+			{% for d in data %}
+			<div class="grid-row">
+				<div class="data-row row">
+					<div class="col grid-static-col col-xs-4">
+						<div class="static-area ellipsis">{{ d.sport }}</div>
+					</div>
+					<div class="col grid-static-col col-xs-8">
+						<div class="static-area ellipsis">{{ d.note }}</div>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+
+	</div>
+	{% } %}
+</div>

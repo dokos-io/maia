@@ -28,7 +28,7 @@ frappe.ui.form.on('Pregnancy', {
 					],
 					function(value){
 						$.each(data.message || [], function(i, v){
-							var d = frappe.model.add_child(frm.doc, "Lab Exam Results", "labs_results");
+							let d = frappe.model.add_child(frm.doc, "Lab Exam Results", "labs_results");
 							d.date = value.date;
 							d.exam_type = v.exam_type;
 							frappe.db.get_value('Lab Exam Type', {name: d.exam_type}, 'default_value', (r) => {
@@ -48,9 +48,18 @@ frappe.ui.form.on('Pregnancy', {
 
 frappe.ui.form.on('Lab Exam Results', {
 	exam_type: function(frm, cdt, cdn) {
-		var row = locals[cdt][cdn];
+		const row = locals[cdt][cdn];
 		frappe.db.get_value('Lab Exam Type', {name: row.exam_type}, 'default_value', (r) => {
 				frappe.model.set_value(cdt, cdn, "show_on_dashboard", r.default_value);
+		});
+	}
+});
+
+frappe.ui.form.on('Patient Sports', {
+	sport: function(frm, cdt, cdn) {
+		const row = locals[cdt][cdn];
+		frappe.db.get_value('Sport', {name: row.sport}, 'recommendations', (r) => {
+				frappe.model.set_value(cdt, cdn, "recommendations", r.recommendations);
 		});
 	}
 });
@@ -81,11 +90,13 @@ let setup_newborn_chart = function(frm, child, domelem) {
 				let colors = r.message[1];
 
 				let $wrap = $('div[data-fieldname='+domelem+']').get(0);
-
-				new frappeChart.Chart($wrap, {
+				new Chart($wrap, {
 					title: __("Weight Curve (g)"),
 					data: data,
 					type: 'line',
+					lineOptions: {
+						regionFill: 0
+					},
 					height: 240,
 					format_tooltip_y: d => d + ' g',
 					colors: colors,
@@ -100,6 +111,7 @@ let get_term_date = function(frm) {
 	let beginning_of_pregnancy = frm.doc.beginning_of_pregnancy;
 	let last_menstrual_period = frm.doc.last_menstrual_period;
 	let current_date = frappe.datetime.nowdate();
+	let am_weeks, add_days;
 
 	if (beginning_of_pregnancy != null) {
 		am_weeks = Math.floor(frappe.datetime.get_diff(current_date, beginning_of_pregnancy) / 7) + 2

@@ -1,0 +1,114 @@
+{
+ "allow_rename": 1,
+ "autoname": "field:payment_method",
+ "creation": "2019-04-08 20:11:45.644609",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "payment_method",
+  "payment_type",
+  "accounting_item",
+  "column_break_4",
+  "bank_account",
+  "section_break_5",
+  "default_incoming",
+  "default_outgoing"
+ ],
+ "fields": [
+  {
+   "fieldname": "payment_method",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Payment Method",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "payment_type",
+   "fieldtype": "Select",
+   "label": "Payment Type",
+   "options": "Bank\nCash"
+  },
+  {
+   "depends_on": "eval:doc.payment_type==\"Cash\"",
+   "fieldname": "accounting_item",
+   "fieldtype": "Link",
+   "label": "Accounting Item",
+   "options": "Accounting Item"
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.payment_type==\"Bank\"",
+   "fieldname": "bank_account",
+   "fieldtype": "Link",
+   "label": "Bank Account",
+   "options": "Maia Bank Account"
+  },
+  {
+   "fieldname": "section_break_5",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "default_incoming",
+   "fieldtype": "Check",
+   "label": "Default Incoming Payment Method"
+  },
+  {
+   "default": "0",
+   "fieldname": "default_outgoing",
+   "fieldtype": "Check",
+   "label": "Default Outgoing Payment Method"
+  }
+ ],
+ "modified": "2019-06-12 10:02:06.783393",
+ "modified_by": "Administrator",
+ "module": "Maia Accounting",
+ "name": "Payment Method",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Midwife",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Midwife Substitute",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "route": "/desk#Form/DocType/Payment Method",
+ "sort_field": "modified",
+ "sort_order": "DESC"
+}

@@ -1,0 +1,121 @@
+{
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2019-05-30 10:52:40.097791",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "start_date",
+  "end_date",
+  "column_break_4",
+  "practitioner",
+  "substitute",
+  "section_break_6",
+  "fee_percentage",
+  "maximum_fee",
+  "mileage_allowance_excluded"
+ ],
+ "fields": [
+  {
+   "default": "REMP-.YYYY.-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "REMP-.YYYY.-",
+   "reqd": 1
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Start Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "End Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_6",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "fee_percentage",
+   "fieldtype": "Percent",
+   "in_list_view": 1,
+   "label": "Fee Percentage (%)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "maximum_fee",
+   "fieldtype": "Currency",
+   "label": "Maximum Fee (\u20ac)"
+  },
+  {
+   "default": "0",
+   "fieldname": "mileage_allowance_excluded",
+   "fieldtype": "Check",
+   "label": "Mileage Allowance Excluded"
+  },
+  {
+   "fieldname": "practitioner",
+   "fieldtype": "Link",
+   "label": "Replaced Practitioner",
+   "options": "Professional Information Card",
+   "reqd": 1
+  },
+  {
+   "fieldname": "substitute",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Substitute Practitioner",
+   "options": "Professional Information Card",
+   "reqd": 1
+  }
+ ],
+ "modified": "2019-05-31 14:17:08.859752",
+ "modified_by": "Administrator",
+ "module": "Maia",
+ "name": "Replacement",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Midwife",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "title_field": "substitute",
+ "track_changes": 1
+}

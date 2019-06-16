@@ -1,0 +1,268 @@
+{
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2019-04-19 15:04:19.360548",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "asset_type",
+  "asset_label",
+  "column_break_4",
+  "practitioner",
+  "acquisition_date",
+  "section_break_6",
+  "service_start",
+  "column_break_8",
+  "co2_rate",
+  "section_break_4",
+  "asset_value",
+  "deduction_ceiling",
+  "column_break_6",
+  "professional_percentage",
+  "section_break_8",
+  "calculation_mode",
+  "column_break_10",
+  "depreciation_duration",
+  "depreciation_rate",
+  "section_break_12",
+  "asset_depreciations",
+  "sales_and_purchases_section",
+  "expense",
+  "column_break_19",
+  "revenue",
+  "section_break_21",
+  "amended_from",
+  "status"
+ ],
+ "fields": [
+  {
+   "default": "ACTIF-.YYYY.-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Series",
+   "options": "ACTIF-.YYYY.-",
+   "reqd": 1
+  },
+  {
+   "fieldname": "asset_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Asset Type",
+   "options": "General\nCar",
+   "reqd": 1
+  },
+  {
+   "fieldname": "asset_label",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Asset Label",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "practitioner",
+   "fieldtype": "Link",
+   "label": "Practitioner",
+   "options": "Professional Information Card"
+  },
+  {
+   "default": "Today",
+   "fieldname": "acquisition_date",
+   "fieldtype": "Date",
+   "label": "Acquisition Date",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.asset_type==\"Car\"",
+   "fieldname": "section_break_6",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "service_start",
+   "fieldtype": "Date",
+   "label": "Service start"
+  },
+  {
+   "fieldname": "column_break_8",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "co2_rate",
+   "fieldtype": "Float",
+   "label": "CO2 Rate"
+  },
+  {
+   "fieldname": "section_break_4",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "asset_value",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Asset Value",
+   "reqd": 1
+  },
+  {
+   "fieldname": "deduction_ceiling",
+   "fieldtype": "Currency",
+   "label": "Deduction Ceiling",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_6",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "100",
+   "fieldname": "professional_percentage",
+   "fieldtype": "Percent",
+   "in_list_view": 1,
+   "label": "Professional Percentage",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_8",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "calculation_mode",
+   "fieldtype": "Select",
+   "label": "Calculation Mode",
+   "options": "Linear\nNon-depreciable"
+  },
+  {
+   "fieldname": "column_break_10",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.calculation_mode != \"Non-depreciable\"",
+   "fieldname": "depreciation_duration",
+   "fieldtype": "Int",
+   "label": "Depreciation Duration (Years)"
+  },
+  {
+   "depends_on": "eval:doc.calculation_mode != \"Non-depreciable\"",
+   "fieldname": "depreciation_rate",
+   "fieldtype": "Percent",
+   "label": "Depreciation Rate"
+  },
+  {
+   "depends_on": "eval:doc.calculation_mode != \"Non-depreciable\"",
+   "fieldname": "section_break_12",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "asset_depreciations",
+   "fieldtype": "Table",
+   "label": "Asset Depreciations",
+   "options": "Maia Asset Depreciation"
+  },
+  {
+   "fieldname": "sales_and_purchases_section",
+   "fieldtype": "Section Break",
+   "label": "Sales and Purchases"
+  },
+  {
+   "fieldname": "expense",
+   "fieldtype": "Link",
+   "label": "Expense",
+   "options": "Expense",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_19",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "revenue",
+   "fieldtype": "Link",
+   "label": "Revenue",
+   "options": "Revenue",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_21",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Maia Asset",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Status",
+   "options": "Fully depreciated\nPartly depreciated\nNot depreciated"
+  }
+ ],
+ "is_submittable": 1,
+ "modified": "2019-06-12 10:13:24.456419",
+ "modified_by": "Administrator",
+ "module": "Maia Accounting",
+ "name": "Maia Asset",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Midwife",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Midwife Substitute",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "route": "/desk#Form/DocType/Maia Asset",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "title_field": "asset_label",
+ "track_changes": 1
+}

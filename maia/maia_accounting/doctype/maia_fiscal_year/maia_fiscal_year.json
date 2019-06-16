@@ -1,0 +1,107 @@
+{
+ "allow_import": 1,
+ "autoname": "field:year",
+ "creation": "2019-04-18 10:40:59.262356",
+ "description": "**Fiscal Year** represents a Financial Year. All accounting entries and other major transactions are tracked against **Fiscal Year**.",
+ "doctype": "DocType",
+ "document_type": "Setup",
+ "engine": "InnoDB",
+ "field_order": [
+  "year",
+  "disabled",
+  "year_start_date",
+  "year_end_date",
+  "auto_created"
+ ],
+ "fields": [
+  {
+   "description": "For e.g. 2012, 2012-13",
+   "fieldname": "year",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Year Name",
+   "oldfieldname": "year",
+   "oldfieldtype": "Data",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "disabled",
+   "fieldtype": "Check",
+   "label": "Disabled"
+  },
+  {
+   "fieldname": "year_start_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Year Start Date",
+   "no_copy": 1,
+   "oldfieldname": "year_start_date",
+   "oldfieldtype": "Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "year_end_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Year End Date",
+   "no_copy": 1,
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "auto_created",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Auto Created",
+   "no_copy": 1,
+   "print_hide": 1,
+   "read_only": 1
+  }
+ ],
+ "icon": "fa fa-calendar",
+ "modified": "2019-06-12 11:38:27.676588",
+ "modified_by": "Administrator",
+ "module": "Maia Accounting",
+ "name": "Maia Fiscal Year",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Midwife",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Midwife Substitute",
+   "share": 1
+  }
+ ],
+ "route": "/desk#Form/DocType/Maia Fiscal Year",
+ "show_name_in_global_search": 1,
+ "sort_field": "name",
+ "sort_order": "DESC"
+}

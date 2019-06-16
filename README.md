@@ -4,4 +4,4 @@ Patient Record Management App for Midwifes
 
 #### License
 
-GNU-GPLv3.0
+All rights reserved to Dokos and affiliates

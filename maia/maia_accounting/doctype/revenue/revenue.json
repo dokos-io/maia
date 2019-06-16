@@ -1,0 +1,289 @@
+{
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2019-04-08 11:23:12.507065",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "revenue_type",
+  "label",
+  "amount",
+  "with_items",
+  "column_break_4",
+  "practitioner",
+  "transaction_date",
+  "accounting_item",
+  "codifications_section",
+  "codifications",
+  "section_break_6",
+  "patient",
+  "column_break_8",
+  "party",
+  "section_break_16",
+  "note",
+  "section_break_18",
+  "outstanding_amount",
+  "column_break_20",
+  "status",
+  "references_section",
+  "consultation_type",
+  "consultation",
+  "column_break_25",
+  "amended_from",
+  "printing_section",
+  "billing_address",
+  "legal_mentions"
+ ],
+ "fields": [
+  {
+   "default": "REC-.YYYY.-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Series",
+   "options": "REC-.YYYY.-",
+   "reqd": 1
+  },
+  {
+   "fieldname": "revenue_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Revenue Type",
+   "options": "Consultation\nSocial Security\nPersonal credit\nMiscellaneous",
+   "reqd": 1
+  },
+  {
+   "fieldname": "label",
+   "fieldtype": "Data",
+   "label": "Label",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Amount",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "with_items",
+   "fieldtype": "Check",
+   "label": "With codifications"
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "practitioner",
+   "fieldtype": "Link",
+   "label": "Practitioner",
+   "options": "Professional Information Card",
+   "reqd": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "transaction_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Transaction Date",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:!doc.with_items",
+   "fieldname": "accounting_item",
+   "fieldtype": "Link",
+   "label": "Accounting Item",
+   "options": "Accounting Item"
+  },
+  {
+   "depends_on": "eval:doc.with_items",
+   "fieldname": "codifications_section",
+   "fieldtype": "Section Break",
+   "label": "Codifications"
+  },
+  {
+   "fieldname": "codifications",
+   "fieldtype": "Table",
+   "label": "Codifications",
+   "options": "Revenue Items"
+  },
+  {
+   "fieldname": "section_break_6",
+   "fieldtype": "Section Break",
+   "label": "Parties"
+  },
+  {
+   "depends_on": "eval:[\"Consultation\", \"Social Security\"].includes(doc.revenue_type)",
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Patient",
+   "options": "Patient Record"
+  },
+  {
+   "fieldname": "column_break_8",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:[\"Social Security\", \"Miscellaneous\"].includes(doc.revenue_type)",
+   "fieldname": "party",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Party",
+   "options": "Party"
+  },
+  {
+   "fieldname": "section_break_16",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "Small Text",
+   "label": "Note"
+  },
+  {
+   "fieldname": "section_break_18",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "outstanding_amount",
+   "fieldtype": "Currency",
+   "label": "Outstanding Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Draft\nUnpaid\nPaid\nCancelled"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Revenue",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_20",
+   "fieldtype": "Column Break"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "references_section",
+   "fieldtype": "Section Break",
+   "label": "References"
+  },
+  {
+   "fieldname": "consultation_type",
+   "fieldtype": "Select",
+   "label": "Consultation Type",
+   "options": "\nFree Consultation\nPregnancy Consultation\nGynecological Consultation\nEarly Postnatal Consultation\nPostnatal Consultation\nPrenatal Interview Consultation\nBirth Preparation Consultation\nPerineum Rehabilitation Consultation"
+  },
+  {
+   "fieldname": "consultation",
+   "fieldtype": "Dynamic Link",
+   "label": "Consultation",
+   "options": "consultation_type"
+  },
+  {
+   "fieldname": "column_break_25",
+   "fieldtype": "Column Break"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "printing_section",
+   "fieldtype": "Section Break",
+   "label": "Print Settings"
+  },
+  {
+   "fieldname": "billing_address",
+   "fieldtype": "Link",
+   "label": "Billing address",
+   "options": "Address"
+  },
+  {
+   "default": "Membre d'une soci\u00e9t\u00e9 de gestion agr\u00e9\u00e9e, les r\u00e8glements par ch\u00e8ques sont accept\u00e9s.",
+   "fieldname": "legal_mentions",
+   "fieldtype": "Text Editor",
+   "label": "Legal mentions"
+  }
+ ],
+ "is_sealed": 1,
+ "is_submittable": 1,
+ "modified": "2019-06-12 09:07:51.894623",
+ "modified_by": "Administrator",
+ "module": "Maia Accounting",
+ "name": "Revenue",
+ "name_after_submit": 1,
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Midwife",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "print": 1,
+   "read": 1,
+   "role": "Patient"
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Midwife Substitute",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "route": "/desk#Form/DocType/Revenue",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "title_field": "label",
+ "track_changes": 1,
+ "track_print": 1
+}

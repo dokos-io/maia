@@ -10,11 +10,10 @@ app_description = "Patient Record Management App for Midwifes"
 app_icon = "octicon octicon-squirrel"
 app_color = "#ff4081"
 app_email = "hello@dokos.io"
-app_license = "GNU-GPLv3.0"
+app_license = "All rights reserved to Dokos"
 
 
-fixtures = ["Custom Field", {"doctype": "Role", "filters": {"name": "Midwife"}}, {
-	"doctype": "Print Format", "filters": {"name": "Facture Maia"}}]
+fixtures = ["Custom Field", {"doctype": "Role", "filters": {"name": "Midwife"}}]
 
 error_report_email = "hello@dokos.io"
 
@@ -28,22 +27,19 @@ website_context = {
 
 # Migration
 #----------
-before_migrate = ["maia.customizations.chart_of_accounts.add_simplified_coa",
-					"maia.customizations.demo.add_demo_page",
-					"maia.customizations.before_migration_hooks.before_migrate"
+before_migrate = [
+	"maia.customizations.before_migration_hooks.before_migrate"
 ]
 
-
-# setup wizard
-setup_wizard_requires = "assets/maia/js/setup_wizard.js"
-setup_wizard_stages = "maia.setup.setup_wizard.setup_wizard.get_setup_stages"
-setup_wizard_exception = "maia.setup.setup_wizard.setup_wizard.log_error"
-
-get_help_messages = "maia.utilities.activation.get_help_messages"
+# after install
+after_install = "maia.setup.setup_wizard.setup_wizard.setup_complete"
 
 domains = {
 	'Sage-Femme': 'maia.domains.midwife'
-	}
+}
+
+jinja_template_functions = "maia.utilities.utils.custom_template_functions"
+boot_session = "maia.startup.boot.boot_session"
 
 # welcome message title
 login_mail_title = "Nous sommes heureux de vous compter parmi nous !"
@@ -65,16 +61,23 @@ website_route_rules = [
 			"doctype": "Maia Appointment",
 			"parents": [{"label": "Mes Rendez-Vous", "route": "my-appointments"}]
 		}
-	 }
+	},
+	{"from_route": "/receipts", "to_route": "Revenue"},
+	{"from_route": "/receipts/<path:name>", "to_route": "receipt",
+		"defaults": {
+			"doctype": "Revenue",
+			"parents": [{"label": _("Receipts"), "route": "receipts"}]
+		}
+	},
 ]
 
 standard_portal_menu_items = [
-	{"title": _("Prendre Rendez-Vous"), "route": "/appointment",
-	 "reference_doctype": "Maia Appointment", "role": "Customer"},
-	{"title": _("Mes Rendez-Vous"), "route": "/my-appointments",
-	 "reference_doctype": "Maia Appointment", "role": "Customer"},
-	 {"title": _("Invoices"), "route": "/invoices",
-	 "reference_doctype": "Sales Invoice", "role":"Customer"},
+	{"title": _("Prendre rendez-Vous"), "route": "/appointment",
+		"reference_doctype": "Maia Appointment", "role": "Patient"},
+	{"title": _("Mes rendez-Vous"), "route": "/my-appointments",
+		"reference_doctype": "Maia Appointment", "role": "Patient"},
+	{"title": _("Mes factures"), "route": "/receipts",
+		"reference_doctype": "Revenue", "role": "Patient"}
 ]
 
 # Includes in <head>
@@ -127,9 +130,25 @@ standard_portal_menu_items = [
 # 	"Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
 # }
 #
-# has_permission = {
-# 	"Event": "frappe.desk.doctype.event.event.has_permission",
-# }
+permission_query_conditions = {
+	"Revenue": "maia.maia_accounting.doctype.revenue.revenue.get_permission_query_conditions",
+	"Expense": "maia.maia_accounting.doctype.expense.expense.get_permission_query_conditions",
+	"Miscellaneous Operation": "maia.maia_accounting.doctype.miscellaneous_operation.miscellaneous_operation.get_permission_query_conditions",
+	"Payment": "maia.maia_accounting.doctype.payment.payment.get_permission_query_conditions",
+	"General Ledger Entry": "maia.maia_accounting.doctype.general_ledger_entry.general_ledger_entry.get_permission_query_conditions"
+}
+
+has_permission = {
+	"Revenue": "maia.maia_accounting.utils.has_accounting_permissions",
+	"Expense": "maia.maia_accounting.utils.has_accounting_permissions",
+	"Miscellaneous Operation": "maia.maia_accounting.utils.has_accounting_permissions",
+	"Payment": "maia.maia_accounting.utils.has_accounting_permissions",
+	"General Ledger Entry": "maia.maia_accounting.utils.has_accounting_permissions"
+}
+
+has_website_permission = {
+	"Revenue": "maia.controllers.website_list_for_contact.has_website_permission",
+}
 
 # Document Events
 # ---------------
@@ -148,9 +167,10 @@ scheduler_events = {
 	# 	"all": [
 	# 		"maia.tasks.all"
 	# 	],
-	# 	"daily": [
-	# 		"maia.tasks.daily"
-	# 	],
+	"daily": [
+		"maia.maia_accounting.doctype.maia_asset.maia_asset.post_depreciations",
+		"maia.tasks.update_patient_birthday"
+	],
 	"hourly": [
 		"maia.maia_appointment.doctype.maia_appointment.maia_appointment.flush"
 	]

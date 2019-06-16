@@ -1,3 +1,3 @@
 <span class="indicator {{ " red " if doc.docstatus==2 else "darkgrey " if doc.end_dt < frappe.utils.now_datetime() else "green " if doc.docstatus==1 }}">
-        {{ _("Cancelled") if doc.docstatus==2 else _("Past") if doc.end_dt < frappe.utils.now_datetime() else _("Planned") if doc.docstatus==1 }}
+        {{ _("Cancelled") if doc.docstatus==2 else _("Past") if doc.end_dt < frappe.utils.now_datetime() else _("Confirmed") if doc.docstatus==1 }}
 </span>

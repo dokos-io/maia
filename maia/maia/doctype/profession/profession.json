@@ -1,0 +1,78 @@
+{
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "field:profession_name",
+ "creation": "2019-05-16 15:43:17.188860",
+ "doctype": "DocType",
+ "document_type": "Setup",
+ "engine": "InnoDB",
+ "field_order": [
+  "profession_name",
+  "profession"
+ ],
+ "fields": [
+  {
+   "fieldname": "profession_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Profession",
+   "oldfieldname": "designation_name",
+   "oldfieldtype": "Data",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "profession",
+   "fieldtype": "Text",
+   "label": "profession"
+  }
+ ],
+ "icon": "fa fa-bookmark",
+ "modified": "2019-06-14 09:10:56.855753",
+ "modified_by": "Administrator",
+ "module": "Maia",
+ "name": "Profession",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Midwife",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Midwife Substitute",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Appointment User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "quick_entry": 1,
+ "show_name_in_global_search": 1,
+ "sort_field": "modified",
+ "sort_order": "ASC"
+}

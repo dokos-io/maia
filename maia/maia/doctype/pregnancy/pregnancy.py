@@ -120,12 +120,13 @@ def get_newborn_weight_data(patient_record, pregnancy, child):
 	data = {
 		'labels': titles,
 		'datasets': [{
+			'name': _('Newborn weight'),
 			'values': values
-			},
-			{
-			'title': _('10% Curve'),
+		},
+		{
+			'name': _('10% Curve'),
 			'values': tenpercents
-			}]
-		}
+		}]
+	}
 
 	return data, colors

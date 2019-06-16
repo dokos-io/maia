@@ -1,3 +1,0 @@
-nouvelle-facture
-paiements
-reconciliation-bancaire

@@ -4,18 +4,17 @@
 
 from __future__ import unicode_literals
 import frappe
-from frappe.model.naming import make_autoname
+import maia
+import dateparser
 from frappe import _
-from frappe.utils import cstr, cint, now, formatdate, get_datetime
-import frappe.defaults
+from frappe.model.naming import make_autoname
+from frappe.utils import cstr, cint, now, formatdate, get_datetime, flt
 from frappe.model.document import Document
 from frappe.contacts.address_and_contact import load_address_and_contact
-from erpnext.utilities.transaction_base import TransactionBase
-from erpnext.accounts.party import validate_party_accounts
-from erpnext.controllers.queries import get_filters_cond
-from frappe.desk.reportview import get_match_cond
+from frappe.desk.reportview import get_match_cond, get_filters_cond
 from maia.maia.utils import parity_gravidity_calculation, get_timeline_data
-import dateparser
+import json
+import os
 
 class PatientRecord(Document):
 	def get_feed(self):
@@ -26,26 +25,72 @@ class PatientRecord(Document):
 		load_address_and_contact(self, "patient_record")
 		self.load_dashboard_info()
 		self.set_gravidity_and_parity()
-		self.check_customer()
-
-	def load_dashboard_info(self):
-		billing_this_year = frappe.db.sql("""select sum(debit_in_account_currency), account_currency
-				from `tabGL Entry` where voucher_type='Sales Invoice' and party_type='Customer' and party=%s and fiscal_year = %s""", (self.customer, frappe.db.get_default("fiscal_year")))
-
-		total_unpaid = frappe.db.sql(
-			"""select sum(outstanding_amount) from `tabSales Invoice` where customer=%s and docstatus = 1""", self.customer)
-
-		info = {}
-		info["billing_this_year"] = billing_this_year[0][0] if billing_this_year else 0
-		info["currency"] = billing_this_year[0][1] if billing_this_year else get_default_currency()
-		info["total_unpaid"] = total_unpaid[0][0] if total_unpaid else 0
-
-		self.set_onload('dashboard_info', info)
 
 	def autoname(self):
 		self.patient_name = " ".join(filter(None, [cstr(self.get(f)).strip() for f in ["patient_first_name", "patient_last_name"]]))
-
 		self.name = self.get_patient_name()
+	
+	def after_insert(self):
+		dashboard = frappe.new_doc("Custom Patient Record Dashboard")
+		dashboard.patient_record = self.name
+		try:
+			dashboard.insert()
+		except Exception as e:
+			frappe.log_error("Patient Dashboard Creation Error", e)
+
+	def load_dashboard_info(self):
+		fiscal_year = maia.get_default_fiscal_year()
+		billing_this_year = frappe.db.sql("""
+			select sum(amount)
+			from `tabRevenue` 
+			where patient=%s
+			and docstatus = 1
+			and transaction_date >= %s
+			and transaction_date <= %s""", (self.name, fiscal_year[1], fiscal_year[2]))
+
+		total_unpaid = frappe.db.sql("""
+			select sum(outstanding_amount)
+			from `tabRevenue` 
+			where patient=%s
+			and party is NULL
+			and docstatus = 1
+			and transaction_date >= %s
+			and transaction_date <= %s""", (self.name, fiscal_year[1], fiscal_year[2]))
+
+		patient_unpaid = flt(total_unpaid[0][0]) if total_unpaid else 0
+
+		# Add previously paid amounts
+		party_accounting_item = frappe.db.get_value("Accounting Item", dict(accounting_item_type="Sales Party"), "name")
+		result = frappe.get_all("General Ledger Entry", filters={"party": self.name, "accounting_item": party_accounting_item}, \
+			fields=["SUM(credit)-SUM(debit) as total"])
+
+		if result and len(result) == 1:
+			patient_unpaid -= flt(result[0]["total"])
+
+		social_security_parties = [x["name"] for x in frappe.get_all("Party", filters={"is_social_security": 1})]
+
+		conditions = ""
+		if social_security_parties:
+			if len(social_security_parties) > 1:
+				conditions = "and party in {0}".format(tuple(social_security_parties))
+			else:
+				conditions = "and party='{0}'".format(social_security_parties[0])
+
+		total_unpaid_social_security = frappe.db.sql("""
+			select sum(outstanding_amount)
+			from `tabRevenue` 
+			where patient=%s
+			{0}
+			and transaction_date >= %s
+			and transaction_date <= %s""".format(conditions), (self.name, fiscal_year[1], fiscal_year[2]))
+
+		info = {}
+		info["billing_this_year"] = billing_this_year[0][0] if billing_this_year else 0
+		info["currency"] = maia.get_default_currency()
+		info["total_unpaid"] = patient_unpaid
+		info["total_unpaid_social_security"] = total_unpaid_social_security[0][0] if total_unpaid_social_security else 0
+
+		self.set_onload('dashboard_info', info)
 
 	def get_patient_name(self):
 		if frappe.db.get_value("Patient Record", self.patient_name):
@@ -57,48 +102,18 @@ class PatientRecord(Document):
 
 		return self.patient_name
 
-	def update_address_links(self):
-		address_names = frappe.get_all('Dynamic Link', filters={
-			"parenttype": "Address",
-			"link_doctype": "Patient Record",
-			"link_name": self.name
-		}, fields=["parent as name"])
-
-		# check if customer is linked to each parent
-		for address_name in address_names:
-			address = frappe.get_doc('Address', address_name.get('name'))
-			if not address.has_link('Customer', self.customer):
-				address.append('links', dict(
-					link_doctype='Customer', link_name=self.customer))
-				address.save()
-
 	def validate(self):
 		self.patient_name = " ".join(filter(None, [cstr(self.get(f)).strip() for f in ["patient_first_name", "patient_last_name"]]))
-
-		if not self.get('__islocal'):
-			self.update_customer()
-			self.update_address_links()
-
 		self.validate_cervical_smears()
 		self.validate_obtetrical_backgrounds()
 
 	def on_update(self):
-		self.update_customer()
-		self.update_address_links()
 		self.set_gravidity_and_parity()
 
 		frappe.db.set_value(self.doctype, self.name, "change_in_patient", 0)
 		self.reload()
 
-	def after_insert(self):
-		self.create_customer_from_patient()
-
 	def on_trash(self):
-		if frappe.db.exists("Customer", self.customer):
-			doc = frappe.get_doc('Customer', self.customer)
-			if doc.patient_record == self.name:
-				frappe.delete_doc('Customer', self.customer, force=True)
-
 		if frappe.db.exists("Custom Patient Record Dashboard", dict(patient_record=self.name)):
 			patient_dashboard = frappe.db.get_value('Custom Patient Record Dashboard', dict(patient_record=self.name), 'name')
 			try:
@@ -107,11 +122,6 @@ class PatientRecord(Document):
 				frappe.log_error(e)
 
 	def before_rename(self, olddn, newdn, merge=False):
-		try:
-			frappe.rename_doc('Customer', self.customer, newdn, force=True, merge=True if frappe.db.exists('Customer', newdn) else False)
-		except Exception as e:
-			frappe.log_error(e, "Customer Renaming Error")
-
 		if frappe.db.exists("Custom Patient Record Dashboard", dict(patient_record=olddn)):
 			patient_dashboard = frappe.db.get_value('Custom Patient Record Dashboard', dict(patient_record=olddn), 'name')
 			try:
@@ -125,44 +135,9 @@ class PatientRecord(Document):
 		self.gravidity = gravidity
 		self.parity = parity
 
-	def create_customer_from_patient(self):
-		customer = frappe.get_doc({
-			"doctype": "Customer",
-			"customer_name": self.patient_name,
-			"patient_record": self.name,
-			"customer_type": 'Individual',
-			"customer_group": _('Individual'),
-			"territory": _('All Territories')
-		}).insert(ignore_permissions=True)
-
-		frappe.db.set_value("Patient Record", self.name, "Customer", customer.name)
-
-		self.reload()
-
-	def update_customer(self):
-		if not frappe.db.exists("Customer", self.customer):
-			self.create_customer_from_patient()
-		else:
-			frappe.db.sql("""update `tabCustomer` set customer_name=%s, modified=NOW() where patient_record=%s""", (self.patient_name, self.name))
-
-	def check_customer(self):
-		if not self.customer:
-			create_customer_from_patient(self)
-
-		elif not frappe.db.exists("Customer", self.customer):
-			customer = frappe.get_doc({
-				"doctype": "Customer",
-				"customer_name": self.customer,
-				"patient_record": self.name,
-				"customer_type": 'Individual',
-				"customer_group": _('Individual'),
-				"territory": _('All Territories')
-			}).insert(ignore_permissions=True)
-			frappe.db.commit()
-
 	def validate_cervical_smears(self):
 		for cervical_smear in self.cervical_smear_table:
-			date = dateparser.parse((cervical_smear.date.encode('utf-8').strip()))
+			date = dateparser.parse((cervical_smear.date.strip()))
 
 			if not date:
 				msg = _("Maia cannot read the date {0} at row {1} in your cervical smears table. Please use one of the recommended formats.").format(cervical_smear.date, cervical_smear.idx)
@@ -171,7 +146,7 @@ class PatientRecord(Document):
 
 	def validate_obtetrical_backgrounds(self):
 		for obstetrical_background in self.obstetrical_backgounds:
-			date = dateparser.parse((obstetrical_background.date.encode('utf-8').strip()))
+			date = dateparser.parse((obstetrical_background.date.strip()))
 
 			if not date:
 				msg = _("Maia cannot read the date {0} at row {1} in your obstetrical backgrounds table. Please use one of the recommended formats.").format(obstetrical_background.date, obstetrical_background.idx)
@@ -182,10 +157,10 @@ class PatientRecord(Document):
 @frappe.whitelist()
 def update_weight_tracking(doc, weight):
 	weight=frappe.get_doc({
-	"doctype": "Weight Tracking",
-	"patient_record": doc,
-	"date": now(),
-	"weight": weight
+		"doctype": "Weight Tracking",
+		"patient_record": doc,
+		"date": now(),
+		"weight": weight
 	}).insert(ignore_permissions=True)
 
 	weight.save()
@@ -211,7 +186,7 @@ def invite_user(patient):
 
 		user.append("roles", {
 			"doctype": "Has Role",
-			"role": "Customer"
+			"role": "Patient"
 		})
 
 		user.save()
@@ -235,10 +210,7 @@ def invite_user(patient):
 		}).insert(ignore_permissions=True)
 		contact.save()
 
-		contact.append('links', dict(link_doctype='Customer',
-									 link_name=patient_record.customer))
-		contact.append('links', dict(link_doctype='Patient Record',
-									 link_name=patient_record.name))
+		contact.append('links', dict(link_doctype='Patient Record', link_name=patient_record.name))
 		contact.save()
 
 	except:
@@ -246,32 +218,9 @@ def invite_user(patient):
 
 	return user.name
 
-
-def get_users_for_website(doctype, txt, searchfield, start, page_len, filters):
-	conditions = []
-	return frappe.db.sql("""select name, concat_ws(' ', first_name, middle_name, last_name)
-		from `tabUser`
-		where enabled=1
-			and name not in ("Guest", "Administrator")
-			and ({key} like %(txt)s
-				or full_name like %(txt)s)
-			{fcond} {mcond}
-		order by
-			if(locate(%(_txt)s, name), locate(%(_txt)s, name), 99999),
-			if(locate(%(_txt)s, full_name), locate(%(_txt)s, full_name), 99999),
-			idx desc,
-			name, full_name
-		limit %(start)s, %(page_len)s""".format(**{
-		'key': searchfield,
-		'fcond': get_filters_cond(doctype, filters, conditions),
-		'mcond': get_match_cond(doctype)
-	}), {
-		'txt': "%%%s%%" % txt,
-		'_txt': txt.replace("%", ""),
-		'start': start,
-		'page_len': page_len
-	})
-
+@frappe.whitelist()
+def disable_user(user, status):
+	return frappe.db.set_value("User", user, "enabled", 0 if status=='false' else 1)
 
 @frappe.whitelist()
 def get_patient_weight_data(patient_record):
@@ -301,13 +250,11 @@ def get_patient_weight_data(patient_record):
 
 	patient_weight = sorted(patient_weight, key=lambda x: x["date"])
 
-	print(patient_weight)
-
 	titles = []
 	values = []
 	formatted_x = []
 	for pw in patient_weight:
-		if pw.has_key("pregnancy"):
+		if "pregnancy" in pw:
 			formatted_x.append(formatdate(pw["date"]) + "-" + pw["pregnancy"])
 			titles.append(formatdate(pw["date"]))
 			values.append(pw["weight"])
@@ -324,3 +271,131 @@ def get_patient_weight_data(patient_record):
 		}
 
 	return data, formatted_x
+
+@frappe.whitelist()
+def download_patient_record(docs, record, args=None):
+	from frappe.utils.print_format import read_multi_pdf
+	from PyPDF2 import PdfFileWriter
+	import gzip
+	import zipfile
+
+	files = []
+	attachments = []
+
+	docs = json.loads(docs)
+	record = json.loads(record)
+	args = json.loads(args)
+	letterhead = 0 if args.get("with_letterhead") == 1 else 1
+	for dt in docs:
+		docnames = [x["name"] for x in docs[dt]]
+		print_format = frappe.get_meta(dt).default_print_format
+
+		if args.get("with_attachments") == 1:
+			for d in docs[dt]:
+				attachments.extend([x["file_url"] for x in frappe.get_all("File", \
+					filters={"attached_to_doctype": dt, "attached_to_name": d["name"]}, fields=["file_url"])])
+
+		output = PdfFileWriter()
+
+		for i, ss in enumerate(docnames):
+			try:
+				if frappe.db.get_value(dt, ss, "docstatus") != 2:
+					print_output = frappe.get_print(dt, ss, print_format, as_pdf=True, output=output, no_letterhead=letterhead)
+			except Exception:
+				frappe.log_error("Record zip error", frappe.get_traceback())
+
+		try:
+			fname = os.path.join("/tmp", "{0}-{1}.pdf".format(frappe.scrub(_(dt)), frappe.generate_hash(length=6)))
+			files.append(fname)
+
+			with open(fname,"wb") as f:
+				f.write(print_output)
+
+		except Exception:
+			frappe.log_error("Record zip error", frappe.get_traceback())
+
+	try:
+		site_path = os.path.abspath(frappe.get_site_path())
+
+		private_files = frappe.get_site_path('private', 'files')
+		zipname = os.path.join(private_files, "{0}-{1}.zip".format(frappe.scrub(record["name"]), frappe.generate_hash(length=6)))
+		zf = zipfile.ZipFile(zipname, mode="w")
+		for fi in files:
+			zf.write(fi, os.path.basename(fi))
+		for attach in attachments:
+			try:
+				path = site_path
+				for a in attach.split('/'):
+					path = os.path.join(path, a)
+				zf.write(path, os.path.basename(path))
+			except Exception:
+				print(frappe.get_traceback())
+				continue
+	finally:
+		zf.close()
+
+	try:
+		new_file = frappe.get_doc({
+			"doctype": "File",
+			"file_name": os.path.basename(zipname),
+			"attached_to_doctype": record["doctype"],
+			"attached_to_name": record["name"],
+			"file_url": "/private/files/" + zipname.split('/private/files/')[1]
+		})
+		new_file.insert()
+
+		return new_file.name
+	except Exception:
+		frappe.log_error("Record zip error", frappe.get_traceback())
+
+def get_users_for_website(doctype, txt, searchfield, start, page_len, filters):
+	conditions = []
+	return frappe.db.sql("""select name, concat_ws(' ', first_name, middle_name, last_name)
+		from `tabUser`
+		where enabled=1
+			and name not in ("Guest", "Administrator")
+			and ({key} like %(txt)s
+				or full_name like %(txt)s)
+			{fcond} {mcond}
+		order by
+			if(locate(%(_txt)s, name), locate(%(_txt)s, name), 99999),
+			if(locate(%(_txt)s, full_name), locate(%(_txt)s, full_name), 99999),
+			idx desc,
+			name, full_name
+		limit %(start)s, %(page_len)s""".format(**{
+		'key': searchfield,
+		'fcond': get_filters_cond(doctype, filters, conditions),
+		'mcond': get_match_cond(doctype)
+	}), {
+		'txt': "%%%s%%" % txt,
+		'_txt': txt.replace("%", ""),
+		'start': start,
+		'page_len': page_len
+	})
+
+def get_timeline_data(doctype, name):
+	result = dict()
+	doctype_list = ['Pregnancy Consultation', 'Birth Preparation Consultation', 'Early Postnatal Consultation', \
+		'Postnatal Consultation', 'Perineum Rehabilitation Consultation', 'Gynecological Consultation', \
+		'Prenatal Interview Consultation', 'Free Consultation']
+
+	for dt in doctype_list:
+		result.update(dict(frappe.db.sql("""select unix_timestamp(date(creation)), count(name)
+			from `tab%s`
+			where
+				date(creation) > subdate(curdate(), interval 1 year)
+			and patient_record='%s'
+			group by date(creation)
+			order by creation asc""" % (dt, name))))
+
+	return result
+
+def zip_files(self):
+		for folder in ("public", "private"):
+			files_path = frappe.get_site_path(folder, "files")
+			backup_path = self.backup_path_files if folder=="public" else self.backup_path_private_files
+
+			cmd_string = """tar -cf %s %s""" % (backup_path, files_path)
+			err, out = frappe.utils.execute_in_shell(cmd_string)
+
+			print('Backed up files', os.path.abspath(backup_path))

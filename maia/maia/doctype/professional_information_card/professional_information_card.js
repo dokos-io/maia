@@ -2,36 +2,23 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Professional Information Card', {
-    onload_post_render: function(frm) {
-	frm.get_field("substitute_user_creation").$input.addClass("btn-warning");
-    },
-    
-    refresh: function(frm) {
-
-    },
-
-    substitute_user_creation: function(frm) {
-	frm.save();
-	var d = new frappe.ui.Dialog({
-	    'title': __('Create a New Substitute User ?'),
-	    fields: [
-		{ fieldtype:"HTML", options:__("Are you certain you want to create a new substitute user ?") },
-		{ fieldname: 'ok_button', fieldtype: 'Button', label: __("Yes") },
-	    ]
-	});
-	d.show();
-	d.fields_dict.ok_button.input.onclick = function () {
-		return frappe.call({
-		    method: "maia.maia.doctype.professional_information_card.professional_information_card.replacement_user",
-		    args: {
-			contact: frm.doc.name
-		    },
-	    callback: function(r) {
-		frm.set_value("substitute_user", r.message);
-		frm.save();
-		d.hide();
-	    }
-		});
-	};
-    }
+	refresh: function(frm) {
+		if (!frm.doc.user&&frm.doc.email) {
+			frappe.confirm(__("Do you want to create a user for this practitioner ?"), function() {
+				frm.call('create_user');
+				frappe.show_alert({message: __("User creation in progress"), indicator: 'green'});
+			});
+		}
+	},
+	sender_name: function(frm) {
+		if (frm.doc.sender_name && !isAlphaNumeric(frm.doc.sender_name)) {
+			frm.set_value("sender_name", null);
+			frappe.throw(__("Please enter only alphanumeric values"));
+		}
+	}
 });
+
+
+const isAlphaNumeric = ch => {
+	return ch.match(/^[a-z0-9]+$/i) !== null;
+}

@@ -1,0 +1,75 @@
+{
+ "allow_rename": 1,
+ "autoname": "field:bank_account_name",
+ "creation": "2019-04-08 20:11:42.207288",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "bank_account_name",
+  "accounting_item"
+ ],
+ "fields": [
+  {
+   "fieldname": "bank_account_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Bank Account Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "accounting_item",
+   "fieldtype": "Link",
+   "label": "Accounting Item",
+   "options": "Accounting Item",
+   "reqd": 1
+  }
+ ],
+ "modified": "2019-06-12 10:11:41.657948",
+ "modified_by": "Administrator",
+ "module": "Maia Accounting",
+ "name": "Maia Bank Account",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Midwife",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Midwife Substitute",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "route": "/desk#Form/DocType/Maia Bank Account",
+ "sort_field": "modified",
+ "sort_order": "DESC"
+}

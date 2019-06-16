@@ -1,10 +1,13 @@
 # coding=utf-8
+# Copyright (c) 2019, Dokos and Contributors
+# See license.txt
 from __future__ import unicode_literals, absolute_import
 import click
 from subprocess import Popen, check_output, PIPE, STDOUT
 import os, shlex
 import json
 import frappe
+from frappe.commands import pass_context, get_site
 
 @click.command('maia-new-site')
 def _maia_new_site():
@@ -23,28 +26,64 @@ def _maia_new_site():
 
 		create_new_site(first_name, last_name, email, siteprefix, max_users, customer, mariadb_root_user, mariadb_password, admin_password)
 
+@click.command('make-maia-demo')
+@click.option('--site', help='site name')
+@click.option('--reinstall', default=False, is_flag=True, help='Reinstall site before demo')
+@pass_context
+def make_maia_demo(context, site, reinstall=False):
+	"Reinstall site and setup demo"
+	from frappe.commands.site import _reinstall
+	from frappe.installer import install_app
+
+	site = get_site(context)
+
+	if reinstall:
+		_reinstall(site, yes=True)
+	with frappe.init_site(site=site):
+		frappe.connect()
+		if not 'maia' in frappe.get_installed_apps():
+			install_app('maia')
+
+		# import needs site
+		from maia.demo import demo
+		demo.make()
+
 
 def create_new_site(first_name, last_name, email, siteprefix, max_users, customer, mariadb_root_user, mariadb_password, admin_password):
 	site_name = siteprefix + '.maia-by-dokos.fr'
-	db_name = 'dokos-' + siteprefix[:10]
-	print(db_name)
+	db_name = 'dokos-' + siteprefix[-10:]
+	print("==========> DB name: " + db_name)
+
+	check_prerequisites()
+	print("==========> Prerequisites checked")
 
 	create_db_and_site(site_name, db_name, mariadb_root_user, mariadb_password, admin_password)
 	print("==========> DB and Site Successfully Created")
-	install_erpnext_and_maia(site_name)
-	print("==========> ERPNext and Maia Installed")
-	setup_site(site_name)
-	print("==========> Parameters for France Set")
-	add_system_manager_and_limits(site_name, email, first_name, last_name, max_users)
-	print("==========> System Manager and Limits Set")
 	add_specific_config(site_name, customer)
 	print("==========> Specific Config Added")
-	add_to_lets_encrypt_file(site_name)
+	add_system_manager_and_limits(site_name, email, first_name, last_name, max_users)
+	print("==========> System Manager and Limits Set")
+	install_maia(site_name)
+	print("==========> Maia Installed")
+
+	#add_to_lets_encrypt_file(site_name)
 	print("==========> Let's Encrypt File Updated")
 
-	setup_and_reload_nginx()
+	#setup_and_reload_nginx()
 	print("==========> Installation Successful")
 
+
+def check_prerequisites():
+	bench_path = frappe.utils.get_bench_path()
+	config_path = os.path.join(bench_path, 'sites', 'common_site_config.json')
+
+	if not os.path.exists(config_path):
+		config = {}
+	with open(config_path, 'r') as f:
+		config = json.load(f)
+
+	if not config.get("skip_setup_wizard"):
+		click.confirm('skip_setup_wizard key missing in common_site.json. Do you want to continue ?', abort = True)
 
 def create_db_and_site(site_name, db_name, mariadb_root_user, mariadb_password, admin_password):
 	commands = []
@@ -54,29 +93,13 @@ def create_db_and_site(site_name, db_name, mariadb_root_user, mariadb_password, 
 
 	run_commands(commands)
 
-def install_erpnext_and_maia(site_name):
+def install_maia(site_name):
 	commands = []
 
-	command = "bench --site {site_name} install-app erpnext".format(site_name=site_name)
-	commands.append(command)
 	command = "bench --site {site_name} install-app maia".format(site_name=site_name)
 	commands.append(command)
 
 	run_commands(commands)
-
-def setup_site(site_name):
-	frappe.connect(site=site_name)
-	try:
-		frappe.db.set_value('System Settings', None, 'country', 'France')
-		frappe.db.set_value('System Settings', None, 'language', 'fr')
-		frappe.db.set_value('System Settings', None, 'time_zone', 'heure:France-Europe/Paris')
-		frappe.get_doc(dict(doctype='Domain', domain='Sage-Femme')).insert(ignore_permissions=True)
-
-		frappe.db.commit()
-	except Exception as e:
-		print(e)
-	finally:
-		frappe.destroy()
 
 def add_system_manager_and_limits(site_name, email, first_name, last_name, max_users):
 	commands = []
@@ -88,7 +111,7 @@ def add_system_manager_and_limits(site_name, email, first_name, last_name, max_u
 
 	frappe.connect(site=site_name)
 	try:
-		add_system_manager(email=email, first_name=first_name, last_name=last_name, send_welcome_email=True)
+		add_system_manager(email=email, first_name=first_name, last_name=last_name, send_welcome_email=False)
 		frappe.db.commit()
 	except Exception as e:
 		print(e)
@@ -151,9 +174,10 @@ def add_system_manager(email, first_name=None, last_name=None, send_welcome_emai
 
 def run_commands(commands):
 	bench_path = frappe.utils.get_bench_path()
+
 	try:
 		for command in commands:
-			terminal_action = Popen(shlex.split(command.encode('utf8')), stdin=PIPE, stdout=PIPE, stderr=STDOUT, cwd=bench_path)
+			terminal_action = Popen(shlex.split(frappe.safe_decode(command)), stdin=PIPE, stdout=PIPE, stderr=STDOUT, cwd=frappe.safe_decode(bench_path))
 			return_ = terminal_action.wait()
 
 	except Exception as e:
@@ -176,4 +200,4 @@ def update_site_config(site, new_config, bench_path='.'):
 	config.update(new_config)
 	put_site_config(site, config, bench_path=bench_path)
 
-commands = [_maia_new_site]
+commands = [_maia_new_site, make_maia_demo]

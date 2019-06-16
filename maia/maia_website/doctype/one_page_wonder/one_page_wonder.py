@@ -5,77 +5,72 @@
 from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
+from frappe import _
 
 class OnePageWonder(Document):
-	pass
+	def validate(self):
+		self.build_new_website()
+		self.build_new_theme()
+		update_settings()
+
+	def build_new_website(self):
+		main_section = self.build_main_section()
+		script = self.build_script()
+
+		if frappe.db.exists("Web Page", dict(route="index")):
+			page = frappe.get_doc("Web Page", dict(route="index"))
+		else:
+			page = frappe.new_doc("Web Page")
+
+		page.title = self.website_title
+		page.route = "index"
+		page.published = 1
+		page.show_title = 0
+		page.content_type = "HTML"
+		page.main_section_html = main_section
+		page.insert_code = 1
+		page.javascript = script
+
+		page.save(ignore_permissions = True)
+
+	def build_new_theme(self):
+		style = self.build_style()
+
+		if frappe.db.exists("Website Theme", "One Page Wonder"):
+			theme = frappe.get_doc("Website Theme", "One Page Wonder")
+			theme.theme_scss = style
+			theme.save()
+
+		else:
+			theme = frappe.get_doc({
+				"doctype": "Website Theme",
+				"theme": "One Page Wonder",
+				"theme_scss": style
+			})
+
+			theme.insert(ignore_permissions=True)
+
+	def build_main_section(self):
+		return frappe.render_template('/templates/includes/web_templates/one_page_wonder/one_page_wonder.html', {'data':self})
+
+	def build_style(self):
+		return frappe.render_template('/templates/includes/web_templates/one_page_wonder/style.html', {"data": self})
+
+	def build_script(self):
+		return frappe.render_template('/templates/includes/web_templates/one_page_wonder/script.html', {"data": self})
 
 @frappe.whitelist()
 def update_instructions():
-	return frappe.render_template('/templates/includes/web_templates/template_instructions.html', {'data':'data'})
-
-@frappe.whitelist()
-def update_website():
-	build_new_website()
-	update_theme()
-	update_settings()
-
-def build_new_website():
-	main_section = build_main_section()
-
-	if frappe.db.exists("Web Page", "home-page"):
-		frappe.delete_doc("Web Page", "home-page")
-
-	page = frappe.get_doc({
-		"doctype": "Web Page",
-		"title": "Home Page",
-		"route": "index",
-		"published": 1,
-		"show_title": 1,
-		"main_section": main_section,
-		"insert_code": 1
-	})
-
-	page.insert(ignore_permissions = True)
-
-def build_main_section():
-	template = frappe.get_doc("One Page Wonder", None)
-	return frappe.render_template('/templates/includes/web_templates/one_page_wonder/one_page_wonder.html', {'data':template})
-
-def update_theme():
-	if frappe.db.exists("Website Theme", "One Page Wonder"):
-		frappe.db.set_value("Website Settings", None, "website_theme", None)
-		frappe.delete_doc("Website Theme", "One Page Wonder")
-
-	template = frappe.get_doc("One Page Wonder", None)
-	style  = frappe.render_template('/templates/includes/web_templates/one_page_wonder/style.html', {"data": template})
-
-	js = frappe.render_template('/templates/includes/web_templates/one_page_wonder/script.html', {"data": "data"})
-
-	theme = frappe.get_doc({
-		"doctype": "Website Theme",
-		"theme": "One Page Wonder",
-		"apply_style": 1,
-		"css": style,
-		"js": js,
-		"top_bar_color": "#333",
-		"top_bar_text_color": "#FFF"
-	})
-	theme.insert(ignore_permissions = True)
+	return frappe.render_template('/templates/includes/web_templates/one_page_wonder/template_instructions.html', {'data':'data'})
 
 def update_settings():
 	settings = frappe.get_doc("Website Settings", None)
-	data = {
-	"title": frappe.db.get_value("Homepage", None, "title")
-	}
-	head_html = frappe.render_template('/templates/includes/web_templates/one_page_wonder/header.html', {'data':data})
-
 
 	settings.home_page = "index"
 	settings.website_theme = "One Page Wonder"
-	settings.head_html = head_html
 	settings.top_bar_items = []
 	settings.append('top_bar_items', {
-		"label": "Prendre Rendez-Vous",
+		"label": _("Appointments"),
 		"parent_label": "",
 		"url": "/appointment",
 		"target": "",

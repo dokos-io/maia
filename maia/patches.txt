@@ -42,4 +42,17 @@ maia.patches.v2_4.maia_appointment_module
 maia.patches.v2_4.remove_maia_appointment_icon
 maia.patches.v2_6.add_min_value_for_euro
 maia.patches.v2_6.update_codifications
+maia.patches.v3_0.update_accounting
+execute:frappe.delete_doc_if_exists("DocType", "Maia Standard Letter")
+maia.patches.v3_0.correct_sipay_dates
+maia.patches.v3_0.migrate_sales_invoices
+maia.patches.v3_0.migrate_purchase_invoices
+maia.patches.v3_0.migrate_journal_entries
+maia.patches.v3_0.migrate_assets
+maia.patches.v3_0.remove_deprecated_doctypes
+maia.patches.v3_0.move_erpnext_doctypes
+maia.patches.v3_0.remove_erpnext_links
+maia.patches.v3_0.remove_old_roles
+maia.patches.v3_0.remove_duplicate_patient_dashboards
+maia.patches.v3_0.setup_dashboard
 

@@ -34,7 +34,7 @@ frappe.ui.form.on('Maia Appointment', {
 		}
 
 		frm.set_query("appointment_type", function() {
-			var practitioners = [frm.doc.practitioner, ""]
+			const practitioners = [frm.doc.practitioner, ""]
 			return {
 				"filters": {
 					"practitioner": ["in", practitioners],
@@ -46,8 +46,8 @@ frappe.ui.form.on('Maia Appointment', {
 	},
 	onload_post_render: function(frm) {
 		if (frm.doc.__islocal) {
-			frappe.model.set_value(frm.doctype, frm.docname, 'date', moment(frm.doc.start_dt).format(moment.defaultDateFormat));
-			frappe.model.set_value(frm.doctype, frm.docname, 'start_time', moment(frm.doc.start_dt).format('H:mm:ss'));
+			frm.set_value('date', moment(frm.doc.start_dt).format(moment.defaultDateFormat));
+			frm.set_value('start_time', moment(frm.doc.start_dt).format('H:mm:ss'));
 		}
 	},
 	refresh: function(frm) {
@@ -70,59 +70,46 @@ frappe.ui.form.on('Maia Appointment', {
 	},
 	sms_reminder: function(frm) {
 		if (frm.doc.patient_record && frm.doc.sms_reminder == 1) {
-			frappe.call({
-				"method": "frappe.client.get",
-				args: {
-					doctype: "Patient Record",
-					name: frm.doc.patient_record,
-					fieldname: "mobile_no"
-				},
-				cache: false,
-				callback: function(data) {
-					if (!data.exe && data.message) {
-						frappe.model.set_value(frm.doctype, frm.docname, "mobile_no", data.message.mobile_no);
-					}
+			patient_data(frm.doc.patient_record)
+			.then(data => {
+				if (data.message&&data.message.mobile_no) {
+					frm.set_value("mobile_no", data.message.mobile_no);
 				}
-			});
+			})
 		} else if (frm.doc.sms_reminder == 0) {
-			frappe.model.set_value(frm.doctype, frm.docname, "mobile_no", "");
+			frm.set_value("mobile_no", "");
 		}
 	},
 	patient_record: function(frm) {
 		if (frm.doc.patient_record && frm.doc.reminder == 1) {
-			frappe.call({
-				"method": "frappe.client.get",
-				args: {
-					doctype: "Patient Record",
-					name: frm.doc.patient_record,
-					fields: ["email_id", "mobile_no"]
-				},
-				cache: false,
-				callback: function(data) {
-					if (data.message.email_id == null) {
-						frappe.model.set_value(frm.doctype, frm.docname, "email", __("Enter an Email Address"));
-						frm.set_df_property("email", "read_only", 0);
-					}
-					if (data.message.email_id == __("Enter an Email Address")) {
-						frm.set_df_property("email", "read_only", 0);
-					} else if (!data.exe && data.message.email_id) {
-						frappe.model.set_value(frm.doctype, frm.docname, "email", data.message.email_id);
-						frm.set_df_property("email", "read_only", 1);
-					}
-
-					if (!data.exe && data.message.mobile_no && frm.doc.sms_reminder == 1) {
-						frappe.model.set_value(frm.doctype, frm.docname, "mobile_no", data.message.mobile_no);
-					}
+			patient_data(frm.doc.patient_record)
+			.then(data => {
+				if (data.message.email_id == null) {
+					frm.set_value("email", __("Enter an Email Address"));
+					frm.set_df_property("email", "read_only", 0);
 				}
-			});
+
+				if (data.message.email_id == __("Enter an Email Address")) {
+					frm.set_df_property("email", "read_only", 0);
+				} else if (data.message.email_id) {
+					frm.set_value("email", data.message.email_id);
+					frm.set_df_property("email", "read_only", 1);
+				}
+
+				if (data.message.mobile_no && frm.doc.sms_reminder == 1) {
+					frm.set_value("mobile_no", data.message.mobile_no);
+				}
+			})
 		} else if (frm.doc.reminder == 0) {
-			frappe.model.set_value(frm.doctype, frm.docname, "email", "");
+			frm.set_value("email", "");
 		}
-		frappe.model.set_value(frm.doctype, frm.docname, 'subject', frm.doc.patient_name);
+	},
+	patient_name: function(frm) {
+		frm.set_value('subject', frm.doc.patient_name);
 	},
 	mobile_no: function(frm) {
-		if (frm.doc.sms_reminder == 1) {
-			var reg = /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/
+		if (frm.doc.sms_reminder == 1&&frm.doc.mobile_no) {
+			const reg = /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/
 			if (!frm.doc.mobile_no.match(reg)) {
 				frappe.msgprint(__("The mobile n° format is incorrect"));
 			}
@@ -139,7 +126,11 @@ frappe.ui.form.on('Maia Appointment', {
 	}
 });
 
-var update_top_buttons = function(frm) {
+const patient_data = patient_record => {
+	return frappe.db.get_value("Patient Record", patient_record, ["mobile_no", "email_id"])
+}
+
+const update_top_buttons = frm => {
 	if (frm.doc.docstatus == 0) {
 		if (!frm.doc.personal_event) {
 			if (!frm.doc.group_event) {
@@ -173,7 +164,7 @@ var update_top_buttons = function(frm) {
 }
 
 
-var duration_color_group = function(doc) {
+const duration_color_group = doc => {
 	if (doc.appointment_type) {
 		frappe.call({
 			method: "frappe.client.get",
@@ -197,12 +188,11 @@ var duration_color_group = function(doc) {
 	}
 }
 
-var btn_update_status = function(frm, status) {
-	var doc = frm.doc;
+const btn_update_status = (frm, status) => {
 	frappe.call({
 		method: "maia.maia_appointment.doctype.maia_appointment.maia_appointment.update_status",
 		args: {
-			appointmentId: doc.name,
+			appointmentId: frm.doc.name,
 			status: status
 		},
 		callback: function(data) {
@@ -213,13 +203,13 @@ var btn_update_status = function(frm, status) {
 	});
 }
 
-var set_personal_event = function(frm) {
+const set_personal_event = frm => {
 	frm.clear_custom_buttons();
 	if (frm.doc.personal_event == 0 || frm.doc.personal_event == undefined) {
 		frappe.model.set_value(frm.doctype, frm.docname, 'personal_event', 1);
 
-		var perso = 0;
-		var pub = 1;
+		const perso = 0;
+		const pub = 1;
 		set_properties(frm, perso, pub);
 		set_values(frm, perso, pub);
 
@@ -227,8 +217,8 @@ var set_personal_event = function(frm) {
 	} else {
 		frappe.model.set_value(frm.doctype, frm.docname, 'personal_event', 0);
 
-		var perso = 1;
-		var pub = 0;
+		const perso = 1;
+		const pub = 0;
 		set_properties(frm, perso, pub);
 		set_values(frm, perso, pub);
 
@@ -236,7 +226,7 @@ var set_personal_event = function(frm) {
 	}
 }
 
-var set_properties = function(frm, perso, pub) {
+const set_properties = (frm, perso, pub) => {
 	frm.set_df_property('subject', 'reqd', pub)
 	frm.set_df_property('patient_record', 'reqd', perso);
 	frm.set_df_property('appointment_type', 'reqd', perso);
@@ -244,7 +234,7 @@ var set_properties = function(frm, perso, pub) {
 	frm.set_df_property('duration', 'reqd', pub);
 }
 
-var set_values = function(frm, perso, pub) {
+const set_values = (frm, perso) => {
 	frappe.model.set_value(frm.doctype, frm.docname, 'subject', '');
 	frappe.model.set_value(frm.doctype, frm.docname, 'patient_record', '');
 	frappe.model.set_value(frm.doctype, frm.docname, 'patient_name', '');
@@ -254,7 +244,7 @@ var set_values = function(frm, perso, pub) {
 	frappe.model.set_value(frm.doctype, frm.docname, 'duration', '');
 }
 
-var set_group_event = function(frm) {
+const set_group_event = frm => {
 	frm.clear_custom_buttons();
 	if (!frm.doc.group_event) {
 		frappe.model.set_value(frm.doctype, frm.docname, 'group_event', 1);
@@ -262,7 +252,7 @@ var set_group_event = function(frm) {
 		frappe.model.set_value(frm.doctype, frm.docname, 'reminder', 0);
 		frappe.model.set_value(frm.doctype, frm.docname, 'sms_reminder', 0);
 		frm.set_query("appointment_type", function() {
-			var practitioners = [frm.doc.practitioner, ""]
+			const practitioners = [frm.doc.practitioner, ""]
 			return {
 				"filters": {
 					"practitioner": ["in", practitioners],
@@ -275,7 +265,7 @@ var set_group_event = function(frm) {
 		frm.set_df_property('patient_record', 'reqd', 1);
 		frappe.model.set_value(frm.doctype, frm.docname, 'reminder', 1);
 		frm.set_query("appointment_type", function() {
-			var practitioners = [frm.doc.practitioner, ""]
+			const practitioners = [frm.doc.practitioner, ""]
 			return {
 				"filters": {
 					"practitioner": ["in", practitioners]
@@ -286,7 +276,7 @@ var set_group_event = function(frm) {
 	update_top_buttons(frm);
 }
 
-var check_availability_by_midwife = function(frm) {
+const check_availability_by_midwife = frm => {
 	if (frm.doc.practitioner && frm.doc.date && frm.doc.duration) {
 		show_availability(frm);
 	} else {
@@ -294,7 +284,7 @@ var check_availability_by_midwife = function(frm) {
 	}
 }
 
-var update_group_info = function(frm) {
+const update_group_info = frm => {
 	frappe.call({
 		method: "maia.maia_appointment.doctype.maia_appointment.maia_appointment.get_registration_count",
 		args: {
@@ -302,9 +292,9 @@ var update_group_info = function(frm) {
 			date: frm.doc.start_dt
 		},
 		callback: function(r, rt) {
-			var eventData;
+			let eventData;
 			if (r.message) {
-				for (var i=0; i < r.message.length; i++) {
+				for (let i=0; i < r.message.length; i++) {
 					if (r.message[i].name == frm.doc.name) {
 						eventData = r.message[i]
 					}
@@ -334,10 +324,10 @@ var update_group_info = function(frm) {
 	});
 }
 
-var create_new_patient_record = function(frm) {
+const create_new_patient_record = function(frm) {
 	frappe.model.with_doc("User", frm.doc.user, ()=> {
 		let user = frappe.model.get_doc("User", frm.doc.user);
-		var d = new frappe.ui.Dialog({
+		const d = new frappe.ui.Dialog({
 			title: __("Create a new patient record"),
 			fields: [{
 						"fieldtype": "Data",
@@ -354,7 +344,7 @@ var create_new_patient_record = function(frm) {
 			]
 		});
 		d.set_primary_action(__("Create"), function() {
-			var values = d.get_values();
+			const values = d.get_values();
 			if (values) {
 				d.hide();
 				frappe.call({
@@ -381,14 +371,14 @@ var create_new_patient_record = function(frm) {
 	})
 }
 
-var show_availability = function(frm) {
+const show_availability = function(frm) {
 	new maia.maia_appointment.AvailabilityModal({
 		parent: frm.doc,
 		patient_record: frm.doc.name
 	});
 }
 
-var slot_choice_modal = function(doc, data) {
+const slot_choice_modal = function(doc, data) {
 	if (doc.date) {
 		new maia.maia_appointment.SlotChoiceModal({
 			parent: doc,
@@ -400,23 +390,24 @@ var slot_choice_modal = function(doc, data) {
 	}
 }
 
-maia.maia_appointment.AvailabilityModal = Class.extend({
-	init: function(opts) {
+maia.maia_appointment.AvailabilityModal = class AvailabilityModal {
+	constructor(opts) {
 		$.extend(this, opts);
 		this.make();
-	},
-	make: function() {
-		var me = this;
-		me.show_options_dialog();
-	},
-	additional_practitioners_dialog: function() {
-		var me = this;
-		me.show_options_dialog();
-	},
-	show_options_dialog: function() {
-		var me = this;
+	}
+
+	make() {
+		this.show_options_dialog();
+	}
+
+	additional_practitioners_dialog() {
+		this.show_options_dialog();
+	}
+
+	show_options_dialog() {
+		let me = this;
 		let promises = [];
-		function make_fields_from_result(result) {
+		function make_fields() {
 			let fields = [];
 			fields.push({
 				fieldtype: 'HTML',
@@ -426,11 +417,11 @@ maia.maia_appointment.AvailabilityModal = Class.extend({
 		}
 
 		function make_and_show_dialog(fields, result) {
-			var d = new frappe.ui.Dialog({
+			const d = new frappe.ui.Dialog({
 				title: __("Midwife Availability"),
 				fields: [].concat(fields)
 			});
-			var $html_field = d.fields_dict.availability.$wrapper;
+			const $html_field = d.fields_dict.availability.$wrapper;
 			$html_field.empty();
 			$(d.body).find('.form-section').css('padding-bottom', '12px');
 			$.each(result, function(i, v) {
@@ -439,7 +430,7 @@ maia.maia_appointment.AvailabilityModal = Class.extend({
 					return
 				}
 				if (v[0]["msg"]) {
-					var message = $(repl('<div class="col-xs-12" style="padding-top:20px;">%(msg)s</div></div>', {
+					$(repl('<div class="col-xs-12" style="padding-top:20px;">%(msg)s</div></div>', {
 						msg: v[0]["msg"]
 					})).appendTo($html_field);
 					return
@@ -452,8 +443,8 @@ maia.maia_appointment.AvailabilityModal = Class.extend({
 				add_practitioners_selector();
 
 				if (v[0][0]["start"]) {
-					var date = frappe.datetime.str_to_obj(v[0][0]["start"]);
-					var options = {
+					const date = frappe.datetime.str_to_obj(v[0][0]["start"]);
+					const options = {
 						weekday: 'long',
 						year: 'numeric',
 						month: 'long',
@@ -465,15 +456,16 @@ maia.maia_appointment.AvailabilityModal = Class.extend({
 				}
 
 				$.each(result[i][0], function(x, y) {
+					let row;
 					if (y["msg"]) {
-						var message = $(repl('<div class="col-xs-12" style="padding-top:6px; padding-bottom: 6px; text-align:center;">%(msg)s</div></div>', {
+						row = $(repl('<div class="col-xs-12" style="padding-top:6px; padding-bottom: 6px; text-align:center;">%(msg)s</div></div>', {
 							msg: y["msg"]
 						})).appendTo($html_field);
 						return
 					} else {
-						var start_time = frappe.datetime.str_to_obj(v[0][x]["start"]);
-						var end_time = frappe.datetime.str_to_obj(v[0][x]["end"]);
-						var row = $(repl('<div class="col-xs-12 list-customers-table border-left border-right border-bottom" style="padding-top: 6px; padding-bottom: 6px; text-align:center;" ><div class="col-xs-3"> %(start)s </div><div class="col-xs-2">-</div><div class="col-xs-3"> %(end)s </div><div class="col-xs-4"><a class="booking" data-start="%(start)s" data-end="%(end)s" data-practitioner="%(practitioner)s"  href="#"><button class="btn btn-default btn-xs">' + __("Book") + '</button></a></div></div>', {
+						const start_time = frappe.datetime.str_to_obj(v[0][x]["start"]);
+						const end_time = frappe.datetime.str_to_obj(v[0][x]["end"]);
+						row = $(repl('<div class="col-xs-12 list-customers-table border-left border-right border-bottom" style="padding-top: 6px; padding-bottom: 6px; text-align:center;" ><div class="col-xs-3"> %(start)s </div><div class="col-xs-2">-</div><div class="col-xs-3"> %(end)s </div><div class="col-xs-4"><a class="booking" data-start="%(start)s" data-end="%(end)s" data-practitioner="%(practitioner)s"  href="#"><button class="btn btn-default btn-xs">' + __("Book") + '</button></a></div></div>', {
 							start: start_time.toLocaleTimeString('fr-FR'),
 							end: end_time.toLocaleTimeString('fr-FR'),
 							practitioner: i
@@ -501,7 +493,7 @@ maia.maia_appointment.AvailabilityModal = Class.extend({
 					cache: false,
 					callback: function(data) {
 						if (data.message && data.message.length>1) {
-							var el = $(frappe.render_template('custom_button', {'data': data.message}))
+							let el = $(frappe.render_template('custom_button', {'data': data.message}))
 							el.appendTo($html_field.find('.comparison-view'));
 						}
 					}
@@ -517,46 +509,40 @@ maia.maia_appointment.AvailabilityModal = Class.extend({
 			d.show();
 		}
 
+		let result;
 		let p = new Promise(resolve => {
-				frappe.call({
-					method: 'maia.maia_appointment.doctype.maia_appointment.maia_appointment.check_availability_by_midwife',
-					args: {
-						practitioner: me.parent.practitioner,
-						date: me.parent.date,
-						duration: me.parent.duration,
-						appointment_type: me.parent.appointment_type
-					},
-				}).then((r) => {
-						if (r.message) {
-							if (r.message == "group_appointment") {
-								duration_color_group(me.parent);
-							} else {
-								result = r.message;
-								resolve();
-							}
-						}
-						});
+				frappe.xcall('maia.maia_appointment.doctype.maia_appointment.maia_appointment.check_availability_by_midwife',
+					{ practitioner: me.parent.practitioner, date: me.parent.date, duration: me.parent.duration, appointment_type: me.parent.appointment_type },
+				).then(r => {
+					if (r&&r == "group_appointment") {
+						duration_color_group(me.parent);
+					} else if (r) {
+						result = r;
+						resolve();
+					}
 				});
-				promises.push(p);
+			});
+			promises.push(p);
 
 			Promise.all(promises).then(() => {
-				let fields = make_fields_from_result(result);
+				let fields = make_fields();
 				make_and_show_dialog(fields, result);
 			})
 	}
-})
+}
 
-maia.maia_appointment.SlotChoiceModal = Class.extend({
-	init: function(opts) {
+maia.maia_appointment.SlotChoiceModal = class SlotChoiceModal{
+	constructor(opts) {
 		$.extend(this, opts);
 		this.make();
-	},
-	make: function() {
-		var me = this;
-		me.show_options_dialog();
-	},
-	show_options_dialog: function() {
-		var me = this;
+	}
+
+	make() {
+		this.show_options_dialog();
+	}
+
+	show_options_dialog() {
+		const me = this;
 		let promises = [];
 		let options_fields = {};
 
@@ -586,19 +572,20 @@ maia.maia_appointment.SlotChoiceModal = Class.extend({
 				.find('.frappe-control')).css('margin-bottom', '0px');
 
 			options_fields.forEach((value, index) => {
-				var date = frappe.datetime.str_to_obj(value.start_dt);
-				var options = {
+				const date = frappe.datetime.str_to_obj(value.start_dt);
+				const options = {
 					weekday: 'long',
 					year: 'numeric',
 					month: 'long',
 					day: 'numeric'
 				};
-				var start_time = frappe.datetime.str_to_obj(value.start_dt);
-				var end_time = frappe.datetime.str_to_obj(value.end_dt);
+				const start_time = frappe.datetime.str_to_obj(value.start_dt);
+				const end_time = frappe.datetime.str_to_obj(value.end_dt);
+				let seats_left;
 				if (value.already_registered) {
-					var seats_left = me.data.number_of_patients - value.already_registered
+					seats_left = me.data.number_of_patients - value.already_registered
 				} else {
-					var seats_left = me.data.number_of_patients
+					seats_left = me.data.number_of_patients
 				}
 
 				if (seats_left > 0) {
@@ -641,15 +628,11 @@ maia.maia_appointment.SlotChoiceModal = Class.extend({
 		}
 
 		let p = new Promise(resolve => {
-			frappe.call({
-				method: 'maia.maia_appointment.doctype.maia_appointment.maia_appointment.get_registration_count',
-				args: {
-					date: me.parent.date,
-					appointment_type: me.data.name
-				},
-			}).then((r) => {
-				if (r.message) {
-					options_fields = r.message;
+			frappe.xcall('maia.maia_appointment.doctype.maia_appointment.maia_appointment.get_registration_count',
+				{ date: me.parent.date, appointment_type: me.data.name }
+			).then(r => {
+				if (r&&r.length) {
+					options_fields = r;
 					resolve();
 				} else {
 					frappe.msgprint(__('Please create at least one slot for this appointment type'))
@@ -663,4 +646,4 @@ maia.maia_appointment.SlotChoiceModal = Class.extend({
 			make_and_show_dialog(fields, options_fields);
 		})
 	}
-})
+}

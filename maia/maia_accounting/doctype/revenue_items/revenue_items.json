@@ -1,0 +1,78 @@
+{
+ "allow_rename": 1,
+ "creation": "2019-04-09 11:58:00.717897",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "codification",
+  "qty",
+  "unit_price",
+  "total_amount",
+  "column_break_5",
+  "accounting_item",
+  "section_break_7",
+  "description"
+ ],
+ "fields": [
+  {
+   "fieldname": "codification",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Codification",
+   "options": "Codification",
+   "reqd": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "qty",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Qty"
+  },
+  {
+   "fieldname": "unit_price",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Unit Price"
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Total Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_5",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "accounting_item",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Accounting Item",
+   "options": "Accounting Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_7",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  }
+ ],
+ "istable": 1,
+ "modified": "2019-05-28 15:05:47.273992",
+ "modified_by": "Administrator",
+ "module": "Maia Accounting",
+ "name": "Revenue Items",
+ "owner": "Administrator",
+ "permissions": [],
+ "route": "/desk#Form/DocType/Revenue Items",
+ "sort_field": "modified",
+ "sort_order": "DESC"
+}

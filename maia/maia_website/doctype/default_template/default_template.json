@@ -1,0 +1,127 @@
+{
+ "allow_rename": 1,
+ "creation": "2019-05-29 10:05:20.399822",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_1",
+  "template_instructions",
+  "section_break_3",
+  "website_title",
+  "section_break_5",
+  "top_title",
+  "title",
+  "subtitle",
+  "column_break_9",
+  "button_label",
+  "button_link",
+  "section_break_12",
+  "body_section_title",
+  "body_title",
+  "body"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_1",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "template_instructions",
+   "fieldtype": "HTML",
+   "label": "Default Template"
+  },
+  {
+   "fieldname": "section_break_3",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "website_title",
+   "fieldtype": "Data",
+   "label": "Website Title"
+  },
+  {
+   "fieldname": "section_break_5",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "top_title",
+   "fieldtype": "Heading",
+   "label": "Top"
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title"
+  },
+  {
+   "fieldname": "subtitle",
+   "fieldtype": "Data",
+   "label": "Subtitle"
+  },
+  {
+   "fieldname": "column_break_9",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "button_label",
+   "fieldtype": "Data",
+   "label": "Main button label"
+  },
+  {
+   "fieldname": "button_link",
+   "fieldtype": "Data",
+   "label": "Main button link"
+  },
+  {
+   "fieldname": "section_break_12",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "body_title",
+   "fieldtype": "Data",
+   "label": "Body Title"
+  },
+  {
+   "fieldname": "body",
+   "fieldtype": "Table",
+   "label": "Body",
+   "options": "Default Template Body"
+  },
+  {
+   "fieldname": "body_section_title",
+   "fieldtype": "Heading",
+   "label": "Body"
+  }
+ ],
+ "issingle": 1,
+ "modified": "2019-06-05 11:57:26.030301",
+ "modified_by": "Administrator",
+ "module": "Maia Website",
+ "name": "Default Template",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Website Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC"
+}

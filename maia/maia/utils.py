@@ -77,6 +77,8 @@ def get_timeline_data(doctype, name):
 	from frappe.desk.form.load import get_communication_data
 	patient_record = frappe.get_doc(doctype, name)
 
+	return {}
+	#TODO: Rewrite method
 	out = {}
 
 	conditions = ' and creation > "{0}"'.format(add_years(None, -1).strftime('%Y-%m-%d'))
@@ -98,26 +100,3 @@ def get_timeline_data(doctype, name):
 		out.update({timestamp: count})
 
 	return out
-
-def check_folder_and_record(doc):
-	return
-	if doc.docstatus == 0:
-		if hasattr(doc, "pregnancy_folder"):
-			v = frappe.db.get_value("Pregnancy", doc.pregnancy_folder, "patient_record")
-			if v != doc.patient_record:
-				frappe.throw(_("This pregnancy folder don't belong to this patient"))
-
-		if hasattr(doc, "prenatal_interview_folder"):
-			v = frappe.db.get_value("Prenatal Interview", doc.prenatal_interview_folder, "patient_record")
-			if v != doc.patient_record:
-				frappe.throw(_("This prenatal interview folder don't belong to this patient"))
-
-		if hasattr(doc, "perineum_rehabilitation_folder"):
-			v = frappe.db.get_value("Perineum Rehabilitation", doc.perineum_rehabilitation_folder, "patient_record")
-			if v != doc.patient_record:
-				frappe.throw(_("This perineum rehabilitation folder don't belong to this patient"))
-
-		if hasattr(doc, "gynecological_folder"):
-			v = frappe.db.get_value("Gynecology", doc.gynecological_folder, "patient_record")
-			if v != doc.patient_record:
-				frappe.throw(_("This gynecology folder don't belong to this patient"))

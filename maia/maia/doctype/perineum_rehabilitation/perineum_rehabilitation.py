@@ -9,3 +9,13 @@ from frappe.model.mapper import get_mapped_doc
 
 class PerineumRehabilitation(Document):
 	pass
+
+@frappe.whitelist()
+def get_patient_sports(patient):
+	doc = frappe.get_doc("Patient Record", patient)
+
+	result = []
+	for sport in doc.patient_sports:
+		result.append({"sport": sport.sport, "note": sport.note})
+
+	return result

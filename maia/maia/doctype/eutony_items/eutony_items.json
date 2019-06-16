@@ -1,0 +1,36 @@
+{
+ "creation": "2019-06-07 13:53:37.882052",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "eutony_exercise",
+  "comment"
+ ],
+ "fields": [
+  {
+   "fieldname": "eutony_exercise",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Eutony Exercise",
+   "options": "Eutony Exercise",
+   "reqd": 1
+  },
+  {
+   "fieldname": "comment",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Comment"
+  }
+ ],
+ "istable": 1,
+ "modified": "2019-06-07 13:54:26.450969",
+ "modified_by": "Administrator",
+ "module": "Maia",
+ "name": "Eutony Items",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}
