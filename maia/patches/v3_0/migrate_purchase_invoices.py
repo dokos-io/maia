@@ -94,6 +94,8 @@ def create_payment(pi, expense):
 		new_payment.append("payment_references", {
 			"reference_type": "Expense",
 			"reference_name": expense.name,
+			'transaction_date': expense.transaction_date,
+			'party': expense.party,
 			"paid_amount": flt(pi.paid_amount)
 		})
 
@@ -114,6 +116,8 @@ def create_payment(pi, expense):
 			payment_references.append({
 				"reference_type": "Expense",
 				"reference_name": expense.name,
+				"transaction_date": expense.transaction_date,
+				"party": expense.party,
 				"paid_amount": flt(reference.allocated_amount)
 			})
 

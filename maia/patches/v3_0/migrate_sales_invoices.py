@@ -262,6 +262,9 @@ def create_payment(si, revenue):
 			new_payment.append("payment_references", {
 				"reference_type": "Revenue",
 				"reference_name": revenue.name,
+				'transaction_date': revenue.transaction_date,
+				'party': revenue.party,
+				'patient_record': revenue.patient,
 				"paid_amount": flt(line.amount)
 			})
 			new_payment.clearance_date = line.clearance_date
@@ -285,6 +288,9 @@ def create_payment(si, revenue):
 				payment_references.append({
 					"reference_type": "Revenue",
 					"reference_name": revenue.name,
+					'transaction_date': revenue.transaction_date,
+					'party': revenue.party,
+					'patient_record': revenue.patient,
 					"paid_amount": flt(reference.allocated_amount)
 				})
 
