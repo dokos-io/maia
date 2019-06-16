@@ -27,7 +27,7 @@ def execute(filters=None):
 		data.extend(get_substitute_header(replacement))
 		substitute_period_list = get_substitute_period_list(period_list, replacement)
 
-		practitioner_income = get_data(replacement.substitute, "Revenue", substitute_period_list)
+		practitioner_income = get_data(replacement.practitioner, "Revenue", substitute_period_list)
 
 		if practitioner_income:
 			retrocessions = calculate_retrocession(substitute_period_list, replacement, practitioner_income[-2], currency)
