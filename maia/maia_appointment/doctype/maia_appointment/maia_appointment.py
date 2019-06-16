@@ -452,14 +452,13 @@ def send_sms_reminder(name):
 		}
 
 		status = send_request(args)
-		print(status.status_code)
 		if status.status_code in [200, 201, 202, 204]:
 			frappe.db.set_value("SMS Reminder", sms.name, "status", "Sent")
 			frappe.db.set_value("SMS Reminder", sms.name, "sent_on", now_datetime())
 		else:
 			status = status.json()
 			frappe.db.set_value("SMS Reminder", sms.name, "status", "Error")
-			frappe.db.set_value("SMS Reminder", sms.name, "sending_status", "{0}: {1}".format(status["message"]))
+			frappe.db.set_value("SMS Reminder", sms.name, "sending_status", status["message"])
 			frappe.log_error(status, "SMS Error")
 
 def send_request(data):
