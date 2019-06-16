@@ -18,6 +18,8 @@ $(document).bind('toolbar_setup', function() {
 
 	$('<li><a href="mailto:help@dokos.io" \
 		target="">'+__('Report an Issue')+'</a></li>').insertBefore($help_menu);
+	$('<li><a href="https://doc.maia-by-dokos.fr" \
+		target="_blank">'+__('Read the documentation')+'</a></li>').insertBefore($help_menu);
 	$('<li><a href="https://www.cnil.fr/fr/traitement-de-donnees-de-sante-comment-informer-les-personnes-concernees" \
 		target="_blank">'+__('Affichette CNIL')+'</a></li>').insertBefore($help_menu);
 	$('<li><a href="https://maia-by-dokos.fr/files/MODELE_DE_NOTE_D%E2%80%99INFORMATION_DES_USAGERS_RELATIVE_A_L%E2%80%99HEBERGEMENT_DE_DONNEES_DE_SANTE_A_CARACTERE_PERSONNEL.pdf" \

@@ -73,7 +73,6 @@ def find_available_slot(date, duration, line, scheduled_items):
 			elif get_datetime(scheduled_item.start_dt) < line["end"]:
 				new_entry = (get_datetime(scheduled_item.start_dt), get_datetime(scheduled_item.end_dt))
 
-			print(new_entry)
 			try:
 				current_schedule.append(new_entry)
 			except Exception as e:
