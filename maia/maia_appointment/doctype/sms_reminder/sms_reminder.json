@@ -75,6 +75,7 @@
    "fieldtype": "Select",
    "hidden": 1,
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Status",
    "options": "Queued\nSent\nError",
    "reqd": 1
@@ -100,7 +101,7 @@
   }
  ],
  "icon": "fa fa-mobile-phone",
- "modified": "2019-06-14 09:33:50.186422",
+ "modified": "2019-06-17 09:04:40.855416",
  "modified_by": "Administrator",
  "module": "Maia Appointment",
  "name": "SMS Reminder",
@@ -145,6 +146,6 @@
    "share": 1
   }
  ],
- "sort_field": "modified",
+ "sort_field": "send_on",
  "sort_order": "DESC"
 }
