@@ -40,6 +40,7 @@
   {
    "fieldname": "patient_record",
    "fieldtype": "Link",
+   "in_standard_filter": 1,
    "label": "Patient Record",
    "options": "Patient Record",
    "reqd": 1
@@ -137,7 +138,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-06-12 10:21:41.792290",
+ "modified": "2019-06-17 11:26:26.095390",
  "modified_by": "Administrator",
  "module": "Maia",
  "name": "Free Prescription",

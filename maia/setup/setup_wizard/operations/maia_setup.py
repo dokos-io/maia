@@ -6,7 +6,6 @@ from __future__ import unicode_literals
 import frappe
 from frappe import _
 import os
-from frappe.printing.doctype.print_format.print_format import make_default
 
 def install_chart_of_accounts():
 	path = os.path.join(frappe.get_module_path('maia_accounting'), "doctype", "accounting_item", "plan_comptable.json")
@@ -80,7 +79,7 @@ def set_default_print_formats():
 	names = ["Patient Folder", "Prenatal Interview Folder", "Perineum Rehabilitation Folder", "Gynecology Folder", \
 		"Pregnancy Folder", "Postnatal Consultation", "Birth Preparation Consultation", "Perineum Rehabilitation Consultation", \
 		"Free Consultation", "Early Postnatal Consultation", "Gynecological Consultation", "Pregnancy Consultation", "Drug Prescription",
-		"Facture Maia"]
+		"Facture Maia", "Prenatal Interview Consultation"]
 
 	for name in names:
 		print_format = frappe.get_doc("Print Format", name)
