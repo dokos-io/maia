@@ -4,6 +4,7 @@ frappe.provide("maia");
 
 frappe.ui.form.on(this.frm.doctype, {
 	onload(frm) {
+		maia.price_calculator = new PriceCalculator(frm);
 		if (frm.doc.docstatus != 1) {
 			frappe.db.get_value("Professional Information Card", {user: frappe.session.user}, "name", r => {
 				r && frm.set_value("practitioner", data.message.name);
@@ -165,34 +166,28 @@ const new_price_calcultator = frm => {
 class PriceCalculator {
 	constructor(opts) {
 		this.frm = opts;
-		this.in_progress = false;
 		this.calculate_price();
 	}
 
 	refresh(frm) {
 		this.frm = frm;
-		if (!this.in_progress) {
-			this.calculate_price();
-		} else {
-			frappe.timeout(0.5).then(() => { this.calculate_price() })
-		}
+		this.calculate_price();
 	}
 
 	async calculate_price() {
 		const me = this;
 		return await frappe.run_serially([
-			() => me.in_progress = true,
 			() => me.clear_table(),
 			() => me.add_codifications(),
 			() => me.add_without_codifications(),
 			() => me.add_allowances(),
-			() => me.refresh_totals(),
-			() => me.in_progress = false
+			() => me.refresh_totals()
 		]);
 	}
 
 	clear_table() {
-		me.frm.clear_table('consultation_items');
+		me.frm.clear_table("consultation_items");
+		return Promise.resolve();
 	}
 
 	async add_codifications() {
