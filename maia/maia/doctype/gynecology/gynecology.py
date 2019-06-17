@@ -19,7 +19,7 @@ def get_last_cervical_smears(patient_record):
 	cervical_smears = doc.cervical_smear_table
 
 	for cervical_smear in cervical_smears:
-		cervical_smear.update({'date_time': dateparser.parse((cervical_smear.date.encode('utf-8').strip()) if (cervical_smear.date is not None) else nowdate())})
+		cervical_smear.update({'date_time': dateparser.parse((cervical_smear.date.strip()) if (cervical_smear.date is not None) else nowdate())})
 
 	sortedsmears = sorted(cervical_smears, key=lambda x: x.date_time, reverse=True)
 	return sortedsmears[:5]
