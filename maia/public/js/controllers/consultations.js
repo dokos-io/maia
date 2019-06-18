@@ -4,8 +4,8 @@ frappe.provide("maia");
 
 frappe.ui.form.on(this.frm.doctype, {
 	onload(frm) {
-		maia.price_calculator = new PriceCalculator(frm);
-		if (frm.doc.docstatus != 1) {
+		if (frm.doc.docstatus == 0) {
+			maia.price_calculator = new PriceCalculator(frm);
 			frappe.db.get_value("Professional Information Card", {user: frappe.session.user}, "name", r => {
 				r && frm.set_value("practitioner", data.message.name);
 			})
