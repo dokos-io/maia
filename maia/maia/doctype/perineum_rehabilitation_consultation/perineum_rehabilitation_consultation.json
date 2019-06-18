@@ -454,7 +454,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-06-14 09:29:24.352903",
+ "modified": "2019-06-18 16:56:36.641123",
  "modified_by": "Administrator",
  "module": "Maia",
  "name": "Perineum Rehabilitation Consultation",
@@ -492,6 +492,7 @@
    "write": 1
   },
   {
+   "amend": 1,
    "cancel": 1,
    "create": 1,
    "delete": 1,
