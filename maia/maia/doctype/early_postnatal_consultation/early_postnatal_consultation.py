@@ -39,15 +39,15 @@ def get_last_weight(consultation, pregnancy, child):
 	ep_weights = frappe.get_all("Early Postnatal Consultation", filters={"pregnancy_folder": pregnancy}, \
 		fields=["name", "consultation_date", weight_field])
 
-	dates = []
-	dates.append({birth_date: birth_weight})
-	dates.append({get_datetime(release_date): release_weight})
+	dates = {}
+	dates.update({birth_date: birth_weight})
+	dates.update({get_datetime(release_date): release_weight})
 
 	for ep_weight in ep_weights:
 		if ep_weight[weight_field] is not None and ep_weight[weight_field]!=0 and isinstance(ep_weight[weight_field], int) \
 			and ep_weight.name != consultation:
-			dates.append({get_datetime(ep_weight.consultation_date): ep_weight[weight_field]})
+			dates.update({get_datetime(ep_weight.consultation_date): ep_weight[weight_field]})
 
-	latest_date = max(dates)
+	latest_date = max(zip(dates.values(), dates.keys()))
 
-	return latest_date.values()
+	return latest_date[0] if latest_date else 0
