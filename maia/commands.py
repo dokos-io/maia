@@ -10,7 +10,7 @@ import frappe
 from frappe.commands import pass_context, get_site
 
 @click.command('maia-new-site')
-def _maia_new_site():
+def maia_new_site():
 	first_name = click.prompt('First Name')
 	last_name = click.prompt('Last Name')
 	email = click.prompt('Email')
@@ -25,6 +25,24 @@ def _maia_new_site():
 		click.echo('New Site Creation Started')
 
 		create_new_site(first_name, last_name, email, siteprefix, max_users, customer, mariadb_root_user, mariadb_password, admin_password)
+
+@click.command('maia-reinstall-site')
+@click.option('--site', help='site name')
+@pass_context
+def maia_reinstall_site(context, site):
+	first_name = click.prompt('First Name')
+	last_name = click.prompt('Last Name')
+	email = click.prompt('Email')
+	mariadb_root_user = click.prompt('Mariadb Root Username')
+	mariadb_password = click.prompt('Mariadb Root Password')
+	admin_password = click.prompt('Admin Password')
+
+	if click.confirm('Reinstall and register '+ first_name + ' ' + last_name + ' - ' + email + ' ?', abort=True):
+		click.echo('Site Reinstallation Started')
+
+		site = get_site(context)
+
+		reinstall_site(site, first_name, last_name, email, mariadb_root_user, mariadb_password, admin_password)
 
 @click.command('make-maia-demo')
 @click.option('--site', help='site name')
@@ -61,17 +79,36 @@ def create_new_site(first_name, last_name, email, siteprefix, max_users, custome
 	print("==========> DB and Site Successfully Created")
 	add_specific_config(site_name, customer)
 	print("==========> Specific Config Added")
-	add_system_manager_and_limits(site_name, email, first_name, last_name, max_users)
-	print("==========> System Manager and Limits Set")
+	add_limits(site_name, first_name, last_name, max_users)
+	print("==========> Limits Set")
+
 	install_maia(site_name)
 	print("==========> Maia Installed")
 
-	#add_to_lets_encrypt_file(site_name)
+	add_system_manager(site_name, email, first_name, last_name, True)
+	print("==========> System Manager Added")
+
+	add_professional_information_card(site_name, email, first_name, last_name)
+	print("==========> Professional Information Card Added")
+
+	add_to_lets_encrypt_file(site_name)
 	print("==========> Let's Encrypt File Updated")
 
-	#setup_and_reload_nginx()
+	setup_and_reload_nginx()
 	print("==========> Installation Successful")
 
+def reinstall_site(site_name, first_name, last_name, email, mariadb_root_user, mariadb_password, admin_password):
+	force_reinstall_db(site_name, mariadb_root_user, mariadb_password, admin_password)
+	print("==========> Site reinstalled")
+
+	add_system_manager(site_name, email, first_name, last_name, False)
+	print("==========> System Manager Added")
+
+	add_professional_information_card(site_name, email, first_name, last_name)
+	print("==========> Professional Information Card Added")
+
+	setup_and_reload_nginx()
+	print("==========> Installation Successful")
 
 def check_prerequisites():
 	bench_path = frappe.utils.get_bench_path()
@@ -82,13 +119,21 @@ def check_prerequisites():
 	with open(config_path, 'r') as f:
 		config = json.load(f)
 
-	if not config.get("skip_setup_wizard"):
-		click.confirm('skip_setup_wizard key missing in common_site.json. Do you want to continue ?', abort = True)
+	if not config.get("sendinblue_key"):
+		click.confirm('sendinblue_key key missing in common_site.json. Do you want to continue ?', abort = True)
 
 def create_db_and_site(site_name, db_name, mariadb_root_user, mariadb_password, admin_password):
 	commands = []
 
 	command = "bench new-site {site_name} --db-name {db_name} --mariadb-root-username {db_root_username} --mariadb-root-password {db_root_password} --admin-password {admin_password} --verbose".format(site_name=site_name, db_name=db_name, db_root_username=mariadb_root_user, db_root_password=mariadb_password, admin_password=admin_password)
+	commands.append(command)
+
+	run_commands(commands)
+
+def force_reinstall_db(site, mariadb_root_user, mariadb_password, admin_password):
+	commands = []
+
+	command = "bench --site {site} --force reinstall --mariadb-root-username {db_root_username} --mariadb-root-password {db_root_password} --admin-password {admin_password} --yes".format(site=site, db_root_username=mariadb_root_user, db_root_password=mariadb_password, admin_password=admin_password)
 	commands.append(command)
 
 	run_commands(commands)
@@ -101,7 +146,7 @@ def install_maia(site_name):
 
 	run_commands(commands)
 
-def add_system_manager_and_limits(site_name, email, first_name, last_name, max_users):
+def add_limits(site_name, first_name, last_name, max_users):
 	commands = []
 
 	command = "bench --site {site_name} set-limits --limit users {max_users} --limit space 5".format(site_name=site_name, max_users=max_users)
@@ -109,9 +154,20 @@ def add_system_manager_and_limits(site_name, email, first_name, last_name, max_u
 
 	run_commands(commands)
 
+def add_system_manager(site_name, email, first_name, last_name, welcome_email=False):
 	frappe.connect(site=site_name)
 	try:
-		add_system_manager(email=email, first_name=first_name, last_name=last_name, send_welcome_email=False)
+		create_system_manager(email=email, first_name=first_name, last_name=last_name, send_welcome_email=welcome_email)
+		frappe.db.commit()
+	except Exception as e:
+		print(e)
+	finally:
+		frappe.destroy()
+
+def add_professional_information_card(site_name, email, first_name, last_name):
+	frappe.connect(site=site_name)
+	try:
+		create_professional_information_card(email=email, first_name=first_name, last_name=last_name)
 		frappe.db.commit()
 	except Exception as e:
 		print(e)
@@ -149,7 +205,7 @@ def setup_and_reload_nginx():
 
 	run_commands(commands)
 
-def add_system_manager(email, first_name=None, last_name=None, send_welcome_email=False):
+def create_system_manager(email, first_name=None, last_name=None, send_welcome_email=False):
 	# add user
 	language = frappe.get_single("System Settings").language
 	frappe.local.lang = language
@@ -171,6 +227,16 @@ def add_system_manager(email, first_name=None, last_name=None, send_welcome_emai
 	roles = frappe.db.sql_list("""select name from `tabRole`
 		where name not in ("Administrator", "Guest", "All")""")
 	user.add_roles(*roles)
+
+def create_professional_information_card(email, first_name=None, last_name=None):
+	prof_card = frappe.get_doc({
+		"doctype": "Professional Information Card",
+		"user": email,
+		"email": email,
+		"first_name": first_name,
+		"last_name": last_name
+	})
+	prof_card.insert(ignore_permissions=True, ignore_mandatory=True)
 
 def run_commands(commands):
 	bench_path = frappe.utils.get_bench_path()
@@ -200,4 +266,4 @@ def update_site_config(site, new_config, bench_path='.'):
 	config.update(new_config)
 	put_site_config(site, config, bench_path=bench_path)
 
-commands = [_maia_new_site, make_maia_demo]
+commands = [maia_new_site, maia_reinstall_site, make_maia_demo]

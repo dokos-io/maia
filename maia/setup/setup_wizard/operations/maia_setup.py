@@ -58,23 +58,6 @@ def add_meal_expense_deductions():
 		doc.insert()
 		doc.submit()
 
-def create_professional_contact_card():
-	users = frappe.db.get_all("User", filters={"name": ["!=", ["Administrator", "Guest"]]}, fields=["name", "first_name", "last_name", "full_name"])
-	if users:
-		user = users[0]["name"]
-		first_name = users[0]["first_name"]
-		last_name = users[0]["last_name"]
-		full_name = users[0]["full_name"]
-
-		prof_card = frappe.get_doc({
-			"doctype": "Professional Information Card",
-			"user": user,
-			"first_name": first_name,
-			"last_name": last_name,
-			"full_name": full_name
-		})
-		prof_card.insert(ignore_permissions=True, ignore_mandatory=True)
-
 def set_default_print_formats():
 	names = ["Patient Folder", "Prenatal Interview Folder", "Perineum Rehabilitation Folder", "Gynecology Folder", \
 		"Pregnancy Folder", "Postnatal Consultation", "Birth Preparation Consultation", "Perineum Rehabilitation Consultation", \
@@ -93,7 +76,7 @@ def set_default_print_formats():
 def make_web_page():
 	default_template = frappe.get_doc('Default Template', None)
 	default_template.website_title = _("Welcome")
-	default_template.title = _("Default Theme")
+	default_template.title = _("Welcome")
 	default_template.subtitle = _("Please login to make an appointment")
 	default_template.button_label = _("Make an appointment")
 	default_template.button_link = "/login"
@@ -116,10 +99,3 @@ def disable_signup():
 def disable_guest_access():
 	frappe.db.set_value("Role", "Guest", "desk_access", 0)
 	frappe.db.commit()
-
-def send_welcome_email():
-	users = frappe.get_all("User", filters={"name": ["not in", ["Guest", "Administrator"]]})
-
-	if users:
-		user = frappe.get_doc("User", users[0]["name"])
-		user.send_welcome_mail_to_user()
