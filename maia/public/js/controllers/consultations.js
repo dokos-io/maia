@@ -7,7 +7,7 @@ frappe.ui.form.on(this.frm.doctype, {
 		if (frm.doc.docstatus == 0) {
 			maia.price_calculator = new PriceCalculator(frm);
 			frappe.db.get_value("Professional Information Card", {user: frappe.session.user}, "name", r => {
-				r && frm.set_value("practitioner", data.message.name);
+				r && frm.set_value("practitioner", r.name);
 			})
 
 			frappe.db.get_value("Codification", {codification: "HN"}, "codification_description", r => {
@@ -24,6 +24,10 @@ frappe.ui.form.on(this.frm.doctype, {
 		show_hide_accounting(frm);
 		if (frm.doc.docstatus === 0) {
 			new_price_calcultator(frm);
+		}
+
+		if (!frm.doc.__islocal) {
+			add_buttons(frm);
 		}
 	},
 
@@ -387,6 +391,12 @@ const get_patient_record = (frm, doctype, name) => {
 			frm.set_value("patient_record", e.patient_record);
 		}
 	})
+}
+
+const add_buttons = (frm) => {
+	frm.page.add_menu_item(__("Letter"), function() {
+		new frappe.views.LetterComposer({doc: frm.doc, frm: frm});
+	}, true); 
 }
 
 {% include "maia/public/js/controllers/print_settings.js" %}

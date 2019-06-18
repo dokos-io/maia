@@ -4,21 +4,8 @@
 frappe.ui.form.on("Free Prescription", {
 	onload: function(frm) {
 		if (frm.doc.docstatus != 1) {
-			frappe.call({
-				"method": "maia.client.get_practitioner",
-				args: {
-					doctype: "Professional Information Card",
-					filters: {
-						user: frappe.session.user
-					},
-					fieldname: "name"
-				},
-				cache: false,
-				callback: function(data) {
-					if (!data.exe && data.message) {
-						frappe.model.set_value(frm.doctype, frm.docname, "practitioner", data.message.name)
-					}
-				}
+			frappe.db.get_value("Professional Information Card", {user: frappe.session.user}, "name", r => {
+				r && frm.set_value("practitioner", r.name);
 			})
 		}
 	},
