@@ -40,14 +40,18 @@ def get_last_weight(consultation, pregnancy, child):
 		fields=["name", "consultation_date", weight_field])
 
 	dates = {}
-	dates.update({birth_date: birth_weight})
-	dates.update({get_datetime(release_date): release_weight})
+	if birth_date:
+		dates.update({birth_date: birth_weight})
+	if release_date:
+		dates.update({get_datetime(release_date): release_weight})
 
 	for ep_weight in ep_weights:
 		if ep_weight[weight_field] is not None and ep_weight[weight_field]!=0 and isinstance(ep_weight[weight_field], int) \
 			and ep_weight.name != consultation:
 			dates.update({get_datetime(ep_weight.consultation_date): ep_weight[weight_field]})
 
-	latest_date = max(zip(dates.values(), dates.keys()))
-
-	return latest_date[0] if latest_date else 0
+	if dates:
+		latest_date = max(zip(dates.values(), dates.keys()))
+		return latest_date[0]
+	else:
+		return 0
