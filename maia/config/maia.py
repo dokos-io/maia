@@ -164,6 +164,12 @@ def get_data():
 			"items": [
 				{
 					"type": "doctype",
+					"name": "Drug",
+					"label": _("Drugs"),
+					"description": _("Drug"),
+				},
+				{
+					"type": "doctype",
 					"name": "Addiction",
 					"label": _("Addictions"),
 					"description": _("Addiction"),

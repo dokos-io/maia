@@ -1,4 +1,5 @@
 {
+ "allow_import": 1,
  "allow_rename": 1,
  "autoname": "field:maternity",
  "creation": "2017-03-13 17:49:16.713960",
@@ -26,7 +27,7 @@
    "label": "City"
   }
  ],
- "modified": "2019-06-14 09:14:17.678710",
+ "modified": "2019-06-19 15:46:58.830001",
  "modified_by": "Administrator",
  "module": "Maia",
  "name": "Maternity",

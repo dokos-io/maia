@@ -1,4 +1,6 @@
 {
+ "allow_import": 1,
+ "allow_rename": 1,
  "autoname": "field:drug",
  "creation": "2017-03-16 16:10:26.451179",
  "doctype": "DocType",
@@ -18,7 +20,7 @@
    "unique": 1
   }
  ],
- "modified": "2019-06-14 09:25:21.343905",
+ "modified": "2019-06-19 15:45:50.873590",
  "modified_by": "Administrator",
  "module": "Maia",
  "name": "Drug",
