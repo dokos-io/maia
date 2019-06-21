@@ -54,8 +54,6 @@ def get_data(practitioner, account_type, period_list, filters=None, only_current
 		gl_entries_by_account
 	)
 
-
-
 	calculate_values(accounts_by_name, gl_entries_by_account, period_list)
 	#accumulate_values_into_parents(accounts, accounts_by_name, period_list, accumulated_values)
 	out = prepare_data(accounts, account_type, period_list)

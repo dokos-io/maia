@@ -11,7 +11,6 @@ import datetime
 from datetime import timedelta
 import calendar
 
-
 def check_availability(doctype, df, dt, dn, date, duration):
 	date = getdate(date)
 	day = calendar.day_name[date.weekday()]

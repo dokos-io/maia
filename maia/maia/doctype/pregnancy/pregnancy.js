@@ -90,16 +90,15 @@ let setup_newborn_chart = function(frm, child, domelem) {
 				let colors = r.message[1];
 
 				let $wrap = $('div[data-fieldname='+domelem+']').get(0);
-				new Chart($wrap, {
+				new frappe.Chart($wrap, {
 					title: __("Weight Curve (g)"),
 					data: data,
 					type: 'line',
-					lineOptions: {
-						regionFill: 0
-					},
 					height: 240,
-					format_tooltip_y: d => d + ' g',
-					colors: colors,
+					tooltipOptions: {
+						formatTooltipY: d => d + ' g'
+					},
+					colors: colors
 				});
 			}
 		}

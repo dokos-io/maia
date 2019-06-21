@@ -16,6 +16,8 @@ class ProfessionalInformationCard(Document):
 		if not self.full_name:
 			self.full_name = self.first_name + " " + self.last_name
 
+		self.check_roles()
+
 	def create_user(self):
 		user = self.add_user()
 		
@@ -62,3 +64,13 @@ class ProfessionalInformationCard(Document):
 		self.reload()
 
 		return new_user
+
+	def check_roles(self):
+		if self.is_substitute:
+			user = frappe.get_doc("User", self.user)
+			user.remove_roles("Midwife")
+			user.add_roles("Midwife Substitute")
+
+			for role in user.get("roles"):
+				if role.role == "System Manager":
+					frappe.msgprint(_("Careful, this substitute is also system manager."))

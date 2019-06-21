@@ -169,7 +169,7 @@ const calculate_age = (frm, source, target) => {
 const calculate_bmi = (frm) => {
 	const weight = frm.doc.weight;
 	const height = frm.doc.height;
-	const bmi = Math.round(weight / Math.pow(height, 2));
+	const bmi = height ? Math.round(weight / Math.pow(height, 2)) : 0;
 	frappe.model.set_value(frm.doctype, frm.docname, "body_mass_index", bmi)
 };
 
@@ -185,7 +185,7 @@ const setup_chart = (frm) => {
 
 				if (data.datasets[0].values.length > 1) {
 					const $wrap = $('div[data-fieldname=weight_curve]').get(0);
-					new Chart($wrap, {
+					new frappe.Chart($wrap, {
 						title: __("Patient Weight"),
 						data: data,
 						type: 'line',

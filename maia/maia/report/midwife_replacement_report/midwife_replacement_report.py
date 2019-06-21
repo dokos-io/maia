@@ -10,7 +10,10 @@ from frappe.utils import (getdate, get_first_day, get_last_day, add_days, format
 from maia.maia_accounting.utils import get_fiscal_year_data, get_fiscal_year
 from maia.maia_accounting.doctype.accounting_item.accounting_item import get_accounts
 from maia.maia_accounting.report.maia_profit_and_loss_statement.maia_profit_and_loss_statement import get_period_list, get_columns, \
-	validate_fiscal_year, get_months, get_label, get_data
+	validate_fiscal_year, get_months, get_label, get_accounts, prepare_data, filter_out_zero_value_rows, \
+	get_additional_conditions, add_total_row
+
+from six import itervalues
 
 def execute(filters=None):
 	currency = maia.get_default_currency()
@@ -177,3 +180,82 @@ def get_mileage_codifications():
 		OR mileage_allowance_mountain = 1
 		OR mileage_allowance_walking_skiing = 1
 	""", as_dict=True)]
+
+def get_data(practitioner, account_type, period_list, filters=None, only_current_fiscal_year=True, total = True):
+
+	accounts = get_accounts(account_type)
+	accounts_by_name = {}
+	for d in accounts:
+		accounts_by_name[d.name] = d
+	if not accounts:
+		return None
+
+	#accounts, accounts_by_name, parent_children_map = filter_accounts(accounts)
+
+	gl_entries_by_account = {}
+	
+	set_gl_entries_by_account(
+		practitioner,
+		period_list[0]["year_start_date"] if only_current_fiscal_year else None,
+		period_list[-1]["to_date"],
+		accounts, filters,
+		gl_entries_by_account
+	)
+
+	calculate_values(accounts_by_name, gl_entries_by_account, period_list)
+	#accumulate_values_into_parents(accounts, accounts_by_name, period_list, accumulated_values)
+	out = prepare_data(accounts, account_type, period_list)
+	out = filter_out_zero_value_rows(out)
+
+	if out and total:
+		add_total_row(out, account_type, period_list)
+
+	return out
+
+def set_gl_entries_by_account(practitioner, from_date, to_date, accounts, filters, gl_entries_by_account):
+	"""Returns a dict like { "account": [gl entries], ... }"""
+
+	accounts = [x["name"] for x in accounts]
+	additional_conditions = " and gle.accounting_item in ({})"\
+		.format(", ".join([frappe.db.escape(d) for d in accounts]))
+
+	gl_entries = frappe.db.sql("""select gle.posting_date,
+		gle.accounting_item, gle.debit, gle.credit, gle.currency,
+		rev.transaction_date
+		from `tabGeneral Ledger Entry` gle
+		left join `tabRevenue` rev
+		on gle.reference_name = rev.name
+		where rev.practitioner=%(practitioner)s
+		{additional_conditions}
+		and rev.transaction_date >= %(from_date)s
+		and rev.transaction_date <= %(to_date)s
+		order by gle.accounting_item, gle.posting_date""".format(additional_conditions=additional_conditions),
+		{
+			"practitioner": practitioner,
+			"from_date": from_date,
+			"to_date": to_date
+		},
+		as_dict=True)
+
+	for entry in gl_entries:
+		gl_entries_by_account.setdefault(entry.accounting_item, []).append(entry)
+
+	return gl_entries_by_account
+
+def calculate_values(accounts_by_name, gl_entries_by_account, period_list):
+	for entries in itervalues(gl_entries_by_account):
+		for entry in entries:
+			d = accounts_by_name.get(entry.accounting_item)
+			if not d:
+				frappe.msgprint(
+					_("Could not retrieve information for {0}.".format(entry.account)), title="Error",
+					raise_exception=1
+				)
+			for period in period_list:
+				# check if posting date is within the period
+
+				if entry.transaction_date <= period.to_date and entry.transaction_date >= period.from_date:
+						d[period.key] = d.get(period.key, 0.0) + flt(entry.debit) - flt(entry.credit)
+
+			if entry.transaction_date < period_list[0].year_start_date:
+				d["opening_balance"] = d.get("opening_balance", 0.0) + flt(entry.debit) - flt(entry.credit)

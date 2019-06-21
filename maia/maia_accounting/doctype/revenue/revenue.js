@@ -116,8 +116,6 @@ const set_title = frm => {
 	if (!frm.doc.label && frm.doc.revenue_type) {
 		if (frm.doc.revenue_type == "Consultation" && frm.doc.patient) {
 			frm.set_value("label", `${frm.doc.patient}-${__(frm.doc.revenue_type)}`);
-		} else if (frm.doc.revenue_type == "Personal credit") {
-			frm.set_value("label", `${__(frm.doc.revenue_type)}`);
 		} else if (frm.doc.party) {
 			frm.set_value("label", `${frm.doc.party}-${__(frm.doc.revenue_type)}`);
 		}
@@ -127,13 +125,8 @@ const set_title = frm => {
 }
 
 const set_accounting_item = frm => {
-	if (frm.doc.revenue_type == "Personal credit") {
-		frappe.db.get_value("Accounting Item", {accounting_item_type: "Practitioner"}, "name", e => {
-			frm.set_value("accounting_item", e.name)
-		})
-	} else {
-		frm.set_value("accounting_item", "")
-	}
+	frm.set_value("accounting_item", "")
+
 }
 
 const add_billing_address = frm => {

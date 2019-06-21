@@ -108,25 +108,21 @@ def get_newborn_weight_data(patient_record, pregnancy, child):
 
 	titles = []
 	values = []
-	tenpercents = []
 
 	tenpercentvalue = birth_weight * 0.9
 
 	for nw in newborn_weight:
 		titles.append(formatdate(nw["date"]))
 		values.append(nw["weight"])
-		tenpercents.append(tenpercentvalue)
 
 	data = {
 		'labels': titles,
 		'datasets': [{
 			'name': _('Newborn weight'),
 			'values': values
-		},
-		{
-			'name': _('10% Curve'),
-			'values': tenpercents
-		}]
+		}],
+		'yMarkers': [{ 'label': _('10% Curve'), 'value': tenpercentvalue,
+			'options': { 'labelPos': 'left' }}],
 	}
 
 	return data, colors

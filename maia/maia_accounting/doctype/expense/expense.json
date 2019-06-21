@@ -43,7 +43,7 @@
    "fieldname": "expense_type",
    "fieldtype": "Select",
    "label": "Expense Type",
-   "options": "Miscellaneous\nMeal expense\nPersonal debit\nSocial contributions",
+   "options": "Miscellaneous\nMeal expense\nSocial contributions",
    "reqd": 1
   },
   {
@@ -173,7 +173,7 @@
  ],
  "is_sealed": 1,
  "is_submittable": 1,
- "modified": "2019-06-12 09:08:01.731526",
+ "modified": "2019-06-21 12:14:29.525091",
  "modified_by": "Administrator",
  "module": "Maia Accounting",
  "name": "Expense",

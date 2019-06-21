@@ -28,6 +28,7 @@ class Payment(AccountingController):
 		self.set_outstanding_amount()
 
 	def on_cancel(self):
+		self.update_outstanding_amount()
 		self.reverse_gl_entries()
 
 	def validate_payment_type(self):
@@ -55,6 +56,13 @@ class Payment(AccountingController):
 				frappe.throw(_("Row #{0}: Duplicate entry in References {1} {2}")
 					.format(d.idx, d.reference_type, d.reference_name))
 			reference_names.append((d.reference_type, d.reference_name))
+
+	def update_outstanding_amount(self):
+		for reference in self.payment_references:
+			outstanding_amount = frappe.db.get_value(reference.reference_type, reference.reference_name, "outstanding_amount")
+			frappe.db.set_value(reference.reference_type, reference.reference_name, \
+				"outstanding_amount", flt(outstanding_amount) + flt(reference.paid_amount))
+			frappe.get_doc(reference.reference_type, reference.reference_name).set_status(update=True)
 
 	def get_rev_exp_accounting_journal(self, accounting_item):
 		journal = frappe.db.get_value("Accounting Item", accounting_item, "accounting_journal")

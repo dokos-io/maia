@@ -155,6 +155,12 @@ def get_data():
 					"name": "Email Template",
 					"label": _("Email Templates"),
 					"description": _("Email Templates"),
+				},
+				{
+					"type": "doctype",
+					"name": "Letter Head",
+					"label": _("Letter Head"),
+					"description": _("Letter Head"),
 				}
 			]
 		},

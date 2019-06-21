@@ -12,11 +12,7 @@ frappe.ui.form.on('Expense', {
 				}
 			}
 		})
-		if (frm.doc.expense_type !== "Personal debit") {
-			frm.set_df_property("party", "reqd", 1);
-		} else {
-			frm.set_df_property("party", "hidden", 1);
-		}
+		frm.set_df_property("party", "reqd", 1);
 	},
 	before_save(frm) {
 		frm.toggle_reqd("accounting_item", frm.doc.with_items == 1 ? 0 : 1)
@@ -26,34 +22,6 @@ frappe.ui.form.on('Expense', {
 	},
 	refresh(frm) {
 		frm.toggle_enable("amount", frm.doc.with_items === 1 ? 0 : 1)
-	},
-	before_submit(frm) {
-		if (frm.doc.expense_type === "Personal debit") {
-			let dialog =new frappe.ui.Dialog({
-				title : __('Register the corresponding payment ?'),
-				fields: [
-					{
-						fieldname: 'payment_method',
-						label: __('Payment Method'),
-						fieldtype: 'Link',
-						options: 'Payment Method',
-						reqd: 1
-					}
-				],
-				primary_action: (data) => {
-					frappe.xcall("maia.maia_accounting.doctype.expense.expense.register_personal_debit",
-						{docname: frm.doc.name, payment_method: data.payment_method})
-					.then((name) => {
-						dialog.hide();
-						frappe.show_alert({message:__("Payment {0} created", [name]), indicator:'green'});
-						frm.reload_doc();
-					})
-				},
-				primary_action_label: __('Yes'),
-				secondary_action_label: __('No')
-			});
-			dialog.show();
-		}
 	},
 	with_items(frm) {
 		frm.toggle_enable("amount", frm.doc.with_items === 1 ? 0 : 1)
@@ -81,11 +49,6 @@ frappe.ui.form.on('Expense', {
 			if (frm.doc.party && !frm.doc.label) {
 				frm.set_value("label", `${frm.doc.party}-${__(frm.doc.expense_type)}`);
 			}
-		} else if (frm.doc.expense_type === "Personal debit") {
-			frappe.db.get_value("Accounting Item", {"accounting_item_type": "Practitioner"}, "name", e => {
-				if (e) frm.set_value("accounting_item", e.name);
-			})
-			frm.set_value("label", __("Personal debit"));
 		} else if (frm.doc.expense_type === "Social contributions") {
 			add_social_contibutions_items(frm);
 			frm.set_query('party', function(frm) {
@@ -101,9 +64,9 @@ frappe.ui.form.on('Expense', {
 		} else {
 			frm.set_value("label", "");
 		}
-		frm.toggle_reqd("party", frm.doc.expense_type === "Personal debit" ? 0 : 1)
+		frm.toggle_reqd("party", 1)
 		frm.toggle_reqd("accounting_item", frm.doc.expense_type === "Meal expense" ? 0 : 1)
-		frm.toggle_display("party", frm.doc.expense_type === "Personal debit" ? 0 : 1)
+		frm.toggle_display("party", 1)
 		frm.toggle_display("accounting_item", frm.doc.expense_type === "Meal expense" ? 0 : 1)
 		
 	}
