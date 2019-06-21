@@ -57,4 +57,4 @@ maia.patches.v3_0.remove_duplicate_patient_dashboards
 maia.patches.v3_0.setup_dashboard
 maia.patches.v3_0.sms_reminder_update
 maia.patches.v3_0.default_prenatal_consult_formats
-maia.patches.v3_0.missing_default_values
+maia.patches.v3_0.missing_default_values #2019-06-20

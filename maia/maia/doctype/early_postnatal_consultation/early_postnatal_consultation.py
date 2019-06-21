@@ -51,7 +51,7 @@ def get_last_weight(consultation, pregnancy, child):
 			dates.update({get_datetime(ep_weight.consultation_date): ep_weight[weight_field]})
 
 	if dates:
-		latest_date = max(zip(dates.values(), dates.keys()))
-		return latest_date[0]
+		latest_date = max(zip(dates.keys(), dates.values()))
+		return latest_date[1]
 	else:
 		return 0

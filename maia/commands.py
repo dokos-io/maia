@@ -228,6 +228,9 @@ def create_system_manager(email, first_name=None, last_name=None, send_welcome_e
 		where name not in ("Administrator", "Guest", "All")""")
 	user.add_roles(*roles)
 
+	#Add default forward email
+	frappe.db.set_value("Contact Us Settings", None, "forward_to_email", user.name)
+
 def create_professional_information_card(email, first_name=None, last_name=None):
 	prof_card = frappe.get_doc({
 		"doctype": "Professional Information Card",

@@ -7,9 +7,10 @@ import frappe
 import maia
 from frappe import _
 from maia.maia_accounting.controllers.accounting_controller import AccountingController
-from frappe.utils import flt, getdate, formatdate
+from frappe.utils import flt, getdate, formatdate, nowdate
 from maia.maia_accounting.doctype.general_ledger_entry.general_ledger_entry import make_gl_entries
 from maia.maia_accounting.utils import get_accounting_query_conditions
+import json
 
 class Payment(AccountingController):
 	def validate(self):
@@ -261,6 +262,50 @@ def get_payment(dt, dn):
 	return payment
 
 @frappe.whitelist()
+def get_list_payment(names, dt):
+	names = json.loads(names)
+	party_type = "Party"
+	partys = frappe.get_all(dt, filters={"name": ["in", names]}, fields=["DISTINCT(party) as name"])
+	if not partys or not partys[0]["name"]:
+		party_type = "Patient Record"
+		partys = frappe.get_all(dt, filters={"name": ["in", names]}, fields=["DISTINCT(patient) as name"])
+
+	if len(partys) > 1:
+		frappe.throw(_("Please select documents linked to the same party or patient"))
+	elif partys[0]["name"]:
+		payment = frappe.new_doc("Payment")
+		payment.payment_type = "Incoming payment" if dt == "Revenue" else "Outgoing payment"
+		payment.party_type = party_type
+		payment.party = partys[0]["name"]
+		payment.payment_date = nowdate()
+
+		total_paid = 0
+		for dn in names:
+			fields = ["party", "transaction_date", "outstanding_amount"]
+			if dt == "Revenue":
+				fields.append("patient")
+			source_doc = frappe.db.get_value(dt, dn, fields, as_dict=True)
+			payment.append("payment_references", {
+				'reference_type': dt,
+				'reference_name': dn,
+				'transaction_date': source_doc.transaction_date,
+				'party': source_doc.party,
+				'patient_record': source_doc.patient if dt=="Revenue" else None,
+				'outstanding_amount': source_doc.outstanding_amount,
+				'paid_amount': source_doc.outstanding_amount
+			})
+			total_paid += flt(source_doc.outstanding_amount)
+
+		payment.paid_amount = total_paid
+		return payment
+	else:
+		payment = frappe.new_doc("Payment")
+		payment.payment_type = "Incoming payment" if dt == "Revenue" else "Outgoing payment"
+		payment.payment_date = nowdate()
+
+		return payment
+
+@frappe.whitelist()
 def get_outstanding_references(party_type, payment_type, party=None):
 	dt = "Revenue" if payment_type == "Incoming payment" else "Expense"
 	fields=["name", "amount", "outstanding_amount", "party", "transaction_date"]
@@ -303,6 +348,13 @@ def update_clearance_date(docname, date):
 	if current_clearance_date:
 		payment.add_comment('Comment', \
 			_("Clearance date changed from {0} to {1}".format(formatdate(current_clearance_date), formatdate(date))))
+
+@frappe.whitelist()
+def update_clearance_dates(names, date):
+	names = json.loads(names)
+	print(names)
+	for name in names:
+		update_clearance_date(name, date)
 
 def get_permission_query_conditions(user):
 	return get_accounting_query_conditions("Payment", user)

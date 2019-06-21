@@ -112,6 +112,7 @@
    "fieldname": "patient_record",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Patient Record",
    "options": "Patient Record",
    "reqd": 1,
@@ -549,7 +550,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-06-18 16:56:59.047487",
+ "modified": "2019-06-21 08:45:37.444146",
  "modified_by": "Administrator",
  "module": "Maia",
  "name": "Postnatal Consultation",
