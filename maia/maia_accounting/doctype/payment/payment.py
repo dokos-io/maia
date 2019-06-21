@@ -31,6 +31,9 @@ class Payment(AccountingController):
 		self.update_outstanding_amount()
 		self.reverse_gl_entries()
 
+	def on_trash(self):
+		frappe.throw(_("Deleting this document is not permitted."))
+
 	def validate_payment_type(self):
 		if flt(self.paid_amount) < 0:
 			paid_amount = abs(self.paid_amount)

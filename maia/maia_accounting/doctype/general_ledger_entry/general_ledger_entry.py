@@ -8,7 +8,8 @@ from frappe.model.document import Document
 from maia.maia_accounting.utils import get_accounting_query_conditions
 
 class GeneralLedgerEntry(Document):
-	pass
+	def on_trash(self):
+		frappe.throw(_("Deleting this document is not permitted."))
 
 def make_gl_entries(gl_entries):
 	for entry in gl_entries:

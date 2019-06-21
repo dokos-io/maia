@@ -23,6 +23,9 @@ class MiscellaneousOperation(AccountingController):
 	def on_cancel(self):
 		self.reverse_gl_entries()
 
+	def on_trash(self):
+		frappe.throw(_("Deleting this document is not permitted."))
+
 	def check_journals(self):
 		journals = [x.accounting_journal for x in self.items]
 

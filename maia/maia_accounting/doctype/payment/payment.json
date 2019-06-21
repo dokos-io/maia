@@ -102,7 +102,6 @@
   {
    "fieldname": "party",
    "fieldtype": "Dynamic Link",
-   "in_standard_filter": 1,
    "label": "Party",
    "options": "party_type"
   },
@@ -128,7 +127,6 @@
    "fieldname": "pending_amount",
    "fieldtype": "Currency",
    "label": "Pending amount",
-   "no_copy": 1,
    "read_only": 1
   },
   {
@@ -172,13 +170,12 @@
    "fieldname": "previously_paid_amount",
    "fieldtype": "Currency",
    "label": "Previously paid amount",
-   "no_copy": 1,
    "read_only": 1
   }
  ],
  "is_sealed": 1,
  "is_submittable": 1,
- "modified": "2019-06-21 12:07:32.797531",
+ "modified": "2019-06-21 19:28:20.604459",
  "modified_by": "Administrator",
  "module": "Maia Accounting",
  "name": "Payment",
@@ -189,7 +186,6 @@
    "amend": 1,
    "cancel": 1,
    "create": 1,
-   "delete": 1,
    "email": 1,
    "export": 1,
    "print": 1,
@@ -204,7 +200,6 @@
    "amend": 1,
    "cancel": 1,
    "create": 1,
-   "delete": 1,
    "email": 1,
    "export": 1,
    "print": 1,
@@ -219,7 +214,6 @@
    "amend": 1,
    "cancel": 1,
    "create": 1,
-   "delete": 1,
    "email": 1,
    "export": 1,
    "print": 1,

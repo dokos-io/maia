@@ -18,6 +18,7 @@ def check_availability(doctype, df, dt, dn, date, duration):
 		frappe.throw(_("You cannot schedule for past dates"))
 
 	resource = frappe.get_doc(dt, dn)
+
 	availability = []
 	schedules = []
 

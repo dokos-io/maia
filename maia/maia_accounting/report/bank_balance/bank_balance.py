@@ -49,12 +49,34 @@ def get_gl_entries(filters, bank_account):
 		left join `tabPayment` pay on gl.link_doctype='Payment' and gl.link_docname=pay.name
 		where gl.practitioner=%(practitioner)s
 		and gl.accounting_item='{accounting_item}'
+		and pay.docstatus=1
 		{conditions}
 		order by posting_date, accounting_item
 		""".format(
 			accounting_item=bank_account.accounting_item,
 			conditions=get_conditions(filters)
 		), filters, as_dict=1)
+
+	gl_entries.extend(frappe.db.sql(
+		"""
+		select
+		gl.posting_date, gl.accounting_item, gl.debit, gl.credit,
+		gl.link_docname, mo.posting_date as clearance_date,
+		mo.practitioner as party
+		from `tabGeneral Ledger Entry` gl
+		left join `tabMiscellaneous Operation` mo 
+		on gl.link_doctype="Miscellaneous Operation"
+		and gl.link_docname=mo.name
+		where gl.practitioner=%(practitioner)s
+		and gl.accounting_item='{accounting_item}'
+		and mo.docstatus=1
+		{conditions}
+		order by posting_date, accounting_item
+		""".format(
+			accounting_item=bank_account.accounting_item,
+			conditions=get_conditions(filters)
+		), filters, as_dict=1)
+	)
 
 	return gl_entries
 

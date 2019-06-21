@@ -34,8 +34,8 @@ const show_general_ledger = (frm) => {
 		frm.add_custom_button(__('Accounting Ledger'), function() {
 			frappe.route_options = {
 				reference_name: frm.doc.name,
-				from_date: frm.doc.transaction_date,
-				to_date: frm.doc.transaction_date,
+				from_date: frappe.datetime.year_start(),
+				to_date: frappe.datetime.year_end(),
 				practitioner: frm.doc.practitioner
 			};
 			frappe.set_route("query-report", "Maia General Ledger");
