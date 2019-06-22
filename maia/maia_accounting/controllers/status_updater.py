@@ -16,9 +16,10 @@ status_map = {
 	],
 	"Revenue": [
 		["Draft", "eval:self.docstatus==0"],
-		["Paid", "eval:self.outstanding_amount==0 and self.docstatus==1"],
-		["Unpaid", "eval:self.outstanding_amount>0 and self.docstatus==1"],
-		["Cancelled", "eval:self.docstatus==2"]
+		["Paid", "eval:self.outstanding_amount==0 and self.docstatus==1 and self.declared_lost==0"],
+		["Unpaid", "eval:self.outstanding_amount>0 and self.docstatus==1 and self.declared_lost==0"],
+		["Cancelled", "eval:self.docstatus==2"],
+		["Lost", "eval:self.outstanding_amount==0 and self.docstatus==1 and self.declared_lost!=0"]
 	],
 	"Payment": [
 		["Draft", "eval:self.docstatus==0"],

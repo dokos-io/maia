@@ -8,10 +8,22 @@ frappe.ui.form.on('Expense', {
 		frm.set_query("party", function() {
 			return {
 				filters: {
-					is_supplier: 1
+					allow_expenses: 1
+				},
+				or_filters: {
+					is_social_contribution: 1,
 				}
 			}
 		})
+
+		frm.set_query("accounting_item", function() {
+			return {
+				filters: {
+					accounting_journal: "Purchases"
+				}
+			}
+		})
+
 		frm.set_df_property("party", "reqd", 1);
 	},
 	before_save(frm) {

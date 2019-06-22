@@ -18,7 +18,7 @@ frappe.query_reports["Maia Profit and Loss Statement"] = {
 			"fieldtype": "Link",
 			"options": "Maia Fiscal Year",
 			"reqd": 1,
-			"default": frappe.defaults.get_user_default("fiscal_year")
+			"default": frappe.boot.fiscal_year[0]
 		},
 		{
 			"fieldname":"to_fiscal_year",
@@ -26,7 +26,7 @@ frappe.query_reports["Maia Profit and Loss Statement"] = {
 			"fieldtype": "Link",
 			"options": "Maia Fiscal Year",
 			"reqd": 1,
-			"default": frappe.defaults.get_user_default("fiscal_year")
+			"default": frappe.boot.fiscal_year[0]
 		},
 		{
 			"fieldname": "periodicity",

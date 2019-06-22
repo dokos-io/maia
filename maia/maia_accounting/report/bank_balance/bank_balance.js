@@ -33,6 +33,8 @@ frappe.query_reports["Bank Balance"] = {
 		report.page.add_action_item(__('Update a bank balance'), function() {
 			update_bank_balance(report);
 		})
+
+		report.page.add_inner_message(__("Don't forget to add the initial and final bank statement values for your bank accounts through the action button"))
 	},
 	after_datatable_render: function(dt) {
 		dt.rowmanager.collapseAllNodes();

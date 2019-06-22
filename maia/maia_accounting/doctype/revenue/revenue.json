@@ -25,6 +25,7 @@
   "note",
   "section_break_18",
   "outstanding_amount",
+  "declared_lost",
   "column_break_20",
   "status",
   "references_section",
@@ -155,6 +156,7 @@
    "fieldname": "outstanding_amount",
    "fieldtype": "Currency",
    "label": "Outstanding Amount",
+   "no_copy": 1,
    "read_only": 1
   },
   {
@@ -164,7 +166,7 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Status",
-   "options": "Draft\nUnpaid\nPaid\nCancelled"
+   "options": "Draft\nUnpaid\nPaid\nCancelled\nLost"
   },
   {
    "fieldname": "amended_from",
@@ -218,11 +220,19 @@
    "fieldname": "legal_mentions",
    "fieldtype": "Text Editor",
    "label": "Legal mentions"
+  },
+  {
+   "default": "0",
+   "fieldname": "declared_lost",
+   "fieldtype": "Currency",
+   "label": "Declared lost",
+   "no_copy": 1,
+   "read_only": 1
   }
  ],
  "is_sealed": 1,
  "is_submittable": 1,
- "modified": "2019-06-21 12:12:59.230452",
+ "modified": "2019-06-22 09:57:39.527610",
  "modified_by": "Administrator",
  "module": "Maia Accounting",
  "name": "Revenue",

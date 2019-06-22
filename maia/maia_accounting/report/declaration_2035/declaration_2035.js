@@ -17,7 +17,7 @@ frappe.query_reports["Declaration 2035"] = {
 			"label": __("Fiscal Year"),
 			"fieldtype": "Link",
 			"options": "Maia Fiscal Year",
-			"default": frappe.defaults.get_user_default("fiscal_year"),
+			"default": frappe.boot.fiscal_year[0],
 			"reqd": 1
 		}
 	],

@@ -12,10 +12,18 @@ frappe.ui.form.on('Revenue', {
 		frm.set_query("party", function() {
 			return {
 				filters: {
-					is_customer: 1
+					allow_revenues: 1
 				},
 				or_filters: {
 					is_social_security: 1
+				}
+			}
+		})
+
+		frm.set_query("accounting_item", function() {
+			return {
+				filters: {
+					accounting_journal: "Sales"
 				}
 			}
 		})
@@ -23,6 +31,7 @@ frappe.ui.form.on('Revenue', {
 	refresh(frm) {
 		check_mandatory_fields(frm);
 		set_amount_readonly(frm);
+		add_lost_btn(frm);
 	},
 
 	revenue_type(frm) {
@@ -110,6 +119,9 @@ const check_mandatory_fields = frm => {
 		frm.set_df_property("party", "reqd", 1);
 		frm.set_df_property("patient", "reqd", 0);
 	}
+
+	frm.set_df_property("accounting_item", "reqd", !frm.doc.with_items);
+
 }
 
 const set_title = frm => {
@@ -148,4 +160,30 @@ const add_billing_address = frm => {
 			}
 		})
 	}
+}
+
+const add_lost_btn = frm => {
+	if (frm.doc.docstatus == 1 && frm.doc.outstanding_amount != 0) {
+		frm.page.add_action_item(__('Set as lost'), function() {
+			set_lost(frm);
+		})
+	} else if (frm.doc.docstatus == 1 && frm.doc.outstanding_amount == 0 && frm.doc.declared_lost != 0) {
+		frm.page.add_action_item(__('Cancel loss'), function() {
+			revert_lost(frm);
+		})
+	}
+}
+
+const set_lost = frm => {
+	frappe.xcall('maia.maia_accounting.doctype.revenue.revenue.set_lost', {dn: frm.docname})
+	.then(() => {
+		frm.reload_doc();
+	})
+}
+
+const revert_lost = frm => {
+	frappe.xcall('maia.maia_accounting.doctype.revenue.revenue.revert_lost', {dn: frm.docname})
+	.then(() => {
+		frm.reload_doc();
+	})
 }

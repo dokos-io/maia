@@ -26,8 +26,13 @@ class Revenue(AccountingController):
 		self.set_status()
 
 	def before_submit(self):
+		self.alert_on_amount()
 		self.calculate_totals()
 		self.set_outstanding_amount()
+
+	def alert_on_amount(self):
+		if not self.amount > 0:
+			frappe.throw(_("Please enter an amount > 0"))
 
 	def calculate_totals(self):
 		self.calculate_line_total()
@@ -79,6 +84,28 @@ def get_billing_address(party_type, party):
 	
 	else:
 		return None
+
+@frappe.whitelist()
+def set_lost(dn):
+	outstanding = frappe.db.get_value("Revenue", dn, "outstanding_amount")
+	frappe.db.set_value("Revenue", dn, "outstanding_amount", 0)
+	frappe.db.set_value("Revenue", dn, "declared_lost", outstanding)
+
+	doc = frappe.get_doc("Revenue", dn)
+	doc.set_status(update=True)
+
+	return doc
+
+@frappe.whitelist()
+def revert_lost(dn):
+	outstanding = frappe.db.get_value("Revenue", dn, "declared_lost")
+	frappe.db.set_value("Revenue", dn, "outstanding_amount", outstanding)
+	frappe.db.set_value("Revenue", dn, "declared_lost", 0)
+
+	doc = frappe.get_doc("Revenue", dn)
+	doc.set_status(update=True)
+
+	return doc
 
 def get_list_context(context=None):
 	from maia.controllers.website_list_for_contact import get_list_context

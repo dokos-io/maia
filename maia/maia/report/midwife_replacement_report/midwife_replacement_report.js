@@ -17,7 +17,7 @@ frappe.query_reports["Midwife Replacement Report"] = {
 			"label": __("Start Year"),
 			"fieldtype": "Link",
 			"options": "Maia Fiscal Year",
-			"default": frappe.defaults.get_user_default("fiscal_year"),
+			"default": frappe.boot.fiscal_year[0],
 			"reqd": 1
 		},
 		{
@@ -25,7 +25,7 @@ frappe.query_reports["Midwife Replacement Report"] = {
 			"label": __("End Year"),
 			"fieldtype": "Link",
 			"options": "Maia Fiscal Year",
-			"default": frappe.defaults.get_user_default("fiscal_year"),
+			"default": frappe.boot.fiscal_year[0],
 			"reqd": 1
 		},
 		{

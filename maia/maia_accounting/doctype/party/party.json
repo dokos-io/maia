@@ -8,8 +8,8 @@
  "field_order": [
   "party_name",
   "column_break_2",
-  "is_customer",
-  "is_supplier",
+  "allow_revenues",
+  "allow_expenses",
   "is_social_contribution",
   "is_social_security"
  ],
@@ -19,22 +19,6 @@
    "fieldtype": "Data",
    "label": "Party Name",
    "unique": 1
-  },
-  {
-   "default": "0",
-   "fieldname": "is_customer",
-   "fieldtype": "Check",
-   "in_list_view": 1,
-   "in_standard_filter": 1,
-   "label": "Is a customer"
-  },
-  {
-   "default": "0",
-   "fieldname": "is_supplier",
-   "fieldtype": "Check",
-   "in_list_view": 1,
-   "in_standard_filter": 1,
-   "label": "Is a supplier"
   },
   {
    "default": "0",
@@ -57,9 +41,25 @@
   {
    "fieldname": "column_break_2",
    "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_revenues",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Allow revenues"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_expenses",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Allow expenses"
   }
  ],
- "modified": "2019-06-12 10:12:34.372465",
+ "modified": "2019-06-22 08:44:26.353047",
  "modified_by": "Administrator",
  "module": "Maia Accounting",
  "name": "Party",

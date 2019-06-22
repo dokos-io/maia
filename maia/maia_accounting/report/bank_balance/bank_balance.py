@@ -128,9 +128,6 @@ def add_balances_to_data(filters, bank_account, data, balances):
 
 	bank_balance = get_bank_balance(filters.get("from_date"), filters.get("to_date"), bank_account.name)
 
-	if (bank_balance["start"] is None or bank_balance["end"] is None) and isinstance(bank_account, dict):
-		frappe.msgprint(_("Please add the initial and final bank statement values for {0} through the action button").format(bank_account.name))
-
 	calculated_balance = get_balance_on(account=bank_account.accounting_item, date=filters.get("from_date"), practitioner=filters.get("practitioner")) or 0
 	start_bank_balance = bank_balance["start"] or 0
 	end_bank_balance = bank_balance["end"] or 0

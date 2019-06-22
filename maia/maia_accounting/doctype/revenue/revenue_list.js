@@ -5,6 +5,8 @@ frappe.listview_settings['Revenue'] = {
 	get_indicator: function(doc) {
 		if (["Paid", "Unpaid"].includes(doc.status)) {
 			return [__(doc.status), doc.status === "Paid" ? "green" : "orange"];
+		} else if (doc.status=="Lost") {
+			return [__(doc.status), "grey"];
 		}
 	},
 	onload: function(listview) {
