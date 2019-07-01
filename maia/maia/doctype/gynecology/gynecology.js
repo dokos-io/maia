@@ -107,14 +107,15 @@ var get_first_menses_and_regular_cycles = function(frm) {
 			cache: false,
 			callback: function(data) {
 				if (data.message) {
-					first_menses = data.message.first_menses;
-					regular_cycles = data.message.regular_cycles;
-					contraception = data.message.contraception;
-
-
-					frappe.model.set_value(frm.doctype, frm.docname, "first_menses", first_menses);
-					frappe.model.set_value(frm.doctype, frm.docname, "regular_cycles", regular_cycles);
-					frappe.model.set_value(frm.doctype, frm.docname, "contraception", contraception);
+					if (frm.doc.first_menses != data.message.first_menses) {
+						frappe.model.set_value(frm.doctype, frm.docname, "first_menses", data.message.first_menses);
+					}
+					if (frm.doc.regular_cycles != data.message.regular_cycles) {
+						frappe.model.set_value(frm.doctype, frm.docname, "regular_cycles", data.message.regular_cycles);
+					}
+					if (frm.doc.contraception != data.message.contraception) {
+						frappe.model.set_value(frm.doctype, frm.docname, "contraception", data.message.contraception);
+					}
 
 				}
 			}
