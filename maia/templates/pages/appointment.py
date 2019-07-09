@@ -147,7 +147,7 @@ def get_next_availability(practitioner, appointment_type, start, is_group):
 				start, end = _increment_start_end(practitioner, start, end)
 		else:
 			avail = check_availabilities(practitioner, start.strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d"), appointment_type)
-			if avail[0]:
+			if avail and avail[0]:
 				slots = avail
 			else:
 				start, end = _increment_start_end(practitioner, start, end)
