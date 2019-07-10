@@ -10,9 +10,13 @@ from frappe.utils import flt
 from maia.maia_accounting.controllers.accounting_controller import AccountingController
 from maia.maia_accounting.doctype.general_ledger_entry.general_ledger_entry import make_gl_entries
 from maia.maia_accounting.utils import get_accounting_query_conditions
+from maia.maia_accounting.doctype.payment.payment import update_clearance_date
+import json
 
 class MiscellaneousOperation(AccountingController):
 	def validate(self):
+		if not self.title:
+			self.title = _(self.operation_type)
 		self.check_journals()
 
 	def on_submit(self):
@@ -41,10 +45,12 @@ class MiscellaneousOperation(AccountingController):
 	def check_difference(self):
 		if flt(self.difference) != 0:
 			frappe.throw(_("The difference between positive and negative amounts must be equal to 0"))
-
+ 
 	def make_gl_entries(self):
 		gl_entries = []
 		for item in self.items:
+			if flt(item.amount) == 0:
+				continue
 			if not item.accounting_journal:
 				item.accounting_journal = frappe.db.get_value("Accounting Item", item.accounting_item, "accounting_journal")
 			if item.accounting_journal in ["Sales"]:
@@ -90,6 +96,12 @@ class MiscellaneousOperation(AccountingController):
 				})
 
 		make_gl_entries(gl_entries)
+
+@frappe.whitelist()
+def update_clearance_dates(documents, date):
+	documents = json.loads(documents)
+	for document in documents:
+		update_clearance_date(document["payment"], date)
 
 def get_permission_query_conditions(user):
 	return get_accounting_query_conditions("Miscellaneous Operation", user)

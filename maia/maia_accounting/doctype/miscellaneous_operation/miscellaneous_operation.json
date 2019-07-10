@@ -7,12 +7,16 @@
  "engine": "InnoDB",
  "field_order": [
   "entry_type_and_date",
-  "title",
   "operation_type",
+  "title",
   "naming_series",
   "column_break1",
   "posting_date",
   "practitioner",
+  "section_break_8",
+  "get_cash_payments",
+  "payment_items",
+  "payments_total",
   "2_add_edit_gl_entries",
   "items",
   "section_break99",
@@ -42,7 +46,7 @@
    "label": "Operation Type",
    "oldfieldname": "voucher_type",
    "oldfieldtype": "Select",
-   "options": "Miscellaneous Operation\nInternal Transfer\nOpening Entry",
+   "options": "Miscellaneous Operation\nInternal Transfer\nCash Deposit\nPersonal Credit or Debit",
    "reqd": 1,
    "search_index": 1
   },
@@ -150,11 +154,33 @@
    "options": "Miscellaneous Operation",
    "print_hide": 1,
    "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.operation_type==\"Cash Deposit\"",
+   "fieldname": "section_break_8",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "payment_items",
+   "fieldtype": "Table",
+   "label": "Corresponding Payments",
+   "options": "Cash Deposit Payments"
+  },
+  {
+   "fieldname": "get_cash_payments",
+   "fieldtype": "Button",
+   "label": "Get all outstanding cash payments"
+  },
+  {
+   "fieldname": "payments_total",
+   "fieldtype": "Currency",
+   "label": "Total",
+   "read_only": 1
   }
  ],
  "icon": "fa fa-file-text",
  "is_submittable": 1,
- "modified": "2019-06-21 19:28:01.740396",
+ "modified": "2019-07-10 15:33:50.060982",
  "modified_by": "Administrator",
  "module": "Maia Accounting",
  "name": "Miscellaneous Operation",

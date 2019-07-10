@@ -435,7 +435,7 @@ def flush():
 
 def send_sms_reminder(name):
 	if not frappe.conf.get("customer"):
-		frappe.sendmail(recipients="support@dokos.io", subject="SMS customer account missing", \
+		frappe.sendmail(recipients="help@dokos.io", subject="SMS customer account missing", \
 			content="Missing customer account for site {0}".format(frappe.utils.get_site_base_path().split("/")[1]))
 		return frappe.log_error("Missing customer account", "SMS Error")
 

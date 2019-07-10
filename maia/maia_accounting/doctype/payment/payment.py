@@ -363,7 +363,6 @@ def update_clearance_date(docname, date):
 @frappe.whitelist()
 def update_clearance_dates(names, date):
 	names = json.loads(names)
-	print(names)
 	for name in names:
 		update_clearance_date(name, date)
 
