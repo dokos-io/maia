@@ -1,0 +1,12 @@
+{
+ "card_name": "Outstanding reconciliations",
+ "creation": "2019-07-11 08:49:59.478563",
+ "docstatus": 0,
+ "doctype": "Dashboard Card Source",
+ "idx": 0,
+ "modified": "2019-07-11 08:49:59.478563",
+ "modified_by": "Administrator",
+ "module": "Maia Accounting",
+ "name": "Outstanding reconciliations",
+ "owner": "Administrator"
+}

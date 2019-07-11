@@ -6,10 +6,10 @@ from __future__ import unicode_literals
 import frappe
 from frappe import _
 from frappe.utils import getdate, global_date_format, nowdate
-import json
-from maia.maia.utils import parity_gravidity_calculation
+from maia.maia.utils import parity_gravidity_calculation, get_gestational_age
 import dateparser
 import itertools
+import json
 from operator import itemgetter
 
 DOMAINS = ["General Info", "Lab Exam", "Pregnancy", "Delivery", "Newborn", "Perineum Rehabilitation", "Gynecology"]
@@ -23,7 +23,7 @@ def get_patient_dashboard(patient_record):
 		dashboard.patient_record = patient_record
 		try:
 			dashboard.insert()
-		except Exception as e:
+		except Exception:
 			doc = frappe.get_doc("Custom Patient Record Dashboard", patient_record)
 			frappe.rename_doc(doc.doctype, patient_record, doc.patient_record, force=True, merge=True if frappe.db.exists(doc.doctype, doc.patient_record) else False)
 			return doc
@@ -184,6 +184,13 @@ def get_data(patient_record):
 			"label": _("Pregnancy Complications"),
 			"value": patient_latest_pregnancy.pregnancy_complications if latest_pregnancy else None,
 			"enabled": 1 if dashboard.pregnancy_complications else 0
+		}
+
+		#Gestational Age
+		data["pregnancydata"]["gestational_age"] = {
+			"label": _("Gestational Age"),
+			"value": format_gestational_age(get_gestational_age(patient_latest_pregnancy, nowdate())) if (latest_pregnancy and not patient_latest_pregnancy.date_time) else None,
+			"enabled": 1 if dashboard.gestational_age else 0
 		}
 
 		#Lab Exam Section
@@ -543,7 +550,6 @@ def get_options(patient_record):
 @frappe.whitelist()
 def update_dashboard(patient_record, options):
 	options = json.loads(options)
-	dashboard = frappe.get_doc("Custom Patient Record Dashboard", dict(patient_record=patient_record))
 
 	if options:
 		for option in options:
@@ -552,3 +558,6 @@ def update_dashboard(patient_record, options):
 				frappe.db.commit()
 
 	return "Success"
+
+def format_gestational_age(values):
+	return _("{0} Weeks Amenorrhea + {1} Days").format(values[0], values[1])

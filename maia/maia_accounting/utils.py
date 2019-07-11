@@ -128,6 +128,16 @@ def get_accounting_query_conditions(doctype, user):
 	if user=="Administrator" or "System Manager" in frappe.get_roles(user):
 		return ""
 	
-	query = """(`tab{doctype}`.owner="{user}" or `tab{doctype}`.practitioner="{practitioner}")""".format(doctype=doctype, user=user, practitioner=maia.get_practitioner(user))
-	print(query)
-	return query
+	return """(`tab{doctype}`.owner="{user}" or `tab{doctype}`.practitioner="{practitioner}")""".format(doctype=doctype, user=user, practitioner=maia.get_practitioner(user))
+
+def get_outstanding(practitioner, parties=None):
+
+	party_filter = ["in", tuple(parties)] if parties else ""
+
+	outstanding = frappe.get_all("Revenue", filters={"docstatus": 1, "practitioner": practitioner, \
+		"party": party_filter, "status": "Unpaid"}, fields=["SUM(outstanding_amount) as total"])
+
+	if outstanding:
+		return outstanding[0]["total"]
+	else:
+		return 0

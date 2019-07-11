@@ -6,7 +6,10 @@ from __future__ import unicode_literals
 import frappe
 from frappe import _
 from frappe.model.document import Document
-from frappe.utils import add_years, get_timestamp
+from frappe.utils import add_years, get_timestamp, getdate
+import math
+import pandas as pd
+import numpy as np
 
 from six import iteritems
 
@@ -100,3 +103,33 @@ def get_timeline_data(doctype, name):
 		out.update({timestamp: count})
 
 	return out
+
+def get_gestational_age(pregnancy, date):
+	if pregnancy.beginning_of_pregnancy:
+		weeks = get_gestational_weeks(pregnancy.beginning_of_pregnancy, date) + 2
+		days = get_gestational_days(pregnancy.beginning_of_pregnancy, date)
+	elif pregnancy.expected_term:
+		weeks = math.floor((287 - days_diff(getdate(date), getdate(pregnancy.expected_term))) / 7)
+		days = math.floor(((287 - days_diff(getdate(date), getdate(pregnancy.expected_term))) / 7 - weeks) * 7)
+	elif pregnancy.last_menstrual_period:
+		weeks = get_gestational_weeks(pregnancy.last_menstrual_period, date)
+		days = get_gestational_days(pregnancy.last_menstrual_period, date)
+	else:
+		weeks = 0
+		days = 0
+
+	return weeks, days
+
+def get_gestational_weeks(start_date, end_date):
+	return math.floor(weeks_diff(getdate(start_date), getdate(end_date)))
+
+def get_gestational_days(start_date, end_date):
+	return days_diff(getdate(start_date), getdate(end_date)) - math.floor(weeks_diff(getdate(start_date), getdate(end_date)) * 7)
+
+def weeks_diff(start, end):
+	x = pd.to_datetime(end) - pd.to_datetime(start)
+	return int(x / np.timedelta64(1, 'W'))
+
+def days_diff(start, end):
+	x = pd.to_datetime(end) - pd.to_datetime(start)
+	return int(x / np.timedelta64(1, 'D'))

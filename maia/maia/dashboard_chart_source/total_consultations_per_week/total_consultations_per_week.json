@@ -1,0 +1,13 @@
+{
+ "creation": "2019-07-11 09:11:19.601576",
+ "docstatus": 0,
+ "doctype": "Dashboard Chart Source",
+ "idx": 0,
+ "modified": "2019-07-11 09:11:19.601576",
+ "modified_by": "Administrator",
+ "module": "Maia",
+ "name": "Total consultations per week",
+ "owner": "Administrator",
+ "source_name": "Total consultations per week",
+ "timeseries": 0
+}

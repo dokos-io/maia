@@ -13,7 +13,6 @@ def get_pregnancies(obj):
 
     patient_record = obj.selected_patient_record
     pregnancies = []
-    patient = frappe.get_doc("Patient Record", patient_record)
 
     in_progress_pregnancies = frappe.db.sql(
         """SELECT * FROM `tabPregnancy` WHERE patient_record='{0}' AND (date_time is NULL or date_time = '') ORDER BY expected_term DESC""".format(patient_record), as_dict=True)

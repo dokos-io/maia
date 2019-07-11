@@ -1,0 +1,12 @@
+{
+ "card_name": "Patient outstanding amount",
+ "creation": "2019-07-11 11:13:23.307194",
+ "docstatus": 0,
+ "doctype": "Dashboard Card Source",
+ "idx": 0,
+ "modified": "2019-07-11 11:13:23.307194",
+ "modified_by": "Administrator",
+ "module": "Maia Accounting",
+ "name": "Patient outstanding amount",
+ "owner": "Administrator"
+}

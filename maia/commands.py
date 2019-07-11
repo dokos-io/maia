@@ -122,6 +122,9 @@ def check_prerequisites():
 	if not config.get("sendinblue_key"):
 		click.confirm('sendinblue_key key missing in common_site.json. Do you want to continue ?', abort = True)
 
+	if not config.get("skip_setup_wizard"):
+		click.confirm('skip_setup_wizard key missing in common_site.json. Do you want to continue ?', abort = True)
+
 def create_db_and_site(site_name, db_name, mariadb_root_user, mariadb_password, admin_password):
 	commands = []
 

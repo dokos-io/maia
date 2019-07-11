@@ -17,6 +17,7 @@
   "pregnancy_complications",
   "expected_term",
   "preferred_location_for_delivery",
+  "gestational_age",
   "delivery_complications",
   "delivery_date",
   "delivery_way",
@@ -244,10 +245,18 @@
    "label": "Last Mammography",
    "options": "Gynecology",
    "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "gestational_age",
+   "fieldtype": "Check",
+   "label": "Gestational Age",
+   "options": "Pregnancy",
+   "read_only": 1
   }
  ],
  "in_create": 1,
- "modified": "2019-06-14 09:31:19.094706",
+ "modified": "2019-07-10 17:07:07.169033",
  "modified_by": "Administrator",
  "module": "Maia",
  "name": "Custom Patient Record Dashboard",
