@@ -5,7 +5,7 @@ from frappe.utils import now
 from maia.maia_accounting.utils import get_fiscal_year
 
 
-__version__ = '3.0.10'
+__version__ = '3.0.11'
 
 
 def get_default_fiscal_year(user=None):
