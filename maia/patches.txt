@@ -61,3 +61,4 @@ maia.patches.v3_0.missing_default_values #2019-06-20
 maia.patches.v3_0.rename_party_fields
 maia.patches.v3_0.correct_website_template
 maia.patches.v3_0.dashboard_elements_07_2019
+maia.patches.v3_0.correct_website_theme

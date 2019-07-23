@@ -18,8 +18,8 @@ $gray-800: #343a40 !default;
 $gray-900: #212529 !default;
 $black: #000 !default;
 
-$primary: {{ data.primary_color }};
-$secondary: {{ data.secondary_color }};
+$primary: {{ data.primary_color or '#ee0979' }};
+$secondary: {{ data.secondary_color or '#ff6a00' }};
 
 // Frappe override
 div[data-path="index"] > main {
@@ -229,4 +229,45 @@ header.masthead {
 .indicator.lightblue::before,
 .indicator-right.lightblue::after {
   background: #7CD6FD;
+}
+
+.website-list {
+	min-height: 200px;
+	padding-bottom: 15px;
+}
+
+.website-list .result {
+	margin-top: 15px;
+}
+
+.web-list-item {
+	padding-top: 10px;
+	padding-bottom: 10px;
+
+	border-bottom: 1px solid #e1e1e2;
+
+	h1, h2, h3 {
+		margin-top: 10px;
+	}
+}
+
+.web-list-item:last-child {
+	border-bottom: 0px;
+}
+
+.website-list .result {
+	border: 0px;
+}
+
+.web-list-item:hover {
+	background: transparent;
+	box-shadow: 0 1px 1px 0 #e6ebf1;
+}
+
+.no-decoration:hover {
+	text-decoration: None;
+}
+
+.btn-more {
+	float: right;
 }
