@@ -384,9 +384,9 @@ def get_timeline_data(doctype, name):
 			from `tab%s`
 			where
 				date(creation) > subdate(curdate(), interval 1 year)
-			and patient_record='%s'
+			and patient_record=%s
 			group by date(creation)
-			order by creation asc""" % (dt, name))))
+			order by creation asc""" % (dt, frappe.db.escape(name)))))
 
 	return result
 

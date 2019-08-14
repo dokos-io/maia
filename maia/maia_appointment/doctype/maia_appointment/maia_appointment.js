@@ -59,15 +59,6 @@ frappe.ui.form.on('Maia Appointment', {
 	appointment_type: function(frm) {
 		duration_color_group(frm.doc);
 	},
-	all_day: function(frm) {
-		if (frm.doc.all_day == 1) {
-			frm.set_df_property('start_time', 'hidden', 1);
-			frm.set_df_property('duration', 'hidden', 1);
-		} else {
-			frm.set_df_property('start_time', 'hidden', 0);
-			frm.set_df_property('duration', 'hidden', 0);
-		}
-	},
 	sms_reminder: function(frm) {
 		if (frm.doc.patient_record && frm.doc.sms_reminder == 1) {
 			patient_data(frm.doc.patient_record)
@@ -205,13 +196,14 @@ const btn_update_status = (frm, status) => {
 
 const set_personal_event = frm => {
 	frm.clear_custom_buttons();
+	frappe.model.set_value(frm.doctype, frm.docname, 'group_event', 0);
 	if (frm.doc.personal_event == 0 || frm.doc.personal_event == undefined) {
 		frappe.model.set_value(frm.doctype, frm.docname, 'personal_event', 1);
 
 		const perso = 0;
 		const pub = 1;
 		set_properties(frm, perso, pub);
-		set_values(frm, perso, pub);
+		set_values(frm, perso);
 
 		update_top_buttons(frm);
 	} else {
@@ -220,7 +212,7 @@ const set_personal_event = frm => {
 		const perso = 1;
 		const pub = 0;
 		set_properties(frm, perso, pub);
-		set_values(frm, perso, pub);
+		set_values(frm, perso);
 
 		update_top_buttons(frm);
 	}
@@ -241,7 +233,7 @@ const set_values = (frm, perso) => {
 	frappe.model.set_value(frm.doctype, frm.docname, 'appointment_type', '');
 	frappe.model.set_value(frm.doctype, frm.docname, 'reminder', perso);
 	frappe.model.set_value(frm.doctype, frm.docname, 'sms_reminder', 0);
-	frappe.model.set_value(frm.doctype, frm.docname, 'duration', '');
+	frappe.model.set_value(frm.doctype, frm.docname, 'duration', 0);
 }
 
 const set_group_event = frm => {

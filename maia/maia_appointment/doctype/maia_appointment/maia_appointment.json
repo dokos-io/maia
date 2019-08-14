@@ -106,6 +106,7 @@
    "options": "Maia Appointment Type"
   },
   {
+   "depends_on": "eval:(doc.group_event)",
    "fieldname": "number_of_seats",
    "fieldtype": "Data",
    "label": "Number of Seats",
@@ -354,7 +355,7 @@
  ],
  "icon": "fa fa-calendar-check-o",
  "is_submittable": 1,
- "modified": "2019-06-12 09:00:50.414568",
+ "modified": "2019-08-14 09:48:47.008934",
  "modified_by": "Administrator",
  "module": "Maia Appointment",
  "name": "Maia Appointment",

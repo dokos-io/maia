@@ -61,7 +61,7 @@ class MaiaAppointment(Document):
 		date = getdate(self.date)
 		time = get_time(self.start_time)
 		st_dt = datetime.datetime.combine(date, time)
-		ed_dt = st_dt + datetime.timedelta(minutes=int(self.duration))
+		ed_dt = st_dt + datetime.timedelta(minutes=cint(self.duration))
 		frappe.db.set_value("Maia Appointment", self.name, "start_dt", st_dt)
 		frappe.db.set_value("Maia Appointment", self.name, "end_dt", ed_dt)
 		self.reload()
