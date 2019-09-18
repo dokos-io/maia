@@ -66,7 +66,7 @@ def setup_chart(source):
 		frappe.local.lang = frappe.db.get_value("System Settings", None, "language")
 		new_chart = frappe.new_doc("Dashboard Chart")
 		new_chart.chart_name = _(source.name)
-		new_chart.chart_type = "Preregistered"
+		new_chart.chart_type = "Custom"
 		new_chart.filters_json = "{}"
 		new_chart.source = source.name
 		new_chart.update(parameters)

@@ -11,7 +11,6 @@ from frappe.core.page.dashboard.dashboard import get_from_date_from_timespan
 def get(card_name, from_date=None, to_date=None):
 	card = frappe.get_doc('Dashboard Card', card_name)
 	timespan = card.timespan
-	currency = maia.get_default_currency()
 	fiscal_year = maia.get_default_fiscal_year()
 
 	if frappe.db.exists("Professional Information Card", dict(user=frappe.session.user)):
@@ -19,7 +18,7 @@ def get(card_name, from_date=None, to_date=None):
 	else:
 		return "{0} %".format(0)
 
-	if timespan != "Preregistered":
+	if timespan != "Custom":
 		if not to_date:
 			to_date = nowdate()
 		if not from_date:
