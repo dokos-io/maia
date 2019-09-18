@@ -359,7 +359,8 @@ def codifications():
 		{'doctype': 'Codification', 'accounting_item': 'Recettes encaissées, Honoraire', 'codification': 'ZCQJ002', 'basic_price': 69.93, 'billing_price': 69.93, 'codification_name': 'ZCQJ002', 'codification_description': 'Échographie-doppler du petit bassin [pelvis] féminin, par voie rectale et/ou vaginale [par voie cavitaire]'},
 		{'doctype': 'Codification', 'accounting_item': 'Recettes encaissées, Honoraire', 'codification': 'ZCQJ003', 'basic_price': 52.45, 'billing_price': 52.45, 'codification_name': 'ZCQJ003', 'codification_description': 'Échographie du petit bassin [pelvis] féminin, par voie rectale et/ou vaginale [par voie cavitaire]'},
 		{'doctype': 'Codification', 'accounting_item': 'Recettes encaissées, Honoraire', 'codification': 'ZCQJ006', 'basic_price': 56.7, 'billing_price': 56.7, 'codification_name': 'ZCQJ006', 'codification_description': 'Echographie transcutanée avec échographie par voie rectale et/ou vaginale [par voie cavitaire] du petit bassin [pelvis] féminin'},
-		{'doctype': 'Codification', 'accounting_item': 'Recettes encaissées, Honoraire', 'codification': 'ZCQM003', 'basic_price': 52.45, 'billing_price': 52.45, 'codification_name': 'ZCQM003', 'codification_description': 'Échographie transcutanée du petit bassin [pelvis] féminin'}
+		{'doctype': 'Codification', 'accounting_item': 'Recettes encaissées, Honoraire', 'codification': 'ZCQM003', 'basic_price': 52.45, 'billing_price': 52.45, 'codification_name': 'ZCQM003', 'codification_description': 'Échographie transcutanée du petit bassin [pelvis] féminin'},
+		{'doctype': 'Codification', 'accounting_item': 'Recettes encaissées, Honoraire', 'codification': 'SF 7,5', 'basic_price': 21, 'billing_price': 21, 'codification_name': 'SF 7,5', 'codification_description': 'Rééducation périnéale'}
 	]
 
 	from frappe.modules import scrub

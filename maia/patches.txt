@@ -62,3 +62,4 @@ maia.patches.v3_0.rename_party_fields
 maia.patches.v3_0.correct_website_template
 maia.patches.v3_0.dashboard_elements_07_2019
 maia.patches.v3_0.correct_website_theme
+maia.patches.v3_0.new_perineum_rehabilitation_codification
