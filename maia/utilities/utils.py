@@ -33,7 +33,7 @@ def custom_template_functions(functions):
 		"fieldtype": None,
 		"parent": "Custom Functions",
 		"reference": None,
-		"function": "frappe.get_doc('Professional Information Card', {'user': frappe.session.user}).name"
+		"function": "frappe.db.get_value('Professional Information Card', dict(user=frappe.session.user), 'name')"
 	})
 
 	# Midwife's signature
@@ -43,7 +43,7 @@ def custom_template_functions(functions):
 		"fieldtype": None,
 		"parent": "Custom Functions",
 		"reference": None,
-		"function": "Signature#frappe.get_doc('Professional Information Card', {'user': frappe.session.user}).signature"
+		"function": "Signature#frappe.db.get_value('Professional Information Card', dict(user=frappe.session.user), 'signature')"
 	})
 
 	return functions
