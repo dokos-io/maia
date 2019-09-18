@@ -28,6 +28,7 @@ def get_data(filters=None):
 		WHERE r.practitioner="{practitioner}"
 		AND r.transaction_date >= "{from_date}"
 		AND r.transaction_date <= "{to_date}"
+		AND r.docstatus!=2
 	""".format(
 		practitioner=filters.practitioner,
 		from_date=filters.from_date,

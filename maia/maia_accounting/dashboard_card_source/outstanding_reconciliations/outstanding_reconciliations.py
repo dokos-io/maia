@@ -5,10 +5,9 @@ from __future__ import unicode_literals
 import frappe
 import maia
 from frappe.utils import nowdate, now
-from frappe.core.page.dashboard.dashboard import cache_card_source, get_from_date_from_timespan
+from frappe.core.page.dashboard.dashboard import get_from_date_from_timespan
 
 @frappe.whitelist()
-@cache_card_source
 def get(card_name, from_date=None, to_date=None):
 	if frappe.db.exists("Professional Information Card", dict(user=frappe.session.user)):
 		practitioner = frappe.db.get_value("Professional Information Card", dict(user=frappe.session.user), "name")

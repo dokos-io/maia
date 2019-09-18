@@ -6,10 +6,9 @@ import frappe
 import maia
 from frappe.utils import nowdate
 from maia.utilities import difference_in_weeks
-from frappe.core.page.dashboard.dashboard import cache_card_source, get_from_date_from_timespan
+from frappe.core.page.dashboard.dashboard import get_from_date_from_timespan
 
 @frappe.whitelist()
-@cache_card_source
 def get(card_name, from_date=None, to_date=None):
 	card = frappe.get_doc('Dashboard Card', card_name)
 	timespan = card.timespan

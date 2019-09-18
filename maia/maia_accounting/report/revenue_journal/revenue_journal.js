@@ -17,14 +17,14 @@ frappe.query_reports["Revenue Journal"] = {
 			"label": __("From date"),
 			"fieldtype": "Date",
 			"reqd": 1,
-			"default": frappe.sys_defaults.year_start_date
+			"default": frappe.datetime.year_start()
 		},
 		{
 			"fieldname":"to_date",
 			"label": __("To date"),
 			"fieldtype": "Date",
 			"reqd": 1,
-			"default": frappe.sys_defaults.year_end_date
+			"default": frappe.datetime.year_end()
 		},
 	]
 };
