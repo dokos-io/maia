@@ -15,10 +15,10 @@ class AccountingController(StatusUpdater):
 		gl_entries = frappe.get_all("General Ledger Entry", filters={"link_doctype": self.doctype, \
 			"link_docname": self.name})
 
-		cancelation_entries = []
+		cancellation_entries = []
 		for entry in gl_entries:
 			gl = frappe.get_doc("General Ledger Entry", entry.name)
-			cancelation_entries.append({
+			cancellation_entries.append({
 				"posting_date": gl.posting_date,
 				"accounting_item": gl.accounting_item,
 				"debit": gl.credit,
@@ -33,4 +33,4 @@ class AccountingController(StatusUpdater):
 				"practitioner": gl.practitioner
 			})
 
-		make_gl_entries(cancelation_entries)
+		make_gl_entries(cancellation_entries, ignore_links=True)

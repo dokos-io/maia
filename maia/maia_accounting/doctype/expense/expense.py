@@ -29,6 +29,13 @@ class Expense(AccountingController):
 		if self.reference_doctype == "Maia Asset" and frappe.db.get_value(self.reference_doctype, self.reference_name, "expense") == self.name:
 				frappe.db.set_value(self.reference_doctype, self.reference_name, "expense", None)
 
+		payments = frappe.get_all("Payment References", filters={"reference_name": self.name}, fields=["parent"])
+		for payment in payments:
+			if frappe.db.get_value("Payment", payment.parent, "docstatus") != 2:
+				frappe.throw(_("Please cancel payment {0} before cancelling this document").format(payment.parent))
+
+		self.flags.ignore_links = True
+
 	def validate_fields(self):
 		if self.expense_type == "Personal debit":
 			self.party = None

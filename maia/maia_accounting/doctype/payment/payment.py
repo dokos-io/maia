@@ -30,6 +30,7 @@ class Payment(AccountingController):
 	def on_cancel(self):
 		self.update_outstanding_amount()
 		self.reverse_gl_entries()
+		self.flags.ignore_links = True
 
 	def on_trash(self):
 		frappe.throw(_("Deleting this document is not permitted."))
@@ -112,15 +113,17 @@ class Payment(AccountingController):
 
 	def post_gl_entries(self):
 		self.make_references_gl_entries()
-		self.make_pending_gl_entries()
-		self.reverse_pending_gl_entries()
+		if self.pending_amount != self.previously_paid_amount:
+			self.make_pending_gl_entries()
+			self.reverse_pending_gl_entries()
 		self.make_payment_gl_entries()
 
 	def make_references_gl_entries(self):
 		gl_entries = []
 		for ref in self.get("payment_references"):
-			doc = frappe.get_doc(ref.reference_type, ref.reference_name)
-			gl_entries.extend(self.get_gl_entries(doc))
+			if ref.paid_amount > 0:
+				doc = frappe.get_doc(ref.reference_type, ref.reference_name)
+				gl_entries.extend(self.get_gl_entries(doc))
 
 		make_gl_entries(gl_entries)
 
@@ -334,15 +337,15 @@ def get_outstanding_references(party_type, payment_type, party=None):
 	return [dict(r,**{"doctype": dt}) for r in references]
 
 @frappe.whitelist()
-def get_pending_amount(payment_type, party):
-	filters = {"party": party}
+def get_pending_amount(payment_type, party, practitioner):
+	filters = {"party": party, "practitioner": practitioner}
 
 	party_type = "Sales Party" if payment_type == "Incoming payment" else "Purchase Party"
 	party_item = frappe.db.get_value("Accounting Item", dict(accounting_item_type=party_type), "name")
 	filters["accounting_item"] = party_item
 
 	result = frappe.get_all("General Ledger Entry", filters=filters, fields=["SUM(credit)-SUM(debit) as total"])
-
+	print(filters)
 	if result and len(result) == 1:
 		return flt(result[0]["total"]) if payment_type == "Incoming payment" else (0-flt(result[0]["total"]))
 

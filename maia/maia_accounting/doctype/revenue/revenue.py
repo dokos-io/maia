@@ -30,6 +30,14 @@ class Revenue(AccountingController):
 		self.calculate_totals()
 		self.set_outstanding_amount()
 
+	def on_cancel(self):
+		payments = frappe.get_all("Payment References", filters={"reference_name": self.name}, fields=["parent"])
+		for payment in payments:
+			if frappe.db.get_value("Payment", payment.parent, "docstatus") != 2:
+				frappe.throw(_("Please cancel payment {0} before cancelling this document").format(payment.parent))
+
+		self.flags.ignore_links = True
+
 	def alert_on_amount(self):
 		if not self.amount > 0:
 			frappe.throw(_("Please enter an amount > 0"))

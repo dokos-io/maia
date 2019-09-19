@@ -29,6 +29,7 @@ frappe.ui.form.on('Payment', {
 	},
 	practitioner(frm) {
 		frm.events.get_accounting_practitioner(frm);
+		frm.events.get_pending_amount(frm);
 	},
 	payment_date(frm) {
 		frm.events.get_accounting_practitioner(frm);
@@ -47,9 +48,12 @@ frappe.ui.form.on('Payment', {
 		}
 	},
 	party(frm) {
-		if (frm.doc.party) {
+		frm.events.get_pending_amount(frm)
+	},
+	get_pending_amount(frm) {
+		if (frm.doc.party && frm.doc.practitioner) {
 			frappe.xcall("maia.maia_accounting.doctype.payment.payment.get_pending_amount",
-			{payment_type: frm.doc.payment_type, party: frm.doc.party})
+			{payment_type: frm.doc.payment_type, party: frm.doc.party, practitioner: frm.doc.practitioner})
 			.then(e => {
 				if (e) { frm.set_value("previously_paid_amount", e) }
 				else { frm.set_value("previously_paid_amount", 0) }
@@ -67,36 +71,38 @@ frappe.ui.form.on('Payment', {
 		frm.events.get_references(frm);
 	},
 	get_references(frm) {
-		frm.set_value("payment_references", null);
+		if (frm.doc.payment_type && frm.doc.party_type) {
+			frm.set_value("payment_references", null);
 
-		frappe.xcall("maia.maia_accounting.doctype.payment.payment.get_outstanding_references", 
-		{payment_type: frm.doc.payment_type, party_type: frm.doc.party_type, party: frm.doc.party})
-		.then(e => {
-			if (e.length) {
-				e.forEach(doc => {
-					let c = frm.add_child("payment_references");
-					c.reference_type = doc.doctype;
-					c.reference_name = doc.name;
-					c.outstanding_amount = doc.outstanding_amount;
-					c.party = doc.party;
-					c.transaction_date = doc.transaction_date;
+			frappe.xcall("maia.maia_accounting.doctype.payment.payment.get_outstanding_references", 
+			{payment_type: frm.doc.payment_type, party_type: frm.doc.party_type, party: frm.doc.party})
+			.then(e => {
+				if (e.length) {
+					e.forEach(doc => {
+						let c = frm.add_child("payment_references");
+						c.reference_type = doc.doctype;
+						c.reference_name = doc.name;
+						c.outstanding_amount = doc.outstanding_amount;
+						c.party = doc.party;
+						c.transaction_date = doc.transaction_date;
 
-					if ("patient" in doc) {
-						c.patient_record = doc.patient;
-					}
-				})
-				frm.refresh_fields()
-			}
-		})
-		.then(() => frm.events.allocate_paid_amount(frm))
+						if ("patient" in doc) {
+							c.patient_record = doc.patient;
+						}
+					})
+					frm.refresh_fields()
+				}
+			})
+			.then(() => frm.events.allocate_paid_amount(frm))
+		}
 	},
 	allocate_paid_amount(frm) {
-		frm.set_value("pending_amount", null);
+		frm.set_value("pending_amount", 0);
 
 		let total = 0
 		if (frm.doc.payment_references&&frm.doc.payment_references.length) {
 			frm.doc.payment_references.forEach(row => {
-				if (total + row.outstanding_amount <= (frm.doc.paid_amount + frm.doc.previously_paid_amount)) {
+				if (total + row.outstanding_amount <= frm.doc.paid_amount) {
 					row.paid_amount = row.outstanding_amount;
 					total += row.outstanding_amount;
 				} else {

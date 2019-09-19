@@ -11,10 +11,12 @@ class GeneralLedgerEntry(Document):
 	def on_trash(self):
 		frappe.throw(_("Deleting this document is not permitted."))
 
-def make_gl_entries(gl_entries):
+def make_gl_entries(gl_entries, ignore_links=False):
 	for entry in gl_entries:
 		gl = frappe.new_doc("General Ledger Entry")
 		gl.update(entry)
+		if ignore_links:
+			gl.flags.ignore_links = True
 		gl.insert()
 		gl.submit()
 
