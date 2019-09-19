@@ -331,19 +331,19 @@ def get_data(patient_record):
 
 		data["newborndata"]["firstchild"]["feeding_type"] = {
 			"label": _("Feeding Type"),
-			"value": first_child_feeding,
+			"value": _(first_child_feeding),
 			"enabled": 1 if dashboard.feeding_type else 0
 		}
 
 		data["newborndata"]["secondchild"]["feeding_type"] = {
 			"label": _("Feeding Type"),
-			"value": second_child_feeding,
+			"value": _(second_child_feeding),
 			"enabled": 1 if dashboard.feeding_type else 0
 		}
 
 		data["newborndata"]["thirdchild"]["feeding_type"] = {
 			"label": _("Feeding Type"),
-			"value": third_child_feeding,
+			"value": _(third_child_feeding),
 			"enabled": 1 if dashboard.feeding_type else 0
 		}
 
