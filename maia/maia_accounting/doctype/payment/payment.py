@@ -33,7 +33,8 @@ class Payment(AccountingController):
 		self.flags.ignore_links = True
 
 	def on_trash(self):
-		frappe.throw(_("Deleting this document is not permitted."))
+		if self.docstatus != 0:
+			frappe.throw(_("Deleting this document is not permitted."))
 
 	def validate_payment_type(self):
 		if flt(self.paid_amount) < 0:

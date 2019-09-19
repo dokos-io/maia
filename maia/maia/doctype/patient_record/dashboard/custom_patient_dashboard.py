@@ -454,7 +454,7 @@ def get_last_cervical_smear(patient_record):
 	if cervical_smears:
 		for cervical_smear in cervical_smears:
 			cervical_smear.update({"date_time": dateparser.parse((cervical_smear.date.strip()) \
-				if (cervical_smear.date is not None) else nowdate())}, settings={'TIMEZONE': 'Europe/Paris'})
+				if (cervical_smear.date is not None) else nowdate())})
 
 		latest = max(cervical_smear.date_time for cervical_smear in cervical_smears)
 		latest_cs = [cs for cs in cervical_smears if cs.date_time == latest]
@@ -473,7 +473,7 @@ def get_last_screening_test(patient_record):
 
 		if screening_tests:
 			for screening_test in screening_tests:
-				screening_test.update({"date_time": dateparser.parse((screening_test.date.strip()) if (screening_test.date is not None) else nowdate())}, settings={'TIMEZONE': 'Europe/Paris'})
+				screening_test.update({"date_time": dateparser.parse((screening_test.date.strip()) if (screening_test.date is not None) else nowdate())})
 
 			latest = max(screening_test.date_time for screening_test in screening_tests)
 			latest_st = [st for st in screening_tests if st.date_time == latest]
@@ -495,7 +495,7 @@ def get_last_lipid_profile(patient_record):
 
 		if lipid_profiles:
 			for lipid_profile in lipid_profiles:
-				lipid_profile.update({"date_time": dateparser.parse((lipid_profile.date.strip()) if (lipid_profile.date is not None) else nowdate())}, settings={'TIMEZONE': 'Europe/Paris'})
+				lipid_profile.update({"date_time": dateparser.parse((lipid_profile.date.strip()) if (lipid_profile.date is not None) else nowdate())})
 
 			latest = max(lipid_profile.date_time for lipid_profile in lipid_profiles)
 			latest_lp = [lp for lp in lipid_profiles if lp.date_time == latest]
@@ -516,7 +516,7 @@ def get_last_mammography(patient_record):
 
 		if mammographies:
 			for mammography in mammographies:
-				mammography.update({"date_time": dateparser.parse((mammography.date.strip()) if (mammography.date is not None) else nowdate())}, settings={'TIMEZONE': 'Europe/Paris'})
+				mammography.update({"date_time": dateparser.parse((mammography.date.strip()) if (mammography.date is not None) else nowdate())})
 
 			latest = max(mammography.date_time for mammography in mammographies)
 			latest_m = [m for m in mammographies if m.date_time == latest]

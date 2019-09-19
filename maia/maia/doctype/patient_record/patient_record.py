@@ -137,7 +137,7 @@ class PatientRecord(Document):
 
 	def validate_cervical_smears(self):
 		for cervical_smear in self.cervical_smear_table:
-			date = dateparser.parse((cervical_smear.date.strip()), settings={'TIMEZONE': 'Europe/Paris'})
+			date = dateparser.parse((cervical_smear.date.strip()))
 
 			if not date:
 				msg = _("Maia cannot read the date {0} at row {1} in your cervical smears table. Please use one of the recommended formats.").format(cervical_smear.date, cervical_smear.idx)
@@ -146,7 +146,7 @@ class PatientRecord(Document):
 
 	def validate_obtetrical_backgrounds(self):
 		for obstetrical_background in self.obstetrical_backgounds:
-			date = dateparser.parse((obstetrical_background.date.strip()), settings={'TIMEZONE': 'Europe/Paris'})
+			date = dateparser.parse((obstetrical_background.date.strip()))
 
 			if not date:
 				msg = _("Maia cannot read the date {0} at row {1} in your obstetrical backgrounds table. Please use one of the recommended formats.").format(obstetrical_background.date, obstetrical_background.idx)
