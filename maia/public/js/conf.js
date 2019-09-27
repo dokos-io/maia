@@ -5,6 +5,12 @@
 $(document).bind('toolbar_setup', function() {
 	frappe.app.name = "Maia";
 
+	if (frappe.user.has_role("System Manager")) {
+		let help_links = [];
+		help_links.push(`<li class="usage-info-link"><a href="#maia-account">${__("Maia Account")}</a></li>`);
+		$(help_links.join("\n")).insertBefore($("#toolbar-user").find("li:first"));
+	}
+
 	$('.navbar-home').html('<img class="maia-icon" src="'+
 			frappe.urllib.get_base_url()+'/assets/maia/images/maia_squirrel.svg" />');
 

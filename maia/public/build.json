@@ -13,5 +13,11 @@
 	],
 	"js/patient-dashboard.min.js": [
 		"public/js/maia/patient_dashboard/custom_patient_dashboard.js"
+	],
+	"js/maia-account.min.js": [
+		"public/js/dokos/customer_account/customer_account.js"
+	],
+	"css/maia-account.min.css": [
+		"public/less/customer_account.less"
 	]
 }
