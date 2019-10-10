@@ -3,7 +3,7 @@
 
 {% include "maia/public/js/controllers/consultations.js" %}
 
-frappe.ui.form.on("Gynecological Consultation", {
+frappe.ui.form.on("Postnatal Consultation", {
 	onload: function(frm) {
 		frm.fields_dict['pregnancy_folder'].get_query = function(doc) {
 			return {
