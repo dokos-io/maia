@@ -78,7 +78,7 @@ export default {
 		invoices: function() {
 			moment.locale(frappe.boot.lang || 'en');
 			this.request.forEach(value => {
-				value["formatted_grand_total"] = format_currency(value["grand_total"]);
+				value["formatted_grand_total"] = format_currency(value["grand_total"], value["currency"]);
 				value["formatted_date"] = frappe.datetime.global_date_format(value["posting_date"]);
 			})
 
@@ -89,7 +89,6 @@ export default {
 		get_invoices: function() {
 			frappe.xcall("maia.maia.page.maia_account.maia_account.get_invoices", {options: this.options})
 			.then(e => {
-				console.log(e)
 				if (e && e.message) {
 					this.request = [...this.request, ...e.message]
 					this.options.start = this.options.start + this.options.length;
