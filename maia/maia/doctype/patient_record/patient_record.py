@@ -53,9 +53,7 @@ class PatientRecord(Document):
 			from `tabRevenue` 
 			where patient=%s
 			and party is NULL
-			and docstatus = 1
-			and transaction_date >= %s
-			and transaction_date <= %s""", (self.name, fiscal_year[1], fiscal_year[2]))
+			and docstatus = 1""", (self.name))
 
 		patient_unpaid = flt(total_unpaid[0][0]) if total_unpaid else 0
 
@@ -80,9 +78,7 @@ class PatientRecord(Document):
 			select sum(outstanding_amount)
 			from `tabRevenue` 
 			where patient=%s
-			{0}
-			and transaction_date >= %s
-			and transaction_date <= %s""".format(conditions), (self.name, fiscal_year[1], fiscal_year[2]))
+			{0}""".format(conditions), (self.name))
 
 		info = {}
 		info["billing_this_year"] = billing_this_year[0][0] if billing_this_year else 0
