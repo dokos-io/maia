@@ -119,8 +119,7 @@ standard_portal_menu_items = [
 # Desk Notifications
 # ------------------
 # See frappe.core.notifications.get_notification_config
-
-# notification_config = "maia.notifications.get_notification_config"
+notification_config = "maia.notifications.get_notification_config"
 
 # Permissions
 # -----------

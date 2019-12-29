@@ -258,7 +258,7 @@ def get_events(start, end, user=None, filters=None):
 	if user:
 		practitioner = frappe.db.get_value('Professional Information Card', {'user': frappe.session.user}, 'name')
 		if practitioner:
-			filters = filters if filters else []
+			filters = frappe.parse_json(filters) if filters else []
 			filters.append(["Maia Appointment","practitioner","=",practitioner])
 
 	from frappe.desk.calendar import get_event_conditions

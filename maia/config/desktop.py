@@ -10,7 +10,7 @@ def get_data():
 			"category": "Modules",
 			"label": _("Medical Records"),
 			"color": "#ff4081",
-			"icon": "fa fa-stethoscope",
+			"icon": "fas fa-stethoscope",
 			"type": "module",
 			"description": _("Your patient's medical records")
 		},
@@ -19,7 +19,7 @@ def get_data():
 			"category": "Modules",
 			"label": _("Accounting"),
 			"color": "#3498db",
-			"icon": "octicon octicon-repo",
+			"icon": "fas fa-book",
 			"type": "module",
 			"description": _("Revenue, expense, payments and reporting")
 		},
@@ -28,7 +28,7 @@ def get_data():
 			"category": "Modules",
 			"label": _("Appointments"),
 			"color": "#8e44ad",
-			"icon": "octicon octicon-calendar",
+			"icon": "fas fa-calendar-alt",
 			"type": "module",
 			"description": _("Your appointments and calendar")
 		}
