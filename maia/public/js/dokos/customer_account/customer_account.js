@@ -16,7 +16,7 @@ maia.DokosCustomerAccount = class DokosCustomerAccount {
 		this.stripeURL = "https://js.stripe.com/v3/"
 
 		// const list of doctypes
-		this.sections = [{"name": "Account", "label": __("Account"), "icon": "fa fa-address-book-o"}, {"name": "Invoices", "label": __("Invoices"),"icon": "fa fa-file-text-o"}];
+		this.sections = [{"name": "Account", "label": __("Account"), "icon": "fas fa-address-book"}, {"name": "Invoices", "label": __("Invoices"),"icon": "fas fa-file-alt"}];
 
 		// for saving current selected filters
 		// TODO: revert to 0 index for doctype and timespan, and remove preset down

@@ -100,7 +100,7 @@
    "read_only": 1
   }
  ],
- "icon": "fa fa-mobile-phone",
+ "icon": "fas fa-mobile-phone",
  "modified": "2019-09-19 16:36:45.367583",
  "modified_by": "Administrator",
  "module": "Maia Appointment",

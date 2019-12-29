@@ -32,7 +32,7 @@
 						</div>
 						<div class="col-12 col-sm-3 col-md-2">
 							<button class="btn btn-close" @click="remove_card(details.id)">
-								<i class="fa fa-times"></i>
+								<i class="fas fa-times"></i>
 							</button>
 						</div>
 					</div>

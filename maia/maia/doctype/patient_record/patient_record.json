@@ -212,7 +212,7 @@
    "fieldname": "address_contacts",
    "fieldtype": "Section Break",
    "label": "Address and Contact",
-   "options": "fa fa-map-marker"
+   "options": "fas fa-map-marker-alt"
   },
   {
    "fieldname": "email_id",

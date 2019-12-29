@@ -19,7 +19,7 @@ def get(card_name, from_date=None, to_date=None):
 	else:
 		return fmt_money(0, 0, currency)
 
-	if timespan != "Custom":
+	if timespan:
 		if not to_date:
 			to_date = nowdate()
 		if not from_date:

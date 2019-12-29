@@ -30,7 +30,7 @@
   {
    "fieldname": "entry_type_and_date",
    "fieldtype": "Section Break",
-   "options": "fa fa-flag"
+   "options": "fas fa-flag"
   },
   {
    "fieldname": "title",
@@ -100,7 +100,7 @@
    "fieldname": "2_add_edit_gl_entries",
    "fieldtype": "Section Break",
    "oldfieldtype": "Section Break",
-   "options": "fa fa-table"
+   "options": "fas fa-table"
   },
   {
    "fieldname": "items",
@@ -178,7 +178,7 @@
    "read_only": 1
   }
  ],
- "icon": "fa fa-file-text",
+ "icon": "fas fa-file-alt",
  "is_submittable": 1,
  "modified": "2019-07-10 15:33:50.060982",
  "modified_by": "Administrator",

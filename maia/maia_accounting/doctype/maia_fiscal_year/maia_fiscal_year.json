@@ -60,7 +60,7 @@
    "read_only": 1
   }
  ],
- "icon": "fa fa-calendar",
+ "icon": "fas fa-calendar",
  "modified": "2019-06-12 11:38:27.676588",
  "modified_by": "Administrator",
  "module": "Maia Accounting",

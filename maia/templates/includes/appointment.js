@@ -27,7 +27,7 @@ maia.appointment.AppointmentSelector = class AppointmentSelector {
 		var me = this;
 		me.$selector_progress.empty();
 		for (let i = 1; i < me.steps + 1; i++) {
-			$(`<i class="fa fa-fw fa-circle"> </i>`).attr({'data-step-id': i}).appendTo(me.$selector_progress);
+			$(`<i class="fas fa-fw fa-circle"> </i>`).attr({'data-step-id': i}).appendTo(me.$selector_progress);
 		}
 	}
 

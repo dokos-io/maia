@@ -353,7 +353,7 @@
    "read_only": 1
   }
  ],
- "icon": "fa fa-calendar-check-o",
+ "icon": "fas fa-calendar-check",
  "is_submittable": 1,
  "modified": "2019-08-14 09:48:47.008934",
  "modified_by": "Administrator",

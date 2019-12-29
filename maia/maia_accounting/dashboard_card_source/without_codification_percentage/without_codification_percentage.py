@@ -18,7 +18,7 @@ def get(card_name, from_date=None, to_date=None):
 	else:
 		return "{0} %".format(0)
 
-	if timespan != "Custom":
+	if timespan:
 		if not to_date:
 			to_date = nowdate()
 		if not from_date:
@@ -36,7 +36,7 @@ def get_without_codification_percentage(practitioner, from_date, to_date):
 	without_codification_income = get_without_codification_income(practitioner, from_date, to_date)
 
 	if flt(income) > 0:
-		return round(without_codification_income / income, 2)
+		return round(without_codification_income / income, 2) * 100
 	else:
 		return 0
 
