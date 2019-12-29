@@ -229,6 +229,8 @@ def set_gl_entries_by_account(practitioner, from_date, to_date, accounts, filter
 		{additional_conditions}
 		and rev.transaction_date >= %(from_date)s
 		and rev.transaction_date <= %(to_date)s
+		and rev.docstatus=1
+		and rev.status="Paid"
 		order by gle.accounting_item, gle.posting_date""".format(additional_conditions=additional_conditions),
 		{
 			"practitioner": practitioner,

@@ -448,7 +448,7 @@ def send_sms_reminder(name):
 			"recipient": sms.send_to,
 			"type": "transactional",
 			"tag": frappe.conf.get("customer")+ "/" + sms.sender,
-			"webUrl": "https://portail.dokos.io?cmd=dokops.api.sms_callback"
+			"webUrl": "https://dashboard.dokos.io?cmd=dokops.api.sms_callback"
 		}
 
 		status = send_request(args)
