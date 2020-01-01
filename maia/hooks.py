@@ -168,7 +168,8 @@ scheduler_events = {
 	# 	],
 	"daily": [
 		"maia.maia_accounting.doctype.maia_asset.maia_asset.post_depreciations",
-		"maia.tasks.update_patient_birthday"
+		"maia.tasks.update_patient_birthday",
+		"maia.maia_accounting.utils.auto_create_fiscal_year"
 	],
 	"hourly": [
 		"maia.maia_appointment.doctype.maia_appointment.maia_appointment.flush"

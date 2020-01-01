@@ -5,7 +5,7 @@
 from __future__ import unicode_literals
 import frappe
 from frappe import _
-from frappe.utils import flt, getdate, cstr, formatdate, nowdate
+from frappe.utils import flt, getdate, cstr, formatdate, nowdate, add_days, add_years
 import maia
 
 class FiscalYearError(frappe.ValidationError): pass
@@ -64,6 +64,26 @@ def get_fiscal_years(transaction_date=None, fiscal_year=None, label="Date", prac
 	error_msg = _("""{0} {1} not in any active Fiscal Year.""").format(label, formatdate(transaction_date))
 	if verbose==1: frappe.msgprint(error_msg)
 	raise FiscalYearError(error_msg)
+
+@frappe.whitelist()
+def auto_create_fiscal_year():
+	for d in frappe.db.sql("""select name from `tabMaia Fiscal Year` where year_end_date = date_add(current_date, interval 3 day)"""):
+		try:
+			current_fy = frappe.get_doc("Maia Fiscal Year", d[0])
+
+			new_fy = frappe.copy_doc(current_fy, ignore_no_copy=False)
+
+			new_fy.year_start_date = add_days(current_fy.year_end_date, 1)
+			new_fy.year_end_date = add_years(current_fy.year_end_date, 1)
+
+			start_year = cstr(new_fy.year_start_date.year)
+			end_year = cstr(new_fy.year_end_date.year)
+			new_fy.year = start_year if start_year==end_year else (start_year + "-" + end_year)
+			new_fy.auto_created = 1
+
+			new_fy.insert(ignore_permissions=True)
+		except frappe.NameError:
+			pass
 
 @frappe.whitelist()
 def get_balance_on(account=None, date=None, practitioner=None):
