@@ -5,10 +5,11 @@ frappe.provide('maia.appointment');
 
 frappe.ready(function() {
 	new maia.appointment.AppointmentSelector({
-		parent: $('.page-head'),
+		parent: $('.page_content'),
 	});
 });
 
+/*
 maia.appointment.AppointmentSelector = class AppointmentSelector {
 	constructor(opts) {
 		$.extend(this, opts);
@@ -401,3 +402,4 @@ maia.appointment.AppointmentSelector = class AppointmentSelector {
 	}
 
 }
+*/

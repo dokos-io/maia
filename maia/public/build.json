@@ -5,6 +5,7 @@
 		"public/js/templates/contact_list.html"
 	],
 	"js/maia-web.min.js": [
+		"public/js/maia/appointment_calendar/appointment_selector.js",
 		"public/js/templates/selectors/practitioner_selector.html",
 		"public/js/templates/selectors/appointment_type_selector.html",
 		"public/js/templates/selectors/booking_page.html",

@@ -23,10 +23,10 @@ def install_chart_of_accounts():
 
 def add_fiscal_years():
 	fiscal_years = [
-		{"year": 2016, "start": "2016-01-01", "end": "2016-12-31"},
 		{"year": 2017, "start": "2017-01-01", "end": "2017-12-31"},
 		{"year": 2018, "start": "2018-01-01", "end": "2018-12-31"},
 		{"year": 2019, "start": "2019-01-01", "end": "2019-12-31"},
+		{"year": 2020, "start": "2020-01-01", "end": "2020-12-31"}
 	]
 
 	for fy in fiscal_years:

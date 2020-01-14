@@ -78,6 +78,7 @@ class PatientRecord(Document):
 			select sum(outstanding_amount)
 			from `tabRevenue` 
 			where patient=%s
+			and docstatus = 1
 			{0}""".format(conditions), (self.name))
 
 		info = {}

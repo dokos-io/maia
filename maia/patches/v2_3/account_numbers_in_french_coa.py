@@ -26,7 +26,6 @@ def execute():
 						try:
 							rename = (account.name).replace(raw_number, "").strip()
 							new_name = acc_number + " - " + rename
-							print(new_name)
 							rename_doc("Account", account.name, new_name)
 						except Exception as e:
 							print(e)

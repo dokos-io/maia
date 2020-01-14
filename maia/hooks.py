@@ -76,7 +76,7 @@ standard_portal_menu_items = [
 		"reference_doctype": "Maia Appointment", "role": "Patient"},
 	{"title": _("Mes rendez-Vous"), "route": "/my-appointments",
 		"reference_doctype": "Maia Appointment", "role": "Patient"},
-	{"title": _("Mes factures"), "route": "/receipts",
+	{"title": _("Mes reçus"), "route": "/receipts",
 		"reference_doctype": "Revenue", "role": "Patient"}
 ]
 

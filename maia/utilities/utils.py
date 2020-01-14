@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 import frappe
 from frappe import _
 from frappe.utils import now_datetime
+from datetime import timedelta, date
 
 def delete_expired_sms():
 	data = frappe.get_all("SMS Reminder", fields=["name", "send_on"])
@@ -47,3 +48,9 @@ def custom_template_functions(functions):
 	})
 
 	return functions
+
+def daterange(start_date, end_date):
+	if start_date < now_datetime():
+		start_date = datetime.datetime.now().replace(hour=0, minute=0, second=0, microsecond=0) + datetime.timedelta(days=1)
+	for n in range(int((end_date - start_date).days)):
+		yield start_date + timedelta(n)

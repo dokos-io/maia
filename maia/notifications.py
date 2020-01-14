@@ -14,7 +14,7 @@ def get_notification_config():
             "Gynecological Consultation": {"docstatus": 0},
             "Free Consultation": {"docstatus": 0},
             "Free Prescription": {"docstatus": 0},
-            "Maia Appointment": "maia.notifications.get_todays_events",
+            "Maia Appointment": {"name": ["in", get_todays_events()]},
             "Revenue": {"status": ["in", ["Unpaid", "Draft"]]},
             "Expense": {"status": ["in", ["Unpaid", "Draft"]]},
             "Miscellaneous Operation": {"docstatus": 0},
@@ -22,10 +22,10 @@ def get_notification_config():
 		}
 	}
 
-def get_todays_events(as_list=False):
+def get_todays_events():
 	"""Returns a count of todays events in calendar"""
 	from maia.maia_appointment.doctype.maia_appointment.maia_appointment import get_events
 	from frappe.utils import nowdate
 	today = nowdate()
 	events = get_events(today, today, frappe.session.user)
-	return events if as_list else len(events)
+	return [x.get("name") for x in events]

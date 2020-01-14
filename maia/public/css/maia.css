@@ -19,19 +19,6 @@
 	font-size: 11px;
 }
 
-.modal-body h4 {
-	color: #425668;
-	padding-top: 15px;
-}
-
-#header-selector {
-	margin-top: 20px;
-	margin-bottom: 20px;
-	padding-top: 5px;
-	padding-bottom: 5px;
-	box-shadow: 0 3px 40px 0 rgba(0, 0, 0, 0.15);
-}
-
 .selector-progress {
 	margin-bottom: 20px;
 }
@@ -43,32 +30,7 @@
 	color: #ff4081;
 }
 
-#description-row {
-	padding: 20px;
-}
-
-#description {
-	margin-top: 20px;
-	padding: 20px 0 20px 0;
-	text-align: center;
-}
-
-#description.bordered-top {
-	border-top: 1px solid #d1d8dd;
-}
-
-.appointment-type-name,
-.category-name,
-.practitioner-name {
-	padding: 10px;
-}
-
-.bg-grey {
-	background-color: #fbfbfb !important;
-}
-
-.next-availability,
-.bookpage {
+.appointment-modal {
 	opacity: 1 !important;
 	height: 100%;
 	width: 100%;
@@ -82,28 +44,29 @@
 	text-align: center;
 }
 
-.next-availability {
+.appointment-modal {
 	padding: 50px 30px;
 }
 
-.next-availability-close,
-.bookpage-close {
-	position: absolute;
+.appointment-modal-close {
 	top: 0;
-	right: 0;
+	float: right;
 	padding: 18px;
 	transition: opacity .2s ease;
 	opacity: .3;
 	font-size: 25pt;
+	cursor: pointer;
 }
 
-.next-availability-header,
-.bookpage-header {
+.appointment-modal-close:hover {
+	opacity: 1;
+}
+
+.appointment-modal-header {
 	min-height: 110px;
 }
 
-.next-availability-date,
-.bookpage-date {
+.appointment-modal-date {
 	text-align: center;
 	font-size: 34px;
 	font-weight: 400;
@@ -111,15 +74,15 @@
 	margin-bottom: 10px;
 }
 
-.next-availability-title,
-.bookpage-appointment-type {
+.appointment-modal-title,
+.appointment-modal-appointment-type {
 	text-align: center;
 	font-size: 34px;
 	font-weight: 400;
 	margin-bottom: 10px;
 }
 
-.bookpage-time, .bookpage-seats-left {
+.appointment-modal-time, .appointment-modal-seats-left {
 	text-align: center;
 	font-size: 17px;
 	font-weight: 400;
@@ -172,7 +135,6 @@
 	border-bottom: 1px solid #ececec;
 }
 
-.next-availability-button,
 .form-button {
 	position: relative;
 	transition: background-color .2s,max-width .3s;
@@ -184,7 +146,7 @@
 	color: #fff;
 	border: 0;
 	border-radius: 3px;
-	font-size: 1.1em;
+	font-size: 0.9em;
 	font-weight: 600;
 	cursor: pointer;
 	height: 44px;

@@ -11,7 +11,7 @@ import datetime
 from datetime import timedelta
 import calendar
 
-def check_availability(doctype, df, dt, dn, date, duration):
+def check_availability(doctype, dt, dn, date, duration):
 	date = getdate(date)
 	day = calendar.day_name[date.weekday()]
 	if date < getdate():
@@ -39,79 +39,84 @@ def check_availability(doctype, df, dt, dn, date, duration):
 				availability.append({"msg": _("Schedules for {0} on  {1} : {2}-{3}").format(dn, \
 					formatdate(get_datetime_str(date), "dd/MM/yyyy"), line.start_time, line.end_time)})
 		if schedules:
-			availability.extend(get_availability_from_schedule(doctype, df, dn, schedules, date))
+			schedule_availability = ScheduleAvailability(doctype, dn, schedules, date)
+			availability.extend(schedule_availability.get_availabilities())
 
 	return availability
 
+class ScheduleAvailability():
+	def __init__(self, doctype, docname, schedules, date):
+		self.doctype = doctype
+		self.docname = docname
+		self.schedules = schedules
+		self.date = date
 
-def get_availability_from_schedule(doctype, df, dn, schedules, date):
-	from maia.maia_appointment.doctype.maia_appointment.maia_appointment import get_events
-	data = []
-	for line in schedules:
-		duration = get_time(line["duration"])
-		events = get_events(line["start"].strftime("%Y-%m-%d %H:%M:%S"), line["end"].strftime("%Y-%m-%d %H:%M:%S"), \
-			filters=[["Maia Appointment","practitioner","=",dn]])
+	def get_availabilities(self):
+		from maia.maia_appointment.doctype.maia_appointment.maia_appointment import get_events
+		data = []
+		for line in self.schedules:
+			duration = get_time(line["duration"])
+			events = get_events(
+				line["start"].strftime("%Y-%m-%d %H:%M:%S"),
+				line["end"].strftime("%Y-%m-%d %H:%M:%S"),
+				filters=[["Maia Appointment","practitioner","=",self.docname]]
+			)
 
-		event_list = []
-		for event in events:
-			if (get_datetime(event.start_dt) >= line["start"] and get_datetime(event.start_dt) <= line["end"]) \
-				or get_datetime(event.end_dt) >= line["start"]:
-				event_list.append(event)
+			event_list = []
+			for event in events:
+				if (get_datetime(event.start_dt) >= line["start"] and get_datetime(event.start_dt) <= line["end"]) \
+					or get_datetime(event.end_dt) >= line["start"]:
+					event_list.append(event)
 
-		available_slot = find_available_slot(date, duration, line, event_list)
-		data.append(available_slot)
+			available_slot = self.find_available_slot(duration, line, event_list)
+			data.extend(available_slot)
 
-	return data
+		return data
 
-def find_available_slot(date, duration, line, scheduled_items):
-	available_slots = []
-	current_schedule = []
-	if scheduled_items:
-		for scheduled_item in scheduled_items:
-			if get_datetime(scheduled_item.start_dt) < line["start"]:
-				new_entry = (get_datetime(line["start"]), get_datetime(scheduled_item.end_dt))
-			elif get_datetime(scheduled_item.start_dt) < line["end"]:
-				new_entry = (get_datetime(scheduled_item.start_dt), get_datetime(scheduled_item.end_dt))
+	def find_available_slot(self, duration, line, scheduled_items):
+		available_slots = []
+		current_schedule = []
+		if scheduled_items:
+			for scheduled_item in scheduled_items:
+				if get_datetime(scheduled_item.start_dt) < line["start"]:
+					new_entry = (get_datetime(line["start"]), get_datetime(scheduled_item.end_dt))
+				elif get_datetime(scheduled_item.start_dt) < line["end"]:
+					new_entry = (get_datetime(scheduled_item.start_dt), get_datetime(scheduled_item.end_dt))
 
-			try:
-				current_schedule.append(new_entry)
-			except Exception as e:
-				print(e)
+				try:
+					current_schedule.append(new_entry)
+				except Exception as e:
+					print(e)
 
-		scheduled_items = sorted(current_schedule, key = lambda x: x[0])
-		final_schedule = list(reduced(scheduled_items))
-		slots = get_all_slots(line["start"], line["end"], line["duration"], final_schedule)
+			scheduled_items = sorted(current_schedule, key = lambda x: x[0])
+			final_schedule = list(reduced(scheduled_items))
+			slots = self.get_all_slots(line["start"], line["end"], line["duration"], final_schedule)
 
-		for slot in slots:
-			available_slots.append(get_dict(slot[0], slot[1]))
+			for slot in slots:
+				available_slots.append({"start": slot[0], "end": slot[1]})
+
+		else:
+			slots = self.get_all_slots(line["start"], line["end"], line["duration"])
+
+			for slot in slots:
+				available_slots.append({"start": slot[0], "end": slot[1]})
 
 		return available_slots
 
-	else:
-		slots = get_all_slots(line["start"], line["end"], line["duration"])
+	def get_all_slots(self, day_start, day_end, time_delta, scheduled_items=None):
+		interval = int(time_delta.total_seconds() / 60)
 
-		for slot in slots:
-			available_slots.append(get_dict(slot[0], slot[1]))
+		if scheduled_items:
+			slots = sorted([(day_start, day_start)] + scheduled_items + [(day_end, day_end)])
+		else:
+			slots = sorted([(day_start, day_start)] + [(day_end, day_end)])
 
-		return available_slots
-
-def get_all_slots(day_start, day_end, time_delta, scheduled_items=None):
-	interval = int(time_delta.total_seconds() / 60)
-
-	if scheduled_items:
-		slots = sorted([(day_start, day_start)] + scheduled_items + [(day_end, day_end)])
-	else:
-		slots = sorted([(day_start, day_start)] + [(day_end, day_end)])
-
-	free_slots = []
-	for start, end in ((slots[i][1], slots[i + 1][0]) for i in range(len(slots) - 1)):
-		while start + timedelta(minutes=interval) <= end:
-			free_slots.append([start, start + timedelta(minutes=interval)])
-			start += timedelta(minutes=interval)
-	return free_slots
-
-def get_dict(start, end):
-	return {"start": start, "end": end}
+		free_slots = []
+		for start, end in ((slots[i][1], slots[i + 1][0]) for i in range(len(slots) - 1)):
+			while start + timedelta(minutes=interval) <= end:
+				free_slots.append([start, start + timedelta(minutes=interval)])
+				start += timedelta(minutes=interval)
+		return free_slots
 
 def reduced(timeseries):
 	prev = datetime.datetime.min

@@ -5,7 +5,6 @@ import frappe
 
 def execute():
 	cervical_smears = frappe.get_all("Cervical Smear")
-	print(len(cervical_smears))
 
 	for cervical_smear in cervical_smears:
 		doc = frappe.get_doc("Cervical Smear", cervical_smear.name)

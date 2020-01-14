@@ -1,20 +1,21 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2018, DOKOS and Contributors
+# Copyright (c) 2020, DOKOS SAS
 # See license.txt
 
-from __future__ import unicode_literals
 import frappe
-from frappe.utils import getdate, get_time, now_datetime, nowtime, cint, get_datetime, add_days, formatdate, get_datetime_str, add_to_date
+from frappe.utils import getdate, get_time, now_datetime, nowtime, cint, get_datetime, add_days, formatdate, get_datetime_str, add_to_date, get_time_zone
 from frappe import _
 import datetime
 from datetime import timedelta, date
 import calendar
-from maia.maia_appointment.scheduler import get_availability_from_schedule
+from maia.maia_appointment.scheduler import ScheduleAvailability
 from maia.maia_appointment.doctype.maia_appointment.maia_appointment import get_registration_count
 from collections import defaultdict
+from maia.utilities.utils import daterange
 
 def get_context(context):
 	context.no_cache = 1
+	context.show_sidebar = True
 	if not "Patient" in frappe.get_roles(frappe.session.user):
 		frappe.throw(_("Not Permitted"), frappe.PermissionError)
 
@@ -26,7 +27,7 @@ def get_practitioners_and_appointment_types():
 		results = []
 		for practitioner in practitioners:
 			result = {}
-			result.update({'name': practitioner['name'], 'week_end': practitioner['weekend_booking']})
+			result.update({'name': practitioner['name'], 'week_end': practitioner['weekend_booking'], 'timezone': get_time_zone()})
 			appointment_types = frappe.db.sql("""SELECT appointment_type, name, group_appointment, number_of_patients, description, category FROM `tabMaia Appointment Type` WHERE allow_online_booking=1 AND disabled=0 AND (practitioner='{0}' OR practitioner IS NULL) ORDER BY appointment_type""".format(practitioner.name), as_dict=True)
 
 			d = defaultdict(list)
@@ -47,88 +48,66 @@ def get_practitioners_and_appointment_types():
 	else:
 		return []
 
-def daterange(start_date, end_date):
-	if start_date < now_datetime():
-		start_date = datetime.datetime.now().replace(hour=0, minute=0, second=0, microsecond=0) + datetime.timedelta(days=1)
-	for n in range(int((end_date - start_date).days)):
-		yield start_date + timedelta(n)
-
-@frappe.whitelist()
-def check_group_events_availabilities(practitioner, start, end, appointment_type):
-	if (datetime.datetime.strptime(start, '%Y-%m-%d') > get_datetime()):
-		start = datetime.datetime.strptime(start, '%Y-%m-%d')
-	elif (datetime.datetime.strptime(start, '%Y-%m-%d') <= get_datetime()) and (nowtime() > "19:00"):
-		start = get_datetime().replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=2)
-	else:
-		start = get_datetime().replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1)
-	
-	end = datetime.datetime.strptime(end, '%Y-%m-%d')
-	days_limit = frappe.get_value("Professional Information Card", practitioner, "number_of_days_limit")
-	limit = datetime.datetime.combine(add_days(getdate(), int(days_limit)), datetime.datetime.time(datetime.datetime.now()))
-
-	payload = []
-	slots = []
-	if start < limit:
-		for dt in daterange(start, end):
-			slots = get_registration_count(appointment_type, start)
-
-			slots = filter(lambda x: x.practitioner == practitioner, slots)
-			slots = filter(lambda x: x.seats_left > 0, slots)
-			slots = filter(lambda x: x.start_dt < end, slots)
-
-	return slots
-
 @frappe.whitelist()
 def check_availabilities(practitioner, start, end, appointment_type):
-	duration = frappe.get_value("Maia Appointment Type", appointment_type, "duration")
+	availability = MaiaAvailability(practitioner, start, end, appointment_type)
+	return availability.get_availability()
 
-	if duration is not None:
-		start = datetime.datetime.strptime(start, '%Y-%m-%d')
-		end = datetime.datetime.strptime(end, '%Y-%m-%d')
-		days_limit = frappe.get_value("Professional Information Card", practitioner, "number_of_days_limit")
-		limit = datetime.datetime.combine(add_days(getdate(), int(days_limit)), datetime.datetime.time(datetime.datetime.now()))
+class MaiaAvailability():
+	def __init__(self, practitioner, start, end, appointment_type):
+		self.practitioner = practitioner
+		self.start = datetime.datetime.strptime(start, '%Y-%m-%d')
+		self.end = datetime.datetime.strptime(end, '%Y-%m-%d')
+		self.appointment_type = appointment_type
+		self.duration = frappe.get_value("Maia Appointment Type", self.appointment_type, "duration")
+		limit_in_days = frappe.get_value("Professional Information Card", practitioner, "number_of_days_limit") or 0
+		self.limit = datetime.datetime.combine(add_days(getdate(), int(limit_in_days)), datetime.datetime.time(datetime.datetime.now()))
+		self.doctype = "Maia Appointment"
 
-		payload = []
-		if start < limit:
-			for dt in daterange(start, end):
-				date = dt.strftime("%Y-%m-%d")
+	def get_availability(self):
+		if self.duration is not None:
+			payload = []
+			if self.start < self.limit:
+				for dt in daterange(self.start, self.end):
+					date = getdate(dt.strftime("%Y-%m-%d"))
 
-				calendar_availability = _check_availability("Maia Appointment", "practitioner", "Professional Information Card", practitioner, date, duration)
-				if bool(calendar_availability) == True:
-					payload += calendar_availability
+					calendar_availability = self._get_availability(date)
+					if bool(calendar_availability) == True:
+						payload += calendar_availability
 
-		avail = []
-		for items in payload:
-			avail += items
+			result = []
+			for items in payload:
+				result += items
 
-		final_avail = []
-		final_avail.append(avail)
+			return result
 
-		return final_avail
+	def _get_availability(self, date):
+		day = calendar.day_name[date.weekday()]
+		if ((date < getdate()) or (date == add_to_date(getdate(), days=1) and nowtime() > "19:00")):
+			return
 
-def _check_availability(doctype, df, dt, dn, date, duration):
-	date = getdate(date)
-	day = calendar.day_name[date.weekday()]
-	if ((date < getdate()) or (date == add_to_date(getdate(), days=1) and nowtime() > "19:00")):
-		return
+		resource = frappe.get_doc("Professional Information Card", self.practitioner)
+		availability = []
+		schedules = []
 
-	resource = frappe.get_doc(dt, dn)
-	availability = []
-	schedules = []
+		if getattr(resource, "consulting_schedule"):
+			daily_schedule = list(filter(lambda x: x.day == day, resource.consulting_schedule))
+			if not daily_schedule:
+				return availability
 
-	if hasattr(resource, "consulting_schedule") and resource.consulting_schedule:
-		day_sch = filter(lambda x: x.day == day, resource.consulting_schedule)
-		if not day_sch:
-			return availability
+			for line in daily_schedule:
+				if(datetime.datetime.combine(date, get_time(line.end_time)) > now_datetime()):
+					schedules.append({
+						"start": datetime.datetime.combine(date, get_time(line.start_time)),
+						"end": datetime.datetime.combine(date, get_time(line.end_time)),
+						"duration": datetime.timedelta(minutes=cint(self.duration))
+					})
 
-		for line in day_sch:
-			if(datetime.datetime.combine(date, get_time(line.end_time)) > now_datetime()):
-				schedules.append({"start": datetime.datetime.combine(date, get_time(line.start_time)), "end": datetime.datetime.combine(
-					date, get_time(line.end_time)), "duration": datetime.timedelta(minutes=cint(duration))})
-		if schedules:
-			availability.extend(get_availability_from_schedule(doctype, df, dn, schedules, date))
+			if schedules:
+				schedule_availability = ScheduleAvailability(self.doctype, self.practitioner, schedules, date)
+				availability.append(schedule_availability.get_availabilities())
 
-	return availability
+		return availability
 
 @frappe.whitelist()
 def get_next_availability(practitioner, appointment_type, start, is_group):
@@ -139,7 +118,7 @@ def get_next_availability(practitioner, appointment_type, start, is_group):
 	slots = []
 
 	while not slots and start < limit:
-		if is_group=="1":
+		if cint(is_group) == 1:
 			avail = check_group_events_availabilities(practitioner, start.strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d"), appointment_type)
 			if avail:
 				slots = avail
@@ -153,9 +132,35 @@ def get_next_availability(practitioner, appointment_type, start, is_group):
 				start, end = _increment_start_end(practitioner, start, end)
 
 	if start >= limit:
-		return {"code": 201, "date": limit}
+		return {"status": 201, "date": limit}
 	else:
-		return {"code": 200, "date": start}
+		return {"status": 200, "date": start}
+
+@frappe.whitelist()
+def check_group_events_availabilities(practitioner, start, end, appointment_type):
+	if (datetime.datetime.strptime(start, '%Y-%m-%d') > get_datetime()):
+		start = datetime.datetime.strptime(start, '%Y-%m-%d')
+	elif (datetime.datetime.strptime(start, '%Y-%m-%d') <= get_datetime()) and (nowtime() > "19:00"):
+		start = get_datetime().replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=2)
+	else:
+		start = get_datetime().replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1)
+
+	end = datetime.datetime.strptime(end, '%Y-%m-%d')
+	days_limit = frappe.get_value("Professional Information Card", practitioner, "number_of_days_limit")
+	limit = datetime.datetime.combine(add_days(getdate(), int(days_limit)), datetime.datetime.time(datetime.datetime.now()))
+
+	payload = []
+	slots = []
+	if start < limit:
+		for dt in daterange(start, end):
+			slots = get_registration_count(appointment_type, start)
+
+			slots = filter(lambda x: x.practitioner == practitioner, slots)
+			slots = filter(lambda x: x.seats_left > 0, slots)
+			slots = filter(lambda x: x.start_dt < end, slots)
+			slots = [{**{k: v for k, v in x.items() if k != "color"}, "start": x.get("start_dt"), "end": x.get("end_dt"), "id": x.get("name")} for x in list(slots)]
+
+	return slots
 
 def _increment_start_end(practitioner, start, end):
 	week_end_bookings = frappe.get_value("Professional Information Card", practitioner, "weekend_booking")
@@ -175,6 +180,10 @@ def _increment_start_end(practitioner, start, end):
 
 @frappe.whitelist()
 def submit_appointment(email, practitioner, appointment_type, start, end, notes):
+	# For developments
+	if email == "Administrator":
+		email = "oli.celine@hotmail.fr"
+
 	start_date = datetime.datetime.strptime(start, '%Y-%m-%d %H:%M:%S').date()
 	start_time = datetime.datetime.strptime(start, '%Y-%m-%d %H:%M:%S').time()
 	app_type = frappe.get_doc("Maia Appointment Type", appointment_type)
@@ -185,7 +194,7 @@ def submit_appointment(email, practitioner, appointment_type, start, end, notes)
 	user = frappe.get_doc("User", email)
 
 	if not patient_records:
-		patient_record = ""
+		patient_record = None
 		if user.last_name:
 			subject = "{0} {1}-En Ligne".format(
 				user.first_name, user.last_name)
@@ -226,15 +235,12 @@ def submit_appointment(email, practitioner, appointment_type, start, end, notes)
 	appointment.submit()
 
 	if patient_record:
-		send_patient_confirmation(
-			patient_record, practitioner, app_type.name, start)
-		send_notification_for_patient(
-			patient_record, practitioner, app_type.name, start, notes)
+		send_patient_confirmation(patient_record, practitioner, app_type.name, start)
+		send_notification_for_patient(patient_record, practitioner, app_type.name, start, notes)
 
 	else:
 		send_user_confirmation(user, practitioner, app_type.name, start)
-		send_notification_for_user(
-			user, practitioner, app_type.name, start, notes)
+		send_notification_for_user(user, practitioner, app_type.name, start, notes)
 
 	frappe.clear_cache()
 
@@ -249,8 +255,7 @@ def send_patient_confirmation(patient_record, practitioner, appointment_type, st
 	link = get_url("/login")
 	app_type = frappe.get_doc("Maia Appointment Type", appointment_type)
 
-	subject = _(
-		"""Confirmation de votre rendez-vous avec {0}""".format(practitioner))
+	subject = _("""Confirmation de votre rendez-vous avec {0}""".format(practitioner))
 	message = _("""<div>Bonjour {0},<br><br>Votre rendez-vous ""{1}"" est confirmé le {2}, à {3}.<br><br>Pour toute annulation jusqu'à 48H avant le rendez-vous, veuillez cliquer <a href="{4}">ici.</a><br><br>En cas d'empêchement dans les dernières 48H, veuillez me contacter.<br><br>Merci beaucoup.<br><br>{5}</div>""".format(
 		patient.patient_first_name, app_type.appointment_type, date, time, link, practitioner))
 
@@ -259,7 +264,6 @@ def send_patient_confirmation(patient_record, practitioner, appointment_type, st
 	else:
 		frappe.sendmail(patient.email_id, subject=subject, content=message)
 
-
 def send_user_confirmation(user, practitioner, appointment_type, start):
 	from frappe.utils import get_url
 	date = formatdate(get_datetime_str(start), "dd/MM/yyyy")
@@ -267,13 +271,11 @@ def send_user_confirmation(user, practitioner, appointment_type, start):
 	link = get_url("/login")
 	app_type = frappe.get_doc("Maia Appointment Type", appointment_type)
 
-	subject = _(
-		"""Confirmation de votre rendez-vous avec {0}""".format(practitioner))
+	subject = _("""Confirmation de votre rendez-vous avec {0}""".format(practitioner))
 	message = _("""<div>Bonjour {0},<br><br>Votre rendez-vous ""{1}"" est confirmé le {2}, à {3}.<br><br>Pour toute annulation jusqu'à 48H avant le rendez-vous, veuillez cliquer <a href="{4}">ici.</a><br><br>En cas d'empêchement dans les dernières 48H, veuillez me contacter.<br><br>Merci beaucoup.<br><br>{5}</div>""".format(
 		user.first_name, app_type.appointment_type, date, time, link, practitioner))
 
 	frappe.sendmail(user.email, subject=subject, content=message)
-
 
 def send_notification_for_patient(patient_record, practitioner, appointment_type, start, notes):
 	patient = frappe.get_doc("Patient Record", patient_record)
@@ -288,9 +290,7 @@ def send_notification_for_patient(patient_record, practitioner, appointment_type
 		message = _("""<div>Bonjour {0},<br><br>{1} vient de prendre rendez-vous sur votre plateforme de réservation.<br><br><strong>Date:</strong> {2}<br><br><strong>Heure:</strong> {3}<br><br><strong>Type de Rendez-Vous:</strong> {4}<br><br><strong>Message:</strong> {5}<br><br><br>L'Équipe Maia</div>""".format(
 			user_data.first_name, patient.name, date, time, app_type.appointment_type, notes))
 
-		frappe.sendmail(practitioner_data.user,
-						subject=subject, content=message)
-
+		frappe.sendmail(practitioner_data.user, subject=subject, content=message)
 
 def send_notification_for_user(user, practitioner, appointment_type, start, notes):
 	practitioner_data = frappe.get_doc("Professional Information Card", practitioner)
@@ -308,5 +308,4 @@ def send_notification_for_user(user, practitioner, appointment_type, start, note
 			message = _("""<div>Bonjour {0},<br><br>{1} vient de prendre rendez-vous sur votre plateforme de réservation.<br><br><strong>Date:</strong> {2}<br><br><strong>Heure:</strong> {3}<br><br><strong>Type de Rendez-Vous:</strong> {4}<br><br><strong>Message:</strong> {5}<br><br><br>L'Équipe Maia</div>""".format(
 				user_data.first_name, user.first_name, date, time,  app_type.appointment_type, notes))
 
-		frappe.sendmail(practitioner_data.user,
-						subject=subject, content=message)
+		frappe.sendmail(practitioner_data.user, subject=subject, content=message)

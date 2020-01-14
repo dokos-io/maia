@@ -25,8 +25,6 @@ def execute():
 	to_be_credited = []
 
 	l = len(sales_invoices)
-	print(l)
-
 
 	for i, invoice in enumerate(sales_invoices):
 		si = frappe.get_doc("Sales Invoice", invoice.name)

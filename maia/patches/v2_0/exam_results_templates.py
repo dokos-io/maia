@@ -46,7 +46,7 @@ def execute():
 			subdoc.exam_type = s['exam_type']
 			try:
 				subdoc.insert(ignore_permissions=True)
-				print(subdoc.name)
+
 			except frappe.DuplicateEntryError as e:
 				# pass DuplicateEntryError and continue
 				if e.args and e.args[0]==subdoc.doctype and e.args[1]==subdoc.name:
@@ -54,7 +54,7 @@ def execute():
 					pass
 				else:
 					raise
-		print(r)
+
 		doc = frappe.new_doc(r.get("doctype"))
 		doc.update(r)
 

@@ -5,7 +5,6 @@ import frappe
 
 def execute():
 	correspondents = frappe.get_all("Correspondents")
-	print(len(correspondents))
 
 	for correspondent in correspondents:
 		doc = frappe.get_doc("Correspondents", correspondent.name)

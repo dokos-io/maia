@@ -34,7 +34,6 @@ def get_transaction_list(doctype, txt=None, filters=None, limit_start=0, limit_p
 		if not patients: return []
 
 		key, parties = get_party_details(patients)
-		print(key, parties)
 
 		filters.append((doctype, key, "in", parties))
 

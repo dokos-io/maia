@@ -224,11 +224,15 @@ def update_status(appointmentId, status):
 
 @frappe.whitelist()
 def get_registration_count(appointment_type, date):
-	filters=[["Maia Appointment","appointment_type","=",appointment_type], ["Maia Appointment","group_event","=",1], ["Maia Appointment", "docstatus","=",1]]
+	filters=[
+		["Maia Appointment","appointment_type","=",appointment_type],
+		["Maia Appointment","group_event","=",1],
+		["Maia Appointment", "docstatus","=",1]
+	]
 	start = get_datetime(date).strftime("%Y-%m-%d %H:%M:%S")
 	end = add_to_date(start, years=1)
 
-	at = frappe.get_doc("Maia Appointment Type", appointment_type)
+	_appointment_type = frappe.get_doc("Maia Appointment Type", appointment_type)
 
 	slots = get_events(start=start, end=end, filters=filters)
 
@@ -246,8 +250,8 @@ def get_registration_count(appointment_type, date):
 				registered.append({'name': scheduled_event.name, 'patient': scheduled_event.patient_record})
 
 		slot["already_registered"] = count
-		slot["number_of_patients"] = at.number_of_patients
-		slot["seats_left"] = at.number_of_patients - count
+		slot["number_of_patients"] = _appointment_type.number_of_patients
+		slot["seats_left"] = _appointment_type.number_of_patients - count
 		slot["registered"] = registered
 
 	return slots
@@ -403,7 +407,6 @@ def _get_availability_by_midwife(practitioner, date, duration):
 	payload = {}
 	payload[practitioner] = check_availability(
 		"Maia Appointment",
-		"practitioner",
 		"Professional Information Card",
 		practitioner,
 		date,

@@ -346,7 +346,6 @@ def get_pending_amount(payment_type, party, practitioner):
 	filters["accounting_item"] = party_item
 
 	result = frappe.get_all("General Ledger Entry", filters=filters, fields=["SUM(credit)-SUM(debit) as total"])
-	print(filters)
 	if result and len(result) == 1:
 		return flt(result[0]["total"]) if payment_type == "Incoming payment" else (0-flt(result[0]["total"]))
 

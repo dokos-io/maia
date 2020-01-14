@@ -1,8 +1,6 @@
 {% extends "templates/web.html" %}
 
 {% block head_include %}
-<link type="text/css" rel="stylesheet" href="/assets/frappe/js/lib/fullcalendar/fullcalendar.min.css">
-<link type="text/css" rel="stylesheet" href="/assets/maia/css/fullcalendar.css">
 <link type="text/css" rel="stylesheet" href="/assets/maia/css/maia.css">
 <style>{% include "templates/includes/appointment.css" %}</style>
 {% endblock %}
@@ -10,32 +8,18 @@
 {% block title %} {{ _("Appointments") }} {% endblock %}
 
 {% block header_actions %}
-<a href="/me" class="text-muted">Revenir à mon Compte</a>
 {% endblock %}
 
-{% block header %}<h1 class="main-heading">{{ _("Select your Appointment") }}</h1>
+{% block header %}<h4 class="main-heading">{{ _("Select your Appointment") }}</h4>
 
 {% endblock %}
 
 
 {% block script %}
-<script type="text/javascript" src="/assets/js/moment-bundle.min.js"></script>
 <script type="text/javascript" src="/assets/js/maia-web.min.js"></script>
 <script>{% include "templates/includes/appointment.js" %}</script>
-<script type="text/javascript" src="/assets/frappe/js/lib/fullcalendar/fullcalendar.min.js"></script>
-<script type="text/javascript" src="/assets/frappe/js/lib/fullcalendar/locale-all.js"></script>
 {% endblock %}
 
 {% block page_content %}
-<div id="header-selector">
-	<div class="row" id="selector-steps"></div>
-	<div class="row">
-		<div class="col-sm-4 col-12 h6 text-uppercase mx-auto" id='practitioner-selector'></div>
-		<div class="col-sm-4 col-12 h6 text-uppercase mx-auto" id='appointment-type-selector'></div>
-	</div>
-	<div class="row" id="description-row">
-		<div class="col-12" id="description"></div>
-	</div>
-</div>
-<div id="calendar" class="d-none"></div>
+<div id="calendar"></div>
 {% endblock %}

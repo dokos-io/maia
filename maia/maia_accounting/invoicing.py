@@ -101,9 +101,9 @@ class ConsultationController(Document):
 	def calculate_values(self, codification, category, basic_price=0, billing_price=0, force_rate=False):
 		result = frappe.db.get_value("Codification", codification, ["name", "codification", "codification_description",
 				"basic_price", "billing_price", "accounting_item"], as_dict=True)
-		print(result)
+
 		split = self.calculate_split(result, category, basic_price, billing_price, force_rate)
-		print(split)
+
 		return split
 
 	def calculate_split(self, values, category, basic_price=0, billing_price=0, force_rate=False):
