@@ -1,6 +1,6 @@
 {
+ "actions": [],
  "allow_rename": 1,
- "autoname": "field:name",
  "creation": "2017-04-25 14:56:41.325579",
  "doctype": "DocType",
  "editable_grid": 1,
@@ -8,7 +8,6 @@
  "field_order": [
   "disabled",
   "section_break_2",
-  "name",
   "appointment_type",
   "duration",
   "color",
@@ -22,7 +21,9 @@
   "column_break_12",
   "number_of_patients",
   "section_break_14",
-  "category"
+  "category",
+  "availability_schedule_section",
+  "consulting_schedule"
  ],
  "fields": [
   {
@@ -34,13 +35,6 @@
   {
    "fieldname": "section_break_2",
    "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "name",
-   "fieldtype": "Data",
-   "hidden": 1,
-   "label": "Name",
-   "unique": 1
   },
   {
    "fieldname": "appointment_type",
@@ -124,9 +118,22 @@
    "fieldtype": "Link",
    "label": "Appointment Type Category",
    "options": "Maia Appointment Type Category"
+  },
+  {
+   "description": "If filled, it will take precedence over the professional information card schedule",
+   "fieldname": "availability_schedule_section",
+   "fieldtype": "Section Break",
+   "label": "Availability Schedule"
+  },
+  {
+   "fieldname": "consulting_schedule",
+   "fieldtype": "Table",
+   "label": "Consulting Schedule",
+   "options": "Midwife Consulting Schedule"
   }
  ],
- "modified": "2019-06-12 09:01:38.438950",
+ "links": [],
+ "modified": "2020-01-15 08:38:51.458782",
  "modified_by": "Administrator",
  "module": "Maia Appointment",
  "name": "Maia Appointment Type",

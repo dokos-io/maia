@@ -20,6 +20,11 @@ error_report_email = "hello@dokos.io"
 app_include_js = "assets/js/maia.min.js"
 app_include_css = "assets/maia/css/maia.css"
 
+doctype_js = {
+	"Google Calendar": "public/js/maia/google_calendar.js"
+}
+
+
 website_context = {
 	"favicon": "/assets/maia/favicon.png",
 	"splash_image": "/assets/maia/images/maia_squirrel.svg"
@@ -46,6 +51,15 @@ login_mail_title = "Nous sommes heureux de vous compter parmi nous !"
 
 # calendar
 calendars = ["Maia Appointment"]
+
+gcalendar_integrations = {
+	"Maia Appointment": {
+		"pull_insert": "maia.maia_appointment.doctype.maia_appointment.maia_appointment.insert_event_to_calendar",
+		"pull_update": "maia.maia_appointment.doctype.maia_appointment.maia_appointment.update_event_in_calendar",
+		"pull_delete": "maia.maia_appointment.doctype.maia_appointment.maia_appointment.cancel_event_in_calendar"
+	}
+}
+
 
 # default footer
 default_mail_footer = """<div style="text-align: center;">
@@ -156,6 +170,12 @@ has_website_permission = {
 doc_events = {
 	"Website Settings": {
 		"on_update": "maia.customizations.doc_events.check_default_web_role"
+	},
+	"Maia Appointment": {
+		"after_insert": "maia.maia_appointment.doctype.maia_appointment.maia_appointment.insert_event_in_google_calendar",
+		"on_update": "maia.maia_appointment.doctype.maia_appointment.maia_appointment.update_event_in_google_calendar",
+		"on_cancel": "maia.maia_appointment.doctype.maia_appointment.maia_appointment.delete_event_in_google_calendar",
+		"on_trash": "maia.maia_appointment.doctype.maia_appointment.maia_appointment.delete_event_in_google_calendar"
 	}
 }
 

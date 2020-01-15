@@ -1,5 +1,5 @@
 var get_business_hours = function() {
-	let mapping = {'Monday': 1, 'Tuesday': 2, 'Wednesday': 3, 'Thursday': 4, 'Friday': 5, 'Saturday': 6, 'Sunday': 7}
+	const mapping = {'Monday': 1, 'Tuesday': 2, 'Wednesday': 3, 'Thursday': 4, 'Friday': 5, 'Saturday': 6, 'Sunday': 7}
 	let agenda = [];
 	frappe.call({
 		async: false,
@@ -14,7 +14,11 @@ var get_business_hours = function() {
 		callback: function (data) {
 			if (data.message&&data.message.consulting_schedule.length>0) {
 				data.message.consulting_schedule.forEach(value => {
-					agenda.push({dow: [mapping[value.day]], start: value.start_time, end: value.end_time})
+					agenda.push({
+						daysOfWeek: [mapping[value.day]],
+						startTime: value.start_time,
+						endTime: value.end_time
+					})
 				})
 				return agenda;
 			} else {
@@ -32,7 +36,7 @@ frappe.views.calendar["Maia Appointment"] = {
 		"end": "end_dt",
 		"id": "name",
 		"title": "subject",
-		"allDay": "allDay",
+		"allDay": "all_day",
 		"color": "color"
 	},
 	gantt: false,
@@ -53,8 +57,7 @@ frappe.views.calendar["Maia Appointment"] = {
 	],
 	options: {
 		businessHours: get_business_hours(),
-		minTime: '06:00:00',
-		maxTime: '22:00:00',
-		scrollTime: '08:00:00'
+		scrollTime: '08:00:00',
+		editable: false
 	}
 }

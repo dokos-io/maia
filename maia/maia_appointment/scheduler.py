@@ -11,42 +11,45 @@ import datetime
 from datetime import timedelta
 import calendar
 
-def check_availability(doctype, dt, dn, date, duration):
+def check_availability(practitioner, date, duration):
 	date = getdate(date)
 	day = calendar.day_name[date.weekday()]
 	if date < getdate():
 		frappe.throw(_("You cannot schedule for past dates"))
 
-	resource = frappe.get_doc(dt, dn)
+	professional_informations = frappe.get_doc("Professional Information Card", practitioner)
 
 	availability = []
 	schedules = []
 
-	if hasattr(resource, "consulting_schedule") and resource.consulting_schedule:
-		day_schedule = list(filter(lambda x: x.day == day, resource.consulting_schedule))
+	if getattr(professional_informations, "consulting_schedule"):
+		day_schedule = list(filter(lambda x: x.day == day, professional_informations.consulting_schedule))
 		if not day_schedule:
-			availability.append({"msg": _("{0} not available on {1} {2}").format(dn, _(day), \
+			availability.append({"msg": _("{0} not available on {1} {2}").format(practitioner, _(day), \
 				formatdate(get_datetime_str(date), "dd/MM/yyyy"))})
 			return availability
 
 		for line in day_schedule:
 			if(datetime.datetime.combine(date, get_time(line.end_time)) > now_datetime()):
-				schedules.append({"start": datetime.datetime.combine(date, get_time(line.start_time)), "end": datetime.datetime.combine(
-					date, get_time(line.end_time)), "duration": datetime.timedelta(minutes=cint(duration))})
+				schedules.append({
+					"start": datetime.datetime.combine(date, get_time(line.start_time)),
+					"end": datetime.datetime.combine(date, get_time(line.end_time)),
+					"duration": datetime.timedelta(minutes=cint(duration))
+				})
 
-		if not schedules:
-			for line in day_schedule:
-				availability.append({"msg": _("Schedules for {0} on  {1} : {2}-{3}").format(dn, \
-					formatdate(get_datetime_str(date), "dd/MM/yyyy"), line.start_time, line.end_time)})
 		if schedules:
-			schedule_availability = ScheduleAvailability(doctype, dn, schedules, date)
+			schedule_availability = ScheduleAvailability(practitioner, schedules, date)
 			availability.extend(schedule_availability.get_availabilities())
+
+		if not schedules or not availability:
+			for line in day_schedule:
+				availability.append({"msg": _("Schedules for {0} on  {1} : {2}-{3}").format(\
+					practitioner, formatdate(get_datetime_str(date), "dd/MM/yyyy"), line.start_time, line.end_time)})
 
 	return availability
 
 class ScheduleAvailability():
-	def __init__(self, doctype, docname, schedules, date):
-		self.doctype = doctype
+	def __init__(self, docname, schedules, date):
 		self.docname = docname
 		self.schedules = schedules
 		self.date = date
@@ -64,8 +67,8 @@ class ScheduleAvailability():
 
 			event_list = []
 			for event in events:
-				if (get_datetime(event.start_dt) >= line["start"] and get_datetime(event.start_dt) <= line["end"]) \
-					or get_datetime(event.end_dt) >= line["start"]:
+				if (get_datetime(event.get("start_dt")) >= line["start"] and get_datetime(event.get("start_dt")) <= line["end"]) \
+					or get_datetime(event.get("end_dt")) >= line["start"]:
 					event_list.append(event)
 
 			available_slot = self.find_available_slot(duration, line, event_list)
@@ -78,10 +81,10 @@ class ScheduleAvailability():
 		current_schedule = []
 		if scheduled_items:
 			for scheduled_item in scheduled_items:
-				if get_datetime(scheduled_item.start_dt) < line["start"]:
-					new_entry = (get_datetime(line["start"]), get_datetime(scheduled_item.end_dt))
-				elif get_datetime(scheduled_item.start_dt) < line["end"]:
-					new_entry = (get_datetime(scheduled_item.start_dt), get_datetime(scheduled_item.end_dt))
+				if get_datetime(scheduled_item.get("start_dt")) < line["start"]:
+					new_entry = (get_datetime(line["start"]), get_datetime(scheduled_item.get("end_dt")))
+				elif get_datetime(scheduled_item.get("start_dt")) < line["end"]:
+					new_entry = (get_datetime(scheduled_item.get("start_dt")), get_datetime(scheduled_item.get("end_dt")))
 
 				try:
 					current_schedule.append(new_entry)

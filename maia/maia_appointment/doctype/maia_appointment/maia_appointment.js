@@ -4,6 +4,12 @@
 frappe.provide('maia.maia_appointment');
 
 frappe.ui.form.on('Maia Appointment', {
+	setup(frm) {
+		frappe.realtime.on('event_synced', (data) => {
+			frappe.show_alert({message: data.message, indicator: 'green'});
+			frm.reload_doc();
+		})
+	},
 	onload: function(frm) {
 		if (frm.doc.__islocal) {
 			frappe.call({
@@ -22,15 +28,6 @@ frappe.ui.form.on('Maia Appointment', {
 					}
 				}
 			});
-		}
-
-		if (frm.doc.personal_event === 0 || frm.doc.personal_event === undefined) {
-			set_properties(frm, 1, 0);
-			if (frm.doc.group_event == 1) {
-				frm.set_df_property('patient_record', 'reqd', 0);
-			}
-		} else {
-			set_properties(frm, 0, 1);
 		}
 
 		frm.set_query("appointment_type", function() {
@@ -54,6 +51,10 @@ frappe.ui.form.on('Maia Appointment', {
 		update_top_buttons(frm);
 		if (frm.doc.group_event && (frm.doc.docstatus === 1)) {
 			update_group_info(frm);
+		}
+
+		if (frm.doc.rrule) {
+			new frappe.CalendarRecurrence(frm, false);
 		}
 	},
 	appointment_type: function(frm) {
@@ -106,15 +107,33 @@ frappe.ui.form.on('Maia Appointment', {
 			}
 		}
 	},
-	repeat_on: function(frm) {
-		if (frm.doc.repeat_on === "Every Day") {
-			$.each(["monday", "tuesday", "wednesday", "thursday", "friday",
-				"saturday", "sunday"
-			], function(i, v) {
-				frm.set_value(v, 1);
-			});
+	repeat_this_event: function(frm) {
+		if(frm.doc.repeat_this_event === 1) {
+			new frappe.CalendarRecurrence(frm, true);
+		}
+	},
+	sync_with_google_calendar(frm) {
+		frm.trigger('get_google_calendar');
+	},
+	get_google_calendar(frm) {
+		if(frm.doc.practitioner) {
+			frappe.db.get_value("Professional Information Card", frm.doc.practitioner, "google_calendar", r => {
+				if (r) {
+					r.google_calendar&&frm.set_value("google_calendar", r.google_calendar);
+				}
+			})
+		}
+	},
+	practitioner(frm) {
+		if (frm.doc.practitioner) {
+			frappe.db.get_value("Professional Information Card", frm.doc.practitioner, "google_calendar_sync_by_default", r => {
+				if (r) {
+					r.google_calendar_sync_by_default&&frm.set_value("sync_with_google_calendar", r.google_calendar_sync_by_default);
+				}
+			})
 		}
 	}
+
 });
 
 const patient_data = patient_record => {
@@ -179,21 +198,6 @@ const duration_color_group = doc => {
 	}
 }
 
-const btn_update_status = (frm, status) => {
-	frappe.call({
-		method: "maia.maia_appointment.doctype.maia_appointment.maia_appointment.update_status",
-		args: {
-			appointmentId: frm.doc.name,
-			status: status
-		},
-		callback: function(data) {
-			if (!data.exc) {
-				cur_frm.reload_doc();
-			}
-		}
-	});
-}
-
 const set_personal_event = frm => {
 	frm.clear_custom_buttons();
 	frappe.model.set_value(frm.doctype, frm.docname, 'group_event', 0);
@@ -202,7 +206,6 @@ const set_personal_event = frm => {
 
 		const perso = 0;
 		const pub = 1;
-		set_properties(frm, perso, pub);
 		set_values(frm, perso);
 
 		update_top_buttons(frm);
@@ -211,19 +214,10 @@ const set_personal_event = frm => {
 
 		const perso = 1;
 		const pub = 0;
-		set_properties(frm, perso, pub);
 		set_values(frm, perso);
 
 		update_top_buttons(frm);
 	}
-}
-
-const set_properties = (frm, perso, pub) => {
-	frm.set_df_property('subject', 'reqd', pub)
-	frm.set_df_property('patient_record', 'reqd', perso);
-	frm.set_df_property('appointment_type', 'reqd', perso);
-	frm.set_df_property('duration', 'read_only', perso);
-	frm.set_df_property('duration', 'reqd', pub);
 }
 
 const set_values = (frm, perso) => {
@@ -418,11 +412,11 @@ maia.maia_appointment.AvailabilityModal = class AvailabilityModal {
 			$(d.body).find('.form-section').css('padding-bottom', '12px');
 			$.each(result, function(i, v) {
 				if (!v[0]) {
-					$(repl('<div class="col-xs-12" style="padding-top:20px;">' + __("No Availability") + '</div></div>')).appendTo($html_field);
+					$(repl('<div class="col-xs-12" style="padding: 20px 0;">' + __("No Availability") + '</div></div>')).appendTo($html_field);
 					return
 				}
 				if (v[0]["msg"]) {
-					$(repl('<div class="col-xs-12" style="padding-top:20px;">%(msg)s</div></div>', {
+					$(repl('<div class="col-xs-12" style="padding:20px 0;">%(msg)s</div></div>', {
 						msg: v[0]["msg"]
 					})).appendTo($html_field);
 					return

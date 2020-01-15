@@ -62,7 +62,6 @@ class MaiaAvailability():
 		self.duration = frappe.get_value("Maia Appointment Type", self.appointment_type, "duration")
 		limit_in_days = frappe.get_value("Professional Information Card", practitioner, "number_of_days_limit") or 0
 		self.limit = datetime.datetime.combine(add_days(getdate(), int(limit_in_days)), datetime.datetime.time(datetime.datetime.now()))
-		self.doctype = "Maia Appointment"
 
 	def get_availability(self):
 		if self.duration is not None:
@@ -86,7 +85,10 @@ class MaiaAvailability():
 		if ((date < getdate()) or (date == add_to_date(getdate(), days=1) and nowtime() > "19:00")):
 			return
 
-		resource = frappe.get_doc("Professional Information Card", self.practitioner)
+		resource = frappe.get_cached_doc("Maia Appointment Type", self.appointment_type)
+		if not getattr(resource, "consulting_schedule"):
+			resource = frappe.get_cached_doc("Professional Information Card", self.practitioner)
+
 		availability = []
 		schedules = []
 
@@ -104,7 +106,7 @@ class MaiaAvailability():
 					})
 
 			if schedules:
-				schedule_availability = ScheduleAvailability(self.doctype, self.practitioner, schedules, date)
+				schedule_availability = ScheduleAvailability(self.practitioner, schedules, date)
 				availability.append(schedule_availability.get_availabilities())
 
 		return availability
@@ -215,6 +217,7 @@ def submit_appointment(email, practitioner, appointment_type, start, end, notes)
 	appointment = frappe.get_doc({
 		"doctype": "Maia Appointment",
 		"patient_record": patient_record,
+		"status": "Confirmed",
 		"user": user.name,
 		"practitioner": practitioner,
 		"appointment_type": app_type.name,
@@ -231,8 +234,6 @@ def submit_appointment(email, practitioner, appointment_type, start, end, notes)
 		"sms_reminder": sms_confirmation,
 		"mobile_no": mobile_no
 	}).insert()
-	appointment.flags.ignore_mandatory = True
-	appointment.submit()
 
 	if patient_record:
 		send_patient_confirmation(patient_record, practitioner, app_type.name, start)

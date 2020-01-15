@@ -119,7 +119,7 @@ export default {
 			selected_slot: null,
 			next_date: null,
 			next_date_status: null,
-			message: null
+			message: ""
 		}
 	},
 	computed: {
@@ -262,7 +262,7 @@ export default {
 		},
 		cancelEventSelection() {
 			this.selected_slot = null
-			this.message = null
+			this.message = ""
 		},
 		goToNextDate: function() {
 			this.next_date_status = null

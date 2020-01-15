@@ -14,7 +14,6 @@ def get_notification_config():
             "Gynecological Consultation": {"docstatus": 0},
             "Free Consultation": {"docstatus": 0},
             "Free Prescription": {"docstatus": 0},
-            "Maia Appointment": {"name": ["in", get_todays_events()]},
             "Revenue": {"status": ["in", ["Unpaid", "Draft"]]},
             "Expense": {"status": ["in", ["Unpaid", "Draft"]]},
             "Miscellaneous Operation": {"docstatus": 0},
