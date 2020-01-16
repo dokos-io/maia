@@ -23,8 +23,6 @@
   "column_break_5",
   "status",
   "patient_name",
-  "date",
-  "start_time",
   "start_dt",
   "end_dt",
   "duration",
@@ -37,7 +35,6 @@
   "reminder_the_day_before",
   "reminder",
   "email",
-  "standard_reply",
   "column_break_17",
   "sms_reminder",
   "mobile_no",
@@ -47,10 +44,11 @@
   "section_break_37",
   "group_event_info",
   "section_break_39",
+  "online_booking",
   "personal_event",
   "group_event",
   "column_break_42",
-  "queue_id",
+  "practitioner_user",
   "amended_from"
  ],
  "fields": [
@@ -86,6 +84,7 @@
    "options": "Patient Record"
   },
   {
+   "fetch_from": "patient_record.website_user",
    "fieldname": "user",
    "fieldtype": "Link",
    "hidden": 1,
@@ -118,7 +117,6 @@
   },
   {
    "depends_on": "eval:(doc.group_event&&doc.docstatus===1)",
-   "description": "Reload the document to update the number of seats left",
    "fieldname": "seats_left",
    "fieldtype": "Data",
    "label": "Seats Left",
@@ -144,33 +142,12 @@
    "read_only": 1
   },
   {
-   "bold": 1,
-   "default": "Today",
-   "depends_on": "eval:!doc.personal_event",
-   "fieldname": "date",
-   "fieldtype": "Date",
-   "in_list_view": 1,
-   "label": "Date",
-   "mandatory_depends_on": "eval:!doc.personal_event"
-  },
-  {
-   "default": "0",
-   "depends_on": "eval:!doc.personal_event",
-   "fieldname": "start_time",
-   "fieldtype": "Time",
-   "in_list_view": 1,
-   "label": "Start Time",
-   "mandatory_depends_on": "eval:!doc.personal_event"
-  },
-  {
-   "depends_on": "eval:doc.personal_event",
    "fieldname": "start_dt",
    "fieldtype": "Datetime",
    "label": "Start Time",
-   "mandatory_depends_on": "eval:doc.personal_event"
+   "reqd": 1
   },
   {
-   "depends_on": "eval:doc.personal_event",
    "fieldname": "end_dt",
    "fieldtype": "Datetime",
    "label": "End Time"
@@ -202,18 +179,13 @@
    "label": "Send an Email"
   },
   {
-   "depends_on": "eval:(doc.reminder==1)",
+   "depends_on": "eval:doc.reminder",
+   "fetch_from": "patient_record.email_id",
    "fieldname": "email",
    "fieldtype": "Data",
    "label": "Email",
-   "read_only": 1
-  },
-  {
-   "depends_on": "eval:(doc.reminder==1)",
-   "fieldname": "standard_reply",
-   "fieldtype": "Link",
-   "label": "Custom Reply",
-   "options": "Email Template"
+   "mandatory_depends_on": "eval:doc.reminder",
+   "options": "Email"
   },
   {
    "fieldname": "column_break_17",
@@ -228,6 +200,7 @@
   {
    "depends_on": "eval:doc.sms_reminder",
    "description": "00336XXXXXXXX or +33 6XXXXXXXX or +33 6.XX.XX.XX.XX",
+   "fetch_from": "patient_record.mobile_no",
    "fieldname": "mobile_no",
    "fieldtype": "Data",
    "label": "Mobile N\u00b0",
@@ -280,14 +253,6 @@
   {
    "fieldname": "column_break_42",
    "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "queue_id",
-   "fieldtype": "Link",
-   "hidden": 1,
-   "label": "Email Queue",
-   "no_copy": 1,
-   "options": "Email Queue"
   },
   {
    "fieldname": "amended_from",
@@ -359,11 +324,27 @@
    "fieldname": "all_day",
    "fieldtype": "Check",
    "label": "All day"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:!doc.personal_event && !doc.group_event",
+   "fieldname": "online_booking",
+   "fieldtype": "Check",
+   "label": "Booked online",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "practitioner.user",
+   "fieldname": "practitioner_user",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Practitioner user",
+   "options": "User"
   }
  ],
  "icon": "fa fa-calendar-check-o",
  "links": [],
- "modified": "2020-01-15 14:16:01.987815",
+ "modified": "2020-01-16 18:42:07.140051",
  "modified_by": "Administrator",
  "module": "Maia Appointment",
  "name": "Maia Appointment",
@@ -412,7 +393,7 @@
    "write": 1
   }
  ],
- "sort_field": "date",
+ "sort_field": "start_dt",
  "sort_order": "ASC",
  "title_field": "subject",
  "track_changes": 1

@@ -1,5 +1,5 @@
 frappe.listview_settings['Maia Appointment'] = {
-    filters: [["status","!=", "Cancelled"], ["date",">=",frappe.datetime.get_today()]],
+    filters: [["status","!=", "Cancelled"], ["start_dt",">=",frappe.datetime.get_today()]],
     get_indicator: function(doc) {
 		if (doc.status == "Confirmed") {
 			return [__("Confirmed"), "green", "status,=,Confirmed"];

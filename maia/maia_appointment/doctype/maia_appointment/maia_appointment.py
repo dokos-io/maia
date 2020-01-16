@@ -19,13 +19,19 @@ from frappe.integrations.doctype.google_calendar.google_calendar import get_goog
 from googleapiclient.errors import HttpError
 from frappe.desk.calendar import process_recurring_events
 
-
 class MaiaAppointment(Document):
 	def validate(self):
+		self.validate_user_email()
+		self.validate_user_phone()
+		self.validate_group_participants()
+		self.validate_filled_information()
+
+	def validate_user_email(self):
 		if self.reminder == 1 and not self.group_event:
 			if self.email is None:
 				frappe.throw(_("Please enter a valid email address"))
 
+	def validate_user_phone(self):
 		if self.sms_reminder == 1 and not self.group_event:
 			if self.mobile_no is None:
 				frappe.throw(_("Please enter a valid mobile number"))
@@ -34,29 +40,7 @@ class MaiaAppointment(Document):
 				if not valid_number[:2] == "00":
 					frappe.msgprint(_("The phone number format doesn't seem to match with the allowed formats. Make sure you have added the country code (+33 or 0033) in front else no sms will be sent."))
 
-		if self.personal_event != 1:
-			appointment_type = frappe.get_doc("Maia Appointment Type", self.appointment_type)
-			if appointment_type.group_appointment == 1 and self.group_event != 1:
-				events = get_registration_count(self.appointment_type, self.date)
-				inconsistency = 0
-
-				corresponding_events = filter(lambda x: x.start_dt == datetime.datetime.combine(getdate(self.date), get_time(self.start_time)), events)
-				if not corresponding_events:
-					frappe.throw(_("The date and time of your appointment don't match with the existing group appointments. Please select another slot."))
-
-				else:
-					for event in corresponding_events:
-						if event.practitioner == self.practitioner:
-							if event.seats_left > 0:
-								continue
-							else:
-								frappe.throw(_("The number of participants exceeds the max. number for this group appointment."))
-						else:
-							inconsistency += 1
-
-				if inconsistency > 0:
-					frappe.throw(_("No existing slot could be found for this practitioner, date, time and appointment type."))
-
+	def validate_filled_information(self):
 		if self.sync_with_google_calendar and not self.google_calendar:
 			self.google_calendar = frappe.db.get_value("Professional Information Card", self.practitioner, "google_calendar")
 
@@ -65,6 +49,36 @@ class MaiaAppointment(Document):
 
 		if isinstance(self.rrule, list) and self.rrule > 1:
 			self.rrule = self.rrule[0]
+
+		if not self.practitioner_user:
+			self.practitioner_user = frappe.db.get_value("Professional Information Card", self.practitioner, "user")
+
+		if not self.subject:
+			self.subject = self.name
+
+		if not self.user and self.patient_record:
+			self.user = frappe.db.get_value("Patient Record", self.patient_record, "website_user")
+
+	def validate_group_participants(self):
+		if self.personal_event != 1 and self.group_event != 1 and frappe.get_doc("Maia Appointment Type", self.appointment_type, "group_appointment"):
+			events = get_registration_count(self.appointment_type, self.start_dt)
+			inconsistency = 0
+
+			corresponding_events = filter(lambda x: get_datetime(x.start_dt) == get_datetime(self.start_dt), events)
+			if not corresponding_events:
+				frappe.throw(_("The date and time of your appointment don't match with the existing group appointments. Please select another slot."))
+			else:
+				for event in corresponding_events:
+					if event.practitioner == self.practitioner:
+						if event.seats_left > 0:
+							continue
+						else:
+							frappe.throw(_("The number of participants exceeds the max. number for this group appointment."))
+					else:
+						inconsistency += 1
+
+			if inconsistency > 0:
+				frappe.throw(_("No existing slot could be found for this practitioner, date, time and appointment type."))
 
 	def before_save(self):
 		if self.start_dt:
@@ -76,17 +90,7 @@ class MaiaAppointment(Document):
 			if self.all_day:
 				self.end_dt = get_datetime(self.end_dt).replace(hour=23, minute=59, second=59)
 
-			self.date = getdate(self.start_dt)
-			self.time = get_time(self.start_dt)
 			self.duration = (get_datetime(self.end_dt) - get_datetime(self.start_dt)).seconds/60
-		elif self.date and self.start_time	:
-			date = getdate(self.date)
-			time = get_time(self.start_time)
-			self.start_dt = datetime.datetime.combine(date, time)
-			self.end_dt = self.start_dt + datetime.timedelta(minutes=cint(self.duration))
-
-		if not self.subject:
-			self.subject = self.name
 
 	def on_update(self):
 		self.clear_reminders()
@@ -94,8 +98,6 @@ class MaiaAppointment(Document):
 		if self.status == "Confirmed" and self.reminder == 1 and not self.group_event:
 			if frappe.db.get_value("Patient Record", self.patient_record, "email_id") != self.email:
 				frappe.db.set_value("Patient Record", self.patient_record, "email_id", self.email)
-
-			self.send_reminder()
 
 		if self.status == "Confirmed" and self.sms_reminder == 1 and not self.group_event:
 			if self.mobile_no is None:
@@ -108,67 +110,12 @@ class MaiaAppointment(Document):
 			self.send_sms_reminder(valid_number)
 
 	def clear_reminders(self):
-		if self.queue_id:
-			frappe.delete_doc("Email Queue", self.queue_id, force=True, ignore_permissions=True)
-
 		sms_reminder = frappe.get_all("SMS Reminder", filters={"maia_appointment": self.name})
 		for sms in sms_reminder:
 			frappe.delete_doc("SMS Reminder", sms.name, force=True, ignore_permissions=True)
 
-	def send_reminder(self):
-		patient_email = self.email
-		sending_date = get_datetime(self.start_dt) + datetime.timedelta(days=-1)
-
-		if self.standard_reply:
-			args = {
-				"patient_record": self.patient_record,
-				"patient_first_name": frappe.db.get_value("Patient Record", self.patient_record, "patient_first_name"),
-				"patient_last_name": frappe.db.get_value("Patient Record", self.patient_record, "patient_last_name"),
-				"practitioner": self.practitioner,
-				"appointment_type": self.appointment_type,
-				"patient_name": self.patient_name,
-				"date": formatdate(get_datetime_str(self.start_dt), "dd/MM/yyyy"),
-				"start_time": get_datetime(self.start_dt).strftime("%H:%M"),
-				"standard_reply": self.standard_reply,
-				"duration": self.duration
-			}
-			reply = get_email_template(self.standard_reply, args)
-
-			subject = reply["subject"]
-			message = reply["message"]
-		else:
-			if self.patient_record:
-				patient_first_name = frappe.db.get_value(
-					"Patient Record", self.patient_record, "patient_first_name")
-			else:
-				patient_first_name = frappe.db.get_value(
-					"User", self.email, "first_name")
-			appointment_date = formatdate(getdate(self.date), "dd/MM/yyyy")
-			start_time = get_datetime(self.start_dt).strftime("%H:%M")
-
-			subject = _("""N'oubliez pas votre rendez-vous avec {0}, prévu le {1} à {2}""".format(
-				self.practitioner, appointment_date, start_time))
-			message = _("""Bonjour {0}, <br><br>Votre rendez-vous est toujours prévu le {1}, à {2}. <br><br>Si vous avez un empêchement, veuillez me l'indiquer au plus vite par retour de mail.<br><br>Merci beaucoup.<br><br>{3}""".format(
-				patient_first_name, appointment_date, start_time, self.practitioner))
-
-		try:
-			if sending_date > now_datetime():
-				frappe.sendmail(patient_email, subject=subject,
-								content=message, send_after=sending_date)
-				self.get_email_id(patient_email, sending_date)
-			else:
-				frappe.sendmail(patient_email, subject=subject, content=message)
-		except Exception as e:
-			frappe.log_error(e, "Email reminder sending error")
-
-	def get_email_id(self, patient_email, sending_date):
-		email_queue = frappe.get_all("Email Queue")
-		queue_id = email_queue[0].name
-		frappe.db.set_value("Maia Appointment", self.name, "queue_id", queue_id)
-		self.reload()
-
 	def send_sms_reminder(self, valid_number):
-		appointment_date = formatdate(getdate(self.date), "dd/MM/yyyy")
+		appointment_date = formatdate(get_datetime_str(self.start_dt), "dd/MM/yyyy")
 		start_time = get_datetime(self.start_dt).strftime("%H:%M")
 
 		sms_settings = self.get_sms_settings()		
@@ -230,9 +177,9 @@ def get_registration_count(appointment_type, date):
 	filters=[
 		["Maia Appointment","appointment_type","=",appointment_type],
 		["Maia Appointment","group_event","=",1],
-		["Maia Appointment", "docstatus","=",1]
+		["Maia Appointment", "status","!=", "Cancelled"]
 	]
-	start = get_datetime(date).strftime("%Y-%m-%d %H:%M:%S")
+	start = get_datetime(date)
 	end = add_to_date(start, years=1)
 
 	_appointment_type = frappe.get_doc("Maia Appointment Type", appointment_type)
@@ -240,10 +187,12 @@ def get_registration_count(appointment_type, date):
 	slots = get_events(start=start, end=end, filters=filters)
 
 	for slot in slots:
-		filters = [["Maia Appointment","appointment_type","=",appointment_type], ["Maia Appointment","group_event","=",0], ["Maia Appointment", "docstatus","=",1]]
-		start = slot.start_dt.strftime("%Y-%m-%d %H:%M:%S")
-		end = slot.end_dt.strftime("%Y-%m-%d %H:%M:%S")
-		scheduled_events = get_events(start=start, end=end, filters=filters)
+		filters = [
+			["Maia Appointment","appointment_type","=",appointment_type],
+			["Maia Appointment","group_event","=",0],
+			["Maia Appointment", "status","!=", "Cancelled"]
+		]
+		scheduled_events = get_events(start=slot.start_dt, end=slot.end_dt, filters=filters)
 
 		count = 0
 		registered = []
@@ -385,16 +334,6 @@ def send_request(data):
 	return response
 
 @frappe.whitelist()
-def set_seats_left(appointment, data):
-	data = json.loads(data)
-	frappe.db.set_value("Maia Appointment", appointment, "seats_left", data['seats_left'])
-
-	if data['seats_left'] > 0:
-		return 'green'
-	else:
-		return 'red'
-
-@frappe.whitelist()
 def create_patient_record(data, user):
 	data = json.loads(data)
 	patient_record = frappe.get_doc({
@@ -531,6 +470,7 @@ def insert_event_in_google_calendar(doc, method=None):
 		"description": doc.notes,
 		"recurrence": [doc.rrule] if doc.repeat_this_event and doc.rrule else []
 	}
+	print(doc.start_dt, doc.end_dt)
 	event.update(format_date_according_to_google_calendar(doc.get("all_day", 0), \
 		get_datetime(doc.start_dt), get_datetime(doc.end_dt)))
 
@@ -569,6 +509,7 @@ def update_event_in_google_calendar(doc, method=None):
 		event["description"] = doc.notes
 		event["recurrence"] = [doc.rrule] if doc.repeat_this_event and doc.rrule else []
 		event["status"] = "cancelled" if doc.status == "Cancelled" else "confirmed"
+		print("DATES", doc.start_dt, doc.end_dt)
 		event.update(format_date_according_to_google_calendar(doc.get("all_day", 0), \
 			get_datetime(doc.start_dt), get_datetime(doc.end_dt)))
 
@@ -604,4 +545,3 @@ def delete_event_in_google_calendar(doc, method=None):
 	except HttpError as err:
 		frappe.msgprint(_("Google Calendar - Could not delete Event {0} from Google Calendar, error code {1}."\
 			).format(doc.name, err.resp.status))
-

@@ -1,4 +1,5 @@
 {
+ "actions": [],
  "allow_import": 1,
  "autoname": "naming_series:",
  "creation": "2019-04-18 10:32:47.872825",
@@ -13,6 +14,7 @@
   "column_break1",
   "posting_date",
   "practitioner",
+  "substitute",
   "section_break_8",
   "get_cash_payments",
   "payment_items",
@@ -30,7 +32,7 @@
   {
    "fieldname": "entry_type_and_date",
    "fieldtype": "Section Break",
-   "options": "fas fa-flag"
+   "options": "fa fa-flag"
   },
   {
    "fieldname": "title",
@@ -46,7 +48,7 @@
    "label": "Operation Type",
    "oldfieldname": "voucher_type",
    "oldfieldtype": "Select",
-   "options": "Miscellaneous Operation\nInternal Transfer\nCash Deposit\nPersonal Credit or Debit",
+   "options": "Miscellaneous Operation\nInternal Transfer\nCash Deposit\nPersonal Credit or Debit\nFee Retrocession",
    "reqd": 1,
    "search_index": 1
   },
@@ -100,7 +102,7 @@
    "fieldname": "2_add_edit_gl_entries",
    "fieldtype": "Section Break",
    "oldfieldtype": "Section Break",
-   "options": "fas fa-table"
+   "options": "fa fa-table"
   },
   {
    "fieldname": "items",
@@ -176,11 +178,20 @@
    "fieldtype": "Currency",
    "label": "Total",
    "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.operation_type === \"Fee Retrocession\"",
+   "fieldname": "substitute",
+   "fieldtype": "Link",
+   "label": "Substitute",
+   "mandatory_depends_on": "eval:doc.operation_type === \"Fee Retrocession\"",
+   "options": "Professional Information Card"
   }
  ],
- "icon": "fas fa-file-alt",
+ "icon": "fa fa-file-text",
  "is_submittable": 1,
- "modified": "2019-07-10 15:33:50.060982",
+ "links": [],
+ "modified": "2020-01-15 17:11:48.137307",
  "modified_by": "Administrator",
  "module": "Maia Accounting",
  "name": "Miscellaneous Operation",

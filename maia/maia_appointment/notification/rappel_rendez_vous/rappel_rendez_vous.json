@@ -1,0 +1,27 @@
+{
+ "attach_print": 0,
+ "channel": "Email",
+ "condition": "doc.status == \"Confirmed\"",
+ "creation": "2020-01-16 11:34:02.242891",
+ "date_changed": "start_dt",
+ "days_in_advance": 1,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Maia Appointment",
+ "enabled": 1,
+ "event": "Days Before",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "{% if doc.patient_record %}\n{% set prenom = frappe.db.get_value(\"Patient Record\", doc.patient_record, \"patient_first_name\") %}\n{% else %}\n{% set prenom = frappe.db.get_value(\"User\", doc.user, \"first_name\") %}\n{% endif %}\n\n{% set type_rendez_vous = frappe.db.get_value(\"Maia Appointment Type\", doc.appointment_type, \"appointment_type\") %}\n{% set date = frappe.utils.formatdate(frappe.utils.get_datetime_str(doc.start_dt), \"dd/MM/yyyy\") %}\n{% set heure = frappe.utils.get_datetime(self.start_dt).strftime(\"%H:%M\") %}\n\n<div>\n    <p>Bonjour {{ prenom }},</p>\n    <p>Votre rendez-vous est toujours pr\u00e9vu le {{ date }}, \u00e0 {{ heure }}.</p>\n    <p>Si vous avez un emp\u00eachement, veuillez me l'indiquer au plus vite par retour de mail.</p>\n    <p>Merci beaucoup.</p>\n    <p>{{doc.practitioner }}</p>\n</div>",
+ "modified": "2020-01-16 12:06:55.857115",
+ "modified_by": "Administrator",
+ "module": "Maia Appointment",
+ "name": "Rappel rendez-vous",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "email_by_document_field": "user_email"
+  }
+ ],
+ "subject": "N'oubliez pas votre rendez-vous avec {{ doc.practitioner }}"
+}

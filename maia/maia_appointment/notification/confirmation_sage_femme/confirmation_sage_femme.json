@@ -1,0 +1,26 @@
+{
+ "attach_print": 0,
+ "channel": "Email",
+ "condition": "doc.online_booking and doc.status == \"Confirmed\"",
+ "creation": "2020-01-16 11:18:29.036055",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Maia Appointment",
+ "enabled": 1,
+ "event": "New",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "{% set sagefemme = frappe.db.get_value(\"Professional Information Card\", doc.practitioner, \"first_name\") %}\n{% set patiente = frappe.get_doc(\"User\", doc.user) %}\n{% set type_rendez_vous = frappe.db.get_value(\"Maia Appointment Type\", doc.appointment_type, \"appointment_type\") %}\n{% set date = frappe.utils.formatdate(frappe.utils.get_datetime_str(doc.start_dt), \"dd/MM/yyyy\") %}\n{% set heure = frappe.utils.get_datetime(self.start_dt).strftime(\"%H:%M\") %}\n\n<div>\n    <p>Bonjour {{ sagefemme or \"\" }},</p>\n    <p>{{ patiente.first_name or \"\" }} {{ patiente.last_name or \"\" }} vient de prendre rendez-vous sur votre plateforme de r\u00e9servation.</p>\n    <p><strong>Date:</strong> {{ date }}</p>\n    <p><strong>Heure:</strong> {{ heure }}</p>\n    <p><strong>Type de Rendez-Vous:</strong> {{ type_rendez_vous or \"\" }}</p>\n    <p><strong>Message:</strong> {{ doc.notes or \"\" }}</p>\n    \n    <p>L'\u00c9quipe Maia</p>\n</div>",
+ "modified": "2020-01-16 12:17:08.099029",
+ "modified_by": "Administrator",
+ "module": "Maia Appointment",
+ "name": "Confirmation sage-femme",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "email_by_document_field": "practitioner_user"
+  }
+ ],
+ "subject": "[Maia] Nouveau Rendez-Vous en Ligne"
+}

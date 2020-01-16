@@ -5,12 +5,7 @@
 		"public/js/templates/contact_list.html"
 	],
 	"js/maia-web.min.js": [
-		"public/js/maia/appointment_calendar/appointment_selector.js",
-		"public/js/templates/selectors/practitioner_selector.html",
-		"public/js/templates/selectors/appointment_type_selector.html",
-		"public/js/templates/selectors/booking_page.html",
-		"public/js/templates/selectors/next_availability_page.html",
-		"public/js/templates/selectors/category_selector.html"
+		"public/js/maia/appointment_calendar/appointment_selector.js"
 	],
 	"js/patient-dashboard.min.js": [
 		"public/js/maia/patient_dashboard/custom_patient_dashboard.js"

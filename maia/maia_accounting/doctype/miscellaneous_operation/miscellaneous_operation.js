@@ -2,6 +2,15 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Miscellaneous Operation', {
+	setup(frm) {
+		frm.set_query("substitute", function(frm, cdt, cdn) {
+			return {
+				"filters": {
+					"is_substitute": 1
+				}
+			}
+		})
+	},
 	onload(frm) {
 		frappe.call({
 			"method": "maia.client.get_practitioner",
@@ -136,6 +145,12 @@ const set_item_queries = main => {
 					"accounting_journal": ["in", ["Bank", "Cash"]]
 				}
 			};
+		} else if (main.doc.operation_type == "Fee Retrocession") {
+			return {
+				"filters": {
+					"accounting_journal": ["in", ["Bank", "Cash", "Miscellaneous Operations"]]
+				}
+			};
 		}
 	});
 
@@ -156,7 +171,8 @@ const set_item_queries = main => {
 }
 
 const add_operation_related_items = frm => {
-	if (frm.doc.operation_type == "Internal Transfer") {
+	frm.doc.items = [];
+	if (["Internal Transfer", "Fee Retrocession"].includes(frm.doc.operation_type)) {
 		frappe.xcall("frappe.client.get_list", {doctype: "Accounting Item", 
 			filters: {"accounting_journal": ["in", ["Bank", "Cash"]]}, fields: ["name", "accounting_journal"]})
 		.then(e => {
@@ -164,9 +180,19 @@ const add_operation_related_items = frm => {
 				add_operation_items(frm, e)
 			}
 		})
-	} else if (["Personal Credit or Debit", "Cash Deposit"].includes(frm.doc.operation_type)) {
+	}
+	if (["Personal Credit or Debit", "Cash Deposit"].includes(frm.doc.operation_type)) {
 		frappe.xcall("frappe.client.get_list", {doctype: "Accounting Item", 
 			filters: {"accounting_item_type": ["in", ["Bank", "Cash", "Practitioner"]]}, fields: ["name", "accounting_journal"]})
+		.then(e => {
+			if(e) {
+				add_operation_items(frm, e)
+			}
+		})
+	}
+	if (frm.doc.operation_type == "Fee Retrocession") {
+		frappe.xcall("frappe.client.get_list", {doctype: "Accounting Item", 
+			filters: {"code_2035": "AC"}, fields: ["name", "accounting_journal"]})
 		.then(e => {
 			if(e) {
 				add_operation_items(frm, e)
@@ -176,7 +202,6 @@ const add_operation_related_items = frm => {
 }
 
 const add_operation_items = (frm, e) => {
-	frm.doc.items = [];
 	e.forEach(value => {
 		let row = frappe.model.add_child(frm.doc, "Miscellaneous Operation Items", "items");
 		row.accounting_item = value.name;
@@ -210,7 +235,8 @@ const add_reconciliation_btn = frm => {
 				default: frm.doc.posting_date
 			},
 			function(data) {
-				frappe.xcall('maia.maia_accounting.doctype.miscellaneous_operation.miscellaneous_operation.update_clearance_dates', {documents: frm.doc.payment_items, date: data.clearance_date})
+				frappe.xcall('maia.maia_accounting.doctype.miscellaneous_operation.miscellaneous_operation.update_clearance_dates',
+				{documents: frm.doc.payment_items, date: data.clearance_date})
 				.then(() => {
 					frm.reload_doc();
 					frappe.show_alert({message:__("Clearance dates updated successfully"), indicator:'green'});

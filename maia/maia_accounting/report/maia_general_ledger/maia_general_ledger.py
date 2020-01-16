@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 import frappe
 from frappe.utils import getdate, cstr, flt, fmt_money
 from frappe import _, _dict
+import maia
 
 def execute(filters=None):
 	if not filters:
@@ -138,10 +139,14 @@ def get_accountwise_gle(filters, gl_entries, gle_map):
 	entries = []
 
 	def update_value_in_dict(data, key, gle):
-		data[key].debit += flt(gle.debit)
-		data[key].credit += flt(gle.credit)
+		data[key].debit += flt(gle.get("debit"))
+		data[key].credit += flt(gle.get("credit"))
 
 	from_date, to_date = getdate(filters.from_date), getdate(filters.to_date)
+
+	opening_balance = get_opening_balance(from_date)
+	update_value_in_dict(totals, 'opening', opening_balance)
+	update_value_in_dict(totals, 'closing', opening_balance)
 	for gle in gl_entries:
 		update_value_in_dict(gle_map[gle.get("reference_name")].totals, 'total', gle)
 		update_value_in_dict(totals, 'total', gle)
@@ -152,6 +157,13 @@ def get_accountwise_gle(filters, gl_entries, gle_map):
 		update_value_in_dict(totals, 'closing', gle)
 
 	return totals, entries
+
+def get_opening_balance(from_date):
+	opening_entries = frappe.get_all("General Ledger Entry", filters={"posting_date": ["<", from_date]}, fields=["SUM(credit) as credit, SUM(debit) as debit"])
+	return {
+		"debit": opening_entries[0].get("debit") if opening_entries else 0,
+		"credit": opening_entries[0].get("credit") if opening_entries else 0
+	}
 
 def get_result_as_list(data, filters):
 	balance = 0
@@ -177,7 +189,7 @@ def get_balance(row, balance, debit_field, credit_field):
 	return balance
 
 def get_columns(filters):
-	currency = "EUR"
+	currency = maia.get_default_currency()
 
 	columns = [
 		{

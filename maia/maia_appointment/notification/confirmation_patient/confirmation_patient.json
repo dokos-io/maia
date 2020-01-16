@@ -1,0 +1,26 @@
+{
+ "attach_print": 0,
+ "channel": "Email",
+ "condition": "doc.online_booking and doc.status == \"Confirmed\" and (doc.patient_record or doc.user)",
+ "creation": "2020-01-16 10:03:33.557451",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Maia Appointment",
+ "enabled": 1,
+ "event": "New",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "{% if doc.patient_record %}\n{% set prenom = frappe.db.get_value(\"Patient Record\", doc.patient_record, \"patient_first_name\") %}\n{% else %}\n{% set prenom = frappe.db.get_value(\"User\", doc.user, \"first_name\") %}\n{% endif %}\n\n{% set type_rendez_vous = frappe.db.get_value(\"Maia Appointment Type\", doc.appointment_type, \"appointment_type\") %}\n{% set date = frappe.utils.formatdate(frappe.utils.get_datetime_str(doc.start_dt), \"dd/MM/yyyy\") %}\n{% set heure = frappe.utils.get_datetime(self.start_dt).strftime(\"%H:%M\") %}\n{% set lien = frappe.get_url(\"/login\") %}\n\n<div>\n    <p>Bonjour {{ prenom or \"\" }},</p>\n    <p>Votre rendez-vous {{ type_rendez_vous }}\" est confirm\u00e9 le {{ date }}, \u00e0 {{ heure }}.</p>\n    <p>Pour toute annulation jusqu'\u00e0 48H avant le rendez-vous, veuillez cliquer <a href={{ lien }}>ici</a>.</p>\n    <p>En cas d'emp\u00eachement dans les derni\u00e8res 48H, veuillez me contacter.</p>\n    <p>Merci beaucoup.</p>\n    <p>{{ doc.practitioner }}</p>\n</div>",
+ "modified": "2020-01-16 12:19:42.216394",
+ "modified_by": "Administrator",
+ "module": "Maia Appointment",
+ "name": "Confirmation patient",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "email_by_document_field": "user"
+  }
+ ],
+ "subject": "Confirmation de votre rendez-vous avec {{ doc.practitioner }}"
+}

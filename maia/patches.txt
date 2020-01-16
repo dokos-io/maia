@@ -65,3 +65,5 @@ maia.patches.v3_0.correct_website_theme #20190918
 maia.patches.v3_0.new_perineum_rehabilitation_codification
 maia.patches.v3_0.preregistered_to_custom_dashboards
 maia.patches.v3_1.fontawesome4_migration
+maia.patches.v3_1.appointments_refactor
+

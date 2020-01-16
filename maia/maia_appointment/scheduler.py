@@ -41,7 +41,7 @@ def check_availability(practitioner, date, duration):
 			schedule_availability = ScheduleAvailability(practitioner, schedules, date)
 			availability.extend(schedule_availability.get_availabilities())
 
-		if not schedules or not availability:
+		if not schedules and not availability:
 			for line in day_schedule:
 				availability.append({"msg": _("Schedules for {0} on  {1} : {2}-{3}").format(\
 					practitioner, formatdate(get_datetime_str(date), "dd/MM/yyyy"), line.start_time, line.end_time)})

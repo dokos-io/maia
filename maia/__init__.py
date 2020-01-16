@@ -5,7 +5,7 @@ from frappe.utils import now
 from maia.maia_accounting.utils import get_fiscal_year
 
 
-__version__ = '3.0.13'
+__version__ = '3.1.0beta'
 
 
 def get_default_fiscal_year(user=None):
@@ -17,7 +17,7 @@ def get_default_fiscal_year(user=None):
 	return  get_fiscal_year(date=now(), practitioner=practitioner)
 
 def get_default_currency():
-	return "EUR"
+	return frappe.defaults.get_defaults().get("currency")
 
 def get_consultation_types():
 	return ["Early Postnatal Consultation", "Pregnancy Consultation", "Postnatal Consultation", "Gynecological Consultation", "Birth Preparation Consultation", \

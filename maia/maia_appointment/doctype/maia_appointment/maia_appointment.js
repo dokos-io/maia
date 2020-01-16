@@ -41,12 +41,6 @@ frappe.ui.form.on('Maia Appointment', {
 		});
 		frm.add_web_link("/appointment", __('Online booking platform'))
 	},
-	onload_post_render: function(frm) {
-		if (frm.doc.__islocal) {
-			frm.set_value('date', moment(frm.doc.start_dt).format(moment.defaultDateFormat));
-			frm.set_value('start_time', moment(frm.doc.start_dt).format('H:mm:ss'));
-		}
-	},
 	refresh: function(frm) {
 		update_top_buttons(frm);
 		if (frm.doc.group_event && (frm.doc.docstatus === 1)) {
@@ -58,43 +52,7 @@ frappe.ui.form.on('Maia Appointment', {
 		}
 	},
 	appointment_type: function(frm) {
-		duration_color_group(frm.doc);
-	},
-	sms_reminder: function(frm) {
-		if (frm.doc.patient_record && frm.doc.sms_reminder == 1) {
-			patient_data(frm.doc.patient_record)
-			.then(data => {
-				if (data.message&&data.message.mobile_no) {
-					frm.set_value("mobile_no", data.message.mobile_no);
-				}
-			})
-		} else if (frm.doc.sms_reminder == 0) {
-			frm.set_value("mobile_no", "");
-		}
-	},
-	patient_record: function(frm) {
-		if (frm.doc.patient_record && frm.doc.reminder == 1) {
-			patient_data(frm.doc.patient_record)
-			.then(data => {
-				if (data.message.email_id == null) {
-					frm.set_value("email", __("Enter an Email Address"));
-					frm.set_df_property("email", "read_only", 0);
-				}
-
-				if (data.message.email_id == __("Enter an Email Address")) {
-					frm.set_df_property("email", "read_only", 0);
-				} else if (data.message.email_id) {
-					frm.set_value("email", data.message.email_id);
-					frm.set_df_property("email", "read_only", 1);
-				}
-
-				if (data.message.mobile_no && frm.doc.sms_reminder == 1) {
-					frm.set_value("mobile_no", data.message.mobile_no);
-				}
-			})
-		} else if (frm.doc.reminder == 0) {
-			frm.set_value("email", "");
-		}
+		duration_color_group(frm);
 	},
 	patient_name: function(frm) {
 		frm.set_value('subject', frm.doc.patient_name);
@@ -132,13 +90,32 @@ frappe.ui.form.on('Maia Appointment', {
 				}
 			})
 		}
+	},
+	duration(frm) {
+		if(frm.doc.start_dt && frm.doc.duration) {
+			frm.trigger('set_end_dt')
+		}
+	},
+	end_dt(frm) {
+		if (frm.doc.start_dt && frm.doc.end_dt) {
+			frm.trigger('set_duration')
+		}
+	},
+	start_dt(frm) {
+		if (frm.doc.start_dt && frm.doc.duration && !frm.doc.personal_event) {
+			frm.trigger('set_end_dt')
+		} else if (frm.doc.start_dt && frm.doc.end_dt) {
+			frm.trigger('set_duration')
+		}
+	},
+	set_duration(frm) {
+		frm.set_value("duration", frappe.datetime.get_minute_diff(frappe.datetime.str_to_obj(frm.doc.end_dt), frappe.datetime.str_to_obj(frm.doc.start_dt)))
+	},
+	set_end_dt(frm) {
+		frm.set_value("end_dt", frappe.datetime.add_minutes(frappe.datetime.str_to_obj(frm.doc.start_dt), frm.doc.duration))
 	}
 
 });
-
-const patient_data = patient_record => {
-	return frappe.db.get_value("Patient Record", patient_record, ["mobile_no", "email_id"])
-}
 
 const update_top_buttons = frm => {
 	if (frm.doc.docstatus == 0) {
@@ -174,7 +151,8 @@ const update_top_buttons = frm => {
 }
 
 
-const duration_color_group = doc => {
+const duration_color_group = frm => {
+	const doc = frm.doc
 	if (doc.appointment_type) {
 		frappe.call({
 			method: "frappe.client.get",
@@ -191,7 +169,7 @@ const duration_color_group = doc => {
 					frappe.model.set_value(doc.doctype, doc.name, 'number_of_seats', data.message.number_of_patients);
 					frappe.model.set_value(doc.doctype, doc.name, 'subject', data.message.appointment_type + "-" + __("Group"));
 				} else if (data.message.group_appointment == 1 && !doc.group_event) {
-					slot_choice_modal(doc, data.message);
+					slot_choice_modal(frm, data.message);
 				}
 			}
 		});
@@ -263,7 +241,7 @@ const set_group_event = frm => {
 }
 
 const check_availability_by_midwife = frm => {
-	if (frm.doc.practitioner && frm.doc.date && frm.doc.duration) {
+	if (frm.doc.practitioner && frm.doc.start_dt && frm.doc.duration) {
 		show_availability(frm);
 	} else {
 		frappe.msgprint(__("Please select a Midwife, a Date, an Appointment Type or a Duration"));
@@ -276,38 +254,20 @@ const update_group_info = frm => {
 		args: {
 			appointment_type: frm.doc.appointment_type,
 			date: frm.doc.start_dt
-		},
-		callback: function(r, rt) {
-			let eventData;
-			if (r.message) {
-				for (let i=0; i < r.message.length; i++) {
-					if (r.message[i].name == frm.doc.name) {
-						eventData = r.message[i]
-					}
-				}
-
-				if (eventData) {
-					frappe.call({
-						method: "maia.maia_appointment.doctype.maia_appointment.maia_appointment.set_seats_left",
-						args: {
-							appointment: frm.doc.name,
-							data: eventData
-						},
-						callback: function(r, rt) {
-							if (r.message=='green'){
-								$(`[data-fieldname="seats_left"]`).addClass('green-response');
-							} else {
-								$(`[data-fieldname="seats_left"]`).addClass('red-response');
-							}
-						}
-					})
-
-					$(frm.fields_dict['group_event_info'].wrapper).html(frappe.render_template("group_event_info", {data: eventData}))
-				}
-
-			}
 		}
-	});
+	}).then(r => {
+		if (r.message) {
+			const event = r.message.filter(f => f.name == frm.doc.name)
+			const group_event = event.length ? event[0] : {}
+			if (!event.length) { return }
+
+			frm.set_value("seats_left", group_event.seats_left);
+			$(`[data-fieldname="seats_left"]`).addClass(group_event.seats_left > 0 ? 'green-response' : 'red-response');
+			frm.refresh_field("seats_left");
+
+			$(frm.fields_dict['group_event_info'].wrapper).html(frappe.render_template("group_event_info", {data: group_event}))
+		}
+	})
 }
 
 const create_new_patient_record = function(frm) {
@@ -360,16 +320,18 @@ const create_new_patient_record = function(frm) {
 const show_availability = function(frm) {
 	new maia.maia_appointment.AvailabilityModal({
 		parent: frm.doc,
-		patient_record: frm.doc.name
+		patient_record: frm.doc.name,
+		frm: frm
 	});
 }
 
-const slot_choice_modal = function(doc, data) {
-	if (doc.date) {
+const slot_choice_modal = function(frm, data) {
+	if (frm.doc.start_dt) {
 		new maia.maia_appointment.SlotChoiceModal({
-			parent: doc,
-			patient_record: doc.name,
-			data: data
+			parent: frm.doc,
+			patient_record: frm.doc.name,
+			data: data,
+			frm: frm
 		});
 	} else {
 		frappe.msgprint(__('Please select a date'))
@@ -391,83 +353,58 @@ maia.maia_appointment.AvailabilityModal = class AvailabilityModal {
 	}
 
 	show_options_dialog() {
-		let me = this;
-		let promises = [];
-		function make_fields() {
-			let fields = [];
-			fields.push({
-				fieldtype: 'HTML',
-				fieldname: 'availability',
-			});
-			return fields;
-		}
+		const me = this;
 
-		function make_and_show_dialog(fields, result) {
+		function make_and_show_dialog(result) {
 			const d = new frappe.ui.Dialog({
 				title: __("Midwife Availability"),
-				fields: [].concat(fields)
+				fields: [{
+					fieldtype: 'HTML',
+					fieldname: 'availability',
+				}]
 			});
 			const $html_field = d.fields_dict.availability.$wrapper;
 			$html_field.empty();
 			$(d.body).find('.form-section').css('padding-bottom', '12px');
-			$.each(result, function(i, v) {
-				if (!v[0]) {
-					$(repl('<div class="col-xs-12" style="padding: 20px 0;">' + __("No Availability") + '</div></div>')).appendTo($html_field);
-					return
-				}
-				if (v[0]["msg"]) {
-					$(repl('<div class="col-xs-12" style="padding:20px 0;">%(msg)s</div></div>', {
-						msg: v[0]["msg"]
-					})).appendTo($html_field);
-					return
-				}
 
-				$(repl('<div class="col-xs-12 form-section-heading uppercase"><div class="col-xs-12 col-sm-7"><h5> %(practitioner)s</h5></div><div class="col-xs-12 col-sm-5 comparison-view" style="padding-right: 15px; padding-top: 3px"></div></div>', {
-					practitioner: i
-				})).appendTo($html_field);
+			if (!result[me.parent.practitioner].length) {
+				$(`<div class="col-xs-12" style="padding: 20px 0;">${__("No Availability")}</div></div>`).appendTo($html_field);
+			} else if (result[me.parent.practitioner].msg) {
+				$(`<div class="col-xs-12" style="padding:20px 0;">${msg}</div></div>`).appendTo($html_field);
+			} else {
+				$(`<div class="col-xs-12 form-section-heading uppercase">
+					<div class="col-xs-12 col-sm-7">
+						<h5>${me.parent.practitioner}</h5>
+					</div>
+					<div class="col-xs-12 col-sm-5 comparison-view" style="padding-right: 15px; padding-top: 3px">
+					</div>
+				</div>`).appendTo($html_field);
 
 				add_practitioners_selector();
+			}
 
-				if (v[0][0]["start"]) {
-					const date = frappe.datetime.str_to_obj(v[0][0]["start"]);
-					const options = {
-						weekday: 'long',
-						year: 'numeric',
-						month: 'long',
-						day: 'numeric'
-					};
-					$(repl('<div class="col-xs-12 border-bottom" style="margin-bottom: 0px; padding-top:15px; padding-bottom:10px; background-color: #f5f7fa; border: 1px solid #d1d8dd;"><h6> %(date)s</h6></div>', {
-						date: date.toLocaleDateString('fr-FR', options)
-					})).appendTo($html_field);
-				}
+			result[me.parent.practitioner].forEach(value => {
+				const start_time = frappe.datetime.str_to_obj(value.start);
+				const end_time = frappe.datetime.str_to_obj(value.end);
+				const row = $(`<div class="col-xs-12 list-customers-table border-left border-right border-bottom" style="padding-top: 6px; padding-bottom: 6px; text-align:center;" >
+							<div class="col-xs-3">${start_time.toLocaleTimeString('fr-FR')}</div>
+							<div class="col-xs-2">-</div>
+							<div class="col-xs-3">${end_time.toLocaleTimeString('fr-FR')}</div>
+							<div class="col-xs-4">
+								<a class="booking" data-start="${start_time.toLocaleTimeString('fr-FR')}" data-end="${end_time.toLocaleTimeString('fr-FR')}" data-practitioner="${me.parent.practitioner}" href="#">
+									<button class="btn btn-default btn-xs">${__("Book")}</button>
+								</a>
+							</div>
+						</div>`).appendTo($html_field);
 
-				$.each(result[i][0], function(x, y) {
-					let row;
-					if (y["msg"]) {
-						row = $(repl('<div class="col-xs-12" style="padding-top:6px; padding-bottom: 6px; text-align:center;">%(msg)s</div></div>', {
-							msg: y["msg"]
-						})).appendTo($html_field);
-						return
-					} else {
-						const start_time = frappe.datetime.str_to_obj(v[0][x]["start"]);
-						const end_time = frappe.datetime.str_to_obj(v[0][x]["end"]);
-						row = $(repl('<div class="col-xs-12 list-customers-table border-left border-right border-bottom" style="padding-top: 6px; padding-bottom: 6px; text-align:center;" ><div class="col-xs-3"> %(start)s </div><div class="col-xs-2">-</div><div class="col-xs-3"> %(end)s </div><div class="col-xs-4"><a class="booking" data-start="%(start)s" data-end="%(end)s" data-practitioner="%(practitioner)s"  href="#"><button class="btn btn-default btn-xs">' + __("Book") + '</button></a></div></div>', {
-							start: start_time.toLocaleTimeString('fr-FR'),
-							end: end_time.toLocaleTimeString('fr-FR'),
-							practitioner: i
-						})).appendTo($html_field);
-					}
-
-					row.find(".booking").click(function() {
-						me.parent.start_time = $(this).attr("data-start");
-						refresh_field("start_time");
-						frappe.model.set_value(me.parent.doctype, me.parent.docname, 'start_dt', moment.utc(me.parent.date + ' ' + me.parent.start_time));
-						d.hide()
-						return false;
-					});
-
-				})
-			});
+				row.find(".booking").click(function() {
+					me.frm.set_value('start_dt', frappe.datetime.get_datetime_as_string(start_time));
+					me.frm.refresh_fields("start_dt");
+					me.frm.refresh_fields("end_dt");
+					d.hide()
+					return false;
+				});
+			})
 
 			function add_practitioners_selector() {
 				frappe.call({
@@ -495,25 +432,15 @@ maia.maia_appointment.AvailabilityModal = class AvailabilityModal {
 			d.show();
 		}
 
-		let result;
-		let p = new Promise(resolve => {
-				frappe.xcall('maia.maia_appointment.doctype.maia_appointment.maia_appointment.check_availability_by_midwife',
-					{ practitioner: me.parent.practitioner, date: me.parent.date, duration: me.parent.duration, appointment_type: me.parent.appointment_type },
-				).then(r => {
-					if (r&&r == "group_appointment") {
-						duration_color_group(me.parent);
-					} else if (r) {
-						result = r;
-						resolve();
-					}
-				});
-			});
-			promises.push(p);
-
-			Promise.all(promises).then(() => {
-				let fields = make_fields();
-				make_and_show_dialog(fields, result);
-			})
+		frappe.xcall('maia.maia_appointment.doctype.maia_appointment.maia_appointment.check_availability_by_midwife',
+			{ practitioner: me.parent.practitioner, date: me.parent.start_dt, duration: me.parent.duration, appointment_type: me.parent.appointment_type },
+		).then(r => {
+			if (r&&r == "group_appointment") {
+				duration_color_group(me.frm);
+			} else if (r) {
+				make_and_show_dialog(r);
+			}
+		});
 	}
 }
 
@@ -529,8 +456,6 @@ maia.maia_appointment.SlotChoiceModal = class SlotChoiceModal{
 
 	show_options_dialog() {
 		const me = this;
-		let promises = [];
-		let options_fields = {};
 
 		function make_fields_from_options_values(options_fields) {
 			let fields = [];
@@ -548,16 +473,15 @@ maia.maia_appointment.SlotChoiceModal = class SlotChoiceModal{
 			return fields;
 		}
 
-		function make_and_show_dialog(fields) {
+		function make_and_show_dialog(fields, result) {
 			me.options_dialog = new frappe.ui.Dialog({
 				title: me.data.appointment_type,
 				fields: [].concat(fields)
 			});
 
-			$($(me.options_dialog.$wrapper.find('.form-column'))
-				.find('.frappe-control')).css('margin-bottom', '0px');
+			$($(me.options_dialog.$wrapper.find('.form-column')).find('.frappe-control')).css('margin-bottom', '0px');
 
-			options_fields.forEach((value, index) => {
+			result.forEach(value => {
 				const date = frappe.datetime.str_to_obj(value.start_dt);
 				const options = {
 					weekday: 'long',
@@ -567,69 +491,59 @@ maia.maia_appointment.SlotChoiceModal = class SlotChoiceModal{
 				};
 				const start_time = frappe.datetime.str_to_obj(value.start_dt);
 				const end_time = frappe.datetime.str_to_obj(value.end_dt);
-				let seats_left;
-				if (value.already_registered) {
-					seats_left = me.data.number_of_patients - value.already_registered
-				} else {
-					seats_left = me.data.number_of_patients
-				}
-
+				const seats_left = value.already_registered ? (me.data.number_of_patients - value.already_registered) : me.data.number_of_patients
+	
 				if (seats_left > 0) {
-					$(repl('<div class="col-xs-12 border-bottom" style="margin-top: 20px; margin-bottom: 0px; padding-top:15px; padding-bottom:10px; background-color: #f5f7fa; border: 1px solid #d1d8dd; border-radius: 4px 4px 0px 0px; text-align:center;"><h2>%(practitioner)s</h2><h6>%(date)s</h6><h6> %(start)s - %(end)s</h6><h6 style="color: green"> %(seats)s ' + __("seats left") + '</h6></div>', {
-						date: date.toLocaleDateString('fr-FR', options),
-						start: start_time.toLocaleTimeString('fr-FR'),
-						end: end_time.toLocaleTimeString('fr-FR'),
-						seats: seats_left,
-						practitioner: value.practitioner
-					})).appendTo(me.options_dialog.fields_dict[value.name].$wrapper);
+					$(`<div class="col-xs-12 border-bottom" style="margin-top: 20px; margin-bottom: 0px; padding-top:15px; padding-bottom:10px; background-color: #f5f7fa; border: 1px solid #d1d8dd; border-radius: 4px 4px 0px 0px; text-align:center;">
+							<h2>${me.parent.practitioner}</h2>
+							<h6>${date.toLocaleDateString('fr-FR', options)}</h6>
+							<h6> ${start_time.toLocaleTimeString('fr-FR')} - ${end_time.toLocaleTimeString('fr-FR')}</h6>
+							<h6 style="color: green"> ${seats_left} ${__("seats left") }</h6>
+						</div>`
+					).appendTo(me.options_dialog.fields_dict[value.name].$wrapper);
 
-					$(repl('<div class="col-xs-12 list-customers-table border-left border-right border-bottom" style="padding-top:12px; padding-bottom:12px; text-align:center; border-radius: 0px 0px 4px 4px;" ><div class="col-xs-4 col-xs-offset-4"><a data-start="%(start)s" data-practitioner="%(practitioner)s"  href="#"><button class="btn btn-default btn-xs">' + __("Book") + '</button></a></div></div>', {
-						start: value.start_dt,
-						practitioner: value.practitioner
-					})).appendTo(me.options_dialog.fields_dict[value.name].$wrapper);
+					const row = $(`<div class="col-xs-12 list-customers-table border-left border-right border-bottom" style="padding-top:12px; padding-bottom:12px; text-align:center; border-radius: 0px 0px 4px 4px;">
+						<div class="col-xs-4 col-xs-offset-4">
+							<a data-start="${value.start_dt}" data-practitioner="${value.practitioner}" href="#" class="booking">
+								<button class="btn btn-default btn-xs">${__("Book")}</button>
+							</a>
+						</div>
+						</div>`
+					).appendTo(me.options_dialog.fields_dict[value.name].$wrapper);
+
+					row.find(".booking").click(function() {
+						me.frm.set_value('practitioner', value.practitioner);
+						me.frm.set_value('start_dt', frappe.datetime.get_datetime_as_string(value.start_dt));
+						me.frm.refresh_fields("practitioner");
+						me.frm.refresh_fields("start_dt");
+						me.frm.refresh_fields("end_dt");
+						me.options_dialog.hide()
+						return false;
+					});
 				} else {
-					$(repl('<div class="col-xs-12 border-bottom" style="margin-top: 20px; margin-bottom: 0px; padding-top:15px; padding-bottom:10px; background-color: #f5f7fa; border: 1px solid #d1d8dd; border-radius: 4px; text-align:center;"><h2>%(practitioner)s</h2><h6>%(date)s</h6><h6> %(start)s - %(end)s</h6><h6 style="color: red"> %(seats)s ' + __("seats left") + '</h6></div>', {
-						date: date.toLocaleDateString('fr-FR', options),
-						start: start_time.toLocaleTimeString('fr-FR'),
-						end: end_time.toLocaleTimeString('fr-FR'),
-						seats: seats_left,
-						practitioner: value.practitioner
-					})).appendTo(me.options_dialog.fields_dict[value.name].$wrapper);
+					$(`<div class="col-xs-12 border-bottom" style="margin-top: 20px; margin-bottom: 0px; padding-top:15px; padding-bottom:10px; background-color: #f5f7fa; border: 1px solid #d1d8dd; border-radius: 4px; text-align:center;">
+							<h2>%(practitioner)s</h2>
+							<h6>${date.toLocaleDateString('fr-FR', options)}</h6>
+							<h6> ${start_time.toLocaleTimeString('fr-FR')} - ${end_time.toLocaleTimeString('fr-FR')}</h6>
+							<h6 style="color: red"> ${seats_left} ${__("seats left")}</h6>
+						</div>`
+					).appendTo(me.options_dialog.fields_dict[value.name].$wrapper);
 				}
-			});
-
-			me.options_dialog.wrapper.find("a").click(function() {
-				me.options_dialog.start_time = $(this).attr("data-start");
-				me.options_dialog.practitioner = $(this).attr("data-practitioner");
-				frappe.model.set_value(me.parent.doctype, me.parent.name, 'practitioner', me.options_dialog.practitioner);
-				frappe.model.set_value(me.parent.doctype, me.parent.name, 'date', frappe.datetime.obj_to_str(me.options_dialog.start_time));
-				frappe.model.set_value(me.parent.doctype, me.parent.name, 'start_time', moment.utc(frappe.datetime.get_datetime_as_string(me.options_dialog.start_time)).format("HH:mm:ss"));
-				frappe.model.set_value(me.parent.doctype, me.parent.name, 'start_dt', moment.utc(frappe.datetime.get_datetime_as_string(me.options_dialog.start_time)).format("YYYY-MM-DD HH:mm:ss"));
-				me.options_dialog.hide()
-				return false;
 			});
 
 			me.options_dialog.clear();
 			me.options_dialog.show();
 		}
 
-		let p = new Promise(resolve => {
-			frappe.xcall('maia.maia_appointment.doctype.maia_appointment.maia_appointment.get_registration_count',
-				{ date: me.parent.date, appointment_type: me.data.name }
-			).then(r => {
-				if (r&&r.length) {
-					options_fields = r;
-					resolve();
-				} else {
-					frappe.msgprint(__('Please create at least one slot for this appointment type'))
-				}
-			});
+		frappe.xcall('maia.maia_appointment.doctype.maia_appointment.maia_appointment.get_registration_count',
+			{ date: me.parent.start_dt, appointment_type: me.data.name }
+		).then(r => {
+			if (r&&r.length) {
+				const fields = make_fields_from_options_values(r)
+				make_and_show_dialog(fields, r);
+			} else {
+				frappe.msgprint(__('Please create at least one slot for this appointment type'))
+			}
 		});
-		promises.push(p);
-
-		Promise.all(promises).then(() => {
-			let fields = make_fields_from_options_values(options_fields);
-			make_and_show_dialog(fields, options_fields);
-		})
 	}
 }

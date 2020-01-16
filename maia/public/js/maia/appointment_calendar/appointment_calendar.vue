@@ -58,7 +58,7 @@
 							<textarea id="message" class="form-input" rows="3" name="message" :placeholder="__('Your message')" v-model="message"></textarea>
 						</div>
 					</div>
-					<button class="form-button" @click="submitEvent">{{ __("Confirm") }}</button>
+					<button class="form-button" @click="submitEvent" :disabled="btn_disabled">{{ btn_disabled ? __("Confirmation...") : __("Confirm") }}</button>
 				</div>
 			</div>
 			<div class="appointment-modal" v-if="!show_calendar && !selected_slot && next_date && !loading">
@@ -72,7 +72,7 @@
 				<div v-else>
 					<div class="appointment-modal-close" @click="goToNextDate"><i class="fas fa-times"></i></div>
 					<div class="appointment-modal-header">
-						<h2 class="appointment-modal-title">{{ __("No additional slots available for this appointment type") }}</h2>
+						<h2 class="appointment-modal-title pt-5">{{ __("No additional slots available for this appointment type") }}</h2>
 					</div>
 				</div>
 			</div>
@@ -119,7 +119,8 @@ export default {
 			selected_slot: null,
 			next_date: null,
 			next_date_status: null,
-			message: ""
+			message: "",
+			btn_disabled: false
 		}
 	},
 	computed: {
@@ -281,6 +282,7 @@ export default {
 			: 0
 		},
 		submitEvent() {
+			this.btn_disabled = true
 			frappe.call({
 				method: "maia.templates.pages.appointment.submit_appointment",
 				args: {
@@ -292,11 +294,12 @@ export default {
 					notes: this.message
 				}
 			}).then(r => {
+				this.btn_disabled = false
 				this.$refs.fullCalendar.getApi().refetchEvents();
 				this.cancelEventSelection()
-				const message = r.message === "OK" ? __("Thank you ! You will receive a confirmation message in a few minutes.")
+				const message = r.message.appointment ? __("Thank you ! You will receive a confirmation message in a few minutes.")
 					: __("An unexpected error prevented the submission of your request. Please contact your midfiwe directly.")
-				const indicator = r.message === "OK" ? "green" : "red"
+				const indicator = r.message.appointment ? "green" : "red"
 				frappe.show_alert({ message: message, indicator:  indicator})
 			})
 		}

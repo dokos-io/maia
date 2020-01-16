@@ -31,15 +31,21 @@ def execute(filters=None):
 		substitute_period_list = get_substitute_period_list(period_list, replacement)
 
 		practitioner_income = get_data(replacement.practitioner, "Revenue", substitute_period_list)
+		retroceeded_fee = get_fee_retrocessions(replacement.practitioner, substitute_period_list, currency)
 
 		if practitioner_income:
-			retrocessions = calculate_retrocession(substitute_period_list, replacement, practitioner_income[-2], currency)
+			data_lines, calculated_retrocession = calculate_retrocession(substitute_period_list, replacement, practitioner_income[-2], currency)
+			outstanding = calculate_outstanding(substitute_period_list, retroceeded_fee, calculated_retrocession, currency)
 
-			data.extend(retrocessions)
+			data.extend(data_lines)
 			data.append({})
 
-			datasets.append({'title': replacement.substitute, 'values': retrocessions[-1]})
+			datasets.append({'title': replacement.substitute, 'values': data_lines[-1]})
 
+		data.append(retroceeded_fee)
+		if practitioner_income:
+			data.append({})
+			data.append(outstanding)
 
 	columns = get_report_columns(filters.periodicity, period_list)
 	chart = get_chart_data(filters, columns, datasets)
@@ -134,7 +140,7 @@ def calculate_retrocession(period_list, replacement, income, currency):
 	r.append(mileage_allowance)
 	r.append(calculated_retrocession)
 
-	return r
+	return r, calculated_retrocession
 
 def get_mileage_allowance(period_list, practitioner, currency):
 	result = {}
@@ -261,3 +267,45 @@ def calculate_values(accounts_by_name, gl_entries_by_account, period_list):
 
 			if entry.transaction_date < period_list[0].year_start_date:
 				d["opening_balance"] = d.get("opening_balance", 0.0) + flt(entry.debit) - flt(entry.credit)
+
+def get_fee_retrocessions(practitioner, substitute_period_list, currency):
+	retrocession_accounts = [x.name for x in frappe.get_all("Accounting Item", filters={"code_2035": "AC"})]
+	retrocessions = frappe.get_all("Miscellaneous Operation Items", filters={"accounting_item": ["in", retrocession_accounts]}, fields=["parent", "amount"])
+	parents = [x.get("parent") for x in retrocessions]
+	parents_with_dates = frappe.get_all("Miscellaneous Operation", filters={"name": ["in", parents]}, fields=["name", "posting_date"])
+
+	total_retrocessions = 0
+	result = {}
+	result["account"] = _("Fee Retrocessions")
+	result["account_name"] = _("Fee Retrocessions")
+	result["currency"] = currency
+
+	for period in substitute_period_list:
+		filtered_parents = [x.name for x in parents_with_dates if getdate(x.get("posting_date")) >= period.get("from_date") and getdate(x.get("posting_date")) <= period.get("to_date")]
+		calculated_amount = sum([x.get("amount") for x in retrocessions if x.get("parent") in filtered_parents]) * -1
+
+		data = {period.key: calculated_amount}
+		total_retrocessions += calculated_amount
+		result.update(data)
+
+	result["total"] = total_retrocessions
+
+	return result
+
+def calculate_outstanding(substitute_period_list, retroceeded_fee, calculated_retrocession, currency):
+	total_outstanding = 0
+	result = {}
+	result["account"] = _("Outstanding Amount")
+	result["account_name"] = _("Outstanding Amount")
+	result["currency"] = currency
+
+	for period in substitute_period_list:
+		total_outstanding += calculated_retrocession.get(period.key)
+		outstanding_amount = total_outstanding + retroceeded_fee.get(period.key)
+		total_outstanding += retroceeded_fee.get(period.key)
+		data = {period.key: outstanding_amount}
+		result.update(data)
+
+	result["total"] = total_outstanding
+
+	return result

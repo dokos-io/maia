@@ -26,6 +26,7 @@ class MiscellaneousOperation(AccountingController):
 
 	def on_cancel(self):
 		self.reverse_gl_entries()
+		self.flags.ignore_links = True
 
 	def on_trash(self):
 		frappe.throw(_("Deleting this document is not permitted."))
@@ -36,11 +37,12 @@ class MiscellaneousOperation(AccountingController):
 		if set(["Sales", "Purchases"]).issubset(journals):
 			frappe.throw(_("Making a miscellaneous operation between a sales and a purchase item is not authorized"))
 
-		if set(["Sales", "Bank"]).issubset(journals) or set(["Sales", "Cash"]).issubset(journals):
-			frappe.throw(_("Making a payment is not authorized in the miscellaneous operations. Please use the Revenue document or make an internal transfer."))
+		if self.operation_type not in ["Fee Retrocession"]:
+			if set(["Sales", "Bank"]).issubset(journals) or set(["Sales", "Cash"]).issubset(journals):
+				frappe.throw(_("Making a payment is not authorized in the miscellaneous operations. Please use the Revenue document or make an internal transfer."))
 
-		if set(["Purchases", "Bank"]).issubset(journals) or set(["Purchases", "Cash"]).issubset(journals):
-			frappe.throw(_("Making a payment is not authorized in the miscellaneous operations. Please use the Expense document or make an internal transfer."))
+			if set(["Purchases", "Bank"]).issubset(journals) or set(["Purchases", "Cash"]).issubset(journals):
+				frappe.throw(_("Making a payment is not authorized in the miscellaneous operations. Please use the Expense document or make an internal transfer."))
 
 	def check_difference(self):
 		if flt(self.difference) != 0:
@@ -70,7 +72,7 @@ class MiscellaneousOperation(AccountingController):
 				"reference_name": self.name,
 				"link_doctype": self.doctype,
 				"link_docname": self.name,
-				"accounting_journal": item.accounting_journal if self.operation_type in ["Internal Transfer"] else "Miscellaneous operations",
+				"accounting_journal": item.accounting_journal, # if self.operation_type in ["Internal Transfer"] else "Miscellaneous operations",
 				"party": None,
 				"practitioner": self.practitioner
 			})
