@@ -18,6 +18,10 @@ def get_context(context):
 	context.show_sidebar = True
 	if not "Patient" in frappe.get_roles(frappe.session.user):
 		frappe.throw(_("Not Permitted"), frappe.PermissionError)
+	translated_messages = frappe.parse_json(context.translated_messages)
+	translated_messages.update(frappe.translate.get_dict('jsfile', 'assets/js/maia-web.min.js'))
+
+	context.translated_messages = frappe.as_json(translated_messages)
 
 @frappe.whitelist()
 def get_practitioners_and_appointment_types():

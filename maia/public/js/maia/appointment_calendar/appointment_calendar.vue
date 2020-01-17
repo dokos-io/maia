@@ -50,7 +50,7 @@
 				</div>
 				<div class="appointment-modal-header">
 					<h2 class="appointment-modal-appointment-type">{{ selected_appointment_type }}</h2>
-					<h3 v-if="is_group_appointment" class="appointment-modal-seats-left">{{ getSeatsLeft() }} {{ getSeatsLeft() === 1 ? __("Remaining seat") : __("Remaining seats") }}</h3>
+					<h3 v-if="is_group_appointment" class="appointment-modal-seats-left">{{ seats_left }} {{ seats_left === 1 ? __("Remaining seat") : __("Remaining seats") }}</h3>
 				</div>
 				<div class="form">
 					<div class="form-box">
@@ -100,8 +100,8 @@ export default {
 			reference: "Item Booking",
 			buttonText: {
 				today: __("Today"),
-				listWeek: __("Week"),
-				listDay: __("Day")
+				dayGridWeek: __("Week"),
+				dayGridDay: __("Day")
 
 			},
 			calendarPlugins: [
@@ -180,7 +180,10 @@ export default {
 		},
 		defaultView: function() {
 			return window.innerWidth >= 768 ? "dayGridWeek" : "dayGridDay"
-		}
+		},
+		seats_left() {
+			return this.selected_slot ? this.selected_slot.extendedProps.seats_left : 0
+		},
 	},
 	mounted() {
 		this.getPractitioners()
@@ -273,13 +276,6 @@ export default {
 		},
 		slotAvailabilityMethod() {
 			return this.is_group_appointment ? "maia.templates.pages.appointment.check_group_events_availabilities" : "maia.templates.pages.appointment.check_availabilities"
-		},
-		getSeatsLeft() {
-			return this.selected_appointment_type ? this.practitioners
-				.filter(f => f.name === this.selected_practitioner)
-				.reduce((acc, val) => acc.concat(val.appointment_types), [])[0][this.selected_appointment_category]
-				.filter(f => f.name === this.selected_appointment_type)[0].seats_left
-			: 0
 		},
 		submitEvent() {
 			this.btn_disabled = true
