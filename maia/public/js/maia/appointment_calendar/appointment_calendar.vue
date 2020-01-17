@@ -72,7 +72,7 @@
 				<div v-else>
 					<div class="appointment-modal-close" @click="goToNextDate"><i class="fas fa-times"></i></div>
 					<div class="appointment-modal-header">
-						<h2 class="appointment-modal-title pt-5">{{ __("No additional slots available for this appointment type") }}</h2>
+						<h2 class="appointment-modal-title pt-5">{{ __('No additional slots available for this appointment type') }}</h2>
 					</div>
 				</div>
 			</div>
@@ -250,6 +250,7 @@ export default {
 					this.loading = false
 					if (r.message.status == 200) { this.next_date = r.message.date }
 					this.next_date_status = r.message.status
+					if (!this.next_date) { this.next_date = this.defaultDate }
 				})
 			} else {
 				this.loading = false

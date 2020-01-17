@@ -5334,7 +5334,8 @@
         "Today": "Aujourd'hui",
         "Type de Rendez-Vous": "Type de Rendez-Vous",
         "Week": "Semaine",
-        "Your message": "Votre message"
+        "Your message": "Votre message",
+        "No additional slots available for this appointment type": "Plus aucun créneau disponible pour ce type de rendez-vous"
     },
     "sites/assets/js/maia.min.js": {
         "Add patient records to payment entries": "Ajouter les dossiers patients aux écritures de paiement",
