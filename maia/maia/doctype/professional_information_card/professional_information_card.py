@@ -21,12 +21,6 @@ class ProfessionalInformationCard(Document):
 		if not self.google_calendar:
 			self.google_calendar_sync_by_default = 0
 
-		if not self.user:
-			if frappe.db.exists("User", self.email):
-				self.user = self.email
-			else:
-				frappe.throw(_("Please link your professional information card with your user"))
-
 	def create_user(self):
 		user = self.add_user()
 		

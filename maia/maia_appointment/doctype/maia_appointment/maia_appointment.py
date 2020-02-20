@@ -240,7 +240,8 @@ def get_events(start, end, user=None, filters=None):
 				AND coalesce(repeat_till, '3000-01-01') > date(%(start)s)
 			)
 		)
-		AND docstatus < 2 {add_filters}""".format(add_filters=add_filters),
+		AND docstatus < 2
+		AND status != "Cancelled" {add_filters}""".format(add_filters=add_filters),
 		{
 			"start": start,
 			"end": end

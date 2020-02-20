@@ -3,12 +3,18 @@
 
 frappe.ui.form.on('Professional Information Card', {
 	refresh: function(frm) {
-		if (!frm.doc.user&&frm.doc.email) {
+		if (!frm.is_new()&&!frm.doc.user&&frm.doc.email) {
 			frappe.confirm(__("Do you want to create a user for this practitioner ?"), function() {
 				frm.call('create_user');
 				frappe.show_alert({message: __("User creation in progress"), indicator: 'green'});
 			});
 		}
+
+		frappe.db.get_value("Google Settings", "Google Settings", "enable", r => {
+			if (r&&r.enable!=="1") {
+				frm.toggle_display('google_calendar_section', false);
+			}
+		})
 	},
 	sender_name: function(frm) {
 		if (frm.doc.sender_name && !isAlphaNumeric(frm.doc.sender_name)) {

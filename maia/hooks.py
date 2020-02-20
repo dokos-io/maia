@@ -21,7 +21,8 @@ app_include_js = "assets/js/maia.min.js"
 app_include_css = "assets/maia/css/maia.css"
 
 doctype_js = {
-	"Google Calendar": "public/js/maia/google_calendar.js"
+	"Google Calendar": "public/js/maia/google_calendar.js",
+	"Google Settings": "public/js/maia/google_settings.js"
 }
 
 

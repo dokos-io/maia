@@ -3025,6 +3025,7 @@
         "Appointment Type": "Type de Rendez-Vous",
         "Appointment Type Category": "Catégorie de Rendez-Vous",
         "Appointments": "Rendez-vous",
+        "Google Calendar": "Google Agenda",
         "Maia Appointment Type": "Type de Rendez-Vous",
         "Professional Information Card": "Fiche d’informations professionnelles",
         "SMS Reminder": "Rappel SMS",
@@ -4176,6 +4177,9 @@
         "Week": "Semaine",
         "Your message": "Votre message"
     },
+    "apps/maia/maia/public/js/maia/google_settings.js": {
+        "Please contact the support to activate your google calendar access": "Veuillez contacter le support pour activer votre accès à Google Agenda"
+    },
     "apps/maia/maia/public/js/maia/patient_dashboard/Grid.vue": {
         "Loading...": "Chargement..."
     },
@@ -5324,6 +5328,7 @@
         "Confirmation...": "Confirmation...",
         "Day": "Jour",
         "Midwife": "Sage-Femme",
+        "No additional slots available for this appointment type": "Plus aucun créneau disponible pour ce type de rendez-vous",
         "No events to display": "Aucun créneau à afficher",
         "Professionnel(le)": "Professionnel(le)",
         "Remaining seat": "place restante",
@@ -5334,8 +5339,7 @@
         "Today": "Aujourd'hui",
         "Type de Rendez-Vous": "Type de Rendez-Vous",
         "Week": "Semaine",
-        "Your message": "Votre message",
-        "No additional slots available for this appointment type": "Plus aucun créneau disponible pour ce type de rendez-vous"
+        "Your message": "Votre message"
     },
     "sites/assets/js/maia.min.js": {
         "Add patient records to payment entries": "Ajouter les dossiers patients aux écritures de paiement",

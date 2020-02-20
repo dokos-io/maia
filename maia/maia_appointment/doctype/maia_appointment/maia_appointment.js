@@ -50,6 +50,12 @@ frappe.ui.form.on('Maia Appointment', {
 		if (frm.doc.rrule) {
 			new frappe.CalendarRecurrence(frm, false);
 		}
+
+		frappe.db.get_value("Google Settings", "Google Settings", "enable", r => {
+			if (r&&r.enable!=="1") {
+				frm.toggle_display('sync_with_google_calendar', false);
+			}
+		})
 	},
 	appointment_type: function(frm) {
 		duration_color_group(frm);
@@ -379,6 +385,15 @@ maia.maia_appointment.AvailabilityModal = class AvailabilityModal {
 					<div class="col-xs-12 col-sm-5 comparison-view" style="padding-right: 15px; padding-top: 3px">
 					</div>
 				</div>`).appendTo($html_field);
+
+				const date = frappe.datetime.str_to_obj(result[me.parent.practitioner][0].start);
+				const options = {
+					weekday: 'long',
+					year: 'numeric',
+					month: 'long',
+					day: 'numeric'
+				};
+				$(`<div class="col-xs-12 border-bottom" style="margin-bottom: 0px; padding-top:15px; padding-bottom:10px; background-color: #f5f7fa; border: 1px solid #d1d8dd;"><h6> ${date.toLocaleDateString('fr-FR', options)}</h6></div>`).appendTo($html_field);
 
 				add_practitioners_selector();
 			}
