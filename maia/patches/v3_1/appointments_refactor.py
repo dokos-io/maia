@@ -24,6 +24,7 @@ FRAMEWORK_DAYS = {v: k for k, v in RRULE_DAYS.items()}
 def execute():
 	frappe.db.set_value("System Settings", "System Settings", "time_format", "HH:mm")
 
+	frappe.reload_doctype("Maia Settings")
 	frappe.reload_doctype("Maia Appointment")
 	appointments = frappe.get_all("Maia Appointment", fields=["name", "docstatus", "repeat_this_event", "personal_event"])
 
