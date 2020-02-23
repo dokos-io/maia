@@ -41,6 +41,7 @@ frappe.views.calendar["Maia Appointment"] = {
 	},
 	gantt: false,
 	get_events_method: "maia.maia_appointment.doctype.maia_appointment.maia_appointment.get_events",
+	filters: [],
 	options: {
 		businessHours: get_business_hours(),
 		scrollTime: '08:00:00',
