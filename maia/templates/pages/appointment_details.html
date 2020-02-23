@@ -57,7 +57,7 @@ frappe.ready(function() {
 		{% include "maia/templates/includes/appointments/appointment_status.html" %}
 	</div>
 	<div class="col-6 text-muted text-right small">
-		{{ frappe.format_date(doc.date) }} - {{ frappe.utils.get_time(doc.start_dt).strftime("%H:%M") }}
+		{{ frappe.format_date(doc.start_dt) }} - {{ frappe.utils.get_time(doc.start_dt).strftime("%H:%M") }}
 	</div>
 </div>
 <br>
@@ -86,7 +86,7 @@ frappe.ready(function() {
 				<h4>{{ _("Date") }}</h4>
 			</div>
 			<div>
-				<p>{{ frappe.format_date(doc.date) }}</p>
+				<p>{{ frappe.format_date(doc.start_dt) }}</p>
 			</div>
 		</div>
 		<div class="clearfix">

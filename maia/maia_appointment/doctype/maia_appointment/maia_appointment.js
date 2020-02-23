@@ -43,7 +43,7 @@ frappe.ui.form.on('Maia Appointment', {
 	},
 	refresh: function(frm) {
 		update_top_buttons(frm);
-		if (frm.doc.group_event && (frm.doc.docstatus === 1)) {
+		if (frm.doc.group_event && (frm.doc.status !== "Cancelled")) {
 			update_group_info(frm);
 		}
 
@@ -124,7 +124,7 @@ frappe.ui.form.on('Maia Appointment', {
 });
 
 const update_top_buttons = frm => {
-	if (frm.doc.docstatus == 0) {
+	if (frm.doc.status !== "Cancelled") {
 		if (!frm.doc.personal_event) {
 			if (!frm.doc.group_event) {
 				frm.add_custom_button(__('Group Appointment'), function() {
@@ -147,7 +147,7 @@ const update_top_buttons = frm => {
 		frm.add_custom_button(__('Check Availability'), function() {
 			check_availability_by_midwife(frm);
 		});
-	} else if (frm.doc.docstatus == 1) {
+	} else if (frm.doc.online_booking === 1) {
 		if (!frm.doc.patient_record && !frm.doc.group_event) {
 			frm.add_custom_button(__('New Patient Record'), function() {
 				create_new_patient_record(frm);
