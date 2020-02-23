@@ -306,7 +306,7 @@ def download_patient_record(docs, record, args=None):
 			files.append(fname)
 
 			with open(fname,"wb") as f:
-				f.write(print_output)
+				print_output.write(f)
 
 		except Exception:
 			frappe.log_error("Record zip error", frappe.get_traceback())

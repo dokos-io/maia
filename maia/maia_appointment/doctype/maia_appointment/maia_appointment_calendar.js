@@ -41,20 +41,6 @@ frappe.views.calendar["Maia Appointment"] = {
 	},
 	gantt: false,
 	get_events_method: "maia.maia_appointment.doctype.maia_appointment.maia_appointment.get_events",
-	filters: [
-		{
-			'fieldtype': 'Link',
-			'fieldname': 'patient_record',
-			'options': 'Patient Record',
-			'label': __('Patient')
-		},
-		{
-			'fieldtype': 'Link',
-			'fieldname': 'appointment_type',
-			'options': 'Maia Appointment Type',
-			'label': __('Appointment Type')
-		}
-	],
 	options: {
 		businessHours: get_business_hours(),
 		scrollTime: '08:00:00',
