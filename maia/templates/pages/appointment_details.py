@@ -33,10 +33,14 @@ def confirm_cancellation(context=None):
 @frappe.whitelist()
 def cancel_appointment(doc):
 	appointment = frappe.get_doc("Maia Appointment", doc)
-	appointment.status = "Cancelled"
-	appointment.save(ignore_permissions=True)
 
-	context =  {"doc": {"docstatus": appointment.docstatus, "end_dt": appointment.end_dt}}
+	if appointment.docstatus == 1:
+		appointment.cancel()
+	else:
+		appointment.status = "Cancelled"
+		appointment.save(ignore_permissions=True)
+
+	context =  {"doc": {"docstatus": appointment.docstatus, "end_dt": appointment.end_dt, "status": appointment.status}}
 	confirmation = frappe.render_template('templates/includes/appointments/cancellation_confirmation.html', context)
 	status = frappe.render_template('templates/includes/appointments/appointment_status.html', context)
 
