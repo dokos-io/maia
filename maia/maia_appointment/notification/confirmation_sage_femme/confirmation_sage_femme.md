@@ -2,7 +2,7 @@
 {% set patiente = frappe.get_doc("User", doc.user) %}
 {% set type_rendez_vous = frappe.db.get_value("Maia Appointment Type", doc.appointment_type, "appointment_type") %}
 {% set date = frappe.utils.formatdate(frappe.utils.get_datetime_str(doc.start_dt), "dd/MM/yyyy") %}
-{% set heure = frappe.utils.get_datetime(self.start_dt).strftime("%H:%M") %}
+{% set heure = frappe.utils.get_datetime(doc.start_dt).strftime("%H:%M") %}
 
 <div>
     <p>Bonjour {{ sagefemme or "" }},</p>
