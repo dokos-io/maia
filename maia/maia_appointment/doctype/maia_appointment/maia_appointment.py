@@ -551,5 +551,5 @@ def delete_event_in_google_calendar(doc, method=None):
 def cancel_appointment(doc):
 	frappe.db.set_value("Maia Appointment", doc, "status", "Cancelled")
 	appointment = frappe.get_doc("Maia Appointment", doc)
-	appointme.ignore_permissions = True
+	appointment.flags.ignore_permissions = True
 	return appointment.cancel()

@@ -45,6 +45,7 @@ frappe.views.calendar["Maia Appointment"] = {
 	options: {
 		businessHours: get_business_hours(),
 		scrollTime: '08:00:00',
-		editable: false
+		editable: false,
+		minTime: '07:00:00'
 	}
 }
