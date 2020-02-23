@@ -20,7 +20,7 @@ def get_context(context):
 	context.title = frappe.form_dict.name
 
 	cancellation_date = add_days(nowdate(), 2)
-	if getdate(appointment.date) > getdate(cancellation_date):
+	if getdate(appointment.start_dt) > getdate(cancellation_date):
 		context.show_cancel_button = 1
 
 #	if not frappe.has_website_permission(context.doc):
