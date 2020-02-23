@@ -264,6 +264,7 @@
    "collapsible": 1,
    "fieldname": "google_calendar_section",
    "fieldtype": "Section Break",
+   "hidden": 1,
    "label": "Google Calendar"
   },
   {
@@ -285,7 +286,7 @@
   }
  ],
  "links": [],
- "modified": "2020-01-16 11:16:17.011138",
+ "modified": "2020-01-18 11:16:17.011138",
  "modified_by": "Administrator",
  "module": "Maia",
  "name": "Professional Information Card",

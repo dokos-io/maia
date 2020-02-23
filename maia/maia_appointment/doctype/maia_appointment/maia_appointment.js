@@ -52,8 +52,8 @@ frappe.ui.form.on('Maia Appointment', {
 		}
 
 		frappe.db.get_value("Google Settings", "Google Settings", "enable", r => {
-			if (r&&r.enable!=="1") {
-				frm.toggle_display('sync_with_google_calendar', false);
+			if (r&&r.enable==="1") {
+				frm.toggle_display('sync_with_google_calendar', true);
 			}
 		})
 	},

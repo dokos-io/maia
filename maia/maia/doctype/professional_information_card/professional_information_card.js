@@ -11,8 +11,8 @@ frappe.ui.form.on('Professional Information Card', {
 		}
 
 		frappe.db.get_value("Google Settings", "Google Settings", "enable", r => {
-			if (r&&r.enable!=="1") {
-				frm.toggle_display('google_calendar_section', false);
+			if (r&&r.enable==="1") {
+				frm.toggle_display('google_calendar_section', true);
 			}
 		})
 	},
