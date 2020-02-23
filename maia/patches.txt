@@ -66,4 +66,5 @@ maia.patches.v3_0.new_perineum_rehabilitation_codification
 maia.patches.v3_0.preregistered_to_custom_dashboards
 maia.patches.v3_1.fontawesome4_migration
 maia.patches.v3_1.appointments_refactor
+maia.patches.v3_1.new_time_format
 

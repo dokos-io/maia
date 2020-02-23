@@ -56,6 +56,13 @@ frappe.ui.form.on('Maia Appointment', {
 				frm.toggle_display('sync_with_google_calendar', true);
 			}
 		})
+
+		if (frm.doc.docstatus === 1) {
+			frm.page.add_menu_item(__("Cancel"), function() {
+				frappe.xcall("maia.maia_appointment.doctype.maia_appointment.maia_appointment.cancel_appointment", {doc: frm.doc.name})
+				.then(r => frm.reload_doc())
+			}, true);
+		}
 	},
 	appointment_type: function(frm) {
 		duration_color_group(frm);
@@ -259,7 +266,7 @@ const update_group_info = frm => {
 		method: "maia.maia_appointment.doctype.maia_appointment.maia_appointment.get_registration_count",
 		args: {
 			appointment_type: frm.doc.appointment_type,
-			date: frm.doc.start_dt
+			date: (frm.doc.start_dt || frappe.datetime.get_today())
 		}
 	}).then(r => {
 		if (r.message) {
@@ -332,16 +339,12 @@ const show_availability = function(frm) {
 }
 
 const slot_choice_modal = function(frm, data) {
-	if (frm.doc.start_dt) {
-		new maia.maia_appointment.SlotChoiceModal({
-			parent: frm.doc,
-			patient_record: frm.doc.name,
-			data: data,
-			frm: frm
-		});
-	} else {
-		frappe.msgprint(__('Please select a date'))
-	}
+	new maia.maia_appointment.SlotChoiceModal({
+		parent: frm.doc,
+		patient_record: frm.doc.name,
+		data: data,
+		frm: frm
+	});
 }
 
 maia.maia_appointment.AvailabilityModal = class AvailabilityModal {
@@ -448,7 +451,7 @@ maia.maia_appointment.AvailabilityModal = class AvailabilityModal {
 		}
 
 		frappe.xcall('maia.maia_appointment.doctype.maia_appointment.maia_appointment.check_availability_by_midwife',
-			{ practitioner: me.parent.practitioner, date: me.parent.start_dt, duration: me.parent.duration, appointment_type: me.parent.appointment_type },
+			{ practitioner: me.parent.practitioner, date: (me.parent.start_dt || frappe.datetime.get_today()), duration: me.parent.duration, appointment_type: me.parent.appointment_type },
 		).then(r => {
 			if (r&&r == "group_appointment") {
 				duration_color_group(me.frm);
@@ -551,7 +554,7 @@ maia.maia_appointment.SlotChoiceModal = class SlotChoiceModal{
 		}
 
 		frappe.xcall('maia.maia_appointment.doctype.maia_appointment.maia_appointment.get_registration_count',
-			{ date: me.parent.start_dt, appointment_type: me.data.name }
+			{ date: (me.parent.start_dt || frappe.datetime.get_today()), appointment_type: me.data.name }
 		).then(r => {
 			if (r&&r.length) {
 				const fields = make_fields_from_options_values(r)

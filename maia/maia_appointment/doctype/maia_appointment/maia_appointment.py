@@ -546,3 +546,9 @@ def delete_event_in_google_calendar(doc, method=None):
 	except HttpError as err:
 		frappe.msgprint(_("Google Calendar - Could not delete Event {0} from Google Calendar, error code {1}."\
 			).format(doc.name, err.resp.status))
+
+@frappe.whitelist()
+def cancel_appointment(doc):
+	frappe.db.set_value("Maia Appointment", doc, "status", "Cancelled")
+	appointment = frappe.get_doc("Maia Appointment", doc)
+	return appointment.cancel()
