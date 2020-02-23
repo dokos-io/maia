@@ -2,11 +2,11 @@
 	<a class="no-decoration" href="/my-appointments/{{ doc.name }}">
 		<div class="row">
 			<div class="col-3">
-        <span class="indicator {{ "red" if doc.docstatus==2 else "darkgrey" if doc.end_dt < frappe.utils.now_datetime() else "green" if doc.docstatus==1  }}">
+        <span class="indicator {{ "red" if doc.status=="Cancelled" else "darkgrey" if doc.end_dt < frappe.utils.now_datetime() else "green" if doc.status=="Confirmed" else "orange "  }}">
           {{  frappe.format_date(doc.date) }}</span>
 			</div>
       <div class="col-2 small text-muted">
-				{{  frappe.utils.get_time(doc.start_time).strftime("%H:%M") }}
+				{{  frappe.utils.get_time(doc.start_dt).strftime("%H:%M") }}
 			</div>
       <div class="col-3 small text-muted">
 				{{  doc.practitioner }}

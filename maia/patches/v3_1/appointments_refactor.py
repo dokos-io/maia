@@ -22,6 +22,7 @@ FRAMEWORK_FREQUENCIES = {v: '{};'.format(k) for k, v in RRULE_FREQUENCIES.items(
 FRAMEWORK_DAYS = {v: k for k, v in RRULE_DAYS.items()}
 
 def execute():
+	frappe.reload_doctype("System Settings")
 	frappe.db.set_value("System Settings", "System Settings", "time_format", "HH:mm")
 
 	frappe.reload_doc("maia", "doctype", "maia_settings")

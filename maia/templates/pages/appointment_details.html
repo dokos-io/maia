@@ -94,7 +94,7 @@ frappe.ready(function() {
 				<h4>{{ _("Appointment Time") }}</h4>
 			</div>
 			<div>
-				<p>{{ frappe.utils.get_time(doc.start_time).strftime("%H:%M") }}</p>
+				<p>{{ frappe.utils.get_time(doc.start_dt).strftime("%H:%M") }}</p>
 			</div>
 		</div>
 		<div class="clearfix">
