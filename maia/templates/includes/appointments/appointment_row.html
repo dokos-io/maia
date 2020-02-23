@@ -3,7 +3,7 @@
 		<div class="row">
 			<div class="col-3">
         <span class="indicator {{ "red" if doc.status=="Cancelled" else "darkgrey" if doc.end_dt < frappe.utils.now_datetime() else "green" if doc.status=="Confirmed" else "orange "  }}">
-          {{  frappe.format_date(doc.date) }}</span>
+          {{  frappe.format_date(doc.start_dt) }}</span>
 			</div>
       <div class="col-2 small text-muted">
 				{{  frappe.utils.get_time(doc.start_dt).strftime("%H:%M") }}
