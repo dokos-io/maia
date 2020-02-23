@@ -36,6 +36,7 @@ def cancel_appointment(doc):
 
 	if appointment.docstatus == 1:
 		appointment.cancel()
+		frappe.db.set_value("Maia Appointment", appointment.name, "status", "Cancelled")
 	else:
 		appointment.status = "Cancelled"
 		appointment.save(ignore_permissions=True)
