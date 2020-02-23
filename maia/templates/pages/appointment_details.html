@@ -107,7 +107,7 @@ frappe.ready(function() {
 		</div>
 	</div>
 </div>
-{% if doc.docstatus==1 and show_cancel_button %}
+{% if (doc.docstatus==1 or doc.status in ["Confirmed", "Not confirmed"]) and show_cancel_button %}
 <div class="row">
 	<div class="col-12">
 		<div>
