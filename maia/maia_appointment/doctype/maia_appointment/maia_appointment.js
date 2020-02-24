@@ -71,10 +71,12 @@ frappe.ui.form.on('Maia Appointment', {
 		frm.set_value('subject', frm.doc.patient_name);
 	},
 	patient_record: function(frm) {
+		frm.set_value('email', '');
 		frm.set_value('mobile_no', '');
 		if (frm.doc.patient_record) {
-			frappe.db.get_value("Patient Record", frm.doc.patient_record, "mobile_no", r => {
+			frappe.db.get_value("Patient Record", frm.doc.patient_record, ["mobile_no", "email_id"], r => {
 				r&&r.mobile_no&&frm.set_value('mobile_no', r.mobile_no);
+				r&&r.email_id&&frm.set_value('email', r.email_id);
 			})
 		}
 	},
