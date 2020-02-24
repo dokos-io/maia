@@ -166,7 +166,7 @@ const update_top_buttons = frm => {
 		});
 	}
 
-	if (!frm.is_new() && !frm.doc.patient_record && !frm.doc.group_event) {
+	if (!frm.is_new() && !frm.doc.patient_record && !frm.doc.group_event && !frm.doc.personal_event) {
 		frm.add_custom_button(__('New Patient Record'), function() {
 			create_new_patient_record(frm);
 		});
