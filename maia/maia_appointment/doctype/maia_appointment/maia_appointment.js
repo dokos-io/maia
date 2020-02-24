@@ -141,7 +141,7 @@ frappe.ui.form.on('Maia Appointment', {
 });
 
 const update_top_buttons = frm => {
-	if (frm.doc.status !== "Cancelled" && frm.doc.status === 0) {
+	if (frm.doc.status !== "Cancelled" && frm.doc.docstatus === 0) {
 		if (!frm.doc.personal_event) {
 			if (!frm.doc.group_event) {
 				frm.add_custom_button(__('Group Appointment'), function() {
