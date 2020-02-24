@@ -109,6 +109,9 @@ class MaiaAppointment(Document):
 
 			self.send_sms_reminder(valid_number)
 
+	def on_trash(self):
+		self.clear_reminders()
+
 	def clear_reminders(self):
 		sms_reminder = frappe.get_all("SMS Reminder", filters={"maia_appointment": self.name})
 		for sms in sms_reminder:

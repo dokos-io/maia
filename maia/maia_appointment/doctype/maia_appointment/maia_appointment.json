@@ -200,7 +200,6 @@
   {
    "depends_on": "eval:doc.sms_reminder",
    "description": "00336XXXXXXXX or +33 6XXXXXXXX or +33 6.XX.XX.XX.XX",
-   "fetch_from": "patient_record.mobile_no",
    "fieldname": "mobile_no",
    "fieldtype": "Data",
    "label": "Mobile N\u00b0",
@@ -345,7 +344,7 @@
  ],
  "icon": "fa fa-calendar-check-o",
  "links": [],
- "modified": "2020-01-18 18:42:07.140051",
+ "modified": "2020-02-24 14:56:29.152394",
  "modified_by": "Administrator",
  "module": "Maia Appointment",
  "name": "Maia Appointment",

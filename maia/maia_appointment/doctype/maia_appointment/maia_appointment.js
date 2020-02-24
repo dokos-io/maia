@@ -70,6 +70,14 @@ frappe.ui.form.on('Maia Appointment', {
 	patient_name: function(frm) {
 		frm.set_value('subject', frm.doc.patient_name);
 	},
+	patient_record: function(frm) {
+		frm.set_value('mobile_no', '');
+		if (frm.doc.patient_record) {
+			frappe.db.get_value("Patient Record", frm.doc.patient_record, "mobile_no", r => {
+				r&&r.mobile_no&&frm.set_value('mobile_no', r.mobile_no);
+			})
+		}
+	},
 	mobile_no: function(frm) {
 		if (frm.doc.sms_reminder == 1&&frm.doc.mobile_no) {
 			const reg = /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/
@@ -131,7 +139,7 @@ frappe.ui.form.on('Maia Appointment', {
 });
 
 const update_top_buttons = frm => {
-	if (frm.doc.status !== "Cancelled") {
+	if (frm.doc.status !== "Cancelled" && frm.doc.status === 0) {
 		if (!frm.doc.personal_event) {
 			if (!frm.doc.group_event) {
 				frm.add_custom_button(__('Group Appointment'), function() {
@@ -154,12 +162,12 @@ const update_top_buttons = frm => {
 		frm.add_custom_button(__('Check Availability'), function() {
 			check_availability_by_midwife(frm);
 		});
-	} else if (frm.doc.online_booking === 1) {
-		if (!frm.doc.patient_record && !frm.doc.group_event) {
-			frm.add_custom_button(__('New Patient Record'), function() {
-				create_new_patient_record(frm);
-			});
-		}
+	}
+
+	if (!frm.is_new() && !frm.doc.patient_record && !frm.doc.group_event) {
+		frm.add_custom_button(__('New Patient Record'), function() {
+			create_new_patient_record(frm);
+		});
 	}
 }
 
