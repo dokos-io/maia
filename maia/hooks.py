@@ -214,3 +214,5 @@ scheduler_events = {
 # override_whitelisted_methods = {
 # 	"frappe.desk.doctype.event.event.get_events": "maia.event.get_events"
 # }
+
+auto_cancel_exempted_doctypes = ["Revenue", "General Ledger Entry", "Payment"]
