@@ -81,7 +81,9 @@ class ScheduleAvailability():
 		current_schedule = []
 		if scheduled_items:
 			for scheduled_item in scheduled_items:
-				if get_datetime(scheduled_item.get("start_dt")) < line["start"]:
+				if get_datetime(scheduled_item.get("start_dt")) > get_datetime(scheduled_item.get("end_dt")):
+					continue
+				elif get_datetime(scheduled_item.get("start_dt")) < line["start"]:
 					new_entry = (get_datetime(line["start"]), get_datetime(scheduled_item.get("end_dt")))
 				elif get_datetime(scheduled_item.get("start_dt")) < line["end"]:
 					new_entry = (get_datetime(scheduled_item.get("start_dt")), get_datetime(scheduled_item.get("end_dt")))

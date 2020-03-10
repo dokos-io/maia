@@ -21,10 +21,15 @@ from frappe.desk.calendar import process_recurring_events
 
 class MaiaAppointment(Document):
 	def validate(self):
+		self.validate_end_date()
 		self.validate_user_email()
 		self.validate_user_phone()
 		self.validate_group_participants()
 		self.validate_filled_information()
+
+	def validate_end_date(self):
+		if getdate(self.end_dt) < getdate(self.start_dt):
+			frappe.throw(_("End date must be after or equal to start date."))
 
 	def validate_user_email(self):
 		if self.reminder == 1 and not self.group_event:
