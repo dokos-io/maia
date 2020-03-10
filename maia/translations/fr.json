@@ -3933,6 +3933,7 @@
     "apps/maia/maia/maia_appointment/doctype/maia_appointment/maia_appointment.js": {
         "An error occured during the creation. Please create your patient record manually.": "Il y a eu une erreur lors de la création du dossier patient. Veuillez le créer manuellement.",
         "Book": "Réserver",
+        "Cancel": "Annuler",
         "Check Availability": "Disponibilités",
         "Create": "Créer",
         "Create a new patient record": "Créer un nouveau dossier patient",
@@ -3956,6 +3957,7 @@
     },
     "apps/maia/maia/maia_appointment/doctype/maia_appointment/maia_appointment.py": {
         "- Event deleted from Google Calendar.": "- Evénement supprimé de Google Agenda",
+        "End date must be after or equal to start date.": "La date de fin doit être supérieure à la date de début",
         "Event Synced with Google Calendar.": "Evénement synchronisé avec Google Agenda",
         "Google Calendar - Could not delete Event {0} from Google Calendar, error code {1}.": "Google Agenda - L'événement {0} n'a pas pu être supprimé de Google Agenda, code d'error {1}",
         "Google Calendar - Could not insert event in Google Calendar {0}, error code {1}.": "Google Agenda - L'événement n'a pas pu être créé dans Google Agenda ({0}), code d'erreur {1}.",
