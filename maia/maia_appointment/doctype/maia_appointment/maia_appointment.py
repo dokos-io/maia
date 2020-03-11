@@ -114,6 +114,9 @@ class MaiaAppointment(Document):
 
 			self.send_sms_reminder(valid_number)
 
+	def on_cancel(self):
+		self.clear_reminders()
+
 	def on_trash(self):
 		self.clear_reminders()
 
