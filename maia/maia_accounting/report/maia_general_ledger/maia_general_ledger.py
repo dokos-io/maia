@@ -144,7 +144,7 @@ def get_accountwise_gle(filters, gl_entries, gle_map):
 
 	from_date, to_date = getdate(filters.from_date), getdate(filters.to_date)
 
-	opening_balance = get_opening_balance(from_date)
+	opening_balance = get_opening_balance(from_date, filters)
 	update_value_in_dict(totals, 'opening', opening_balance)
 	update_value_in_dict(totals, 'closing', opening_balance)
 	for gle in gl_entries:
@@ -158,8 +158,16 @@ def get_accountwise_gle(filters, gl_entries, gle_map):
 
 	return totals, entries
 
-def get_opening_balance(from_date):
-	opening_entries = frappe.get_all("General Ledger Entry", filters={"posting_date": ["<", from_date]}, fields=["SUM(credit) as credit, SUM(debit) as debit"])
+def get_opening_balance(from_date, filters):
+	gl_filters = {"posting_date": ["<", from_date]}
+
+	if filters.get("practitioner"):
+		gl_filters["practitioner"] = filters.get("practitioner")
+
+	if filters.get("accounting_item"):
+		gl_filters["accounting_item"] = filters.get("accounting_item")
+
+	opening_entries = frappe.get_all("General Ledger Entry", filters=gl_filters, fields=["SUM(credit) as credit, SUM(debit) as debit"])
 	return {
 		"debit": opening_entries[0].get("debit") if opening_entries else 0,
 		"credit": opening_entries[0].get("credit") if opening_entries else 0

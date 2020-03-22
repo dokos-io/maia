@@ -4,7 +4,7 @@
 from __future__ import unicode_literals
 import frappe
 from frappe import _
-from frappe.utils import getdate, flt, formatdate
+from frappe.utils import getdate, flt, formatdate, add_days
 from dateutil.relativedelta import relativedelta
 from collections import namedtuple
 
@@ -98,15 +98,19 @@ def calculate_balances(filters, gl_entries, data):
 
 	from_date, to_date = getdate(filters.from_date), getdate(filters.to_date)
 	for gle in gl_entries:
-		if gle.posting_date>=from_date and gle.posting_date<=to_date and (not gle.clearance_date or gle.clearance_date > to_date):
+		if gle.posting_date > from_date and gle.posting_date <= to_date and (not gle.clearance_date or gle.clearance_date > to_date):
 			update_value_in_dict(balances, 'uncredited y', 'debit', gle)
 			update_value_in_dict(balances, 'undebited y', 'credit', gle)
 
-		elif gle.clearance_date and gle.clearance_date >= from_date and gle.posting_date < from_date:
+		elif gle.clearance_date and gle.clearance_date > from_date and gle.posting_date <= from_date:
 			update_value_in_dict(balances, 'uncredited y-1', 'debit', gle)
 			update_value_in_dict(balances, 'undebited y-1', 'credit', gle)
 
-		if gle.posting_date>=from_date and gle.posting_date<=to_date:
+		elif gle.clearance_date and gle.clearance_date <= to_date and gle.posting_date > to_date:
+			update_value_in_dict(balances, 'uncredited y', 'credit', gle)
+			update_value_in_dict(balances, 'undebited y', 'debit', gle)
+
+		if gle.posting_date > from_date and gle.posting_date <= to_date:
 			update_value_in_dict(balances, 'revenue', 'debit', gle)
 			update_value_in_dict(balances, 'expense', 'credit', gle)
 
@@ -129,6 +133,7 @@ def add_balances_to_data(filters, bank_account, data, balances):
 	bank_balance = get_bank_balance(filters.get("from_date"), filters.get("to_date"), bank_account.name)
 
 	calculated_balance = get_balance_on(account=bank_account.accounting_item, date=filters.get("from_date"), practitioner=filters.get("practitioner")) or 0
+
 	start_bank_balance = bank_balance["start"] or 0
 	end_bank_balance = bank_balance["end"] or 0
 
@@ -164,9 +169,15 @@ def add_balances_to_data(filters, bank_account, data, balances):
 
 @frappe.whitelist()
 def get_bank_balance(from_date, to_date, bank_account):
+	def _get_balance(date):
+		return frappe.get_all("Bank Statement Balance", filters={"date": ("<=", getdate(date)), "bank_account": bank_account}, fields=["balance", "date"])
+
+	initial_balances = _get_balance(from_date)
+	final_balances = _get_balance(to_date)
+
 	return {
-		"start": frappe.db.get_value("Bank Statement Balance", dict(date=getdate(from_date), bank_account=bank_account), "balance"),
-		"end": frappe.db.get_value("Bank Statement Balance", dict(date=getdate(to_date), bank_account=bank_account), "balance")
+		"start": sorted(initial_balances, key=lambda x:x.get("date"), reverse=True)[0].get("balance") if initial_balances else 0,
+		"end": sorted(final_balances, key=lambda x:x.get("date"), reverse=True)[0].get("balance") if final_balances else 0
 	}
 
 def add_entries_to_data(bank_account_field, data, balances):
@@ -190,7 +201,7 @@ def add_entries_to_data(bank_account_field, data, balances):
 
 
 def init_data(filters):
-	previous_year = (getdate(filters.get("from_date")) - relativedelta(years=1)).year
+	previous_year = (getdate(add_days(filters.get("from_date"), 1)) - relativedelta(years=1)).year
 	current_year = getdate(filters.get("to_date")).year
 	from_date = formatdate(filters.get("from_date"))
 	to_date = formatdate(filters.get("to_date"))
