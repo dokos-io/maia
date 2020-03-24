@@ -101,14 +101,18 @@ def calculate_balances(filters, gl_entries, data):
 		if gle.posting_date > from_date and gle.posting_date <= to_date and (not gle.clearance_date or gle.clearance_date > to_date):
 			update_value_in_dict(balances, 'uncredited y', 'debit', gle)
 			update_value_in_dict(balances, 'undebited y', 'credit', gle)
+		
+		elif gle.clearance_date and gle.clearance_date <= to_date and gle.posting_date > to_date:
+			update_value_in_dict(balances, 'uncredited y', 'credit', gle)
+			update_value_in_dict(balances, 'undebited y', 'debit', gle)
 
 		elif gle.clearance_date and gle.clearance_date > from_date and gle.posting_date <= from_date:
 			update_value_in_dict(balances, 'uncredited y-1', 'debit', gle)
 			update_value_in_dict(balances, 'undebited y-1', 'credit', gle)
 
-		elif gle.clearance_date and gle.clearance_date <= to_date and gle.posting_date > to_date:
-			update_value_in_dict(balances, 'uncredited y', 'credit', gle)
-			update_value_in_dict(balances, 'undebited y', 'debit', gle)
+		elif gle.clearance_date and gle.clearance_date <= from_date and gle.posting_date > from_date:
+			update_value_in_dict(balances, 'uncredited y-1', 'credit', gle)
+			update_value_in_dict(balances, 'undebited y-1', 'debit', gle)
 
 		if gle.posting_date > from_date and gle.posting_date <= to_date:
 			update_value_in_dict(balances, 'revenue', 'debit', gle)
@@ -201,26 +205,24 @@ def add_entries_to_data(bank_account_field, data, balances):
 
 
 def init_data(filters):
-	previous_year = (getdate(add_days(filters.get("from_date"), 1)) - relativedelta(years=1)).year
-	current_year = getdate(filters.get("to_date")).year
 	from_date = formatdate(filters.get("from_date"))
 	to_date = formatdate(filters.get("to_date"))
 
 
 	return [
 		{"line": 0, "description": _("Bank statement balance on {0}").format(from_date), "indent": 0},
-		{"line": 1, "description": _("Revenue from {0} uncredited before the {1}").format(previous_year, from_date), "indent": 0},
-		{"line": 2, "description": _("Expense from {0} undebited before the {1}").format(previous_year, from_date), "indent": 0},
+		{"line": 1, "description": _("Previous period revenue uncredited before the {0}").format(from_date), "indent": 0},
+		{"line": 2, "description": _("Previous period expense undebited before the {0}").format(from_date), "indent": 0},
 		{"line": 3, "description": _("Calculated accounting balance on {0}").format(from_date), "indent": 0},
 		{"line": 4},
 		{"line": 5, "description": _("Bank statement balance on {0}").format(to_date), "indent": 0, "index": 5},
-		{"line": 6, "description": _("Revenue from {0} uncredited before the {1}").format(current_year, to_date), "indent": 0},
-		{"line": 7, "description": _("Expense from {0} undebited before the {1}").format(current_year, to_date), "indent": 0},
+		{"line": 6, "description": _("Current period revenue uncredited before the {0}").format(to_date), "indent": 0},
+		{"line": 7, "description": _("Current period expense undebited before the {0}").format(to_date), "indent": 0},
 		{"line": 8, "description": _("Calculated accounting balance on {0}").format(to_date), "indent": 0},
 		{"line": 9},
 		{"line": 10, "description": _("Accounting balance on {0}").format(from_date), "indent": 0},
-		{"line": 11, "description": _("Revenue from {0}").format(current_year), "indent": 0},
-		{"line": 12, "description": _("Expense from {0}").format(current_year), "indent": 0},
+		{"line": 11, "description": _("Current period revenue"), "indent": 0},
+		{"line": 12, "description": _("Current period expense"), "indent": 0},
 		{"line": 13, "description": _("Accounting balance on {0}").format(to_date), "indent": 0}
 	]
 
