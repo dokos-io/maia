@@ -232,7 +232,7 @@ def get_columns(filters, bank_accounts, cash_account):
 		{
 			"fieldname": "description",
 			"fieldtype": "Data",
-			"width": 400
+			"width": 500
 		}
 	]
 
