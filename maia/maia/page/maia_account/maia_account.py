@@ -11,7 +11,6 @@ class DokosApiRequest():
 	def __init__(self, url):
 		self.api_key = frappe.conf.get("dokos_key")
 		self.api_secret = frappe.conf.get("dokos_secret")
-		self.dokos_customer = frappe.conf.get("dokos_customer")
 		self.url = url
 
 		self.setup_headers()
