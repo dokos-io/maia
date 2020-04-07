@@ -3810,16 +3810,14 @@
         "Bank statement balance on {0}": "Solde du relevé bancaire au {0}",
         "Calculated accounting balance on {0}": "Solde comptable calculé au {0}",
         "Current period expense": "Dépenses de la période",
-        "Current period expense undebited before the {0}": "Dépenses de la période non débitées avant le {0}",
+        "Current period expense undebited before the {0}": "Paiements de la période non débités avant le {0}",
         "Current period revenue": "Revenus de la période",
-        "Current period revenue uncredited before the {0}": "Revenus de la période non crédités avant le {0}",
+        "Current period revenue uncredited before the {0}": "Paiements de la période non crédités avant le {0}",
         "Expense from {0}": "Dépenses de {0}",
-        "Expense from {0} undebited before the {1}": "Dépenses de {0} non débitées avant le {1}",
         "Please add the initial and final bank statement values for {0} through the action button": "Veuillez ajouter le solde initial et le solde final pour {0} via le bouton *Action*",
-        "Previous period expense undebited before the {0}": "Revenus de la période précédente non débités avant le {0}",
-        "Previous period revenue uncredited before the {0}": "Dépenses de la période précédente non débitées avant le {0}",
-        "Revenue from {0}": "Recettes de {0}",
-        "Revenue from {0} uncredited before the {1}": "Recettes de {0} non créditées avant le {1}"
+        "Previous period expense undebited before the {0}": "Paiements des périodes précédentes non débités avant le {0}",
+        "Previous period revenue uncredited before the {0}": "Paiements des périodes précédentes non crédités avant le {0}",
+        "Revenue from {0}": "Recettes de {0}"
     },
     "apps/maia/maia/maia_accounting/report/declaration_2035/declaration_2035.js": {
         "Fiscal Year": "Année fiscale",
