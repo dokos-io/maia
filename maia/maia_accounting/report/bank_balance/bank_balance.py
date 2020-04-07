@@ -110,7 +110,7 @@ def calculate_balances(filters, gl_entries, data):
 			update_value_in_dict(balances, 'uncredited y', 'debit', gle)
 			update_value_in_dict(balances, 'undebited y', 'credit', gle)
 
-		elif gle.clearance_date and gle.clearance_date > from_date and gle.posting_date <= from_date:
+		if gle.clearance_date and gle.clearance_date > from_date and gle.posting_date <= from_date:
 			update_value_in_dict(balances, 'uncredited y-1', 'debit', gle)
 			update_value_in_dict(balances, 'undebited y-1', 'credit', gle)
 
