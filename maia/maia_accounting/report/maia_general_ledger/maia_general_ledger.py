@@ -69,7 +69,7 @@ def get_gl_entries(filters):
 def get_conditions(filters):
 	conditions = []
 	if filters.get("accounting_item"):
-		conditions.append("""accounting_item = '%s'""" % (filters.get("accounting_item")))
+		conditions.append("""accounting_item = %s""" % (frappe.db.escape(filters.get("accounting_item"))))
 
 	if filters.get("reference_name"):
 		conditions.append("reference_name=%(reference_name)s")

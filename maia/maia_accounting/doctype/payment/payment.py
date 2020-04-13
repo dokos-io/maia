@@ -31,6 +31,7 @@ class Payment(AccountingController):
 		self.update_outstanding_amount()
 		self.reverse_gl_entries()
 		self.flags.ignore_links = True
+		self.set_status()
 
 	def on_trash(self):
 		if self.docstatus != 0:
@@ -124,20 +125,21 @@ class Payment(AccountingController):
 		for ref in self.get("payment_references"):
 			if ref.paid_amount > 0:
 				doc = frappe.get_doc(ref.reference_type, ref.reference_name)
-				gl_entries.extend(self.get_gl_entries(doc))
+				gl_entries.extend(self.get_gl_entries(doc, ref.paid_amount))
 
 		make_gl_entries(gl_entries)
 
-	def get_gl_entries(self, doc):
+	def get_gl_entries(self, doc, paid_amount):
 		entries = []
 		if doc.with_items:
 			items = doc.get("codifications") if doc.doctype == "Revenue" else doc.get("expense_items")
+			total_paid = 0
 			for item in items:
 				entries.append({
 					"posting_date": self.payment_date,
 					"accounting_item": item.accounting_item,
-					"debit": abs(item.total_amount) if self.payment_type == "Outgoing payment" else 0,
-					"credit": abs(item.total_amount) if self.payment_type == "Incoming payment" else 0,
+					"debit": abs(min(item.total_amount, max(flt(paid_amount) - flt(total_paid), 0))) if self.payment_type == "Outgoing payment" else 0,
+					"credit": abs(min(item.total_amount, max(flt(paid_amount) - flt(total_paid), 0))) if self.payment_type == "Incoming payment" else 0,
 					"currency": maia.get_default_currency(),
 					"reference_type": doc.doctype,
 					"reference_name": doc.name,
@@ -151,8 +153,8 @@ class Payment(AccountingController):
 			entries.append({
 				"posting_date": self.payment_date,
 				"accounting_item": doc.accounting_item,
-				"debit": abs(doc.amount) if self.payment_type == "Outgoing payment" else 0,
-				"credit": abs(doc.amount) if self.payment_type == "Incoming payment" else 0,
+				"debit": abs(min(doc.amount, paid_amount)) if self.payment_type == "Outgoing payment" else 0,
+				"credit": abs(min(doc.amount, paid_amount)) if self.payment_type == "Incoming payment" else 0,
 				"currency": maia.get_default_currency(),
 				"reference_type": doc.doctype,
 				"reference_name": doc.name,

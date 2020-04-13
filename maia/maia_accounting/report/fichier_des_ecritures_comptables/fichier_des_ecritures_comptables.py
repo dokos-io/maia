@@ -43,7 +43,7 @@ def get_columns(filters):
 	columns = [
 		"JournalCode" + "::90", "JournalLib" + "::90",
 		"EcritureNum" + ":Dynamic Link:90", "EcritureDate" + "::90",
-		"CompteNum" + ":Link/Account:100", "CompteLib" + ":Link/Account:200",
+		"CompteNum" + ":Link/Accounting Item:100", "CompteLib" + ":Link/Accounting Item:200",
 		"CompAuxNum" + "::90", "CompAuxLib" + "::90",
 		"PieceRef" + "::90", "PieceDate" + "::90",
 		"EcritureLib" + "::90", "Debit" + "::90", "Credit" + "::90",

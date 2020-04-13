@@ -34,6 +34,7 @@ class Expense(AccountingController):
 			if frappe.db.get_value("Payment", payment.parent, "docstatus") != 2:
 				frappe.throw(_("Please cancel payment {0} before cancelling this document").format(payment.parent))
 
+		self.set_status()
 		self.flags.ignore_links = True
 
 	def validate_fields(self):

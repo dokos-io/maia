@@ -2879,8 +2879,14 @@
     "Report: Overbilling": {
         "Overbilling": "Dépassements d'honoraires"
     },
+    "Report: Personal Debits and Credits": {
+        "Personal Debits and Credits": "Prélèvements et apports personnels"
+    },
     "Report: Revenue Journal": {
         "Revenue Journal": "Journal des recettes"
+    },
+    "Report: Trial Balance": {
+        "Trial Balance": "Balance générale"
     },
     "apps/frappe/frappe/config/setup.py": {
         "Auto Email Report": "Envoi de Rapports par Email",
@@ -3901,6 +3907,23 @@
         "Start Year": "Année de Début",
         "Yearly": "Annuelle"
     },
+    "apps/maia/maia/maia_accounting/report/overbilling/overbilling.py": {
+        "Total": "Total"
+    },
+    "apps/maia/maia/maia_accounting/report/personal_debits_and_credits/personal_debits_and_credits.js": {
+        "Debits or Credits": "Prélèvements ou apports",
+        "Practitioner": "Praticien·ne",
+        "Year": "Année"
+    },
+    "apps/maia/maia/maia_accounting/report/personal_debits_and_credits/personal_debits_and_credits.py": {
+        "Amount ({0})": "Montant ({0})",
+        "Date": "Date",
+        "Description": "Description",
+        "Linked Doctype": "Type de document lié",
+        "Linked Documents": "Documents liés",
+        "Please select a fiscal year": "Veuillez sélectionner un exercice fiscal",
+        "Please select a practitioner": "Veuillez sélectionner un-e professionnel-le"
+    },
     "apps/maia/maia/maia_accounting/report/revenue_journal/revenue_journal.js": {
         "From date": "Du",
         "Practitioner": "Praticien(ne)",
@@ -3920,6 +3943,23 @@
         "Revenue amount": "Montant de la recette",
         "Transaction date": "Date de la transaction",
         "Yes": "Oui"
+    },
+    "apps/maia/maia/maia_accounting/report/trial_balance/trial_balance.js": {
+        "Period End": "Fin de la période",
+        "Period Start": "Début de la période",
+        "Practitioner": "Praticien·ne"
+    },
+    "apps/maia/maia/maia_accounting/report/trial_balance/trial_balance.py": {
+        "Accounting Item": "Poste comptable",
+        "Closing (Cr)": "Clôture (Crédit)",
+        "Closing (Dr)": "Clôture (Débit)",
+        "Credit": "Crédit",
+        "Currency": "Devise",
+        "Debit": "Débit",
+        "Opening (Cr)": "A nouveaux (Crédit)",
+        "Opening (Dr)": "A nouveaux (Débit)",
+        "Please select a practitioner": "Veuillez sélectionner un-e professionnel-le",
+        "Please select a start and end date": "Veuillez sélectionner une date de début et une date de fin"
     },
     "apps/maia/maia/maia_accounting/utils.py": {
         "{0} {1} not in any active Fiscal Year.": "{0} {1} n'est dans aucun exercice fiscal actif."
