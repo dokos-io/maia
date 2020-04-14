@@ -1,4 +1,5 @@
 {
+ "actions": [],
  "autoname": "naming_series:",
  "creation": "2019-04-15 10:39:26.958183",
  "doctype": "DocType",
@@ -69,7 +70,7 @@
    "fieldtype": "Select",
    "in_standard_filter": 1,
    "label": "Accounting Journal",
-   "options": "Miscellaneous operations\nSales\nPurchases\nBank\nCash\nOpening Entries",
+   "options": "Miscellaneous operations\nSales\nPurchases\nBank\nCash\nOpening entries\nClosing entries",
    "reqd": 1
   },
   {
@@ -124,7 +125,8 @@
  ],
  "is_sealed": 1,
  "is_submittable": 1,
- "modified": "2019-06-12 09:09:23.961663",
+ "links": [],
+ "modified": "2020-04-14 16:41:39.340480",
  "modified_by": "Administrator",
  "module": "Maia Accounting",
  "name": "General Ledger Entry",

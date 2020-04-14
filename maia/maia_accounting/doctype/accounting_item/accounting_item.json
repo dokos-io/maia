@@ -1,4 +1,5 @@
 {
+ "actions": [],
  "allow_rename": 1,
  "autoname": "field:accounting_item",
  "creation": "2019-04-08 20:27:26.161086",
@@ -43,14 +44,14 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Accounting Item Type",
-   "options": "Revenue\nExpense\nCash\nBank\nSales party\nPurchase party\nPractitioner\nMeal\nTravel\nSocial contributions\nInternal transfer\nOpening\nAsset selling\nAsset purchasing\nAsset depreciation\nAsset depreciation charge\nMiscellaneous",
+   "options": "Revenue\nExpense\nCash\nBank\nSales party\nPurchase party\nPractitioner\nMeal\nTravel\nSocial contributions\nInternal transfer\nOpening\nClosing\nAsset selling\nAsset purchasing\nAsset depreciation\nAsset depreciation charge\nMiscellaneous",
    "reqd": 1
   },
   {
    "fieldname": "accounting_journal",
    "fieldtype": "Select",
    "label": "Accounting Journal",
-   "options": "Sales\nPurchases\nBank\nCash\nOpening entries\nMiscellaneous operations",
+   "options": "Sales\nPurchases\nBank\nCash\nOpening entries\nClosing entries\nMiscellaneous operations",
    "reqd": 1
   },
   {
@@ -87,7 +88,8 @@
    "label": "Description"
   }
  ],
- "modified": "2019-06-14 09:15:57.497797",
+ "links": [],
+ "modified": "2020-04-14 16:42:10.431427",
  "modified_by": "Administrator",
  "module": "Maia Accounting",
  "name": "Accounting Item",

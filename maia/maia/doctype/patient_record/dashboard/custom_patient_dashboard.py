@@ -372,10 +372,11 @@ def get_data(patient_record):
 			"value": pr_folder.testing if pr_folder else None,
 			"enabled": 1 if dashboard.testing else 0
 		}
+
+		return enable_dashboard_modules(data)
+	
 	except Exception:
 		print(frappe.get_traceback())
-
-	return enable_dashboard_modules(data)
 
 def enable_dashboard_modules(data):
 	for d in data:

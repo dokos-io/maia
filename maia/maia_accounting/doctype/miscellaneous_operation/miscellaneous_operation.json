@@ -48,7 +48,7 @@
    "label": "Operation Type",
    "oldfieldname": "voucher_type",
    "oldfieldtype": "Select",
-   "options": "Miscellaneous Operation\nInternal Transfer\nCash Deposit\nPersonal Credit or Debit\nFee Retrocession",
+   "options": "Miscellaneous Operation\nInternal Transfer\nCash Deposit\nPersonal Credit or Debit\nFee Retrocession\nAnnual Closing",
    "reqd": 1,
    "search_index": 1
   },
@@ -105,15 +105,17 @@
    "options": "fa fa-table"
   },
   {
+   "depends_on": "eval:doc.operation_type!=\"Annual Closing\"",
    "fieldname": "items",
    "fieldtype": "Table",
    "label": "Accounting Entries",
+   "mandatory_depends_on": "eval:doc.operation_type!=\"Annual Closing\"",
    "oldfieldname": "entries",
    "oldfieldtype": "Table",
-   "options": "Miscellaneous Operation Items",
-   "reqd": 1
+   "options": "Miscellaneous Operation Items"
   },
   {
+   "depends_on": "eval:doc.operation_type!=\"Annual Closing\"",
    "fieldname": "section_break99",
    "fieldtype": "Section Break"
   },
@@ -191,7 +193,7 @@
  "icon": "fa fa-file-text",
  "is_submittable": 1,
  "links": [],
- "modified": "2020-01-15 17:11:48.137307",
+ "modified": "2020-04-14 17:24:41.452816",
  "modified_by": "Administrator",
  "module": "Maia Accounting",
  "name": "Miscellaneous Operation",

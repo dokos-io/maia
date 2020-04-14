@@ -6,12 +6,17 @@ from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
 from frappe import _
-from frappe.utils import flt
+from frappe.utils import flt, add_years, getdate
 from maia.maia_accounting.controllers.accounting_controller import AccountingController
 from maia.maia_accounting.doctype.general_ledger_entry.general_ledger_entry import make_gl_entries
 from maia.maia_accounting.utils import get_accounting_query_conditions
 from maia.maia_accounting.doctype.payment.payment import update_clearance_date
 import json
+from maia.maia_accounting.doctype.accounting_item.accounting_item import get_accounts
+from maia.maia_accounting.report.maia_general_ledger.maia_general_ledger import get_opening_balance
+from maia.maia_accounting.report.trial_balance.trial_balance import get_period_movements, get_closing_balance
+from collections import defaultdict
+from maia.maia_accounting.utils import get_fiscal_year
 
 class MiscellaneousOperation(AccountingController):
 	def validate(self):
@@ -20,9 +25,12 @@ class MiscellaneousOperation(AccountingController):
 		self.check_journals()
 
 	def on_submit(self):
-		self.check_journals()
-		self.check_difference()
-		self.make_gl_entries()
+		if self.operation_type == "Annual Closing":
+			self.make_closing_voucher()
+		else:
+			self.check_journals()
+			self.check_difference()
+			self.make_gl_entries()
 
 	def on_cancel(self):
 		self.reverse_gl_entries()
@@ -53,14 +61,9 @@ class MiscellaneousOperation(AccountingController):
 		for item in self.items:
 			if flt(item.amount) == 0:
 				continue
-			if not item.accounting_journal:
-				item.accounting_journal = frappe.db.get_value("Accounting Item", item.accounting_item, "accounting_journal")
-			if item.accounting_journal in ["Sales"]:
-				debit = abs(flt(item.amount)) if flt(item.amount) < 0 else 0
-				credit = flt(item.amount) if flt(item.amount) > 0 else 0
-			elif item.accounting_journal in ["Purchases", "Cash", "Bank", "Miscellaneous operations"]:
-				debit = flt(item.amount) if flt(item.amount) > 0 else 0
-				credit = abs(flt(item.amount)) if flt(item.amount) < 0 else 0
+
+			debit = flt(item.amount) if flt(item.amount) > 0 else 0
+			credit = abs(flt(item.amount)) if flt(item.amount) < 0 else 0
 
 			gl_entries.append({
 				"posting_date": self.posting_date,
@@ -99,6 +102,45 @@ class MiscellaneousOperation(AccountingController):
 
 		make_gl_entries(gl_entries)
 
+	def make_closing_voucher(self):
+		fiscal_year = get_fiscal_year(date=self.posting_date, practitioner=self.practitioner)
+		journal = frappe.db.get_value("Accounting Item", self.profit_loss, "accounting_journal")
+
+		gl_entries = []
+		total = 0
+		for account_type in ("Revenue", "Expense", "Practitioner"):
+			accounts = get_accounts(account_type)
+
+			for account in accounts:
+				filters = { "practitioner": self.practitioner, "accounting_item": account.name, "from_date": fiscal_year[1], "to_date": fiscal_year[2] }
+				balance = self.get_balance(filters)
+
+				if balance.get("debit") or balance.get("credit"):
+					amount = flt(balance.get("debit")) - flt(balance.get("credit"))
+					total += amount
+					gl_entries.append({
+						"posting_date": self.posting_date,
+						"accounting_item": account.name,
+						"debit": flt(amount) if amount > 0 else 0,
+						"credit": abs(flt(amount)) if amount < 0 else 0,
+						"currency": "EUR",
+						"reference_type": self.doctype,
+						"reference_name": self.name,
+						"link_doctype": self.doctype,
+						"link_docname": self.name,
+						"accounting_journal": journal,
+						"party": None,
+						"practitioner": self.practitioner
+					})
+
+		make_gl_entries(gl_entries)
+
+	@staticmethod
+	def get_balance(filters):
+		opening_balance = get_opening_balance(filters.get("from_date"), filters)
+		period_movements = get_period_movements(filters)
+		return get_closing_balance(opening_balance, period_movements)
+
 @frappe.whitelist()
 def update_clearance_dates(documents, date):
 	documents = json.loads(documents)
@@ -107,3 +149,7 @@ def update_clearance_dates(documents, date):
 
 def get_permission_query_conditions(user):
 	return get_accounting_query_conditions("Miscellaneous Operation", user)
+
+@frappe.whitelist()
+def get_closing_date(date, practitioner):
+	return get_fiscal_year(date=add_years(getdate(date), -1), practitioner=practitioner)

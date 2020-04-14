@@ -183,7 +183,7 @@
    "fieldname": "email",
    "fieldtype": "Data",
    "label": "Email",
-   "mandatory_depends_on": "eval:doc.reminder",
+   "mandatory_depends_on": "eval:doc.reminder&&!doc.group_event&&!doc.personal_event",
    "options": "Email"
   },
   {
@@ -202,7 +202,7 @@
    "fieldname": "mobile_no",
    "fieldtype": "Data",
    "label": "Mobile N\u00b0",
-   "mandatory_depends_on": "eval:doc.sms_reminder"
+   "mandatory_depends_on": "eval:doc.sms_reminder&&!doc.group_event&&!doc.personal_event"
   },
   {
    "fieldname": "repeat_till",
@@ -343,7 +343,7 @@
  ],
  "icon": "fa fa-calendar-check-o",
  "links": [],
- "modified": "2020-02-24 18:23:14.209571",
+ "modified": "2020-04-14 16:52:33.116332",
  "modified_by": "Administrator",
  "module": "Maia Appointment",
  "name": "Maia Appointment",

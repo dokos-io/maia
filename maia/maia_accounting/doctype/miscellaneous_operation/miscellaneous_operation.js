@@ -37,6 +37,7 @@ frappe.ui.form.on('Miscellaneous Operation', {
 		add_reconciliation_btn(frm);
 	},
 	operation_type(frm) {
+		frm.set_value("title", null);
 		set_item_queries(frm);
 		add_operation_related_items(frm);
 	},
@@ -58,6 +59,11 @@ frappe.ui.form.on('Miscellaneous Operation', {
 			frm.refresh_fields();
 			calculate_cash_amount(frm)
 		})
+	},
+	practitioner(frm) {
+		if (frm.doc.operation_type == "Annual Closing") {
+			set_annual_closing(frm)
+		}
 	}
 });
 
@@ -199,6 +205,10 @@ const add_operation_related_items = frm => {
 			}
 		})
 	}
+
+	if (frm.doc.operation_type == "Annual Closing") {
+		set_annual_closing(frm)
+	}
 }
 
 const add_operation_items = (frm, e) => {
@@ -242,6 +252,23 @@ const add_reconciliation_btn = frm => {
 					frappe.show_alert({message:__("Clearance dates updated successfully"), indicator:'green'});
 				})
 			})
+		})
+	}
+}
+
+const set_annual_closing = frm => {
+	if(frm.doc.practitioner) {
+		frappe.xcall("maia.maia_accounting.doctype.miscellaneous_operation.miscellaneous_operation.get_closing_date",
+		{
+			date: frm.doc.posting_date,
+			practitioner: frm.doc.practitioner
+		})
+		.then(e => {
+			if(e) {
+				frm.set_value("posting_date", e[1])
+				frm.set_value("title", __("Annual closing {0}", [e[0]]))
+				frm.set_value("items", [])
+			}
 		})
 	}
 }

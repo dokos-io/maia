@@ -9,8 +9,8 @@ from frappe.utils import flt
 
 from maia.maia_accounting.utils import get_balance_on
 
-REVENUE = ["Revenue", "Asset Selling"]
-EXPENSE = ["Expense", "Meal", "Travel", "Social contributions", "Asset purchasing", "Asset depreciation charge"]
+REVENUE = ["Revenue", "Asset Selling", "Sales Party"]
+EXPENSE = ["Expense", "Meal", "Travel", "Social contributions", "Asset purchasing", "Asset depreciation charge", "Purchase Party"]
 
 class AccountingItem(Document):
 	def is_revenue_item(self):
@@ -26,6 +26,8 @@ def get_accounts(acc_type):
 		return frappe.get_all("Accounting Item", filters={"accounting_item_type": ["in", REVENUE]}, fields=fields)
 	elif acc_type == "Expense":
 		return frappe.get_all("Accounting Item", filters={"accounting_item_type": ["in", EXPENSE]}, fields=fields)
+	elif acc_type == "Practitioner":
+		return frappe.get_all("Accounting Item", filters={"accounting_item_type": "Practitioner"}, fields=fields)
 
 def get_revenue(date, practitioner):
 	revenue_items = frappe.get_all("Accounting Item", filters={"accounting_item_type": ["in", REVENUE]})

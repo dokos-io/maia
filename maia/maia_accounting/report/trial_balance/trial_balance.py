@@ -16,7 +16,7 @@ def execute(filters=None):
 
 	data = get_data(filters)
 	columns = get_columns()
-	print(data)
+
 	return columns, data
 
 def get_data(filters):
@@ -30,11 +30,13 @@ def get_data(filters):
 		period_movements = get_period_movements(data_filters)
 		closing_balance = get_closing_balance(opening_balance, period_movements)
 
+		opening_amount = flt(opening_balance.get("debit", 0)) - flt(opening_balance.get("credit", 0))
+
 		output.append({
 			"accounting_item": accounting_item.name,
 			"currency": "EUR",
-			"opening_debit": flt(opening_balance.get("debit", 0)),
-			"opening_credit":  flt(opening_balance.get("credit", 0)),
+			"opening_debit": abs(opening_amount) if opening_amount < 0 else 0,
+			"opening_credit": opening_amount if opening_amount > 0 else 0,
 			"debit": period_movements.get("debit", 0),
 			"credit": period_movements.get("credit", 0),
 			"closing_debit": closing_balance.get("debit", 0),
@@ -58,9 +60,10 @@ def get_period_movements(filters):
 	}
 
 def get_closing_balance(opening, movements):
+	amount = flt(opening.get("debit")) + flt(movements.get("debit")) - (flt(opening.get("credit")) + flt(movements.get("credit")))
 	return {
-		"debit": flt(opening.get("debit")) + flt(movements.get("debit")),
-		"credit": flt(opening.get("credit")) + flt(movements.get("credit"))
+		"debit": abs(amount) if amount < 0 else 0,
+		"credit": amount if amount > 0 else 0
 	}
 
 def get_columns():
