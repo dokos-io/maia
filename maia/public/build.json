@@ -1,6 +1,7 @@
 {
 	"js/maia.min.js": [
 		"public/js/conf.js",
+		"public/js/startup.js",
 		"public/js/templates/address_list.html",
 		"public/js/templates/contact_list.html"
 	],

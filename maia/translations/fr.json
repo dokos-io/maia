@@ -135,6 +135,8 @@
         "Asset selling": "Cession d'immobilisation",
         "Bank": "Banque",
         "Cash": "Espèces",
+        "Closing": "Clôture",
+        "Closing entries": "Ecritures de clôture",
         "Description": "Description",
         "Expense": "Dépense",
         "Internal transfer": "Transfert interne",
@@ -822,6 +824,7 @@
         "Amended From": "Modifié Depuis",
         "Bank": "Banque",
         "Cash": "Espèces",
+        "Closing entries": "Ecritures de clôture",
         "Credit": "Crédit",
         "Currency": "Devise",
         "Date": "Date",
@@ -835,6 +838,7 @@
         "Midwife Substitute": "Sage-femme remplaçante",
         "Miscellaneous operations": "Opérations diverses",
         "Opening Entries": "Ecritures d'ouverture",
+        "Opening entries": "Ecritures d'à-nouveaux",
         "Party": "Tiers",
         "Practitioner": "Praticien(ne)",
         "Purchases": "Dépenses",
@@ -1291,6 +1295,7 @@
     "DocType: Miscellaneous Operation": {
         "Accounting Entries": "Ecritures comptables",
         "Amended From": "Modifié Depuis",
+        "Annual Closing": "Clôture annuelle",
         "Cash Deposit": "Dépôt d'Espèces",
         "Clearance Date": "Date de rapprochement",
         "Corresponding Payments": "Paiements correspondants",
@@ -3014,17 +3019,20 @@
         "Maia Profit and Loss Statement": "Compte de résultat",
         "Meal Expense Deduction": "Déduction pour les frais de repas",
         "Miscellaneous Operation": "Opération diverse",
+        "Overbilling": "Dépassements d'honoraires",
         "Parties": "Tiers",
         "Party": "Tiers",
         "Payment": "Paiement",
         "Payment Method": "Méthode de paiement",
         "Payment Methods": "Méthodes de paiement",
         "Payments": "Paiements",
+        "Personal Debits and Credits": "Prélèvements et apports personnels",
         "Profit and Loss Statement": "Compte de résultat",
         "Reports": "Rapports",
         "Revenue": "Recette",
         "Revenue Journal": "Journal des recettes",
-        "Setup": "Configuration"
+        "Setup": "Configuration",
+        "Trial Balance": "Balance générale"
     },
     "apps/maia/maia/config/maia_appointment.py": {
         "Appointment": "Rendez-Vous",
@@ -3720,6 +3728,7 @@
     },
     "apps/maia/maia/maia_accounting/doctype/miscellaneous_operation/miscellaneous_operation.js": {
         "Accounting Ledger": "Livre comptable",
+        "Annual closing {0}": "Clôture annuelle {0}",
         "Clearance Date": "Date de rapprochement",
         "Clearance dates updated successfully": "Dates de rapprochement mises à jour avec succès",
         "Update clearance dates": "Mettre à jour les dates de rapprochement",
@@ -3908,6 +3917,7 @@
         "Yearly": "Annuelle"
     },
     "apps/maia/maia/maia_accounting/report/overbilling/overbilling.py": {
+        "Please select a practitioner": "Veuillez sélectionner un-e professionnel-le",
         "Total": "Total"
     },
     "apps/maia/maia/maia_accounting/report/personal_debits_and_credits/personal_debits_and_credits.js": {
