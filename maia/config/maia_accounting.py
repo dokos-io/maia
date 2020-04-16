@@ -74,8 +74,26 @@ def get_data():
 				},
 				{
 					"type": "report",
+					"name": "Trial Balance",
+					"label": _("Trial Balance"),
+					"is_query_report": True,
+				},
+				{
+					"type": "report",
 					"name": "Bank Balance",
 					"label": _("Bank Balance"),
+					"is_query_report": True,
+				},
+				{
+					"type": "report",
+					"name": "Personal Debits and Credits",
+					"label": _("Personal Debits and Credits"),
+					"is_query_report": True,
+				},
+				{
+					"type": "report",
+					"name": "Overbilling",
+					"label": _("Overbilling"),
 					"is_query_report": True,
 				},
 				{

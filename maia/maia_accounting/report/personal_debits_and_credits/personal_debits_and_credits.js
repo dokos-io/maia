@@ -9,7 +9,7 @@ frappe.query_reports["Personal Debits and Credits"] = {
 			"label": __("Practitioner"),
 			"fieldtype": "Link",
 			"options": "Professional Information Card",
-			"default": frappe.defaults.get_user_default("email"),
+			"default": frappe.boot.practitioner,
 			"reqd": 0
 		},
 		{

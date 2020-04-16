@@ -104,10 +104,8 @@ class MiscellaneousOperation(AccountingController):
 
 	def make_closing_voucher(self):
 		fiscal_year = get_fiscal_year(date=self.posting_date, practitioner=self.practitioner)
-		journal = frappe.db.get_value("Accounting Item", self.profit_loss, "accounting_journal")
 
 		gl_entries = []
-		total = 0
 		for account_type in ("Revenue", "Expense", "Practitioner"):
 			accounts = get_accounts(account_type)
 
@@ -117,7 +115,6 @@ class MiscellaneousOperation(AccountingController):
 
 				if balance.get("debit") or balance.get("credit"):
 					amount = flt(balance.get("debit")) - flt(balance.get("credit"))
-					total += amount
 					gl_entries.append({
 						"posting_date": self.posting_date,
 						"accounting_item": account.name,
@@ -128,7 +125,7 @@ class MiscellaneousOperation(AccountingController):
 						"reference_name": self.name,
 						"link_doctype": self.doctype,
 						"link_docname": self.name,
-						"accounting_journal": journal,
+						"accounting_journal": "Closing entries",
 						"party": None,
 						"practitioner": self.practitioner
 					})

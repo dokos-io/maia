@@ -9,8 +9,8 @@ frappe.query_reports["Overbilling"] = {
 			"label": __("Practitioner"),
 			"fieldtype": "Link",
 			"options": "Professional Information Card",
-			"default": frappe.defaults.get_user_default("email"),
-			"reqd": 0
+			"default": frappe.boot.practitioner,
+			"reqd": 1
 		},
 		{
 			"fieldname":"from_fiscal_year",

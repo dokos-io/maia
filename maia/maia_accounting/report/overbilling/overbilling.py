@@ -16,10 +16,11 @@ from collections import defaultdict
 def execute(filters=None):
 	period_list = get_period_list(filters.from_fiscal_year, filters.to_fiscal_year, filters.periodicity, filters.practitioner)
 
+	if not filters.practitioner:
+		frappe.throw(_("Please select a practitioner"))
+
 	data = get_data(filters.practitioner, period_list)
-	print(data)
 	columns = get_columns(filters.periodicity, period_list, filters.practitioner)
-	print(columns)
 
 	return columns, data
 
@@ -28,7 +29,12 @@ def get_data(practitioner, period_list):
 	period_total = 0
 	for period in period_list:
 		paid_invoices = frappe.get_all("Revenue",
-			filters={"transaction_date": ["between", [period.get("from_date"), period.get("to_date")]], "status": "Paid", "docstatus": 1},
+			filters={
+				"transaction_date": ["between", [period.get("from_date"), period.get("to_date")]],
+				"status": "Paid",
+				"docstatus": 1,
+				"practitioner": practitioner
+			},
 			fields=["name", "consultation_type", "consultation"])
 
 		consultations = defaultdict(list)
