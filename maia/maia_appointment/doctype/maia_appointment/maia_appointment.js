@@ -284,10 +284,10 @@ const update_group_info = frm => {
 			const group_event = event.length ? event[0] : {}
 			if (!event.length) { return }
 
-			frm.set_value("seats_left", group_event.seats_left);
+			if (frm.doc.seats_left != group_event.seats_left) {
+				frm.set_value("seats_left", group_event.seats_left);
+			}
 			$(`[data-fieldname="seats_left"]`).addClass(group_event.seats_left > 0 ? 'green-response' : 'red-response');
-			frm.refresh_field("seats_left");
-
 			$(frm.fields_dict['group_event_info'].wrapper).html(frappe.render_template("group_event_info", {data: group_event}))
 		}
 	})

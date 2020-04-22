@@ -69,11 +69,14 @@ class MaiaAppointment(Document):
 			events = get_registration_count(self.appointment_type, self.start_dt)
 			inconsistency = 0
 
-			corresponding_events = filter(lambda x: get_datetime(x.start_dt) == get_datetime(self.start_dt), events)
+			corresponding_events = list(filter(lambda x: get_datetime(x.start_dt) == get_datetime(self.start_dt), events))
+
 			if not corresponding_events:
 				frappe.throw(_("The date and time of your appointment don't match with the existing group appointments. Please select another slot."))
 			else:
 				for event in corresponding_events:
+					if [x for x in event.registered if x.get("name") == self.name]:
+						event.seats_left += 1
 					if event.practitioner == self.practitioner:
 						if event.seats_left > 0:
 							continue

@@ -116,7 +116,7 @@
    "read_only": 1
   },
   {
-   "depends_on": "eval:(doc.group_event&&doc.docstatus===1)",
+   "depends_on": "eval:(doc.group_event&&doc.status!='Cancelled')",
    "fieldname": "seats_left",
    "fieldtype": "Data",
    "label": "Seats Left",
@@ -220,7 +220,7 @@
    "fieldtype": "Small Text"
   },
   {
-   "depends_on": "eval:(doc.group_event&&doc.docstatus===1)",
+   "depends_on": "eval:(doc.group_event&&doc.status!='Cancelled')",
    "fieldname": "section_break_37",
    "fieldtype": "Section Break"
   },
@@ -343,7 +343,7 @@
  ],
  "icon": "fa fa-calendar-check-o",
  "links": [],
- "modified": "2020-04-14 16:52:33.116332",
+ "modified": "2020-04-21 16:52:33.116332",
  "modified_by": "Administrator",
  "module": "Maia Appointment",
  "name": "Maia Appointment",
