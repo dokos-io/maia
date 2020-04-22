@@ -149,7 +149,11 @@ export default {
 			: []
 		},
 		show_categories: function() {
-			return this.selected_practitioner && this.appointment_groups.length
+			if (this.appointment_groups.length === 1) {
+				this.selected_appointment_category = this.appointment_groups[0]
+				return false
+			}
+			return this.selected_practitioner && this.appointment_groups.length > 1
 		},
 		show_appointment_types: function() {
 			return this.selected_practitioner && (this.selected_appointment_category || !this.appointment_groups.length)
