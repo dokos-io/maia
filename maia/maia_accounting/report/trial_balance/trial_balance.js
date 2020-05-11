@@ -28,5 +28,15 @@ frappe.query_reports["Trial Balance"] = {
 			"reqd": 1,
 			"width": "60px"
 		}
-	]
+	],
+	"formatter": function(value, row, column, data, default_formatter) {
+		value = default_formatter(value, row, column, data);
+
+		if (data.bold) {
+			var $value = $(value).css("font-weight", "bold");
+			value = $value.wrap("<p></p>").parent().html();
+		}
+
+		return value;
+	},
 };

@@ -69,7 +69,7 @@ class ProfessionalInformationCard(Document):
 		return new_user
 
 	def check_roles(self):
-		if self.is_substitute:
+		if self.is_substitute and self.user:
 			user = frappe.get_doc("User", self.user)
 			user.remove_roles("Midwife")
 			user.add_roles("Midwife Substitute")

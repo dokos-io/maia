@@ -20,9 +20,9 @@ def execute(filters=None):
 	return columns, data
 
 def get_data(filters):
-	accounting_items = frappe.get_all("Accounting Item")
+	accounting_items = sorted(frappe.get_all("Accounting Item", fields=["name", "accounting_number"]), key=lambda x:x.accounting_number)
 
-	output = []
+	result = []
 
 	for accounting_item in accounting_items:
 		data_filters = { **filters, **{"accounting_item": accounting_item.name} }
@@ -32,8 +32,8 @@ def get_data(filters):
 
 		opening_amount = flt(opening_balance.get("debit", 0)) - flt(opening_balance.get("credit", 0))
 
-		output.append({
-			"accounting_item": accounting_item.name,
+		result.append({
+			"accounting_item": (accounting_item.accounting_number or "") + " - " + accounting_item.name,
 			"currency": "EUR",
 			"opening_debit": abs(opening_amount) if opening_amount < 0 else 0,
 			"opening_credit": opening_amount if opening_amount > 0 else 0,
@@ -43,6 +43,21 @@ def get_data(filters):
 			"closing_credit": closing_balance.get("credit", 0)
 		})
 
+	output = [x for x in result if (x.get("opening_debit") or x.get("opening_debit") or x.get("debit") or x.get("credit") or x.get("closing_debit") or x.get("closing_credit"))]
+
+	output.append({})
+	output.append({
+		"accounting_item": _("Total"),
+		"currency": "EUR",
+		"bold": 1,
+		"opening_debit": sum([x.get("opening_debit", 0) for x in output]),
+		"opening_credit": sum([x.get("opening_credit", 0) for x in output]),
+		"debit": sum([x.get("debit", 0) for x in output]),
+		"credit": sum([x.get("credit", 0) for x in output]),
+		"closing_debit": sum([x.get("closing_debit", 0) for x in output]),
+		"closing_credit": sum([x.get("closing_credit", 0) for x in output])
+	})
+
 	return output
 
 
@@ -50,7 +65,8 @@ def get_period_movements(filters):
 	gl_filters = {
 		"posting_date": ("between", (filters.get("from_date"), filters.get("to_date"))),
 		"practitioner": filters.get("practitioner"),
-		"accounting_item": filters.get("accounting_item")
+		"accounting_item": filters.get("accounting_item"),
+		"accounting_journal": ("!=", "Closing entries")
 	}
 
 	entries = frappe.get_all("General Ledger Entry", filters=gl_filters, fields=["SUM(credit) as credit, SUM(debit) as debit"])
@@ -62,8 +78,8 @@ def get_period_movements(filters):
 def get_closing_balance(opening, movements):
 	amount = flt(opening.get("debit")) + flt(movements.get("debit")) - (flt(opening.get("credit")) + flt(movements.get("credit")))
 	return {
-		"debit": abs(amount) if amount < 0 else 0,
-		"credit": amount if amount > 0 else 0
+		"debit": amount if amount > 0 else 0,
+		"credit": abs(amount) if amount < 0 else 0
 	}
 
 def get_columns():

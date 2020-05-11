@@ -225,8 +225,8 @@ const show_general_ledger = (frm) => {
 		frm.add_custom_button(__('Accounting Ledger'), function() {
 			frappe.route_options = {
 				reference_name: frm.doc.name,
-				from_date: frappe.datetime.year_start(),
-				to_date: frappe.datetime.year_end(),
+				from_date: frm.doc.posting_date,
+				to_date: frm.doc.posting_date,
 				practitioner: frm.doc.practitioner
 			};
 			frappe.set_route("query-report", "Maia General Ledger");
@@ -265,7 +265,7 @@ const set_annual_closing = frm => {
 		})
 		.then(e => {
 			if(e) {
-				frm.set_value("posting_date", e[1])
+				frm.set_value("posting_date", e[2])
 				frm.set_value("title", __("Annual closing {0}", [e[0]]))
 				frm.set_value("items", [])
 			}

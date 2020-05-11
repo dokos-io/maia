@@ -103,34 +103,7 @@ class MiscellaneousOperation(AccountingController):
 		make_gl_entries(gl_entries)
 
 	def make_closing_voucher(self):
-		fiscal_year = get_fiscal_year(date=self.posting_date, practitioner=self.practitioner)
-
-		gl_entries = []
-		for account_type in ("Revenue", "Expense", "Practitioner"):
-			accounts = get_accounts(account_type)
-
-			for account in accounts:
-				filters = { "practitioner": self.practitioner, "accounting_item": account.name, "from_date": fiscal_year[1], "to_date": fiscal_year[2] }
-				balance = self.get_balance(filters)
-
-				if balance.get("debit") or balance.get("credit"):
-					amount = flt(balance.get("debit")) - flt(balance.get("credit"))
-					gl_entries.append({
-						"posting_date": self.posting_date,
-						"accounting_item": account.name,
-						"debit": flt(amount) if amount > 0 else 0,
-						"credit": abs(flt(amount)) if amount < 0 else 0,
-						"currency": "EUR",
-						"reference_type": self.doctype,
-						"reference_name": self.name,
-						"link_doctype": self.doctype,
-						"link_docname": self.name,
-						"accounting_journal": "Closing entries",
-						"party": None,
-						"practitioner": self.practitioner
-					})
-
-		make_gl_entries(gl_entries)
+		ClosingVoucher(self).make_closing_voucher()
 
 	@staticmethod
 	def get_balance(filters):
@@ -150,3 +123,151 @@ def get_permission_query_conditions(user):
 @frappe.whitelist()
 def get_closing_date(date, practitioner):
 	return get_fiscal_year(date=add_years(getdate(date), -1), practitioner=practitioner)
+
+
+class ClosingVoucher:
+	def __init__(self, document):
+		self.doc = document
+		self.gl_entries = []
+		self.profit_loss = 0.0
+		self.pl_accounts = []
+		self.balance = {}
+		self.fiscal_year = get_fiscal_year(date=self.doc.posting_date, practitioner=self.doc.practitioner)
+
+	def make_closing_voucher(self):
+		self.get_revenue_accounts()
+		self.get_expense_accounts()
+		self.get_balance(self.pl_accounts)
+		self.prepare_pl_entries()
+		self.prepare_pl_closing_entries()
+		self.prepare_practitioner_closing_entry()
+		self.prepare_equity_entry()
+		make_gl_entries(self.gl_entries)
+
+	def get_revenue_accounts(self):
+		self.get_accounts("Revenue")
+
+	def get_expense_accounts(self):
+		self.get_accounts("Expense")
+
+	def get_accounts(self, account_type):
+		self.pl_accounts.extend(get_accounts(account_type))
+
+	def get_balance(self, accounts):
+		for account in accounts:
+			filters = { "practitioner": self.doc.practitioner, "accounting_item": account.name, "from_date": self.fiscal_year[1], "to_date": self.fiscal_year[2] }
+			self.balance[account.name] = self.doc.get_balance(filters)
+
+	def prepare_pl_entries(self):
+		for account in self.pl_accounts:
+			if self.balance.get(account.name).get("debit") or self.balance.get(account.name).get("credit"):
+				amount = flt(self.balance.get(account.name).get("debit")) - flt(self.balance.get(account.name).get("credit"))
+
+				# Calculate Profit-Loss
+				self.profit_loss += amount
+
+				self.gl_entries.append({
+					"posting_date": self.doc.posting_date,
+					"accounting_item": account.name,
+					"debit": abs(flt(amount)) if amount < 0 else 0,
+					"credit": flt(amount) if amount > 0 else 0,
+					"currency": "EUR",
+					"reference_type": self.doc.doctype,
+					"reference_name": self.doc.name,
+					"link_doctype": self.doc.doctype,
+					"link_docname": self.doc.name,
+					"accounting_journal": "Closing entries",
+					"party": None,
+					"practitioner": self.doc.practitioner
+				})
+
+	def prepare_pl_closing_entries(self):
+		# Profit or loss
+		self.gl_entries.append({
+			"posting_date": self.doc.posting_date,
+			"accounting_item": self.doc.profit_or_loss_account,
+			"debit": flt(self.profit_loss) if self.profit_loss > 0 else 0,
+			"credit": abs(flt(self.profit_loss)) if self.profit_loss < 0 else 0,
+			"currency": "EUR",
+			"reference_type": self.doc.doctype,
+			"reference_name": self.doc.name,
+			"link_doctype": self.doc.doctype,
+			"link_docname": self.doc.name,
+			"accounting_journal": "Closing entries",
+			"party": None,
+			"practitioner": self.doc.practitioner
+		})
+
+		self.gl_entries.append({
+			"posting_date": self.doc.posting_date,
+			"accounting_item": self.doc.profit_or_loss_account,
+			"debit": abs(flt(self.profit_loss)) if self.profit_loss < 0 else 0,
+			"credit": flt(self.profit_loss) if self.profit_loss > 0 else 0,
+			"currency": "EUR",
+			"reference_type": self.doc.doctype,
+			"reference_name": self.doc.name,
+			"link_doctype": self.doc.doctype,
+			"link_docname": self.doc.name,
+			"accounting_journal": "Closing entries",
+			"party": None,
+			"practitioner": self.doc.practitioner
+		})
+
+	def prepare_practitioner_closing_entry(self):
+		# Practitioner account
+		self.gl_entries.append({
+			"posting_date": self.doc.posting_date,
+			"accounting_item": self.doc.practitioner_account,
+			"debit": flt(self.profit_loss) if self.profit_loss > 0 else 0,
+			"credit": abs(flt(self.profit_loss)) if self.profit_loss < 0 else 0,
+			"currency": "EUR",
+			"reference_type": self.doc.doctype,
+			"reference_name": self.doc.name,
+			"link_doctype": self.doc.doctype,
+			"link_docname": self.doc.name,
+			"accounting_journal": "Closing entries",
+			"party": None,
+			"practitioner": self.doc.practitioner
+		})
+
+	def prepare_equity_entry(self):
+		practitioner_accounts = []
+		practitioner_accounts.extend(get_accounts("Practitioner"))
+		self.get_balance(practitioner_accounts)
+
+		amount = self.profit_loss
+		for account in practitioner_accounts:
+			if account.name == self.doc.practitioner_account:
+				amount += flt(self.balance.get(account.name).get("debit")) - flt(self.balance.get(account.name).get("credit"))
+
+		# Practitioner account
+		self.gl_entries.append({
+			"posting_date": self.doc.posting_date,
+			"accounting_item": self.doc.practitioner_account,
+			"debit": abs(flt(amount)) if amount < 0 else 0,
+			"credit": flt(amount) if amount > 0 else 0,
+			"currency": "EUR",
+			"reference_type": self.doc.doctype,
+			"reference_name": self.doc.name,
+			"link_doctype": self.doc.doctype,
+			"link_docname": self.doc.name,
+			"accounting_journal": "Closing entries",
+			"party": None,
+			"practitioner": self.doc.practitioner
+		})
+
+		# Equity
+		self.gl_entries.append({
+			"posting_date": self.doc.posting_date,
+			"accounting_item": self.doc.equity_account,
+			"debit": flt(amount) if amount > 0 else 0,
+			"credit": abs(flt(amount)) if amount < 0 else 0,
+			"currency": "EUR",
+			"reference_type": self.doc.doctype,
+			"reference_name": self.doc.name,
+			"link_doctype": self.doc.doctype,
+			"link_docname": self.doc.name,
+			"accounting_journal": "Closing entries",
+			"party": None,
+			"practitioner": self.doc.practitioner
+		})

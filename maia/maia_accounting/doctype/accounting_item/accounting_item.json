@@ -44,7 +44,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Accounting Item Type",
-   "options": "Revenue\nExpense\nCash\nBank\nSales party\nPurchase party\nPractitioner\nMeal\nTravel\nSocial contributions\nInternal transfer\nOpening\nClosing\nAsset selling\nAsset purchasing\nAsset depreciation\nAsset depreciation charge\nMiscellaneous",
+   "options": "Revenue\nExpense\nCash\nBank\nSales party\nPurchase party\nPractitioner\nMeal\nTravel\nSocial contributions\nInternal transfer\nOpening\nClosing\nAsset selling\nAsset purchasing\nAsset depreciation\nAsset depreciation charge\nEquity\nMiscellaneous",
    "reqd": 1
   },
   {
@@ -89,7 +89,7 @@
   }
  ],
  "links": [],
- "modified": "2020-04-14 16:42:10.431427",
+ "modified": "2020-05-11 15:30:08.892072",
  "modified_by": "Administrator",
  "module": "Maia Accounting",
  "name": "Accounting Item",

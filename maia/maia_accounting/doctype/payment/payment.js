@@ -26,6 +26,7 @@ frappe.ui.form.on('Payment', {
 	refresh(frm) {
 		frm.page.clear_actions_menu();
 		add_reconciliation_btn(frm);
+		show_general_ledger(frm);
 	},
 	practitioner(frm) {
 		frm.events.get_accounting_practitioner(frm);
@@ -151,5 +152,19 @@ const add_reconciliation_btn = frm => {
 				})
 			})
 		})
+	}
+}
+
+const show_general_ledger = (frm) => {
+	if(frm.doc.docstatus > 0) {
+		frm.add_custom_button(__('Accounting Ledger'), function() {
+			frappe.route_options = {
+				link_docname: frm.doc.name,
+				from_date: frm.doc.payment_date,
+				to_date: frm.doc.payment_date,
+				practitioner: frm.doc.practitioner
+			};
+			frappe.set_route("query-report", "Maia General Ledger");
+		}, __("View"));
 	}
 }

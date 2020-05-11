@@ -486,5 +486,29 @@
 		"line_2035": null,
 		"code_2035": null,
 		"description": ""
+	},
+	"Résultat de l'exercice (Bénéfice)": {
+		"accounting_number": "120000",
+		"accounting_item_type": "Closing",
+		"accounting_journal": "Closing entries",
+		"line_2035": null,
+		"code_2035": null,
+		"description": ""
+	},
+	"Résultat de l'exercice (Perte)": {
+		"accounting_number": "129000",
+		"accounting_item_type": "Closing",
+		"accounting_journal": "Closing entries",
+		"line_2035": null,
+		"code_2035": null,
+		"description": ""
+	},
+	"Capital Individuel": {
+		"accounting_number": "101000",
+		"accounting_item_type": "Equity",
+		"accounting_journal": "Closing entries",
+		"line_2035": null,
+		"code_2035": null,
+		"description": ""
 	}
 }

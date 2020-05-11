@@ -21,6 +21,12 @@
   "payments_total",
   "2_add_edit_gl_entries",
   "items",
+  "section_break_15",
+  "profit_or_loss_account",
+  "column_break_17",
+  "practitioner_account",
+  "column_break_19",
+  "equity_account",
   "section_break99",
   "difference",
   "clearance_date",
@@ -188,12 +194,46 @@
    "label": "Substitute",
    "mandatory_depends_on": "eval:doc.operation_type === \"Fee Retrocession\"",
    "options": "Professional Information Card"
+  },
+  {
+   "depends_on": "eval:doc.operation_type == \"Annual Closing\"",
+   "fieldname": "section_break_15",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "profit_or_loss_account",
+   "fieldtype": "Link",
+   "label": "Profit or loss account",
+   "mandatory_depends_on": "eval:doc.operation_type == \"Annual Closing\"",
+   "options": "Accounting Item"
+  },
+  {
+   "fieldname": "column_break_17",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "practitioner_account",
+   "fieldtype": "Link",
+   "label": "Practitioner account",
+   "mandatory_depends_on": "eval:doc.operation_type == \"Annual Closing\"",
+   "options": "Accounting Item"
+  },
+  {
+   "fieldname": "column_break_19",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "equity_account",
+   "fieldtype": "Link",
+   "label": "Equity account",
+   "mandatory_depends_on": "eval:doc.operation_type == \"Annual Closing\"",
+   "options": "Accounting Item"
   }
  ],
  "icon": "fa fa-file-text",
  "is_submittable": 1,
  "links": [],
- "modified": "2020-04-14 17:24:41.452816",
+ "modified": "2020-05-11 15:38:21.271283",
  "modified_by": "Administrator",
  "module": "Maia Accounting",
  "name": "Miscellaneous Operation",

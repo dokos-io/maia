@@ -138,6 +138,7 @@
         "Closing": "Clôture",
         "Closing entries": "Ecritures de clôture",
         "Description": "Description",
+        "Equity": "Capital",
         "Expense": "Dépense",
         "Internal transfer": "Transfert interne",
         "Maia Accounting": "Comptabilité",
@@ -1300,6 +1301,7 @@
         "Clearance Date": "Date de rapprochement",
         "Corresponding Payments": "Paiements correspondants",
         "Difference": "Différence",
+        "Equity account": "Compte de capital individuel",
         "Fee Retrocession": "Rétrocession d'Honoraires",
         "Get all outstanding cash payments": "Obtenir tous les paiements en espèces non réconciliés",
         "Internal Transfer": "Transfert interne",
@@ -1316,6 +1318,8 @@
         "Personal Debit": " Prélèvement Personnel",
         "Posting Date": "Date de comptabilisation",
         "Practitioner": "Praticien(ne)",
+        "Practitioner account": "Compte de l'exploitant",
+        "Profit or loss account": "Compte de bénéfice ou perte",
         "Series": "Série",
         "Substitute": "Remplaçant·e",
         "System Manager": "Responsable système",
@@ -3745,10 +3749,12 @@
         "You are trying to create a personal debit operation: the practitioner amount should be positive.": "Vous essayez de faire un prélèvement personnel: le montant du poste comptable de l'exploitant doit être positif."
     },
     "apps/maia/maia/maia_accounting/doctype/payment/payment.js": {
+        "Accounting Ledger": "Livre comptable",
         "Clear payment": "Rapprocher le paiement",
         "Clearance Date": "Date de rapprochement",
         "Clearance date updated successfully": "Date de rapprochement mise à jour avec succès",
         "Update clearance date": "Mettre à jour la date de rapprochement",
+        "View": "Voir",
         "Would you like to use practitioner {0} to register this payment ?": "Voulez vous utiliser le·la praticien·ne {0} pour enregistrer ce paiement ?"
     },
     "apps/maia/maia/maia_accounting/doctype/payment/payment.py": {
@@ -3966,10 +3972,11 @@
         "Credit": "Crédit",
         "Currency": "Devise",
         "Debit": "Débit",
-        "Opening (Cr)": "A nouveaux (Crédit)",
-        "Opening (Dr)": "A nouveaux (Débit)",
+        "Opening (Cr)": "Ouverture (Crédit)",
+        "Opening (Dr)": "Ouverture (Débit)",
         "Please select a practitioner": "Veuillez sélectionner un-e professionnel-le",
-        "Please select a start and end date": "Veuillez sélectionner une date de début et une date de fin"
+        "Please select a start and end date": "Veuillez sélectionner une date de début et une date de fin",
+        "Total": "Total"
     },
     "apps/maia/maia/maia_accounting/utils.py": {
         "{0} {1} not in any active Fiscal Year.": "{0} {1} n'est dans aucun exercice fiscal actif."
