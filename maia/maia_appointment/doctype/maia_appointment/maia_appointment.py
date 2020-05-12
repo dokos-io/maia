@@ -65,7 +65,7 @@ class MaiaAppointment(Document):
 			self.user = frappe.db.get_value("Patient Record", self.patient_record, "website_user")
 
 	def validate_group_participants(self):
-		if self.personal_event != 1 and self.group_event != 1 and frappe.get_doc("Maia Appointment Type", self.appointment_type, "group_appointment"):
+		if self.personal_event != 1 and self.group_event != 1 and frappe.db.get_value("Maia Appointment Type", self.appointment_type, "group_appointment"):
 			events = get_registration_count(self.appointment_type, self.start_dt)
 			inconsistency = 0
 
