@@ -88,7 +88,7 @@ class MaiaAppointment(Document):
 			if inconsistency > 0:
 				frappe.throw(_("No existing slot could be found for this practitioner, date, time and appointment type."))
 
-	def before_save(self):
+	def before_validate(self):
 		if self.start_dt:
 			self.start_dt = get_datetime(self.start_dt).replace(tzinfo=None)
 		if self.end_dt:
@@ -96,7 +96,7 @@ class MaiaAppointment(Document):
 
 		if self.start_dt and self.end_dt:
 			if self.all_day:
-				self.end_dt = get_datetime(self.end_dt).replace(hour=23, minute=59, second=59)
+				self.end_dt = get_datetime(self.end_dt).replace(hour=23, minute=59)
 
 			self.duration = (get_datetime(self.end_dt) - get_datetime(self.start_dt)).seconds/60
 
@@ -265,7 +265,8 @@ def get_events(start, end, user=None, filters=None):
 	result = list(events)
 	for event in events:
 		if event.get("repeat_this_event"):
-			result = [x for x in result if x.get("name") != event.get("name")]
+			start = get_datetime(start).replace(hour=0, minute=0, second=0) if event.get("all_day") else start
+			end = get_datetime(end).replace(hour=0, minute=0, second=0) if event.get("all_day") else end
 			result.extend(process_recurring_events(event, start, end, "start_dt", "end_dt", "rrule"))
 
 	return result

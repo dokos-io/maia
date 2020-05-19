@@ -79,6 +79,7 @@ class ScheduleAvailability():
 	def find_available_slot(self, duration, line, scheduled_items):
 		available_slots = []
 		current_schedule = []
+		new_entry = ()
 		if scheduled_items:
 			for scheduled_item in scheduled_items:
 				if get_datetime(scheduled_item.get("start_dt")) > get_datetime(scheduled_item.get("end_dt")):
@@ -88,10 +89,11 @@ class ScheduleAvailability():
 				elif get_datetime(scheduled_item.get("start_dt")) < line["end"]:
 					new_entry = (get_datetime(scheduled_item.get("start_dt")), get_datetime(scheduled_item.get("end_dt")))
 
-				try:
-					current_schedule.append(new_entry)
-				except Exception as e:
-					print(e)
+				if new_entry:
+					try:
+						current_schedule.append(new_entry)
+					except Exception as e:
+						print(e)
 
 			scheduled_items = sorted(current_schedule, key = lambda x: x[0])
 			final_schedule = list(reduced(scheduled_items))

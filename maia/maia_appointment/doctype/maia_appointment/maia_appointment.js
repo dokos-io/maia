@@ -39,10 +39,10 @@ frappe.ui.form.on('Maia Appointment', {
 				}
 			};
 		});
-		frm.add_web_link("/appointment", __('Online booking platform'))
 	},
 	refresh: function(frm) {
 		update_top_buttons(frm);
+		frm.add_web_link("/appointment", __('Online booking platform'))
 		if (frm.doc.group_event && (frm.doc.status !== "Cancelled")) {
 			update_group_info(frm);
 		}
