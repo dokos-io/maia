@@ -78,6 +78,7 @@ def set_gl_entries_by_account(practitioner, from_date, to_date, accounts, filter
 		where practitioner=%(practitioner)s
 		{additional_conditions}
 		and posting_date <= %(to_date)s
+		and accounting_journal != "Closing entries"
 		order by accounting_item, posting_date""".format(additional_conditions=additional_conditions),
 		{
 			"practitioner": practitioner,

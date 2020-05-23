@@ -5,14 +5,14 @@ from frappe.utils import now
 from maia.maia_accounting.utils import get_fiscal_year
 
 
-__version__ = '3.5.1'
+__version__ = '3.5.2'
 
 
 def get_default_fiscal_year(user=None):
 	if not user:
 		user = frappe.session.user
 
-	practitioner = frappe.db.get_value("Professional Information Card", dict(user=user), "name")	
+	practitioner = frappe.db.get_value("Professional Information Card", dict(user=user), "name")
 
 	return  get_fiscal_year(date=now(), practitioner=practitioner)
 
