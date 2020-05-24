@@ -135,20 +135,23 @@ class Payment(AccountingController):
 			items = doc.get("codifications") if doc.doctype == "Revenue" else doc.get("expense_items")
 			total_paid = 0
 			for item in items:
-				entries.append({
-					"posting_date": self.payment_date,
-					"accounting_item": item.accounting_item,
-					"debit": abs(min(item.total_amount, max(flt(paid_amount) - flt(total_paid), 0))) if self.payment_type == "Outgoing payment" else 0,
-					"credit": abs(min(item.total_amount, max(flt(paid_amount) - flt(total_paid), 0))) if self.payment_type == "Incoming payment" else 0,
-					"currency": maia.get_default_currency(),
-					"reference_type": doc.doctype,
-					"reference_name": doc.name,
-					"link_doctype": self.doctype,
-					"link_docname": self.name,
-					"accounting_journal": self.get_rev_exp_accounting_journal(item.accounting_item),
-					"party": self.party,
-					"practitioner": self.practitioner
-				})
+				line_payment = flt(abs(min(item.total_amount, max(flt(paid_amount) - flt(total_paid), 0))))
+				if line_payment:
+					total_paid += line_payment
+					entries.append({
+						"posting_date": self.payment_date,
+						"accounting_item": item.accounting_item,
+						"debit": line_payment if self.payment_type == "Outgoing payment" else 0,
+						"credit": line_payment if self.payment_type == "Incoming payment" else 0,
+						"currency": maia.get_default_currency(),
+						"reference_type": doc.doctype,
+						"reference_name": doc.name,
+						"link_doctype": self.doctype,
+						"link_docname": self.name,
+						"accounting_journal": self.get_rev_exp_accounting_journal(item.accounting_item),
+						"party": self.party,
+						"practitioner": self.practitioner
+					})
 		else:
 			entries.append({
 				"posting_date": self.payment_date,
@@ -168,7 +171,10 @@ class Payment(AccountingController):
 		return entries
 	
 	def make_pending_gl_entries(self):
-		if self.pending_amount > 0:
+		if self.pending_amount < 0:
+			frappe.throw(_("The total allocated amount is greater than the paid amount"))
+
+		if self.pending_amount > 0 and flt(self.pending_amount) >= 0.01:
 			if not self.party:
 				frappe.throw(_("Please select a party if the paid amount is not fully allocated"))
 

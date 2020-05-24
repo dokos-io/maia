@@ -25,7 +25,11 @@ def execute(filters=None):
 	return columns, data
 
 def get_data(practitioner, period_list):
-	output = {}
+	output = []
+	for dt in maia.get_consultation_types():
+		output.append({"consultation_type": dt, "consultation_label": _(dt)})
+	output.append({"consultation_type": "total", "consultation_label": "Total"})
+
 	period_total = 0
 	for period in period_list:
 		paid_invoices = frappe.get_all("Revenue",
@@ -44,21 +48,29 @@ def get_data(practitioner, period_list):
 
 		total = 0
 		for dt, values in consultations.items():
+			line = [x for x in output if x["consultation_type"] == dt]
 			data = frappe.get_all("Consultation Items",
 				filters={"parenttype": dt, "parent": ["in", values]}, \
-				fields=["codification", "sum(overbilling) as overbilling"])
+				fields=["sum(overbilling) as overbilling"])
 
-			if data:
-				total += flt(data[0]["overbilling"])
+			dt_total = flt(data[0]["overbilling"]) if data else 0.0
+			line[0].update({period.key: dt_total})
+			total += dt_total
 
 		period_total += total
-		output.update({period.key: total})
+		line = [x for x in output if x["consultation_type"] == "total"]
+		line[0].update({period.key: total})
 
-	output.update({"total": period_total})
-	return [output]
+	output.append({"total": period_total})
+	return output
 
 def get_columns(periodicity, period_list, practitioner=None):
-	columns = []
+	columns = [{
+		"fieldname": "consultation_label",
+		"label": _("Consultation Type"),
+		"fieldtype": "Data",
+		"width": 200
+	}]
 
 	for period in period_list:
 		columns.append({
