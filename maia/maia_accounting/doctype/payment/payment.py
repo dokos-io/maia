@@ -137,7 +137,7 @@ class Payment(AccountingController):
 			items = doc.get("codifications") if doc.doctype == "Revenue" else doc.get("expense_items")
 			total_paid = 0
 			for item in items:
-				line_payment = flt(abs(min(item.total_amount, max(flt(paid_amount) - flt(total_paid), 0))))
+				line_payment = round(flt(abs(min(item.total_amount, max(flt(paid_amount) - flt(total_paid), 0)))), 2)
 				if line_payment:
 					total_paid += line_payment
 					entries.append({
@@ -158,8 +158,8 @@ class Payment(AccountingController):
 			entries.append({
 				"posting_date": self.payment_date,
 				"accounting_item": doc.accounting_item,
-				"debit": abs(min(doc.amount, paid_amount)) if self.payment_type == "Outgoing payment" else 0,
-				"credit": abs(min(doc.amount, paid_amount)) if self.payment_type == "Incoming payment" else 0,
+				"debit": round(abs(min(doc.amount, paid_amount)), 2) if self.payment_type == "Outgoing payment" else 0,
+				"credit": round(abs(min(doc.amount, paid_amount)), 2) if self.payment_type == "Incoming payment" else 0,
 				"currency": maia.get_default_currency(),
 				"reference_type": doc.doctype,
 				"reference_name": doc.name,
@@ -233,8 +233,8 @@ class Payment(AccountingController):
 		gl_entries.append({
 			"posting_date": self.payment_date,
 			"accounting_item": account,
-			"debit": abs(self.paid_amount) if self.payment_type == "Incoming payment" else 0,
-			"credit": abs(self.paid_amount) if self.payment_type == "Outgoing payment" else 0,
+			"debit": round(abs(self.paid_amount), 2) if self.payment_type == "Incoming payment" else 0,
+			"credit": round(abs(self.paid_amount), 2) if self.payment_type == "Outgoing payment" else 0,
 			"currency": maia.get_default_currency(),
 			"reference_type": self.doctype,
 			"reference_name": self.name,
