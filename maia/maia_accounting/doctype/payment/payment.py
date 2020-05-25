@@ -186,8 +186,8 @@ class Payment(AccountingController):
 			gl_entries.append({
 				"posting_date": self.payment_date,
 				"accounting_item": accounting_item.name,
-				"debit": abs(self.pending_amount) if self.payment_type == "Outgoing payment" else 0,
-				"credit": abs(self.pending_amount) if self.payment_type == "Incoming payment" else 0,
+				"debit": round(abs(self.pending_amount), 2) if self.payment_type == "Outgoing payment" else 0,
+				"credit": round(abs(self.pending_amount), 2) if self.payment_type == "Incoming payment" else 0,
 				"currency": maia.get_default_currency(),
 				"reference_type": self.doctype,
 				"reference_name": self.name,
@@ -211,8 +211,8 @@ class Payment(AccountingController):
 			gl_entries.append({
 				"posting_date": self.payment_date,
 				"accounting_item": accounting_item.name,
-				"debit": abs(self.previously_paid_amount) if self.payment_type == "Incoming payment" else 0,
-				"credit": abs(self.previously_paid_amount) if self.payment_type == "Outgoing payment" else 0,
+				"debit": round(abs(self.previously_paid_amount), 2) if self.payment_type == "Incoming payment" else 0,
+				"credit": round(abs(self.previously_paid_amount), 2) if self.payment_type == "Outgoing payment" else 0,
 				"currency": maia.get_default_currency(),
 				"reference_type": self.doctype,
 				"reference_name": self.name,
