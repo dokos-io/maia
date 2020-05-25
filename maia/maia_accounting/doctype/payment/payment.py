@@ -115,9 +115,11 @@ class Payment(AccountingController):
 
 	def post_gl_entries(self):
 		self.make_references_gl_entries()
+
 		if self.pending_amount != self.previously_paid_amount:
 			self.make_pending_gl_entries()
 			self.reverse_pending_gl_entries()
+
 		self.make_payment_gl_entries()
 
 	def make_references_gl_entries(self):
@@ -199,7 +201,7 @@ class Payment(AccountingController):
 			make_gl_entries(gl_entries)
 
 	def reverse_pending_gl_entries(self):
-		if self.previously_paid_amount and self.previously_paid_amount > 0:
+		if self.previously_paid_amount and flt(self.previously_paid_amount) >= 0.01:
 			if not self.party:
 				frappe.throw(_("Please select a party"))
 
