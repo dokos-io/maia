@@ -57,7 +57,6 @@ def get_columns(filters):
 
 def get_result(filters):
 	gl_entries = get_gl_entries(filters)
-
 	result = get_result_as_list(gl_entries, filters)
 
 	return result
@@ -68,7 +67,7 @@ def get_gl_entries(filters):
 	gl_entries = frappe.db.sql("""
 		select
 			gl.posting_date as GlPostDate, gl.name as GlName, gl.accounting_item, gl.posting_date,
-			gl.accounting_journal,
+			gl.accounting_journal, gl.party, gl.link_docname,
 			sum(gl.debit) as debit, sum(gl.credit) as credit,
 			gl.reference_type, gl.reference_name, gl.currency,
 			rev.name as RevName, rev.label as RevTitle, rev.transaction_date as RevPostDate,
@@ -115,7 +114,6 @@ def get_result_as_list(data, filters):
 	accounts = frappe.get_all("Accounting Item", fields=["name", "accounting_number"])
 
 	for d in data:
-
 		JournalCode = d.get("accounting_journal")
 
 		EcritureNum = d.get("GlName")
@@ -135,6 +133,10 @@ def get_result_as_list(data, filters):
 		elif d.get("parName"):
 			CompAuxNum = d.get("parName")
 			CompAuxLib = d.get("parName")
+
+		elif d.get("party"):
+			CompAuxNum = d.get("party")
+			CompAuxLib = d.get("party")
 
 		else:
 			CompAuxNum = ""
@@ -161,10 +163,13 @@ def get_result_as_list(data, filters):
 
 		credit = '{:.2f}'.format(d.get("credit")).replace(".", ",")
 
+		EcritureLet = d.get("link_docname") if d.get("link_docname") != d.get("reference_name") else None
+		DateLet = d.get("GlPostDate") if EcritureLet else None
+
 		Montantdevise = '{:.2f}'.format(d.get("debit")).replace(".", ",") if d.get("debit") != 0 else '{:.2f}'.format(d.get("credit")).replace(".", ",")
 
 		row = [JournalCode, JournalCode, EcritureNum, EcritureDate, CompteNum, d.get("accounting_item"), CompAuxNum, CompAuxLib,
-			   PieceRef, PieceDate, EcritureLib, debit, credit, "", "", ValidDate, Montantdevise, "EUR"]
+				PieceRef, PieceDate, EcritureLib, debit, credit, EcritureLet, DateLet, ValidDate, Montantdevise, "EUR"]
 
 		result.append(row)
 
