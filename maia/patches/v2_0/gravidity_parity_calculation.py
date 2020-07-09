@@ -8,7 +8,6 @@ from frappe import _
 def execute():
     language = frappe.get_single("System Settings").language
     frappe.local.lang = language
-    print(language)
     patient_records = frappe.get_all('Patient Record')
     pregnancies = frappe.get_all('Pregnancy')
 

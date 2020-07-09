@@ -6,7 +6,7 @@ from __future__ import unicode_literals
 import frappe
 from frappe import _
 from frappe.model.document import Document
-from frappe.utils import add_years, get_timestamp, getdate
+from frappe.utils import add_years, get_timestamp, getdate, cint
 import math
 import pandas as pd
 import numpy as np
@@ -32,46 +32,42 @@ def parity_gravidity_calculation(patient_record):
 	gravidity = 0
 	parity = 0
 
-
 	for pregnancy in patient.obstetrical_backgounds:
 		gravidity += 1
 
-		counted_in_parity = frappe.db.get_value("Delivery Way", pregnancy.delivery_way)
+		counted_in_parity = cint(frappe.db.get_value("Delivery Way", pregnancy.delivery_way, "used_in_parity"))
+		if counted_in_parity:
+			if not cint(pregnancy.multiple_pregnancy):
+				parity += 1
+			else:
+				children = 0
+				if pregnancy.child_full_name or pregnancy.child_gender or pregnancy.child_weight or pregnancy.child_health_state or pregnancy.feeding:
+					children += 1
+				if pregnancy.child_full_name_2 or pregnancy.child_gender_2 or pregnancy.child_weight_2 or pregnancy.child_health_state_2 or pregnancy.feeding_2:
+					children += 1
+				if pregnancy.child_full_name_3 or pregnancy.child_gender_3 or pregnancy.child_weight_3 or pregnancy.child_health_state_3 or pregnancy.feeding_3:
+					children += 1
 
-		if counted_in_parity is not None and pregnancy.multiple_pregnancy is None:
-			parity += 1
-
-		elif counted_in_parity is not None:
-			children = 0
-			if pregnancy.child_full_name or pregnancy.child_gender or pregnancy.child_weight or pregnancy.child_health_state or pregnancy.feeding:
-				children += 1
-			if pregnancy.child_full_name_2 or pregnancy.child_gender_2 or pregnancy.child_weight_2 or pregnancy.child_health_state_2 or pregnancy.feeding_2:
-				children += 1
-			if pregnancy.child_full_name_3 or pregnancy.child_gender_3 or pregnancy.child_weight_3 or pregnancy.child_health_state_3 or pregnancy.feeding_3:
-				children += 1
-
-			parity += children
+				parity += children
 
 	pregnancies = frappe.get_all("Pregnancy", filters={'patient_record': patient_record}, fields=['name', 'date_time', 'twins', 'triplets', 'birth_datetime_2', 'birth_datetime_3', 'delivery_way'])
 
 	for pregnancy in pregnancies:
 		gravidity += 1
 
-		counted_in_parity = frappe.db.get_value("Delivery Way", pregnancy.delivery_way)
-
-		children = 0
-		if pregnancy.date_time is not None and counted_in_parity is not None:
-			children += 1
-
-		if pregnancy.twins is not None and counted_in_parity is not None:
-			if pregnancy.birth_datetime_2 is not None:
+		counted_in_parity = cint(frappe.db.get_value("Delivery Way", pregnancy.delivery_way, "used_in_parity"))
+		if counted_in_parity:
+			children = 0
+			if pregnancy.date_time is not None:
 				children += 1
+			if cint(pregnancy.twins):
+				if pregnancy.birth_datetime_2 is not None:
+					children += 1
+			if cint(pregnancy.triplets):
+				if pregnancy.birth_datetime_3 is not None:
+					children += 1
 
-		if pregnancy.triplets is not None and counted_in_parity is not None:
-			if pregnancy.birth_datetime_3 is not None:
-				children += 1
-
-		parity += children
+			parity += children
 
 	return gravidity, parity
 
