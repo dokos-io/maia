@@ -1,3 +1,2 @@
 frappe
 dateparser==0.7.2
-pandas==0.25.3

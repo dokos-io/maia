@@ -1,0 +1,46 @@
+{
+ "cards": [
+  {
+   "hidden": 0,
+   "label": "Daily Operations",
+   "links": "[\n\t{\n\t\t\"type\": \"doctype\",\n\t\t\"name\": \"Revenue\",\n\t\t\"label\": \"Revenue\",\n\t\t\"description\": \"Revenue\",\n\t\t\"onboard\": 1\n\t},\n\t{\n\t\t\"type\": \"doctype\",\n\t\t\"name\": \"Expense\",\n\t\t\"label\": \"Expense\",\n\t\t\"description\": \"Expense\",\n\t\t\"onboard\": 1\n\t},\n\t{\n\t\t\"type\": \"doctype\",\n\t\t\"name\": \"Miscellaneous Operation\",\n\t\t\"label\": \"Miscellaneous Operation\",\n\t\t\"description\": \"Miscellaneous Operation\",\n\t\t\"onboard\": 1\n\t},\n\t{\n\t\t\"type\": \"doctype\",\n\t\t\"name\": \"Payment\",\n\t\t\"label\": \"Payment\",\n\t\t\"description\": \"Payments\",\n\t\t\"onboard\": 1\n\t}\n]"
+  },
+  {
+   "hidden": 0,
+   "label": "Assets",
+   "links": "[\n\t{\n\t\t\"type\": \"doctype\",\n\t\t\"name\": \"Maia Asset\",\n\t\t\"label\": \"Asset\",\n\t\t\"description\": \"Assets\",\n\t\t\"onboard\": 1\n\t}\n]"
+  },
+  {
+   "hidden": 0,
+   "label": "Reports",
+   "links": "[\n\t{\n\t\t\"type\": \"report\",\n\t\t\"name\": \"Revenue Journal\",\n\t\t\"label\": \"Revenue Journal\",\n\t\t\"is_query_report\": 1\n\t},\n\t{\n\t\t\"type\": \"report\",\n\t\t\"name\": \"Maia General Ledger\",\n\t\t\"label\": \"Maia General Ledger\",\n\t\t\"is_query_report\": 1\n\t},\n\t{\n\t\t\"type\": \"report\",\n\t\t\"name\": \"Maia Profit and Loss Statement\",\n\t\t\"label\": \"Maia Profit and Loss Statement\",\n\t\t\"is_query_report\": 1\n\t},\n\t{\n\t\t\"type\": \"report\",\n\t\t\"name\": \"Trial Balance\",\n\t\t\"label\": \"Trial Balance\",\n\t\t\"is_query_report\": 1\n\t},\n\t{\n\t\t\"type\": \"report\",\n\t\t\"name\": \"Bank Balance\",\n\t\t\"label\": \"Bank Balance\",\n\t\t\"is_query_report\": 1\n\t},\n\t{\n\t\t\"type\": \"report\",\n\t\t\"name\": \"Personal Debits and Credits\",\n\t\t\"label\": \"Personal Debits and Credits\",\n\t\t\"is_query_report\": 1\n\t},\n\t{\n\t\t\"type\": \"report\",\n\t\t\"name\": \"Overbilling\",\n\t\t\"label\": \"Overbilling\",\n\t\t\"is_query_report\": 1\n\t},\n\t{\n\t\t\"type\": \"report\",\n\t\t\"name\": \"Declaration 2035\",\n\t\t\"label\": \"D\u00e9claration 2035\",\n\t\t\"is_query_report\": 1\n\t},\n\t{\n\t\t\"type\": \"report\",\n\t\t\"name\": \"Fichier des Ecritures Comptables\",\n\t\t\"label\": \"Fichier des \u00e9critures comptables\",\n\t\t\"is_query_report\": 1\n\t}\n]"
+  },
+  {
+   "hidden": 0,
+   "label": "Setup",
+   "links": "[\n\t{\n\t\t\"type\": \"doctype\",\n\t\t\"name\": \"Party\",\n\t\t\"label\": \"Party\",\n\t\t\"description\": \"Parties\",\n\t\t\"onboard\": 1\n\t},\n\t{\n\t\t\"type\": \"doctype\",\n\t\t\"name\": \"Accounting Item\",\n\t\t\"label\": \"Accounting Item\",\n\t\t\"description\": \"Accounting Items\",\n\t\t\"onboard\": 1\n\t},\n\t{\n\t\t\"type\": \"doctype\",\n\t\t\"name\": \"Payment Method\",\n\t\t\"label\": \"Payment Methods\",\n\t\t\"description\": \"Payment Methods\"\n\t},\n\t{\n\t\t\"type\": \"doctype\",\n\t\t\"name\": \"Bank Statement Balance\",\n\t\t\"label\": \"Bank Statement Balance\",\n\t\t\"description\": \"Bank Statement Balance\",\n\t\t\"onboard\": 1\n\t},\n\t{\n\t\t\"type\": \"doctype\",\n\t\t\"name\": \"Maia Payment Method\",\n\t\t\"label\": \"Payment Method\",\n\t\t\"description\": \"Payment Methods\",\n\t\t\"onboard\": 1\n\t},\n\t{\n\t\t\"type\": \"doctype\",\n\t\t\"name\": \"Maia Bank Account\",\n\t\t\"label\": \"Bank Account\",\n\t\t\"description\": \"Bank Accounts\",\n\t\t\"onboard\": 1\n\t},\n\t{\n\t\t\"type\": \"doctype\",\n\t\t\"name\": \"Maia Fiscal Year\",\n\t\t\"label\": \"Fiscal Year\",\n\t\t\"description\": \"Fiscal Years\",\n\t\t\"onboard\": 1\n\t},\n\t{\n\t\t\"type\": \"doctype\",\n\t\t\"name\": \"Meal Expense Deduction\",\n\t\t\"label\": \"Meal Expense Deduction\",\n\t\t\"description\": \"Meal Expense Deduction\"\n\t}\n]"
+  }
+ ],
+ "category": "Modules",
+ "charts": [],
+ "color": "#3498db",
+ "creation": "2020-09-07 19:28:03.937510",
+ "developer_mode_only": 0,
+ "disable_user_customization": 0,
+ "docstatus": 0,
+ "doctype": "Desk Page",
+ "extends_another_page": 0,
+ "hide_custom": 0,
+ "icon": "fas fa-book",
+ "idx": 0,
+ "is_standard": 1,
+ "label": "Maia Accounting",
+ "modified": "2020-09-07 19:42:18.346842",
+ "modified_by": "Administrator",
+ "module": "Maia Accounting",
+ "name": "Maia Accounting",
+ "owner": "Administrator",
+ "pin_to_bottom": 0,
+ "pin_to_top": 0,
+ "shortcuts": []
+}

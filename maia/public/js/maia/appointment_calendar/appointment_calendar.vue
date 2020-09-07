@@ -309,9 +309,6 @@ export default {
 </script>
 
 <style lang='scss'>
-@import 'node_modules/@fullcalendar/core/main';
-@import 'node_modules/@fullcalendar/list/main';
-@import 'frappe/public/scss/variables.scss';
 @import '../../../node_modules/vue-select/src/scss/vue-select.scss';
 
 .fc-view-container {
