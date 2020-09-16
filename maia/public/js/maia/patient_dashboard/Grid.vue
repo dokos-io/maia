@@ -1,21 +1,19 @@
 <template>
-	<div class="grid">
-	
-	<div
-	  v-if="isLoading"
-	  class="loading text-muted small">
-	 {{ __("Loading...") }}
+	<div class="card-columns">
+		<div
+			v-if="isLoading"
+			class="loading text-muted small">
+			{{ __("Loading...") }}
+		</div>
+
+		<dashboard-card
+			v-for="item in enabledDashboardData"
+			:key="item"
+			:itemName="item"
+			:dashboardData="dashboardData"
+			class="card"
+		/>
 	</div>
-
-	<dashboard-card
-		v-for="item in enabledDashboardData"
-		:key="item"
-		:itemName="item"
-		:dashboardData="dashboardData"
-		class="widget phone-3-col tablet-2-col desktop-2-col"
-	/>
-
-  </div>
 </template>
 
 <script>
