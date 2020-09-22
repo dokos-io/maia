@@ -1,0 +1,341 @@
+.maia-icon {
+	width: 24px;
+	margin-right: 0px;
+	margin-top: -3px;
+}
+
+.form-dashboard-section.custom {
+	padding: 15px 15px;
+	background-color: #f0f7f9;
+}
+
+.btn-custom_dashboard {
+	float: right;
+	margin-right: 30px;
+	background-color: #cce4ea;
+}
+
+.text-muted.small {
+	font-size: 11px;
+}
+
+.selector-progress {
+	margin-bottom: 20px;
+}
+
+.selector-progress .fa-fw {
+	font-size: 9pt;
+}
+.selector-progress .fa-fw.active {
+	color: #ff4081;
+}
+
+.appointment-modal {
+	opacity: 1 !important;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	background-color: #fbfbfb;
+	z-index: 30;
+	opacity: 0;
+	transition: opacity .2s ease;
+	border-radius: 4px;
+	text-align: center;
+}
+
+.appointment-modal {
+	padding: 50px 30px;
+}
+
+.appointment-modal-close {
+	top: 0;
+	float: right;
+	padding: 18px;
+	transition: opacity .2s ease;
+	opacity: .3;
+	font-size: 25pt;
+	cursor: pointer;
+}
+
+.appointment-modal-close:hover {
+	opacity: 1;
+}
+
+.appointment-modal-header {
+	min-height: 110px;
+}
+
+.appointment-modal-date {
+	text-align: center;
+	font-size: 34px;
+	font-weight: 400;
+	margin-top: 50px;
+	margin-bottom: 10px;
+}
+
+.appointment-modal-title,
+.appointment-modal-appointment-type {
+	text-align: center;
+	font-size: 34px;
+	font-weight: 400;
+	margin-bottom: 10px;
+}
+
+.appointment-modal-time, .appointment-modal-seats-left {
+	text-align: center;
+	font-size: 17px;
+	font-weight: 400;
+	margin-bottom: 15px;
+	margin-top: 10px;
+}
+
+.form-fields {
+	max-width: 400px;
+	margin: auto;
+}
+
+.form-confirmation-container {
+	max-width: 600px;
+	margin: auto;
+}
+
+.form-confirmation {
+	transition: box-shadow .2s ease;
+	width: 100%;
+	padding: 15px 25px;
+	margin: 0;
+	border: 0 solid #ececec;
+	font-size: 1em;
+	box-shadow: inset 0 0 1px 1px hsla(0,0%,100%,0);
+	text-align: center;
+	box-sizing: border-box;
+	line-height: 1.5em;
+	font-family: Open Sans,Helvetica,Tahoma,Arial,sans-serif;
+	color: #333;
+	overflow: auto;
+	border-bottom: 1px solid #ececec;
+	background-color: white;
+}
+
+.form-input, .form textarea {
+	transition: box-shadow .2s ease;
+	width: 100%;
+	padding: 15px 25px;
+	margin: 0;
+	border: 0 solid #ececec;
+	font-size: 1em;
+	box-shadow: inset 0 0 1px 1px hsla(0,0%,100%,0);
+	text-align: left;
+	box-sizing: border-box;
+	line-height: 1.5em;
+	font-family: Open Sans,Helvetica,Tahoma,Arial,sans-serif;
+	color: #333;
+	overflow: auto;
+	border-bottom: 1px solid #ececec;
+}
+
+.form-button {
+	position: relative;
+	transition: background-color .2s,max-width .3s;
+	display: inline-block;
+	padding: 13px 25px;
+	background-color: #ff4081;
+	text-transform: uppercase;
+	box-shadow: 0 1px 3px 0 rgba(0,0,0,.15);
+	color: #fff;
+	border: 0;
+	border-radius: 3px;
+	font-size: 0.9em;
+	font-weight: 600;
+	cursor: pointer;
+	height: 44px;
+	outline: 0;
+	text-align: center;
+	max-width: 200px;
+	margin: 30px auto;
+}
+
+.btn-loading {
+	background-color: #7f8c8d;
+}
+
+.btn-confirmed {
+	background-color: #67cc33;
+}
+
+.btn-error {
+	background-color: #c0392b;
+}
+
+
+.print-toolbar .btn-print-edit,
+.print-toolbar .btn-print-preview,
+.print-toolbar .btn[href="#Form/Print Settings"] {
+	display: none !important;
+}
+
+.green-response {
+	color: green;
+}
+
+.red-response {
+	color: red;
+}
+
+// Calendar
+#midwife-selector {
+	margin-bottom: 3rem;
+}
+
+.fc {
+	.fc-daygrid-body {
+		background-color: var(--bg-color);
+	}
+
+	td,
+	th {
+		border-bottom: none;
+	}
+
+	.fc-event {
+		transition: color .2s ease, border-color .2s ease, opacity .6s ease, box-shadow .2s ease;
+		border: none;
+		border-left: 2px solid #ffdde9;
+		padding: 3px;
+		background-color: white;
+		border-radius: 3px;
+		color: #333;
+		margin: 1px 0;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07);
+		cursor: pointer;
+		margin-bottom: 2px;
+		opacity: 1;
+
+		.fc-daygrid-event-dot {
+			display: none;
+		}
+	}
+
+	.fc-event:hover, .fc-event-clicked {
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+		border-left: 3px solid #ff4081;
+		color: #ff4081;
+		background-color: white;
+		font-weight: 600;
+		padding-left: 2px;
+	}
+
+	.fc-daygrid-event {
+		padding: 13px 15px;
+		margin: 1px 0 3px;
+	}
+
+	.fc-daygrid-event:hover, .fc-daygrid-event-clicked {
+		padding-left: 14px;
+	}
+
+	.fc-daygrid-event .fc-time {
+		font-size: 12px;
+		font-weight: 500;
+	}
+
+	.fc-daygrid-event .fc-title {
+		padding: 0 5px 5px;
+		font-size: 12px;
+		font-weight: 500;
+	}
+
+	.fc-daygrid-event:hover .fc-time, .fc-daygrid-event-clicked .fc-event-time, .fc-daygrid-event:hover .fc-event-title, .fc-daygrid-event-clicked .fc-event-title {
+		font-weight: 600;
+	}
+
+	.fc-time-grid-event .fc-event-time {
+		font-size: 1.1em;
+		padding: 5px;
+	}
+
+	.fc-time-grid-event .fc-event-title {
+		padding: 0 5px 5px;
+		font-weight: bold;
+	}
+
+	.fc-button-primary {
+		background-color: #ff8eb5 !important;
+		border-color: #ff8eb5 !important;
+		color: white !important;
+	}
+	
+	.fc-button-primary:disabled {
+		background-color: #ffc9dc !important;
+		border-color: #ffc9dc !important;
+	}
+	
+	.fc-button-primary:not(:disabled):active,
+	.fc-button-primary:not(:disabled).fc-button-active {
+		background-color: #ff4081 !important;
+		border-color: #ff4081 !important;
+	}
+	
+	.fc-button:not(:disabled):hover,
+	.fc-button:active,
+	.fc-button:focus {
+		background-color: #ff4081 !important;
+		border-color: #ff4081 !important;
+		outline: None !important;
+	}
+
+	.fc-list {
+		border: none !important;
+	}
+	
+	.fc-list-event {
+		display: block;
+		transition: color .2s ease, border-color .2s ease, opacity .6s ease, box-shadow .2s ease;
+		border: none;
+		border-left: 2px solid #939393;
+		padding: 3px;
+		background-color: #fff;
+		border-radius: 3px;
+		color: #333;
+		margin: 1px 0;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07);
+		cursor: pointer;
+		margin-bottom: 3px;
+		font-weight: 500;
+		font-size: 12px;
+
+		.fc-list-event-dot {
+			display: none;
+		}
+	}
+
+	.fc-list-event td {
+		background: transparent;
+		border-color: transparent;
+		transform: translateX(0);
+		transition: transform .2s ease;
+	}
+	
+	.fc-list-event:hover td {
+		background: transparent !important;
+		transform: translateX(2px);
+	}
+	
+	.fc-list-event .fc-list-event-marker {
+		display: none;
+	}
+	
+	.fc-list-event .fc-list-event-time {
+		padding-right: 0px;
+		min-width: 110px;
+	}
+	
+	.fc-list-event .fc-list-event-title a {
+		font-weight: 600;
+	}
+	
+	.fc-unthemed .fc-list-empty {
+		background-color: transparent;
+	}
+}

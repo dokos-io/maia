@@ -18,7 +18,7 @@ fixtures = ["Custom Field", {"doctype": "Role", "filters": {"name": "Midwife"}}]
 error_report_email = "hello@dokos.io"
 
 app_include_js = "assets/js/maia.min.js"
-app_include_css = "assets/maia/css/maia.css"
+app_include_css = "assets/css/maia.min.css"
 
 doctype_js = {
 	"Google Calendar": "public/js/maia/google_calendar.js",
