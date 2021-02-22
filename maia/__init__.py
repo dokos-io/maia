@@ -14,7 +14,7 @@ def get_default_fiscal_year(user=None):
 
 	practitioner = frappe.db.get_value("Professional Information Card", dict(user=user), "name")
 
-	return  get_fiscal_year(date=now(), practitioner=practitioner)
+	return get_fiscal_year(date=now(), practitioner=practitioner)
 
 def get_default_currency():
 	return frappe.defaults.get_defaults().get("currency")

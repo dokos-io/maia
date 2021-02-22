@@ -37,7 +37,7 @@ let fec_export = function(query_report) {
 	const practitioner = query_report.get_values().practitioner;
 
 	frappe.db.get_value("Professional Information Card", practitioner, "siret_number", (value) => {
-		const practitioner_data = value.siret_number.substring(0,8);
+		const practitioner_data = value.siret_number.substring(0,9);
 		if (practitioner_data === null || practitioner_data === undefined) {
 			frappe.msgprint(__("Please register the SIREN number in the professional information card"));
 		} else {

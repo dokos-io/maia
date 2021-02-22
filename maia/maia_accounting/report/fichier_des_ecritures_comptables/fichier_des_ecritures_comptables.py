@@ -164,7 +164,7 @@ def get_result_as_list(data, filters):
 		credit = '{:.2f}'.format(d.get("credit")).replace(".", ",")
 
 		EcritureLet = d.get("link_docname") if d.get("link_docname") != d.get("reference_name") else None
-		DateLet = d.get("GlPostDate") if EcritureLet else None
+		DateLet = format_datetime(d.get("GlPostDate"), "yyyyMMdd") if EcritureLet else None
 
 		Montantdevise = '{:.2f}'.format(d.get("debit")).replace(".", ",") if d.get("debit") != 0 else '{:.2f}'.format(d.get("credit")).replace(".", ",")
 
