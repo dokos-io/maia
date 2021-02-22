@@ -11,7 +11,7 @@ from maia.maia_accounting.doctype.payment.payment import get_payment, get_replac
 
 class ConsultationController(Document):
 	def on_submit(self):
-		if not self.accounting_disabled:
+		if not self.accounting_disabled and flt(self.total_price) > 0:
 			self.create_and_submit_invoice()
 
 	def validate(self):
