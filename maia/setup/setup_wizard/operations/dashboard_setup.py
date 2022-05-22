@@ -29,6 +29,7 @@ def setup_card(source):
 		frappe.local.lang = frappe.db.get_value("System Settings", None, "language")
 		new_card = frappe.new_doc("Dashboard Card")
 		new_card.card_name = _(source.name)
+		new_card.card_type = "Custom"
 		new_card.source = source.name
 		new_card.update(parameters)
 		new_card.insert(ignore_permissions=True)
