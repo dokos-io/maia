@@ -281,11 +281,13 @@ const print_record = (frm, docs) => {
 $.extend(maia.patient_record, {
 	make_dashboard: function(frm) {
 		frappe.require('assets/js/patient-dashboard.min.js', function() {
-			const section = frm.dashboard.add_section(`<div class="row">
-				<div class="row">
+			const section = frm.dashboard.add_section(`<div>
+				<div>
 					<button class="btn btn-xs btn-default btn-custom_dashboard">${__("Memo")}</button>
 				</div>
-				<div id="patient-dashboard-section"></div>
+				<div>
+					<div id="patient-dashboard-section"></div>
+				</div>
 				</div>`);
 			maia.patient_record.custom_patient_dashboard = new maia.patient.PatientDashboard({
 				parent: section,

@@ -16,5 +16,8 @@
 	],
 	"css/maia-account.min.css": [
 		"public/less/customer_account.less"
+	],
+	"css/maia.min.css": [
+		"public/scss/maia.scss"
 	]
 }

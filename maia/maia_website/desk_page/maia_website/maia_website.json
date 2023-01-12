@@ -1,0 +1,30 @@
+{
+ "cards": [
+  {
+   "hidden": 0,
+   "label": "Maia Templates",
+   "links": "[\n\t{\n\t\t\"type\": \"doctype\",\n\t\t\"name\": \"Default Template\",\n\t\t\"label\": \"Default Template\",\n\t\t\"description\": \"Maia Theme\",\n\t\t\"hide_count\": 1\n\t},\n\t{\n\t\t\"type\": \"doctype\",\n\t\t\"name\": \"One Page Wonder\",\n\t\t\"label\": \"One Page Wonder\",\n\t\t\"description\": \"Startbootstrap theme: One Page Wonder\",\n\t\t\"hide_count\": 1\n\t}\n]"
+  }
+ ],
+ "category": "Modules",
+ "charts": [],
+ "creation": "2020-09-07 19:28:48.038365",
+ "developer_mode_only": 0,
+ "disable_user_customization": 0,
+ "docstatus": 0,
+ "doctype": "Desk Page",
+ "extends": "Website",
+ "extends_another_page": 1,
+ "hide_custom": 0,
+ "idx": 0,
+ "is_standard": 1,
+ "label": "Maia Website",
+ "modified": "2020-09-07 19:44:58.044152",
+ "modified_by": "Administrator",
+ "module": "Maia Website",
+ "name": "Maia Website",
+ "owner": "Administrator",
+ "pin_to_bottom": 0,
+ "pin_to_top": 0,
+ "shortcuts": []
+}
