@@ -23,10 +23,11 @@ def install_chart_of_accounts():
 
 def add_fiscal_years():
 	fiscal_years = [
-		{"year": 2017, "start": "2017-01-01", "end": "2017-12-31"},
-		{"year": 2018, "start": "2018-01-01", "end": "2018-12-31"},
 		{"year": 2019, "start": "2019-01-01", "end": "2019-12-31"},
-		{"year": 2020, "start": "2020-01-01", "end": "2020-12-31"}
+		{"year": 2020, "start": "2020-01-01", "end": "2020-12-31"},
+		{"year": 2021, "start": "2021-01-01", "end": "2021-12-31"},
+		{"year": 2022, "start": "2022-01-01", "end": "2022-12-31"},
+		{"year": 2023, "start": "2023-01-01", "end": "2023-12-31"}
 	]
 
 	for fy in fiscal_years:
@@ -42,9 +43,6 @@ def add_fiscal_years():
 
 def add_meal_expense_deductions():
 	deductions = [
-		{"fiscal_year": 2016, "deductible_amount": 4.70, "limit": 18.3},
-		{"fiscal_year": 2017, "deductible_amount": 4.75, "limit": 18.4},
-		{"fiscal_year": 2018, "deductible_amount": 4.80, "limit": 18.6},
 		{"fiscal_year": 2019, "deductible_amount": 4.85, "limit": 18.8},
 		{"fiscal_year": 2020, "deductible_amount": 4.90, "limit": 19.0}
 	]
